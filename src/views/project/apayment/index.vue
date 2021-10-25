@@ -1,0 +1,1594 @@
+<style>
+.ic .el-input__inner{
+  color: red;
+}
+</style>
+<template>
+  <div class="app-container">
+    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
+      <el-form-item label="项目" prop="stId">
+        <el-select filterable v-model="queryParams.stId" placeholder="请选择项目" clearable size="small">
+          <el-option
+            v-for="dict in stOptions"
+            :key="dict.stId"
+            :label="dict.name"
+            :value="dict.stId"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+      </el-form-item>
+    </el-form>
+
+    <el-row :gutter="10" class="mb8">
+      <el-col :span="1.5">
+        <el-button
+          type="primary"
+          plain
+          icon="el-icon-plus"
+          size="mini"
+          @click="handleAdd"
+          v-hasPermi="['project:apayment:add']"
+        >新增</el-button>
+      </el-col>
+<!--      <el-col :span="1.5">-->
+<!--        <el-button-->
+<!--          type="success"-->
+<!--          plain-->
+<!--          icon="el-icon-edit"-->
+<!--          size="mini"-->
+<!--          :disabled="single"-->
+<!--          @click="handleUpdate"-->
+<!--          v-hasPermi="['project:apayment:edit']"-->
+<!--        >修改</el-button>-->
+<!--      </el-col>-->
+<!--      <el-col :span="1.5">-->
+<!--        <el-button-->
+<!--          type="danger"-->
+<!--          plain-->
+<!--          icon="el-icon-delete"-->
+<!--          size="mini"-->
+<!--          :disabled="multiple"-->
+<!--          @click="handleDelete"-->
+<!--          v-hasPermi="['project:apayment:remove']"-->
+<!--        >删除</el-button>-->
+<!--      </el-col>-->
+      <el-col :span="1.5">
+        <el-button
+          type="warning"
+          plain
+          icon="el-icon-download"
+          size="mini"
+          @click="handleExport"
+          v-hasPermi="['project:apayment:export']"
+        >导出</el-button>
+      </el-col>
+      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+    </el-row>
+
+    <el-table v-loading="loading" :data="apaymentList" @selection-change="handleSelectionChange">
+      <el-table-column label="项目名称" align="center" prop="stName" />
+      <el-table-column label="付款批次" align="center" prop="away" />
+      <el-table-column label="货品名称" align="center" prop="name" />
+      <el-table-column label="入库总量(吨)" align="center" prop="grns" />
+      <el-table-column label="出库总量(吨)" align="center" prop="grys" />
+      <el-table-column label="预付总额(元)" align="center" prop="totalPrice" >
+        <template slot-scope="scope">
+          {{
+            Number(scope.row.totalPrice)
+              .toFixed(2)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
+        </template>
+      </el-table-column>
+      <el-table-column label="预付单价(元)" align="center" prop="expectPrice" >
+        <template slot-scope="scope">
+          {{
+            Number(scope.row.expectPrice)
+              .toFixed(2)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
+        </template>
+      </el-table-column>
+      <el-table-column label="预付至" align="center" prop="ato" />
+      <el-table-column label="实际付款金额(元)" align="center" prop="actualPrice" >
+        <template slot-scope="scope">
+          {{
+            Number(scope.row.actualPrice)
+              .toFixed(2)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
+        </template>
+      </el-table-column>
+      <el-table-column label="创建时间" align="center" prop="createTime" width="180">
+        <template slot-scope="scope">
+          <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d} {h}:{i}:{s}') }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="审批状态" align="center" prop="state" :formatter="stateFormat" />
+      <el-table-column label="付款状态" align="center" prop="fkState"  />
+      <el-table-column label="操作"   width="160" align="center" class-name="small-padding fixed-width">
+        <template slot-scope="scope">
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-edit"
+            @click="handleLook(scope.row)"
+            v-hasPermi="['project:apayment:edit']"
+          >查看</el-button>
+          <el-button v-if="scope.row.state=='3' && scope.row.fkState=='未付款'"
+            size="mini"
+            type="text"
+            icon="el-icon-edit"
+            @click="handleUpdatePayTime(scope.row)"
+            v-hasPermi="['project:apayment:edit']"
+          >付款</el-button>
+          <el-button v-if="scope.row.state=='3' && scope.row.fkState=='未付款' && scope.row.payTime!=null"
+            size="mini"
+            type="text"
+            icon="el-icon-edit"
+            @click="handleUpdateFkState(scope.row)"
+            v-hasPermi="['project:apayment:edit']"
+          >完成</el-button>
+
+<!--          <el-button-->
+<!--            size="mini"-->
+<!--            type="text"-->
+<!--            icon="el-icon-delete"-->
+<!--            @click="handleDelete(scope.row)"-->
+<!--            v-hasPermi="['project:apayment:remove']"-->
+<!--          >删除</el-button>-->
+        </template>
+      </el-table-column>
+    </el-table>
+
+    <pagination
+      v-show="total>0"
+      :total="total"
+      :page.sync="queryParams.pageNum"
+      :limit.sync="queryParams.pageSize"
+      @pagination="getList"
+    />
+
+    <!-- 添加或修改预付款对话框 -->
+    <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body>
+      <el-form ref="form" :model="form" :rules="rules" label-width="180px">
+        <div v-if="isLook!=4">
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="项目" prop="stId">
+              <el-select filterable value-key="stId" @change="changeSt" v-model="form.stId" placeholder="请选择项目" style="width: 100%;">
+                <el-option
+                  v-for="obj in stOptions"
+                  :key="obj.stId"
+                  :label="obj.name"
+                  :value="obj"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="预付批次" prop="away">
+                <el-select v-model="form.away" @change="changeAway" placeholder="请选择预付批次" style="width: 100%;">
+                  <el-option
+                    v-for="obj in awaysOptions"
+                    :key="obj.key"
+                    :label="obj.label"
+                    :value="obj.key"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        <div v-if="form.away!='提前付款'">
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="预付方式" prop="type">
+              <el-select v-model="form.type" @change="jsdj" placeholder="请选择预付方式" style="width: 100%;">
+                <el-option
+                  v-for="obj in typesOptions"
+                  :key="obj.key"
+                  :label="obj.label"
+                  :value="obj.key"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        </div>
+        <div v-if="form.type=='热值'">
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="热值价格" prop="rzPrice">
+                <el-input v-model="form.rzPrice" @change="jsdj" placeholder="请输入热值价格" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </div>
+        <div v-if="(form.type=='吨' || form.type=='热值') && form.away=='首次'  && isLook!=3" >
+          <!--          选择入库单-->
+          <el-popover
+            placement="bottom-start"
+            width="100%"
+            @selection-change="grnSelectionChange"
+            v-model="visible"
+            popper-class="area_popper">
+            <el-button type="primary" slot="reference" style="margin-bottom: 30px;">选择入库单</el-button>
+            <el-table
+              ref="singleTable1"
+              :data="tableData"
+              @selection-change="grnSelectionChange"
+              style="width: 100%;"
+            >
+              <el-table-column
+                type="selection"
+                width="55">
+              </el-table-column>
+              <el-table-column
+                property="name"
+                label="货品名称"
+                width="120">
+              </el-table-column>
+              <el-table-column
+                property="grnNumber"
+                label="入库重量（吨）"
+                width="120">
+              </el-table-column>
+              <el-table-column
+                property="grnRz"
+                label="入库热值（kcal）"
+                width="120">
+              </el-table-column>
+              <el-table-column
+                property="transportType"
+                label="运输方式"
+                width="90">
+              </el-table-column>
+              <el-table-column
+                property="wlCompany"
+                label="物流公司"
+                width="120">
+              </el-table-column>
+              <el-table-column
+                property="carNumber"
+                label="车数"
+                width="90">
+              </el-table-column>
+              <el-table-column
+                property="batch"
+                label="批次"
+                width="90">
+              </el-table-column>
+              <el-table-column
+                property="deliveryTime"
+                label="发货日期"
+                width="120">
+              </el-table-column>
+
+            </el-table>
+            <div style="margin-top: 20px">
+              <el-button type="primary"  style="float: right"  @click="toggleSelection()">确认选择</el-button>
+            </div>
+          </el-popover>
+        </div>
+        <div v-if="(form.type=='吨' || form.type=='热值')  && form.away=='二次' && isLook!=3">
+          <!--          选择出库单-->
+          <el-popover
+            placement="bottom-start"
+            width="100%"
+            @selection-change="grnSelectionChange"
+            v-model="visible"
+            popper-class="area_popper">
+            <el-button type="primary" slot="reference" style="margin-bottom: 30px;">选择出库单</el-button>
+            <el-table
+              ref="singleTable2"
+              :data="tablegryData"
+              @selection-change="grnSelectionChange"
+              style="width: 100%;"
+            >
+              <el-table-column
+                type="selection"
+                width="55">
+              </el-table-column>
+              <el-table-column
+                property="name"
+                label="货品名称"
+                width="120">
+              </el-table-column>
+              <el-table-column
+                property="grnNumber"
+                label="出库重量（吨）"
+                width="120">
+              </el-table-column>
+              <el-table-column
+                property="gryRz"
+                label="出库热值（kcal）"
+                width="120">
+              </el-table-column>
+              <el-table-column
+                property="transportType"
+                label="运输方式"
+                width="90">
+              </el-table-column>
+              <el-table-column
+                property="wlCompany"
+                label="物流公司"
+                width="120">
+              </el-table-column>
+              <el-table-column
+                property="carNumber"
+                label="车数"
+                width="90">
+              </el-table-column>
+              <el-table-column
+                property="batch"
+                label="批次"
+                width="90">
+              </el-table-column>
+              <el-table-column
+                property="okTime"
+                label="到货日期"
+                width="120">
+              </el-table-column>
+
+            </el-table>
+            <div style="margin-top: 20px">
+              <el-button type="primary"  style="float: right"  @click="toggleSelection()">确认选择</el-button>
+            </div>
+          </el-popover>
+
+        </div>
+        <div v-if="form.away!='提前付款'">
+          <div  style="margin-bottom: 30px">
+            <el-table
+              ref="singleTable"
+              :data="tableselData"
+              style="width: 100%">
+              <el-table-column
+                property="name"
+                label="货品名称"
+                width="90">
+              </el-table-column>
+              <el-table-column
+                v-if="form.away=='首次'"
+                property="grnNumber"
+                label="入库重量（吨）"
+                width="120">
+              </el-table-column>
+              <el-table-column
+                v-if="form.away=='二次'"
+                property="grnNumber"
+                label="出库重量（吨）"
+                width="120">
+              </el-table-column>
+              <el-table-column
+                v-if="form.away=='首次'"
+                property="grnRz"
+                label="入库热值（kcal）"
+                width="120">
+              </el-table-column>
+              <el-table-column
+                v-if="form.away=='二次'"
+                property="gryRz"
+                label="出库热值（kcal）"
+                width="120">
+              </el-table-column>
+              <el-table-column
+                property="transportType"
+                label="运输方式"
+                width="90">
+              </el-table-column>
+              <el-table-column
+                property="wlCompany"
+                label="物流公司"
+                width="120">
+              </el-table-column>
+              <el-table-column
+                property="carNumber"
+                label="车数"
+                width="90">
+              </el-table-column>
+              <el-table-column
+                property="batch"
+                label="批次"
+                width="90">
+              </el-table-column>
+              <el-table-column
+                v-if="form.away=='首次' "
+                property="deliveryTime"
+                label="发货日期"
+                width="120">
+              </el-table-column>
+              <el-table-column
+                v-if="form.away=='二次' && isLook!=3"
+                property="okTime"
+                label="到货日期"
+                width="120">
+              </el-table-column>
+              <el-table-column
+                v-if="form.away=='二次' && isLook==3"
+                property="deliveryTime"
+                label="到货日期"
+                width="120">
+              </el-table-column>
+              <el-table-column
+                property="valuePrice"
+                label="货值单价（元）"
+                width="90">
+              </el-table-column>
+              <el-table-column
+                property="valueTprice"
+                label="货值总额（吨）"
+                width="90">
+              </el-table-column>
+              <el-table-column
+                v-if="isLook!=3"
+                label="操作"
+                width="120">
+                <template slot-scope="scope">
+                  <el-button
+                    @click.native.prevent="deleteRow(scope.$index, tableselData,scope)"
+                    type="text"
+                    size="small">
+                    移除
+                  </el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+          </div>
+          <!--          合计-->
+          <el-row>
+            <el-col :span="6">
+              <el-form-item label="合计重量" prop="totalWeight">
+                <span  style="color: red">{{form.totalWeight}}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="平均热值" prop="averageRz">
+                <span  style="color: red">{{form.averageRz}}</span>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <!--          煤炭质量-->
+<!--          <el-form-item label="煤炭质量" >-->
+<!--          </el-form-item>-->
+<!--          <el-row>-->
+<!--            <el-col :span="24">-->
+<!--              <el-table :data="tabledatas" fit style="margin-bottom: 30px;">-->
+<!--                <el-table-column   label="水分(%)">-->
+<!--                  <template slot-scope="scope"  prop="coalSf">-->
+<!--                    <el-input v-model="form.coalSf" placeholder="请输入" />-->
+<!--                  </template>-->
+<!--                </el-table-column>-->
+<!--                <el-table-column  label="内水(%)">-->
+<!--                  <template slot-scope="scope"  prop="coalNs">-->
+<!--                    <el-input v-model="form.coalNs" placeholder="请输入" />-->
+<!--                  </template>-->
+<!--                </el-table-column>-->
+<!--                <el-table-column  label="灰份(%)">-->
+<!--                  <el-table-column  label="Aad">-->
+<!--                    <template slot-scope="scope"  prop="coalAad">-->
+<!--                      <el-input v-model="form.coalAad" placeholder="请输入" />-->
+<!--                    </template>-->
+<!--                  </el-table-column>-->
+<!--                  <el-table-column  label="ad">-->
+<!--                    <template slot-scope="scope"  prop="coalAd">-->
+<!--                      <el-input v-model="form.coalAd" placeholder="请输入" />-->
+<!--                    </template>-->
+<!--                  </el-table-column>-->
+<!--                </el-table-column>-->
+<!--                <el-table-column label="挥发份(%)">-->
+<!--                  <el-table-column  label="Vda">-->
+<!--                    <template slot-scope="scope"  prop="coalVda">-->
+<!--                      <el-input v-model="form.coalVda" placeholder="请输入" />-->
+<!--                    </template>-->
+<!--                  </el-table-column>-->
+<!--                  <el-table-column  label="Vdae">-->
+<!--                    <template slot-scope="scope"  prop="coalVdae">-->
+<!--                      <el-input v-model="form.coalVdae" placeholder="请输入" />-->
+<!--                    </template>-->
+<!--                  </el-table-column>-->
+<!--                </el-table-column>-->
+<!--                <el-table-column  label="灰熔点(℃)">-->
+<!--                  <template slot-scope="scope"  prop="coalHrd">-->
+<!--                    <el-input v-model="form.coalHrd" placeholder="请输入" />-->
+<!--                  </template>-->
+<!--                </el-table-column>-->
+<!--                <el-table-column   label="固定碳(%)">-->
+<!--                  <template slot-scope="scope"  prop="coalGdt">-->
+<!--                    <el-input v-model="form.coalGdt" placeholder="请输入" />-->
+<!--                  </template>-->
+<!--                </el-table-column>-->
+<!--                <el-table-column  label="含硫量(%)">-->
+<!--                  <template slot-scope="scope"  prop="coalHll">-->
+<!--                    <el-input v-model="form.coalHll" placeholder="请输入" />-->
+<!--                  </template>-->
+<!--                </el-table-column>-->
+<!--                <el-table-column label="热值(%)">-->
+<!--                  <el-table-column  label="Qgrad">-->
+<!--                    <template slot-scope="scope"   prop="coalQgrad">-->
+<!--                      <el-input v-model="form.coalQgrad" placeholder="请输入" />-->
+<!--                    </template>-->
+<!--                  </el-table-column>-->
+<!--                  <el-table-column  label="Qntar">-->
+<!--                    <template slot-scope="scope"   prop="coalQntar">-->
+<!--                      <el-input v-model="form.coalQntar" placeholder="请输入" />-->
+<!--                    </template>-->
+<!--                  </el-table-column>-->
+<!--                </el-table-column>-->
+<!--              </el-table>-->
+<!--            </el-col>-->
+<!--          </el-row>-->
+<!--          奖惩-->
+          <el-row>
+            <el-col :span="24">
+              <el-form-item label="奖惩(元)">
+                <span>水分：<span style="color: red" v-text="form.jc1">0.00</span></span>
+                <span style="margin-left: 20px;">内水：<span style="color: red" v-text="form.jc2">0.00</span></span>
+                <span style="margin-left: 20px;">灰份Aad：<span style="color: red" v-text="form.jc3">0.00</span></span>
+                <span style="margin-left: 20px;">灰份ad：<span style="color: red" v-text="form.jc10">0.00</span></span>
+                <span style="margin-left: 20px;">挥发份Vda：<span style="color: red" v-text="form.jc4">0.00</span></span>
+                <span style="margin-left: 20px;">挥发份Vdae：<span style="color: red" v-text="form.jc11">0.00</span></span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="24">
+              <el-form-item label="">
+                <span >灰熔点：<span style="color: red" v-text="form.jc5">0.00</span></span>
+                <span style="margin-left: 20px;">固定碳：<span style="color: red" v-text="form.jc6">0.00</span></span>
+                <span style="margin-left: 20px;">含硫量：<span style="color: red" v-text="form.jc7">0.00</span></span>
+                <span style="margin-left: 20px;">热值Qgr,ad：<span style="color: red" v-text="form.jc8">0.00</span></span>
+                <span style="margin-left: 20px;">热值Qnt,ar：<span style="color: red" v-text="form.jc9">0.00</span></span>
+                <span style="margin-left: 20px;">热值Kcal：<span style="color: red" v-text="form.jc12">0.00</span></span>
+                <el-button style="margin-left: 20px;" type="primary" @click="jsjc" v-if="isLook!=3">奖惩计算</el-button>
+              </el-form-item>
+            </el-col>
+          </el-row>
+
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="预付总额" prop="totalPrice">
+                <el-input @change="atochange"  v-model="form.totalPrice" placeholder="请输入预付总额" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="固定差价" prop="dPrice">
+                <el-input v-model="form.dPrice" placeholder="请输入固定差价" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="税款" prop="tax">
+                <el-input  v-model="form.tax" placeholder="请输入税款" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="预付至" prop="ato">
+                <el-select v-model="form.ato" @change="atochange" placeholder="请选择预付批次" style="width: 100%;">
+                  <el-option
+                    v-for="obj in atosOptions"
+                    :key="obj.key"
+                    :label="obj.label"
+                    :value="obj.key"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+<!--            <el-col :span="12">-->
+<!--              <el-form-item label="付款日期" prop="payTime">-->
+<!--                <el-date-picker clearable size="small" style="width: 100%;"-->
+<!--                                v-model="form.payTime"-->
+<!--                                type="date"-->
+<!--                                value-format="yyyy-MM-dd"-->
+<!--                                placeholder="选择付款日期">-->
+<!--                </el-date-picker>-->
+<!--              </el-form-item>-->
+<!--            </el-col>-->
+            <el-col :span="12">
+              <el-form-item label="预付单价" prop="expectPrice">
+                <el-input  v-model="form.expectPrice" placeholder="请输入预计单价" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="保底服务费期限(天)" prop="mfsp">
+                <el-input v-model="form.mfsp" placeholder="请输入保底服务费期限" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="成本年服务费率(%)" prop="rateYear">
+                <el-input  v-model="form.rateYear" placeholder="请输入成本年服务费率" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row class="ic">
+            <el-col :span="12">
+              <el-form-item label="付款总额" prop="payTprice">
+                <el-input  v-model="form.payTprice"  placeholder="请输入付款总额" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row class="ic">
+            <el-col :span="12">
+              <el-form-item label="提单金额" prop="prepaidPrice">
+                <el-input disabled  v-model="form.prepaidPrice"  placeholder="请输入提单金额" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="实际付款金额" prop="actualPrice">
+                <el-input disabled v-model="form.actualPrice"  placeholder="请输入实际付款金额" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </div>
+        <div v-if="form.away=='提前付款'">
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="预付总额(元)" prop="totalPrice">
+                <el-input v-model="form.totalPrice" placeholder="请输入预计总额" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="付款日期" prop="payTime">
+                <el-date-picker clearable size="small" style="width: 100%;"
+                                v-model="form.payTime"
+                                type="date"
+                                value-format="yyyy-MM-dd"
+                                placeholder="选择付款日期">
+                </el-date-picker>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="成本年服务费率(%)" prop="rateYear">
+                <el-input v-model="form.rateYear" placeholder="请输入成本年服务费率" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="保底服务费期限(天)" prop="mfsp">
+                <el-input v-model="form.mfsp" placeholder="请输入保底服务费期限" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </div>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="附件" prop="file">
+              <el-upload
+                class="upload-demo"
+                :action="url"
+                :headers="headers"
+                :on-preview="handlePreview"
+                :on-remove="handleRemove"
+                :on-success="uploadSuccess"
+                :on-error="uploadError"
+                :before-remove="beforeRemove"
+                multiple
+                :limit="5"
+                :on-exceed="handleExceed"
+                :file-list="fileList">
+                <el-button size="small" type="primary" v-if="isLook!=3">点击上传</el-button>
+                <!--                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
+              </el-upload>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        </div>
+
+
+        <div v-if="isLook=='4'">
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="付款日期" prop="payTime">
+                <el-date-picker clearable size="small" style="width: 100%;"
+                                v-model="form.payTime"
+                                type="date"
+                                value-format="yyyy-MM-dd"
+                                placeholder="选择付款日期">
+                </el-date-picker>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </div>
+
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitForm" v-if="isLook!=3">确 定</el-button>
+        <el-button @click="cancel">取 消</el-button>
+      </div>
+
+    </el-dialog>
+  </div>
+</template>
+
+<script>
+import {
+  listApayment,
+  getApayment,
+  delApayment,
+  addApayment,
+  updateApayment,
+  getStList,
+  getGrnList,
+  getGryList,
+  getContract,
+  getApaymentbydata
+} from "@/api/project/apayment";
+import {getToken} from "@/utils/auth";
+
+export default {
+  name: "Apayment",
+  data() {
+    // 两位小数点验证
+    const validatePrice = (rule,value,callback) =>{
+      let reg = /^(\-|\+)?(([1-9]{1}\d*)|(0{1}))(\.\d{1,2})?$/
+      // let reg = /^(\-|\+)?\d+(\.\d+)?$/;
+      if(value!=0 && (value==null || value=="")){
+        callback(new Error('不能为空'))
+      }else if(!reg.test(value)){
+        callback(new Error('请输入正确格式'))
+      }else{
+        callback();
+      }
+    };
+    // 无两位小数点
+    const validatePrice2 = (rule,value,callback) =>{
+      let reg = /^(\-|\+)?(([1-9]{1}\d*)|(0{1}))$/
+      // let reg = /^(\-|\+)?\d+(\.\d+)?$/;
+      if(!reg.test(value)){
+        callback(new Error('请输入正确格式'))
+      }else{
+        callback();
+      }
+    };
+    // 可空无两位小数点
+    const validatePrice3 = (rule,value,callback) =>{
+      let reg = /^(\-|\+)?(([1-9]{1}\d*)|(0{1}))(\.\d{1,2})?$/
+      // let reg = /^(\-|\+)?\d+(\.\d+)?$/;
+      if(value!=null && value!=''){
+        if(!reg.test(value)){
+          callback(new Error('请输入正确格式'))
+        }else{
+          callback();
+        }
+      }else{
+        callback();
+      }
+    };
+    // 可空无两位小数点
+    const validatePrice4 = (rule,value,callback) =>{
+      let reg = /^(\-|\+)?(([1-9]{1}\d*)|(0{1}))$/
+      // let reg = /^(\-|\+)?\d+(\.\d+)?$/;
+      if(value!=null && value!=''){
+        if(!reg.test(value)){
+          callback(new Error('请输入正确格式'))
+        }else{
+          callback();
+        }
+      }else{
+        callback();
+      }
+    };
+    //全局变量
+    return {
+      isLook:1,
+      //上传路径
+      url:process.env.VUE_APP_BASE_API + "/file/upload",
+      // 设置上传的请求头部
+      headers: { Authorization: "Bearer " + getToken() },
+      //文件集合
+      fileList: [],
+      //选择框状态
+      visible:false,
+      //入库单集合
+      tableData: [],
+      //入库单集合
+      tablegryData: [],
+      //选中入库单集合
+      tableselData: [],
+      //预选中入库单集合
+      tableybData: [],
+      //煤炭质量
+      tabledatas: [
+        {show:true}
+      ],
+      // 遮罩层
+      loading: true,
+      // 选中数组
+      ids: [],
+      // 非单个禁用
+      single: true,
+      // 非多个禁用
+      multiple: true,
+      // 显示搜索条件
+      showSearch: true,
+      // 总条数
+      total: 0,
+      // 预付款表格数据
+      apaymentList: [],
+      // 弹出层标题
+      title: "",
+      // 是否显示弹出层
+      open: false,
+      // 审批状态字典
+      stateOptions: [],
+      //项目集合
+      stOptions:[],
+      //预付方式
+      awaysOptions:
+        [{"key":"首次","label":"首次"},
+          {"key":"二次","label":"二次"},
+          {"key":"提前付款","label":"提前付款"}],
+      //预付批次
+      typesOptions:
+        [{"key":"吨","label":"吨"},
+          {"key":"热值","label":"热值"}],
+      atosOptions:
+        [{"key":"50%","label":"50%"},
+          {"key":"55%","label":"55%"},
+          {"key":"60%","label":"60%"},
+          {"key":"65%","label":"65%"},
+          {"key":"70%","label":"70%"},
+          {"key":"75%","label":"75%"},
+          {"key":"80%","label":"80%"},
+          {"key":"85%","label":"85%"},
+          {"key":"90%","label":"90%"}],
+      multipleSelection: [],
+      //提前付款
+      tqpay:0,
+      // 查询参数
+      queryParams: {
+        pageNum: 1,
+        pageSize: 10,
+        stId: null,
+      },
+      // 表单参数
+      form: {},
+      // 表单校验
+      rules: {
+        stId: [
+          { required: true, message: "请选择项目名称", trigger: "blur" }
+        ],
+        type: [
+          { required: true, message: "请选择预付方式", trigger: "blur" }
+        ],
+        away: [
+          { required: true, message: "请选择预付批次", trigger: "blur" }
+        ],
+        rzPrice: [
+          { required: true, validator:validatePrice, trigger: "blur" }
+        ],
+        totalPrice: [
+          { required: true, validator:validatePrice, trigger: "blur" }
+        ],
+        dPrice: [
+          { required: true, validator:validatePrice, trigger: "blur" }
+        ],
+        tax: [
+          { required: true, validator:validatePrice, trigger: "blur" }
+        ],
+        ato: [
+          { required: true, message: "请选择预付至", trigger: "blur" }
+        ],
+        payTime: [
+          { required: true, message: "请选择付款时间", trigger: "blur" }
+        ],
+        expectPrice: [
+          { required: true, validator:validatePrice, trigger: "blur" }
+        ],
+        mfsp: [
+          {  validator:validatePrice4, trigger: "blur" }
+        ],
+        rateYear: [
+          {  validator:validatePrice3, trigger: "blur" }
+        ],
+        prepaidPrice: [
+          { required: true, validator:validatePrice, trigger: "blur" }
+        ],
+        actualPrice: [
+          { required: true, validator:validatePrice, trigger: "blur" }
+        ]
+      }
+    };
+  },
+  created() {
+    this.getList();
+    this.getDicts("project_approval_state").then(response => {
+      this.stateOptions = response.data;
+    });
+
+    if(this.$route.params.isEdit!=null && this.$route.params.isEdit=="true"){
+      let apaymentId=this.$route.params.apaymentId
+      let row={"apyamentId":apaymentId}
+      this.handleUpdate(row)
+    }
+    if(this.$route.params.isAdd!=null && this.$route.params.isAdd=="true"){
+      this.handleAdd()
+    }
+  },
+  methods: {
+    /** 查询预付款列表 */
+    getList() {
+      this.loading = true;
+      listApayment(this.queryParams).then(response => {
+        this.apaymentList = response.rows;
+        this.total = response.total;
+        this.loading = false;
+      });
+      getStList().then(response => {
+        this.stOptions = response.rows;
+      });
+    },
+    // 审批状态字典翻译
+    stateFormat(row, column) {
+      return this.selectDictLabel(this.stateOptions, row.state);
+    },
+    // 取消按钮
+    cancel() {
+      this.open = false;
+      this.reset();
+    },
+    // 表单重置
+    reset() {
+      this.form = {
+        apyamentId: null,
+        stId: null,
+        stName: null,
+        type: null,
+        away: null,
+        grns: null,
+        totalWeight: null,
+        averageRz: null,
+        jc1:0,
+        jc2:0,
+        jc3:0,
+        jc4:0,
+        jc5:0,
+        jc6:0,
+        jc7:0,
+        jc8:0,
+        jc9:0,
+        jc10:0,
+        jc11:0,
+        jc12:0,
+        rewardp: null,
+        totalPrice: null,
+        payTprice:null,
+        dPrice: null,
+        ato: null,
+        tax: null,
+        expectPrice: null,
+        payTime: null,
+        rateYear: null,
+        mfsp: null,
+        prepaidPrice: null,
+        actualPrice: null,
+        rzPrice: null,
+        grys: null,
+        state: null,
+        fkState: null,
+        createBy: null,
+        createTime: null,
+        grnList:[],
+        gryList:[],
+        fileList:[]
+      };
+      this.resetForm("form");
+    },
+    /** 搜索按钮操作 */
+    handleQuery() {
+      this.queryParams.pageNum = 1;
+      this.getList();
+    },
+    /** 重置按钮操作 */
+    resetQuery() {
+      this.resetForm("queryForm");
+      this.handleQuery();
+    },
+    // 多选框选中数据
+    handleSelectionChange(selection) {
+      this.ids = selection.map(item => item.apyamentId)
+      this.single = selection.length!==1
+      this.multiple = !selection.length
+    },
+    /** 新增按钮操作 */
+    handleAdd() {
+      this.reset();
+      this.form.type='吨';
+      this.form.away='首次';
+      this.form.totalWeight=0;
+      this.form.averageRz=0;
+      this.fileList=[];
+      this.tableData=[];
+      this.tablegryData=[];
+      this.tableselData=[];
+
+      this.isLook=1;
+      this.open = true;
+      this.title = "添加预付款";
+    },
+    /** 修改按钮操作 */
+    handleUpdate(row) {
+      this.reset();
+      this.tableData=[];
+      this.tablegryData=[];
+      this.tableselData=[];
+      this.fileList=[];
+      const apyamentId = row.apyamentId || this.ids
+      getApayment(apyamentId).then(response => {
+        this.form = response.data;
+        this.form.stId2 = this.form.stId;
+        this.form.stId = this.form.stName;
+        this.tableselData = response.data.selnyList;
+        this.fileList = this.form.fileList;
+
+        getGrnList(this.form.stId2).then(response => {
+          this.tableData = response.rows;
+        });
+        getGryList(this.form.stId2).then(response => {
+          this.tablegryData = response.rows;
+        });
+
+        this.isLook=1;
+        this.open = true;
+        this.title = "修改预付款";
+      });
+
+    },
+    /** 查看按钮操作 */
+    handleLook(row) {
+      this.reset();
+      this.tableData=[];
+      this.tablegryData=[];
+      this.tableselData=[];
+      this.fileList=[];
+      const apyamentId = row.apyamentId || this.ids
+      this.$router.push("/apayment/look/" + apyamentId);
+    },
+
+    /** 修改按钮操作 */
+    handleUpdatePayTime(row) {
+      this.reset();
+      const apyamentId = row.apyamentId || this.ids
+      getApayment(apyamentId).then(response => {
+        this.form = response.data;
+        this.isLook=4;
+        this.open = true;
+        this.title = "修改预付款";
+      });
+    },
+
+    /** 修改按钮操作 */
+    handleUpdateFkState(row) {
+      this.reset();
+      const apyamentId = row.apyamentId || this.ids
+      let self = this
+      this.$confirm('是否确定完成付款?', "警告", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      }).then(function() {
+        self.submitFormFk(apyamentId);
+      })
+    },
+    submitFormFk(id) {
+      getApayment(id).then(response => {
+        this.form = response.data;
+        this.form.fkState = '已付款';
+        this.form.type=null
+        updateApayment(this.form).then(response => {
+          this.msgSuccess("付款成功");
+          this.open = false;
+          this.getList();
+        });
+      });
+    },
+    /** 提交按钮 */
+    submitForm() {
+      this.$refs["form"].validate(valid => {
+        if (valid) {
+          if(this.isLook!=4){
+            if((this.form.type=='吨' && this.form.away=='首次') || (this.form.type=='热值' && this.form.away=='首次')){
+              if(this.tableselData.length<1){
+                this.msgError("请选择入库单")
+                return
+              }
+              this.form.grnList=this.tableselData
+            }else if((this.form.type=='吨' && this.form.away=='二次') || (this.form.type=='热值' && this.form.away=='二次')){
+              if(this.tableselData.length<1){
+                this.msgError("请选择出库单")
+                return
+              }
+              this.form.gryList=this.tableselData
+            }
+            this.form.stId=this.form.stId2
+          }else{
+            this.form.type=null
+          }
+          if (this.form.apyamentId != null) {
+            updateApayment(this.form).then(response => {
+              this.msgSuccess("修改成功");
+              this.open = false;
+              this.getList();
+            });
+          } else {
+            addApayment(this.form).then(response => {
+              this.msgSuccess("新增成功");
+              this.open = false;
+              this.getList();
+            });
+          }
+        }
+      });
+    },
+    /** 删除按钮操作 */
+    handleDelete(row) {
+      const apyamentIds = row.apyamentId || this.ids;
+      this.$confirm('是否确认删除预付款?', "警告", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        }).then(function() {
+          return delApayment(apyamentIds);
+        }).then(() => {
+          this.getList();
+          this.msgSuccess("删除成功");
+        }).catch(() => {});
+    },
+    /** 导出按钮操作 */
+    handleExport() {
+      this.download('project/apayment/export', {
+        ...this.queryParams
+      }, `project_apayment.xlsx`)
+    },
+    //上传图片
+    //点击触发
+    handlePreview(file) {
+      if(file.response==undefined){
+        window.open(file.url)
+      }else{
+        window.open(file.response.data.url)
+      }
+    },
+    handleRemove(file, filelist) {
+      this.form.fileList=[];
+      for(let i=0;i<filelist.length;i++){
+        if (filelist[i].response != undefined) {
+          let art = {"name": filelist[i].response.data.name, "url": filelist[i].response.data.url};
+          this.form.fileList.push(art);
+        }else {
+          let art = {"name": filelist[i].name, "url": filelist[i].url};
+          this.form.fileList.push(art);
+        }
+      }
+    },
+    handleExceed(files, fileList) {
+      this.$message.warning(`当前限制选择 5 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+    },
+    beforeRemove(file, fileList) {
+      return this.$confirm(`确定移除 ${ file.name }？`);
+    },
+    // res 表示请求响应体
+    uploadSuccess(res, file, filelist) {
+      if (res.code == '200') {
+        this.form.fileList=[];
+        for(var i=0;i<filelist.length;i++) {
+          if (filelist[i].response != undefined) {
+            var name = filelist[i].response.data.name;
+            var url = filelist[i].response.data.url;
+            var art = {"name": name, "url": url};
+            this.form.fileList.push(art);
+          }else {
+            var name = filelist[i].name;
+            var url = filelist[i].url;
+            var art = {"name": name, "url": url};
+            this.form.fileList.push(art);
+          }
+        }
+        this.$message.success("上传成功");
+      } else {
+        this.$message.error(res.msg);
+        let index = filelist.indexOf(file);
+        filelist.splice(index,1);
+      }
+    },
+    uploadError(err, file, filelist) {
+      this.$message.error("上传失败");
+    },
+
+
+    //业务开始
+    //选择项目
+    changeSt(obj){
+      this.form.jc1=0
+      this.form.jc2=0
+      this.form.jc3=0
+      this.form.jc4=0
+      this.form.jc5=0
+      this.form.jc6=0
+      this.form.jc7=0
+      this.form.jc8=0
+      this.form.jc9=0
+      this.form.jc10=0
+      this.form.jc11=0
+      this.form.jc12=0
+      this.form.rewardp=0
+      this.form.stId2 = obj.stId
+      this.form.stName = obj.name
+      this.tableybData=[];
+      //获取提前付款+首付款
+      if(this.form.away=='首次'){
+        let data2 = {"stId": obj.stId, "away": "二次",state:"3"};
+        getApaymentbydata(data2).then(response => {
+          if (response.rows.length > 0) {
+            this.form.prepaidPrice = 0.00
+            this.tqpay = 0
+          } else {
+            this.form.prepaidPrice = (obj.tqpay).toFixed(2)
+            this.tqpay = obj.tqpay
+          }
+        })
+      }else{
+        let data = {"stId": obj.stId, "away": "首次","ist":"1",state:"3"};
+        getApaymentbydata(data).then(response => {
+          let ap=0;
+          for(let i=0;i<response.rows.length;i++){
+            ap+=response.rows[i].actualPrice
+            ap+=response.rows[i].prepaidPrice
+          }
+          let data2 = {"stId": obj.stId, "away": "二次"};
+          getApaymentbydata(data2).then(response => {
+            if(response.rows.length>0){
+              this.form.prepaidPrice = ap.toFixed(2);
+              this.tqpay = 0.00
+            }else{
+              this.form.prepaidPrice = (parseFloat(obj.tqpay)+parseFloat(ap)).toFixed(2);
+              this.tqpay = obj.tqpay
+            }
+          })
+        });
+      }
+      this.tableselData=[];
+
+      let data = {"stId": obj.stId, "yfState": "1"};
+      getGrnList(data).then(response => {
+        this.tableData = response.rows;
+      });
+      getGryList(data).then(response => {
+        this.tablegryData = response.rows;
+      });
+      //固定差价
+      if(obj.chargemType=='2' || obj.chargemType=='3'){
+        this.form.dPrice=obj.chargemGd
+      }else{
+        this.form.dPrice=0
+      }
+      //成本年服务费率
+      if(obj.chargemType=='1' || obj.chargemType=='3'){
+        this.form.rateYear=obj.chargemNx
+      }else{
+        this.form.rateYear=0
+      }
+
+      //查询委托销售合同
+      let c1 = {"stId": obj.stId, "type": "1"};
+      getContract(c1).then(response => {
+        if(response.data!=null){
+           //保底服务费期限
+           this.form.mfsp = response.data.mfsp
+        }else{
+          this.form.mfsp = 0
+        }
+      });
+      this.jsdj()
+      this.atochange();
+    },
+    //选择批次
+    changeAway(){
+      this.form.jc1=0
+      this.form.jc2=0
+      this.form.jc3=0
+      this.form.jc4=0
+      this.form.jc5=0
+      this.form.jc6=0
+      this.form.jc7=0
+      this.form.jc8=0
+      this.form.jc9=0
+      this.form.jc10=0
+      this.form.jc11=0
+      this.form.jc12=0
+      this.form.rewardp=0
+      this.jsdj()
+      this.tableybData=[];
+        if(this.form.stId2==null || this.form.stId2==''){
+          this.msgError("请选择项目");
+          this.form.prepaidPrice = 0.00;
+          return
+        }
+      //获取提前付款+首付款
+      if(this.form.away=='首次'){
+        let data2 = {"stId": this.form.stId2, "away": "二次"};
+        getApaymentbydata(data2).then(response => {
+          if (response.rows.length > 0) {
+            this.form.prepaidPrice = 0.00
+          } else {
+            this.form.prepaidPrice = this.tqpay.toFixed(2)
+          }
+        })
+      }else{
+        let data = {"stId": this.form.stId2, "away": "首次","ist":"1"};
+        getApaymentbydata(data).then(response => {
+          let ap=0;
+          for(let i=0;i<response.rows.length;i++){
+            ap+=response.rows[i].actualPrice
+          }
+          let data2 = {"stId": this.form.stId2, "away": "二次"};
+          getApaymentbydata(data2).then(response => {
+            if(response.rows.length>0){
+              this.form.prepaidPrice = ap.toFixed(2);
+            }else{
+              this.form.prepaidPrice = (parseFloat(this.tqpay)+parseFloat(ap)).toFixed(2);
+            }
+          })
+
+        });
+      }
+      this.toggleSelection()
+    },
+
+    //选中数据
+    grnSelectionChange(selection) {
+      this.tableybData=[];
+      this.tableybData=selection;
+    },
+    //溢出选中数据
+    deleteRow(index,rows,obj) {
+      this.form.jc1=0
+      this.form.jc2=0
+      this.form.jc3=0
+      this.form.jc4=0
+      this.form.jc5=0
+      this.form.jc6=0
+      this.form.jc7=0
+      this.form.jc8=0
+      this.form.jc9=0
+      this.form.jc10=0
+      this.form.jc11=0
+      this.form.jc12=0
+      this.form.rewardp=0
+      this.tableselData.splice(index, 1);
+
+      if(this.form.away=='首次') {
+        this.tableData.map(item => {
+          if (item.grnId === obj.row.grnId) {
+            this.$refs.singleTable1.toggleRowSelection(item, false)
+          }
+        })
+      }else  if(this.form.away=='二次') {
+        this.tablegryData.map(item => {
+          if (item.gryId === obj.row.gryId) {
+            this.$refs.singleTable2.toggleRowSelection(item, false)
+          }
+        })
+      }
+      this.jsta();
+      this.jste();
+      this.atochange();
+    },
+    //确认选择数据
+    toggleSelection() {
+        this.form.jc1=0
+        this.form.jc2=0
+        this.form.jc3=0
+        this.form.jc4=0
+        this.form.jc5=0
+        this.form.jc6=0
+        this.form.jc7=0
+        this.form.jc8=0
+        this.form.jc9=0
+        this.form.jc10=0
+        this.form.jc11=0
+        this.form.jc12=0
+        this.form.rewardp=0
+        this.tableselData=this.tableybData;
+        this.visible = false;
+        this.jsta();
+        this.jste();
+        this.atochange();
+    },
+    // 计算总额
+    jste(){
+      let tw=0;
+      let ep=0
+      if(this.form.totalWeight!=null && this.form.totalWeight!=''){
+        tw=this.form.totalWeight;
+      }
+      if(this.form.expectPrice!=null && this.form.expectPrice!='') {
+        ep = this.form.expectPrice;
+      }
+      //预付总额 单价*重量
+      this.form.totalPrice=(tw*ep).toFixed(2);
+      //计算税款
+      this.form.tax=(tw*ep/1.13*0.13).toFixed(2);
+    },
+    //计算合计重量平均热值
+    jsta(){
+      let tgn=0;
+      let tgr=0;
+      if(this.tableybData.length>0){
+        for(let i=0;i<this.tableybData.length;i++){
+          tgn+=this.tableybData[i].grnNumber
+          if(this.form.away=='首次'){
+            tgr+=this.tableybData[i].grnRz
+          }else if(this.form.away=='二次'){
+            tgr+=this.tableybData[i].gryRz
+          }
+        }
+        this.form.totalWeight=tgn;
+        this.form.averageRz=(tgr/this.tableybData.length).toFixed(2);
+      }else{
+        this.form.totalWeight=tgn.toFixed(2);
+        this.form.averageRz=tgr.toFixed(2);
+      }
+      this.jsdj()
+    },
+    //计算单价
+    jsdj(){
+      let re=0
+      if(this.form.rewardp!=null && this.form.rewardp!=''){
+        re=this.form.rewardp
+      }
+      if(this.form.type=='吨'){
+        if(this.form.stId2==null || this.form.stId2==''){
+          this.msgError("请选择项目")
+          return
+        }
+        //查询煤炭销售合同
+        let c2 = {"stId": this.form.stId2, "type": "2"};
+        getContract(c2).then(response => {
+          if(response.data!=null){
+            //预付单价 吨的预付单价
+            this.form.expectPrice = (parseFloat(response.data.price)+parseFloat(re)).toFixed(2)
+          }else {
+            this.form.expectPrice = 0
+          }
+          this.jste();
+        });
+      }else if(this.form.type=='热值'){
+        if(this.form.rzPrice!=null && this.form.rzPrice!='' && this.form.averageRz!=null && this.form.averageRz!=''){
+          this.form.expectPrice = (this.form.rzPrice*this.form.averageRz+parseFloat(re)).toFixed(2)
+        }else {
+          this.form.expectPrice = 0
+        }
+        this.jste();
+      }else {
+        this.form.expectPrice = 0
+        this.jste();
+      }
+    },
+    //计算奖惩
+    jsjc(){
+      let jc1=0
+      let jc2=0
+      let jc3=0
+      let jc4=0
+      let jc5=0
+      let jc6=0
+      let jc7=0
+      let jc8=0
+      let jc9=0
+      let jc10=0
+      let jc11=0
+      let jc12=0
+      let re=0
+
+      let size=this.tableselData.length;
+      for(let i=0;i<this.tableselData.length;i++){
+        let obj=this.tableselData[i]
+        jc1+=obj.jc1
+        jc2+=obj.jc2
+        jc3+=obj.jc3
+        jc4+=obj.jc4
+        jc5+=obj.jc5
+        jc6+=obj.jc6
+        jc7+=obj.jc7
+        jc8+=obj.jc8
+        jc9+=obj.jc9
+        jc10+=obj.jc10
+        jc11+=obj.jc11
+        jc12+=obj.jc12
+        re+=obj.rewardp
+      }
+      this.form.jc1=(jc1/size).toFixed(2)
+      this.form.jc2=(jc2/size).toFixed(2)
+      this.form.jc3=(jc3/size).toFixed(2)
+      this.form.jc4=(jc4/size).toFixed(2)
+      this.form.jc5=(jc5/size).toFixed(2)
+      this.form.jc6=(jc6/size).toFixed(2)
+      this.form.jc7=(jc7/size).toFixed(2)
+      this.form.jc8=(jc8/size).toFixed(2)
+      this.form.jc9=(jc9/size).toFixed(2)
+      this.form.jc10=(jc10/size).toFixed(2)
+      this.form.jc11=(jc11/size).toFixed(2)
+      this.form.jc12=(jc12/size).toFixed(2)
+      this.form.rewardp=(re/size).toFixed(2)
+      this.jsdj()
+      this.jspay()
+    },
+    // 选择预付至
+    atochange(){
+      //计算付款总额
+      let tp=0
+      let ato=0
+      if(this.form.totalPrice!=null && this.form.totalPrice!=""){
+        tp = this.form.totalPrice;
+      }
+      if(this.form.ato!=null &&  this.form.ato!=''){
+        if(this.form.ato=='50%'){
+          ato = 0.5;
+        }else if(this.form.ato=='55%'){
+          ato = 0.55;
+        }else if(this.form.ato=='60%'){
+          ato = 0.6;
+        }else if(this.form.ato=='65%'){
+          ato = 0.65;
+        }else if(this.form.ato=='70%'){
+          ato = 0.7;
+        }else if(this.form.ato=='75%'){
+          ato = 0.75;
+        }else if(this.form.ato=='80%'){
+          ato = 0.8;
+        }else if(this.form.ato=='85%'){
+          ato = 0.85;
+        }else if(this.form.ato=='90%'){
+          ato = 0.9;
+        }
+      }
+
+      this.form.payTprice = (ato*tp).toFixed(2);
+      this.jspay()
+    },
+    //计算实际付款
+    jspay(){
+      let totalPrice=0
+      if(this.form.totalPrice!=null && this.form.totalPrice!='') {
+        totalPrice=this.form.totalPrice
+      }
+      //计算税款
+      this.form.tax=(totalPrice/1.13*0.13).toFixed(2);
+
+
+
+      let pt=0
+      let pp=0
+      if(this.form.payTprice!=null && this.form.payTprice!=''){
+        pt = this.form.payTprice
+      }
+      if(this.form.prepaidPrice!=null && this.form.prepaidPrice!=''){
+        pp = this.form.prepaidPrice
+      }
+      let sp = pt-pp;
+      if(sp>=0){
+        this.form.actualPrice=sp.toFixed(2)
+      }else{
+        this.form.actualPrice=0.00
+      }
+
+    }
+
+  }
+};
+</script>
