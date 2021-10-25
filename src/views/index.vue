@@ -140,7 +140,7 @@
       </el-col>
     </el-row>
     </el-row>
-    <el-row class="head-title" style="margin-top: 1%;height: 250px;" >
+    <el-row class="head-title" style="margin-top: 1%;height: 450px;" >
       <el-col :span="8" style="background: #FFFFFF;padding-left: 20px;height: 100%;">
         <span style="color: #317FF7;">|</span><span>常用入口</span>
         <el-row style="padding-left: 40px;margin-top: 20px;">
@@ -183,33 +183,44 @@
       <el-col :span="8" style="background: #FFFFFF;margin-left: 1%;padding-left: 20px;height: 100%;">
         <span style="color: #317FF7;">|</span><span>在手项目</span>
         <el-row>
-          <el-col :span="24" style="height: 240px;">
+          <el-col :span="24" style="height: 440px;">
             <el-table
-              :data="tableData2"
+              :data="stList"
               fit
               size="mini"
-              style="height: 90%"
             >
               <el-table-column
-                prop="type"
+                prop="name"
                 label="项目名称"
                 width="80">
               </el-table-column>
               <el-table-column
-                prop="name"
+                prop="amount"
                 label="项目金额"
               >
               </el-table-column>
               <el-table-column
-                prop="price"
+                prop="expectProfits"
                 label="预计收入"
               >
               </el-table-column>
-              <el-table-column
-                prop="time"
-                label="创建日期">
+              <el-table-column label="创建日期" align="center" prop="createTime" >
+                <template slot-scope="scope">
+                  <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
+                </template>
               </el-table-column>
             </el-table>
+            <pagination
+              small
+              layout="prev, pager, next"
+              v-show="total3>0"
+              :total="total3"
+              :page.sync="queryParams3.pageNum"
+              :limit.sync="queryParams3.pageSize"
+              :page-sizes="queryParams3.pageSizes"
+              @pagination="getList3"
+              style="margin-right: 40%"
+            />
           </el-col>
         </el-row>
 
@@ -271,40 +282,61 @@
                 <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
               </el-form-item>
             </el-form>
-            <el-table
-              v-loading="loading"
-              :data="tableData2"
-              fit
-              size="mini"
-            >
-              <el-table-column
-                prop="type"
-                label="项目名称"
-                width="80">
-              </el-table-column>
-              <el-table-column
-                prop="name"
-                label="项目金额"
-                >
-              </el-table-column>
-              <el-table-column
-                prop="price"
-                label="预计收入"
-                >
-              </el-table-column>
-              <el-table-column
-                prop="time"
-                label="创建日期">
-              </el-table-column>
+            <el-table v-loading="loading" :data="atakeupList" fit  size="mini">
+                <el-table-column label="部门名称" align="center" prop="deptName" />
+                <el-table-column label="代办人" align="center" prop="userName" />
+                <el-table-column label="期初占用(万元)" align="center" prop="starPrice" >
+                  <template slot-scope="scope">
+                    {{
+                      Number(scope.row.starPrice)
+                        .toFixed(2)
+                        .toString()
+                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    }}
+                  </template>
+                </el-table-column>
+                <el-table-column label="期末占用(万元)" align="center" prop="endPrice" >
+                  <template slot-scope="scope">
+                    {{
+                      Number(scope.row.endPrice)
+                        .toFixed(2)
+                        .toString()
+                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    }}
+                  </template>
+                </el-table-column>
+                <el-table-column label="平均占用(万元)" align="center" prop="pjPrice" >
+                  <template slot-scope="scope">
+                    {{
+                      Number(scope.row.pjPrice)
+                        .toFixed(2)
+                        .toString()
+                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    }}
+                  </template>
+                </el-table-column>
+                <el-table-column label="收入金额(万元)" align="center" prop="profitsPrice" >
+                  <template slot-scope="scope">
+                    {{
+                      Number(scope.row.profitsPrice)
+                        .toFixed(2)
+                        .toString()
+                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    }}
+                  </template>
+                </el-table-column>
+                <el-table-column label="资金周转率" align="center" prop="ct" />
             </el-table>
             <pagination
-              v-show="total>0"
-              :total="total"
-              :page.sync="queryParams.pageNum"
-              :limit.sync="queryParams.pageSize"
-              :page-sizes="queryParams.pageSizes"
-              @pagination="getList"
-              style="margin-right: 12%;"
+              small
+              layout="prev, pager, next"
+              v-show="total1>0"
+              :total="total1"
+              :page.sync="queryParams1.pageNum"
+              :limit.sync="queryParams1.pageSize"
+              :page-sizes="queryParams1.pageSizes"
+              @pagination="getList1"
+              style="margin-right: 40%;"
             />
           </el-col>
         </el-row>
@@ -330,39 +362,76 @@
                 <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
               </el-form-item>
             </el-form>
-            <el-table
-              :data="tableData2"
-              fit
-              size="mini"
-            >
-              <el-table-column
-                prop="type"
-                label="项目名称"
-                width="80">
-              </el-table-column>
-              <el-table-column
-                prop="name"
-                label="项目金额"
-              >
-              </el-table-column>
-              <el-table-column
-                prop="price"
-                label="预计收入"
-              >
-              </el-table-column>
-              <el-table-column
-                prop="time"
-                label="创建日期">
-              </el-table-column>
+              <el-table v-loading="loading" :data="ptakeupList"  fit size="mini">
+                <el-table-column label="项目名称" align="center" prop="stName" />
+                <el-table-column label="立项时间" align="center" prop="createTime" width="180">
+                  <template slot-scope="scope">
+                    <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
+                  </template>
+                </el-table-column>
+                <el-table-column label="代办人" align="center" prop="userName" />
+                <el-table-column label="期初占用(万元)" align="center" prop="starPrice" >
+                  <template slot-scope="scope">
+                    {{
+                      Number(scope.row.starPrice)
+                        .toFixed(2)
+                        .toString()
+                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    }}
+                  </template>
+                </el-table-column>
+                <el-table-column label="期末占用(万元)" align="center" prop="endPrice" >
+                  <template slot-scope="scope">
+                    {{
+                      Number(scope.row.endPrice)
+                        .toFixed(2)
+                        .toString()
+                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    }}
+                  </template>
+                </el-table-column>
+                <el-table-column label="平均占用(万元)" align="center" prop="pjPrice" >
+                  <template slot-scope="scope">
+                    {{
+                      Number(scope.row.pjPrice)
+                        .toFixed(2)
+                        .toString()
+                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    }}
+                  </template>
+                </el-table-column>
+                <!--      <el-table-column label="资金占用情况(万元)" align="center" prop="takeupPrice" >-->
+                <!--        <template slot-scope="scope">-->
+                <!--          {{-->
+                <!--            Number(scope.row.takeupPrice)-->
+                <!--              .toFixed(2)-->
+                <!--              .toString()-->
+                <!--              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")-->
+                <!--          }}-->
+                <!--        </template>-->
+                <!--      </el-table-column>-->
+                <el-table-column label="收入金额(万元)" align="center" prop="profitsPrice" >
+                  <template slot-scope="scope">
+                    {{
+                      Number(scope.row.profitsPrice)
+                        .toFixed(2)
+                        .toString()
+                        .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+                    }}
+                  </template>
+                </el-table-column>
+                <el-table-column label="资金周转率" align="center" prop="ct" />
             </el-table>
             <pagination
-              v-show="total>0"
-              :total="total"
-              :page.sync="queryParams.pageNum"
-              :limit.sync="queryParams.pageSize"
-              :page-sizes="queryParams.pageSizes"
-              @pagination="getList"
-              style="margin-right: 12%;"
+              small
+              layout="prev, pager, next"
+              v-show="total2>0"
+              :total="total2"
+              :page.sync="queryParams2.pageNum"
+              :limit.sync="queryParams2.pageSize"
+              :page-sizes="queryParams2.pageSizes"
+              @pagination="getList2"
+              style="margin-right: 40%;"
             />
           </el-col>
         </el-row>
@@ -386,6 +455,9 @@ import chuku from '@/assets/logo/chuku.png'
 import qijianfeiyong from '@/assets/logo/shoukuan-3.png'
 import echarts from 'echarts'
 import {listKp} from "@/api/project/kp";
+import { listAtakeup } from '@/api/project/atakeup'
+import { listPtakeup } from '@/api/project/ptakeup'
+import { listSt } from '@/api/project/st'
 export default {
   name: "index",
   mounted() {
@@ -476,21 +548,54 @@ export default {
       // 显示搜索条件
       showSearch: true,
       // 总条数
-      total: 0,
+      total1: 0,
+      // 总条数
+      total2: 0,
+      // 总条数
+      total3: 0,
+      // 总条数
+      total4: 0,
       // 查询参数
-      queryParams: {
+      queryParams1: {
+        pageNum: 1,
+        pageSize: 5,
+        pageSizes: [5],
+      },
+      // 查询参数
+      queryParams2: {
+        pageNum: 1,
+        pageSize: 5,
+        pageSizes: [5],
+      },
+      // 查询参数
+      queryParams3: {
+        pageNum: 1,
+        pageSize: 5,
+        pageSizes: [5],
+        xmState:'1',
+      },
+      // 查询参数
+      queryParams4: {
         pageNum: 1,
         pageSize: 5,
         pageSizes: [5],
       },
       // 日期范围
       dateRange: [],
-      // 开票表格数据
+      // 开票
       kpList: [],
+      // 资金占用
+      atakeupList:[],
+      // 项目资金占用
+      ptakeupList:[],
+      // 项目
+      stList:[],
     };
   },
   created() {
-    this.getList();
+    this.getList3();
+    this.getList2();
+    this.getList1();
   },
   methods: {
 
@@ -535,6 +640,32 @@ export default {
 
     },
 
+    getList1() {
+      this.loading = true;
+      listAtakeup(this.addDateRange(this.queryParams1, this.dateRange)).then(response => {
+        this.atakeupList = response.rows;
+        this.total1 = response.total;
+        this.loading = false;
+      });
+    },
+
+    getList2() {
+      this.loading = true;
+      listPtakeup(this.addDateRange(this.queryParams2, this.dateRange)).then(response => {
+        this.ptakeupList = response.rows;
+        this.total2 = response.total;
+        this.loading = false;
+      });
+    },
+
+    getList3() {
+      this.loading = true;
+      listSt(this.addDateRange(this.queryParams3, this.dateRange)).then(response => {
+        this.stList = response.rows;
+        this.total3 = response.total;
+        this.loading = false;
+      });
+    },
     // myEcharts() {
     //   // 基于准备好的dom，初始化echarts实例
     //   var myChart = this.$echarts.init(document.getElementById('main'));

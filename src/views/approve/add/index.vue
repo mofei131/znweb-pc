@@ -113,7 +113,7 @@
                 :key="keyValue"
                 :props="{ checkStrictly: true }"
                 clearable
-                @change="change1(index)"
+                @change="change1(index,item)"
                 style="width: 300px"
               ></el-cascader>
             </el-form-item>
@@ -1003,7 +1003,7 @@ export default {
         });
       }
     },
-    change1(index) {
+    change1(index,item) {
       this.userList2 = [];
       this.approveTowList[index].userName = "";
       // 获取二级审批人
@@ -1011,7 +1011,8 @@ export default {
         selectUserItemByDeptId(
           this.approveTowList[index].deptId[this.approveTowList[index].deptId.length - 1]
         ).then((response) => {
-          this.userList2 = response.data;
+          // this.userList2 = response.data;
+          this.approveTowList[index].userList = response.data;
         });
       }
     },

@@ -37,10 +37,16 @@
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="3" style="margin-left:12px;">
-        <span>资金占用合计(万元)：</span><span v-text="tsr">0.00</span>
+        <span>期初占用(万元)：</span> <span v-text="tqc">0.00</span>
       </el-col>
-      <el-col :span="3" style="margin-left:12px;">
-        <span>收入金额(万元)：</span> <span v-text="tzy">0.00</span>
+      <el-col :span="3" >
+        <span>期末占用(万元)：</span><span v-text="tqm">0.00</span>
+      </el-col>
+      <el-col :span="3" >
+        <span>平均占用(万元)：</span><span v-text="tpj">0.00</span>
+      </el-col>
+      <el-col :span="3" >
+        <span>收入金额(万元)：</span><span v-text="tsr">0.00</span>
       </el-col>
       <el-col :span="3" >
         <span>资金周转率：</span><span v-text="tzz">0.00</span>
@@ -98,16 +104,46 @@
         </template>
       </el-table-column>
       <el-table-column label="代办人" align="center" prop="userName" />
-      <el-table-column label="资金占用情况(万元)" align="center" prop="takeupPrice" >
+      <el-table-column label="期初占用(万元)" align="center" prop="starPrice" >
         <template slot-scope="scope">
           {{
-            Number(scope.row.takeupPrice)
+            Number(scope.row.starPrice)
               .toFixed(2)
               .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
+      <el-table-column label="期末占用(万元)" align="center" prop="endPrice" >
+        <template slot-scope="scope">
+          {{
+            Number(scope.row.endPrice)
+              .toFixed(2)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
+        </template>
+      </el-table-column>
+      <el-table-column label="平均占用(万元)" align="center" prop="pjPrice" >
+        <template slot-scope="scope">
+          {{
+            Number(scope.row.pjPrice)
+              .toFixed(2)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
+        </template>
+      </el-table-column>
+<!--      <el-table-column label="资金占用情况(万元)" align="center" prop="takeupPrice" >-->
+<!--        <template slot-scope="scope">-->
+<!--          {{-->
+<!--            Number(scope.row.takeupPrice)-->
+<!--              .toFixed(2)-->
+<!--              .toString()-->
+<!--              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")-->
+<!--          }}-->
+<!--        </template>-->
+<!--      </el-table-column>-->
       <el-table-column label="收入金额(万元)" align="center" prop="profitsPrice" >
         <template slot-scope="scope">
           {{
@@ -206,8 +242,12 @@ export default {
       userOptions:[],
       //审核状态集合
       stateOptions:[],
-      //占用合计
-      tzy:null,
+      //期初合计
+      tqc:null,
+      //期末合计
+      tqm:null,
+      //平均合计
+      tpj:null,
       //收入合计
       tsr:null,
       //周转率合计
@@ -246,13 +286,15 @@ export default {
     /** 查询项目资金占用情况列表 */
     getList() {
       this.loading = true;
-      listPtakeup(this.queryParams).then(response => {
+      listPtakeup(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
         this.ptakeupList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
       listPtakeupAll(this.queryParams).then(response => {
-        this.tzy = parseFloat(response.data.tzy).toFixed(2);
+        this.tqc = parseFloat(response.data.tqm).toFixed(2);
+        this.tqm = parseFloat(response.data.tqc).toFixed(2);
+        this.tpj = parseFloat(response.data.tpj).toFixed(2);
         this.tsr = parseFloat(response.data.tsr).toFixed(2);
         this.tzz = parseFloat(response.data.tzz).toFixed(2);
       });
