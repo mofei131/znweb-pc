@@ -53,3 +53,12 @@ export function getOcrData(data) {
   })
 }
 
+
+// 初始化数据
+export function findInit(data) {
+  return request({
+    url: '/project/sticket/findInit',
+    method: 'get',
+    params: data
+  })
+}

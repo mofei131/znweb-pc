@@ -83,13 +83,11 @@
     </el-row>
 
     <el-table v-loading="loading" :data="contractList" @selection-change="handleSelectionChange">
-<!--      <el-table-column type="selection" width="55" align="center" />-->
       <el-table-column label="项目名称" align="center" prop="stName" />
       <el-table-column label="合同名称" align="center" prop="name" />
       <el-table-column label="合同类型" align="center" prop="type" :formatter="typeFormat" />
       <el-table-column label="货品名称" align="center" prop="goodsName" />
       <el-table-column label="预计吨数" align="center" prop="expectNumber" />
-<!--      <el-table-column label="是否补充合同" align="center" prop="issc" />-->
       <el-table-column label="审批状态" align="center" prop="state" :formatter="stateFormat" />
       <el-table-column label="创建时间" align="center" prop="createTime" width="180">
         <template slot-scope="scope">
@@ -134,20 +132,6 @@
             @click="handleLook(scope.row)"
             v-hasPermi="['project:contract:edit']"
           >查看</el-button>
-<!--          <el-button-->
-<!--            size="mini"-->
-<!--            type="text"-->
-<!--            icon="el-icon-edit"-->
-<!--            @click="handleUpdate(scope.row)"-->
-<!--            v-hasPermi="['project:contract:edit']"-->
-<!--          >修改</el-button>-->
-<!--          <el-button-->
-<!--            size="mini"-->
-<!--            type="text"-->
-<!--            icon="el-icon-delete"-->
-<!--            @click="handleDelete(scope.row)"-->
-<!--            v-hasPermi="['project:contract:remove']"-->
-<!--          >删除</el-button>-->
         </template>
       </el-table-column>
     </el-table>
@@ -401,7 +385,32 @@
             </el-col>
           </el-row>
         </div>
-
+        <div  v-if="form.type=='5'">
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="客户名称" prop="khName">
+                <el-input v-model="form.khName" placeholder="请输入客户名称" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="签约时间" prop="signingTime">
+                <el-date-picker clearable size="small" style="width: 100%;"
+                                v-model="form.signingTime"
+                                type="date"
+                                value-format="yyyy-MM-dd"
+                                placeholder="选择签约时间">
+                </el-date-picker>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="备注" prop="node">
+                <el-input type="textarea" :rows="5" v-model="form.node" placeholder="请输入备注" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </div>
         <el-row v-if="bc==3">
           <el-col :span="12">
             <el-form-item label="合同模板" prop="file">
@@ -790,7 +799,9 @@ export default {
         createTime: null,
         fileList:[],
         content:null,
-        filebcList:[]
+        filebcList:[],
+        khName:null,
+        node:null,
       };
       this.resetForm("form");
     },

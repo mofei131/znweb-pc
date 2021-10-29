@@ -16,6 +16,18 @@
           />
         </el-select>
       </el-form-item>
+      <el-form-item label="创建时间">
+        <el-date-picker
+          v-model="dateRange"
+          size="small"
+          style="width: 240px"
+          value-format="yyyy-MM-dd"
+          type="daterange"
+          range-separator="-"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+        ></el-date-picker>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -111,7 +123,7 @@
         </template>
       </el-table-column>
       <el-table-column label="审批状态" align="center" prop="state" :formatter="stateFormat" />
-      <el-table-column label="付款状态" align="center" prop="fkState"  />
+<!--      <el-table-column label="付款状态" align="center" prop="fkState"  />-->
       <el-table-column label="操作"   width="160" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -119,22 +131,19 @@
             type="text"
             icon="el-icon-edit"
             @click="handleLook(scope.row)"
-            v-hasPermi="['project:apayment:edit']"
           >查看</el-button>
           <el-button v-if="scope.row.state=='3' && scope.row.fkState=='未付款'"
             size="mini"
             type="text"
             icon="el-icon-edit"
             @click="handleUpdatePayTime(scope.row)"
-            v-hasPermi="['project:apayment:edit']"
           >付款</el-button>
-          <el-button v-if="scope.row.state=='3' && scope.row.fkState=='未付款' && scope.row.payTime!=null"
+          <el-button v-if="scope.row.state=='3'"
             size="mini"
             type="text"
             icon="el-icon-edit"
-            @click="handleUpdateFkState(scope.row)"
-            v-hasPermi="['project:apayment:edit']"
-          >完成</el-button>
+            @click="openPayDetailss(scope.row)"
+          >付款明细</el-button>
 
 <!--          <el-button-->
 <!--            size="mini"-->
@@ -443,7 +452,7 @@
               </el-table-column>
             </el-table>
           </div>
-          <!--          合计-->
+<!--          合计-->
           <el-row>
             <el-col :span="6">
               <el-form-item label="合计重量" prop="totalWeight">
@@ -456,76 +465,6 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <!--          煤炭质量-->
-<!--          <el-form-item label="煤炭质量" >-->
-<!--          </el-form-item>-->
-<!--          <el-row>-->
-<!--            <el-col :span="24">-->
-<!--              <el-table :data="tabledatas" fit style="margin-bottom: 30px;">-->
-<!--                <el-table-column   label="水分(%)">-->
-<!--                  <template slot-scope="scope"  prop="coalSf">-->
-<!--                    <el-input v-model="form.coalSf" placeholder="请输入" />-->
-<!--                  </template>-->
-<!--                </el-table-column>-->
-<!--                <el-table-column  label="内水(%)">-->
-<!--                  <template slot-scope="scope"  prop="coalNs">-->
-<!--                    <el-input v-model="form.coalNs" placeholder="请输入" />-->
-<!--                  </template>-->
-<!--                </el-table-column>-->
-<!--                <el-table-column  label="灰份(%)">-->
-<!--                  <el-table-column  label="Aad">-->
-<!--                    <template slot-scope="scope"  prop="coalAad">-->
-<!--                      <el-input v-model="form.coalAad" placeholder="请输入" />-->
-<!--                    </template>-->
-<!--                  </el-table-column>-->
-<!--                  <el-table-column  label="ad">-->
-<!--                    <template slot-scope="scope"  prop="coalAd">-->
-<!--                      <el-input v-model="form.coalAd" placeholder="请输入" />-->
-<!--                    </template>-->
-<!--                  </el-table-column>-->
-<!--                </el-table-column>-->
-<!--                <el-table-column label="挥发份(%)">-->
-<!--                  <el-table-column  label="Vda">-->
-<!--                    <template slot-scope="scope"  prop="coalVda">-->
-<!--                      <el-input v-model="form.coalVda" placeholder="请输入" />-->
-<!--                    </template>-->
-<!--                  </el-table-column>-->
-<!--                  <el-table-column  label="Vdae">-->
-<!--                    <template slot-scope="scope"  prop="coalVdae">-->
-<!--                      <el-input v-model="form.coalVdae" placeholder="请输入" />-->
-<!--                    </template>-->
-<!--                  </el-table-column>-->
-<!--                </el-table-column>-->
-<!--                <el-table-column  label="灰熔点(℃)">-->
-<!--                  <template slot-scope="scope"  prop="coalHrd">-->
-<!--                    <el-input v-model="form.coalHrd" placeholder="请输入" />-->
-<!--                  </template>-->
-<!--                </el-table-column>-->
-<!--                <el-table-column   label="固定碳(%)">-->
-<!--                  <template slot-scope="scope"  prop="coalGdt">-->
-<!--                    <el-input v-model="form.coalGdt" placeholder="请输入" />-->
-<!--                  </template>-->
-<!--                </el-table-column>-->
-<!--                <el-table-column  label="含硫量(%)">-->
-<!--                  <template slot-scope="scope"  prop="coalHll">-->
-<!--                    <el-input v-model="form.coalHll" placeholder="请输入" />-->
-<!--                  </template>-->
-<!--                </el-table-column>-->
-<!--                <el-table-column label="热值(%)">-->
-<!--                  <el-table-column  label="Qgrad">-->
-<!--                    <template slot-scope="scope"   prop="coalQgrad">-->
-<!--                      <el-input v-model="form.coalQgrad" placeholder="请输入" />-->
-<!--                    </template>-->
-<!--                  </el-table-column>-->
-<!--                  <el-table-column  label="Qntar">-->
-<!--                    <template slot-scope="scope"   prop="coalQntar">-->
-<!--                      <el-input v-model="form.coalQntar" placeholder="请输入" />-->
-<!--                    </template>-->
-<!--                  </el-table-column>-->
-<!--                </el-table-column>-->
-<!--              </el-table>-->
-<!--            </el-col>-->
-<!--          </el-row>-->
 <!--          奖惩-->
           <el-row>
             <el-col :span="24">
@@ -595,19 +534,38 @@
 <!--            </el-col>-->
             <el-col :span="12">
               <el-form-item label="预付单价" prop="expectPrice">
-                <el-input  v-model="form.expectPrice" placeholder="请输入预计单价" />
+                <el-input @change="jsdj"  v-model="form.expectPrice" placeholder="请输入预计单价" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+<!--          <el-row>-->
+<!--            <el-col :span="12">-->
+<!--              <el-form-item label="保底服务费期限(天)" prop="mfsp">-->
+<!--                <el-input v-model="form.mfsp" placeholder="请输入保底服务费期限" />-->
+<!--              </el-form-item>-->
+<!--            </el-col>-->
+<!--            <el-col :span="12">-->
+<!--              <el-form-item label="成本年服务费率(%)" prop="rateYear">-->
+<!--                <el-input  v-model="form.rateYear" placeholder="请输入成本年服务费率" />-->
+<!--              </el-form-item>-->
+<!--            </el-col>-->
+<!--          </el-row>-->
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="扣款金额" prop="yfPice">
+                <el-input v-model="form.kkPrice"  placeholder="请输入扣款金额" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="扣款备注" prop="yfPice">
+                <el-input v-model="form.kkNode"  placeholder="请输入扣款备注" />
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="保底服务费期限(天)" prop="mfsp">
-                <el-input v-model="form.mfsp" placeholder="请输入保底服务费期限" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="成本年服务费率(%)" prop="rateYear">
-                <el-input  v-model="form.rateYear" placeholder="请输入成本年服务费率" />
+              <el-form-item label="运费金额" prop="yfPrice">
+                <el-input @change="atochange"  v-model="form.yfPrice"  placeholder="请输入运费金额" />
               </el-form-item>
             </el-col>
           </el-row>
@@ -692,6 +650,32 @@
         <div v-if="isLook=='4'">
           <el-row>
             <el-col :span="12">
+              <el-form-item label="应付金额：" >
+                <span v-text="form.actualPrice"></span>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="已付金额：" >
+               <span v-text="form.ypayPrice"></span>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="剩余应付：" >
+                <span v-text="form.actualPrice-form.ypayPrice"></span>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="付款金额(元)" prop="payPrice">
+                <el-input v-model="form.payPrice" placeholder="请输入付款金额" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
               <el-form-item label="付款日期" prop="payTime">
                 <el-date-picker clearable size="small" style="width: 100%;"
                                 v-model="form.payTime"
@@ -699,6 +683,18 @@
                                 value-format="yyyy-MM-dd"
                                 placeholder="选择付款日期">
                 </el-date-picker>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="年息服务费率(%)" prop="rateYear">
+                <el-input v-model="form.rateYear" placeholder="请输入年息服务费率" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="保底服务费期限(天)" prop="mfsp">
+                <el-input v-model="form.mfsp" placeholder="请输入保底服务费期限" />
               </el-form-item>
             </el-col>
           </el-row>
@@ -754,7 +750,7 @@ export default {
         callback();
       }
     };
-    // 可空无两位小数点
+    // 可空两位小数点
     const validatePrice3 = (rule,value,callback) =>{
       let reg = /^(\-|\+)?(([1-9]{1}\d*)|(0{1}))(\.\d{1,2})?$/
       // let reg = /^(\-|\+)?\d+(\.\d+)?$/;
@@ -849,6 +845,8 @@ export default {
       multipleSelection: [],
       //提前付款
       tqpay:0,
+      // 日期范围
+      dateRange: [],
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -900,7 +898,16 @@ export default {
         ],
         actualPrice: [
           { required: true, validator:validatePrice, trigger: "blur" }
-        ]
+        ],
+        yfPrice: [
+          { required: true, validator:validatePrice, trigger: "blur" }
+        ],
+        kkPrice: [
+          {  validator:validatePrice3, trigger: "blur" }
+        ],
+        payPrice: [
+          { required: true, validator:validatePrice, trigger: "blur" }
+        ],
       }
     };
   },
@@ -923,7 +930,7 @@ export default {
     /** 查询预付款列表 */
     getList() {
       this.loading = true;
-      listApayment(this.queryParams).then(response => {
+      listApayment(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
         this.apaymentList = response.rows;
         this.total = response.total;
         this.loading = false;
@@ -984,7 +991,11 @@ export default {
         createTime: null,
         grnList:[],
         gryList:[],
-        fileList:[]
+        fileList:[],
+        yfPrice:null,
+        kkPrice:null,
+        kkNode:null,
+        ypayPrice:null,
       };
       this.resetForm("form");
     },
@@ -1071,30 +1082,9 @@ export default {
       });
     },
 
-    /** 修改按钮操作 */
-    handleUpdateFkState(row) {
-      this.reset();
-      const apyamentId = row.apyamentId || this.ids
-      let self = this
-      this.$confirm('是否确定完成付款?', "警告", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      }).then(function() {
-        self.submitFormFk(apyamentId);
-      })
-    },
-    submitFormFk(id) {
-      getApayment(id).then(response => {
-        this.form = response.data;
-        this.form.fkState = '已付款';
-        this.form.type=null
-        updateApayment(this.form).then(response => {
-          this.msgSuccess("付款成功");
-          this.open = false;
-          this.getList();
-        });
-      });
+    /** 查看付款明细 */
+    openPayDetailss(row) {
+      this.$router.push({name: 'paydetailsList', query:{type:'apayment',pid:row.apyamentId}})
     },
     /** 提交按钮 */
     submitForm() {
@@ -1456,17 +1446,23 @@ export default {
           this.msgError("请选择项目")
           return
         }
-        //查询煤炭销售合同
-        let c2 = {"stId": this.form.stId2, "type": "2"};
-        getContract(c2).then(response => {
-          if(response.data!=null){
-            //预付单价 吨的预付单价
-            this.form.expectPrice = (parseFloat(response.data.price)+parseFloat(re)).toFixed(2)
-          }else {
-            this.form.expectPrice = 0
-          }
+
+        if(this.form.expectPrice!=null && this.form.expectPrice!=''){
+          this.form.expectPrice = (parseFloat(this.form.expectPrice)+parseFloat(re)).toFixed(2)
           this.jste();
-        });
+        }else {
+          //查询煤炭销售合同
+          let c2 = {"stId": this.form.stId2, "type": "2"};
+          getContract(c2).then(response => {
+            if(response.data!=null){
+              //预付单价 吨的预付单价
+              this.form.expectPrice = (parseFloat(response.data.price)+parseFloat(re)).toFixed(2)
+            }else {
+              this.form.expectPrice = 0
+            }
+            this.jste();
+          });
+        }
       }else if(this.form.type=='热值'){
         if(this.form.rzPrice!=null && this.form.rzPrice!='' && this.form.averageRz!=null && this.form.averageRz!=''){
           this.form.expectPrice = (this.form.rzPrice*this.form.averageRz+parseFloat(re)).toFixed(2)
@@ -1574,13 +1570,17 @@ export default {
 
       let pt=0
       let pp=0
+      let yf=0
       if(this.form.payTprice!=null && this.form.payTprice!=''){
         pt = this.form.payTprice
       }
       if(this.form.prepaidPrice!=null && this.form.prepaidPrice!=''){
         pp = this.form.prepaidPrice
       }
-      let sp = pt-pp;
+      if(this.form.yfPrice!=null && this.form.yfPrice!=''){
+        yf = this.form.yfPrice
+      }
+      let sp = pt-pp-yf;
       if(sp>=0){
         this.form.actualPrice=sp.toFixed(2)
       }else{

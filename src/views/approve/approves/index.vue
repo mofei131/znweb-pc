@@ -2967,6 +2967,51 @@
         </el-form>
       </div>
 
+      <div v-if="initData.processType=='17'">
+        <el-form label-width="20px;" label-position="left">
+          <!--    实际收款-->
+          <el-row class="head-title">
+            <el-col :span="19">
+              <el-form-item label="基本信息"></el-form-item>
+            </el-col>
+            <el-col :span="4">
+              <span style="color: #FF0000;">{{stateF(form.state)}}</span>
+            </el-col>
+          </el-row>
+          <el-row class="head-text">
+            <el-col :span="4" :offset="1">
+              项目名称：<span v-text="form.stName"></span>
+            </el-col>
+            <el-col :span="4">
+              预估应收：<span v-text="form.ygPrice"></span>
+            </el-col>
+            <el-col :span="4">
+              开票金额：<span v-text="form.kpPrice"></span>
+            </el-col>
+            <el-col :span="4">
+              结算单价：<span v-text="form.jsDj"></span>
+            </el-col>
+            <el-col :span="4" >
+              结算煤量(元)：<span v-text="form.jsMl"></span>
+            </el-col>
+          </el-row>
+
+          <el-row class="head-text">
+            <el-col :span="4" :offset="1">
+              结算煤款：<span v-text="form.jsMk"></span>
+            </el-col>
+            <el-col :span="4" >
+              结算税款(元)：<span v-text="form.jsTax"></span>
+            </el-col>
+
+          </el-row>
+
+
+
+
+        </el-form>
+      </div>
+
 
       <div style="margin-top: 30px">
         <el-form label-width="20px;" label-position="left">
@@ -3055,6 +3100,7 @@ import {getSticket} from "@/api/project/sticket";
 import {getKp} from "@/api/project/kp";
 import {getDp} from "@/api/project/dp";
 import {getContractList, getSticketList} from "@/api/project/all";
+import { getRealsk } from '@/api/project/realsk'
 export default {
   props: ["mode", "initData"],
   data() {
@@ -3337,6 +3383,10 @@ export default {
         })
       }else if(typeId=='16'){
         getDp(stId).then(response => {
+          this.form=response.data
+        })
+      }else if(typeId=='17'){
+        getRealsk(stId).then(response => {
           this.form=response.data
         })
       }

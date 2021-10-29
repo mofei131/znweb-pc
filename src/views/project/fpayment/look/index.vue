@@ -118,16 +118,13 @@
       </el-row>
       <el-row class="head-text">
         <el-col :span="5" :offset="1">
-          电厂结算金额(元)：<span v-text="form.zzPrice"></span>
+          电厂结算金额(元)：<span v-text="form.jst"></span>
         </el-col>
         <el-col :span="5">
-          税款：<span v-text="form.tax"></span>
+          税款：<span v-text="form.jstax"></span>
         </el-col>
         <el-col :span="5">
           货品单价(元)：<span v-text="form.price"></span>
-        </el-col>
-        <el-col :span="5">
-          付款日期：<span>{{parseTime(form.payTime, '{y}-{m}-{d}') }}</span>
         </el-col>
       </el-row>
 
@@ -164,7 +161,7 @@
           贴息：<span v-text="form.tx"></span>
         </el-col>
         <el-col :span="5">
-          其他：<span v-text="form.qt"></span>
+          其他费用：<span v-text="form.qt"></span>
         </el-col>
       </el-row>
 
@@ -179,7 +176,7 @@
           已付金额：<span v-text="form.yfPrice"></span>
         </el-col>
         <el-col :span="5">
-          金额：<span v-text="form.je"></span>
+          调整金额：<span v-text="form.je"></span>
         </el-col>
       </el-row>
       <el-row class="head-text">

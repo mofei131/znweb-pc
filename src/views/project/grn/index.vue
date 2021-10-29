@@ -484,7 +484,7 @@ export default {
           { required: true, validator: validatePrice2, trigger: "blur" }
         ],
         batch: [
-          { required: true, validator: validatePrice2, trigger: "blur" }
+          { required: true, message: "请输入批次", trigger: "blur" }
         ],
         basePrice: [
           { required: true, validator: validatePrice, trigger: "blur" }

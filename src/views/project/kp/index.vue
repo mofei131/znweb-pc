@@ -283,6 +283,7 @@
 <script>
 import { listKp, getKp, delKp, addKp, updateKp,getStList } from "@/api/project/kp";
 import {getToken} from "@/utils/auth";
+import { findInit } from '@/api/project/realsk'
 
 export default {
   name: "Kp",

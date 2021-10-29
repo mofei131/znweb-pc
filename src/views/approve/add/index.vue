@@ -1013,6 +1013,7 @@ export default {
         ).then((response) => {
           // this.userList2 = response.data;
           this.approveTowList[index].userList = response.data;
+          this.keyValue++
         });
       }
     },

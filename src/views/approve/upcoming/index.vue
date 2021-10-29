@@ -63,6 +63,8 @@
                     ? "开票申请"
                     : scope.row.processType == "16"
                     ? "期间费用"
+                    : scope.row.processType == "17"
+                    ? "实际收款"
                     : ""
                 }}
               </template>
@@ -128,6 +130,8 @@
                     ? "开票申请"
                     : scope.row.processType == "16"
                     ? "期间费用"
+                    : scope.row.processType == "17"
+                    ? "实际收款"
                     : ""
                 }}
               </template>

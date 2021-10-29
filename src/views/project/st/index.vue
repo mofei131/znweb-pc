@@ -1216,7 +1216,6 @@ export default {
           { required: true, message: "请选择合同签署", trigger: "blur" }
         ],
         tContracttime: [
-          { required: true, message: "请选择合同后置时间", trigger: "blur" }
         ],
         tTransporttype: [
           { required: true, message: "请选择运输方式", trigger: "blur" }

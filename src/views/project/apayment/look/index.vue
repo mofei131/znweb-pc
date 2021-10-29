@@ -192,18 +192,28 @@
         </el-col>
       </el-row>
 
+<!--      <el-row class="head-text">-->
+<!--        <el-col :span="4" :offset="1">-->
+<!--          付款日期：<span>{{ parseTime(form.payTime, '{y}-{m}-{d}') }}</span>-->
+<!--        </el-col>-->
+<!--        <el-col :span="4">-->
+<!--          成本年服务费率(%)：<span v-text="form.rateYear"></span>-->
+<!--        </el-col>-->
+<!--        <el-col :span="4">-->
+<!--          保底服务费期限(天)：<span v-text="form.mfsp"></span>-->
+<!--        </el-col>-->
+<!--      </el-row>-->
       <el-row class="head-text">
         <el-col :span="4" :offset="1">
-          付款日期：<span>{{ parseTime(form.payTime, '{y}-{m}-{d}') }}</span>
+          扣款金额：<span v-text="form.kkPrice"></span>
         </el-col>
         <el-col :span="4">
-          成本年服务费率(%)：<span v-text="form.rateYear"></span>
+          扣款备注：<span v-text="form.kkNode"></span>
         </el-col>
-        <el-col :span="4">
-          保底服务费期限(天)：<span v-text="form.mfsp"></span>
+        <el-col :span="4" >
+          运费金额：<span v-text="form.yfPrice"></span>
         </el-col>
       </el-row>
-
 
       <el-row class="head-text">
         <el-col :span="4" :offset="1">

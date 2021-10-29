@@ -554,6 +554,51 @@ export const constantRoutes = [
       },
     ]
   },
+  {
+    path: '/paydetails',
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: 'list',
+        component: (resolve) => require(['@/views/project/paydetails/index'], resolve),
+        name: 'paydetailsList',
+        meta: { title: '付款明细'}
+      },
+    ]
+  },
+  {
+    path: '/wldetails',
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: 'look/:wldetailsId(\\d+)',
+        component: (resolve) => require(['@/views/project/wldetails/look/index'], resolve),
+        name: 'wldetailsLook',
+        meta: { title: '查看物流收票'}
+      },
+    ]
+  },
+  {
+    path: '/realsk',
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: 'look/:realskId(\\d+)',
+        component: (resolve) => require(['@/views/project/realsk/look/index'], resolve),
+        name: 'realskLook',
+        meta: { title: '查看实际收款'}
+      },
+      {
+        path: 'edit',
+        component: (resolve) => require(['@/views/project/realsk/index'], resolve),
+        name: 'realskEdit',
+        meta: { title: '修改实际收款'}
+      },
+    ]
+  },
 ]
 
 export default new Router({

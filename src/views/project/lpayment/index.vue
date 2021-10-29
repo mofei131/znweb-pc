@@ -76,74 +76,11 @@
 
     <el-table v-loading="loading" :data="lpaymentList" @selection-change="handleSelectionChange">
       <el-table-column label="项目名称" align="center" prop="stName" />
-      <el-table-column label="物流公司" align="center" prop="wlc" />
-      <el-table-column label="物流类型" align="center" prop="type" />
-      <el-table-column label="车数" align="center" prop="cs" />
-      <el-table-column label="吨数" align="center" prop="ds" />
-<!--      <el-table-column label="运费总额(元)" align="center" prop="yTprice" >-->
-<!--        <template slot-scope="scope">-->
-<!--          {{-->
-<!--            Number(scope.row.yTprice)-->
-<!--              .toFixed(2)-->
-<!--              .toString()-->
-<!--              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")-->
-<!--          }}-->
-<!--        </template>-->
-<!--      </el-table-column>-->
-<!--      <el-table-column label="站台费总额(元)" align="center" prop="ztTprice" >-->
-<!--        <template slot-scope="scope">-->
-<!--          {{-->
-<!--            Number(scope.row.ztTprice)-->
-<!--              .toFixed(2)-->
-<!--              .toString()-->
-<!--              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")-->
-<!--          }}-->
-<!--        </template>-->
-<!--      </el-table-column>-->
-<!--      <el-table-column label="其他费用总额(元)" align="center" prop="otherTprice" >-->
-<!--        <template slot-scope="scope">-->
-<!--          {{-->
-<!--            Number(scope.row.otherTprice)-->
-<!--              .toFixed(2)-->
-<!--              .toString()-->
-<!--              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")-->
-<!--          }}-->
-<!--        </template>-->
-<!--      </el-table-column>-->
-<!--      <el-table-column label="金额合计(元)" align="center" prop="jet" >-->
-<!--        <template slot-scope="scope">-->
-<!--          {{-->
-<!--            Number(scope.row.jet)-->
-<!--              .toFixed(2)-->
-<!--              .toString()-->
-<!--              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")-->
-<!--          }}-->
-<!--        </template>-->
-<!--      </el-table-column>-->
-<!--      <el-table-column label="价税金额合计(元)" align="center" prop="jst" >-->
-<!--        <template slot-scope="scope">-->
-<!--          {{-->
-<!--            Number(scope.row.jst)-->
-<!--              .toFixed(2)-->
-<!--              .toString()-->
-<!--              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")-->
-<!--          }}-->
-<!--        </template>-->
-<!--      </el-table-column>-->
-      <el-table-column label="不含税金额合计(元)" align="center" prop="tntPrice" >
+      <el-table-column label="运输类型" align="center" prop="type" />
+      <el-table-column label="实付金额(元)" align="center" prop="tntPrice" >
         <template slot-scope="scope">
           {{
             Number(scope.row.tntPrice)
-              .toFixed(2)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
-          }}
-        </template>
-      </el-table-column>
-      <el-table-column label="补税金额(元)" align="center" prop="bsPrice" >
-        <template slot-scope="scope">
-          {{
-            Number(scope.row.bsPrice)
               .toFixed(2)
               .toString()
               .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
@@ -185,7 +122,7 @@
             v-hasPermi="['project:lpayment:edit']"
           >修改</el-button>
           <el-button
-            v-if="scope.row.outPrice < (scope.row.tntPrice+scope.row.bsPrice)"
+            v-if="scope.row.outPrice < scope.row.tntPrice"
             size="mini"
             type="text"
             icon="el-icon-edit"
@@ -222,20 +159,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-<!--          <el-row>-->
-<!--            <el-col :span="12">-->
-<!--              <el-form-item label="合同名称" prop="contractName">-->
-<!--                <el-select filterable  v-model="form.contractId" placeholder="请选择合同" style="width: 100%;">-->
-<!--                  <el-option-->
-<!--                    v-for="obj in contractNameOptions"-->
-<!--                    :key="obj.contractId"-->
-<!--                    :label="obj.name"-->
-<!--                    :value="obj.name+'-&#45;&#45;'+obj.contractId"-->
-<!--                  ></el-option>-->
-<!--                </el-select>-->
-<!--              </el-form-item>-->
-<!--            </el-col>-->
-<!--          </el-row>-->
+
         <el-row>
           <el-col :span="12">
             <el-form-item label="运输类型" prop="type">
@@ -246,8 +170,24 @@
             </el-form-item>
           </el-col>
         </el-row>
+
+          <el-row v-if="isLook==1">
+            <el-col :span="12">
+              <el-form-item label="实付金额" prop="tntPrice" >
+                <el-input   v-model="form.tntPrice"  placeholder="请输入实付金额" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+        <el-row v-if="isLook==2">
+          <el-col :span="12">
+            <el-form-item label="实付金额" prop="tntPrice" >
+              <span v-text="form.tntPrice"></span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
         <!--        选择入库单-->
-        <div v-if="noedit!=2">
+        <div v-if="false">
           <el-popover
             placement="bottom-start"
             width="100%"
@@ -313,7 +253,7 @@
           </el-popover>
         </div>
         <!--        显示入库单-->
-        <div  style="margin-bottom: 30px">
+        <div  v-if="false" style="margin-bottom: 30px">
           <el-table
             ref="singleTable"
             :data="tableselData"
@@ -383,198 +323,99 @@
             </el-table-column>
           </el-table>
         </div>
-
-<!--        <el-row>-->
-<!--          <el-col :span="12">-->
-<!--            <el-form-item label="运费金额(元)" prop="yPrice">-->
-<!--              <el-input v-model="form.yPrice" @change="jsy" placeholder="请输入运费金额(元)" />-->
-<!--            </el-form-item>-->
-<!--          </el-col>-->
-<!--          <el-col :span="12">-->
-<!--            <el-form-item label="运费税率(%)" prop="yRate">-->
-<!--              <el-input v-model="form.yRate" @change="jsy" placeholder="请输入运费税率(%)" />-->
-<!--            </el-form-item>-->
-<!--          </el-col>-->
-<!--        </el-row>-->
-<!--        <el-row>-->
-<!--          <el-col :span="12">-->
-<!--            <el-form-item label="运费税额(元)" prop="yTax">-->
-<!--              <el-input  v-model="form.yTax" placeholder="请输入运费税额(元)" />-->
-<!--            </el-form-item>-->
-<!--          </el-col>-->
-<!--          <el-col :span="12">-->
-<!--            <el-form-item label="运费价税合计(元)" prop="yTprice">-->
-<!--              <el-input  v-model="form.yTprice" placeholder="请输入运费价税合计(元)" />-->
-<!--            </el-form-item>-->
-<!--          </el-col>-->
-<!--        </el-row>-->
-<!--        <el-row>-->
-<!--          <el-col :span="12">-->
-<!--            <el-form-item label="站台费" prop="ztType">-->
-<!--                <el-radio-group v-model="form.ztType">-->
-<!--                  <el-radio label="有">有</el-radio>-->
-<!--                  <el-radio label="无">无</el-radio>-->
-<!--                </el-radio-group>-->
-<!--            </el-form-item>-->
-<!--          </el-col>-->
-<!--        </el-row>-->
-<!--          <div v-if="form.ztType=='有'">-->
-<!--            <el-row>-->
-<!--              <el-col :span="12">-->
-<!--                <el-form-item label="站台费金额(元)" prop="ztPrice">-->
-<!--                  <el-input v-model="form.ztPrice" @change="jszt" placeholder="请输入站台费" />-->
-<!--                </el-form-item>-->
-<!--              </el-col>-->
-<!--              <el-col :span="12">-->
-<!--                <el-form-item label="站台费税率(%)" prop="ztRate">-->
-<!--                  <el-input v-model="form.ztRate" @change="jszt" placeholder="请输入站台费税率(%)" />-->
-<!--                </el-form-item>-->
-<!--              </el-col>-->
-<!--            </el-row>-->
-<!--            <el-row>-->
-<!--              <el-col :span="12">-->
-<!--                <el-form-item label="站台费税额(元)" prop="ztTax">-->
-<!--                  <el-input  v-model="form.ztTax" placeholder="请输入站台费税额(元)" />-->
-<!--                </el-form-item>-->
-<!--              </el-col>-->
-<!--              <el-col :span="12">-->
-<!--                <el-form-item label="站台费价税合计(元)" prop="ztTprice">-->
-<!--                  <el-input  v-model="form.ztTprice" placeholder="请输入站台费价税合计(元)" />-->
-<!--                </el-form-item>-->
-<!--              </el-col>-->
-<!--            </el-row>-->
-<!--          </div>-->
-<!--        <el-row>-->
-<!--          <el-col :span="12">-->
-<!--            <el-form-item label="其他费用" prop="otherType">-->
-<!--              <el-radio-group v-model="form.otherType">-->
-<!--                <el-radio label="有">有</el-radio>-->
-<!--                <el-radio label="无">无</el-radio>-->
-<!--              </el-radio-group>-->
-<!--            </el-form-item>-->
-<!--          </el-col>-->
-<!--        </el-row>-->
-<!--          <div v-if="form.otherType=='有'">-->
-<!--            <el-row>-->
-<!--              <el-col :span="12">-->
-<!--                <el-form-item label="其他费用金额(元)" prop="otherPrice">-->
-<!--                  <el-input v-model="form.otherPrice" @change="jsother" placeholder="请输入其他费用" />-->
-<!--                </el-form-item>-->
-<!--              </el-col>-->
-<!--              <el-col :span="12">-->
-<!--                <el-form-item label="其他费用税率(%)" prop="otherRate">-->
-<!--                  <el-input v-model="form.otherRate" @change="jsother" placeholder="请输入其他费用税率(%)" />-->
-<!--                </el-form-item>-->
-<!--              </el-col>-->
-<!--            </el-row>-->
-<!--            <el-row>-->
-<!--              <el-col :span="12">-->
-<!--                <el-form-item label="其他费用税额(元)" prop="otherTax">-->
-<!--                  <el-input  v-model="form.otherTax" placeholder="请输入其他费用税额(元)" />-->
-<!--                </el-form-item>-->
-<!--              </el-col>-->
-<!--              <el-col :span="12">-->
-<!--                <el-form-item label="其他费用价税合计(元)" prop="otherTprice">-->
-<!--                  <el-input  v-model="form.otherTprice" placeholder="请输入其他费用价税合计(元)" />-->
-<!--                </el-form-item>-->
-<!--              </el-col>-->
-<!--            </el-row>-->
-<!--          </div>-->
-
-
+        <!--物流收票明细-->
+        <el-row v-if="false">
+          <el-col :span="12">
+            <el-button type="primary" @click="addTableData" style="margin-bottom: 30px;">追加费用</el-button>
+          </el-col>
+        </el-row>
+        <div v-if="false" style="margin-bottom: 30px">
           <el-row>
-            <el-col :span="12">
-              <el-button type="primary" @click="addTableData" style="margin-bottom: 30px;">追加费用</el-button>
-            </el-col>
-          </el-row>
-          <!--资金计划-->
-          <div  style="margin-bottom: 30px">
-            <el-row>
-              <el-col :span="24">
-                <el-table
-                  ref="wlsingleTable"
-                  :data="form.wldetailsList"
-                  :key="tableUpdate"
-                  style="width: 100%">
-                  <el-table-column label="发票号">
-                    <template slot-scope="scope">
-                      <el-form-item label-width="0"  :prop="'wldetailsList.' + scope.$index + '.number'" :rules='rules.number'>
-                        <el-input  v-model="scope.row.number" placeholder="请输入发票号" />
-                      </el-form-item>
-                    </template>
-                  </el-table-column>
-                  <el-table-column label="费用名称">
-                    <template slot-scope="scope">
-                      <el-form-item label-width="0"  :prop="'wldetailsList.' + scope.$index + '.wlType'" :rules='rules.wlType'>
-                        <el-select v-model="scope.row.wlType">
-                          <el-option label="运费金额" value="运费金额" />
-                          <el-option label="装卸服务费"  value="装卸服务费" />
-                          <el-option label="站台费"  value="站台费" />
-                          <el-option label="保险费"  value="保险费" />
-                          <el-option label="取送车费"  value="取送车费" />
-                          <el-option label="印花税"  value="印花税" />
-                          <el-option label="其他"  value="其他" />
-                        </el-select>
-                      </el-form-item>
-                    </template>
-                  </el-table-column>
-                  <el-table-column label="不含税金额">
-                    <template slot-scope="scope">
-                      <el-form-item label-width="0"  :prop="'wldetailsList.' + scope.$index + '.ntPrice'" :rules='rules.ntPrice'>
-                        <el-input @change="jsTaxPrice(scope.$index)" v-model="scope.row.ntPrice" placeholder="请输入不含税金额"/>
-                      </el-form-item>
-                    </template>
-                  </el-table-column>
-                  <el-table-column label="税率">
-                    <template slot-scope="scope">
-                      <el-form-item label-width="0"  :prop="'wldetailsList.' + scope.$index + '.tax'" :rules='rules.tax'>
-                        <el-select  @change="jsTaxPrice(scope.$index)" v-model="scope.row.tax">
-                          <el-option label="1%" value="1" />
-                          <el-option label="3%"  value="3" />
-                          <el-option label="6%"  value="6" />
-                          <el-option label="9%"  value="9" />
-                          <el-option label="13%"  value="13" />
-                        </el-select>
-                      </el-form-item>
-                    </template>
-                  </el-table-column>
-                  <el-table-column label="税额">
-                    <template slot-scope="scope">
-                      <el-form-item label-width="0"  :prop="'wldetailsList.' + scope.$index + '.taxPrice'" :rules='rules.taxPrice'>
-                        <el-input disabled v-model="scope.row.taxPrice" placeholder="请输入税额"/>
-                      </el-form-item>
-                    </template>
-                  </el-table-column>
+            <el-col :span="24">
+              <el-table
+                ref="wlsingleTable"
+                :data="form.wldetailsList"
+                :key="tableUpdate"
+                style="width: 100%">
+                <el-table-column label="发票号">
+                  <template slot-scope="scope">
+                    <el-form-item label-width="0"  :prop="'wldetailsList.' + scope.$index + '.number'" :rules='rules.number'>
+                      <el-input  v-model="scope.row.number" placeholder="请输入发票号" />
+                    </el-form-item>
+                  </template>
+                </el-table-column>
+                <el-table-column label="费用名称">
+                  <template slot-scope="scope">
+                    <el-form-item label-width="0"  :prop="'wldetailsList.' + scope.$index + '.wlType'" :rules='rules.wlType'>
+                      <el-select v-model="scope.row.wlType">
+                        <el-option label="运费金额" value="运费金额" />
+                        <el-option label="装卸服务费"  value="装卸服务费" />
+                        <el-option label="站台费"  value="站台费" />
+                        <el-option label="保险费"  value="保险费" />
+                        <el-option label="取送车费"  value="取送车费" />
+                        <el-option label="印花税"  value="印花税" />
+                        <el-option label="其他"  value="其他" />
+                      </el-select>
+                    </el-form-item>
+                  </template>
+                </el-table-column>
+                <el-table-column label="不含税金额">
+                  <template slot-scope="scope">
+                    <el-form-item label-width="0"  :prop="'wldetailsList.' + scope.$index + '.ntPrice'" :rules='rules.ntPrice'>
+                      <el-input @change="jsTaxPrice(scope.$index)" v-model="scope.row.ntPrice" placeholder="请输入不含税金额"/>
+                    </el-form-item>
+                  </template>
+                </el-table-column>
+                <el-table-column label="税率">
+                  <template slot-scope="scope">
+                    <el-form-item label-width="0"  :prop="'wldetailsList.' + scope.$index + '.tax'" :rules='rules.tax'>
+                      <el-select  @change="jsTaxPrice(scope.$index)" v-model="scope.row.tax">
+                        <el-option label="1%" value="1" />
+                        <el-option label="3%"  value="3" />
+                        <el-option label="6%"  value="6" />
+                        <el-option label="9%"  value="9" />
+                        <el-option label="13%"  value="13" />
+                      </el-select>
+                    </el-form-item>
+                  </template>
+                </el-table-column>
+                <el-table-column label="税额">
+                  <template slot-scope="scope">
+                    <el-form-item label-width="0"  :prop="'wldetailsList.' + scope.$index + '.taxPrice'" :rules='rules.taxPrice'>
+                      <el-input disabled v-model="scope.row.taxPrice" placeholder="请输入税额"/>
+                    </el-form-item>
+                  </template>
+                </el-table-column>
 
-                  <el-table-column
-                    label="操作">
-                    <template slot-scope="scope">
-                      <el-button
-                        @click.native.prevent="deleteWlRow(scope.$index, form.wldetailsList)"
-                        type="text"
-                        size="small">
-                        移除
-                      </el-button>
-                    </template>
-                  </el-table-column>
-                </el-table>
-              </el-col>
-            </el-row>
-          </div>
-          <el-row class="ic">
-            <el-col :span="12">
-              <el-form-item label="不含税金额合计" prop="tntPrice">
-                <el-input   v-model="form.tntPrice"  placeholder="请输入不含税金额合计" />
-              </el-form-item>
+                <el-table-column
+                  label="操作">
+                  <template slot-scope="scope">
+                    <el-button
+                      @click.native.prevent="deleteWlRow(scope.$index, form.wldetailsList)"
+                      type="text"
+                      size="small">
+                      移除
+                    </el-button>
+                  </template>
+                </el-table-column>
+              </el-table>
             </el-col>
           </el-row>
-          <el-row class="ic">
-            <el-col :span="12">
-              <el-form-item label="补税金额" prop="bsPrice">
-                <el-input   v-model="form.bsPrice"  placeholder="请输入补税金额" />
-              </el-form-item>
-            </el-col>
-          </el-row>
+        </div>
+        <el-row v-if="false" class="ic">
+          <el-col :span="12">
+            <el-form-item label="不含税金额合计" prop="tntPrice">
+              <el-input   v-model="form.tntPrice"  placeholder="请输入不含税金额合计" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row v-if="false" class="ic">
+          <el-col :span="12">
+            <el-form-item label="补税金额" prop="bsPrice">
+              <el-input   v-model="form.bsPrice"  placeholder="请输入补税金额" />
+            </el-form-item>
+          </el-col>
+        </el-row>
 
 
           <el-row>
@@ -957,19 +798,9 @@ export default {
       getLpayment(lpaymentId).then(response => {
         this.form = response.data;
         this.fileList = this.form.fileList;
-        this.form.wldetailsList = this.form.wldetailsList
         this.form.stId2 = this.form.stId;
         this.form.stId = this.form.stName;
         this.tableselData = response.data.selnyList;
-        if(response.data.selnyList.length>0){
-          this.noedit=2;
-        }else{
-          let data = {"stId": this.form.stId2, "wlState": "1"};
-          getGrnList(data).then(response => {
-            this.tableData = response.rows;
-          });
-          this.noedit=1;
-        }
         this.isLook=2;
         this.form.hkState=1;
         this.open = true;
@@ -984,16 +815,6 @@ export default {
       this.tableselData=[];
       const lpaymentId = row.lpaymentId || this.ids
       this.$router.push("/lpayment/look/" + lpaymentId);
-      // getLpayment(lpaymentId).then(response => {
-      //   this.form = response.data;
-      //   this.form.stId2 = this.form.stId;
-      //   this.form.stId = this.form.stName;
-      //   this.tableselData = response.data.selnyList;
-      //   this.isLook=3;
-      //   this.form.hkState=1;
-      //   this.open = true;
-      //   this.title = "查看物流付款";
-      // });
     },
     /** 回款按钮操作 */
     handleHk(row) {
@@ -1025,13 +846,6 @@ export default {
             this.form.grnList=[]
           }
 
-          // if(this.form.contractId!=null){
-          //   let contract=this.form.contractId;
-          //   let objs=contract.split("---")
-          //   this.form.contractId=objs[1];
-          //   this.form.contractName=objs[0];
-          //   console.log(  this.form.contractId+"?????????")
-          // }
           if (this.form.lpaymentId != null) {
             updateLpayment(this.form).then(response => {
               this.msgSuccess("修改成功");

@@ -185,6 +185,20 @@
         <div v-if="form.type=='上游'">
           <el-row>
             <el-col :span="12">
+              <el-form-item label="项目" prop="stId">
+                <el-select filterable value-key="stId" @change="changeSt" v-model="form.stId" placeholder="请选择项目" style="width: 100%;">
+                  <el-option
+                    v-for="obj in stOptions"
+                    :key="obj.stId"
+                    :label="obj.name"
+                    :value="obj"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
               <el-form-item label="合同名称" prop="contractName">
                 <el-select filterable  v-model="form.contractName" placeholder="请选择合同" style="width: 100%;">
                   <el-option

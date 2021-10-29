@@ -72,6 +72,8 @@
                 ? "开票申请"
                 : scope.row.processType == "16"
                 ? "期间费用"
+                : scope.row.processType == "17"
+                  ? "实际收款"
                 : ""
             }}
           </template>
@@ -158,6 +160,7 @@ import {delTerminal} from "@/api/project/terminal";
 import {delSticket} from "@/api/project/sticket";
 import {delKp} from "@/api/project/kp";
 import {delDp} from "@/api/project/dp";
+import { delRealsk } from '@/api/project/realsk'
 export default {
   data() {
     return {
@@ -226,6 +229,8 @@ export default {
         this.$router.push("/kp/look/" + stId);
       }else if(typeId=='16'){
         this.$router.push("/dp/look/" + stId);
+      }else if(typeId=='17'){
+        this.$router.push("/realsk/look/" + stId);
       }
     },
     handleUpdate(row){
@@ -263,6 +268,8 @@ export default {
         this.$router.push({name: 'kpEdit',params:{isEdit:"true",kpId:stId}})
       }else if(typeId=='16'){
         this.$router.push({name: 'dpEdit',params:{isEdit:"true",dpId:stId}})
+      }else if(typeId=='17'){
+        this.$router.push({name: 'realskEdit',params:{isEdit:"true",realskId:stId}})
       }
     },
     handleDelete(row){
@@ -456,6 +463,18 @@ export default {
           type: "warning"
         }).then(function() {
           return delDp(stId);
+        }).then(() => {
+          deleteByStId(stId);
+          this.getList();
+          this.msgSuccess("删除成功");
+        }).catch(() => {});
+      }else if(typeId=='17'){
+        this.$confirm('是否确认删除实际收款?', "警告", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        }).then(function() {
+          return delRealsk(stId);
         }).then(() => {
           deleteByStId(stId);
           this.getList();

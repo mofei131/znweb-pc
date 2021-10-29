@@ -47,10 +47,7 @@
 
       <el-row class="head-text">
         <el-col :span="4" :offset="1">
-          不含税金额合计：<span v-text="form.tntPrice"></span>
-        </el-col>
-        <el-col :span="4">
-          补税金额：<span v-text="form.bsPrice"></span>
+          实付金额：<span v-text="form.tntPrice"></span>
         </el-col>
       </el-row>
 
@@ -60,95 +57,95 @@
 
 
 
-      <el-row class="head-title">
-        <el-col :span="19">
-          <el-form-item label="人库信息"></el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="20" :offset="1">
-          <el-table
-            ref="singleTable"
-            :data="gryList"
-            fit
-            style="margin-bottom: 30px;">
-            <el-table-column
-              property="name"
-              label="货品名称">
-            </el-table-column>
-            <el-table-column
-              property="grnNumber"
-              label="出库重量（吨）">
-            </el-table-column>
-            <el-table-column
-              property="grnRz"
-              label="出库热值（kcal）">
-            </el-table-column>
-            <el-table-column
-              property="transportType"
-              label="运输方式">
-            </el-table-column>
-            <el-table-column
-              property="wlCompany"
-              label="物流公司">
-            </el-table-column>
-            <el-table-column
-              property="carNumber"
-              label="车数">
-            </el-table-column>
-            <el-table-column
-              property="batch"
-              label="批次">
-            </el-table-column>
-            <el-table-column
-              property="deliveryTime"
-              label="到货日期">
-            </el-table-column>
-            <el-table-column
-              property="valuePrice"
-              label="货值单价（元）">
-            </el-table-column>
-            <el-table-column
-              property="valueTprice"
-              label="货值总额（吨）">
-            </el-table-column>
-          </el-table>
-        </el-col>
-      </el-row>
-      <el-row class="head-title">
-        <el-col :span="19">
-          <el-form-item label="追加费用"></el-form-item>
-        </el-col>
-      </el-row>
-      <el-row class="head-text">
-        <el-col :offset="1">
-          <el-table
-            ref="wlsingleTable"
-            :data="form.wldetailsList"
-            style="width: 80%;margin-bottom: 30px;">
-            <el-table-column
-              property="number"
-              label="发票号">
-            </el-table-column>
-            <el-table-column
-              property="wlType"
-              label="费用名称">
-            </el-table-column>
-            <el-table-column
-              property="ntPrice"
-              label="不含税金额">
-            </el-table-column>
-            <el-table-column
-              property="tax"
-              label="税率">
-            </el-table-column>
-            <el-table-column
-              property="taxPrice"
-              label="税额">
-            </el-table-column>
-          </el-table>
-        </el-col>
-      </el-row>
+<!--      <el-row class="head-title">-->
+<!--        <el-col :span="19">-->
+<!--          <el-form-item label="人库信息"></el-form-item>-->
+<!--        </el-col>-->
+<!--      </el-row>-->
+<!--      <el-row>-->
+<!--        <el-col :span="20" :offset="1">-->
+<!--          <el-table-->
+<!--            ref="singleTable"-->
+<!--            :data="gryList"-->
+<!--            fit-->
+<!--            style="margin-bottom: 30px;">-->
+<!--            <el-table-column-->
+<!--              property="name"-->
+<!--              label="货品名称">-->
+<!--            </el-table-column>-->
+<!--            <el-table-column-->
+<!--              property="grnNumber"-->
+<!--              label="出库重量（吨）">-->
+<!--            </el-table-column>-->
+<!--            <el-table-column-->
+<!--              property="grnRz"-->
+<!--              label="出库热值（kcal）">-->
+<!--            </el-table-column>-->
+<!--            <el-table-column-->
+<!--              property="transportType"-->
+<!--              label="运输方式">-->
+<!--            </el-table-column>-->
+<!--            <el-table-column-->
+<!--              property="wlCompany"-->
+<!--              label="物流公司">-->
+<!--            </el-table-column>-->
+<!--            <el-table-column-->
+<!--              property="carNumber"-->
+<!--              label="车数">-->
+<!--            </el-table-column>-->
+<!--            <el-table-column-->
+<!--              property="batch"-->
+<!--              label="批次">-->
+<!--            </el-table-column>-->
+<!--            <el-table-column-->
+<!--              property="deliveryTime"-->
+<!--              label="到货日期">-->
+<!--            </el-table-column>-->
+<!--            <el-table-column-->
+<!--              property="valuePrice"-->
+<!--              label="货值单价（元）">-->
+<!--            </el-table-column>-->
+<!--            <el-table-column-->
+<!--              property="valueTprice"-->
+<!--              label="货值总额（吨）">-->
+<!--            </el-table-column>-->
+<!--          </el-table>-->
+<!--        </el-col>-->
+<!--      </el-row>-->
+<!--      <el-row class="head-title">-->
+<!--        <el-col :span="19">-->
+<!--          <el-form-item label="追加费用"></el-form-item>-->
+<!--        </el-col>-->
+<!--      </el-row>-->
+<!--      <el-row class="head-text">-->
+<!--        <el-col :offset="1">-->
+<!--          <el-table-->
+<!--            ref="wlsingleTable"-->
+<!--            :data="form.wldetailsList"-->
+<!--            style="width: 80%;margin-bottom: 30px;">-->
+<!--            <el-table-column-->
+<!--              property="number"-->
+<!--              label="发票号">-->
+<!--            </el-table-column>-->
+<!--            <el-table-column-->
+<!--              property="wlType"-->
+<!--              label="费用名称">-->
+<!--            </el-table-column>-->
+<!--            <el-table-column-->
+<!--              property="ntPrice"-->
+<!--              label="不含税金额">-->
+<!--            </el-table-column>-->
+<!--            <el-table-column-->
+<!--              property="tax"-->
+<!--              label="税率">-->
+<!--            </el-table-column>-->
+<!--            <el-table-column-->
+<!--              property="taxPrice"-->
+<!--              label="税额">-->
+<!--            </el-table-column>-->
+<!--          </el-table>-->
+<!--        </el-col>-->
+<!--      </el-row>-->
 
 
       <!--      合同信息-->

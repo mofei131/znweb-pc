@@ -39,159 +39,7 @@
         </el-form-item>
       </el-col>
     </el-row>
-<!--    <div v-if="form.proportion=='95%'">-->
-<!--    <el-row>-->
-<!--    <el-popover-->
-<!--      placement="bottom-start"-->
-<!--      width="100%"-->
-<!--      @selection-change="grnSelectionChange"-->
-<!--      v-model="visible"-->
-<!--      popper-class="area_popper">-->
-<!--      <el-button size="small" type="primary"  slot="reference" style="margin-bottom: 30px;margin-top: 50px;">选择预付款</el-button>-->
-<!--      <el-table-->
-<!--        ref="singleTable"-->
-<!--        :data="tableData"-->
-<!--        fit-->
-<!--        @selection-change="grnSelectionChange"-->
-<!--        style="width: 100%;"-->
-<!--      >-->
-<!--        <el-table-column-->
-<!--          type="selection"-->
-<!--          width="55">-->
-<!--        </el-table-column>-->
-<!--        <el-table-column-->
-<!--          property="stName"-->
-<!--          label="项目名称"-->
-<!--          width="120">-->
-<!--        </el-table-column>-->
-<!--        <el-table-column-->
-<!--          property="totalWeight"-->
-<!--          label="验收重量（吨）"-->
-<!--          width="120">-->
-<!--        </el-table-column>-->
-<!--        <el-table-column-->
-<!--          property="totalPrice"-->
-<!--          label="预付总额(元)"-->
-<!--          width="120">-->
-<!--        </el-table-column>-->
-<!--        <el-table-column-->
-<!--          property="expectPrice"-->
-<!--          label="预付单价(元)"-->
-<!--          width="120">-->
-<!--        </el-table-column>-->
-<!--        <el-table-column-->
-<!--          property="ato"-->
-<!--          label="预付至">-->
-<!--        </el-table-column>-->
-<!--        <el-table-column-->
-<!--          property="actualPrice"-->
-<!--          label="实际付款(元)"-->
-<!--          width="120">-->
-<!--        </el-table-column>-->
-<!--      </el-table>-->
-<!--      <div style="margin-top: 20px">-->
-<!--        <el-button type="primary" size="small"  style="float: right"  @click="toggleSelection()">确认选择</el-button>-->
-<!--      </div>-->
-<!--    </el-popover>-->
-<!--    </el-row>-->
-<!--    </div>-->
-<!--    <div v-if="form.proportion=='95%'">-->
-<!--    <el-table-->
-<!--      ref="singleTable"-->
-<!--      :data="tableselData"-->
-<!--      style="width: 100%;margin-bottom: 30px;">-->
-<!--      <el-table-column-->
-<!--        property="stName"-->
-<!--        label="项目名称">-->
-<!--      </el-table-column>-->
-<!--      <el-table-column-->
-<!--        property="totalWeight"-->
-<!--        label="验收重量（吨）">-->
-<!--      </el-table-column>-->
-<!--      <el-table-column-->
-<!--        property="totalPrice"-->
-<!--        label="预付总额(元)">-->
-<!--      </el-table-column>-->
-<!--      <el-table-column-->
-<!--        property="expectPrice"-->
-<!--        label="预付单价(元)">-->
-<!--      </el-table-column>-->
-<!--      <el-table-column-->
-<!--        property="ato"-->
-<!--        label="预付至">-->
-<!--      </el-table-column>-->
-<!--      <el-table-column-->
-<!--        property="actualPrice"-->
-<!--        label="实际付款(元)">-->
-<!--      </el-table-column>-->
-<!--      <el-table-column-->
-<!--        label="操作"-->
-<!--        width="120">-->
-<!--        <template slot-scope="scope">-->
-<!--          <el-button-->
-<!--            @click.native.prevent="deleteRow(scope.$index, tableselData)"-->
-<!--            type="text"-->
-<!--            size="small">-->
-<!--            移除-->
-<!--          </el-button>-->
-<!--        </template>-->
-<!--      </el-table-column>-->
-<!--    </el-table>-->
-<!--    </div>-->
-<!--    <div v-if="form.proportion=='5%'">-->
-<!--      <el-table-->
-<!--        ref="singleTable"-->
-<!--        :data="tableselData"-->
-<!--        style="width: 100%;margin-bottom: 30px;">-->
-<!--        <el-table-column-->
-<!--          property="hpName"-->
-<!--          label="货品名称">-->
-<!--        </el-table-column>-->
-<!--        <el-table-column-->
-<!--          property="tweight"-->
-<!--          label="合计重量（吨）">-->
-<!--        </el-table-column>-->
-<!--        <el-table-column-->
-<!--          property="price"-->
-<!--          label="货品单价(元)">-->
-<!--        </el-table-column>-->
-<!--        <el-table-column-->
-<!--          property="zzPrice"-->
-<!--          label="最终付款总额(元)">-->
-<!--        </el-table-column>-->
-<!--        <el-table-column-->
-<!--          property="otherPrice"-->
-<!--          label="扣除费用合计">-->
-<!--        </el-table-column>-->
-<!--        <el-table-column-->
-<!--          property="yftotalPrice"-->
-<!--          label="最终应付总额(元)">-->
-<!--        </el-table-column>-->
-<!--        <el-table-column-->
-<!--          property="yfPrice"-->
-<!--          label="最终已付总额(元)">-->
-<!--        </el-table-column>-->
-<!--        <el-table-column-->
-<!--          property="sjPrice"-->
-<!--          label="最终实际付款(元)">-->
-<!--        </el-table-column>-->
-<!--&lt;!&ndash;        <el-table-column&ndash;&gt;-->
-<!--&lt;!&ndash;          label="操作"&ndash;&gt;-->
-<!--&lt;!&ndash;          width="120">&ndash;&gt;-->
-<!--&lt;!&ndash;          <template slot-scope="scope">&ndash;&gt;-->
-<!--&lt;!&ndash;            <el-button&ndash;&gt;-->
-<!--&lt;!&ndash;              @click.native.prevent="deleteRow(scope.$index, tableselData)"&ndash;&gt;-->
-<!--&lt;!&ndash;              type="text"&ndash;&gt;-->
-<!--&lt;!&ndash;              size="small">&ndash;&gt;-->
-<!--&lt;!&ndash;              移除&ndash;&gt;-->
-<!--&lt;!&ndash;            </el-button>&ndash;&gt;-->
-<!--&lt;!&ndash;          </template>&ndash;&gt;-->
-<!--&lt;!&ndash;        </el-table-column>&ndash;&gt;-->
-<!--      </el-table>-->
-<!--    </div>-->
-<!--    <el-form-item label="应收票金额:" prop="totalWeight">-->
-<!--      <span  style="color: red">{{form.ysPrice}}</span>-->
-<!--    </el-form-item>-->
+
     <el-row>
       <el-col :span="12">
         <el-form-item label="数量(吨)" prop="number">
@@ -359,9 +207,8 @@
   </div>
 </template>
 <script>
-import {addSticket, updateSticket, getOcrData} from "@/api/project/sticket";
+import {addSticket, updateSticket, findInit} from "@/api/project/sticket";
 import {getToken} from "@/utils/auth";
-import {getApaymentList, getFpaymentList} from "@/api/project/all";
 export default {
   name: "aou",
   props: ["aouform","aoustOptions"],
@@ -453,30 +300,7 @@ export default {
     submitForm() {
       this.$refs["form"].validate(valid => {
         if (valid) {
-          // if(this.form.proportion=='95%'){
-          //   if(this.tableselData.length<1){
-          //     this.msgError("请选择预付款");
-          //     return
-          //   }
-          // }else if(this.form.proportion=='5%'){
-          //   if(this.tableselData.length<1){
-          //     this.msgError("暂无最终付款");
-          //     return;
-          //   }
-          // }
-          //
-          // if(this.form.ocrData.length<1){
-          //   this.msgError("请上传发票数据");
-          //   return;
-          // }
-          // this.form.ocrList=this.form.ocrData;
-          //
-          // if(this.form.proportion=='95%') {
-          //   this.form.apaymentList = this.tableselData
-          // }
-          // if(this.form.proportion=='5%') {
-          //   this.form.fpaymentList = this.tableselData
-          // }
+
           this.form.stId=this.form.stId2
           if (this.form.sticketId != null) {
             updateSticket(this.form).then(response => {
@@ -496,108 +320,7 @@ export default {
     },
 
 
-    // //图片上传
-    // //点击触发
-    // handlePreview(file) {
-    //   if(file.response==undefined){
-    //     window.open(file.url)
-    //   }else{
-    //     window.open(file.response.data.url)
-    //   }
-    // },
-    // handleRemove(file, filelist) {
-    //   this.form.fileList=[];
-    //   for(var i=0;i<filelist.length;i++){
-    //     if (filelist[i].response != undefined) {
-    //       var art = {"name": filelist[i].response.data.name, "url": filelist[i].response.data.url};
-    //       this.form.fileList.push(art);
-    //     }else {
-    //       var art = {"name": filelist[i].name, "url": filelist[i].url};
-    //       this.form.fileList.push(art);
-    //     }
-    //   }
-    // },
-    // handleExceed(files, fileList) {
-    //   this.$message.warning(`当前限制选择 5 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-    // },
-    // beforeRemove(file, fileList) {
-    //   return this.$confirm(`确定移除 ${ file.name }？`);
-    // },
-    // // res 表示请求响应体
-    // uploadSuccess(res, file, filelist) {
-    //   console.log(filelist)
-    //   this.$refs.upload.clearFiles();
-    //   if (res.code == '200') {
-    //     this.form.fileList=[];
-    //     for(let i=0;i<filelist.length;i++) {
-    //       if (filelist[i].response != undefined) {
-    //         let url = filelist[i].response.data.url;
-    //         let data={"filePath":url}
-    //         getOcrData(data).then(response => {
-    //           if(response.rows.length>0){
-    //             this.$message.success("识别成功");
-    //             let obj=response.rows[0]
-    //             if (this.form.ocrData == null || this.form.ocrData == undefined) {
-    //               this.form.ocrData = new Array();
-    //             }
-    //             console.log(obj.date)
-    //
-    //             this.form.ocrData.push(obj);
-    //
-    //             this.jsOcr();
-    //             // let ocrprice=0;
-    //             // if(obj.price!=null && obj.price!=''){
-    //             //   ocrprice=obj.price;
-    //             // }
-    //             // let price=0;
-    //             // if(this.form.price!=null && this.form.price!=''){
-    //             //   price=this.form.price;
-    //             // }
-    //             //
-    //             // price=parseFloat(price)+parseFloat(ocrprice);
-    //             // this.form.price=price;
-    //             //
-    //             // let ocrtax=0;
-    //             // if(obj.tax!=null && obj.tax!=''){
-    //             //   ocrtax=obj.tax;
-    //             // }
-    //             // let tax=0;
-    //             // if(this.form.tax!=null && this.form.tax!=''){
-    //             //   tax=this.form.tax;
-    //             // }
-    //             //
-    //             // tax=parseFloat(tax)+parseFloat(ocrtax);
-    //             // this.form.tax=tax;
-    //             //
-    //             // let ocrtotal=0;
-    //             // if(obj.total!=null && obj.total!=''){
-    //             //   ocrtotal=obj.total;
-    //             // }
-    //             // let totalPrice=0;
-    //             // if(this.form.totalPrice!=null && this.form.totalPrice!=''){
-    //             //   totalPrice=this.form.totalPrice;
-    //             // }
-    //             //
-    //             // totalPrice=parseFloat(totalPrice)+parseFloat(ocrtotal);
-    //             // this.form.totalPrice=totalPrice;
-    //
-    //
-    //           }else{
-    //             this.$message.success("识别失败");
-    //           }
-    //         })
-    //       }
-    //     }
-    //
-    //   } else {
-    //     this.$message.error(res.msg);
-    //     let index = filelist.indexOf(file);
-    //     filelist.splice(index,1);
-    //   }
-    // },
-    // uploadError(err, file, filelist) {
-    //   this.$message.error("上传失败");
-    // },
+
 //上传图片
     //点击触发
     handlePreview(file) {
@@ -719,28 +442,12 @@ export default {
       this.form.uName = obj.userName
       this.form.tName = obj.tName
       this.reset();
-      //加载集合
-      let data = {"stId": obj.stId, "away": "二次","state":"3"};
-
-      getApaymentList(data).then(response => {
-        this.apaymentData = response.rows;
-        // 赋予集合
-        if(this.form.proportion=='95%'){
-          this.tableData=this.apaymentData;
-        }
-      });
-
-      getFpaymentList(data).then(response => {
-        this.fpaymentData = response.rows;
-        if(this.form.proportion=='5%'){
-          this.tableselData=this.fpaymentData;
-          if(this.tableselData.length>0){
-            let obj=this.tableselData[0];
-            this.form.number=obj.tweight.toFixed(2)
-            this.form.ysPrice=(obj.yftotalPrice*0.05).toFixed(2)
-          }
-        }
-      });
+      let data={stId:obj.stId,proportion:this.form.proportion}
+      findInit(data).then(response => {
+        this.form.price=response.data.price
+        this.form.number=response.data.number
+        this.jsTax();
+      })
     },
 
     //计算ocr列表
@@ -782,29 +489,12 @@ export default {
         return
       }
       this.reset();
-
-      //加载集合
-      let data = {"stId": this.form.stId2, "away": "二次","state":"3"};
-
-      getApaymentList(data).then(response => {
-        this.apaymentData = response.rows;
-        // 赋予集合
-        if(this.form.proportion=='95%'){
-          this.tableData=this.apaymentData;
-        }
-      });
-
-      getFpaymentList(data).then(response => {
-        this.fpaymentData = response.rows;
-        if(this.form.proportion=='5%'){
-          this.tableselData=this.fpaymentData;
-          if(this.tableselData.length>0){
-            let obj=this.tableselData[0];
-            this.form.number=obj.tweight.toFixed(2)
-            this.form.ysPrice=(obj.yftotalPrice*0.05).toFixed(2)
-          }
-        }
-      });
+      let data={stId:this.form.stId2,proportion:this.form.proportion}
+      findInit(data).then(response => {
+        this.form.price=response.data.price
+        this.form.number=response.data.number
+        this.jsTax();
+      })
     },
     jsTax(){
       let price=0.00

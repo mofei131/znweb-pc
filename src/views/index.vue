@@ -230,31 +230,52 @@
         <el-row>
           <el-col :span="24" style="height: 240px;">
             <el-table
-              :data="tableData"
+              :data="cplanList"
               fit
               size="mini"
               style="height: 90%"
             >
               <el-table-column
-                prop="type"
-                label="类别"
-              width="80">
-              </el-table-column>
-              <el-table-column
-                prop="name"
+                prop="stName"
                 label="所属项目"
                 >
               </el-table-column>
               <el-table-column
-                prop="price"
-                label="金额"
+                prop="fkPrice"
+                label="付款金额"
                 >
               </el-table-column>
               <el-table-column
-                prop="time"
-                label="日期">
+                prop="fkTime"
+                label="付款日期">
+                <template slot-scope="scope">
+                  <span>{{ parseTime(scope.row.fkTime, '{y}-{m}-{d}') }}</span>
+                </template>
+              </el-table-column>
+              <el-table-column
+                prop="skPrice"
+                label="收款金额"
+              >
+              </el-table-column>
+              <el-table-column
+                prop="fkTime"
+                label="收款日期">
+                <template slot-scope="scope">
+                  <span>{{ parseTime(scope.row.skTime, '{y}-{m}-{d}') }}</span>
+                </template>
               </el-table-column>
             </el-table>
+            <pagination
+              small
+              layout="prev, pager, next"
+              v-show="total4>0"
+              :total="total4"
+              :page.sync="queryParams4.pageNum"
+              :limit.sync="queryParams4.pageSize"
+              :page-sizes="queryParams4.pageSizes"
+              @pagination="getList4"
+              style="margin-right: 40%"
+            />
           </el-col>
         </el-row>
       </el-col>
@@ -265,7 +286,7 @@
         <el-row>
 
           <el-col :span="24" style="height: 640px;">
-            <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
+            <el-form :model="queryParams1" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
               <el-form-item label="统计时间">
                 <el-date-picker
                   v-model="dateRange"
@@ -345,7 +366,7 @@
         <span style="color: #317FF7;">|</span><span>项目资金占用情况</span>
         <el-row>
           <el-col :span="24" style="height: 640px;">
-            <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
+            <el-form :model="queryParams2" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
               <el-form-item label="统计时间">
                 <el-date-picker
                   v-model="dateRange"
@@ -458,6 +479,7 @@ import {listKp} from "@/api/project/kp";
 import { listAtakeup } from '@/api/project/atakeup'
 import { listPtakeup } from '@/api/project/ptakeup'
 import { listSt } from '@/api/project/st'
+import { listCplan } from '@/api/project/cplan'
 export default {
   name: "index",
   mounted() {
@@ -590,9 +612,12 @@ export default {
       ptakeupList:[],
       // 项目
       stList:[],
+      //应收应付
+      cplanList: [],
     };
   },
   created() {
+    this.getList4();
     this.getList3();
     this.getList2();
     this.getList1();
@@ -663,6 +688,15 @@ export default {
       listSt(this.addDateRange(this.queryParams3, this.dateRange)).then(response => {
         this.stList = response.rows;
         this.total3 = response.total;
+        this.loading = false;
+      });
+    },
+
+    getList4() {
+      this.loading = true;
+      listCplan(this.queryParams4).then(response => {
+        this.cplanList = response.rows;
+        this.total4 = response.total;
         this.loading = false;
       });
     },

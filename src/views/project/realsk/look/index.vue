@@ -19,9 +19,7 @@
 .upload-hidden .el-upload--picture-card{
   display:none;   /* 上传按钮隐藏 */
 }
-.el-textarea.is-disabled .el-textarea__inner{
-  background-color:#FFF; /* 设置背景颜色为黑色 */
-}
+
 
 </style>
 <template>
@@ -31,7 +29,7 @@
       <!--    合同信息-->
       <el-row class="head-title">
         <el-col :span="19">
-          <el-form-item label="合同信息"></el-form-item>
+          <el-form-item label="基本信息"></el-form-item>
         </el-col>
         <el-col :span="4">
           <span style="color: #FF0000;">{{stateF(form.state)}}</span>
@@ -42,127 +40,28 @@
           项目名称：<span v-text="form.stName"></span>
         </el-col>
         <el-col :span="4">
-          合同名称：<span v-text="form.name"></span>
+          预估应收：<span v-text="form.ygPrice"></span>
         </el-col>
         <el-col :span="4">
-          合同类型：<span v-text="form.type"></span>
+          开票金额：<span v-text="form.kpPrice"></span>
         </el-col>
         <el-col :span="4">
-          签约日期：<span >{{parseTime(form.signingTime, '{y}-{m}-{d}') }}</span>
-        </el-col>
-        <el-col :span="4" v-if="form.type=='上游合同'">
-          供应商：<span v-text="form.supplierName"></span>
-        </el-col>
-        <el-col :span="4" v-if="form.type=='下游合同'">
-          终端客户：<span v-text="form.terminalName"></span>
-        </el-col>
-        <el-col :span="4" v-if="form.type=='其他合同'">
-          客户名称：<span v-text="form.khName"></span>
-        </el-col>
-      </el-row>
-
-      <el-row class="head-text">
-        <el-col :span="4" :offset="1" >
-          货品名称：<span v-text="form.goodsName"></span>
-        </el-col>
-        <el-col :span="4" v-if="form.type=='下游合同'">
-          预计吨数：<span v-text="form.expectNumber"></span>
-        </el-col>
-        <el-col :span="4" v-if="form.type=='下游合同'">
-          基准单价：<span v-text="form.price"></span>
-        </el-col>
-        <el-col :span="4" v-if="form.type=='上游合同'">
-          保底服务费期限：<span v-text="form.mfsp"></span>
-        </el-col>
-      </el-row>
-
-      <el-row class="head-text" v-if="form.type=='物流运输合同' || form.type=='物流服务合同'">
-        <el-col :span="4" :offset="1" >
-          运输单位：<span v-text="form.goodsName"></span>
-        </el-col>
-        <el-col :span="4">
-          运输方式：<span v-text="form.expectNumber"></span>
+          结算单价：<span v-text="form.jsDj"></span>
         </el-col>
         <el-col :span="4" >
-          起运地：<span v-text="form.price"></span>
+          结算煤量(元)：<span v-text="form.jsMl"></span>
+        </el-col>
+      </el-row>
+
+      <el-row class="head-text">
+        <el-col :span="4" :offset="1">
+          结算煤款：<span v-text="form.jsMk"></span>
         </el-col>
         <el-col :span="4" >
-          目的地：<span v-text="form.mfsp"></span>
+          结算税款(元)：<span v-text="form.jsTax"></span>
         </el-col>
-      </el-row>
-      <el-row class="head-text" v-if="form.type=='物流运输合同' || form.type=='物流服务合同'">
-        <el-col :span="4" :offset="1" >
-          运费单价(吨/元)：<span v-text="form.goodsName"></span>
-        </el-col>
-        <el-col :span="4">
-          损耗率：<span v-text="form.expectNumber"></span>
-        </el-col>
-      </el-row>
 
-      <el-row class="head-text" v-if="form.type=='其他合同'">
-        <el-col :span="4" :offset="1" >
-          备注：<el-input disabled type="textarea"  :rows="5" v-model="form.node" placeholder=""  />
-        </el-col>
       </el-row>
-
-
-      <el-row class="head-text">
-        <el-col :span="20" :offset="1">
-          <el-form-item class="head-text" label="附件：" prop="file" >
-            <el-upload
-              disabled
-              :action="url"
-              :headers="headers"
-              class="upload-hidden"
-              :on-preview="handlePreview"
-              list-type="text"
-              :file-list="fileList">
-            </el-upload>
-          </el-form-item>
-        </el-col>
-      </el-row>
-
-      <el-row class="head-title">
-        <el-col :span="19">
-          <el-form-item label="补充合同"></el-form-item>
-        </el-col>
-      </el-row>
-      <el-row class="head-text">
-        <el-col :span="6" :offset="1">
-          补充说明：<span v-text="form.content"></span>
-        </el-col>
-      </el-row>
-      <el-row class="head-text">
-        <el-col :span="6" :offset="1">
-          <el-form-item label="附件：" prop="file">
-            <el-upload
-              disabled
-              :action="url"
-              :headers="headers"
-              class="upload-hidden "
-              :on-preview="handlePreview"
-              list-type="text"
-              :file-list="bcfileList">
-            </el-upload>
-          </el-form-item>
-        </el-col>
-      </el-row>
-<!--      <el-row class="head-text">-->
-<!--        <el-col :span="12">-->
-<!--          <el-form-item label="附件" prop="file">-->
-<!--            <el-upload-->
-<!--              class="upload-demo"-->
-<!--              :action="url"-->
-<!--              :headers="headers"-->
-<!--              multiple-->
-<!--              :limit="5"-->
-<!--              :file-list="fileList">-->
-<!--              <el-button size="small" type="primary" v-if="isLook!=3">点击上传</el-button>-->
-<!--              &lt;!&ndash;                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>&ndash;&gt;-->
-<!--            </el-upload>-->
-<!--          </el-form-item>-->
-<!--        </el-col>-->
-<!--      </el-row>-->
 
 
       <!--      审批信息-->
@@ -214,7 +113,10 @@
 
 import {getContract} from "@/api/project/contract";
 import {getToken} from "@/utils/auth";
+import {getCplan} from "@/api/project/cplan";
+import {getDp} from "@/api/project/dp";
 import {getProcessDataByStId} from "@/api/approve";
+import { getRealsk } from '@/api/project/realsk'
 
 export default {
   name: "contractLook",
@@ -241,24 +143,11 @@ export default {
     };
   },
   created() {
-    const contractId = this.$route.params && this.$route.params.contractId;
-    getContract(contractId).then(response => {
+    const realskId = this.$route.params && this.$route.params.realskId;
+    getRealsk(realskId).then(response => {
       this.form=response.data
-      this.fileList = response.data.fileList
-      this.bcfileList = response.data.filebcList
-      if(this.form.type=='1'){
-        this.form.type="上游合同"
-      }else if(this.form.type=='2'){
-        this.form.type="下游合同"
-      }else if(this.form.type=='3'){
-        this.form.type="物流运输合同"
-      }else if(this.form.type=='4'){
-        this.form.type="物流服务合同"
-      }else if(this.form.type=='5'){
-        this.form.type="其他合同"
-      }
     })
-    getProcessDataByStId("3",contractId).then((res) => {
+    getProcessDataByStId("17",realskId).then((res) => {
       this.stateList = res.data;
     });
   },

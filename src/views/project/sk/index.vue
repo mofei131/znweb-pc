@@ -115,7 +115,7 @@
         </template>
       </el-table-column>
       <el-table-column label="审核状态" align="center" prop="state" :formatter="stateFormat"/>
-      <el-table-column label="收款状态" align="center" prop="skState" />
+<!--      <el-table-column label="收款状态" align="center" prop="skState" />-->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -125,20 +125,20 @@
             @click="handleLook(scope.row)"
             v-hasPermi="['project:sk:edit']"
           >查看</el-button>
-          <el-button v-if="scope.row.state=='3' && scope.row.skState=='未收款'"
-                     size="mini"
-                     type="text"
-                     icon="el-icon-edit"
-                     @click="handleUpdateSkTime(scope.row)"
-                     v-hasPermi="['project:apayment:edit']"
-          >收款</el-button>
-          <el-button v-if="scope.row.state=='3' && scope.row.skState=='未收款'  && scope.row.skTime!=null"
-                     size="mini"
-                     type="text"
-                     icon="el-icon-edit"
-                     @click="handleUpdateSkState(scope.row)"
-                     v-hasPermi="['project:apayment:edit']"
-          >完成</el-button>
+<!--          <el-button v-if="scope.row.state=='3' && scope.row.skState=='未收款'"-->
+<!--                     size="mini"-->
+<!--                     type="text"-->
+<!--                     icon="el-icon-edit"-->
+<!--                     @click="handleUpdateSkTime(scope.row)"-->
+<!--                     v-hasPermi="['project:apayment:edit']"-->
+<!--          >收款</el-button>-->
+<!--          <el-button v-if="scope.row.state=='3' && scope.row.skState=='未收款'  && scope.row.skTime!=null"-->
+<!--                     size="mini"-->
+<!--                     type="text"-->
+<!--                     icon="el-icon-edit"-->
+<!--                     @click="handleUpdateSkState(scope.row)"-->
+<!--                     v-hasPermi="['project:apayment:edit']"-->
+<!--          >完成</el-button>-->
 <!--          <el-button-->
 <!--            size="mini"-->
 <!--            type="text"-->
