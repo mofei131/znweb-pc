@@ -50,7 +50,7 @@
     <el-row>
       <el-col :span="12">
         <el-form-item label="开票金额(元)" prop="price">
-          <el-input @change="jsTax"  v-model="form.price" placeholder="请输入开票金额" />
+          <el-input   v-model="form.price" placeholder="请输入开票金额" />
         </el-form-item>
       </el-col>
     </el-row>
@@ -64,7 +64,7 @@
     <el-row>
       <el-col :span="12">
         <el-form-item label="价税合计(元)" prop="totalPrice">
-          <el-input   v-model="form.totalPrice" placeholder="请输入价税合计" />
+          <el-input @change="jsTax"  v-model="form.totalPrice" placeholder="请输入价税合计" />
         </el-form-item>
       </el-col>
     </el-row>
@@ -444,8 +444,8 @@ export default {
       this.reset();
       let data={stId:obj.stId,proportion:this.form.proportion}
       findInit(data).then(response => {
-        this.form.price=response.data.price
-        this.form.number=response.data.number
+        this.form.totalPrice=parseFloat(response.data.price).toFixed(2)
+        this.form.number=parseFloat(response.data.number).toFixed(2)
         this.jsTax();
       })
     },
@@ -491,18 +491,29 @@ export default {
       this.reset();
       let data={stId:this.form.stId2,proportion:this.form.proportion}
       findInit(data).then(response => {
-        this.form.price=response.data.price
-        this.form.number=response.data.number
+        this.form.totalPrice=parseFloat(response.data.price).toFixed(2)
+        this.form.number=parseFloat(response.data.number).toFixed(2)
         this.jsTax();
       })
     },
     jsTax(){
-      let price=0.00
-      if(this.form.price!=null && this.form.price!=''){
-        price=this.form.price
+      // let price=0.00
+      // if(this.form.price!=null && this.form.price!=''){
+      //   price=this.form.price
+      // }
+      // this.form.tax=(parseFloat(price)/1.13*0.13).toFixed(2)
+      // this.form.totalPrice=parseFloat(this.form.tax)+parseFloat(price);
+
+
+
+      let totalPrice=0.00
+      if(this.form.totalPrice!=null && this.form.totalPrice!=''){
+        totalPrice=this.form.totalPrice
       }
-      this.form.tax=(parseFloat(price)/1.13*0.13).toFixed(2)
-      this.form.totalPrice=parseFloat(this.form.tax)+parseFloat(price);
+      this.form.price=(parseFloat(totalPrice)/(1+0.13/1.13)).toFixed(2)
+      this.form.tax=(parseFloat(totalPrice)-parseFloat(this.form.price)).toFixed(2);
+
+
     },
 
   }

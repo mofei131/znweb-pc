@@ -523,7 +523,7 @@
                 <el-form-item label-width="0"  :prop="'tableData4.' + scope.$index + '.a1'" :rules='rules.a1'>
                   <el-select v-model="scope.row.a1">
                     <el-option label="Vda" value="Vda" />
-                    <el-option label="Vdae" value="Vdae" />
+                    <el-option label="Vdaf" value="Vdae" />
                   </el-select>
                 </el-form-item>
               </template>

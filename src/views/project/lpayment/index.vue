@@ -114,21 +114,29 @@
             v-hasPermi="['project:lpayment:edit']"
           >查看</el-button>
           <el-button
-            v-if="scope.row.state=='3'"
-            size="mini"
-            type="text"
-            icon="el-icon-edit"
-            @click="handleUpdate(scope.row)"
-            v-hasPermi="['project:lpayment:edit']"
-          >修改</el-button>
-          <el-button
-            v-if="scope.row.outPrice < scope.row.tntPrice"
+            v-if="scope.row.state=='3' && scope.row.outPrice < scope.row.tntPrice"
             size="mini"
             type="text"
             icon="el-icon-edit"
             @click="handleHk(scope.row)"
             v-hasPermi="['project:lpayment:edit']"
           >回款</el-button>
+          <el-button
+            v-if="scope.row.state=='3' && scope.row.fkState=='未付款'"
+            size="mini"
+            type="text"
+            icon="el-icon-edit"
+            @click="handleUpdateFkState(scope.row)"
+            v-hasPermi="['project:lpayment:edit']"
+          >付款</el-button>
+          <el-button
+            v-if="scope.row.state=='3' && scope.row.fkState=='未付款'"
+            size="mini"
+            type="text"
+            icon="el-icon-edit"
+            @click="handleUpdateOk(scope.row)"
+            v-hasPermi="['project:lpayment:edit']"
+          >完成</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -144,7 +152,7 @@
     <!-- 添加或修改物流付款对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="180px">
-        <div v-if="isLook!=4">
+        <div v-if="isLook!=4 && isLook!=5">
         <el-row>
           <el-col :span="12">
             <el-form-item label="项目" prop="stId">
@@ -170,6 +178,17 @@
             </el-form-item>
           </el-col>
         </el-row>
+
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="是否产生服务费" prop="serType">
+                <el-radio-group v-model="form.serType">
+                  <el-radio label="是">是</el-radio>
+                  <el-radio label="否">否</el-radio>
+                </el-radio-group>
+              </el-form-item>
+            </el-col>
+          </el-row>
 
           <el-row v-if="isLook==1">
             <el-col :span="12">
@@ -420,42 +439,6 @@
 
           <el-row>
             <el-col :span="12">
-              <el-form-item label="是否产生服务费" prop="serType">
-                <el-radio-group v-model="form.serType">
-                  <el-radio label="是">是</el-radio>
-                  <el-radio label="否">否</el-radio>
-                </el-radio-group>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <div v-if="form.serType=='是'">
-            <el-row>
-              <el-col :span="12">
-                <el-form-item label="支付日期" prop="putTime" >
-                  <el-date-picker clearable size="small" style="width: 100%;"
-                                  v-model="form.putTime"
-                                  type="date"
-                                  value-format="yyyy-MM-dd"
-                                  placeholder="选择支付日期">
-                  </el-date-picker>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col :span="12">
-                <el-form-item label="年服务费费率(%)" prop="stRate">
-                  <el-input v-model="form.stRate" placeholder="请输入年服务费费率(%)" />
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item label="保底服务费期限(天)" prop="mfsp">
-                  <el-input v-model="form.mfsp" placeholder="请输入保底服务费期限(天)" />
-                </el-form-item>
-              </el-col>
-            </el-row>
-          </div>
-          <el-row>
-            <el-col :span="12">
               <el-form-item label="附件" prop="file">
                 <el-upload
                   class="upload-demo"
@@ -498,7 +481,45 @@
             </el-col>
           </el-row>
         </div>
+        <div v-if="isLook==5">
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="是否产生服务费" prop="serType">
+                <el-radio-group v-model="form.serType">
+                  <el-radio label="是">是</el-radio>
+                  <el-radio label="否">否</el-radio>
+                </el-radio-group>
+              </el-form-item>
+            </el-col>
+          </el-row>
 
+        <div v-if="form.serType=='是'">
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="支付日期" prop="putTime" >
+                <el-date-picker clearable size="small" style="width: 100%;"
+                                v-model="form.putTime"
+                                type="date"
+                                value-format="yyyy-MM-dd"
+                                placeholder="选择支付日期">
+                </el-date-picker>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="年服务费费率(%)" prop="stRate">
+                <el-input v-model="form.stRate" placeholder="请输入年服务费费率(%)" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="保底服务费期限(天)" prop="mfsp">
+                <el-input v-model="form.mfsp" placeholder="请输入保底服务费期限(天)" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </div>
+        </div>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm" v-if="isLook!=3">确 定</el-button>
@@ -699,7 +720,7 @@ export default {
     },
     // 回款状态
     outFormat(row, column) {
-      if(row.outPrice!=null && row.outPrice!='' && parseFloat(row.outPrice)>=parseFloat(row.jst)){
+      if(row.outPrice!=null && row.outPrice!='' && parseFloat(row.outPrice)>=parseFloat(row.tntPrice)){
         return "已回款"
       }else {
         return "未回款"
@@ -835,6 +856,36 @@ export default {
         this.title = "回款物流付款";
       });
     },
+
+    /** 付款按钮操作 */
+    handleUpdateFkState(row) {
+      this.reset();
+      const lpaymentId = row.lpaymentId || this.ids
+      getLpayment(lpaymentId).then(response => {
+        this.form = response.data;
+        this.isLook=5;
+        this.form.hkState=1;
+        this.open = true;
+        this.title = "修改物流付款";
+      });
+    },
+
+    /** 完成按钮操作 */
+    handleUpdateOk(row) {
+      this.reset();
+      const lpaymentId = row.lpaymentId || this.ids
+      getLpayment(lpaymentId).then(response => {
+        this.form = response.data;
+        this.form.fkState='已付款'
+        updateLpayment(this.form).then(response => {
+          this.msgSuccess("付款成功");
+          this.open = false;
+          this.getList();
+        });
+      });
+    },
+
+
     /** 提交按钮 */
     submitForm() {
       this.$refs["form"].validate(valid => {

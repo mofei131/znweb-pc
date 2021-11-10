@@ -51,8 +51,26 @@
         </el-col>
       </el-row>
 
+      <el-row class="head-title">
+        <el-col :span="19">
+          <el-form-item label="服务费信息"></el-form-item>
+        </el-col>
+      </el-row>
 
-
+      <el-row class="head-text">
+        <el-col :span="5" :offset="1">
+          是否产生服务费：<span v-text="form.serType"></span>
+        </el-col>
+        <el-col :span="5">
+          支付日期：<span>{{ parseTime(form.putTime, '{y}-{m}-{d}') }}</span>
+        </el-col>
+        <el-col :span="5">
+          年服务费费率(%)：<span v-text="form.stRate" ></span>
+        </el-col>
+        <el-col :span="5">
+          保底服务费期限(天)：<span v-text="form.mfsp"></span>
+        </el-col>
+      </el-row>
 
 
 

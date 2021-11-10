@@ -51,7 +51,7 @@
                 : scope.row.processType == "5"
                 ? "最终付款管理"
                 : scope.row.processType == "6"
-                ? "收款管理"
+                ? "预估收款"
                 : scope.row.processType == "7"
                 ? "保证金管理"
                 : scope.row.processType == "8"

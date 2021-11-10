@@ -83,3 +83,12 @@ export function getApaymentbydata(data) {
     params: data
   })
 }
+
+// 初始化数据
+export function findInit(dataInit) {
+  return request({
+    url: '/project/apayment/findInit',
+    method: 'get',
+    params: dataInit
+  })
+}

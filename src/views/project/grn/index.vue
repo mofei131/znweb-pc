@@ -271,7 +271,7 @@
                 <el-input v-model="form.coalVda" placeholder="请输入" />
               </template>
             </el-table-column>
-            <el-table-column  label="Vdae">
+            <el-table-column  label="Vdaf">
               <template slot-scope="scope"  prop="coalVdae">
                 <el-input v-model="form.coalVdae" placeholder="请输入" />
               </template>
@@ -316,7 +316,7 @@
                   <span style="margin-left: 20px;">灰份Aad：<span style="color: red" v-text="form.jc3">0.00</span></span>
                   <span style="margin-left: 20px;">灰份ad：<span style="color: red" v-text="form.jc10">0.00</span></span>
                   <span style="margin-left: 20px;">挥发份Vda：<span style="color: red" v-text="form.jc4">0.00</span></span>
-                  <span style="margin-left: 20px;">挥发份Vdae：<span style="color: red" v-text="form.jc11">0.00</span></span>
+                  <span style="margin-left: 20px;">挥发份Vdaf：<span style="color: red" v-text="form.jc11">0.00</span></span>
             </el-form-item>
           </el-col>
           <el-col :span="24">
@@ -490,7 +490,7 @@ export default {
           { required: true, validator: validatePrice, trigger: "blur" }
         ],
         valuePrice: [
-          { required: true, validator: validatePrice, trigger: "blur" }
+          // { required: true, validator: validatePrice, trigger: "blur" }
         ],
         valueTprice: [
           { required: true, validator: validatePrice, trigger: "blur" }
@@ -905,7 +905,7 @@ export default {
             }
 
             this.form.rewardp=rewardsp
-            this.form.valuePrice=parseFloat(this.form.basePrice)+parseFloat(rewardsp)
+            this.form.valuePrice=(parseFloat(this.form.basePrice)+parseFloat(rewardsp)).toFixed(2)
             this.calculate()
           })
 

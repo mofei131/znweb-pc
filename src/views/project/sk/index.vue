@@ -375,7 +375,7 @@
                 <span style="margin-left: 20px;">灰份Aad：<span style="color: red" v-text="form.jc3">0.00</span></span>
                 <span style="margin-left: 20px;">灰份ad：<span style="color: red" v-text="form.jc10">0.00</span></span>
                 <span style="margin-left: 20px;">挥发份Vda：<span style="color: red" v-text="form.jc4">0.00</span></span>
-                <span style="margin-left: 20px;">挥发份Vdae：<span style="color: red" v-text="form.jc11">0.00</span></span>
+                <span style="margin-left: 20px;">挥发份Vdaf：<span style="color: red" v-text="form.jc11">0.00</span></span>
               </el-form-item>
             </el-col>
             <el-col :span="24">
@@ -401,7 +401,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="收款单价" prop="skPrice">
-              <el-input  v-model="form.skPrice" placeholder="请输入收款单价" />
+              <el-input @change="jsdj"  v-model="form.skPrice" placeholder="请输入收款单价" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -1012,6 +1012,15 @@ export default {
       this.form.stId2 = obj.stId
       this.form.stName = obj.name
 
+      //查询煤炭销售合同
+      let c2 = {"stId": this.form.stId2, "type": "2"};
+      getContract(c2).then(response => {
+        if (response.data != null) {
+          //预付单价 吨的预付单价
+          this.form.skPrice = parseFloat(response.data.price).toFixed(2)
+        }
+      });
+
       //获取预收款
       if(this.form.skType=='收款'){
         this.form.yfPrice = obj.tqsk
@@ -1100,48 +1109,23 @@ export default {
         re=this.form.rewardp
       }
       if(this.form.skWay=='吨'){
-        if(this.form.stId2==null || this.form.stId2==''){
-          this.msgError("请选择项目")
-          return
+        this.form.skPrice = (parseFloat(this.form.skPrice)+parseFloat(re)).toFixed(2)
+
+        let tw=0;
+        let ep=0
+        if(this.form.tweight!=null && this.form.tweight!=''){
+          tw=this.form.tweight;
         }
-        //查询煤炭销售合同
-        let c2 = {"stId": this.form.stId2, "type": "2"};
-        getContract(c2).then(response => {
-          if(response.data!=null){
-            //预付单价 吨的预付单价
-            this.form.skPrice = (parseFloat(response.data.price)+parseFloat(re)).toFixed(2)
+        if(this.form.skPrice!=null && this.form.skPrice!='') {
+          ep = this.form.skPrice;
+        }
+        //收款总额 单价*重量
+        this.form.skTprice=(tw*ep).toFixed(2);
+        //计算税款
+        this.form.tax=(tw*ep/1.13*0.13).toFixed(2);
 
-            let tw=0;
-            let ep=0
-            if(this.form.tweight!=null && this.form.tweight!=''){
-              tw=this.form.tweight;
-            }
-            if(this.form.skPrice!=null && this.form.skPrice!='') {
-              ep = this.form.skPrice;
-            }
-            //收款总额 单价*重量
-            this.form.skTprice=(tw*ep).toFixed(2);
-            //计算税款
-            this.form.tax=(tw*ep/1.13*0.13).toFixed(2);
+        this.jspay()
 
-          }else {
-            this.form.skPrice = 0
-
-            let tw=0;
-            let ep=0
-            if(this.form.tweight!=null && this.form.tweight!=''){
-              tw=this.form.tweight;
-            }
-            if(this.form.skPrice!=null && this.form.skPrice!='') {
-              ep = this.form.skPrice;
-            }
-            //收款总额 单价*重量
-            this.form.skTprice=(tw*ep).toFixed(2);
-            //计算税款
-            this.form.tax=(tw*ep/1.13*0.13).toFixed(2);
-          }
-          this.jspay()
-        });
       }else if(this.form.skWay=='热值'){
         console.log(this.form.rzPrice+"--"+this.form.averageRz)
         if(this.form.rzPrice!=null && this.form.rzPrice!='' && this.form.prz!=null && this.form.prz!=''){
@@ -1230,6 +1214,7 @@ export default {
       this.form.jc11=(jc11/size).toFixed(2)
       this.form.jc12=(jc12/size).toFixed(2)
       this.form.rewardp=(re/size).toFixed(2)
+      // this.form.skPrice=this.form.skPrice+this.form.rewardp;
       this.jsdj()
       this.jspay()
     },

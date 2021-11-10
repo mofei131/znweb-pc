@@ -123,15 +123,17 @@
             size="mini"
             type="text"
             icon="el-icon-edit"
-            @click="handleUpdate(scope.row)"
+            @click="handleLook(scope.row)"
           >查看</el-button>
           <el-button
+            v-if="scope.row.state=='3'"
             size="mini"
             type="text"
             icon="el-icon-edit"
             @click="handleUpdateSk(scope.row)"
           >收款</el-button>
           <el-button
+            v-if="scope.row.state=='3'"
             size="mini"
             type="text"
             icon="el-icon-edit"
@@ -246,7 +248,7 @@
                     </el-form-item>
                   </template>
                 </el-table-column>
-                <el-table-column  label="Vdae">
+                <el-table-column  label="Vdaf">
                   <template slot-scope="scope"  >
                     <el-form-item label-width="0"  prop="coalVdae" >
                      <el-input v-model="form.coalVdae" placeholder="请输入" />
@@ -456,37 +458,26 @@ export default {
           { required: true, message: "请选择项目名称", trigger: "blur" }
         ],
         coalSf: [
-          {  validator: validatePrice3, trigger: "blur" }
         ],
         coalNs: [
-          {  validator: validatePrice3, trigger: "blur" }
         ],
         coalAad: [
-          {  validator: validatePrice3, trigger: "blur" }
         ],
         coalAd: [
-          {  validator: validatePrice3, trigger: "blur" }
         ],
         coalVda: [
-          {  validator: validatePrice3, trigger: "blur" }
         ],
         coalVdae: [
-          {  validator: validatePrice3, trigger: "blur" }
         ],
         coalHrd: [
-          { validator: validatePrice3, trigger: "blur" }
         ],
         coalHll: [
-          { validator: validatePrice3, trigger: "blur" }
         ],
         coalGdt: [
-          { validator: validatePrice3, trigger: "blur" }
         ],
         coalQgrad: [
-          {  validator: validatePrice3, trigger: "blur" }
         ],
         coalQntar: [
-          {  validator: validatePrice3, trigger: "blur" }
         ],
         jstPrice: [
           {  validator: validatePrice3, trigger: "blur" }
@@ -509,6 +500,8 @@ export default {
       },
       // 项目集合
       stOptions: [],
+      //审批
+      stateOptions:[],
       coalTable: [
         {show:true}
       ],
@@ -529,12 +522,13 @@ export default {
     getStList().then(response => {
       this.stOptions = response.rows;
     });
-    if(this.$route.params.isEdit!=null && this.$route.params.isEdit=="true"){
+
+    if(this.$route.params.isEdit!=null && this.$route.params.isEdit!=undefined && this.$route.params.isEdit=="true"){
       let realskId=this.$route.params.realskId
       let row={"realskId":realskId}
       this.handleUpdate(row)
     }
-    if(this.$route.params.isAdd!=null && this.$route.params.isAdd=="true"){
+    if(this.$route.params.isAdd!=null && this.$route.params.isAdd!=undefined  && this.$route.params.isAdd=="true"){
       this.handleAdd()
     }
   },
@@ -615,6 +609,9 @@ export default {
     /** 新增按钮操作 */
     handleAdd() {
       this.reset();
+      this.fileList=[];
+      this.form.fileList=[];
+      this.isLook=1;
       this.open = true;
       this.title = "添加实际收款";
     },
@@ -627,6 +624,7 @@ export default {
         this.form.stId2 = this.form.stId;
         this.form.stId = this.form.stName;
         this.fileList = this.form.fileList;
+        this.isLook=2;
         this.open = true;
         this.title = "修改实际收款";
       });
@@ -641,6 +639,13 @@ export default {
         this.open = true;
         this.title = "收款";
       });
+    },
+
+    /** 查看按钮操作 */
+    handleLook(row) {
+      this.reset();
+      const realskId = row.realskId || this.ids
+      this.$router.push("/realsk/look/" + realskId);
     },
 
     /** 查看付款明细 */

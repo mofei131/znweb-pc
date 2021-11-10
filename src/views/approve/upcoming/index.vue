@@ -42,7 +42,7 @@
                     : scope.row.processType == "5"
                     ? "最终付款管理"
                     : scope.row.processType == "6"
-                    ? "收款管理"
+                    ? "预估收款"
                     : scope.row.processType == "7"
                     ? "保证金管理"
                     : scope.row.processType == "8"
@@ -70,7 +70,7 @@
               </template>
             </el-table-column>
             <el-table-column label="发起时间" align="center" prop="createTime" />
-            <el-table-column label="审批人" align="center" prop="nickName" />
+            <el-table-column label="发起人" align="center" prop="sponsor" />
             <el-table-column label="操作" align="center">
               <template slot-scope="scope">
                 <!-- <el-tooltip content="查看详情" id="view" placement="bottom"> -->
@@ -109,7 +109,7 @@
                     : scope.row.processType == "5"
                     ? "最终付款管理"
                     : scope.row.processType == "6"
-                    ? "收款管理"
+                    ? "预估收款"
                     : scope.row.processType == "7"
                     ? "保证金管理"
                     : scope.row.processType == "8"
@@ -137,7 +137,7 @@
               </template>
             </el-table-column>
             <el-table-column label="发起时间" align="center" prop="createTime" />
-            <el-table-column label="审批人" align="center" prop="nickName" />
+            <el-table-column label="发起人" align="center" prop="sponsor" />
             <el-table-column label="操作" align="center">
               <template slot-scope="scope">
                 <!-- <el-tooltip content="查看详情" id="view" placement="bottom"> -->

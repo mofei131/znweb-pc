@@ -184,6 +184,7 @@
                   <template slot-scope="scope">
                     <el-form-item label-width="0"  :prop="'wldetailsList.' + scope.$index + '.tax'" :rules='rules.tax'>
                       <el-select  @change="jsTaxPrice(scope.$index)" v-model="scope.row.tax">
+                        <el-option label="0%" value="0" />
                         <el-option label="1%" value="1" />
                         <el-option label="3%"  value="3" />
                         <el-option label="6%"  value="6" />
@@ -501,6 +502,11 @@ export default {
       }
       let obj = {};
       this.form.wldetailsList.push(obj);
+    },
+    //溢出选中数据
+    deleteWlRow(index, rows) {
+      this.form.wldetailsList.splice(index, 1);
+      this.jsTotal();
     },
     jsTaxPrice(index){
       let obj=this.form.wldetailsList[index]

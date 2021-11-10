@@ -132,13 +132,13 @@
             icon="el-icon-edit"
             @click="handleLook(scope.row)"
           >查看</el-button>
-          <el-button v-if="scope.row.state=='3' && scope.row.fkState=='未付款'"
+          <el-button v-if="scope.row.state=='3' && scope.row.fkState=='未付款' "
             size="mini"
             type="text"
             icon="el-icon-edit"
             @click="handleUpdatePayTime(scope.row)"
           >付款</el-button>
-          <el-button v-if="scope.row.state=='3'"
+          <el-button v-if="scope.row.state=='3' "
             size="mini"
             type="text"
             icon="el-icon-edit"
@@ -474,7 +474,7 @@
                 <span style="margin-left: 20px;">灰份Aad：<span style="color: red" v-text="form.jc3">0.00</span></span>
                 <span style="margin-left: 20px;">灰份ad：<span style="color: red" v-text="form.jc10">0.00</span></span>
                 <span style="margin-left: 20px;">挥发份Vda：<span style="color: red" v-text="form.jc4">0.00</span></span>
-                <span style="margin-left: 20px;">挥发份Vdae：<span style="color: red" v-text="form.jc11">0.00</span></span>
+                <span style="margin-left: 20px;">挥发份Vdaf：<span style="color: red" v-text="form.jc11">0.00</span></span>
               </el-form-item>
             </el-col>
             <el-col :span="24">
@@ -553,12 +553,19 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="扣款金额" prop="yfPice">
-                <el-input v-model="form.kkPrice"  placeholder="请输入扣款金额" />
+                <el-input @change="atochange" v-model="form.kkPrice"  placeholder="请输入扣款金额" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="扣款备注" prop="yfPice">
                 <el-input v-model="form.kkNode"  placeholder="请输入扣款备注" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row class="ic">
+            <el-col :span="12">
+              <el-form-item label="付款总额" prop="payTprice">
+                <el-input  v-model="form.payTprice"  placeholder="请输入付款总额" />
               </el-form-item>
             </el-col>
           </el-row>
@@ -569,10 +576,10 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row class="ic">
+          <el-row>
             <el-col :span="12">
-              <el-form-item label="付款总额" prop="payTprice">
-                <el-input  v-model="form.payTprice"  placeholder="请输入付款总额" />
+              <el-form-item label="垫付保证金" prop="dfPrice">
+                <el-input @change="atochange"  v-model="form.dfPrice"  placeholder="请输入垫付保证金" />
               </el-form-item>
             </el-col>
           </el-row>
@@ -595,29 +602,28 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="预付总额(元)" prop="totalPrice">
-                <el-input v-model="form.totalPrice" placeholder="请输入预计总额" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="付款日期" prop="payTime">
-                <el-date-picker clearable size="small" style="width: 100%;"
-                                v-model="form.payTime"
-                                type="date"
-                                value-format="yyyy-MM-dd"
-                                placeholder="选择付款日期">
-                </el-date-picker>
+                <el-input @change="jspay1" v-model="form.totalPrice" placeholder="请输入预计总额" />
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="成本年服务费率(%)" prop="rateYear">
-                <el-input v-model="form.rateYear" placeholder="请输入成本年服务费率" />
+              <el-form-item label="运费金额" prop="yfPrice">
+                <el-input @change="jspay1"  v-model="form.yfPrice"  placeholder="请输入运费金额" />
               </el-form-item>
             </el-col>
+          </el-row>
+          <el-row>
             <el-col :span="12">
-              <el-form-item label="保底服务费期限(天)" prop="mfsp">
-                <el-input v-model="form.mfsp" placeholder="请输入保底服务费期限" />
+              <el-form-item label="垫付保证金" prop="dfPrice">
+                <el-input @change="jspay1"  v-model="form.dfPrice"  placeholder="请输入垫付保证金" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="实际付款金额" prop="actualPrice">
+                <el-input disabled v-model="form.actualPrice"  placeholder="请输入实际付款金额" />
               </el-form-item>
             </el-col>
           </el-row>
@@ -721,7 +727,8 @@ import {
   getGrnList,
   getGryList,
   getContract,
-  getApaymentbydata
+  getApaymentbydata,
+  findInit
 } from "@/api/project/apayment";
 import {getToken} from "@/utils/auth";
 
@@ -996,6 +1003,7 @@ export default {
         kkPrice:null,
         kkNode:null,
         ypayPrice:null,
+        dfPrice:null,
       };
       this.resetForm("form");
     },
@@ -1202,141 +1210,179 @@ export default {
 
     //业务开始
     //选择项目
-    changeSt(obj){
-      this.form.jc1=0
-      this.form.jc2=0
-      this.form.jc3=0
-      this.form.jc4=0
-      this.form.jc5=0
-      this.form.jc6=0
-      this.form.jc7=0
-      this.form.jc8=0
-      this.form.jc9=0
-      this.form.jc10=0
-      this.form.jc11=0
-      this.form.jc12=0
-      this.form.rewardp=0
+    changeSt(obj) {
+      this.form.jc1 = 0
+      this.form.jc2 = 0
+      this.form.jc3 = 0
+      this.form.jc4 = 0
+      this.form.jc5 = 0
+      this.form.jc6 = 0
+      this.form.jc7 = 0
+      this.form.jc8 = 0
+      this.form.jc9 = 0
+      this.form.jc10 = 0
+      this.form.jc11 = 0
+      this.form.jc12 = 0
+      this.form.rewardp = 0
       this.form.stId2 = obj.stId
       this.form.stName = obj.name
-      this.tableybData=[];
-      //获取提前付款+首付款
-      if(this.form.away=='首次'){
-        let data2 = {"stId": obj.stId, "away": "二次",state:"3"};
-        getApaymentbydata(data2).then(response => {
-          if (response.rows.length > 0) {
-            this.form.prepaidPrice = 0.00
-            this.tqpay = 0
+      this.tableybData = [];
+
+      let dataInit = { stId: obj.stId }
+      findInit(dataInit).then(response => {
+        this.form.yfPrice = response.data.yfPrice
+        this.form.dfPrice = response.data.dfPrice
+      });
+
+      if (this.form.type == '提前付款') {
+        //成本年服务费率
+        if (obj.chargemType == '1' || obj.chargemType == '3') {
+          this.form.rateYear = obj.chargemNx
+        } else {
+          this.form.rateYear = 0
+        }
+
+        //查询委托销售合同
+        let c1 = { "stId": obj.stId, "type": "1" };
+        getContract(c1).then(response => {
+          if (response.data != null) {
+            //保底服务费期限
+            this.form.mfsp = response.data.mfsp
           } else {
-            this.form.prepaidPrice = (obj.tqpay).toFixed(2)
-            this.tqpay = obj.tqpay
+            this.form.mfsp = 0
           }
-        })
+        });
+        this.jspay1();
       }else{
-        let data = {"stId": obj.stId, "away": "首次","ist":"1",state:"3"};
-        getApaymentbydata(data).then(response => {
-          let ap=0;
-          for(let i=0;i<response.rows.length;i++){
-            ap+=response.rows[i].actualPrice
-            ap+=response.rows[i].prepaidPrice
-          }
-          let data2 = {"stId": obj.stId, "away": "二次"};
+
+        //获取提前付款+首付款
+        if (this.form.away == '首次') {
+          let data2 = { "stId": obj.stId, "away": "二次", state: "3" };
           getApaymentbydata(data2).then(response => {
-            if(response.rows.length>0){
-              this.form.prepaidPrice = ap.toFixed(2);
-              this.tqpay = 0.00
-            }else{
-              this.form.prepaidPrice = (parseFloat(obj.tqpay)+parseFloat(ap)).toFixed(2);
+            if (response.rows.length > 0) {
+              this.form.prepaidPrice = 0.00
+              this.tqpay = 0
+            } else {
+              this.form.prepaidPrice = (obj.tqpay).toFixed(2)
               this.tqpay = obj.tqpay
             }
           })
-        });
-      }
-      this.tableselData=[];
-
-      let data = {"stId": obj.stId, "yfState": "1"};
-      getGrnList(data).then(response => {
-        this.tableData = response.rows;
-      });
-      getGryList(data).then(response => {
-        this.tablegryData = response.rows;
-      });
-      //固定差价
-      if(obj.chargemType=='2' || obj.chargemType=='3'){
-        this.form.dPrice=obj.chargemGd
-      }else{
-        this.form.dPrice=0
-      }
-      //成本年服务费率
-      if(obj.chargemType=='1' || obj.chargemType=='3'){
-        this.form.rateYear=obj.chargemNx
-      }else{
-        this.form.rateYear=0
-      }
-
-      //查询委托销售合同
-      let c1 = {"stId": obj.stId, "type": "1"};
-      getContract(c1).then(response => {
-        if(response.data!=null){
-           //保底服务费期限
-           this.form.mfsp = response.data.mfsp
-        }else{
-          this.form.mfsp = 0
+        } else {
+          let data = { "stId": obj.stId, "away": "首次", "ist": "1", state: "3" };
+          getApaymentbydata(data).then(response => {
+            console.log(response)
+            let ap = 0;
+            for (let i = 0; i < response.rows.length; i++) {
+              ap += response.rows[i].payTprice
+            }
+            let data2 = { "stId": obj.stId, "away": "二次" };
+            getApaymentbydata(data2).then(response => {
+              if (response.rows.length > 0) {
+                this.form.prepaidPrice = ap.toFixed(2);
+                this.tqpay = 0.00
+              } else {
+                this.form.prepaidPrice = (parseFloat(obj.tqpay) + parseFloat(ap)).toFixed(2);
+                this.tqpay = obj.tqpay
+              }
+            })
+          });
         }
-      });
-      this.jsdj()
-      this.atochange();
+        this.tableselData = [];
+
+        let data = { "stId": obj.stId, "yfState": "1" };
+        getGrnList(data).then(response => {
+          this.tableData = response.rows;
+        });
+        getGryList(data).then(response => {
+          this.tablegryData = response.rows;
+        });
+        //固定差价
+        if (obj.chargemType == '2' || obj.chargemType == '3') {
+          this.form.dPrice = obj.chargemGd
+        } else {
+          this.form.dPrice = 0
+        }
+        //成本年服务费率
+        if (obj.chargemType == '1' || obj.chargemType == '3') {
+          this.form.rateYear = obj.chargemNx
+        } else {
+          this.form.rateYear = 0
+        }
+
+        //查询委托销售合同
+        let c1 = { "stId": obj.stId, "type": "1" };
+        getContract(c1).then(response => {
+          if (response.data != null) {
+            //保底服务费期限
+            this.form.mfsp = response.data.mfsp
+          } else {
+            this.form.mfsp = 0
+          }
+        });
+        this.jsdj()
+        this.atochange();
+      }
     },
     //选择批次
     changeAway(){
-      this.form.jc1=0
-      this.form.jc2=0
-      this.form.jc3=0
-      this.form.jc4=0
-      this.form.jc5=0
-      this.form.jc6=0
-      this.form.jc7=0
-      this.form.jc8=0
-      this.form.jc9=0
-      this.form.jc10=0
-      this.form.jc11=0
-      this.form.jc12=0
-      this.form.rewardp=0
-      this.jsdj()
-      this.tableybData=[];
-        if(this.form.stId2==null || this.form.stId2==''){
+      if (this.form.type == '提前付款') {
+        if (this.form.stId2 == null || this.form.stId2 == '') {
           this.msgError("请选择项目");
           this.form.prepaidPrice = 0.00;
           return
         }
-      //获取提前付款+首付款
-      if(this.form.away=='首次'){
-        let data2 = {"stId": this.form.stId2, "away": "二次"};
-        getApaymentbydata(data2).then(response => {
-          if (response.rows.length > 0) {
-            this.form.prepaidPrice = 0.00
-          } else {
-            this.form.prepaidPrice = this.tqpay.toFixed(2)
-          }
-        })
+        this.jspay1();
       }else{
-        let data = {"stId": this.form.stId2, "away": "首次","ist":"1"};
-        getApaymentbydata(data).then(response => {
-          let ap=0;
-          for(let i=0;i<response.rows.length;i++){
-            ap+=response.rows[i].actualPrice
-          }
-          let data2 = {"stId": this.form.stId2, "away": "二次"};
+        this.form.jc1 = 0
+        this.form.jc2 = 0
+        this.form.jc3 = 0
+        this.form.jc4 = 0
+        this.form.jc5 = 0
+        this.form.jc6 = 0
+        this.form.jc7 = 0
+        this.form.jc8 = 0
+        this.form.jc9 = 0
+        this.form.jc10 = 0
+        this.form.jc11 = 0
+        this.form.jc12 = 0
+        this.form.rewardp = 0
+        this.jsdj()
+        this.tableybData = [];
+        if (this.form.stId2 == null || this.form.stId2 == '') {
+          this.msgError("请选择项目");
+          this.form.prepaidPrice = 0.00;
+          return
+        }
+        //获取提前付款+首付款
+        if (this.form.away == '首次') {
+          let data2 = { "stId": this.form.stId2, "away": "二次" };
           getApaymentbydata(data2).then(response => {
-            if(response.rows.length>0){
-              this.form.prepaidPrice = ap.toFixed(2);
-            }else{
-              this.form.prepaidPrice = (parseFloat(this.tqpay)+parseFloat(ap)).toFixed(2);
+            if (response.rows.length > 0) {
+              this.form.prepaidPrice = 0.00
+            } else {
+              this.form.prepaidPrice = this.tqpay.toFixed(2)
             }
           })
+        } else {
+          let data = { "stId": this.form.stId2, "away": "首次", "ist": "1" };
+          getApaymentbydata(data).then(response => {
+            let ap = 0;
+            for (let i = 0; i < response.rows.length; i++) {
+              ap += response.rows[i].payTprice
+            }
+            let data2 = { "stId": this.form.stId2, "away": "二次" };
+            getApaymentbydata(data2).then(response => {
+              if (response.rows.length > 0) {
+                this.form.prepaidPrice = ap.toFixed(2);
+              } else {
+                this.form.prepaidPrice = (parseFloat(this.tqpay) + parseFloat(ap)).toFixed(2);
+              }
+            })
 
-        });
+          });
+        }
+        this.toggleSelection()
       }
-      this.toggleSelection()
     },
 
     //选中数据
@@ -1402,7 +1448,7 @@ export default {
     // 计算总额
     jste(){
       let tw=0;
-      let ep=0
+      let ep=0;
       if(this.form.totalWeight!=null && this.form.totalWeight!=''){
         tw=this.form.totalWeight;
       }
@@ -1412,7 +1458,7 @@ export default {
       //预付总额 单价*重量
       this.form.totalPrice=(tw*ep).toFixed(2);
       //计算税款
-      this.form.tax=(tw*ep/1.13*0.13).toFixed(2);
+      this.form.tax=((tw*ep)/1.13*0.13).toFixed(2);
     },
     //计算合计重量平均热值
     jsta(){
@@ -1532,6 +1578,11 @@ export default {
       if(this.form.totalPrice!=null && this.form.totalPrice!=""){
         tp = this.form.totalPrice;
       }
+      let kk=0
+      if(this.form.kkPrice!=null && this.form.kkPrice!='') {
+        kk = this.form.kkPrice;
+      }
+
       if(this.form.ato!=null &&  this.form.ato!=''){
         if(this.form.ato=='50%'){
           ato = 0.5;
@@ -1554,7 +1605,7 @@ export default {
         }
       }
 
-      this.form.payTprice = (ato*tp).toFixed(2);
+      this.form.payTprice = (ato*tp-kk).toFixed(2);
       this.jspay()
     },
     //计算实际付款
@@ -1570,7 +1621,8 @@ export default {
 
       let pt=0
       let pp=0
-      let yf=0
+      let yp=0
+      let df=0
       if(this.form.payTprice!=null && this.form.payTprice!=''){
         pt = this.form.payTprice
       }
@@ -1578,15 +1630,39 @@ export default {
         pp = this.form.prepaidPrice
       }
       if(this.form.yfPrice!=null && this.form.yfPrice!=''){
-        yf = this.form.yfPrice
+        yp = this.form.yfPrice
       }
-      let sp = pt-pp-yf;
+      if(this.form.dfPrice!=null && this.form.dfPrice!=''){
+        df = this.form.dfPrice
+      }
+
+      let sp = pt-pp-yp-df;
       if(sp>=0){
         this.form.actualPrice=sp.toFixed(2)
       }else{
         this.form.actualPrice=0.00
       }
 
+    },
+    jspay1(){
+      let totalPrice=0
+      if(this.form.totalPrice!=null && this.form.totalPrice!='') {
+        totalPrice=this.form.totalPrice
+      }
+      let yp=0
+      if(this.form.yfPrice!=null && this.form.ypPrice!=''){
+        yp = this.form.yfPrice
+      }
+      let df=0
+      if(this.form.dfPrice!=null && this.form.dfPrice!=''){
+        df = this.form.dfPrice
+      }
+      let sp = totalPrice-yp-df;
+      if(sp>=0){
+        this.form.actualPrice=sp.toFixed(2)
+      }else{
+        this.form.actualPrice=0.00
+      }
     }
 
   }

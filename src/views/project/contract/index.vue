@@ -20,6 +20,15 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
+      <el-form-item label="合同编号" prop="name">
+        <el-input
+          v-model="queryParams.number"
+          placeholder="请输入合同编号"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
       <el-form-item label="合同类型" prop="type">
         <el-select v-model="queryParams.type" placeholder="请选择合同类型" clearable size="small">
           <el-option
@@ -85,6 +94,7 @@
     <el-table v-loading="loading" :data="contractList" @selection-change="handleSelectionChange">
       <el-table-column label="项目名称" align="center" prop="stName" />
       <el-table-column label="合同名称" align="center" prop="name" />
+      <el-table-column label="合同编号" align="center" prop="number" />
       <el-table-column label="合同类型" align="center" prop="type" :formatter="typeFormat" />
       <el-table-column label="货品名称" align="center" prop="goodsName" />
       <el-table-column label="预计吨数" align="center" prop="expectNumber" />
@@ -180,6 +190,11 @@
               </el-select>
             </el-form-item>
           </el-col>
+          <el-col :span="12">
+            <el-form-item label="合同编号" prop="name">
+              <el-input v-model="form.number" placeholder="请输入合同编号" />
+            </el-form-item>
+          </el-col>
         </el-row>
         <div  v-if="form.type=='1'">
           <el-row>
@@ -222,6 +237,30 @@
             <el-col :span="12">
               <el-form-item label="保底服务费期限" prop="mfsp">
                 <el-input v-model="form.mfsp" placeholder="请输入保底服务费期限" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="超时服务费期限" prop="csmfsp">
+                <el-input v-model="form.csmfsp" placeholder="请输入超时服务费期限" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="超时服务费费率" prop="csmfsp">
+                <el-input v-model="form.csrate" placeholder="请输入超时服务费费率" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="违约服务费期限" prop="vymfsp">
+                <el-input v-model="form.vymfsp" placeholder="请输入违约服务费期限" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="违约服务费费率" prop="vymfsp">
+                <el-input v-model="form.vyrate" placeholder="请输入违约服务费费率" />
               </el-form-item>
             </el-col>
           </el-row>
@@ -678,10 +717,22 @@ export default {
           { required: true, message: "货品名称不能为空", trigger: "blur" }
         ],
         expectNumber: [
-          { required: true, validator: validatePrice, trigger: "blur" }
+          {validator: validatePrice3, trigger: "blur" }
         ],
         mfsp: [
           {validator:validatePrice2 , trigger: "blur" }
+        ],
+        csmfsp: [
+          {validator:validatePrice2 , trigger: "blur" }
+        ],
+        csrate: [
+          {validator:validatePrice3 , trigger: "blur" }
+        ],
+        vymfsp: [
+          {validator:validatePrice2 , trigger: "blur" }
+        ],
+        vyrate: [
+          {validator:validatePrice3 , trigger: "blur" }
         ],
         terminalId: [
           { required: true, message: "请选择终端用户", trigger: "blur" }
@@ -786,6 +837,10 @@ export default {
         goodsName: null,
         expectNumber: null,
         mfsp: null,
+        csmfsp: null,
+        csrate: null,
+        vymfsp: null,
+        vyrate: null,
         price: null,
         transportUnit: null,
         transportType: null,
@@ -802,6 +857,8 @@ export default {
         filebcList:[],
         khName:null,
         node:null,
+        number:null,
+
       };
       this.resetForm("form");
     },

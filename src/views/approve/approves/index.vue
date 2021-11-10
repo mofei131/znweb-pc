@@ -166,7 +166,7 @@
 
             <el-row class="head-text">
               <el-col :span="4" :offset="1">
-                终端客户名称：<span v-text="form.terminalName"></span>
+                终端客户名称：<span v-text="form.tName"></span>
               </el-col>
               <el-col :span="4">
                 性质：<span v-text="form.tXz"></span>
@@ -954,22 +954,80 @@
               合同类型：<span v-text="form.type"></span>
             </el-col>
             <el-col :span="4">
+              合同编号：<span v-text="form.number"></span>
+            </el-col>
+            <el-col :span="4">
               签约日期：<span >{{parseTime(form.signingTime, '{y}-{m}-{d}') }}</span>
             </el-col>
-            <el-col :span="4" >
+          </el-row>
+          <el-row class="head-text">
+            <el-col :span="4" :offset="1" v-if="form.type=='上游合同'">
               供应商：<span v-text="form.supplierName"></span>
             </el-col>
-            <el-col :span="4" v-if="form.type=='煤炭采购合同'">
-              基准单价：<span v-text="form.price"></span>
+            <el-col :span="4" :offset="1" v-if="form.type=='下游合同'">
+              终端客户：<span v-text="form.terminalName"></span>
+            </el-col>
+            <el-col :span="4" :offset="1" v-if="form.type=='其他合同'">
+              客户名称：<span v-text="form.khName"></span>
             </el-col>
           </el-row>
 
           <el-row class="head-text">
-            <el-col :span="4" :offset="1">
+            <el-col :span="4" :offset="1" >
               货品名称：<span v-text="form.goodsName"></span>
             </el-col>
-            <el-col :span="4">
+            <el-col :span="4" v-if="form.type=='下游合同'">
               预计吨数：<span v-text="form.expectNumber"></span>
+            </el-col>
+            <el-col :span="4" v-if="form.type=='下游合同'">
+              基准单价：<span v-text="form.price"></span>
+            </el-col>
+            <el-col :span="4" v-if="form.type=='上游合同'">
+              保底服务费期限：<span v-text="form.mfsp"></span>
+            </el-col>
+          </el-row>
+
+          <el-row class="head-text" v-if="form.type=='上游合同'">
+            <el-col :span="4" :offset="1" >
+              超时服务费期限：<span v-text="form.csmfsp"></span>
+            </el-col>
+            <el-col :span="4" >
+              超时服务费费率：<span v-text="form.csrate"></span>
+            </el-col>
+            <el-col :span="4" >
+              违约服务费期限：<span v-text="form.vymfsp"></span>
+            </el-col>
+            <el-col :span="4" >
+              违约服务费费率：<span v-text="form.vyrate"></span>
+            </el-col>
+          </el-row>
+
+          <el-row class="head-text" v-if="form.type=='物流运输合同' || form.type=='物流服务合同'">
+            <el-col :span="4" :offset="1" >
+              运输单位：<span v-text="form.goodsName"></span>
+            </el-col>
+            <el-col :span="4">
+              运输方式：<span v-text="form.expectNumber"></span>
+            </el-col>
+            <el-col :span="4" >
+              起运地：<span v-text="form.price"></span>
+            </el-col>
+            <el-col :span="4" >
+              目的地：<span v-text="form.mfsp"></span>
+            </el-col>
+          </el-row>
+          <el-row class="head-text" v-if="form.type=='物流运输合同' || form.type=='物流服务合同'">
+            <el-col :span="4" :offset="1" >
+              运费单价(吨/元)：<span v-text="form.goodsName"></span>
+            </el-col>
+            <el-col :span="4">
+              损耗率：<span v-text="form.expectNumber"></span>
+            </el-col>
+          </el-row>
+
+          <el-row class="head-text" v-if="form.type=='其他合同'">
+            <el-col :span="4" :offset="1" >
+              备注：<el-input disabled type="textarea"  :rows="5" v-model="form.node" placeholder=""  />
             </el-col>
           </el-row>
 
@@ -1172,7 +1230,7 @@
                 <span style="margin-left: 20px;">灰份Aad：<span style="color: red" v-text="form.jc3">0.00</span></span>
                 <span style="margin-left: 20px;">灰份ad：<span style="color: red" v-text="form.jc10">0.00</span></span>
                 <span style="margin-left: 20px;">挥发份Vda：<span style="color: red" v-text="form.jc4">0.00</span></span>
-                <span style="margin-left: 20px;">挥发份Vdae：<span style="color: red" v-text="form.jc11">0.00</span></span>
+                <span style="margin-left: 20px;">挥发份Vdaf：<span style="color: red" v-text="form.jc11">0.00</span></span>
               </el-form-item>
             </el-col>
           </el-row>
@@ -1222,13 +1280,23 @@
 
           <el-row class="head-text">
             <el-col :span="4" :offset="1">
+              <el-form-item label="付款总额：" >
+                <span  style="color: red">{{form.payTprice}}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="4" >
               <el-form-item label="已付金额：" >
-                <span  style="color: red;line-height: 57px !important;">{{form.prepaidPrice}}</span>
+                <span  style="color: red">{{form.prepaidPrice}}</span>
+              </el-form-item>
+            </el-col>
+            <el-col :span="4">
+              <el-form-item label="垫付保证金：" >
+                <span  style="color: red">{{form.dfPrice}}</span>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item label="实际付款金额：" >
-                <span  style="color: red;line-height: 57px !important;">{{form.actualPrice}}</span>
+                <span  style="color: red">{{form.actualPrice}}</span>
               </el-form-item>
             </el-col>
           </el-row>
@@ -1458,7 +1526,7 @@
               最终应付款税额：<span v-text="form.yftotalPriceatx"></span>
             </el-col>
             <el-col :span="5">
-              已付金额：<span v-text="form.yfPrice"></span>
+              提单金额：<span v-text="form.yfPrice"></span>
             </el-col>
             <el-col :span="5">
               金额：<span v-text="form.je"></span>
@@ -1959,167 +2027,34 @@
 
           <el-row class="head-title">
             <el-col :span="19">
-              <el-form-item label="出库信息"></el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="20" :offset="1">
-              <el-table
-                ref="singleTable"
-                :data="gryList"
-                fit
-                style="margin-bottom: 30px;">
-                <el-table-column
-                  property="name"
-                  label="货品名称">
-                </el-table-column>
-                <el-table-column
-                  property="grnNumber"
-                  label="出库重量（吨）">
-                </el-table-column>
-                <el-table-column
-                  property="grnRz"
-                  label="出库热值（kcal）">
-                </el-table-column>
-                <el-table-column
-                  property="transportType"
-                  label="运输方式">
-                </el-table-column>
-                <el-table-column
-                  property="wlCompany"
-                  label="物流公司">
-                </el-table-column>
-                <el-table-column
-                  property="carNumber"
-                  label="车数">
-                </el-table-column>
-                <el-table-column
-                  property="batch"
-                  label="批次">
-                </el-table-column>
-                <el-table-column
-                  property="deliveryTime"
-                  label="到货日期">
-                </el-table-column>
-                <el-table-column
-                  property="valuePrice"
-                  label="货值单价（元）">
-                </el-table-column>
-                <el-table-column
-                  property="valueTprice"
-                  label="货值总额（吨）">
-                </el-table-column>
-              </el-table>
-            </el-col>
-          </el-row>
-          <el-row class="head-title">
-            <el-col :span="19">
               <el-form-item label="基本信息"></el-form-item>
             </el-col>
           </el-row>
 
           <el-row class="head-text">
             <el-col :span="4" :offset="1">
-              不含税金额合计：<span v-text="form.tntPrice"></span>
-            </el-col>
-            <el-col :span="4">
-              补税金额：<span v-text="form.bsPrice"></span>
+              实付金额：<span v-text="form.tntPrice"></span>
             </el-col>
           </el-row>
-
-
-
-
-
-
 
           <el-row class="head-title">
             <el-col :span="19">
-              <el-form-item label="入库信息"></el-form-item>
+              <el-form-item label="服务费信息"></el-form-item>
             </el-col>
           </el-row>
-          <el-row>
-            <el-col :span="20" :offset="1">
-              <el-table
-                ref="singleTable"
-                :data="gryList"
-                fit
-                style="margin-bottom: 30px;">
-                <el-table-column
-                  property="name"
-                  label="货品名称">
-                </el-table-column>
-                <el-table-column
-                  property="grnNumber"
-                  label="出库重量（吨）">
-                </el-table-column>
-                <el-table-column
-                  property="grnRz"
-                  label="出库热值（kcal）">
-                </el-table-column>
-                <el-table-column
-                  property="transportType"
-                  label="运输方式">
-                </el-table-column>
-                <el-table-column
-                  property="wlCompany"
-                  label="物流公司">
-                </el-table-column>
-                <el-table-column
-                  property="carNumber"
-                  label="车数">
-                </el-table-column>
-                <el-table-column
-                  property="batch"
-                  label="批次">
-                </el-table-column>
-                <el-table-column
-                  property="deliveryTime"
-                  label="到货日期">
-                </el-table-column>
-                <el-table-column
-                  property="valuePrice"
-                  label="货值单价（元）">
-                </el-table-column>
-                <el-table-column
-                  property="valueTprice"
-                  label="货值总额（吨）">
-                </el-table-column>
-              </el-table>
-            </el-col>
-          </el-row>
-          <el-row class="head-title">
-            <el-col :span="19">
-              <el-form-item label="追加费用"></el-form-item>
-            </el-col>
-          </el-row>
+
           <el-row class="head-text">
-            <el-col :offset="1">
-              <el-table
-                ref="wlsingleTable"
-                :data="form.wldetailsList"
-                style="width: 80%;margin-bottom: 30px;">
-                <el-table-column
-                  property="number"
-                  label="发票号">
-                </el-table-column>
-                <el-table-column
-                  property="wlType"
-                  label="费用名称">
-                </el-table-column>
-                <el-table-column
-                  property="ntPrice"
-                  label="不含税金额">
-                </el-table-column>
-                <el-table-column
-                  property="tax"
-                  label="税率">
-                </el-table-column>
-                <el-table-column
-                  property="taxPrice"
-                  label="税额">
-                </el-table-column>
-              </el-table>
+            <el-col :span="5" :offset="1">
+              是否产生服务费：<span v-text="form.serType"></span>
+            </el-col>
+            <el-col :span="5">
+              支付日期：<span>{{ parseTime(form.putTime, '{y}-{m}-{d}') }}</span>
+            </el-col>
+            <el-col :span="5">
+              年服务费费率(%)：<span v-text="form.stRate" ></span>
+            </el-col>
+            <el-col :span="5">
+              保底服务费期限(天)：<span v-text="form.mfsp"></span>
             </el-col>
           </el-row>
 
@@ -2273,7 +2208,7 @@
                       <span v-text="form.coalVda"  />
                     </template>
                   </el-table-column>
-                  <el-table-column  label="Vdae">
+                  <el-table-column  label="Vdaf">
                     <template   prop="coalVdae">
                       <span v-text="form.coalVdae"  />
                     </template>
@@ -2322,7 +2257,7 @@
                 <span style="margin-left: 20px;">灰份Aad：<span style="color: red" v-text="form.jc3">0.00</span></span>
                 <span style="margin-left: 20px;">灰份ad：<span style="color: red" v-text="form.jc10">0.00</span></span>
                 <span style="margin-left: 20px;">挥发份Vda：<span style="color: red" v-text="form.jc4">0.00</span></span>
-                <span style="margin-left: 20px;">挥发份Vdae：<span style="color: red" v-text="form.jc11">0.00</span></span>
+                <span style="margin-left: 20px;">挥发份Vdaf：<span style="color: red" v-text="form.jc11">0.00</span></span>
               </el-form-item>
             </el-col>
           </el-row>
@@ -2419,7 +2354,7 @@
                       <span v-text="form.coalVda"  />
                     </template>
                   </el-table-column>
-                  <el-table-column  label="Vdae">
+                  <el-table-column  label="Vdaf">
                     <template   prop="coalVdae">
                       <span v-text="form.coalVdae"  />
                     </template>
@@ -2468,7 +2403,7 @@
                 <span style="margin-left: 20px;">灰份Aad：<span style="color: red" v-text="form.jc3">0.00</span></span>
                 <span style="margin-left: 20px;">灰份ad：<span style="color: red" v-text="form.jc10">0.00</span></span>
                 <span style="margin-left: 20px;">挥发份Vda：<span style="color: red" v-text="form.jc4">0.00</span></span>
-                <span style="margin-left: 20px;">挥发份Vdae：<span style="color: red" v-text="form.jc11">0.00</span></span>
+                <span style="margin-left: 20px;">挥发份Vdaf：<span style="color: red" v-text="form.jc11">0.00</span></span>
               </el-form-item>
             </el-col>
           </el-row>

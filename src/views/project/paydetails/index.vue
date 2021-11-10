@@ -22,6 +22,28 @@
     </el-form>
 
     <el-row :gutter="10" class="mb8">
+      <div v-if="this.queryParams.type!='realsk'">
+      <el-col :span="3" style="margin-left:12px;">
+        <span>应付金额：</span> <span v-text="yf">0.00</span>
+      </el-col>
+      <el-col :span="3" >
+        <span>已付金额：</span><span v-text="ypay">0.00</span>
+      </el-col>
+      <el-col :span="3" >
+        <span>剩余应付：</span><span v-text="(yf-ypay).toFixed(2)">0.00</span>
+      </el-col>
+      </div>
+      <div v-if="this.queryParams.type=='realsk'">
+        <el-col :span="3" style="margin-left:12px;">
+          <span>应收金额：</span> <span v-text="yf">0.00</span>
+        </el-col>
+        <el-col :span="3" >
+          <span>已收金额：</span><span v-text="ypay">0.00</span>
+        </el-col>
+        <el-col :span="3" >
+          <span>剩余应收：</span><span v-text="yf-ypay">0.00</span>
+        </el-col>
+      </div>
 <!--      <el-col :span="1.5">-->
 <!--        <el-button-->
 <!--          type="primary"-->
@@ -54,16 +76,15 @@
 <!--          v-hasPermi="['project:paydetails:remove']"-->
 <!--        >删除</el-button>-->
 <!--      </el-col>-->
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="warning"-->
-<!--          plain-->
-<!--          icon="el-icon-download"-->
-<!--          size="mini"-->
-<!--          @click="handleExport"-->
-<!--          v-hasPermi="['project:paydetails:export']"-->
-<!--        >导出</el-button>-->
-<!--      </el-col>-->
+      <el-col :span="1.5">
+        <el-button
+          type="warning"
+          plain
+          icon="el-icon-download"
+          size="mini"
+          @click="handleExport"
+        >导出</el-button>
+      </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
@@ -84,27 +105,30 @@
           <span>{{ parseTime(scope.row.payTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-
-
-
-<!--      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">-->
-<!--        <template slot-scope="scope">-->
-<!--          <el-button-->
-<!--            size="mini"-->
-<!--            type="text"-->
-<!--            icon="el-icon-edit"-->
-<!--            @click="handleUpdate(scope.row)"-->
-<!--            v-hasPermi="['project:paydetails:edit']"-->
-<!--          >修改</el-button>-->
-<!--          <el-button-->
-<!--            size="mini"-->
-<!--            type="text"-->
-<!--            icon="el-icon-delete"-->
-<!--            @click="handleDelete(scope.row)"-->
-<!--            v-hasPermi="['project:paydetails:remove']"-->
-<!--          >删除</el-button>-->
-<!--        </template>-->
-<!--      </el-table-column>-->
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+        <template slot-scope="scope">
+          <el-button
+            v-if="scope.row.createTime==null"
+            size="mini"
+            type="text"
+            icon="el-icon-edit"
+            @click="handleUpdate(scope.row)"
+          >修改</el-button>
+          <el-button
+            v-if="scope.row.createTime==null"
+            size="mini"
+            type="text"
+            icon="el-icon-edit"
+            @click="handleUpdateOk(scope.row)"
+          >完成</el-button>
+          <el-button
+            v-if="scope.row.createTime!=null"
+            size="mini"
+            type="text"
+            icon="el-icon-edit"
+          >已完成</el-button>
+        </template>
+      </el-table-column>
     </el-table>
 
     <pagination
@@ -118,24 +142,11 @@
     <!-- 添加或修改付款明细对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="付款类别" prop="type">
-          <el-select v-model="form.type" placeholder="请选择付款类别">
-            <el-option label="请选择字典生成" value="" />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="付款id" prop="pid">
-          <el-input v-model="form.pid" placeholder="请输入付款id" />
-        </el-form-item>
-        <el-form-item label="付款人id" prop="userId">
-          <el-input v-model="form.userId" placeholder="请输入付款人id" />
-        </el-form-item>
-        <el-form-item label="付款人" prop="userName">
-          <el-input v-model="form.userName" placeholder="请输入付款人" />
-        </el-form-item>
-        <el-form-item label="付款金额" prop="payPrice">
+
+        <el-form-item label="付款金额" prop="payPrice"  v-if="this.queryParams.type!='realsk'">
           <el-input v-model="form.payPrice" placeholder="请输入付款金额" />
         </el-form-item>
-        <el-form-item label="付款时间" prop="payTime">
+        <el-form-item label="付款时间" prop="payTime"  v-if="this.queryParams.type!='realsk'">
           <el-date-picker clearable size="small"
             v-model="form.payTime"
             type="date"
@@ -143,12 +154,19 @@
             placeholder="选择付款时间">
           </el-date-picker>
         </el-form-item>
-        <el-form-item label="保底服务费期限" prop="msfp">
-          <el-input v-model="form.msfp" placeholder="请输入保底服务费期限" />
+
+        <el-form-item label="收款金额" prop="payPrice"  v-if="this.queryParams.type=='realsk'">
+          <el-input v-model="form.payPrice" placeholder="请输入付款金额" />
         </el-form-item>
-        <el-form-item label="年息服务费费率" prop="rate">
-          <el-input v-model="form.rate" placeholder="请输入年息服务费费率" />
+        <el-form-item label="收款时间" prop="payTime"  v-if="this.queryParams.type=='realsk'">
+          <el-date-picker clearable size="small"
+                          v-model="form.payTime"
+                          type="date"
+                          value-format="yyyy-MM-dd"
+                          placeholder="选择付款时间">
+          </el-date-picker>
         </el-form-item>
+
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -160,6 +178,9 @@
 
 <script>
 import { listPaydetails, getPaydetails, delPaydetails, addPaydetails, updatePaydetails } from "@/api/project/paydetails";
+import { getApayment } from '@/api/project/apayment'
+import { getFpayment } from '@/api/project/fpayment'
+import { getRealsk } from '@/api/project/realsk'
 
 export default {
   name: "Paydetails",
@@ -194,7 +215,9 @@ export default {
       form: {},
       // 表单校验
       rules: {
-      }
+      },
+      ypay:0.00,
+      yf:0.00,
     };
   },
   created() {
@@ -213,6 +236,24 @@ export default {
         this.total = response.total;
         this.loading = false;
       });
+      if(this.queryParams.type=='apayment'){
+        getApayment(this.queryParams.pid).then(response => {
+          this.yf=response.data.actualPrice
+          this.ypay=response.data.ypayPrice
+        });
+      }
+      if(this.queryParams.type=='fpayment'){
+        getFpayment(this.queryParams.pid).then(response => {
+          this.yf=response.data.sjPrice
+          this.ypay=response.data.ypayPrice
+        });
+      }
+      if(this.queryParams.type=='realsk'){
+        getRealsk(this.queryParams.pid).then(response => {
+          this.yf=response.data.jstPrice
+          this.ypay=response.data.ysPrice
+        });
+      }
     },
     // 取消按钮
     cancel() {
@@ -266,6 +307,19 @@ export default {
         this.form = response.data;
         this.open = true;
         this.title = "修改付款明细";
+      });
+    },
+    /** 完成按钮操作 */
+    handleUpdateOk(row) {
+      this.reset();
+      const paydetailsId = row.paydetailsId || this.ids
+      getPaydetails(paydetailsId).then(response => {
+        this.form = response.data;
+        this.form.isok = '1'
+        updatePaydetails(this.form).then(response => {
+          this.msgSuccess("操作成功");
+          this.getList();
+        });
       });
     },
     /** 提交按钮 */

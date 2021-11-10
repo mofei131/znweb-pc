@@ -183,7 +183,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="开票金额(元)" prop="kpPrice">
-              <el-input @change="jsTax" v-model="form.kpPrice" placeholder="请输入开票金额(元)" />
+              <el-input  v-model="form.kpPrice" placeholder="请输入开票金额(元)" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -195,31 +195,31 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="价税合计(元)" prop="kpTotal">
-              <el-input v-model="form.kpTotal" placeholder="请输入价税合计(元)" />
+              <el-input @change="jsTax" v-model="form.kpTotal" placeholder="请输入价税合计(元)" />
             </el-form-item>
           </el-col>
         </el-row>
 
         <el-row>
           <el-col :span="12">
-            <el-form-item label="电厂结算金额" prop="kpPrice">
-              <el-input v-model="form.zzTprice" placeholder="请输入开票金额(元)" />
+            <el-form-item label="电厂结算金额" prop="zzTprice">
+              <el-input v-model="form.zzTprice" placeholder="请输入电厂结算金额(元)" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="合计重量" prop="kpTax">
-              <el-input v-model="form.zzWeight" placeholder="请输入开票税额(元)" />
+            <el-form-item label="合计重量" prop="zzWeight">
+              <el-input v-model="form.zzWeight" placeholder="请输入合计重量(元)" />
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="货品单价" prop="kpPrice">
-              <el-input v-model="form.zzPrice" placeholder="请输入开票金额(元)" />
+            <el-form-item label="货品单价" prop="zzPrice">
+              <el-input v-model="form.zzPrice" placeholder="请输入货品单价(元)" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="货品名称" prop="kpTax">
+            <el-form-item label="货品名称" prop="mc">
               <el-input v-model="form.mc" placeholder="请输入货品名称" />
             </el-form-item>
           </el-col>
@@ -579,12 +579,19 @@ export default {
     },
 
     jsTax(){
-      let price=0.00
-      if(this.form.kpPrice!=null && this.form.kpPrice!=''){
-        price=this.form.kpPrice
+      // let price=0.00
+      // if(this.form.kpPrice!=null && this.form.kpPrice!=''){
+      //   price=this.form.kpPrice
+      // }
+      // this.form.kpTax=(parseFloat(price)/1.13*0.13).toFixed(2)
+      // this.form.kpTotal=parseFloat(this.form.kpTax)+parseFloat(price);
+
+      let kpTotal=0.00
+      if(this.form.kpTotal!=null && this.form.kpTotal!=''){
+        kpTotal=this.form.kpTotal
       }
-      this.form.kpTax=(parseFloat(price)/1.13*0.13).toFixed(2)
-      this.form.kpTotal=parseFloat(this.form.kpTax)+parseFloat(price);
+      this.form.kpPrice=(parseFloat(kpTotal)/(1+0.13/1.13)).toFixed(2)
+      this.form.kpTax=(parseFloat(this.form.kpTotal)-parseFloat(this.form.kpPrice)).toFixed(2);
     },
   }
 };

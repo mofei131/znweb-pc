@@ -19,7 +19,9 @@
 .upload-hidden .el-upload--picture-card{
   display:none;   /* 上传按钮隐藏 */
 }
-
+.el-textarea.is-disabled .el-textarea__inner{
+  background-color:#FFF; /* 设置背景颜色为黑色 */
+}
 
 </style>
 <template>
@@ -40,29 +42,106 @@
           项目名称：<span v-text="form.stName"></span>
         </el-col>
         <el-col :span="4">
-          预估应收：<span v-text="form.ygPrice"></span>
-        </el-col>
-        <el-col :span="4">
           开票金额：<span v-text="form.kpPrice"></span>
         </el-col>
         <el-col :span="4">
-          结算单价：<span v-text="form.jsDj"></span>
+          开票吨数：<span v-text="form.kpNumber"></span>
         </el-col>
-        <el-col :span="4" >
-          结算煤量(元)：<span v-text="form.jsMl"></span>
+        <el-col :span="4">
+          结算单总金额：<span v-text="form.jstPrice"></span>
+        </el-col>
+        <el-col :span="4">
+          热值(Kcal/吨)：<span v-text="form.rz"></span>
         </el-col>
       </el-row>
 
       <el-row class="head-text">
         <el-col :span="4" :offset="1">
+          结算单价：<span v-text="form.jsDj"></span>
+        </el-col>
+        <el-col :span="4" >
+          结算煤量(元)：<span v-text="form.jsMl"></span>
+        </el-col>
+        <el-col :span="4" >
           结算煤款：<span v-text="form.jsMk"></span>
         </el-col>
         <el-col :span="4" >
           结算税款(元)：<span v-text="form.jsTax"></span>
         </el-col>
-
       </el-row>
 
+      <el-row style="margin-top: 30px;">
+        <el-col :span="20" :offset="1">
+          <el-table :data="tabledatas" fit style="margin-bottom: 22px;">
+            <el-table-column  label="水分(%)">
+              <template slot-scope="scope" >
+                <span v-text="form.coalSf"></span>
+              </template>
+            </el-table-column>
+            <el-table-column  label="内水(%)">
+              <template >
+                <span v-text="form.coalNs"  />
+              </template>
+            </el-table-column>
+            <el-table-column  label="灰份(%)">
+              <el-table-column  label="Aad">
+                <template   prop="coalAad">
+                  <span v-text="form.coalAad"  />
+                </template>
+              </el-table-column>
+              <el-table-column  label="ad">
+                <template   prop="coalAd">
+                  <span v-text="form.coalAd"  />
+                </template>
+              </el-table-column>
+            </el-table-column>
+            <el-table-column label="挥发份(%)">
+              <el-table-column  label="Vda">
+                <template   prop="coalVda">
+                  <span v-text="form.coalVda"  />
+                </template>
+              </el-table-column>
+              <el-table-column  label="Vdaf">
+                <template   prop="coalVdae">
+                  <span v-text="form.coalVdae"  />
+                </template>
+              </el-table-column>
+            </el-table-column>
+            <el-table-column  label="灰熔点(℃)">
+              <template   prop="coalHrd">
+                <span v-text="form.coalHrd"  />
+              </template>
+            </el-table-column>
+            <el-table-column   label="固定碳(%)">
+              <template   prop="coalGdt">
+                <span v-text="form.coalGdt"  />
+              </template>
+            </el-table-column>
+            <el-table-column  label="含硫量(%)">
+              <template   prop="coalHll">
+                <span v-text="form.coalHll"  />
+              </template>
+            </el-table-column>
+            <el-table-column label="热值(%)">
+              <el-table-column  label="Qgr,ad">
+                <template    prop="coalQgrad">
+                  <span v-text="form.coalQgrad"  />
+                </template>
+              </el-table-column>
+              <el-table-column  label="Qnt,ar">
+                <template   prop="coalQntar">
+                  <span v-text="form.coalQntar"  />
+                </template>
+              </el-table-column>
+            </el-table-column>
+          </el-table>
+        </el-col>
+      </el-row>
+      <el-row class="head-text" >
+        <el-col :span="10" :offset="1">
+          备注： <el-input disabled type="textarea"  :rows="5" v-model="form.node" placeholder=""  />
+        </el-col>
+      </el-row>
 
       <!--      审批信息-->
       <el-row class="head-title">
@@ -137,7 +216,9 @@ export default {
       fileList:[],
       //补充附件集合
       bcfileList:[],
-
+      tabledatas: [
+        {show:true}
+      ],
       // 表单参数
       form: {},
     };

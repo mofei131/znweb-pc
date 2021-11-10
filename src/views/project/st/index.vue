@@ -615,6 +615,11 @@
                 </el-select>
               </el-form-item>
             </el-col>
+            <el-col :span="12" v-if="form.tMargintime=='其他'">
+              <el-form-item label="备注" prop="tbz">
+                <el-input v-model="form.tbz" placeholder="请输入备注" />
+              </el-form-item>
+            </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
@@ -1377,6 +1382,7 @@ export default {
         tMargintype: null,
         tMargin: null,
         tMargintime: null,
+        tbz: null,
         tContracttype: null,
         tContracttime: null,
         tTransporttype: null,

@@ -192,25 +192,25 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="预付方式" prop="payType">
-              <el-select  v-model="form.payType" @change="jsdj"  placeholder="请选择预付方式" style="width: 100%">
-                <el-option label="吨"  value="吨" >吨</el-option>
-                <el-option label="热值" value="热值" >热值</el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <div v-if="form.payType=='热值'">
-          <el-row>
-            <el-col :span="12">
-              <el-form-item label="热值单价(元/Kcal)" prop="rzValue">
-                <el-input v-model="form.rzValue" @change="jsdj" placeholder="请输入热值单价(元/Kcal)" />
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </div>
+<!--        <el-row>-->
+<!--          <el-col :span="12">-->
+<!--            <el-form-item label="预付方式" prop="payType">-->
+<!--              <el-select  v-model="form.payType" @change="jsdj"  placeholder="请选择预付方式" style="width: 100%">-->
+<!--                <el-option label="吨"  value="吨" >吨</el-option>-->
+<!--                <el-option label="热值" value="热值" >热值</el-option>-->
+<!--              </el-select>-->
+<!--            </el-form-item>-->
+<!--          </el-col>-->
+<!--        </el-row>-->
+<!--        <div v-if="form.payType=='热值'">-->
+<!--          <el-row>-->
+<!--            <el-col :span="12">-->
+<!--              <el-form-item label="热值单价(元/Kcal)" prop="rzValue">-->
+<!--                <el-input v-model="form.rzValue" @change="jsdj" placeholder="请输入热值单价(元/Kcal)" />-->
+<!--              </el-form-item>-->
+<!--            </el-col>-->
+<!--          </el-row>-->
+<!--        </div>-->
 
 
         <!--已选择的出库单-->
@@ -389,7 +389,7 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="已付金额" prop="yfPrice">
+            <el-form-item label="提单金额" prop="yfPrice">
               <el-input disabled v-model="form.yfPrice"  placeholder="请输入已付金额" />
             </el-form-item>
           </el-col>
@@ -429,6 +429,13 @@
             </el-form-item>
           </el-col>
         </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="实际支付" prop="sjzf">
+                <span v-text="form.sjzf"></span>
+              </el-form-item>
+            </el-col>
+          </el-row>
         </div>
 
         <div v-if="isLook=='4'">
@@ -789,6 +796,7 @@ export default {
         jstax:null,
         rateYear: null,
         mfsp: null,
+        sjzf:null,
       };
       this.resetForm("form");
     },
@@ -863,7 +871,7 @@ export default {
 
     /** 查看付款明细 */
     openPayDetailss(row) {
-      this.$router.push({name: 'paydetailsList', query:{type:'fpayment',pid:row.fpyamentId}})
+      this.$router.push({name: 'paydetailsList', query:{type:'fpayment',pid:row.fpaymentId}})
     },
 
 
@@ -1030,6 +1038,8 @@ export default {
         this.form.price=parseFloat(response.data.price).toFixed(2);
         this.bs = parseFloat(response.data.bsPrice).toFixed(2);
         this.price = parseFloat(response.data.price).toFixed(2);
+        this.form.zzPrice=parseFloat(response.data.jst).toFixed(2);
+        this.form.tax = ((parseFloat(response.data.jst))/1.13*0.13).toFixed(2);
         this.toggleSelection();
       });
 
@@ -1087,32 +1097,11 @@ export default {
         this.form.gdxPrice = 0;
       }
 
-      //计算付款总额
-      let tw=0
-      let pr=0
-      if(this.form.tweight!=null && this.form.tweight!=""){
-        tw = this.form.tweight;
-      }
-      if(this.form.price!=null && this.form.price!=""){
-        pr = this.form.price;
-      }
-
-      this.form.zzPrice = (tw*pr).toFixed(2);
-      //税款
-      this.form.tax = ((tw*pr)/1.13*0.13).toFixed(2);
       this.atochange()
     },
     //计算单价
     jsdj(){
-      if(this.form.payType=='热值'){
-        if(this.form.rzValue!=null && this.form.rzValue!='' && this.form.prz!=null && this.form.prz!=''){
-          this.form.price = (this.form.rzValue*this.form.prz+parseFloat(re)).toFixed(2)
-          this.toggleSelection()
-        }else {
-          this.form.price = 0
-          this.toggleSelection()
-        }
-      }
+
     },
     // 计算最终付款总额
     atochange(){
@@ -1121,8 +1110,6 @@ export default {
       if(this.form.zzPrice!=null && this.form.zzPrice!=""){
         zzprice = this.form.zzPrice;
       }
-      //税款
-      this.form.tax = ((zzprice)/1.13*0.13).toFixed(2);
 
 
       let tx=0

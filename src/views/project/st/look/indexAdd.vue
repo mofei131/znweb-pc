@@ -152,7 +152,7 @@
 
       <el-row class="head-text">
         <el-col :span="4" :offset="1">
-          终端客户名称：<span v-text="form.terminalName"></span>
+          终端客户名称：<span v-text="form.tName"></span>
         </el-col>
         <el-col :span="4">
           性质：<span v-text="form.tXz"></span>

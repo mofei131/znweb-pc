@@ -157,7 +157,7 @@
             <span style="margin-left: 20px;">灰份Aad：<span style="color: red" v-text="form.jc3">0.00</span></span>
             <span style="margin-left: 20px;">灰份ad：<span style="color: red" v-text="form.jc10">0.00</span></span>
             <span style="margin-left: 20px;">挥发份Vda：<span style="color: red" v-text="form.jc4">0.00</span></span>
-            <span style="margin-left: 20px;">挥发份Vdae：<span style="color: red" v-text="form.jc11">0.00</span></span>
+            <span style="margin-left: 20px;">挥发份Vdaf：<span style="color: red" v-text="form.jc11">0.00</span></span>
           </el-form-item>
         </el-col>
       </el-row>
@@ -217,8 +217,18 @@
 
       <el-row class="head-text">
         <el-col :span="4" :offset="1">
+          <el-form-item label="付款总额：" >
+            <span  style="color: red">{{form.payTprice}}</span>
+          </el-form-item>
+        </el-col>
+        <el-col :span="4" >
           <el-form-item label="已付金额：" >
             <span  style="color: red">{{form.prepaidPrice}}</span>
+          </el-form-item>
+        </el-col>
+        <el-col :span="4">
+          <el-form-item label="垫付保证金：" >
+            <span  style="color: red">{{form.dfPrice}}</span>
           </el-form-item>
         </el-col>
         <el-col :span="4">

@@ -48,15 +48,20 @@
           合同类型：<span v-text="form.type"></span>
         </el-col>
         <el-col :span="4">
+          合同编号：<span v-text="form.number"></span>
+        </el-col>
+        <el-col :span="4">
           签约日期：<span >{{parseTime(form.signingTime, '{y}-{m}-{d}') }}</span>
         </el-col>
-        <el-col :span="4" v-if="form.type=='上游合同'">
+      </el-row>
+      <el-row class="head-text">
+        <el-col :span="4" :offset="1" v-if="form.type=='上游合同'">
           供应商：<span v-text="form.supplierName"></span>
         </el-col>
-        <el-col :span="4" v-if="form.type=='下游合同'">
+        <el-col :span="4" :offset="1" v-if="form.type=='下游合同'">
           终端客户：<span v-text="form.terminalName"></span>
         </el-col>
-        <el-col :span="4" v-if="form.type=='其他合同'">
+        <el-col :span="4" :offset="1" v-if="form.type=='其他合同'">
           客户名称：<span v-text="form.khName"></span>
         </el-col>
       </el-row>
@@ -73,6 +78,21 @@
         </el-col>
         <el-col :span="4" v-if="form.type=='上游合同'">
           保底服务费期限：<span v-text="form.mfsp"></span>
+        </el-col>
+      </el-row>
+
+      <el-row class="head-text" v-if="form.type=='上游合同'">
+        <el-col :span="4" :offset="1" >
+          超时服务费期限：<span v-text="form.csmfsp"></span>
+        </el-col>
+        <el-col :span="4" >
+          超时服务费费率：<span v-text="form.csrate"></span>
+        </el-col>
+        <el-col :span="4" >
+          违约服务费期限：<span v-text="form.vymfsp"></span>
+        </el-col>
+        <el-col :span="4" >
+          违约服务费费率：<span v-text="form.vyrate"></span>
         </el-col>
       </el-row>
 
