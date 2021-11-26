@@ -66,6 +66,9 @@
               <el-col :span="4" :offset="1">
                 结算比例：<span v-text="form.settlementP"></span>
               </el-col>
+              <el-col :span="4" >
+                客户经理：<span v-text="form.managerName"></span>
+              </el-col>
             </el-row>
 
             <el-row class="head-title">
@@ -706,24 +709,23 @@
                 :data="lpaymentList"
                 style="width: 80%;margin-bottom: 30px;">
                 <el-table-column
-                  property="wlc"
-                  label="物流公司">
-                </el-table-column>
-                <el-table-column
-                  property="type"
                   label="物流类型">
+                  物流付款
                 </el-table-column>
                 <el-table-column
-                  property="cs"
-                  label="车数">
+                  property="tntPrice"
+                  label="实付金额">
                 </el-table-column>
                 <el-table-column
-                  property="ds"
-                  label="吨数">
+                  property="serType"
+                  label="是否产生服务费">
                 </el-table-column>
                 <el-table-column
-                  property="jst"
-                  label="付款金额">
+                  property="putTime"
+                  label="付款时间">
+                  <template slot-scope="scope">
+                    <span>{{ parseTime(scope.row.putTime, '{y}-{m}-{d}') }}</span>
+                  </template>
                 </el-table-column>
                 <el-table-column
                   label="操作"
@@ -800,6 +802,47 @@
           <el-row class="head-title">
             <el-col :span="12">
               <el-form-item label="发票信息"></el-form-item>
+            </el-col>
+          </el-row>
+          <el-row class="head-text">
+            <el-col :offset="1">
+              <el-table
+                ref="singleTable"
+                :data="kpList"
+                style="width: 80%;margin-bottom: 30px;">
+                <el-table-column
+                  label="开票类型">
+                  <span>开票</span>
+                </el-table-column>
+                <el-table-column
+                  property="kpPrice"
+                  label="开票金额(元)">
+                </el-table-column>
+                <el-table-column
+                  property="zzWeight"
+                  label="货品总重(吨)">
+                </el-table-column>
+                <el-table-column
+                  property="kpTax"
+                  label="发票税额(元)">
+                </el-table-column>
+                <el-table-column
+                  property="kpTotal"
+                  label="价税合计(元)">
+                </el-table-column>
+                <el-table-column
+                  label="操作"
+                  width="120">
+                  <template slot-scope="scope">
+                    <el-button
+                      @click.native.prevent="toKp(scope.row.kpId)"
+                      type="text"
+                      size="small">
+                      查看
+                    </el-button>
+                  </template>
+                </el-table-column>
+              </el-table>
             </el-col>
           </el-row>
           <el-row class="head-text">
@@ -1265,18 +1308,28 @@
             </el-col>
           </el-row>
 
+          <!--      <el-row class="head-text">-->
+          <!--        <el-col :span="4" :offset="1">-->
+          <!--          付款日期：<span>{{ parseTime(form.payTime, '{y}-{m}-{d}') }}</span>-->
+          <!--        </el-col>-->
+          <!--        <el-col :span="4">-->
+          <!--          成本年服务费率(%)：<span v-text="form.rateYear"></span>-->
+          <!--        </el-col>-->
+          <!--        <el-col :span="4">-->
+          <!--          保底服务费期限(天)：<span v-text="form.mfsp"></span>-->
+          <!--        </el-col>-->
+          <!--      </el-row>-->
           <el-row class="head-text">
             <el-col :span="4" :offset="1">
-              付款日期：<span>{{ parseTime(form.payTime, '{y}-{m}-{d}') }}</span>
+              扣款金额：<span v-text="form.kkPrice"></span>
             </el-col>
             <el-col :span="4">
-              成本年服务费率(%)：<span v-text="form.rateYear"></span>
+              扣款备注：<span v-text="form.kkNode"></span>
             </el-col>
-            <el-col :span="4">
-              保底服务费期限(天)：<span v-text="form.mfsp"></span>
+            <el-col :span="4" >
+              运费金额：<span v-text="form.yfPrice"></span>
             </el-col>
           </el-row>
-
 
           <el-row class="head-text">
             <el-col :span="4" :offset="1">
@@ -3075,6 +3128,8 @@ export default {
       fpaymentList:[],
       //发票集合
       sticketList:[],
+      //发票集合
+      kpList:[],
       //服务费集合
       spList:[],
       //固定差价集合

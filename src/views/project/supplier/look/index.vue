@@ -49,6 +49,14 @@
       </el-row>
       <el-row class="head-text">
         <el-col :span="5" :offset="1">
+          供应商账号：<span v-text="form.account"></span>
+        </el-col>
+        <el-col :span="5">
+          开户行：<span v-text="form.openbank"></span>
+        </el-col>
+      </el-row>
+      <el-row class="head-text">
+        <el-col :span="5" :offset="1">
           发票面额：<span v-text="form.invoiceType"></span>
         </el-col>
         <el-col :span="5" >

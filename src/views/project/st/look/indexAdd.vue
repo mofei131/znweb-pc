@@ -52,6 +52,9 @@
         <el-col :span="4" :offset="1">
           结算比例：<span v-text="form.settlementP"></span>
         </el-col>
+        <el-col :span="4" >
+          客户经理：<span v-text="form.managerName"></span>
+        </el-col>
       </el-row>
 
       <el-row class="head-title">

@@ -184,6 +184,27 @@
         </el-row>
           <el-row>
             <el-col :span="12">
+              <el-form-item label="供应商" prop="supplierName">
+                <span v-text="form.supplierName"></span>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="供应商账号" prop="account">
+                <el-input v-model="form.account"  placeholder="请输入供应商账号" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="供应商开户行" prop="openbank">
+                <el-input v-model="form.openbank"  placeholder="请输入供应商开户行" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
               <el-form-item label="预付批次" prop="away">
                 <el-select v-model="form.away" @change="changeAway" placeholder="请选择预付批次" style="width: 100%;">
                   <el-option
@@ -1004,6 +1025,10 @@ export default {
         kkNode:null,
         ypayPrice:null,
         dfPrice:null,
+        supplierId:null,
+        supplierName:null,
+        account:null,
+        openbank:null,
       };
       this.resetForm("form");
     },
@@ -1227,11 +1252,19 @@ export default {
       this.form.stId2 = obj.stId
       this.form.stName = obj.name
       this.tableybData = [];
+      this.form.supplierId = null
+      this.form.supplierName = null
+      this.form.account = null
+      this.form.openbank = null
 
       let dataInit = { stId: obj.stId }
       findInit(dataInit).then(response => {
         this.form.yfPrice = response.data.yfPrice
         this.form.dfPrice = response.data.dfPrice
+        this.form.supplierId = response.data.supplierId
+        this.form.supplierName = response.data.supplierName
+        this.form.account = response.data.account
+        this.form.openbank = response.data.openbank
       });
 
       if (this.form.type == '提前付款') {

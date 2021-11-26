@@ -21,6 +21,15 @@
           />
         </el-select>
       </el-form-item>
+      <el-form-item label="客户经理" prop="name">
+        <el-input
+          v-model="queryParams.managerName"
+          placeholder="请输入客户经理"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
       <el-form-item label="统计时间" prop="createTime">
         <el-date-picker clearable size="small"
                         v-model="queryParams.endTime"
@@ -104,6 +113,7 @@
         </template>
       </el-table-column>
       <el-table-column label="代办人" align="center" prop="userName" />
+      <el-table-column label="客户经理" align="center" prop="managerName" />
       <el-table-column label="期初占用(万元)" align="center" prop="starPrice" >
         <template slot-scope="scope">
           {{

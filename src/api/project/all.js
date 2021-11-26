@@ -72,6 +72,15 @@ export function getSticketList(data) {
   })
 }
 
+// 查询全部发票
+export function getKpList(data) {
+  return request({
+    url: '/project/kp/bydata',
+    method: 'get',
+    params: data
+  })
+}
+
 // 查询全部服务费
 export function getSpList(data) {
   return request({

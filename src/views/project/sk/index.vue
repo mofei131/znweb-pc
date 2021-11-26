@@ -182,6 +182,11 @@
               </el-select>
             </el-form-item>
           </el-col>
+            <el-col :span="12">
+              <el-form-item label="终端客户" prop="tName">
+                <span v-text="form.tName"></span>
+              </el-form-item>
+            </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
@@ -1011,6 +1016,8 @@ export default {
       this.tableybData=[];
       this.form.stId2 = obj.stId
       this.form.stName = obj.name
+      this.form.tId=null
+      this.form.tName=null
 
       //查询煤炭销售合同
       let c2 = {"stId": this.form.stId2, "type": "2"};
@@ -1020,6 +1027,9 @@ export default {
           this.form.skPrice = parseFloat(response.data.price).toFixed(2)
         }
       });
+
+      this.form.tId=obj.terminalId
+      this.form.tName=obj.tName
 
       //获取预收款
       if(this.form.skType=='收款'){

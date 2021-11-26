@@ -167,7 +167,34 @@
             </el-form-item>
           </el-col>
         </el-row>
-
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="第三方公司" prop="tpcId">
+                <el-select filterable value-key="stId" @change="changeTpc" v-model="form.tpcId" placeholder="请选择第三方公司" style="width: 100%;">
+                  <el-option
+                    v-for="obj in tpcOptions"
+                    :key="obj.tpcId"
+                    :label="obj.name"
+                    :value="obj"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="公司账号" prop="account">
+                <el-input v-model="form.account"  placeholder="请输入公司账号" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="公司开户行" prop="openbank">
+                <el-input v-model="form.openbank"  placeholder="请输入公司开户行" />
+              </el-form-item>
+            </el-col>
+          </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="运输类型" prop="type">
@@ -437,6 +464,7 @@
         </el-row>
 
 
+
           <el-row>
             <el-col :span="12">
               <el-form-item label="附件" prop="file">
@@ -530,9 +558,8 @@
 </template>
 
 <script>
-import { listLpayment, getLpayment, delLpayment, addLpayment, updateLpayment,getStList } from "@/api/project/lpayment";
+import { listLpayment, getLpayment, delLpayment, addLpayment, updateLpayment,getStList,getTpcList } from "@/api/project/lpayment";
 import {getContract, getGrnList} from "@/api/project/apayment";
-import {getContractListAll} from "@/api/project/margin";
 import {getToken} from "@/utils/auth";
 
 export default {
@@ -594,6 +621,8 @@ export default {
       contractNameOptions:[],
       // 项目集合
       stOptions: [],
+      // 第三方公司集合
+      tpcOptions: [],
       //入库单集合
       tableData: [],
       //选中入库单集合
@@ -619,6 +648,15 @@ export default {
       rules: {
         stId: [
           { required: true, message: "请选择项目名称", trigger: "blur" }
+        ],
+        tpcId: [
+          { required: true, message: "请选择第三方公司", trigger: "blur" }
+        ],
+        account: [
+          { required: true, message: "请输入公司账号", trigger: "blur" }
+        ],
+        openbank: [
+          { required: true, message: "请输入公司开户行", trigger: "blur" }
         ],
         type: [
           { required: true, message: "请选择运输方式", trigger: "blur" }
@@ -692,6 +730,9 @@ export default {
     getStList().then(response => {
       this.stOptions = response.rows;
     });
+    getTpcList().then(response => {
+      this.tpcOptions = response.rows;
+    });
     if(this.$route.params.isEdit!=null && this.$route.params.isEdit=="true"){
       let lpaymentId=this.$route.params.lpaymentId
       let row={"lpaymentId":lpaymentId}
@@ -712,6 +753,9 @@ export default {
       });
       getStList().then(response => {
         this.stOptions = response.rows;
+      });
+      getTpcList().then(response => {
+        this.tpcOptions = response.rows;
       });
     },
     // 审核状态字典翻译
@@ -738,6 +782,10 @@ export default {
         lpaymentId: null,
         stId: null,
         stName: null,
+        tpcId: null,
+        tpcName: null,
+        account: null,
+        openbank: null,
         type: null,
         yPrice: null,
         yRate: null,
@@ -821,6 +869,8 @@ export default {
         this.fileList = this.form.fileList;
         this.form.stId2 = this.form.stId;
         this.form.stId = this.form.stName;
+        this.form.tpcId2 = this.form.tpcId;
+        this.form.tpcId = this.form.tpcName;
         this.tableselData = response.data.selnyList;
         this.isLook=2;
         this.form.hkState=1;
@@ -848,6 +898,8 @@ export default {
         this.form = response.data;
         this.form.stId2 = this.form.stId;
         this.form.stId = this.form.stName;
+        this.form.tpcId2 = this.form.tpcId;
+        this.form.tpcId = this.form.tpcName;
         this.form.outPrice=null;
         this.form.outTime=null;
         this.isLook=4;
@@ -891,6 +943,7 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           this.form.stId=this.form.stId2
+          this.form.tpcId=this.form.tpcId2
           if(this.noedit!=2){
             this.form.grnList=this.tableselData
           }else{
@@ -969,6 +1022,15 @@ export default {
         }
       });
     },
+
+    //选择第三方公司
+    changeTpc(obj) {
+      this.form.tpcId2 = obj.tpcId
+      this.form.tpcName = obj.name
+      this.form.account = obj.account
+      this.form.openbank = obj.openbank
+    },
+
     //选中数据
     grnSelectionChange(selection) {
       this.tableybData=[];

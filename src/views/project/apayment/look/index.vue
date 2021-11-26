@@ -44,6 +44,17 @@
           预付方式：<span v-text="form.type" ></span>
         </el-col>
       </el-row>
+      <el-row class="head-text">
+        <el-col :span="4" :offset="1">
+          供应商：<span v-text="form.supplierName"></span>
+        </el-col>
+        <el-col :span="4">
+          供应商账号：<span v-text="form.account"></span>
+        </el-col>
+        <el-col :span="4">
+          供应商开户行：<span v-text="form.openbank" ></span>
+        </el-col>
+      </el-row>
 
       <el-row class="head-title">
         <el-col :span="19">

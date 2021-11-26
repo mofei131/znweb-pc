@@ -43,6 +43,9 @@
         <el-col :span="4">
           收款方式：<span v-text="form.skWay" ></span>
         </el-col>
+        <el-col :span="4">
+          终端客户：<span v-text="form.tName" ></span>
+        </el-col>
       </el-row>
 
       <el-row class="head-title">

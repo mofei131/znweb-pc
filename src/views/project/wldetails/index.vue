@@ -112,7 +112,7 @@
 
     <!-- 添加或修改物流收票对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+      <el-form ref="form" :model="form" :rules="rules" label-width="180px">
         <el-row>
           <el-col :span="12">
             <el-form-item label="项目" prop="stId">
@@ -124,6 +124,32 @@
                   :value="obj"
                 ></el-option>
               </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="第三方公司" prop="tpcId">
+              <el-select filterable value-key="stId" @change="changeTpc" v-model="form.tpcId" placeholder="请选择第三方公司" style="width: 100%;">
+                <el-option
+                  v-for="obj in tpcOptions"
+                  :key="obj.tpcId"
+                  :label="obj.name"
+                  :value="obj"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="收票日期" prop="sticketTime" >
+              <el-date-picker clearable size="small" style="width: 100%;"
+                              v-model="form.sticketTime"
+                              type="date"
+                              value-format="yyyy-MM-dd"
+                              placeholder="选择收票日期">
+              </el-date-picker>
             </el-form-item>
           </el-col>
         </el-row>
@@ -235,6 +261,8 @@
           </el-col>
         </el-row>
 
+
+
         <el-row style="margin-top: 20px">
           <el-col :span="12">
             <el-form-item label="附件" prop="file" label-width="50px">
@@ -269,7 +297,7 @@
 <script>
 import { listWldetails, getWldetails, delWldetails, addWldetails, updateWldetails } from "@/api/project/wldetails";
 import { getToken } from '@/utils/auth'
-import { getStList } from '@/api/project/lpayment'
+import { getStList, getTpcList } from '@/api/project/lpayment'
 import { getContract, getGrnList } from '@/api/project/apayment'
 
 export default {
@@ -307,6 +335,9 @@ export default {
         stId: [
           { required: true, message: "请选择项目名称", trigger: "blur" }
         ],
+        tpcId: [
+          { required: true, message: "请选择第三方公司", trigger: "blur" }
+        ],
         type: [
           { required: true, message: "请选择运输方式", trigger: "blur" }
         ],
@@ -325,6 +356,9 @@ export default {
         taxPrice: [
           { required: true, message: "请输入税额", trigger: "blur" }
         ],
+        sticketTime: [
+          { required: true, message: "请选择收票日期", trigger: "blur" }
+        ],
       },
       tableUpdate:false,
       //上传路径
@@ -335,12 +369,17 @@ export default {
       fileList: [],
       // 项目集合
       stOptions: [],
+      // 第三方公司集合
+      tpcOptions: [],
     };
   },
   created() {
     this.getList();
     getStList().then(response => {
       this.stOptions = response.rows;
+    });
+    getTpcList().then(response => {
+      this.tpcOptions = response.rows;
     });
   },
   methods: {
@@ -355,6 +394,9 @@ export default {
       getStList().then(response => {
         this.stOptions = response.rows;
       });
+      getTpcList().then(response => {
+        this.tpcOptions = response.rows;
+      });
     },
     // 取消按钮
     cancel() {
@@ -368,6 +410,8 @@ export default {
         stId:null,
         stId2:null,
         stName:null,
+        tpcId: null,
+        tpcName: null,
         number: null,
         wlType: null,
         ntPrice: null,
@@ -380,6 +424,7 @@ export default {
         tntPrice:null,
         bsPrice:null,
         jstPrice:null,
+        sticketTime:null,
         fileList:[],
       };
       this.resetForm("form");
@@ -429,6 +474,8 @@ export default {
         this.fileList = this.form.fileList;
         this.form.stId2 = this.form.stId;
         this.form.stId = this.form.stName;
+        this.form.tpcId2 = this.form.tpcId;
+        this.form.tpcId = this.form.tpcName;
         this.open = true;
         this.title = "修改物流收票";
       });
@@ -453,6 +500,7 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           this.form.stId=this.form.stId2
+          this.form.tpcId=this.form.tpcId2
           if (this.form.wldetailsId != null) {
             updateWldetails(this.form).then(response => {
               this.msgSuccess("修改成功");
@@ -495,6 +543,13 @@ export default {
       this.form.stId2 = obj.stId
       this.form.stName = obj.name
     },
+
+    //选择第三方公司
+    changeTpc(obj) {
+      this.form.tpcId2 = obj.tpcId
+      this.form.tpcName = obj.name
+    },
+
     //追加费用
     addTableData(){
       if (this.form.wldetailsList == undefined) {

@@ -164,6 +164,18 @@
             </el-form-item>
           </el-col>
         </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="供应商账号" prop="account">
+                <el-input v-model="form.account" placeholder="请输入供应商账号" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="开户行" prop="openbank">
+                <el-input v-model="form.openbank" placeholder="请输入开户行" />
+              </el-form-item>
+            </el-col>
+          </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="发票面额" prop="invoiceType">
@@ -435,6 +447,8 @@ export default {
         traffic: null,
         capital: null,
         invoiceType: null,
+        account: null,
+        openbank: null,
         nature:null,
         rating: null,
         ratingDe: null,

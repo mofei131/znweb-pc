@@ -50,3 +50,11 @@ export function getStList() {
     method: 'get'
   })
 }
+
+// 查询第三方公司列表
+export function getTpcList() {
+  return request({
+    url: '/project/tpc/listAll',
+    method: 'get'
+  })
+}

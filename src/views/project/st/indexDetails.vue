@@ -828,7 +828,7 @@
         <div style="margin-top: 50px;"  v-if="isLook==4">
           <el-row>
             <el-col :span="12">
-              <el-form-item label="说明" prop="node">
+              <el-form-item label="说明" prop="xmNode">
                 <el-input type="textarea" :row="4" v-model="form.xmNode" placeholder="请输入操作说明" />
               </el-form-item>
             </el-col>
@@ -1207,6 +1207,9 @@ export default {
         ],
         pCnumber: [
           { required: true, validator: validatePrice, trigger: "blur" }
+        ],
+        xmNode: [
+          { required: true, message: "请输入操作说明", trigger: "blur" }
         ],
       },
 

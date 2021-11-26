@@ -590,7 +590,7 @@ export default {
       if(this.form.kpTotal!=null && this.form.kpTotal!=''){
         kpTotal=this.form.kpTotal
       }
-      this.form.kpPrice=(parseFloat(kpTotal)/(1+0.13/1.13)).toFixed(2)
+      this.form.kpPrice=(parseFloat(kpTotal)/(1.13)).toFixed(2)
       this.form.kpTax=(parseFloat(this.form.kpTotal)-parseFloat(this.form.kpPrice)).toFixed(2);
     },
   }

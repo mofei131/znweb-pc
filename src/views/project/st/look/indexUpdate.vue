@@ -423,24 +423,23 @@
             :data="lpaymentList"
             style="width: 80%;margin-bottom: 30px;">
             <el-table-column
-              property="wlc"
-              label="物流公司">
-            </el-table-column>
-            <el-table-column
-              property="type"
               label="物流类型">
+              物流付款
             </el-table-column>
             <el-table-column
-              property="cs"
-              label="车数">
+              property="tntPrice"
+              label="实付金额">
             </el-table-column>
             <el-table-column
-              property="ds"
-              label="吨数">
+              property="serType"
+              label="是否产生服务费">
             </el-table-column>
             <el-table-column
-              property="jst"
-              label="付款金额">
+              property="putTime"
+              label="付款时间">
+              <template slot-scope="scope">
+                <span>{{ parseTime(scope.row.putTime, '{y}-{m}-{d}') }}</span>
+              </template>
             </el-table-column>
             <el-table-column
               label="操作"
@@ -517,6 +516,47 @@
       <el-row class="head-title">
         <el-col :span="12">
           <el-form-item label="发票信息"></el-form-item>
+        </el-col>
+      </el-row>
+      <el-row class="head-text">
+        <el-col :offset="1">
+          <el-table
+            ref="singleTable"
+            :data="kpList"
+            style="width: 80%;margin-bottom: 30px;">
+            <el-table-column
+              label="开票类型">
+              <span>开票</span>
+            </el-table-column>
+            <el-table-column
+              property="kpPrice"
+              label="开票金额(元)">
+            </el-table-column>
+            <el-table-column
+              property="zzWeight"
+              label="货品总重(吨)">
+            </el-table-column>
+            <el-table-column
+              property="kpTax"
+              label="发票税额(元)">
+            </el-table-column>
+            <el-table-column
+              property="kpTotal"
+              label="价税合计(元)">
+            </el-table-column>
+            <el-table-column
+              label="操作"
+              width="120">
+              <template slot-scope="scope">
+                <el-button
+                  @click.native.prevent="toKp(scope.row.kpId)"
+                  type="text"
+                  size="small">
+                  查看
+                </el-button>
+              </template>
+            </el-table-column>
+          </el-table>
         </el-col>
       </el-row>
       <el-row class="head-text">
@@ -722,8 +762,8 @@ import {
   getLpaymentList,
   getSkList,
   getSticketList,
-  getSpList
-} from "@/api/project/all";
+  getSpList, getKpList
+} from '@/api/project/all'
 import {getToken} from "@/utils/auth";
 import {getProcessDataByStId} from "@/api/approve";
 
@@ -749,6 +789,8 @@ export default {
       fpaymentList:[],
       //发票集合
       sticketList:[],
+      //发票集合
+      kpList:[],
       //服务费集合
       spList:[],
       //固定差价集合
@@ -836,6 +878,10 @@ export default {
     getSticketList(data).then(response =>{
       this.sticketList=response.rows
     })
+    // 发票
+    getKpList(data).then(response =>{
+      this.kpList=response.rows
+    })
     // 服务费
     getSpList(data).then(response =>{
       this.spList=response.rows
@@ -890,6 +936,10 @@ export default {
     //跳转发票详情
     toSticket(sticketId){
       this.$router.push("/sticket/look/" + sticketId);
+    },
+    //跳转发票详情
+    toKp(kpId){
+      this.$router.push("/kp/look/" + kpId);
     },
 
     // 合同类型字典翻译

@@ -37,6 +37,15 @@
         <el-col :span="4" :offset="1">
           项目名称：<span v-text="form.stName"></span>
         </el-col>
+        <el-col :span="4" >
+          第三方公司：<span v-text="form.tpcName"></span>
+        </el-col>
+        <el-col :span="4">
+          公司账号：<span v-text="form.account"></span>
+        </el-col>
+        <el-col :span="4">
+          公司开户行：<span v-text="form.openbank" ></span>
+        </el-col>
       </el-row>
 
       <el-row class="head-title">

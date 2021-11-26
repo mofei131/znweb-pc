@@ -70,6 +70,18 @@
     </el-row>
     <el-row>
       <el-col :span="12">
+        <el-form-item label="收票日期" prop="sticketTime" >
+          <el-date-picker clearable size="small" style="width: 100%;"
+                          v-model="form.sticketTime"
+                          type="date"
+                          value-format="yyyy-MM-dd"
+                          placeholder="选择收票日期">
+          </el-date-picker>
+        </el-form-item>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="12">
         <el-form-item label="附件" prop="file">
           <el-upload
             class="upload-demo"
@@ -269,6 +281,9 @@ export default {
         ],
         total: [
           {  validator:validatePrice3, trigger: "blur" }
+        ],
+        sticketTime: [
+          { required: true, message: "请选择收票日期", trigger: "blur" }
         ],
       }
     };
@@ -510,7 +525,7 @@ export default {
       if(this.form.totalPrice!=null && this.form.totalPrice!=''){
         totalPrice=this.form.totalPrice
       }
-      this.form.price=(parseFloat(totalPrice)/(1+0.13/1.13)).toFixed(2)
+      this.form.price=(parseFloat(totalPrice)/(1.13)).toFixed(2)
       this.form.tax=(parseFloat(totalPrice)-parseFloat(this.form.price)).toFixed(2);
 
 

@@ -168,6 +168,11 @@
               </el-select>
             </el-form-item>
           </el-col>
+          <el-col :span="12">
+            <el-form-item label="终端客户" prop="tName">
+              <span v-text="form.tName"></span>
+            </el-form-item>
+          </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
@@ -178,7 +183,7 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="开票金额" prop="kpPrice">
+            <el-form-item label="开票金额（价税合计）" prop="kpPrice">
               <span v-text="form.kpPrice"></span>
             </el-form-item>
           </el-col>
@@ -752,8 +757,13 @@ export default {
     //业务开始
     //选择项目
     changeSt(obj){
+      this.form.tId=null
+      this.form.tName=null
+
       this.form.stId2 = obj.stId
       this.form.stName = obj.name
+      this.form.tId=obj.terminalId
+      this.form.tName=obj.tName
 
       let data={stId:obj.stId}
       findInit(data).then(response => {

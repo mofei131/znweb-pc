@@ -227,6 +227,13 @@
           </el-row>
           <el-row>
             <el-col :span="12">
+              <el-form-item label="客户经理" prop="managerName">
+                <el-input v-model="form.managerName" placeholder="请输入客户经理" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
               <el-form-item label="结算比例" prop="settlementP">
                 <el-select v-model="form.settlementP" placeholder="请选择结算比例" style="width: 100%">
                   <el-option
@@ -1130,6 +1137,9 @@ export default {
         name: [
           { required: true, message: "项目名称不能为空", trigger: "blur" }
         ],
+        managerName: [
+          { required: true, message: "客户经理不能为空", trigger: "blur" }
+        ],
         amount: [
           { required: true, validator: validatePrice, trigger: "blur" }
         ],
@@ -1338,6 +1348,7 @@ export default {
         userId: null,
         userId2: null,
         userName: null,
+        managerName: null,
         supplierId: null,
         supplierId2: null,
         supplierName: null,

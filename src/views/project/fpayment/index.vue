@@ -192,6 +192,27 @@
             </el-form-item>
           </el-col>
         </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="供应商" prop="supplierName">
+                <span v-text="form.supplierName"></span>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="供应商账号" prop="account">
+                <el-input v-model="form.account"  placeholder="请输入供应商账号" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="供应商开户行" prop="openbank">
+                <el-input v-model="form.openbank"  placeholder="请输入供应商开户行" />
+              </el-form-item>
+            </el-col>
+          </el-row>
 <!--        <el-row>-->
 <!--          <el-col :span="12">-->
 <!--            <el-form-item label="预付方式" prop="payType">-->
@@ -323,7 +344,7 @@
         <el-row>
           <el-col :span="12" v-if="gdType!=1">
             <el-form-item label="固定差价总额(元)" prop="gdxPrice">
-              <el-input v-model="form.gdxPrice"  placeholder="请输入固定差价总额(元)" />
+              <el-input @change="atochange" v-model="form.gdxPrice"  placeholder="请输入固定差价总额(元)" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -390,7 +411,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="提单金额" prop="yfPrice">
-              <el-input disabled v-model="form.yfPrice"  placeholder="请输入已付金额" />
+              <el-input disabled v-model="form.yfPrice"  placeholder="请输入提单金额" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -797,6 +818,10 @@ export default {
         rateYear: null,
         mfsp: null,
         sjzf:null,
+        supplierId:null,
+        supplierName:null,
+        account:null,
+        openbank:null,
       };
       this.resetForm("form");
     },
@@ -986,6 +1011,12 @@ export default {
     //业务开始
     //选择项目 加载数据
     changeSt(obj){
+      this.form.supplierId = null
+      this.form.supplierName = null
+      this.form.account = null
+      this.form.openbank = null
+
+
       this.form.stId2 = obj.stId
       this.form.stName = obj.name
       this.tableselData=[];
@@ -1040,6 +1071,11 @@ export default {
         this.price = parseFloat(response.data.price).toFixed(2);
         this.form.zzPrice=parseFloat(response.data.jst).toFixed(2);
         this.form.tax = ((parseFloat(response.data.jst))/1.13*0.13).toFixed(2);
+        this.form.sjzf = parseFloat(response.data.sjzf).toFixed(2);
+        this.form.supplierId = response.data.supplierId
+        this.form.supplierName = response.data.supplierName
+        this.form.account = response.data.account
+        this.form.openbank = response.data.openbank
         this.toggleSelection();
       });
 
