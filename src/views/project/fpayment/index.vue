@@ -423,7 +423,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="最终实际付款(元)" prop="sjPrice">
-              <el-input disabled v-model="form.sjPrice"  placeholder="请输入最终实际付款(元)" />
+              <el-input  v-model="form.sjPrice"  placeholder="请输入最终实际付款(元)" />
             </el-form-item>
           </el-col>
         </el-row>

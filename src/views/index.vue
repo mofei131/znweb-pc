@@ -35,7 +35,7 @@
         <el-col :span="12">
             <el-row>
               <el-col :span="24" style="text-align: center;font-size: 24px;color: #317FF7;">
-                <span>25</span>
+                <span v-text="initiateTotal">0</span>
               </el-col>
             </el-row>
             <el-row>
@@ -53,7 +53,7 @@
         <el-col :span="12">
           <el-row>
             <el-col :span="24" style="text-align: center;font-size: 24px;">
-              <span>25</span>
+              <span v-text="upcomingTotal">0</span>
             </el-col>
           </el-row>
           <el-row>
@@ -71,7 +71,7 @@
         <el-col :span="12">
           <el-row>
             <el-col :span="24" style="text-align: center;font-size: 24px;">
-              <span>25</span>
+              <span v-text="ccTotal">0</span>
             </el-col>
           </el-row>
           <el-row>
@@ -89,7 +89,7 @@
         <el-col :span="12">
           <el-row>
             <el-col :span="24" style="text-align: center;font-size: 24px;">
-              <span>25</span>
+              <span v-text="alreadyDoneTotal">0</span>
             </el-col>
           </el-row>
           <el-row>
@@ -103,7 +103,7 @@
       <el-col :span="4" style="border-left: 1px solid #EEEEEE;">
         <el-row>
           <el-col :span="24" style="text-align: center;font-size: 24px;color: #317FF7;">
-            <span>5,883,223</span>
+            <span v-text="sc">0</span>
           </el-col>
         </el-row>
         <el-row>
@@ -116,7 +116,7 @@
       <el-col :span="4" style="border-left: 1px solid #EEEEEE;">
         <el-row>
           <el-col :span="24" style="text-align: center;font-size: 24px;color: #5BBA50;">
-            <span>5,883,223</span>
+            <span v-text="sf">0</span>
           </el-col>
         </el-row>
         <el-row>
@@ -129,7 +129,7 @@
       <el-col :span="4" style="border-left: 1px solid #EEEEEE;">
         <el-row>
           <el-col :span="24" style="text-align: center;font-size: 24px;color: #FB7A2C;">
-            <span>5,883,223</span>
+            <span v-text="yf">0</span>
           </el-col>
         </el-row>
         <el-row>
@@ -480,6 +480,9 @@ import { listAtakeup } from '@/api/project/atakeup'
 import { listPtakeup } from '@/api/project/ptakeup'
 import { listSt } from '@/api/project/st'
 import { listCplan } from '@/api/project/cplan'
+import { getMyUpcoming, myAlreadyDoneList, myCcList, myInitiate } from '@/api/approve'
+import { listScAll } from '@/api/project/sc'
+import { listSfAll } from '@/api/project/sf'
 export default {
   name: "index",
   mounted() {
@@ -577,6 +580,10 @@ export default {
       total3: 0,
       // 总条数
       total4: 0,
+      queryParams: {
+        pageNum: 1,
+        pageSize: 5,
+      },
       // 查询参数
       queryParams1: {
         pageNum: 1,
@@ -614,6 +621,20 @@ export default {
       stList:[],
       //应收应付
       cplanList: [],
+      //我发起的
+      initiateTotal:0,
+      //待我审批
+      upcomingTotal:0,
+      //抄送我的
+      ccTotal:0,
+      //我已审批
+      alreadyDoneTotal:0,
+      //应收
+      sc:0,
+      //应付
+      sf:0,
+      //已付
+      yf:0,
     };
   },
   created() {
@@ -621,6 +642,12 @@ export default {
     this.getList3();
     this.getList2();
     this.getList1();
+    this.getList5();
+    this.getList6();
+    this.getList7();
+    this.getList8();
+    this.getList9();
+    this.getList10();
   },
   methods: {
 
@@ -698,6 +725,41 @@ export default {
         this.cplanList = response.rows;
         this.total4 = response.total;
         this.loading = false;
+      });
+    },
+
+    getList5() {
+      myInitiate(this.queryParams).then((res) => {
+        this.initiateTotal = res.data.total;
+      });
+    },
+
+    getList6() {
+      getMyUpcoming(this.queryParams).then((res) => {
+        this.upcomingTotal = res.data.total;
+      });
+    },
+
+    getList7() {
+      myCcList(this.queryParams).then((res) => {
+        this.ccTotal = res.total;
+      });
+    },
+
+    getList8() {
+      myAlreadyDoneList(this.queryParams).then((res) => {
+        this.alreadyDoneTotal = res.data.total;
+      });
+    },
+    getList9() {
+      listScAll(this.queryParams).then(response => {
+        this.sc = response.data.scPrice;
+        this.yf = response.data.payPrice;
+      });
+    },
+    getList10(){
+      listSfAll(this.queryParams).then(response => {
+        this.sf = response.data.sfPrice;
       });
     },
     // myEcharts() {

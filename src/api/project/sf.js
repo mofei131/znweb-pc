@@ -42,3 +42,12 @@ export function delSf(sfId) {
     method: 'delete'
   })
 }
+
+// 查询应付管理列表
+export function listSfAll(query) {
+  return request({
+    url: '/project/sf/listAll',
+    method: 'get',
+    params: query
+  })
+}

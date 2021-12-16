@@ -614,7 +614,7 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="实际付款金额" prop="actualPrice">
-                <el-input disabled v-model="form.actualPrice"  placeholder="请输入实际付款金额" />
+                <el-input  v-model="form.actualPrice"  placeholder="请输入实际付款金额" />
               </el-form-item>
             </el-col>
           </el-row>
@@ -644,7 +644,7 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="实际付款金额" prop="actualPrice">
-                <el-input disabled v-model="form.actualPrice"  placeholder="请输入实际付款金额" />
+                <el-input v-model="form.actualPrice"  placeholder="请输入实际付款金额" />
               </el-form-item>
             </el-col>
           </el-row>

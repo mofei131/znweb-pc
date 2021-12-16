@@ -261,7 +261,8 @@ export default {
         this.sfList = response.rows;
         this.total = response.total;
         this.loading = false;
-      });
+      })
+
       getStList().then(response => {
         this.stOptions = response.rows;
       });

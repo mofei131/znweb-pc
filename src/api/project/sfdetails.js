@@ -42,3 +42,13 @@ export function delSfdetails(sfdetails) {
     method: 'delete'
   })
 }
+
+
+// 查询收付款明细列表
+export function findInit(query) {
+  return request({
+    url: '/project/sfdetails/findInit',
+    method: 'get',
+    params: query
+  })
+}

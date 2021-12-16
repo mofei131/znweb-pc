@@ -42,3 +42,12 @@ export function delSc(scId) {
     method: 'delete'
   })
 }
+
+// 查询应收管理列表
+export function listScAll(query) {
+  return request({
+    url: '/project/sc/listAll',
+    method: 'get',
+    params: query
+  })
+}

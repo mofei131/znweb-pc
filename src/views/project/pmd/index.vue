@@ -11,6 +11,27 @@
           />
         </el-select>
       </el-form-item>
+      <el-form-item label="公司名称" prop="cname">
+        <el-input
+          v-model="queryParams.cname"
+          placeholder="请输入公司名称"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="统计时间">
+        <el-date-picker
+          v-model="dateRange"
+          size="small"
+          style="width: 240px"
+          value-format="yyyy-MM-dd"
+          type="daterange"
+          range-separator="-"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+        ></el-date-picker>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -18,8 +39,8 @@
     </el-form>
 
     <el-row :gutter="10" class="mb8">
-      <el-col :span="6" style="margin-left:12px;">
-        <span>资金占用余额：</span> <span v-text="zPrice">0.00</span>
+      <el-col :span="3" style="margin-left:12px;">
+        <span>应付金额：</span> <span v-text="yfp">0.00</span>
       </el-col>
 <!--      <el-col :span="1.5">-->
 <!--        <el-button-->
@@ -28,7 +49,7 @@
 <!--          icon="el-icon-plus"-->
 <!--          size="mini"-->
 <!--          @click="handleAdd"-->
-<!--          v-hasPermi="['project:sfdetails:add']"-->
+<!--          v-hasPermi="['project:pmd:add']"-->
 <!--        >新增</el-button>-->
 <!--      </el-col>-->
 <!--      <el-col :span="1.5">-->
@@ -39,7 +60,7 @@
 <!--          size="mini"-->
 <!--          :disabled="single"-->
 <!--          @click="handleUpdate"-->
-<!--          v-hasPermi="['project:sfdetails:edit']"-->
+<!--          v-hasPermi="['project:pmd:edit']"-->
 <!--        >修改</el-button>-->
 <!--      </el-col>-->
 <!--      <el-col :span="1.5">-->
@@ -50,7 +71,7 @@
 <!--          size="mini"-->
 <!--          :disabled="multiple"-->
 <!--          @click="handleDelete"-->
-<!--          v-hasPermi="['project:sfdetails:remove']"-->
+<!--          v-hasPermi="['project:pmd:remove']"-->
 <!--        >删除</el-button>-->
 <!--      </el-col>-->
       <el-col :span="1.5">
@@ -60,22 +81,42 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
+          v-hasPermi="['project:pmd:export']"
         >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="sfdetailsList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="pmdList" @selection-change="handleSelectionChange">
       <el-table-column label="项目名称" align="center" prop="stName" />
-      <el-table-column label="日期" align="center" prop="createTime" >
+      <el-table-column label="对象" align="center" prop="obj" />
+      <el-table-column label="公司名称" align="center" prop="cname" />
+      <el-table-column label="时间" align="center" prop="time" width="180">
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
+          <span>{{ parseTime(scope.row.time, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
       <el-table-column label="类型" align="center" prop="type" />
-      <el-table-column label="来源" align="center" prop="source" />
-      <el-table-column label="产生金额(元)" align="center" prop="fPrice" />
-
+      <el-table-column label="已收票吨数" align="center" prop="number" />
+      <el-table-column label="发生金额(元)" align="center" prop="price" />
+<!--      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">-->
+<!--        <template slot-scope="scope">-->
+<!--          <el-button-->
+<!--            size="mini"-->
+<!--            type="text"-->
+<!--            icon="el-icon-edit"-->
+<!--            @click="handleUpdate(scope.row)"-->
+<!--            v-hasPermi="['project:pmd:edit']"-->
+<!--          >修改</el-button>-->
+<!--          <el-button-->
+<!--            size="mini"-->
+<!--            type="text"-->
+<!--            icon="el-icon-delete"-->
+<!--            @click="handleDelete(scope.row)"-->
+<!--            v-hasPermi="['project:pmd:remove']"-->
+<!--          >删除</el-button>-->
+<!--        </template>-->
+<!--      </el-table-column>-->
     </el-table>
 
     <pagination
@@ -86,7 +127,7 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改收付款明细对话框 -->
+    <!-- 添加或修改应付管理明细对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item label="项目id" prop="stId">
@@ -95,14 +136,30 @@
         <el-form-item label="项目名称" prop="stName">
           <el-input v-model="form.stName" placeholder="请输入项目名称" />
         </el-form-item>
-        <el-form-item label="付款金额(元)" prop="fPrice">
-          <el-input v-model="form.fPrice" placeholder="请输入付款金额(元)" />
+        <el-form-item label="对象" prop="obj">
+          <el-input v-model="form.obj" placeholder="请输入对象" />
         </el-form-item>
-        <el-form-item label="回款金额(元)" prop="hPrice">
-          <el-input v-model="form.hPrice" placeholder="请输入回款金额(元)" />
+        <el-form-item label="公司名称" prop="cname">
+          <el-input v-model="form.cname" placeholder="请输入公司名称" />
         </el-form-item>
-        <el-form-item label="资金占用余额(元)" prop="zPrice">
-          <el-input v-model="form.zPrice" placeholder="请输入资金占用余额(元)" />
+        <el-form-item label="时间" prop="time">
+          <el-date-picker clearable size="small"
+            v-model="form.time"
+            type="date"
+            value-format="yyyy-MM-dd"
+            placeholder="选择时间">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item label="类型" prop="type">
+          <el-select v-model="form.type" placeholder="请选择类型">
+            <el-option label="请选择字典生成" value="" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="已收票吨数" prop="number">
+          <el-input v-model="form.number" placeholder="请输入已收票吨数" />
+        </el-form-item>
+        <el-form-item label="发生金额(元)" prop="price">
+          <el-input v-model="form.price" placeholder="请输入发生金额(元)" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -114,18 +171,11 @@
 </template>
 
 <script>
-import {
-  listSfdetails,
-  getSfdetails,
-  delSfdetails,
-  addSfdetails,
-  updateSfdetails,
-  findInit
-} from '@/api/project/sfdetails'
+import { listPmd, getPmd, delPmd, addPmd, updatePmd, listPmdAll } from '@/api/project/pmd'
 import { getStList } from '@/api/project/cplan'
 
 export default {
-  name: "Sfdetails",
+  name: "Pmd",
   data() {
     return {
       // 遮罩层
@@ -140,8 +190,8 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 收付款明细表格数据
-      sfdetailsList: [],
+      // 应付管理明细表格数据
+      pmdList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -151,6 +201,8 @@ export default {
         pageNum: 1,
         pageSize: 10,
         stId: null,
+        cname: null,
+        type: null,
       },
       // 表单参数
       form: {},
@@ -159,8 +211,10 @@ export default {
       },
       // 项目集合
       stOptions: [],
-      //合计
-      zPrice:null,
+      // 日期范围
+      dateRange: [],
+      //应付金额
+      yfp:0.00,
     };
   },
   created() {
@@ -170,19 +224,19 @@ export default {
     });
   },
   methods: {
-    /** 查询收付款明细列表 */
+    /** 查询应付管理明细列表 */
     getList() {
       this.loading = true;
-      listSfdetails(this.queryParams).then(response => {
-        this.sfdetailsList = response.rows;
+      listPmd(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
+        this.pmdList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
+      listPmdAll(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
+        this.yfp = parseFloat(response.data.yfp).toFixed(2);
+      });
       getStList().then(response => {
         this.stOptions = response.rows;
-      });
-      findInit(this.queryParams).then(response => {
-        this.zPrice = parseFloat(response.data.zPrice).toFixed(2);
       });
     },
     // 取消按钮
@@ -193,12 +247,15 @@ export default {
     // 表单重置
     reset() {
       this.form = {
-        sfdetails: null,
+        pmdId: null,
         stId: null,
         stName: null,
-        fPrice: null,
-        hPrice: null,
-        zPrice: null,
+        obj: null,
+        cname: null,
+        time: null,
+        type: null,
+        number: null,
+        price: null,
         createBy: null,
         createTime: null
       };
@@ -216,7 +273,7 @@ export default {
     },
     // 多选框选中数据
     handleSelectionChange(selection) {
-      this.ids = selection.map(item => item.sfdetails)
+      this.ids = selection.map(item => item.pmdId)
       this.single = selection.length!==1
       this.multiple = !selection.length
     },
@@ -224,30 +281,30 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加收付款明细";
+      this.title = "添加应付管理明细";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
-      const sfdetails = row.sfdetails || this.ids
-      getSfdetails(sfdetails).then(response => {
+      const pmdId = row.pmdId || this.ids
+      getPmd(pmdId).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改收付款明细";
+        this.title = "修改应付管理明细";
       });
     },
     /** 提交按钮 */
     submitForm() {
       this.$refs["form"].validate(valid => {
         if (valid) {
-          if (this.form.sfdetails != null) {
-            updateSfdetails(this.form).then(response => {
+          if (this.form.pmdId != null) {
+            updatePmd(this.form).then(response => {
               this.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            addSfdetails(this.form).then(response => {
+            addPmd(this.form).then(response => {
               this.msgSuccess("新增成功");
               this.open = false;
               this.getList();
@@ -258,13 +315,13 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      const sfdetailss = row.sfdetails || this.ids;
-      this.$confirm('是否确认删除收付款明细编号为"' + sfdetailss + '"的数据项?', "警告", {
+      const pmdIds = row.pmdId || this.ids;
+      this.$confirm('是否确认删除应付管理明细编号为"' + pmdIds + '"的数据项?', "警告", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
         }).then(function() {
-          return delSfdetails(sfdetailss);
+          return delPmd(pmdIds);
         }).then(() => {
           this.getList();
           this.msgSuccess("删除成功");
@@ -272,9 +329,9 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('project/sfdetails/export', {
+      this.download('project/pmd/export', {
         ...this.queryParams
-      }, `project_sfdetails.xlsx`)
+      }, `project_pmd.xlsx`)
     }
   }
 };
