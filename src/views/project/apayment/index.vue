@@ -1335,7 +1335,7 @@ export default {
         } else {
           this.form.dPrice = 0
         }
-        //成本年服务费率
+        //年服务费率
         if (obj.chargemType == '1' || obj.chargemType == '3') {
           this.form.rateYear = obj.chargemNx
         } else {

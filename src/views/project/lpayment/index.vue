@@ -130,7 +130,7 @@
             v-hasPermi="['project:lpayment:edit']"
           >付款</el-button>
           <el-button
-            v-if="scope.row.state=='3' && scope.row.fkState=='未付款'"
+            v-if="scope.row.state=='3' && scope.row.putTime!=null && scope.row.fkState=='未付款'"
             size="mini"
             type="text"
             icon="el-icon-edit"
