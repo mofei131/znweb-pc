@@ -2800,13 +2800,13 @@
 <!--          </el-row>-->
           <el-row class="head-text">
             <el-col :span="5" :offset="1">
-              数量(吨)：<span v-text="form.price"></span>
+              数量(吨)：<span v-text="form.number"></span>
             </el-col>
           </el-row>
 
           <el-row class="head-text">
             <el-col :span="5" :offset="1">
-              开票金额(元)：<span v-text="form.number"></span>
+              开票金额(元)：<span v-text="form.price"></span>
             </el-col>
           </el-row>
 
