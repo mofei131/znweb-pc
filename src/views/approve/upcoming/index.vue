@@ -70,7 +70,7 @@
               </template>
             </el-table-column>
             <el-table-column label="发起时间" align="center" prop="createTime" />
-            <el-table-column label="发起人" align="center" prop="sponsor" />
+            <el-table-column label="发起人" align="center" prop="nickName" />
             <el-table-column label="操作" align="center">
               <template slot-scope="scope">
                 <!-- <el-tooltip content="查看详情" id="view" placement="bottom"> -->
