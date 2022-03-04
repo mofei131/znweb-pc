@@ -762,6 +762,8 @@ export default {
         this.sf = response.data.sfPrice;
       });
     },
+
+
     // myEcharts() {
     //   // 基于准备好的dom，初始化echarts实例
     //   var myChart = this.$echarts.init(document.getElementById('main'));
