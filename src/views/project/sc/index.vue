@@ -135,6 +135,16 @@
           }}
         </template>
       </el-table-column>
+      <el-table-column label="发运吨数" align="center" prop="fynumber" >
+        <template slot-scope="scope">
+          {{
+            Number(scope.row.fynumber)
+              .toFixed(2)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+          }}
+        </template>
+      </el-table-column>
       <el-table-column label="代办人" align="center" prop="userName" />
 <!--      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">-->
 <!--        <template slot-scope="scope">-->

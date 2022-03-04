@@ -3087,8 +3087,18 @@ import {getTerminal} from "@/api/project/terminal";
 import {getSticket} from "@/api/project/sticket";
 import {getKp} from "@/api/project/kp";
 import {getDp} from "@/api/project/dp";
-import {getContractList, getSticketList} from "@/api/project/all";
-import { getRealsk } from '@/api/project/realsk'
+import { getRealsk } from '@/api/project/realsk';
+import {
+  getApaymentList,
+  getContractList,
+  getFpaymentList,
+  getGrnList,
+  getGryList,
+  getLpaymentList,
+  getSkList,
+  getSticketList,
+  getSpList, getKpList
+} from '@/api/project/all';
 export default {
   props: ["mode", "initData"],
   data() {
@@ -3227,6 +3237,64 @@ export default {
           this.fileList = response.data.fileList
           this.xmNode = response.data.xmNode;
         })
+        let data={"stId":response.data.stId}
+        //合同
+        getContractList(data).then(response =>{
+          this.contract=response.rows
+        })
+        // 入库
+        getGrnList(data).then(response =>{
+          this.grnList=response.rows
+        })
+        // 出库
+        getGryList(data).then(response =>{
+          this.gryList=response.rows
+
+          let gryNumber=0
+          let gryLr=0.00
+          for(let i=0;i<this.gryList.length;i++){
+            let obj=this.gryList[i];
+            if(obj.chargemGd!=null && obj.chargemGd!=''){
+              gryNumber=gryNumber+obj.grnNumber
+              gryLr=(parseFloat(gryLr)+obj.grnNumber*obj.chargemGd).toFixed(2)
+            }
+          }
+          this.gryNumber=gryNumber;
+          this.gryLr=gryLr;
+
+        })
+        // 预付款
+        let apaymentData={"stId":stId,"stLook":"1"}
+        getApaymentList(apaymentData).then(response =>{
+          this.apaymentList=response.rows
+        })
+        // 收款
+        let skData={"stId":stId,"stLook":"1"}
+        getSkList(skData).then(response =>{
+          this.skList=response.rows
+        })
+        // 物流付款
+        getLpaymentList(data).then(response =>{
+          this.lpaymentList=response.rows
+        })
+        // 最终付款
+        getFpaymentList(data).then(response =>{
+          this.fpaymentList=response.rows
+        })
+        // 发票
+        getSticketList(data).then(response =>{
+          this.sticketList=response.rows
+        })
+        // 发票
+        getKpList(data).then(response =>{
+          this.kpList=response.rows
+        })
+        // 服务费
+        getSpList(data).then(response =>{
+          this.spList=response.rows
+        })
+
+
       }else if(typeId=='3'){
         getContract(stId).then(response => {
           this.form=response.data

@@ -977,6 +977,8 @@ export default {
             this.form.filebcList = this.form.fileList;
             //备份图片拿出来
             this.form.fileList=this.fileListbf;
+
+            this.form.bc=2;
           }
           if (this.form.contractId != null) {
             updateContract(this.form).then(response => {

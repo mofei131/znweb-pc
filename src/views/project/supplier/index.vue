@@ -111,14 +111,14 @@
             @click="handleUpdateRating(scope.row)"
             v-hasPermi="['project:supplier:edit']"
           >评级</el-button>
-          <el-button
-            v-if="scope.row.state=='1' || scope.row.state=='4'"
-            size="mini"
-            type="text"
-            icon="el-icon-delete"
-            @click="handleDelete(scope.row)"
-            v-hasPermi="['project:supplier:remove']"
-          >删除</el-button>
+<!--          <el-button-->
+<!--            v-if="scope.row.state=='1' || scope.row.state=='4'"-->
+<!--            size="mini"-->
+<!--            type="text"-->
+<!--            icon="el-icon-delete"-->
+<!--            @click="handleDelete(scope.row)"-->
+<!--            v-hasPermi="['project:supplier:remove']"-->
+<!--          >删除</el-button>-->
         </template>
       </el-table-column>
     </el-table>
