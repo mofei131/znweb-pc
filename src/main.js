@@ -19,6 +19,7 @@ import { getDicts } from "@/api/system/dict/data";
 import { getConfigKey } from "@/api/system/config";
 import { parseTime, resetForm, addDateRange, selectDictLabel, selectDictLabels, handleTree } from "@/utils/ruoyi";
 import Pagination from "@/components/Pagination";
+import Pagination5 from "@/components/Pagination5";
 import businessMessage from '@/utils/message'
 // 自定义表格工具组件
 import RightToolbar from "@/components/RightToolbar"
@@ -76,6 +77,7 @@ Vue.prototype.stateF = function(id) {
 // 全局组件挂载
 Vue.component('DictTag', DictTag)
 Vue.component('Pagination', Pagination)
+Vue.component('Pagination5', Pagination5)
 Vue.component('RightToolbar', RightToolbar)
 Vue.component('Editor', Editor)
 Vue.component('FileUpload', FileUpload)

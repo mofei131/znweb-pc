@@ -185,3 +185,12 @@ export function selectUserNameByDeptIdAndOrder(id, nodeOrder, deptId) {
     method: 'get'
   })
 }
+
+export function listByMonth(query) {
+    return request({
+      url: '/project/profits/listByMonth',
+      method: 'get',
+      params: query
+    })
+  }
+
