@@ -11,6 +11,7 @@
       v-bind="$attrs"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
+      small
     />
   </div>
 </template>

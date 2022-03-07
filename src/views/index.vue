@@ -1,5 +1,5 @@
 <template>
-  <div style="background-color: #f0f3f8;min-width:1530px">
+  <div style="background-color: #f0f3f8">
     <notice-bar :tongzhi="tongzhi"></notice-bar>
     <div style="padding: 17px">
       <div style="display: flex; margin-bottom: 17px">
@@ -14,17 +14,18 @@
         <el-row :gutter="10">
           <el-col :span="3"
             ><div
+              @click="goToFqi"
               style="
                 border-radius: 8px;
                 width: 100%;
-                height: 124px;
+                height: 99px;
                 background-color: #ffffff;
                 display: flex;
                 justify-content: center;
                 align-items: center;
               "
             >
-              <div style="width: 150px; height: 72px; display: flex">
+              <div style="width: 125px; height: 72px; display: flex">
                 <div>
                   <div
                     style="font-size: 30px; font-weight: 600; color: #333333"
@@ -34,7 +35,7 @@
                   <div style="margin-top: 10px; font-size: 14px">我发起的</div>
                 </div>
                 <img
-                  style="width: 56px; height: 56px; margin-left: 38px"
+                  style="width: 56px; height: 56px; margin-left: 10px"
                   src="../../public/img/faqi.png"
                   alt=""
                 />
@@ -42,17 +43,18 @@
           ></el-col>
           <el-col :span="3"
             ><div
+            @click="goTowodaiban"
               style="
                 border-radius: 8px;
                 width: 100%;
-                height: 124px;
+                height: 99px;
                 background-color: #ffffff;
                 display: flex;
                 justify-content: center;
                 align-items: center;
               "
             >
-              <div style="width: 150px; height: 72px; display: flex">
+              <div style="width: 125px; height: 72px; display: flex">
                 <div>
                   <div
                     style="font-size: 30px; font-weight: 600; color: #333333"
@@ -62,7 +64,7 @@
                   <div style="margin-top: 10px; font-size: 14px">我的待办</div>
                 </div>
                 <img
-                  style="width: 56px; height: 56px; margin-left: 38px"
+                  style="width: 56px; height: 56px; margin-left: 10px"
                   src="../../public/img/daiban.png"
                   alt=""
                 />
@@ -70,17 +72,18 @@
           ></el-col>
           <el-col :span="3"
             ><div
+            @click="goTobudaiban"
               style="
                 border-radius: 8px;
                 width: 100%;
-                height: 124px;
+                height: 99px;
                 background-color: #ffffff;
                 display: flex;
                 justify-content: center;
                 align-items: center;
               "
             >
-              <div style="width: 150px; height: 72px; display: flex">
+              <div style="width: 125px; height: 72px; display: flex">
                 <div>
                   <div
                     style="font-size: 30px; font-weight: 600; color: #333333"
@@ -90,7 +93,7 @@
                   <div style="margin-top: 10px; font-size: 14px">部门待办</div>
                 </div>
                 <img
-                  style="width: 56px; height: 56px; margin-left: 38px"
+                  style="width: 56px; height: 56px; margin-left: 10px"
                   src="../../public/img/bumen.png"
                   alt=""
                 />
@@ -98,17 +101,18 @@
           ></el-col>
           <el-col :span="3"
             ><div
+            @click="goTochaosong"
               style="
                 border-radius: 8px;
                 width: 100%;
-                height: 124px;
+                height: 99px;
                 background-color: #ffffff;
                 display: flex;
                 justify-content: center;
                 align-items: center;
               "
             >
-              <div style="width: 150px; height: 72px; display: flex">
+              <div style="width: 125px; height: 72px; display: flex">
                 <div>
                   <div
                     style="font-size: 30px; font-weight: 600; color: #333333"
@@ -118,7 +122,7 @@
                   <div style="margin-top: 10px; font-size: 14px">抄送我的</div>
                 </div>
                 <img
-                  style="width: 56px; height: 56px; margin-left: 38px"
+                  style="width: 56px; height: 56px; margin-left: 10px"
                   src="../../public/img/chaosong.png"
                   alt=""
                 />
@@ -128,7 +132,7 @@
             <div style="position: relative">
               <img
                 src="../../public/img/zi.png"
-                style="width: 100%; height: 124px"
+                style="width: 100%; height: 99px"
                 alt=""
               />
               <div
@@ -136,7 +140,7 @@
                   position: absolute;
                   top: 0;
                   width: 100%;
-                  height: 124px;
+                  height: 99px;
                   display: flex;
                   justify-content: center;
                   align-items: center;
@@ -172,7 +176,7 @@
             ><div style="position: relative">
               <img
                 src="../../public/img/huang.png"
-                style="width: 100%; height: 124px"
+                style="width: 100%; height: 99px"
                 alt=""
               />
               <div
@@ -180,7 +184,7 @@
                   position: absolute;
                   top: 0;
                   width: 100%;
-                  height: 124px;
+                  height: 99px;
                   display: flex;
                   justify-content: center;
                   align-items: center;
@@ -216,7 +220,7 @@
             ><div style="position: relative">
               <img
                 src="../../public/img/lan.png"
-                style="width: 100%; height: 124px"
+                style="width: 100%; height: 99px"
                 alt=""
               />
               <div
@@ -224,7 +228,7 @@
                   position: absolute;
                   top: 0;
                   width: 100%;
-                  height: 124px;
+                  height: 99px;
                   display: flex;
                   justify-content: center;
                   align-items: center;
@@ -270,7 +274,7 @@
           </div>
           <div
             style="
-              height: 500px;
+              height: 400px;
               background-color: #ffffff;
               border-radius: 8px;
               padding: 20px;
@@ -281,7 +285,7 @@
             <div
               style="
                 width: 50%;
-                height: 110px;
+                height: 90px;
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
@@ -299,7 +303,7 @@
             <div
               style="
                 width: 50%;
-                height: 110px;
+                height: 90px;
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
@@ -317,7 +321,7 @@
             <div
               style="
                 width: 50%;
-                height: 110px;
+                height: 90px;
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
@@ -335,7 +339,7 @@
             <div
               style="
                 width: 50%;
-                height: 110px;
+                height: 90px;
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
@@ -353,7 +357,7 @@
             <div
               style="
                 width: 50%;
-                height: 110px;
+                height: 90px;
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
@@ -371,7 +375,7 @@
             <div
               style="
                 width: 50%;
-                height: 110px;
+                height: 90px;
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
@@ -389,7 +393,7 @@
             <div
               style="
                 width: 50%;
-                height: 110px;
+                height: 90px;
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
@@ -407,7 +411,7 @@
             <div
               style="
                 width: 50%;
-                height: 110px;
+                height: 90px;
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
@@ -435,20 +439,19 @@
           </div>
           <div
             style="
-              height: 500px;
+              height: 400px;
               background-color: #ffffff;
               border-radius: 8px;
               padding: 20px;
-              position:relative
             "
           >
             <div>
               <el-date-picker
                 v-model="value2"
-                style="width: 110px;position:absolute;right:20px"
+                style="width:100px"
                 type="year"
                 placeholder="选择年"
-                value-format="yyyy-MM-dd"
+                size="mini"
                 @change="changeMouth"
               >
               </el-date-picker>
@@ -467,15 +470,15 @@
           </div>
           <div
             style="
-              height: 500px;
+              height: 400px;
               background-color: #ffffff;
               border-radius: 8px;
               padding: 20px;
               position:relative
             "
           >
-            <div style="display: flex; margin-bottom: 15px;position:absolute;right:20px">
-              <div style="margin-right: 15px; margin-top: 7px">统计时间</div>
+            <div style="display: flex;position:absolute;right:20px">
+              <div style="margin-right: 15px; margin-top: 4px;font-size:14px">统计时间</div>
               <el-date-picker
                 v-model="dateRange2"
                 style="width: 240px"
@@ -484,15 +487,17 @@
                 range-separator="-"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"
+                size="mini"
               ></el-date-picker>
               <div
                 style="
-                  width: 93px;
-                  height: 35px;
+                  width: 60px;
+                  height: 26px;
                   background: #003088;
                   border-radius: 4px;
                   text-align: center;
-                  line-height: 35px;
+                  line-height: 26px;
+                  font-size:12px;
                   color: #ffffff;
                   margin-left: 12px;
                 "
@@ -502,9 +507,10 @@
               </div>
             </div>
             <el-table
-              style="margin-top:60px"
+              style="margin-top:45px"
               :header-cell-style="{ background: '#F5F7FB' }"
               v-loading="loading2"
+              size="mini"
               :data="cplanList"
               fit
             >
@@ -547,7 +553,7 @@
           </div>
           <div
             style="
-              height: 500px;
+              height:415px;
               background-color: #ffffff;
               border-radius: 8px;
               padding: 20px;
@@ -557,6 +563,7 @@
               v-loading="loading3"
               :header-cell-style="{ background: '#F5F7FB' }"
               :data="stList"
+              size="mini"
               fit
             >
               <el-table-column prop="name" label="项目名称" width="220">
@@ -599,15 +606,15 @@
           </div>
           <div
             style="
-              height: 500px;
+              height: 415px;
               background-color: #ffffff;
               border-radius: 8px;
-              padding: 20px;
+              padding: 20px ;
               position:relative
             "
           >
-            <div style="display: flex; margin-bottom: 15px;position:absolute;right:20px">
-              <div style="margin-right: 15px; margin-top: 7px">统计时间</div>
+            <div style="display: flex;position:absolute;right:20px">
+              <div style="margin-right: 15px; margin-top: 4px;font-size:14px">统计时间</div>
               <el-date-picker
                 v-model="dateRange"
                 style="width: 240px"
@@ -616,15 +623,17 @@
                 range-separator="-"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"
+                size="mini"
               ></el-date-picker>
               <div
                 style="
-                  width: 93px;
-                  height: 35px;
+                  width: 60px;
+                  height: 26px;
                   background: #003088;
                   border-radius: 4px;
                   text-align: center;
-                  line-height: 35px;
+                  line-height: 26px;
+                  font-size:12px;
                   color: #ffffff;
                   margin-left: 12px;
                 "
@@ -634,10 +643,11 @@
               </div>
             </div>
             <el-table
-              style="margin-top:60px"
+              style="margin-top:45px"
               :header-cell-style="{ background: '#F5F7FB' }"
               v-loading="loading"
               :data="ptakeupList"
+              size="mini"
               fit
             >
               <el-table-column
@@ -737,7 +747,7 @@ html,body{
 }
 #chart {
   width: 100%;
-  height: 488px;
+  height: 345px;
 }
 </style>
 <script>
@@ -975,14 +985,18 @@ export default {
     this.getList10();
   },
   methods: {
-    changeMouth(e) {
-      this.value3 = e;
-      this.getlistByMonth();
+    changeMouth(date) {
+        var y = date.getFullYear();
+        var m = date.getMonth() + 1;
+        m = m < 10 ? ('0' + m) : m;
+        var d = date.getDate();
+        d = d < 10 ? ('0' + d) : d;
+        this.value3 = y + '-' + m + '-' + d
+        this.getlistByMonth(this.value3);
     },
     getlistByMonth() {
       let m = [];
       m.push(this.value3);
-      console.log(m);
       listByMonth(this.addDateRange(this.queryParams5, m)).then((res) => {
         this.mouthData = res.data;
         this.myEcharts();
@@ -997,6 +1011,18 @@ export default {
     },
     toApayment() {
       this.$router.push({ name: "apaymentAdd", params: { isAdd: "true" } });
+    },
+    goToFqi(){
+      this.$router.push('/approve/initiate/index')
+    },
+    goTowodaiban(){
+      this.$router.push('/approve/upcoming/index')
+    },
+    goTobudaiban(){
+      this.$router.push('/approve/initiate/index')
+    },
+    goTochaosong(){
+      this.$router.push('/approve/cc/index')
     },
     toFpayment() {
       this.$router.push({ name: "fpaymentAdd", params: { isAdd: "true" } });
@@ -1148,6 +1174,10 @@ export default {
         },
         grid: {
           containLabel: true,
+          top:"30px",
+          left:"10px",
+          right:"10px",
+          bottom:"30px"
         },
         tooltip: {
           //鼠标放到统计图某一项上显示相应数据内容,不设置triggerOn时默认为鼠标移过就显示，设置为click为点击时才显示
