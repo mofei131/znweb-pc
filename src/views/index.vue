@@ -553,7 +553,7 @@
           </div>
           <div
             style="
-              height:415px;
+              height:460px;
               background-color: #ffffff;
               border-radius: 8px;
               padding: 20px;
@@ -606,7 +606,7 @@
           </div>
           <div
             style="
-              height: 415px;
+              height: 460px;
               background-color: #ffffff;
               border-radius: 8px;
               padding: 20px ;
@@ -784,10 +784,10 @@ export default {
   name: "index",
   mounted() {
     this.getlistByMonth();
-    getMyUpcomingDept(this.queryParams).then((res) => {
+    getMyUpcoming(this.queryParams).then((res) => {
       this.bmdb = res.data.total;
       if(res.data.records.length>0){
-        this.tongzhi = res.data.records[0].projectName
+        this.tongzhi = res.data.records[0].processName
       }else{
         this.tongzhi="暂无通知"
       }

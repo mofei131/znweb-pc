@@ -15,7 +15,7 @@
         src="../../../public/img/tongzhi.png"
         alt=""
       />
-      <span style="line-height: 22px">通知：</span>
+      <span style="line-height: 22px">待办：</span>
     </div>
     <div id="tips">
       <span class="span1">{{ tongzhi }}</span>
