@@ -78,6 +78,11 @@
         <el-col :span="4">
           预计利润(元)：<span v-text="form.expectProfits"></span>
         </el-col>
+      <el-row class="head-text">
+        <el-col :span="4" :offset="1">
+          立项编号：<span v-text="form.productNo"></span>
+        </el-col>
+      </el-row>
       </el-row>
 <!--      合同信息-->
       <el-row class="head-title">

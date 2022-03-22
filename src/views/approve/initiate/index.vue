@@ -74,6 +74,8 @@
                 ? "期间费用"
                 : scope.row.processType == "17"
                   ? "实际收款"
+                : scope.row.processType == "18"
+                  ? "投标申请"
                 : ""
             }}
           </template>
@@ -231,6 +233,10 @@ export default {
         this.$router.push("/dp/look/" + stId);
       }else if(typeId=='17'){
         this.$router.push("/realsk/look/" + stId);
+      }else if(typeId=='17'){
+        this.$router.push("/realsk/look/" + stId);
+      }else if(typeId=='18'){
+        this.$router.push("/bidApply/look/" + stId);
       }
     },
     handleUpdate(row){
@@ -270,6 +276,8 @@ export default {
         this.$router.push({name: 'dpEdit',params:{isEdit:"true",dpId:stId}})
       }else if(typeId=='17'){
         this.$router.push({name: 'realskEdit',params:{isEdit:"true",realskId:stId}})
+      }else if(typeId=='18'){
+        this.$router.push({name: 'bidApplyEdit',params:{isEdit:"true",bidId:stId}})
       }
     },
     handleDelete(row){

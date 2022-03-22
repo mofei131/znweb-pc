@@ -64,6 +64,9 @@
         <el-col :span="4" :offset="1" v-if="form.type=='其他合同'">
           客户名称：<span v-text="form.khName"></span>
         </el-col>
+        <el-col :span="4">
+          立项编号：<span v-text="form.productNo"></span>
+        </el-col>
       </el-row>
 
       <el-row class="head-text">

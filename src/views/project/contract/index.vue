@@ -179,6 +179,11 @@
         </el-row>
         <el-row>
           <el-col :span="12">
+            <el-form-item label="立项编号" prop="productNo">
+              <el-input v-model="form.productNo" placeholder="请输入立项编号" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
             <el-form-item label="合同类型" prop="type">
               <el-select v-model="form.type" placeholder="请选择合同类型" style="width: 100%;">
                 <el-option
@@ -858,7 +863,7 @@ export default {
         khName:null,
         node:null,
         number:null,
-
+        productNo:null
       };
       this.resetForm("form");
     },

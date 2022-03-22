@@ -50,6 +50,9 @@
       </el-row>
       <el-row class="head-text">
         <el-col :span="4" :offset="1">
+          立项编号：<span v-text="form.productNo"></span>
+        </el-col>
+        <el-col :span="4">
           结算比例：<span v-text="form.settlementP"></span>
         </el-col>
         <el-col :span="4" >
