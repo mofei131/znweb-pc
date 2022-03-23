@@ -167,7 +167,7 @@
     <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="180px">
         <el-row>
-          <el-col :span="10">
+          <el-col :span="8">
             <el-form-item label="项目" prop="stId">
               <el-select filterable value-key="stId" @change="changeSt" v-model="form.stId" placeholder="请选择项目" style="width: 100%;">
                 <el-option
@@ -179,7 +179,12 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="10">
+          <el-col :span="4">
+            <el-form-item label="项目编号" prop="name">
+              {{ form.number }}
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
             <el-form-item label="代办人" prop="userId">
               <el-select filterable value-key="userId" @change="changeUser" v-model="form.userId" placeholder="请选择代办人" style="width: 100%;">
                 <el-option
@@ -572,6 +577,7 @@ export default {
     changeSt(obj){
       this.form.stId2 = obj.stId
       this.form.stName = obj.name
+      this.$set(this.form,'number',obj.number)
     },
     //选择代办人
     changeUser(obj){

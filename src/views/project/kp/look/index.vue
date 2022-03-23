@@ -37,6 +37,9 @@
         <el-col :span="4" :offset="1">
           项目名称：<span v-text="form.stName"></span>
         </el-col>
+        <el-col :span="4" :offset="1">
+          项目编号：<span v-text="form.number"></span>
+        </el-col>
         <el-col :span="4">
           代办人：<span v-text="form.uName"></span>
         </el-col>
@@ -91,10 +94,13 @@
         </el-col>
       </el-row>
 
+      <!--      审批流程·-->
+      <approval-process :typeId="15" :stId="kpId"></approval-process>
+
       <!--      审批信息-->
       <el-row class="head-title">
         <el-col :span="12">
-          <el-form-item label="审批信息"></el-form-item>
+          <el-form-item label="审批记录"></el-form-item>
         </el-col>
       </el-row>
       <el-row class="head-text">
@@ -110,6 +116,10 @@
             <el-table-column
               property="nickName"
               label="审批人">
+            </el-table-column>
+            <el-table-column
+              property="approveTime"
+              label="审批时间">
             </el-table-column>
             <el-table-column
               property="processValue"
@@ -163,10 +173,12 @@ export default {
 
       // 表单参数
       form: {},
+      kpId:''
     };
   },
   created() {
     const kpId = this.$route.params && this.$route.params.kpId;
+    this.kpId=kpId
     getKp(kpId).then(response => {
       this.form=response.data
       this.fileList = response.data.fileList

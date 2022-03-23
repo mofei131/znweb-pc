@@ -197,6 +197,11 @@
               </el-select>
             </el-form-item>
           </el-col>
+          <el-col :span="12">
+            <el-form-item label="项目编号" prop="number">
+              <span v-text="form.number"></span>
+            </el-form-item>
+          </el-col>
         </el-row>
         <div v-if="this.form.skType=='收款'">
         <el-row>
@@ -1018,7 +1023,7 @@ export default {
       this.form.stName = obj.name
       this.form.tId=null
       this.form.tName=null
-
+      this.$set(this.form,'number',obj.number)
       //查询煤炭销售合同
       let c2 = {"stId": this.form.stId2, "type": "2"};
       getContract(c2).then(response => {

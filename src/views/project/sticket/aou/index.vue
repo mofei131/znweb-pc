@@ -17,6 +17,13 @@
     </el-row>
     <el-row>
       <el-col :span="12">
+        <el-form-item label="项目编号" prop="name">
+          {{ form.number }}
+        </el-form-item>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="12">
         <el-form-item label="代办人:" prop="proportion">
           <span>{{form.uName}}</span>
         </el-form-item>
@@ -456,6 +463,7 @@ export default {
       this.form.stName = obj.name
       this.form.uName = obj.userName
       this.form.tName = obj.tName
+      // this.$set(this.form,'number',obj.number)
       this.reset();
       let data={stId:obj.stId,proportion:this.form.proportion}
       findInit(data).then(response => {

@@ -184,12 +184,17 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="出库重量(吨)" prop="grnNumber">
-              <el-input v-model="form.grnNumber" placeholder="请输入出库重量" @change="calculate"/>
+            <el-form-item label="项目编号" prop="name">
+              {{ form.number }}
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
+          <el-col :span="12">
+            <el-form-item label="出库重量(吨)" prop="grnNumber">
+              <el-input v-model="form.grnNumber" placeholder="请输入出库重量" @change="calculate"/>
+            </el-form-item>
+          </el-col>
           <el-col :span="12">
             <el-form-item label="到货日期" prop="okTime">
               <el-date-picker clearable size="small" style="width: 100%;"
@@ -200,13 +205,14 @@
               </el-date-picker>
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row>
           <el-col :span="12">
             <el-form-item label="出库热值(Kcal/吨)" prop="gryRz">
               <el-input v-model="form.gryRz" placeholder="请输入出库热值" />
             </el-form-item>
           </el-col>
         </el-row>
-
         <div v-if="chargemType!=1">
           <el-row>
             <el-col :span="12">
@@ -963,6 +969,7 @@ export default {
       this.form.rewardp=0
       this.form.stId2 = obj.stId
       this.form.stName = obj.name
+      this.$set(this.form,'number',obj.number)
       //赋值固定差价
       if(obj.chargemType=='2' || obj.chargemType=='3'){
         this.chargemType=2;

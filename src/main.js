@@ -35,6 +35,8 @@ import DictTag from '@/components/DictTag'
 import VueMeta from 'vue-meta'
 //echarts
 import echarts from 'echarts'
+import approvalProcess from "@/views/components/approvalProcess.vue"
+Vue.component("approvalProcess",approvalProcess)
 
 
 // 全局方法挂载

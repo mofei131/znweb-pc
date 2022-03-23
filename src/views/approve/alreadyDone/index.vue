@@ -77,6 +77,8 @@
                 ? "期间费用"
                 : scope.row.processType == "17"
                 ? "实际收款"
+                : scope.row.processType == "18"
+                ? "投标申请"
                 : ""
             }}
           </template>
@@ -169,6 +171,8 @@ export default {
         this.$router.push("/kp/look/" + stId);
       }else if(typeId=='16'){
         this.$router.push("/dp/look/" + stId);
+      }else if(typeId=='18'){
+        this.$router.push("/bidApply/look/" + stId);
       }
     },
   },

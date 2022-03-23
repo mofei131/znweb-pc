@@ -38,6 +38,9 @@
         <el-col :span="5" :offset="1">
           项目名称：<span v-text="form.stName"></span>
         </el-col>
+        <el-col :span="5" :offset="1">
+          项目编号：<span v-text="form.number"></span>
+        </el-col>
         <el-col :span="5">
           预付方式：<span v-text="form.payType"></span>
         </el-col>
@@ -268,10 +271,13 @@
         </el-col>
       </el-row>
 
+      <!--      审批流程·-->
+      <approval-process :typeId="5" :stId="fpaymentId"></approval-process>
+
       <!--      审批信息-->
       <el-row class="head-title">
         <el-col :span="12">
-          <el-form-item label="审批信息"></el-form-item>
+          <el-form-item label="审批记录"></el-form-item>
         </el-col>
       </el-row>
       <el-row class="head-text">
@@ -287,6 +293,10 @@
             <el-table-column
               property="nickName"
               label="审批人">
+            </el-table-column>
+            <el-table-column
+              property="approveTime"
+              label="审批时间">
             </el-table-column>
             <el-table-column
               property="processValue"
@@ -341,11 +351,12 @@ export default {
 
       //合同集合
       contract:[],
-
+      fpaymentId:''
     };
   },
   created() {
     const fpaymentId = this.$route.params && this.$route.params.fpaymentId;
+    this.fpaymentId=fpaymentId
     getFpayment(fpaymentId).then(response => {
       this.form=response.data
       this.fileList = this.form.fileList;

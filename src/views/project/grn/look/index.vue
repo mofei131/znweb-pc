@@ -35,19 +35,22 @@
         </el-col>
       </el-row>
       <el-row class="head-text">
-        <el-col :span="4" :offset="1">
+        <el-col :span="3" :offset="1">
           项目名称：<span v-text="form.stName"></span>
         </el-col>
-        <el-col :span="4">
+        <el-col :span="3" :offset="1">
+          项目编号：<span v-text="form.number"></span>
+        </el-col>
+        <el-col :span="3">
           物流公司：<span v-text="form.wlCompany"></span>
         </el-col>
-        <el-col :span="4">
+        <el-col :span="3">
           货品名称：<span v-text="form.name" ></span>
         </el-col>
-        <el-col :span="4">
+        <el-col :span="3">
           入库重量(吨)：<span v-text="form.grnNumber"></span>
         </el-col>
-        <el-col :span="4" >
+        <el-col :span="3" >
           发货日期：<span>{{ parseTime(form.deliveryTime, '{y}-{m}-{d}') }}</span>
         </el-col>
       </el-row>
@@ -178,10 +181,13 @@
       </el-row>
 
 
+      <!--      审批流程·-->
+      <approval-process :typeId="10" :stId="grnId"></approval-process>
+
       <!--      审批信息-->
       <el-row class="head-title">
         <el-col :span="12">
-          <el-form-item label="审批信息"></el-form-item>
+          <el-form-item label="审批记录"></el-form-item>
         </el-col>
       </el-row>
       <el-row class="head-text">
@@ -197,6 +203,10 @@
             <el-table-column
               property="nickName"
               label="审批人">
+            </el-table-column>
+            <el-table-column
+              property="approveTime"
+              label="审批时间">
             </el-table-column>
             <el-table-column
               property="processValue"
@@ -243,10 +253,12 @@ export default {
 
       // 表单参数
       form: {},
+      grnId:""
     };
   },
   created() {
     const grnId = this.$route.params && this.$route.params.grnId;
+    this.grnId=grnId
     getGrn(grnId).then(response => {
       this.form=response.data
     })

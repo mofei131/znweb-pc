@@ -201,6 +201,11 @@
           </el-row>
           <el-row>
             <el-col :span="12">
+              <el-form-item label="立项编号" prop="productNo">
+                <el-input v-model="form.productNo" placeholder="请输入立项编号" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
               <el-form-item label="代办人" prop="userId">
                 <el-select filterable value-key="userId" @change="changeUser"  v-model="form.userId" placeholder="请选择代办人" style="width: 100%">
                   <el-option
@@ -212,6 +217,8 @@
                 </el-select>
               </el-form-item>
             </el-col>
+          </el-row>
+          <el-row>
             <el-col :span="12">
               <el-form-item label="供应商" prop="supplierId">
                 <el-select filterable value-key="supplierId" @change="changeSupplier" v-model="form.supplierId" placeholder="请选择供应商" style="width: 100%">
@@ -224,8 +231,6 @@
                 </el-select>
               </el-form-item>
             </el-col>
-          </el-row>
-          <el-row>
             <el-col :span="12">
               <el-form-item label="客户经理" prop="managerName">
                 <el-input v-model="form.managerName" placeholder="请输入客户经理" />
@@ -962,7 +967,7 @@ export default {
       isLook:1,
       //步骤条id
       active: 0,
-      arr0:['name','amount','userId','supplierId','settlementP','margin','settlementWay','cycleStart','cycleEnd','chargemNx','chargemGd','expectPrice','expectWeight','rateYear','expectProfits'],
+      arr0:['name','productNo','amount','userId','supplierId','settlementP','margin','settlementWay','cycleStart','cycleEnd','chargemNx','chargemGd','expectPrice','expectWeight','rateYear','expectProfits'],
       arr1:['shName','shXz','shHzrate','shChannelyear','shSettlement','shMargin','shshContracttype'],
       arr2:['terminalId','tXz','tAccount','tCyear','tTender','tMargin','tMargintime','tContracttype','tContracttime','tTransporttype','tTransportstart','tTransportend','tOktime','tOktype','tSettlementtype','tSettlementgz','tPaymentdays','tPaymenttype'],
       arr3:['pName','pJymode','pSize','pFymode','pCname','pCxz','pCyear','pCnumber'],
@@ -1012,10 +1017,12 @@ export default {
          {"key":"上市企业","label":"上市企业"},],
       //结算方式
       settlementWayOptions:
-        [{"key":"到厂结算","label":"到厂结算"},
-         {"key":"车板结算","label":"车板结算"},
-         {"key":"代付运费并车板结算","label":"代付运费并车板结算"},
-         {"key":"货权业务模式","label":"货权业务模式"}],
+        [{"key":"车板模式","label":"车板模式"},
+         {"key":"车板加运费模式","label":"车板加运费模式"},
+         {"key":"到厂模式","label":"到厂模式"},
+         {"key":"储备业务","label":"储备业务"},
+         {"key":"货权模式","label":"货权模式"},
+         {"key":"自营模式","label":"自营模式"}],
       //合作方式
       shHztypeOptions:
         [{"key":"固定差价买断","label":"固定差价买断"},
@@ -1075,8 +1082,8 @@ export default {
       tTransporttypeOptions:
         [{"key":"火运","label":"火运"},
           {"key":"汽运","label":"汽运"},
-          {"key":"火运/汽运/火运","label":"火运/汽运/火运"},
-          {"key":"汽运/船运","label":"汽运/船运"}],
+          {"key":"火运+汽运","label":"火运+汽运"},
+          {"key":"船运","label":"船运"}],
       //到场数质量确认时间
       tOktimeOptions:
         [{"key":"到场卸货后 1 天","label":"到场卸货后 1 天"},
@@ -1427,7 +1434,8 @@ export default {
         state: null,
         createBy: null,
         createTime: null,
-        fileList:[]
+        fileList:[],
+        productNo: null
       };
       this.resetForm("form");
     },

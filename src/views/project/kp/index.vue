@@ -167,6 +167,11 @@
               </el-select>
             </el-form-item>
           </el-col>
+          <el-col :span="12">
+            <el-form-item label="项目编号" prop="name">
+              {{ form.number }}
+            </el-form-item>
+          </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
@@ -576,6 +581,7 @@ export default {
       this.form.uId=obj.userId
       this.form.sName=obj.supplierName
       this.form.sId=obj.supplierId
+      this.$set(this.form,'number',obj.number)
     },
 
     jsTax(){

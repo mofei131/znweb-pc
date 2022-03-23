@@ -50,6 +50,9 @@
       </el-row>
       <el-row class="head-text">
         <el-col :span="4" :offset="1">
+          立项编号：<span v-text="form.productNo"></span>
+        </el-col>
+        <el-col :span="4">
           结算比例：<span v-text="form.settlementP"></span>
         </el-col>
         <el-col :span="4" >
@@ -292,11 +295,13 @@
         </el-col>
       </el-row>
 
+      <!--      审批流程·-->
+      <approval-process :typeId="1" :stId="stId"></approval-process>
 
       <!--      审批信息-->
       <el-row class="head-title">
         <el-col :span="12">
-          <el-form-item label="审批信息"></el-form-item>
+          <el-form-item label="审批记录"></el-form-item>
         </el-col>
       </el-row>
       <el-row class="head-text">
@@ -312,6 +317,10 @@
             <el-table-column
               property="nickName"
               label="审批人">
+            </el-table-column>
+            <el-table-column
+              property="approveTime"
+              label="审批时间">
             </el-table-column>
             <el-table-column
               property="processValue"
@@ -346,6 +355,7 @@ import {getSt} from "@/api/project/st";
 import {getToken} from "@/utils/auth";
 import {getProcessDataByStId} from "@/api/approve";
 
+
 export default {
   name: "look",
   data() {
@@ -364,11 +374,13 @@ export default {
       // 表单参数
       form: {},
       gryLr:0.00,
-      gryNumber:0
+      gryNumber:0,
+      stId:''
     };
   },
   created() {
     const stId = this.$route.params && this.$route.params.stId;
+    this.stId=stId
     getSt(stId).then(response => {
       this.form=response.data
       this.fileList = response.data.fileList

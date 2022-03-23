@@ -91,3 +91,11 @@ export function getTerminalList() {
     method: 'get'
   })
 }
+
+// 审批环节列表接口
+export function getApprovalProcessList(typeId,stId) {
+  return request({
+    url: '/approve/process/selectNodesDefByStId/'+typeId+'/'+stId,
+    method: 'get'
+  })
+}

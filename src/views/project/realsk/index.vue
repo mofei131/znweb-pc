@@ -180,6 +180,11 @@
               <span v-text="form.ygPrice"></span>
             </el-form-item>
           </el-col>
+          <el-col :span="12">
+            <el-form-item label="项目编号" prop="number">
+              <span v-text="form.number"></span>
+            </el-form-item>
+          </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
@@ -759,6 +764,7 @@ export default {
     changeSt(obj){
       this.form.tId=null
       this.form.tName=null
+      this.$set(this.form,'number',obj.number)
 
       this.form.stId2 = obj.stId
       this.form.stName = obj.name
