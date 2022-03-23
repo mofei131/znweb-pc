@@ -235,10 +235,13 @@
         </el-col>
       </el-row>
 
+      <!--      审批流程·-->
+      <approval-process :typeId="11" :stId="gryId"></approval-process>
+
       <!--      审批信息-->
       <el-row class="head-title">
         <el-col :span="12">
-          <el-form-item label="审批信息"></el-form-item>
+          <el-form-item label="审批记录"></el-form-item>
         </el-col>
       </el-row>
       <el-row class="head-text">
@@ -254,6 +257,10 @@
             <el-table-column
               property="nickName"
               label="审批人">
+            </el-table-column>
+            <el-table-column
+              property="approveTime"
+              label="审批时间">
             </el-table-column>
             <el-table-column
               property="processValue"
@@ -304,10 +311,12 @@ export default {
       rzc:0,
       djc:0,
       zec:0,
+      gryId:''
     };
   },
   created() {
     const gryId = this.$route.params && this.$route.params.gryId;
+    this.gryId = gryId
     getGry(gryId).then(response => {
       this.form=response.data
       this.grnList = response.data.grnList;

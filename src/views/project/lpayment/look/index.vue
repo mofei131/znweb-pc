@@ -291,10 +291,13 @@
 
 
 
+      <!--      审批流程·-->
+      <approval-process :typeId="9" :stId="lpaymentId"></approval-process>
+
       <!--      审批信息-->
       <el-row class="head-title">
         <el-col :span="12">
-          <el-form-item label="审批信息"></el-form-item>
+          <el-form-item label="审批记录"></el-form-item>
         </el-col>
       </el-row>
       <el-row class="head-text">
@@ -310,6 +313,10 @@
             <el-table-column
               property="nickName"
               label="审批人">
+            </el-table-column>
+            <el-table-column
+              property="approveTime"
+              label="审批时间">
             </el-table-column>
             <el-table-column
               property="processValue"
@@ -370,10 +377,12 @@ export default {
 
       //合同集合
       contract:[],
+      lpaymentId:''
     };
   },
   created() {
     const lpaymentId = this.$route.params && this.$route.params.lpaymentId;
+    this.lpaymentId=lpaymentId
     getLpayment(lpaymentId).then(response => {
 
       this.form=response.data

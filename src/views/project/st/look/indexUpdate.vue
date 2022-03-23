@@ -702,10 +702,13 @@
 <!--        </el-col>-->
 <!--      </el-row>-->
 
+      <!--      审批流程·-->
+      <approval-process :typeId="2" :stId="stId"></approval-process>
+
       <!--      审批信息-->
       <el-row class="head-title">
         <el-col :span="12">
-          <el-form-item label="审批信息"></el-form-item>
+          <el-form-item label="审批记录"></el-form-item>
         </el-col>
       </el-row>
       <el-row class="head-text">
@@ -721,6 +724,10 @@
             <el-table-column
               property="nickName"
               label="审批人">
+            </el-table-column>
+            <el-table-column
+              property="approveTime"
+              label="审批时间">
             </el-table-column>
             <el-table-column
               property="processValue"
@@ -810,13 +817,14 @@ export default {
       // 表单参数
       form: {},
       gryLr:0.00,
-      gryNumber:0
+      gryNumber:0,
+      stId:''
     };
   },
   created() {
     const stId = this.$route.query && this.$route.query.stId;
     const stupdateId = this.$route.query && this.$route.query.stupdateId;
-
+    this.stId=stId
     // this.xmNode = this.$route.query.xmNode;
     getSt(stId).then(response => {
       this.form=response.data

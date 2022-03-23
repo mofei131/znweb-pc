@@ -188,10 +188,13 @@
 <!--      </el-row>-->
 
 
+      <!--      审批流程·-->
+      <approval-process :typeId="3" :stId="contractId"></approval-process>
+
       <!--      审批信息-->
       <el-row class="head-title">
         <el-col :span="12">
-          <el-form-item label="审批信息"></el-form-item>
+          <el-form-item label="审批记录"></el-form-item>
         </el-col>
       </el-row>
       <el-row class="head-text">
@@ -207,6 +210,10 @@
             <el-table-column
               property="nickName"
               label="审批人">
+            </el-table-column>
+            <el-table-column
+              property="approveTime"
+              label="审批时间">
             </el-table-column>
             <el-table-column
               property="processValue"
@@ -261,10 +268,12 @@ export default {
 
       // 表单参数
       form: {},
+      contractId:''
     };
   },
   created() {
     const contractId = this.$route.params && this.$route.params.contractId;
+    this.contractId=contractId
     getContract(contractId).then(response => {
       this.form=response.data
       this.fileList = response.data.fileList
