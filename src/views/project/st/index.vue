@@ -1074,7 +1074,9 @@ export default {
       //运输方式
       tTransporttypeOptions:
         [{"key":"火运","label":"火运"},
-          {"key":"汽运","label":"汽运"}],
+          {"key":"汽运","label":"汽运"},
+          {"key":"火运/汽运/火运","label":"火运/汽运/火运"},
+          {"key":"汽运/船运","label":"汽运/船运"}],
       //到场数质量确认时间
       tOktimeOptions:
         [{"key":"到场卸货后 1 天","label":"到场卸货后 1 天"},

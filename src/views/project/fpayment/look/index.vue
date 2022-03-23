@@ -399,6 +399,8 @@ export default {
         return "物流运输合同"
       }else if(row.type=='4'){
         return "物流服务合同"
+      }else if(row.type=='5'){
+        return "其他合同"
       }
     },
   }

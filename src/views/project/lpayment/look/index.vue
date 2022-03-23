@@ -59,6 +59,11 @@
           实付金额：<span v-text="form.tntPrice"></span>
         </el-col>
       </el-row>
+      <el-row class="head-text">
+        <el-col :span="4" :offset="1">
+          备注：<span v-text="form.bz"></span>
+        </el-col>
+      </el-row>
 
       <el-row class="head-title">
         <el-col :span="19">
@@ -432,6 +437,8 @@ export default {
         return "物流运输合同"
       }else if(row.type=='4'){
         return "物流服务合同"
+      }else if(row.type=='5'){
+        return "其他合同"
       }
     },
 

@@ -19,7 +19,7 @@
           <el-form-item label="发起人">
             <el-input v-model="from.sponsor" placeholder="请输入发起人"></el-input>
           </el-form-item>
-          <el-button type="primary" icon="el-icon-search" @click="searchDaiban"
+          <el-button type="primary" icon="el-icon-search" @click="getList"
             >搜索</el-button
           >
         </el-form>
@@ -209,6 +209,9 @@ export default {
   },
   created() {
     this.getList();
+    this.getDicts("process_type").then((response) => {
+      this.processTypeList = response.data;
+    });
   },
   methods: {
     getList() {
