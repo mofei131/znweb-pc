@@ -231,7 +231,13 @@
             </el-form-item>
           </el-col>
         </el-row>
-
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="备注" prop="bz">
+                <el-input v-model="form.bz"  placeholder="请输入备注" />
+              </el-form-item>
+            </el-col>
+          </el-row>
         <!--        选择入库单-->
         <div v-if="false">
           <el-popover
@@ -817,6 +823,7 @@ export default {
         contractName:null,
         wldetailsList:[],
         taxTotalPrice:null,
+        bz:null,
       };
       this.resetForm("form");
     },
