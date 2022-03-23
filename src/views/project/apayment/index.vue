@@ -184,8 +184,22 @@
         </el-row>
           <el-row>
             <el-col :span="12">
+              <el-form-item label="项目编号" prop="number">
+                <span v-text="form.number"></span>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
               <el-form-item label="供应商" prop="supplierName">
                 <span v-text="form.supplierName"></span>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="结算方式" prop="settlementWay">
+                <span v-text="form.settlementWay"></span>
               </el-form-item>
             </el-col>
           </el-row>
@@ -1256,6 +1270,8 @@ export default {
       this.form.supplierName = null
       this.form.account = null
       this.form.openbank = null
+      this.$set(this.form,'number',obj.number)
+      this.$set(this.form,'settlementWay',obj.settlementWay)
 
       let dataInit = { stId: obj.stId }
       findInit(dataInit).then(response => {

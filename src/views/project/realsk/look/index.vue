@@ -41,6 +41,9 @@
         <el-col :span="4" :offset="1">
           项目名称：<span v-text="form.stName"></span>
         </el-col>
+        <el-col :span="4" :offset="1">
+          项目编号：<span v-text="form.number"></span>
+        </el-col>
         <el-col :span="4">
           开票金额（价税合计）：<span v-text="form.kpPrice"></span>
         </el-col>
@@ -50,14 +53,14 @@
         <el-col :span="4">
           结算单总金额：<span v-text="form.jstPrice"></span>
         </el-col>
-        <el-col :span="4">
-          热值(Kcal/吨)：<span v-text="form.rz"></span>
-        </el-col>
       </el-row>
 
       <el-row class="head-text">
         <el-col :span="4" :offset="1">
           终端客户：<span v-text="form.tName"></span>
+        </el-col>
+        <el-col :span="4">
+          热值(Kcal/吨)：<span v-text="form.rz"></span>
         </el-col>
       </el-row>
 

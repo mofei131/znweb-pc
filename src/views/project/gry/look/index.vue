@@ -35,16 +35,19 @@
         </el-col>
       </el-row>
       <el-row class="head-text">
-        <el-col :span="5" :offset="1">
+        <el-col :span="4" :offset="1">
           项目名称：<span v-text="form.stName"></span>
         </el-col>
-        <el-col :span="5">
+        <el-col :span="4" :offset="1">
+          项目编号：<span v-text="form.number"></span>
+        </el-col>
+        <el-col :span="4">
           出库重量：<span v-text="form.grnNumber"></span>
         </el-col>
-        <el-col :span="5">
+        <el-col :span="4">
           到货日期：<span>{{ parseTime(form.okTime, '{y}-{m}-{d}') }}</span>
         </el-col>
-        <el-col :span="5">
+        <el-col :span="4">
           出库热值：<span v-text="form.gryRz"></span>
         </el-col>
       </el-row>

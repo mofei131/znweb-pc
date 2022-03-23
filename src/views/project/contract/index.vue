@@ -172,17 +172,24 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="合同名称" prop="name">
-              <el-input v-model="form.name" placeholder="请输入合同名称" />
+            <el-form-item label="项目编号" prop="name">
+              {{ form.number }}
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
+            <el-form-item label="合同名称" prop="name">
+              <el-input v-model="form.name" placeholder="请输入合同名称" />
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
             <el-form-item label="立项编号" prop="productNo">
               <el-input v-model="form.productNo" placeholder="请输入立项编号" />
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row>
           <el-col :span="12">
             <el-form-item label="合同类型" prop="type">
               <el-select v-model="form.type" placeholder="请选择合同类型" style="width: 100%;">
@@ -1031,6 +1038,7 @@ export default {
     changeSt(obj){
       this.form.stId2 = obj.stId
       this.form.stName = obj.name
+      this.$set(this.form,'number',obj.number)
 
       this.form.supplierId = obj.supplierName
       this.form.supplierId2 = obj.supplierId

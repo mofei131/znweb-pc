@@ -40,6 +40,9 @@
         <el-col :span="4">
           保证金类型：<span v-text="form.obj"></span>
         </el-col>
+        <el-col :span="4">
+          项目编号：<span v-text="form.number"></span>
+        </el-col>
       </el-row>
       <div v-if="form.type=='上游'">
         <el-row class="head-text">

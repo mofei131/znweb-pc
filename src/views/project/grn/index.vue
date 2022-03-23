@@ -172,24 +172,29 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="物流公司" prop="wlCompany">
-              <el-input v-model="form.wlCompany" placeholder="请输入物流公司" />
+            <el-form-item label="项目编号" prop="name">
+              {{ form.number }}
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
+          <el-col :span="12">
+            <el-form-item label="物流公司" prop="wlCompany">
+              <el-input v-model="form.wlCompany" placeholder="请输入物流公司" />
+            </el-form-item>
+          </el-col>
           <el-col :span="12">
             <el-form-item label="货品名称" prop="name">
               <el-input v-model="form.name" placeholder="请输入货品名称" />
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row>
           <el-col :span="12">
             <el-form-item label="入库重量(吨)" prop="grnNumber">
               <el-input v-model="form.grnNumber" placeholder="请输入入库重量" @change="calculate"/>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row>
           <el-col :span="12">
             <el-form-item label="发货日期" prop="deliveryTime">
               <el-date-picker clearable size="small" style="width: 100%;"
@@ -200,13 +205,13 @@
               </el-date-picker>
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row>
           <el-col :span="12">
             <el-form-item label="入库热值(Kcal/吨)" prop="grnRz">
               <el-input v-model="form.grnRz" placeholder="请输入入库热值" />
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row>
           <el-col :span="12">
             <el-form-item label="运输方式" prop="transportType">
               <el-select v-model="form.transportType" placeholder="请选择运输方式" style="width: 100%;">
@@ -219,18 +224,20 @@
               </el-select>
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row>
           <el-col :span="12">
             <el-form-item label="车数" prop="carNumber">
               <el-input v-model="form.carNumber" placeholder="请输入车数" />
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row>
           <el-col :span="12">
             <el-form-item label="批次" prop="batch">
               <el-input v-model="form.batch" placeholder="请输入批次" />
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row>
           <el-col :span="12">
             <el-form-item label="基准单价" prop="basePrice">
               <el-input v-model="form.basePrice" placeholder="请输入基准单价" @change="calculate"/>
@@ -779,6 +786,7 @@ export default {
       this.form.rewardp=0
       this.form.stId2 = obj.stId
       this.form.stName = obj.name
+      this.$set(this.form,'number',obj.number)
       getContract(obj.stId).then(response => {
         if(response.data!=null){
           //基准单价

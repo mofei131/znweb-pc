@@ -37,6 +37,9 @@
         <el-col :span="4" :offset="1">
           项目名称：<span v-text="form.stName"></span>
         </el-col>
+        <el-col :span="4" :offset="1">
+          项目编号：<span v-text="form.number"></span>
+        </el-col>
         <el-col :span="4">
           代办人：<span v-text="form.uName"></span>
         </el-col>

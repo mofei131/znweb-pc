@@ -38,6 +38,9 @@
         <el-col :span="5" :offset="1">
           项目名称：<span v-text="form.stName"></span>
         </el-col>
+        <el-col :span="5" :offset="1">
+          项目编号：<span v-text="form.number"></span>
+        </el-col>
         <el-col :span="5">
           预付方式：<span v-text="form.payType"></span>
         </el-col>

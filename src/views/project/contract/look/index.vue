@@ -67,6 +67,9 @@
         <el-col :span="4">
           立项编号：<span v-text="form.productNo"></span>
         </el-col>
+        <el-col :span="4">
+          项目编号：<span v-text="form.number"></span>
+        </el-col>
       </el-row>
 
       <el-row class="head-text">

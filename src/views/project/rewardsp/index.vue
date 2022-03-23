@@ -98,6 +98,11 @@
               </el-select>
             </el-form-item>
           </el-col>
+          <el-col :span="12">
+            <el-form-item label="项目编号" prop="name">
+              {{ form.number }}
+            </el-form-item>
+          </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
@@ -1569,6 +1574,7 @@ export default {
     changeSt(obj){
       this.form.stId2 = obj.stId
       this.form.stName = obj.name
+      this.$set(this.form,'number',obj.number)
     },
     //溢出选中数据
     deleteRow(index, rows,ts) {

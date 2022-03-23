@@ -1017,10 +1017,12 @@ export default {
          {"key":"上市企业","label":"上市企业"},],
       //结算方式
       settlementWayOptions:
-        [{"key":"到厂结算","label":"到厂结算"},
-         {"key":"车板结算","label":"车板结算"},
-         {"key":"代付运费并车板结算","label":"代付运费并车板结算"},
-         {"key":"货权业务模式","label":"货权业务模式"}],
+        [{"key":"车板模式","label":"车板模式"},
+         {"key":"车板加运费模式","label":"车板加运费模式"},
+         {"key":"到厂模式","label":"到厂模式"},
+         {"key":"储备业务","label":"储备业务"},
+         {"key":"货权模式","label":"货权模式"},
+         {"key":"自营模式","label":"自营模式"}],
       //合作方式
       shHztypeOptions:
         [{"key":"固定差价买断","label":"固定差价买断"},
@@ -1079,7 +1081,9 @@ export default {
       //运输方式
       tTransporttypeOptions:
         [{"key":"火运","label":"火运"},
-          {"key":"汽运","label":"汽运"}],
+          {"key":"汽运","label":"汽运"},
+          {"key":"火运+汽运","label":"火运+汽运"},
+          {"key":"船运","label":"船运"}],
       //到场数质量确认时间
       tOktimeOptions:
         [{"key":"到场卸货后 1 天","label":"到场卸货后 1 天"},

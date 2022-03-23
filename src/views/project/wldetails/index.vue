@@ -129,6 +129,13 @@
         </el-row>
         <el-row>
           <el-col :span="12">
+            <el-form-item label="项目编号" prop="name">
+              {{ form.number }}
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
             <el-form-item label="第三方公司" prop="tpcId">
               <el-select filterable value-key="stId" @change="changeTpc" v-model="form.tpcId" placeholder="请选择第三方公司" style="width: 100%;">
                 <el-option
@@ -542,6 +549,7 @@ export default {
     changeSt(obj){
       this.form.stId2 = obj.stId
       this.form.stName = obj.name
+      this.$set(this.form,'number',obj.number)
     },
 
     //选择第三方公司
