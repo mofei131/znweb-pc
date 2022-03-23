@@ -104,24 +104,24 @@
 
       <el-row class="head-text" v-if="form.type=='物流运输合同' || form.type=='物流服务合同'">
         <el-col :span="4" :offset="1" >
-          运输单位：<span v-text="form.goodsName"></span>
+          运输单位：<span v-text="form.transportUnit"></span>
         </el-col>
         <el-col :span="4">
-          运输方式：<span v-text="form.expectNumber"></span>
+          运输方式：<span v-text="form.transportType"></span>
         </el-col>
         <el-col :span="4" >
-          起运地：<span v-text="form.price"></span>
+          起运地：<span v-text="form.transportStart"></span>
         </el-col>
         <el-col :span="4" >
-          目的地：<span v-text="form.mfsp"></span>
+          目的地：<span v-text="form.transportEnd"></span>
         </el-col>
       </el-row>
       <el-row class="head-text" v-if="form.type=='物流运输合同' || form.type=='物流服务合同'">
         <el-col :span="4" :offset="1" >
-          运费单价(吨/元)：<span v-text="form.goodsName"></span>
+          运费单价(吨/元)：<span v-text="form.transportPrice"></span>
         </el-col>
         <el-col :span="4">
-          损耗率：<span v-text="form.expectNumber"></span>
+          损耗率：<span v-text="form.transportLoss"></span>
         </el-col>
       </el-row>
 
