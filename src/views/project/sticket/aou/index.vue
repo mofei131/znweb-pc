@@ -17,8 +17,8 @@
     </el-row>
     <el-row>
       <el-col :span="12">
-        <el-form-item label="项目编号" prop="name">
-          {{ form.number }}
+        <el-form-item label="项目编号" prop="projectNumber">
+          {{ form.projectNumber }}
         </el-form-item>
       </el-col>
     </el-row>
@@ -459,11 +459,12 @@ export default {
 
     //选择项目
     changeSt(obj){
+      console.log(obj);
       this.form.stId2 = obj.stId
       this.form.stName = obj.name
       this.form.uName = obj.userName
       this.form.tName = obj.tName
-      // this.$set(this.form,'number',obj.number)
+      this.$set(this.form,'projectNumber',obj.number)
       this.reset();
       let data={stId:obj.stId,proportion:this.form.proportion}
       findInit(data).then(response => {

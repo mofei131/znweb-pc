@@ -1,5 +1,8 @@
 <template>
   <div class="app-container">
+    <!-- <createPrint @abcClick="printSomething"></createPrint>
+     -->
+
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="项目名称" prop="name">
         <el-input
@@ -125,6 +128,11 @@
             @click="handleLook(scope.row)"
             v-hasPermi="['project:st:edit']"
           >查看</el-button>
+          <el-button
+            size="mini"
+            type="text"
+            @click="handleLook(scope.row)"
+          >打印</el-button>
 <!--          <el-button-->
 <!--            v-if="scope.row.xmState=='1'"-->
 <!--            size="mini"-->
@@ -921,6 +929,84 @@
       </div>
     </el-dialog>
 
+    <div style="display: none;">
+      <div class="print-div" id="print_area">
+        <div class="search-title-content">
+          <div class="title" style="text-align: center;line-height: 40px;">基本信息</div>
+          <table border="1" width="100%">
+            <tr>
+              <td class="table-td-title detail"><label>项目编号</label></td>
+              <td class="table-td-content" style="color: #999999;">
+                <template>
+                  20220321135
+                </template>
+              </td>
+              <td class="table-td-title detail"><label>项目名称</label></td>
+              <td class="table-td-content" style="color: #999999;">
+                <template>
+                  物流运输项目
+                </template>
+              </td>
+              <td class="table-td-title detail"><label>项目金额（万元）</label></td>
+              <td class="table-td-content" style="color: #999999;">
+                <template>
+                  1000
+                </template>
+              </td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail"><label>立项编号</label></td>
+              <td class="table-td-content" style="color: #999999;">
+                <template>
+                  6677887
+                </template>
+              </td>
+              <td class="table-td-title detail"><label>结算比例</label></td>
+              <td class="table-td-content" style="color: #999999;">
+                <template>
+                  70%-20%-10%
+                </template>
+              </td>
+              <td class="table-td-title detail"><label>客户经理</label></td>
+              <td class="table-td-content" style="color: #999999;">
+                <template>
+                  李四
+                </template>
+              </td>
+            </tr>
+          </table>
+          <div class="title" style="text-align: center;line-height: 40px;">基本信息</div>
+          <table border="1">
+              <tr>
+                  <th width="100px">部门</th>
+                  <th width="100px">应审批人</th>
+                  <th width="100px">审批人</th>
+                  <th width="100px">审批时间</th>
+                  <th width="200px">审批说明</th>
+                  <th width="100px">审批状态</th>
+              </tr>
+              <tr>
+                  <td>风控部</td>
+                  <td>张三</td>
+                  <td>张三</td>
+                  <td>2020-10-10</td>
+                  <td>说明</td>
+                  <td>状态</td>
+              </tr>
+              <tr>
+                  <td>风控部</td>
+                  <td>张三</td>
+                  <td>张三</td>
+                  <td>2020-10-10</td>
+                  <td>说明</td>
+                  <td>状态</td>
+              </tr>
+          </table>
+        </div>
+      </div>
+      <button @click="printSomething">打印</button>
+  </div>
+
   </div>
 </template>
 
@@ -929,7 +1015,7 @@ import { listSt, getSt, delSt, addSt, updateSt, getUserList, getSupplierList, ge
 import {getToken} from "@/utils/auth";
 import look from "@/views/project/st/look/index";
 import {getStList} from "@/api/project/gry";
-
+import print from 'print-js'
 export default {
   name: "St",
   components:{
@@ -1725,7 +1811,32 @@ export default {
     // 菜单状态字典翻译
     statusFormat(row, column){
       return this.selectDictLabel(this.statusOptions, row.state);
-    }
+    },
+    printSomething(){
+        // 此处的style即为打印时的样式
+        const style = '@page {  } ' +
+        '@media print {table{text-align:center;border-collapse:collapse;border-spacing:0;border-collapse:separate;} table td{word-break: break-all;word-wrap:break-word;border:1px solid #B8B8B8} .title{background:red}}';
+        print({
+            printable: 'print_area',
+            type: 'html',
+            style: style,// 亦可使用引入的外部css;
+            css: './print.css',
+            scanStyles: false
+        })
+    },
   }
 };
 </script>
+<style lang="scss" scoped>
+table{
+    text-align:center;/*文本居中*/
+    border-collapse:collapse; /*表格的边框合并，如果相邻，则共用一个边框*/
+    border-spacing:0; /*设置行与单元格边框的间距。当表格边框独立（即
+    border-collapse:separate;）此属性才起作用*/
+}
+table td{
+    word-break: break-all; /*允许在字内换行,即单词可分*/
+    word-wrap:break-word;/*允许长单词或URL地址换行*/
+    border:1px solid #B8B8B8;
+}
+</style>

@@ -46,6 +46,9 @@
         <el-col :span="4">
           预付方式：<span v-text="form.type" ></span>
         </el-col>
+        <el-col :span="4">
+          结算方式：<span v-text="form.settlementWay" ></span>
+        </el-col>
       </el-row>
       <el-row class="head-text">
         <el-col :span="4" :offset="1">

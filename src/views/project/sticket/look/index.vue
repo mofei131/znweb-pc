@@ -41,6 +41,11 @@
       </el-row>
       <el-row class="head-text">
         <el-col :span="5" :offset="1">
+          项目编号：<span v-text="form.projectNumber"></span>
+        </el-col>
+      </el-row>
+      <el-row class="head-text">
+        <el-col :span="5" :offset="1">
           收票类型：<span v-text="form.proportion"></span>
         </el-col>
       </el-row>
