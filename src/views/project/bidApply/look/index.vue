@@ -85,6 +85,47 @@
           </el-form-item>
         </el-col>
       </el-row>
+       <!--      审批流程·-->
+      <approval-process :typeId="18" :stId="bidId"></approval-process>
+
+      <!--      审批信息-->
+      <el-row class="head-title">
+        <el-col :span="12">
+          <el-form-item label="审批记录"></el-form-item>
+        </el-col>
+      </el-row>
+      <el-row class="head-text">
+        <el-col :offset="1">
+          <el-table
+            ref="singleTable"
+            :data="stateList"
+            style="width: 80%;margin-bottom: 30px;">
+            <el-table-column
+              property="deptName"
+              label="部门">
+            </el-table-column>
+            <el-table-column
+              property="nickName"
+              label="审批人">
+            </el-table-column>
+            <el-table-column
+              property="approveTime"
+              label="审批时间">
+            </el-table-column>
+            <el-table-column
+              property="processValue"
+              label="审批说明">
+            </el-table-column>
+            <el-table-column
+              property="status"
+              label="审批状态">
+              <template slot-scope="scope">
+                {{ scope.row.status == 0 ? "驳回" : "通过" }}
+              </template>
+            </el-table-column>
+          </el-table>
+        </el-col>
+      </el-row>
     </el-form>
     <el-row>
       <el-col :offset="1" :span="20">
@@ -119,7 +160,8 @@ export default {
       //附件集合
       fileList:[],
       // 表单参数
-      form: {}
+      form: {},
+      bidId:''
     };
   },
   computed:{
@@ -133,6 +175,7 @@ export default {
   },
   created() {
     const bidId = this.$route.params && this.$route.params.bidId;
+    this.bidId=bidId
     getBidApply(bidId).then(response => {
         this.form = response.data;
         this.fileList = this.form.fileList || []

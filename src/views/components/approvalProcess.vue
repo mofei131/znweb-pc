@@ -28,7 +28,7 @@
           </el-table-column>
           <el-table-column property="status" label="审批状态">
             <template slot-scope="scope">
-              {{ scope.row.status == 0 ? "驳回" : "通过" }}
+              {{ scope.row.status == 0 ? "已审批" : scope.row.status == 1 ? "已审批":scope.row.status == -1 ? "待审批" :scope.row.status == '' ? "未审批":scope.row.status == -1 ? "待审批" :scope.row.status == null ? "未审批":scope.row.status == -1 ? "待审批" :scope.row.status == undefined ? "未审批":""}}
             </template>
           </el-table-column>
         </el-table>
