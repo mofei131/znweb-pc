@@ -131,7 +131,7 @@
           <el-button
             size="mini"
             type="text"
-            @click="handleLook(scope.row)"
+            @click="handlePrint(scope.row)"
           >打印</el-button>
 <!--          <el-button-->
 <!--            v-if="scope.row.xmState=='1'"-->
@@ -928,11 +928,13 @@
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
-
-    <div style="display: block;">
+    <el-dialog ref="printReviewAialog"
+  title="打印预览"
+  :visible.sync="printReviewVisible"
+  width="60%">
       <div class="print-div" id="print_area">
         <div class="search-title-content">
-          <div class="title">基本信息</div>
+          <div class="title" style="background-color: red;">基本信息</div>
           <table border="1" width="100%">
             <tr>
               <td class="table-td-title detail">项目编号</td>
@@ -1012,9 +1014,7 @@
           </table>
         </div>
       </div>
-      <button @click="printSomething">打印</button>
-  </div>
-
+  </el-dialog>
   </div>
 </template>
 
@@ -1387,7 +1387,7 @@ export default {
           {  validator: validatePrice3, trigger: "blur" }
         ],
       },
-
+      printReviewVisible:false
     };
   },
   created() {
@@ -1832,6 +1832,21 @@ export default {
             scanStyles: false
         })
     },
+    async resolveImg(){
+      let imgBase64 = await this.getImage("print_area");
+      this.printReviewVisible = false
+        printJS({
+          printable: imgBase64,
+          type:'image',
+          header:null,
+          targetStyles:['*'],
+          style:"@page {margin:0 10mm}"
+        })
+    },
+    handlePrint(row){
+      this.printReviewVisible = true
+      setTimeout(this.resolveImg, 3000 ) 
+    }
   }
 };
 </script>

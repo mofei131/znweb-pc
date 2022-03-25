@@ -38,9 +38,11 @@ import VueMeta from 'vue-meta'
 //echarts
 import echarts from 'echarts'
 import approvalProcess from "@/views/components/approvalProcess.vue"
-Vue.component("approvalProcess",approvalProcess)
+Vue.component("approvalProcess", approvalProcess)
 import customUpload from "@/views/components/customUpload.vue"
-Vue.component("customUpload",customUpload)
+Vue.component("customUpload", customUpload)
+import htmlImage from '@/utils/htmlImage'
+Vue.use(htmlImage)
 
 
 // 全局方法挂载
@@ -69,15 +71,15 @@ Vue.prototype.msgInfo = function(msg) {
 }
 
 Vue.prototype.stateF = function(id) {
-  if(id=='1'){
-    return "待审核"
-  }else  if(id=='2'){
-    return "审核中"
-  }else  if(id=='3'){
-    return "已通过"
-  }else  if(id=='2'){
-    return "已驳打回"
-  }
+    if (id == '1') {
+        return "待审核"
+    } else if (id == '2') {
+        return "审核中"
+    } else if (id == '3') {
+        return "已通过"
+    } else if (id == '2') {
+        return "已驳打回"
+    }
 }
 
 // 全局组件挂载
