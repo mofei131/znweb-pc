@@ -929,54 +929,62 @@
       </div>
     </el-dialog>
 
-    <div style="display: none;">
+    <div style="display: block;">
       <div class="print-div" id="print_area">
         <div class="search-title-content">
-          <div class="title" style="text-align: center;line-height: 40px;">基本信息</div>
+          <div class="title">基本信息</div>
           <table border="1" width="100%">
             <tr>
-              <td class="table-td-title detail"><label>项目编号</label></td>
-              <td class="table-td-content" style="color: #999999;">
+              <td class="table-td-title detail">项目编号</td>
+              <td class="table-td-content">
                 <template>
                   20220321135
                 </template>
               </td>
-              <td class="table-td-title detail"><label>项目名称</label></td>
-              <td class="table-td-content" style="color: #999999;">
+              <td class="table-td-title detail">项目名称</td>
+              <td class="table-td-content">
                 <template>
                   物流运输项目
                 </template>
               </td>
-              <td class="table-td-title detail"><label>项目金额（万元）</label></td>
-              <td class="table-td-content" style="color: #999999;">
+              <td class="table-td-title detail">项目金额（万元）</td>
+              <td class="table-td-content">
                 <template>
                   1000
                 </template>
               </td>
             </tr>
             <tr>
-              <td class="table-td-title detail"><label>立项编号</label></td>
-              <td class="table-td-content" style="color: #999999;">
+              <td class="table-td-title detail">立项编号</td>
+              <td class="table-td-content">
                 <template>
                   6677887
                 </template>
               </td>
-              <td class="table-td-title detail"><label>结算比例</label></td>
-              <td class="table-td-content" style="color: #999999;">
+              <td class="table-td-title detail">结算比例</td>
+              <td class="table-td-content">
                 <template>
                   70%-20%-10%
                 </template>
               </td>
-              <td class="table-td-title detail"><label>客户经理</label></td>
-              <td class="table-td-content" style="color: #999999;">
+              <td class="table-td-title detail">客户经理</td>
+              <td class="table-td-content">
                 <template>
                   李四
                 </template>
               </td>
             </tr>
+            <tr>
+              <td class="table-td-title detail">补充说明</td>
+              <td class="table-td-textarea" colspan="7">
+                <template>
+                  天机
+                </template>
+              </td>
+            </tr>
           </table>
           <div class="title" style="text-align: center;line-height: 40px;">基本信息</div>
-          <table border="1">
+          <table class="text" border="1">
               <tr>
                   <th width="100px">部门</th>
                   <th width="100px">应审批人</th>
@@ -986,20 +994,20 @@
                   <th width="100px">审批状态</th>
               </tr>
               <tr>
-                  <td>风控部</td>
-                  <td>张三</td>
-                  <td>张三</td>
-                  <td>2020-10-10</td>
-                  <td>说明</td>
-                  <td>状态</td>
+                  <td class="table-td-content">风控部</td>
+                  <td class="table-td-content">张三</td>
+                  <td class="table-td-content">张三</td>
+                  <td class="table-td-content">2020-10-10</td>
+                  <td class="table-td-content">说明</td>
+                  <td class="table-td-content">状态</td>
               </tr>
               <tr>
-                  <td>风控部</td>
-                  <td>张三</td>
-                  <td>张三</td>
-                  <td>2020-10-10</td>
-                  <td>说明</td>
-                  <td>状态</td>
+                  <td class="table-td-content">风控部</td>
+                  <td class="table-td-content">张三</td>
+                  <td class="table-td-content">张三</td>
+                  <td class="table-td-content">2020-10-10</td>
+                  <td class="table-td-content">说明</td>
+                  <td class="table-td-content">状态</td>
               </tr>
           </table>
         </div>
@@ -1838,5 +1846,40 @@ table td{
     word-break: break-all; /*允许在字内换行,即单词可分*/
     word-wrap:break-word;/*允许长单词或URL地址换行*/
     border:1px solid #B8B8B8;
+}
+th{
+  font-weight: 100;
+  line-height: 40px;
+}
+.print-div{
+  .search-title-content{
+    .title{
+      text-align: center;
+      line-height: 40px;
+      background: #EFEFEF;
+      font-weight: bold;
+      color: #333333;
+    }
+    .text{
+      width: 100%;
+    }
+    table{
+      .table-td-title{
+        font-size: 18px;
+        color: #333333;
+        line-height: 27px;
+        font-weight: 100;
+        line-height: 40px;
+      }
+      .table-td-content{
+        font-size: 18px;
+        color: #999;
+        line-height: 40px;
+      }
+      .table-td-textarea{
+        line-height: 70px;
+      }
+    }
+  }
 }
 </style>
