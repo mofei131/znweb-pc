@@ -1878,6 +1878,8 @@ th{
       }
       .table-td-textarea{
         line-height: 70px;
+        font-size: 18px;
+        color: #999;
       }
     }
   }
