@@ -37,6 +37,8 @@ import VueMeta from 'vue-meta'
 import echarts from 'echarts'
 import approvalProcess from "@/views/components/approvalProcess.vue"
 Vue.component("approvalProcess",approvalProcess)
+import customUpload from "@/views/components/customUpload.vue"
+Vue.component("customUpload",customUpload)
 
 
 // 全局方法挂载
