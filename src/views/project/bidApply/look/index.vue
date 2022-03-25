@@ -81,15 +81,7 @@
       <el-row class="head-text">
         <el-col :span="20" :offset="1">
           <el-form-item class="head-text" label="附件：" prop="file" >
-            <el-upload
-              disabled
-              :action="url"
-              :headers="headers"
-              class="upload-hidden"
-              :on-preview="handlePreview"
-              list-type="text"
-              :file-list="fileList">
-            </el-upload>
+            <custom-upload :fileList="fileList"></custom-upload>
           </el-form-item>
         </el-col>
       </el-row>
@@ -108,9 +100,12 @@
 import {getToken} from "@/utils/auth";
 import {getProcessDataByStId} from "@/api/approve";
 import { getBidApply } from "@/api/project/bidApply";
-
+import CustomUpload from '@/views/components/customUpload'
 export default {
   name: "bidApplyLook",
+  components: {
+    CustomUpload
+  },
   data() {
     return {
       //审批集合
@@ -124,7 +119,7 @@ export default {
       //附件集合
       fileList:[],
       // 表单参数
-      form: {},
+      form: {}
     };
   },
   computed:{
@@ -150,15 +145,6 @@ export default {
     cancel(){
       this.$store.dispatch("tagsView/delView", this.$route);
       this.$router.go(-1);
-    },
-
-    //点击触发
-    handlePreview(file) {
-      if(file.response==undefined){
-        window.open(file.url)
-      }else{
-        window.open(file.response.data.url)
-      }
     }
   }
 };
