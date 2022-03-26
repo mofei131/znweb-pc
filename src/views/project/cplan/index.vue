@@ -179,7 +179,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="4">
+          <el-col :span="8">
             <el-form-item label="项目编号" prop="name">
               {{ form.number }}
             </el-form-item>

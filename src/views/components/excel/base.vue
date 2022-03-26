@@ -62,16 +62,16 @@ export default {
     // 读取 excel文件
     readWorkbook(sheetIndex) {
       var worksheet = this.workbook.Sheets[this.sheetNames[sheetIndex]] // 这里我们只读取第一张sheet
-      var csv = XLSX.utils.sheet_to_csv(worksheet,{RS:'@N@'})
+      var csv = XLSX.utils.sheet_to_csv(worksheet,{RS:'@N@',FS:'@C@'})
       document.getElementById('result').innerHTML = this.csv2table(csv)
     },
     // 将csv转换成表格
     csv2table(csv) {
       var html = '<table>'
       var rows = csv.split('@N@')
-      rows.pop() // 最后一行没用的
+      //rows.pop() // 最后一行没用的
       rows.forEach(function(row, idx) {
-        var columns = row.split(',')
+        var columns = row.split('@C@')
         columns.unshift(idx + 1) // 添加行索引
         if (idx == 0) {
           // 添加列索引
@@ -83,9 +83,15 @@ export default {
           html += '</tr>'
         }
         html += '<tr>'
-        columns.forEach(function(column) {
+        // 如果只有第一列有值，就认为当前整行是合并单元格了
+        if(columns[1] && columns[1] == columns.slice(1).join('') && isNaN(columns[1])){
+          html += `<td>` + columns[0] + '</td>'
+          html += `<td colspan="${columns.length-1}" align="center">` + columns[1] + '</td>'
+        }else{
+          columns.forEach(function(column) {
           html += '<td>' + column + '</td>'
-        })
+          })
+        }
         html += '</tr>'
       })
       html += '</table>'
@@ -108,5 +114,6 @@ export default {
 .xls-view td {
   border: solid 1px #6d6d6d !important;
   padding: 5px 10px !important;
+  max-width: 200px;
 }
 </style>

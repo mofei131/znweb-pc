@@ -171,7 +171,7 @@
               list-type="text"
               :file-list="bcfileList">
             </el-upload> -->
-            <custom-upload :fileList="fileList"></custom-upload>
+            <custom-upload :fileList="bcfileList"></custom-upload>
           </el-form-item>
         </el-col>
       </el-row>

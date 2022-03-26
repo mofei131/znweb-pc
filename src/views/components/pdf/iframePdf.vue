@@ -13,18 +13,19 @@ export default {
     }
   },
   data() {
-    return {}
+    return {
+    }
   },
   created() {},
   mounted() {
     this.$nextTick(() => {
       let loadingInstance = this.$loading({
-          lock: true,
-          text: '加载中'
-        });
+        lock: true,
+        text: '加载中'
+      });
       document.getElementById('iframe_document').onload=function(){ 
-      loadingInstance.close();
-    }
+        loadingInstance.close();
+      }
     })
   },
   methods: {}
