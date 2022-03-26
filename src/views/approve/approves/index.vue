@@ -3037,13 +3037,13 @@
               <el-form-item label="审批信息"></el-form-item>
             </el-col>
           </el-row>
-
           <!--        <span>审批信息</span>-->
           <el-row class="head-text">
             <el-col :offset="1">
               <el-table :data="processData" fit style="width: 80%;">
                 <el-table-column label="部门" align="center" prop="deptName" />
                 <el-table-column label="审批人" align="center" prop="nickName" />
+                <el-table-column label="审批时间" align="center" prop="approveTime" />
                 <el-table-column label="审批说明" align="center" prop="processValue" >
                   <template slot-scope="scope">
                     {{
