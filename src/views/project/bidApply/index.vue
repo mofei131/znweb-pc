@@ -144,7 +144,7 @@
         </el-form-item>
           </el-col>
           <el-col :span="12">
-             <el-form-item :label="`投标数量(${priceLabel})`" prop="bidNumber">
+             <el-form-item :label="`投标数量(吨)`" prop="bidNumber">
           <el-input v-model="form.bidNumber" placeholder="请输入投标数量" />
         </el-form-item>
           </el-col>
