@@ -928,9 +928,9 @@
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
-    <el-dialog ref="printReviewAialog"
+    <el-dialog 
   title="打印预览"
-  :visible.sync="printReviewVisible"
+  :visible.sync="printReviewVisible" @close="onPrintReviewClose"
   width="60%">
       <div class="print-div" id="print_area">
         <div class="search-title-content">
@@ -940,7 +940,7 @@
               <td class="table-td-title detail">项目编号</td>
               <td class="table-td-content">
                 <template>
-                  20220321135
+                  {{printData.number}}
                 </template>
               </td>
               <td class="table-td-title detail">项目名称</td>
@@ -1387,7 +1387,10 @@ export default {
           {  validator: validatePrice3, trigger: "blur" }
         ],
       },
-      printReviewVisible:false
+      printReviewVisible:false,
+      printData:{
+        number:''
+      }
     };
   },
   created() {
@@ -1834,7 +1837,6 @@ export default {
     },
     async resolveImg(){
       let imgBase64 = await this.getImage("print_area");
-      this.printReviewVisible = false
         printJS({
           printable: imgBase64,
           type:'image',
@@ -1844,8 +1846,14 @@ export default {
         })
     },
     handlePrint(row){
+      this.printData.number='88888888'
       this.printReviewVisible = true
-      setTimeout(this.resolveImg, 3000 ) 
+      this.$nextTick(() => {
+        this.printReviewVisible = false
+      })
+    },
+    onPrintReviewClose(){
+      this.resolveImg()
     }
   }
 };

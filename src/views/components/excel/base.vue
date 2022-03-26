@@ -34,8 +34,13 @@ export default {
       this.sheetNames = []
       this.activeSheet = '0'
       let _this = this
+      let loadingInstance = this.$loading({
+          lock: true,
+          text: '加载中'
+        });
       this.readWorkbookFromRemoteFile(url, function(sheetIndex) {
         _this.readWorkbook(sheetIndex)
+        loadingInstance.close()
       })
     },
     // 从网络上读取某个excel文件，url必须同域，否则报错
@@ -57,13 +62,13 @@ export default {
     // 读取 excel文件
     readWorkbook(sheetIndex) {
       var worksheet = this.workbook.Sheets[this.sheetNames[sheetIndex]] // 这里我们只读取第一张sheet
-      var csv = XLSX.utils.sheet_to_csv(worksheet)
+      var csv = XLSX.utils.sheet_to_csv(worksheet,{RS:'@N@'})
       document.getElementById('result').innerHTML = this.csv2table(csv)
     },
     // 将csv转换成表格
     csv2table(csv) {
       var html = '<table>'
-      var rows = csv.split('\n')
+      var rows = csv.split('@N@')
       rows.pop() // 最后一行没用的
       rows.forEach(function(row, idx) {
         var columns = row.split(',')
