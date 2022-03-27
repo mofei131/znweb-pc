@@ -928,64 +928,307 @@
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
+
     <el-dialog ref="printReviewAialog"
   title="打印预览"
   :visible.sync="printReviewVisible"
   width="60%">
       <div class="print-div" id="print_area">
         <div class="search-title-content">
-          <div class="title" style="background-color: red;">基本信息</div>
+          <div class="title">基本信息</div>
+            <table v-if="printList" border="1" width="100%">
+              <tr>
+                <td class="table-td-title detail">项目编号</td>
+                <td class="table-td-content">
+                  <template>{{ printList.number }}</template>
+                </td>
+                <td class="table-td-title detail">项目名称</td>
+                <td class="table-td-content">
+                  <template>{{ printList.name }}</template>
+                </td>
+                <td class="table-td-title detail">项目金额（万元）</td>
+                <td class="table-td-content">
+                  <template>{{ printList.amount }}</template>
+                </td>
+              </tr>
+              <tr>
+                <td class="table-td-title detail">立项编号</td>
+                <td class="table-td-content">
+                  <template>{{ printList.productNo }}</template>
+                </td>
+                <td class="table-td-title detail">结算比例</td>
+                <td class="table-td-content">
+                  <template>{{ printList.settlementP }}</template>
+                </td>
+                <td class="table-td-title detail">客户经理</td>
+                <td class="table-td-content">
+                  <template>{{ printList.managerName }}</template>
+                </td>
+              </tr>
+              <tr>
+                <td class="table-td-title detail">代办人</td>
+                <td class="table-td-content" colspan="7">
+                  <template>{{ printList.userName }}</template>
+                </td>
+              </tr>
+            </table>
+          <div class="title">履约保证金</div>
           <table border="1" width="100%">
             <tr>
-              <td class="table-td-title detail">项目编号</td>
+              <td class="table-td-title detail">履约保证金金额(万元)</td>
               <td class="table-td-content">
-                <template>
-                  20220321135
-                </template>
+                <template>{{ printList.margin }}</template>
               </td>
-              <td class="table-td-title detail">项目名称</td>
+              <td class="table-td-title detail">服务周期开始</td>
               <td class="table-td-content">
-                <template>
-                  物流运输项目
-                </template>
-              </td>
-              <td class="table-td-title detail">项目金额（万元）</td>
-              <td class="table-td-content">
-                <template>
-                  1000
-                </template>
+                <template>{{ printList.cycleStart }}</template>
               </td>
             </tr>
             <tr>
-              <td class="table-td-title detail">立项编号</td>
+              <td class="table-td-title detail">结算方式(元)</td>
               <td class="table-td-content">
-                <template>
-                  6677887
-                </template>
+                <template>{{ printList.settlementWay }}</template>
               </td>
-              <td class="table-td-title detail">结算比例</td>
+              <td class="table-td-title detail">服务周期结束</td>
               <td class="table-td-content">
-                <template>
-                  70%-20%-10%
-                </template>
-              </td>
-              <td class="table-td-title detail">客户经理</td>
-              <td class="table-td-content">
-                <template>
-                  李四
-                </template>
-              </td>
-            </tr>
-            <tr>
-              <td class="table-td-title detail">补充说明</td>
-              <td class="table-td-textarea" colspan="7">
-                <template>
-                  天机
-                </template>
+                <template>{{ printList.cycleEnd }}</template>
               </td>
             </tr>
           </table>
-          <div class="title" style="text-align: center;line-height: 40px;">基本信息</div>
+
+          <div class="title">服务费</div>
+          <table border="1" width="100%">
+            <tr>
+              <td class="table-td-title detail">年费收取模式</td>
+              <td class="table-td-content">
+                <template>{{ printList.chargemType }}</template>
+              </td>
+              <td class="table-td-title detail">年费服务费费率(%)</td>
+              <td class="table-td-content">
+                <template>{{ printList.chargemNx }}</template>
+              </td>
+              <td class="table-td-title detail">固定差价</td>
+              <td class="table-td-content">
+                <template>{{ printList.chargemGd }}</template>
+              </td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">预计单价(元)</td>
+              <td class="table-td-content">
+                <template>{{ printList.expectPrice }}</template>
+              </td>
+              <td class="table-td-title detail">预计重量(吨)</td>
+              <td class="table-td-content">
+                <template>{{ printList.expectWeight }}</template>
+              </td>
+              <td class="table-td-title detail">成本年服务费费率(%)</td>
+              <td class="table-td-content">
+                <template>{{ printList.rateYear }}</template>
+              </td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">预计利润</td>
+              <td class="table-td-content" colspan="7">
+                <template>{{ printList.expectProfits }}</template>
+              </td>
+            </tr>
+          </table>
+
+          <div class="title">自助金融方</div>
+          <table border="1" width="100%">
+            <tr>
+              <td class="table-td-title detail">公司名称</td>
+              <td class="table-td-content">
+                <template>{{ printList.shName }}</template>
+              </td>
+              <td class="table-td-title detail">性质</td>
+              <td class="table-td-content">
+                <template>{{ printList.shXz }}</template>
+              </td>
+              <td class="table-td-title detail">合作方式</td>
+              <td class="table-td-content">
+                <template>{{ printList.shHztype }}</template>
+              </td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">资金费率(%)</td>
+              <td class="table-td-content">
+                <template>{{ printList.shHzrate }}</template>
+              </td>
+              <td class="table-td-title detail">下游渠道年限</td>
+              <td class="table-td-content">
+                <template>{{ printList.shChannelyear }}</template>
+              </td>
+              <td class="table-td-title detail">结算比例</td>
+              <td class="table-td-content">
+                <template>{{ printList.shSettlement }}</template>
+              </td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">履约保证金(元)</td>
+              <td class="table-td-content">
+                <template>{{ printList.shMargin }}</template>
+              </td>
+              <td class="table-td-title detail">合同签署</td>
+              <td class="table-td-content" colspan="5">
+                <template>{{ printList.shContracttype }}</template>
+              </td>
+            </tr>
+          </table>
+
+          <div class="title">终端客户</div>
+          <table border="1" width="100%">
+            <tr>
+              <td class="table-td-title detail">终端客户名称</td>
+              <td class="table-td-content">
+                <template>{{ printList.tName }}</template>
+              </td>
+              <td class="table-td-title detail">性质</td>
+              <td class="table-td-content">
+                <template>{{ printList.tXz }}</template>
+              </td>
+              <td class="table-td-title detail">立户情况</td>
+              <td class="table-td-content">
+                <template>{{ printList.tAccount }}</template>
+              </td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">合作年限</td>
+              <td class="table-td-content">
+                <template>{{ printList.tCyear }}</template>
+              </td>
+              <td class="table-td-title detail">投标方式</td>
+              <td class="table-td-content">
+                <template>{{ printList.tTender }}</template>
+              </td>
+              <td class="table-td-title detail">投标保证金</td>
+              <td class="table-td-content">
+                <template>{{ printList.tMargintype }}</template>
+              </td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">投标保证金(万元)</td>
+              <td class="table-td-content">
+                <template>{{ printList.tMargin }}</template>
+              </td>
+              <td class="table-td-title detail">保证金缴纳时间</td>
+              <td class="table-td-content">
+                <template>{{ printList.tMargintime }}</template>
+              </td>
+              <td class="table-td-title detail">合同签署</td>
+              <td class="table-td-content">
+                <template>{{ printList.tContracttype }}</template>
+              </td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">合同后置时间</td>
+              <td class="table-td-content">
+                <template>{{ printList.tContracttime }}</template>
+              </td>
+              <td class="table-td-title detail">运输方式</td>
+              <td class="table-td-content">
+                <template>{{ printList.tTransporttype }}</template>
+              </td>
+              <td class="table-td-title detail">发站</td>
+              <td class="table-td-content">
+                <template>{{ printList.tTransportstart }}</template>
+              </td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">到站</td>
+              <td class="table-td-content">
+                <template>{{ printList.tTransportend }}</template>
+              </td>
+              <td class="table-td-title detail">到场数质确认时间</td>
+              <td class="table-td-content">
+                <template>{{ printList.tOktime }}</template>
+              </td>
+              <td class="table-td-title detail">到场数质确认方式</td>
+              <td class="table-td-content">
+                <template>{{ printList.tOktype }}</template>
+              </td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">开票结算方式</td>
+              <td class="table-td-content">
+                <template>{{ printList.tSettlementtype }}</template>
+              </td>
+              <td class="table-td-title detail">结算规则</td>
+              <td class="table-td-content">
+                <template>{{ printList.tSettlementgz }}</template>
+              </td>
+              <td class="table-td-title detail">回款账期</td>
+              <td class="table-td-content">
+                <template>{{ printList.tPaymentdays }}</template>
+              </td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">付款方式</td>
+              <td class="table-td-content" colspan="7">
+                <template>{{ printList.tPaymenttype }}</template>
+              </td>
+            </tr>
+          </table>
+
+          <div class="title">站台情况</div>
+          <table border="1" width="100%">
+            <tr>
+              <td class="table-td-title detail">站台名字</td>
+              <td class="table-td-content">
+                <template>{{ printList.pName }}</template>
+              </td>
+              <td class="table-td-title detail">站台经营方式</td>
+              <td class="table-td-content">
+                <template>{{ printList.pJymode }}</template>
+              </td>
+              <td class="table-td-title detail">站台规模</td>
+              <td class="table-td-content">
+                <template>{{ printList.pSize }}</template>
+              </td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">站台发运方式</td>
+              <td class="table-td-content">
+                <template>{{ printList.pFymode }}</template>
+              </td>
+              <td class="table-td-title detail">承运方发运名称</td>
+              <td class="table-td-content">
+                <template>{{ printList.pCname }}</template>
+              </td>
+              <td class="table-td-title detail">承运方性质</td>
+              <td class="table-td-content">
+                <template>{{ printList.pCxz }}</template>
+              </td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">程远方发运年限</td>
+              <td class="table-td-content">
+                <template>{{ printList.pCyear }}</template>
+              </td>
+              <td class="table-td-title detail">承运方发运规模 (万吨/年)：</td>
+              <td class="table-td-content" colspan="5">
+                <template>{{ printList.pCnumber }}</template>
+              </td>
+            </tr>
+          </table>
+
+          <div class="title">其他内容</div>
+          <table border="1" width="100%">
+            <tr>
+              <td class="table-td-title detail">备注</td>
+              <td class="table-td-textarea" colspan="7">
+                <template>{{ printList.node }}</template>
+              </td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">附件</td>
+              <td class="table-td-content" colspan="7">
+                <template>{{ form.fileList }}</template>
+              </td>
+            </tr>
+          </table>
+
+          <div class="title">审批流程</div>
           <table class="text" border="1">
               <tr>
                   <th width="100px">部门</th>
@@ -995,35 +1238,47 @@
                   <th width="200px">审批说明</th>
                   <th width="100px">审批状态</th>
               </tr>
-              <tr>
-                  <td class="table-td-content">风控部</td>
-                  <td class="table-td-content">张三</td>
-                  <td class="table-td-content">张三</td>
-                  <td class="table-td-content">2020-10-10</td>
-                  <td class="table-td-content">说明</td>
-                  <td class="table-td-content">状态</td>
+              <tr v-for="(item,index) in approvalProcessList" :key="index">
+                  <td class="table-td-content">{{ item.deptName }}</td>
+                  <td class="table-td-content">{{ item.sponsor }}</td>
+                  <td class="table-td-content">{{ item.nickName }}</td>
+                  <td class="table-td-content">{{ approveTime }}</td>
+                  <td class="table-td-content">{{ item.processValue }}</td>
+                  <td class="table-td-content">{{ item.status }}</td>
               </tr>
+          </table>
+
+          <div class="title">审批记录</div>
+          <table class="text" border="1" v-if="stateList">
               <tr>
-                  <td class="table-td-content">风控部</td>
-                  <td class="table-td-content">张三</td>
-                  <td class="table-td-content">张三</td>
-                  <td class="table-td-content">2020-10-10</td>
-                  <td class="table-td-content">说明</td>
-                  <td class="table-td-content">状态</td>
+                  <th width="100px">部门</th>
+                  <th width="100px">审批人</th>
+                  <th width="100px">审批时间</th>
+                  <th width="200px">审批说明</th>
+                  <th width="100px">审批状态</th>
+              </tr>
+              <tr v-for="(item,index) in stateList" :key="index">
+                  <td class="table-td-content">{{ item.deptName }}</td>
+                  <td class="table-td-content">{{ item.nickName }}</td>
+                  <td class="table-td-content">{{ item.approveTime }}</td>
+                  <td class="table-td-content">{{ item.processValue }}</td>
+                  <td class="table-td-content">{{ item.status }}</td>
               </tr>
           </table>
         </div>
       </div>
   </el-dialog>
+
   </div>
 </template>
 
 <script>
-import { listSt, getSt, delSt, addSt, updateSt, getUserList, getSupplierList, getTerminalList} from "@/api/project/st";
+import { listSt, getSt, delSt, addSt, updateSt, getUserList, getSupplierList, getTerminalList, getApprovalProcessList} from "@/api/project/st";
 import {getToken} from "@/utils/auth";
 import look from "@/views/project/st/look/index";
 import {getStList} from "@/api/project/gry";
 import print from 'print-js'
+import {getProcessDataByStId} from "@/api/approve";
 export default {
   name: "St",
   components:{
@@ -1387,7 +1642,15 @@ export default {
           {  validator: validatePrice3, trigger: "blur" }
         ],
       },
-      printReviewVisible:false
+      printReviewVisible:false,
+      printList: {
+        margin:null,
+        cycleStart:null,
+        settlementWay:null,
+        cycleEnd:null
+      },
+      stateList: null,
+      approvalProcessList: null
     };
   },
   created() {
@@ -1844,8 +2107,21 @@ export default {
         })
     },
     handlePrint(row){
+      this.getPrintInfo(row)
       this.printReviewVisible = true
-      setTimeout(this.resolveImg, 3000 ) 
+      setTimeout(this.resolveImg, 2000)
+    },
+    getPrintInfo(row) {
+      const stId = row.stId || this.ids
+      getSt(stId).then(res => {
+        this.printList = res.data;
+      });
+      getProcessDataByStId("1",stId).then((res) => {
+        this.stateList = res.data;
+      });
+      getApprovalProcessList("1",stId).then((res) => {
+        this.approvalProcessList = res.data;
+      });
     }
   }
 };
