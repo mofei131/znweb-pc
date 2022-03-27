@@ -163,6 +163,7 @@ import {delSticket} from "@/api/project/sticket";
 import {delKp} from "@/api/project/kp";
 import {delDp} from "@/api/project/dp";
 import { delRealsk } from '@/api/project/realsk'
+import { delBidApply } from "@/api/project/bidApply";
 export default {
   data() {
     return {
@@ -231,8 +232,6 @@ export default {
         this.$router.push("/kp/look/" + stId);
       }else if(typeId=='16'){
         this.$router.push("/dp/look/" + stId);
-      }else if(typeId=='17'){
-        this.$router.push("/realsk/look/" + stId);
       }else if(typeId=='17'){
         this.$router.push("/realsk/look/" + stId);
       }else if(typeId=='18'){
@@ -483,6 +482,18 @@ export default {
           type: "warning"
         }).then(function() {
           return delRealsk(stId);
+        }).then(() => {
+          deleteByStId(stId);
+          this.getList();
+          this.msgSuccess("删除成功");
+        }).catch(() => {});
+      }else if(typeId=='18'){
+        this.$confirm('是否确认删除投标申请?', "警告", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+        }).then(function() {
+          return delBidApply(stId);
         }).then(() => {
           deleteByStId(stId);
           this.getList();

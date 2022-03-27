@@ -1116,7 +1116,7 @@
                   list-type="text"
                   :file-list="bcfileList">
                 </el-upload> -->
-                <custom-upload :fileList="fileList"></custom-upload>
+                <custom-upload :fileList="bcfileList"></custom-upload>
               </el-form-item>
             </el-col>
           </el-row>
@@ -3029,6 +3029,69 @@
         </el-form>
       </div>
 
+      <div v-if="initData.processType=='18'">
+        <el-form label-width="20px;" label-position="left">
+          <!--    合同信息-->
+          <el-row class="head-title">
+            <el-col :span="19">
+              <el-form-item label="基础信息"></el-form-item>
+            </el-col>
+          </el-row>
+          <el-row class="head-text">
+            <el-col :span="4" :offset="1">
+              项目名称：<span v-text="form.stName"></span>
+            </el-col>
+            <el-col :span="4" :offset="1">
+              项目编号：<span v-text="form.stNumber"></span>
+            </el-col>
+            <el-col :span="4" :offset="1">
+              投标平台：<span v-text="form.bidPlatform"></span>
+           </el-col>
+            <el-col :span="4" :offset="1">
+              单价模式：<span v-text="form.unitPriceMode"></span>
+            </el-col>
+          </el-row>
+
+          <el-row class="head-text">
+            <el-col :span="4" :offset="1">
+              单价（元/{{priceLabel}}）：<span v-text="form.bidPrice"></span>
+            </el-col>
+            <el-col :span="4" :offset="1">
+              投标数量（吨）：<span v-text="form.bidNumber"></span>
+            </el-col>
+            <el-col :span="4" :offset="1">
+              投标保证金（元）：<span v-text="form.bidBond"></span>
+            </el-col>
+            <el-col :span="4" :offset="1">
+              履约保证金（元）：<span v-text="form.performanceBond"></span>
+            </el-col>
+         </el-row>
+
+          <el-row class="head-text">
+            <el-col :span="4" :offset="1">
+              发站：<span v-text="form.sendStation"></span>
+            </el-col>
+            <el-col :span="4" :offset="1">
+              到站：<span v-text="form.arriveStation"></span>
+            </el-col>
+          </el-row>
+
+         <el-row class="head-text">
+            <el-col :span="18" :offset="1">
+              备注：<el-input disabled type="textarea"  :rows="3" v-model="form.remark" placeholder=""  />
+            </el-col>
+          </el-row>
+
+          <el-row class="head-text">
+            <el-col :span="20" :offset="1">
+              <el-form-item class="head-text" label="附件：" prop="file" >
+                <custom-upload :fileList="fileList"></custom-upload>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
+      </div>
+
 
       <div style="margin-top: 30px">
         <el-form label-width="20px;" label-position="left">
@@ -3037,13 +3100,13 @@
               <el-form-item label="审批信息"></el-form-item>
             </el-col>
           </el-row>
-
           <!--        <span>审批信息</span>-->
           <el-row class="head-text">
             <el-col :offset="1">
               <el-table :data="processData" fit style="width: 80%;">
                 <el-table-column label="部门" align="center" prop="deptName" />
                 <el-table-column label="审批人" align="center" prop="nickName" />
+                <el-table-column label="审批时间" align="center" prop="approveTime" />
                 <el-table-column label="审批说明" align="center" prop="processValue" >
                   <template slot-scope="scope">
                     {{
@@ -3117,6 +3180,7 @@ import {getSticket} from "@/api/project/sticket";
 import {getKp} from "@/api/project/kp";
 import {getDp} from "@/api/project/dp";
 import { getRealsk } from '@/api/project/realsk';
+import { getBidApply } from "@/api/project/bidApply";
 import {
   getApaymentList,
   getContractList,
@@ -3200,6 +3264,15 @@ export default {
       gryNumber:0,
       htform: {},
     };
+  },
+  computed:{
+    priceLabel(){
+      if(this.form.unitPriceMode === '吨'){
+        return '吨';
+      }else if(this.form.unitPriceMode === '热值'){
+        return 'kcal';
+      }
+    }
   },
   created() {
     this.init();
@@ -3475,6 +3548,11 @@ export default {
       }else if(typeId=='17'){
         getRealsk(stId).then(response => {
           this.form=response.data
+        })
+      }else if(typeId=='18'){
+        getBidApply(stId).then(response => {
+          this.form=response.data
+          this.fileList = this.form.fileList || []
         })
       }
 

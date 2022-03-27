@@ -65,6 +65,8 @@
                     ? "期间费用"
                     : scope.row.processType == "17"
                     ? "实际收款"
+                    : scope.row.processType == "18"
+                    ? "投标申请"
                     : ""
                 }}
               </template>
@@ -132,6 +134,8 @@
                     ? "期间费用"
                     : scope.row.processType == "17"
                     ? "实际收款"
+                    : scope.row.processType == "18"
+                    ? "投标申请"
                     : ""
                 }}
               </template>

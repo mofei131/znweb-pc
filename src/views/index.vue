@@ -1191,12 +1191,14 @@ export default {
         },
         series: {
           type: "bar", //bar是柱形图，line是折线图
-          data: this.mouthData,
           barWidth: "20",
-          itemStyle: {
-            normal: {
-              barBorderRadius: [20, 20, 0, 0],
-              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+          data: this.mouthData.map(item => {
+            return {
+              value: item,
+              itemStyle: {
+                normal: {
+                  barBorderRadius: item > 0 ? [15, 15, 0, 0] : [0, 0, 15, 15], // 动态设置柱状图圆角
+                  color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
                 {
                   offset: 0,
                   color: "#00C0FA",
@@ -1206,8 +1208,10 @@ export default {
                   color: "#015EEA ",
                 },
               ]),
-            },
-          },
+                }
+              }
+            }
+          })
         },
       });
     },
