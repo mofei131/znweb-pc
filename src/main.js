@@ -43,7 +43,10 @@ import customUpload from "@/views/components/customUpload.vue"
 Vue.component("customUpload", customUpload)
 import htmlImage from '@/utils/htmlImage'
 Vue.use(htmlImage)
-
+import filters from "@/utils/filters";
+Object.keys(filters).forEach(key=>{
+  Vue.filter(key,filters[key])
+})
 
 // 全局方法挂载
 Vue.prototype.getDicts = getDicts
@@ -57,6 +60,7 @@ Vue.prototype.download = download
 Vue.prototype.handleTree = handleTree
 Vue.prototype.$messageContent = businessMessage;
 Vue.prototype.$echarts = echarts
+
 
 Vue.prototype.msgSuccess = function(msg) {
     this.$message({ showClose: true, message: msg, type: "success" });
