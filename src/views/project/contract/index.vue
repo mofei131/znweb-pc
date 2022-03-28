@@ -207,6 +207,7 @@
             >查看</el-button
           >
           <el-button
+            v-if="scope.row.state === '3'"
             size="mini"
             type="text"
             icon="el-icon-printer"
