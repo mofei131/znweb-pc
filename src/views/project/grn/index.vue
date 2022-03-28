@@ -208,7 +208,8 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="入库热值(Kcal/吨)" prop="grnRz">
+            <!-- <el-form-item label="入库热值(Kcal/吨)" prop="grnRz"> -->
+            <el-form-item label="入库热值(Kcal/吨)">
               <el-input v-model="form.grnRz" placeholder="请输入入库热值" />
             </el-form-item>
           </el-col>
@@ -481,9 +482,9 @@ export default {
         deliveryTime: [
           { required: true, message: "请选择发货日期", trigger: "blur" }
         ],
-        grnRz: [
-          { required: true, validator: validatePrice, trigger: "blur" }
-        ],
+        // grnRz: [
+        //   { required: true, validator: validatePrice, trigger: "blur" }
+        // ],
         transportType: [
           { required: true, message: "请选择运输方式", trigger: "blur" }
         ],
