@@ -129,10 +129,13 @@
             v-hasPermi="['project:st:edit']"
           >查看</el-button>
           <el-button
+            v-if="scope.row.state === '3'"
             size="mini"
             type="text"
+            icon="el-icon-printer"
             @click="handlePrint(scope.row)"
-          >打印</el-button>
+            >打印</el-button
+          >
 <!--          <el-button-->
 <!--            v-if="scope.row.xmState=='1'"-->
 <!--            size="mini"-->
@@ -930,9 +933,11 @@
     </el-dialog>
 
     <el-dialog ref="printReviewAialog"
-  title="打印预览"
-  :visible.sync="printReviewVisible"
-  width="60%">
+      title="打印预览"
+      :visible.sync="printReviewVisible"
+      @close="onPrintReviewClose"
+      width="60%"
+    >
       <div class="print-div" id="print_area">
         <div class="search-title-content">
           <div class="title">基本信息</div>
@@ -1244,7 +1249,7 @@
                   <td class="table-td-content">{{ item.nickName }}</td>
                   <td class="table-td-content">{{ approveTime }}</td>
                   <td class="table-td-content">{{ item.processValue }}</td>
-                  <td class="table-td-content">{{ item.status }}</td>
+                  <td class="table-td-content">{{ item.status == 0 ? "驳回" : item.status == 1 ? "通过" : "" }}</td>
               </tr>
           </table>
 
@@ -1262,7 +1267,7 @@
                   <td class="table-td-content">{{ item.nickName }}</td>
                   <td class="table-td-content">{{ item.approveTime }}</td>
                   <td class="table-td-content">{{ item.processValue }}</td>
-                  <td class="table-td-content">{{ item.status }}</td>
+                  <td class="table-td-content">{{ item.status == 0 ? "驳回" : item.status == 1 ? "通过" : "" }}</td>
               </tr>
           </table>
         </div>
@@ -2110,17 +2115,20 @@ export default {
     handlePrint(row){
       this.getPrintInfo(row)
       this.printReviewVisible = true
-      setTimeout(this.resolveImg, 2000)
+      // setTimeout(this.resolveImg, 2000)
     },
-    getPrintInfo(row) {
+    onPrintReviewClose() {
+      this.resolveImg();
+    },
+    async getPrintInfo(row) {
       const stId = row.stId || this.ids
-      getSt(stId).then(res => {
+      await getSt(stId).then(res => {
         this.printList = res.data;
       });
-      getProcessDataByStId("1",stId).then((res) => {
+      await getProcessDataByStId("1",stId).then((res) => {
         this.stateList = res.data;
       });
-      getApprovalProcessList("1",stId).then((res) => {
+      await getApprovalProcessList("1",stId).then((res) => {
         this.approvalProcessList = res.data;
       });
     }
