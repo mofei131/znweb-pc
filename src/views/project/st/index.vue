@@ -1108,7 +1108,8 @@ export default {
       shXzOptions:
         [{"key":"国有企业","label":"国有企业"},
          {"key":"外资企业","label":"外资企业"},
-         {"key":"上市企业","label":"上市企业"},],
+         {"key":"上市企业","label":"上市企业"},
+         {"key":"私营企业","label":"私营企业"},],
       //结算方式
       settlementWayOptions:
         [{"key":"车板模式","label":"车板模式"},
