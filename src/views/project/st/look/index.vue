@@ -402,7 +402,7 @@
               property="tntPrice"
               label="实付金额">
             </el-table-column>
-            <el-table-column
+            <!-- <el-table-column
               property="serType"
               label="是否产生服务费">
             </el-table-column>
@@ -412,6 +412,18 @@
               <template slot-scope="scope">
                 <span>{{ parseTime(scope.row.putTime, '{y}-{m}-{d}') }}</span>
               </template>
+            </el-table-column> -->
+            <el-table-column
+              property="tpcName"
+              label="第三方公司">
+            </el-table-column>
+            <el-table-column
+              property="account"
+              label="公司账户">
+            </el-table-column>
+            <el-table-column
+              property="openbank"
+              label="公司开户行">
             </el-table-column>
 
             <el-table-column

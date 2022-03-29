@@ -53,7 +53,7 @@
           单价（元/{{priceLabel}}）：<span v-text="form.bidPrice"></span>
         </el-col>
         <el-col :span="4" :offset="1">
-          投标数量（{{priceLabel}}）：<span v-text="form.bidNumber"></span>
+          投标数量（吨）：<span v-text="form.bidNumber"></span>
         </el-col>
         <el-col :span="4" :offset="1">
           投标保证金（元）：<span v-text="form.bidBond"></span>
@@ -81,16 +81,49 @@
       <el-row class="head-text">
         <el-col :span="20" :offset="1">
           <el-form-item class="head-text" label="附件：" prop="file" >
-            <el-upload
-              disabled
-              :action="url"
-              :headers="headers"
-              class="upload-hidden"
-              :on-preview="handlePreview"
-              list-type="text"
-              :file-list="fileList">
-            </el-upload>
+            <custom-upload :fileList="fileList"></custom-upload>
           </el-form-item>
+        </el-col>
+      </el-row>
+       <!--      审批流程·-->
+      <approval-process :typeId="18" :stId="bidId"></approval-process>
+
+      <!--      审批信息-->
+      <el-row class="head-title">
+        <el-col :span="12">
+          <el-form-item label="审批记录"></el-form-item>
+        </el-col>
+      </el-row>
+      <el-row class="head-text">
+        <el-col :offset="1">
+          <el-table
+            ref="singleTable"
+            :data="stateList"
+            style="width: 80%;margin-bottom: 30px;">
+            <el-table-column
+              property="deptName"
+              label="部门">
+            </el-table-column>
+            <el-table-column
+              property="nickName"
+              label="审批人">
+            </el-table-column>
+            <el-table-column
+              property="approveTime"
+              label="审批时间">
+            </el-table-column>
+            <el-table-column
+              property="processValue"
+              label="审批说明">
+            </el-table-column>
+            <el-table-column
+              property="status"
+              label="审批状态">
+              <template slot-scope="scope">
+                {{ scope.row.status == 0 ? "驳回" : "通过" }}
+              </template>
+            </el-table-column>
+          </el-table>
         </el-col>
       </el-row>
     </el-form>
@@ -108,9 +141,12 @@
 import {getToken} from "@/utils/auth";
 import {getProcessDataByStId} from "@/api/approve";
 import { getBidApply } from "@/api/project/bidApply";
-
+import CustomUpload from '@/views/components/customUpload'
 export default {
   name: "bidApplyLook",
+  components: {
+    CustomUpload
+  },
   data() {
     return {
       //审批集合
@@ -125,6 +161,7 @@ export default {
       fileList:[],
       // 表单参数
       form: {},
+      bidId:''
     };
   },
   computed:{
@@ -138,6 +175,7 @@ export default {
   },
   created() {
     const bidId = this.$route.params && this.$route.params.bidId;
+    this.bidId=bidId
     getBidApply(bidId).then(response => {
         this.form = response.data;
         this.fileList = this.form.fileList || []
@@ -150,15 +188,6 @@ export default {
     cancel(){
       this.$store.dispatch("tagsView/delView", this.$route);
       this.$router.go(-1);
-    },
-
-    //点击触发
-    handlePreview(file) {
-      if(file.response==undefined){
-        window.open(file.url)
-      }else{
-        window.open(file.response.data.url)
-      }
     }
   }
 };

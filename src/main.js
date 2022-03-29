@@ -7,6 +7,7 @@ import './assets/styles/element-variables.scss'
 
 import '@/assets/styles/index.scss' // global css
 import '@/assets/styles/ruoyi.scss' // ruoyi css
+import '@/assets/styles/print.scss' // ruoyi css
 import App from './App'
 import store from './store'
 import router from './router'
@@ -21,6 +22,7 @@ import { parseTime, resetForm, addDateRange, selectDictLabel, selectDictLabels, 
 import Pagination from "@/components/Pagination";
 import Pagination5 from "@/components/Pagination5";
 import businessMessage from '@/utils/message'
+
 // 自定义表格工具组件
 import RightToolbar from "@/components/RightToolbar"
 // 富文本组件
@@ -36,8 +38,15 @@ import VueMeta from 'vue-meta'
 //echarts
 import echarts from 'echarts'
 import approvalProcess from "@/views/components/approvalProcess.vue"
-Vue.component("approvalProcess",approvalProcess)
-
+Vue.component("approvalProcess", approvalProcess)
+import customUpload from "@/views/components/customUpload.vue"
+Vue.component("customUpload", customUpload)
+import htmlImage from '@/utils/htmlImage'
+Vue.use(htmlImage)
+import filters from "@/utils/filters";
+Object.keys(filters).forEach(key=>{
+  Vue.filter(key,filters[key])
+})
 
 // 全局方法挂载
 Vue.prototype.getDicts = getDicts
@@ -52,6 +61,7 @@ Vue.prototype.handleTree = handleTree
 Vue.prototype.$messageContent = businessMessage;
 Vue.prototype.$echarts = echarts
 
+
 Vue.prototype.msgSuccess = function(msg) {
     this.$message({ showClose: true, message: msg, type: "success" });
 }
@@ -65,15 +75,15 @@ Vue.prototype.msgInfo = function(msg) {
 }
 
 Vue.prototype.stateF = function(id) {
-  if(id=='1'){
-    return "待审核"
-  }else  if(id=='2'){
-    return "审核中"
-  }else  if(id=='3'){
-    return "已通过"
-  }else  if(id=='2'){
-    return "已驳打回"
-  }
+    if (id == '1') {
+        return "待审核"
+    } else if (id == '2') {
+        return "审核中"
+    } else if (id == '3') {
+        return "已通过"
+    } else if (id == '2') {
+        return "已驳打回"
+    }
 }
 
 // 全局组件挂载

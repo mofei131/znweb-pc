@@ -144,7 +144,7 @@
         </el-form-item>
           </el-col>
           <el-col :span="12">
-             <el-form-item :label="`投标数量(${priceLabel})`" prop="bidNumber">
+             <el-form-item :label="`投标数量(吨)`" prop="bidNumber">
           <el-input v-model="form.bidNumber" placeholder="请输入投标数量" />
         </el-form-item>
           </el-col>
@@ -232,6 +232,27 @@ export default {
       form: {},
       // 表单校验
       rules: {
+         stId: [
+          { required: true, message: "请选择项目名称", trigger: "blur" }
+        ],
+        unitPriceMode: [
+          { required: true, message: "请选单价模式", trigger: "blur" }
+        ],
+        bidPrice: [
+          { required: true, message: "请输入单价", trigger: "blur" }
+        ],
+        bidPlatform: [
+          { required: true, message: "请输入投标平台", trigger: "blur" }
+        ],
+        bidBond: [
+          { required: true, message: "请输入投标保证金", trigger: "blur" }
+        ],
+        performanceBond: [
+          { required: true, message: "请输入履约保证金", trigger: "blur" }
+        ],
+        bidNumber: [
+          { required: true, message: "请输入投标数量", trigger: "blur" }
+        ]
       },
       statusOptions:[],
       // 单价模式

@@ -38,7 +38,7 @@
           项目名称：<span v-text="form.stName"></span>
         </el-col>
         <el-col :span="4" :offset="1">
-          项目编号：<span v-text="form.number"></span>
+          项目编号：<span v-text="form.projectNumber"></span>
         </el-col>
       </el-row>
 
@@ -155,7 +155,7 @@
       <el-row class="head-text">
         <el-col :span="20" :offset="1">
           <el-form-item class="head-text" label="附件：" prop="file" >
-            <el-upload
+            <!-- <el-upload
               disabled
               :action="url"
               :headers="headers"
@@ -163,7 +163,8 @@
               :on-preview="handlePreview"
               list-type="text"
               :file-list="fileList">
-            </el-upload>
+            </el-upload> -->
+            <custom-upload :fileList="fileList"></custom-upload>
           </el-form-item>
         </el-col>
       </el-row>

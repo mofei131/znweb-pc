@@ -44,6 +44,9 @@
         <el-col :span="5">
           预付方式：<span v-text="form.payType"></span>
         </el-col>
+        <el-col :span="4">
+          结算方式：<span v-text="form.settlementWay" ></span>
+        </el-col>
       </el-row>
       <el-row class="head-text">
         <el-col :span="4" :offset="1">
@@ -258,7 +261,7 @@
       <el-row class="head-text">
         <el-col :span="12" :offset="1">
           <el-form-item class="head-text" label="附件：" prop="file" >
-            <el-upload
+            <!-- <el-upload
               disabled
               :action="url"
               :headers="headers"
@@ -266,7 +269,8 @@
               :on-preview="handlePreview"
               list-type="text"
               :file-list="fileList">
-            </el-upload>
+            </el-upload> -->
+            <custom-upload :fileList="fileList"></custom-upload>
           </el-form-item>
         </el-col>
       </el-row>
