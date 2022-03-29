@@ -261,7 +261,7 @@
             </el-table-column>
             <el-table-column
               property="grnNumber"
-              label="入库重量（吨）"
+              label="出库重量（吨）"
               width="120">
             </el-table-column>
             <el-table-column
