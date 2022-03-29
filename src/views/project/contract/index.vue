@@ -812,27 +812,29 @@
     >
       <div class="print-div" id="print_area">
         <div class="search-title-content">
-          <el-row type="flex" justify="space-between">
-            <el-col :span="4"
-              ><span
-                style="font-weight: bold; font-size: 16px"
-                v-text="printData.type"
-              ></span
-            ></el-col>
-            <el-col :span="4"
-              ><span
-                style="
-                  color: red;
-                  width: 100%;
-                  display: inline-block;
-                  text-align: end;
-                  font-weight: bold;
-                  font-size: 16px;
-                "
-                v-text="selectDictLabel(stateOptions, printData.state)"
-              ></span
-            ></el-col>
-          </el-row>
+          <div style="margin: 50px 0 15px">
+            <el-row type="flex" justify="space-between">
+              <el-col :span="4"
+                ><span
+                  style="font-weight: bold; font-size: 16px"
+                  v-text="printData.type"
+                ></span
+              ></el-col>
+              <el-col :span="4"
+                ><span
+                  style="
+                    color: red;
+                    width: 100%;
+                    display: inline-block;
+                    text-align: end;
+                    font-weight: bold;
+                    font-size: 16px;
+                  "
+                  v-text="selectDictLabel(stateOptions, printData.state)"
+                ></span
+              ></el-col>
+            </el-row>
+          </div>
           <!--基本信息-->
           <table border="1" width="100%">
             <tr>
@@ -1063,7 +1065,7 @@
               <td class="table-td-title detail">审批说明</td>
               <td class="table-td-title detail">审批状态</td>
             </tr>
-            <tr v-for="(item, idx) in printData.nodeStateList" :key="idx">
+            <tr v-for="(item, idx) in printData.nodeStateList" :key="'a' + idx">
               <td class="table-td-content">
                 {{ item.deptName }}
               </td>
@@ -1682,10 +1684,10 @@ export default {
         }
       });
       await getProcessDataByStId("3", row.contractId).then((res) => {
-        this.printData.nodeStateList = res.data;
+        this.printData.approveHisList = res.data;
       });
       await getApprovalProcessList("3", row.contractId).then((res) => {
-        this.printData.approveHisList = res.data;
+        this.printData.nodeStateList = res.data;
       });
       this.printReviewVisible = true;
       this.$nextTick(() => {
