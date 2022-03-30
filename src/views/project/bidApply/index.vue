@@ -57,12 +57,12 @@
       <el-table-column label="投标平台" align="center" prop="bidPlatform" />
       <el-table-column label="投标保证金（元）" align="center" prop="bidBond">
                       <template slot-scope="scope">
-                  {{scope.row.bidBond|moneyFilter}}
+                  {{scope.row.bidBond }}
                 </template>
       </el-table-column>
       <el-table-column label="履约保证金（元）" align="center" prop="performanceBond">
                       <template slot-scope="scope">
-                  {{scope.row.performanceBond|moneyFilter}}
+                  {{scope.row.performanceBond }}
                 </template>
       </el-table-column>
       <el-table-column label="投标数量（吨）" align="center" prop="bidNumber" />

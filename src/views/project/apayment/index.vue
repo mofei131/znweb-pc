@@ -572,7 +572,7 @@
                   width="90"
                 >
                   <template slot-scope="scope">
-                    {{ scope.row.valuePrice | moneyFilter }}
+                    {{ scope.row.valuePrice   }}
                   </template>
                 </el-table-column>
                 <el-table-column
@@ -1088,7 +1088,7 @@
                 {{ item.batch }}
               </td>
               <td class="table-td-content" style="text-align: center">
-                {{ item.valuePrice | moneyFilter }}
+                {{ item.valuePrice   }}
               </td>
               <td class="table-td-content" style="text-align: center">
                 {{ item.valueTprice }}
@@ -1163,29 +1163,29 @@
             <tr>
               <td class="table-td-title detail">预付总额(元)</td>
               <td class="table-td-content">
-                {{ printData.totalPrice | moneyFilter }}
+                {{ printData.totalPrice   }}
               </td>
               <td class="table-td-title detail">固定差价</td>
               <td class="table-td-content">
-                {{ printData.dPrice | moneyFilter }}
+                {{ printData.dPrice   }}
               </td>
               <td class="table-td-title detail">预付至</td>
               <td class="table-td-content">
-                {{ printData.ato | moneyFilter }}
+                {{ printData.ato   }}
               </td>
             </tr>
             <tr>
               <td class="table-td-title detail">税款(元)</td>
               <td class="table-td-content">
-                {{ printData.tax | moneyFilter }}
+                {{ printData.tax   }}
               </td>
               <td class="table-td-title detail">预付单价(元)</td>
               <td class="table-td-content">
-                {{ printData.expectPrice | moneyFilter }}
+                {{ printData.expectPrice   }}
               </td>
               <td class="table-td-title detail">扣款金额</td>
               <td class="table-td-content">
-                {{ printData.kkPrice | moneyFilter }}
+                {{ printData.kkPrice   }}
               </td>
             </tr>
             <tr>
@@ -1195,25 +1195,25 @@
               </td>
               <td class="table-td-title detail">运费金额</td>
               <td class="table-td-content">
-                {{ printData.yfPrice | moneyFilter }}
+                {{ printData.yfPrice   }}
               </td>
               <td class="table-td-title detail">付款总额</td>
               <td class="table-td-content">
-                {{ printData.payTprice | moneyFilter }}
+                {{ printData.payTprice   }}
               </td>
             </tr>
             <tr>
               <td class="table-td-title detail">已付金额</td>
               <td class="table-td-content">
-                {{ printData.prepaidPrice | moneyFilter }}
+                {{ printData.prepaidPrice   }}
               </td>
               <td class="table-td-title detail">垫付保证金</td>
               <td class="table-td-content">
-                {{ printData.dfPrice | moneyFilter }}
+                {{ printData.dfPrice   }}
               </td>
               <td class="table-td-title detail">实际付款金额</td>
               <td class="table-td-content">
-                {{ printData.actualPrice | moneyFilter }}
+                {{ printData.actualPrice   }}
               </td>
             </tr>
           </table>
