@@ -50,7 +50,7 @@
 
       <el-row class="head-text">
         <el-col :span="4" :offset="1">
-          单价（元/{{priceLabel}}）：<span v-text="form.bidPrice"></span>
+          单价（元/{{priceLabel }}）：<span v-text="form.bidPrice"></span>
         </el-col>
         <el-col :span="4" :offset="1">
           投标数量（吨）：<span v-text="form.bidNumber"></span>

@@ -73,9 +73,9 @@
                 : scope.row.processType == "16"
                 ? "期间费用"
                 : scope.row.processType == "17"
-                  ? "实际收款"
+                ? "实际收款"
                 : scope.row.processType == "18"
-                  ? "投标申请"
+                ? "投标申请"
                 : ""
             }}
           </template>
@@ -94,6 +94,8 @@
                   ? 'success'
                   : scope.row.status == '3'
                   ? 'danger'
+                  : scope.row.status == '5'
+                  ? 'warning'
                   : ''
               "
             >
@@ -106,25 +108,69 @@
                   ? "已完成"
                   : scope.row.status == "3"
                   ? "驳回"
+                  : scope.row.status == "5"
+                  ? "已撤回"
                   : ""
               }}
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="操作" align="center">
+        <el-table-column label="操作" align="center" width="250">
           <template slot-scope="scope">
             <!-- <el-tooltip content="查看详情" id="view" placement="bottom"> -->
-            <el-button type="text" @click="handleSelect(scope.row)" circle>
+            <el-button
+              size="mini"
+              type="text"
+              @click="handleSelect(scope.row)"
+              circle
+            >
               查看
             </el-button>
-            <el-button v-if="(scope.row.status == '0' ||scope.row.status == '3') && scope.row.processType!='2'" type="text" @click="handleUpdate(scope.row)" circle>
+            <el-button
+              size="mini"
+              v-if="
+                (scope.row.status == '0' ||
+                  scope.row.status == '3' ||
+                  scope.row.status == '5') &&
+                scope.row.processType != '2'
+              "
+              type="text"
+              @click="handleUpdate(scope.row)"
+              circle
+            >
               修改
             </el-button>
-            <el-button v-if="scope.row.status == '0' ||scope.row.status == '3'" type="text" @click="handleDelete(scope.row)" circle>
+            <el-button
+              size="mini"
+              v-if="
+                scope.row.status != '3' &&
+                scope.row.status != '5' &&
+                (scope.row.processType == '4' || scope.row.processType == '5')
+              "
+              type="text"
+              @click="withdraw(scope.row)"
+              circle
+              >撤回</el-button
+            >
+            <el-button
+              size="mini"
+              v-if="
+                scope.row.status == '0' ||
+                scope.row.status == '3' ||
+                scope.row.status == '5'
+              "
+              type="text"
+              @click="handleDelete(scope.row)"
+              circle
+            >
               删除
             </el-button>
             <el-button
-              v-if="scope.row.status == '3' && scope.row.processType!='2'"
+              size="mini"
+              v-if="
+                (scope.row.status == '3' || scope.row.status == '5') &&
+                scope.row.processType != '2'
+              "
               type="text"
               @click="reInitiate(scope.row)"
               circle
@@ -146,23 +192,38 @@
 </template>
 
 <script>
-import {deleteByStId, myInitiate, reInitiates} from "@/api/approve/index.js";
-import {delSt, delStupdate, getStupdate} from "@/api/project/st";
-import {delContract} from "@/api/project/contract";
-import {delApayment} from "@/api/project/apayment";
-import {delFpayment} from "@/api/project/fpayment";
-import {delSk} from "@/api/project/sk";
-import {delMargin} from "@/api/project/margin";
-import {delCplan} from "@/api/project/cplan";
-import {delLpayment} from "@/api/project/lpayment";
-import {delGrn} from "@/api/project/grn";
-import {delGry} from "@/api/project/gry";
-import {delSupplier} from "@/api/project/supplier";
-import {delTerminal} from "@/api/project/terminal";
-import {delSticket} from "@/api/project/sticket";
-import {delKp} from "@/api/project/kp";
-import {delDp} from "@/api/project/dp";
-import { delRealsk } from '@/api/project/realsk'
+import {
+  deleteByStId,
+  myInitiate,
+  reInitiates,
+  withdraw,
+} from "@/api/approve/index.js";
+import { delSt, delStupdate, getStupdate } from "@/api/project/st";
+import { delContract } from "@/api/project/contract";
+import {
+  delApayment,
+  checkSelnyStatusA,
+  reBindSelnyA,
+  releaseSelnyA,
+} from "@/api/project/apayment";
+import {
+  delFpayment,
+  checkSelnyStatusF,
+  reBindSelnyF,
+  releaseSelnyF,
+} from "@/api/project/fpayment";
+import { delSk } from "@/api/project/sk";
+import { delMargin } from "@/api/project/margin";
+import { delCplan } from "@/api/project/cplan";
+import { delLpayment } from "@/api/project/lpayment";
+import { delGrn } from "@/api/project/grn";
+import { delGry } from "@/api/project/gry";
+import { delSupplier } from "@/api/project/supplier";
+import { delTerminal } from "@/api/project/terminal";
+import { delSticket } from "@/api/project/sticket";
+import { delKp } from "@/api/project/kp";
+import { delDp } from "@/api/project/dp";
+import { delRealsk } from "@/api/project/realsk";
 import { delBidApply } from "@/api/project/bidApply";
 export default {
   data() {
@@ -189,318 +250,467 @@ export default {
         this.initiateData = res.data.records;
       });
     },
-    reInitiate(row) {
-      reInitiates(row.id).then(() => {
-        this.$messageContent.message("S000003", ["重新发起"]);
-        this.getList();
-      });
+    async reInitiate(row) {
+      let typeId = row.processType;
+      let stId = row.stId;
+      let isOk = true;
+      if (typeId == "4") {
+        // 验证出入库单状态是否可用
+        await checkSelnyStatusA(stId).then((response) => {
+          isOk = response.data.isOk;
+        });
+      } else if (typeId == "5") {
+        // 验证出入库单状态是否可用
+        await checkSelnyStatusF(stId).then((response) => {
+          isOk = response.data.isOk;
+        });
+      }
+      if (!isOk) {
+        this.$message.error("入库单/出库单不可用，请确认");
+      } else {
+        if (typeId == "4") {
+          await reBindSelnyA(stId);
+        } else if (typeId == "5") {
+          await reBindSelnyF(stId);
+        }
+        reInitiates(row.id).then(() => {
+          this.$messageContent.message("S000003", ["重新发起"]);
+          this.getList();
+        });
+      }
     },
-    handleSelect(row){
-      let typeId=row.processType;
-      let stId=row.stId;
-      if(typeId=='1'){
+    handleSelect(row) {
+      let typeId = row.processType;
+      let stId = row.stId;
+      if (typeId == "1") {
         this.$router.push("/st/lookAdd/" + stId);
-      }else if(typeId=='2'){
-        getStupdate(stId).then(response => {
-          this.$router.push({name: 'lookUpdate', query:{stId:response.data.stId+"",stupdateId:stId}})
-        })
-      }else if(typeId=='3'){
+      } else if (typeId == "2") {
+        getStupdate(stId).then((response) => {
+          this.$router.push({
+            name: "lookUpdate",
+            query: { stId: response.data.stId + "", stupdateId: stId },
+          });
+        });
+      } else if (typeId == "3") {
         this.$router.push("/contract/look/" + stId);
-      }else if(typeId=='4'){
+      } else if (typeId == "4") {
         this.$router.push("/apayment/look/" + stId);
-      }else if(typeId=='5'){
+      } else if (typeId == "5") {
         this.$router.push("/fpayment/look/" + stId);
-      }else if(typeId=='6'){
+      } else if (typeId == "6") {
         this.$router.push("/sk/look/" + stId);
-      }else if(typeId=='7'){
+      } else if (typeId == "7") {
         this.$router.push("/margin/look/" + stId);
-      }else if(typeId=='8'){
+      } else if (typeId == "8") {
         this.$router.push("/cplan/look/" + stId);
-      }else if(typeId=='9'){
+      } else if (typeId == "9") {
         this.$router.push("/lpayment/look/" + stId);
-      }else if(typeId=='10'){
+      } else if (typeId == "10") {
         this.$router.push("/grn/look/" + stId);
-      }else if(typeId=='11'){
+      } else if (typeId == "11") {
         this.$router.push("/gry/look/" + stId);
-      }else if(typeId=='12'){
+      } else if (typeId == "12") {
         this.$router.push("/supplier/look/" + stId);
-      }else if(typeId=='13'){
+      } else if (typeId == "13") {
         this.$router.push("/terminal/look/" + stId);
-      }else if(typeId=='14'){
+      } else if (typeId == "14") {
         this.$router.push("/sticket/look/" + stId);
-      }else if(typeId=='15'){
+      } else if (typeId == "15") {
         this.$router.push("/kp/look/" + stId);
-      }else if(typeId=='16'){
+      } else if (typeId == "16") {
         this.$router.push("/dp/look/" + stId);
-      }else if(typeId=='17'){
+      } else if (typeId == "17") {
         this.$router.push("/realsk/look/" + stId);
-      }else if(typeId=='18'){
+      } else if (typeId == "18") {
         this.$router.push("/bidApply/look/" + stId);
       }
     },
-    handleUpdate(row){
-      let typeId=row.processType;
-      let stId=row.stId;
-      if(typeId=='1'){
-        this.$router.push({name: 'stEdit',params:{isEdit:"true",stId:stId}})
-      }else if(typeId=='2'){
+    handleUpdate(row) {
+      let typeId = row.processType;
+      let stId = row.stId;
+      if (typeId == "1") {
+        this.$router.push({
+          name: "stEdit",
+          params: { isEdit: "true", stId: stId },
+        });
+      } else if (typeId == "2") {
         this.$message.error("请重新操作项目状态");
-      }else if(typeId=='3'){
-        this.$router.push({name: 'contractEdit',params:{isEdit:"true",contractId:stId}})
-      }else if(typeId=='4'){
-        this.$router.push({name: 'apaymentEdit',params:{isEdit:"true",apaymentId:stId}})
-      }else if(typeId=='5'){
-        this.$router.push({name: 'fpaymentEdit',params:{isEdit:"true",fpaymentId:stId}})
-      }else if(typeId=='6'){
-        this.$router.push({name: 'skEdit',params:{isEdit:"true",skId:stId}})
-      }else if(typeId=='7'){
-        this.$router.push({name: 'marginEdit',params:{isEdit:"true",marginId:stId}})
-      }else if(typeId=='8'){
+      } else if (typeId == "3") {
+        this.$router.push({
+          name: "contractEdit",
+          params: { isEdit: "true", contractId: stId },
+        });
+      } else if (typeId == "4") {
+        this.$router.push({
+          name: "apaymentEdit",
+          params: { isEdit: "true", apaymentId: stId },
+        });
+      } else if (typeId == "5") {
+        this.$router.push({
+          name: "fpaymentEdit",
+          params: { isEdit: "true", fpaymentId: stId },
+        });
+      } else if (typeId == "6") {
+        this.$router.push({
+          name: "skEdit",
+          params: { isEdit: "true", skId: stId },
+        });
+      } else if (typeId == "7") {
+        this.$router.push({
+          name: "marginEdit",
+          params: { isEdit: "true", marginId: stId },
+        });
+      } else if (typeId == "8") {
         this.$message.error("请重新创建资金计划");
-      }else if(typeId=='9'){
-        this.$router.push({name: 'lpaymentEdit',params:{isEdit:"true",lpaymentId:stId}})
-      }else if(typeId=='10'){
-        this.$router.push({name: 'grnEdit',params:{isEdit:"true",grnId:stId}})
-      }else if(typeId=='11'){
-        this.$router.push({name: 'gryEdit',params:{isEdit:"true",gryId:stId}})
-      }else if(typeId=='12'){
-        this.$router.push({name: 'supplierEdit',params:{isEdit:"true",supplierId:stId}})
-      }else if(typeId=='13'){
-        this.$router.push({name: 'terminalEdit',params:{isEdit:"true",terminalId:stId}})
-      }else if(typeId=='14'){
-        this.$router.push({name: 'sticketEdit',params:{isEdit:"true",sticketId:stId}})
-      }else if(typeId=='15'){
-        this.$router.push({name: 'kpEdit',params:{isEdit:"true",kpId:stId}})
-      }else if(typeId=='16'){
-        this.$router.push({name: 'dpEdit',params:{isEdit:"true",dpId:stId}})
-      }else if(typeId=='17'){
-        this.$router.push({name: 'realskEdit',params:{isEdit:"true",realskId:stId}})
-      }else if(typeId=='18'){
-        this.$router.push({name: 'bidApplyEdit',params:{isEdit:"true",bidId:stId}})
+      } else if (typeId == "9") {
+        this.$router.push({
+          name: "lpaymentEdit",
+          params: { isEdit: "true", lpaymentId: stId },
+        });
+      } else if (typeId == "10") {
+        this.$router.push({
+          name: "grnEdit",
+          params: { isEdit: "true", grnId: stId },
+        });
+      } else if (typeId == "11") {
+        this.$router.push({
+          name: "gryEdit",
+          params: { isEdit: "true", gryId: stId },
+        });
+      } else if (typeId == "12") {
+        this.$router.push({
+          name: "supplierEdit",
+          params: { isEdit: "true", supplierId: stId },
+        });
+      } else if (typeId == "13") {
+        this.$router.push({
+          name: "terminalEdit",
+          params: { isEdit: "true", terminalId: stId },
+        });
+      } else if (typeId == "14") {
+        this.$router.push({
+          name: "sticketEdit",
+          params: { isEdit: "true", sticketId: stId },
+        });
+      } else if (typeId == "15") {
+        this.$router.push({
+          name: "kpEdit",
+          params: { isEdit: "true", kpId: stId },
+        });
+      } else if (typeId == "16") {
+        this.$router.push({
+          name: "dpEdit",
+          params: { isEdit: "true", dpId: stId },
+        });
+      } else if (typeId == "17") {
+        this.$router.push({
+          name: "realskEdit",
+          params: { isEdit: "true", realskId: stId },
+        });
+      } else if (typeId == "18") {
+        this.$router.push({
+          name: "bidApplyEdit",
+          params: { isEdit: "true", bidId: stId },
+        });
       }
     },
-    handleDelete(row){
-      let typeId=row.processType;
-      let stId=row.stId;
+    handleDelete(row) {
+      let typeId = row.processType;
+      let stId = row.stId;
 
-      if(typeId=='1'){
-        this.$confirm('是否确认删除项目信息?', "警告", {
+      if (typeId == "1") {
+        this.$confirm("是否确认删除项目信息?", "警告", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
-          type: "warning"
-        }).then(function() {
-          return delSt(stId);
-        }).then(() => {
-          deleteByStId(stId);
-          this.getList();
-          this.msgSuccess("删除成功");
-        }).catch(() => {});
-      }else if(typeId=='2'){
-        this.$confirm('是否确认删除项目操作信息?', "警告", {
+          type: "warning",
+        })
+          .then(function () {
+            return delSt(stId);
+          })
+          .then(() => {
+            deleteByStId(stId);
+            this.getList();
+            this.msgSuccess("删除成功");
+          })
+          .catch(() => {});
+      } else if (typeId == "2") {
+        this.$confirm("是否确认删除项目操作信息?", "警告", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
-          type: "warning"
-        }).then(function() {
-          return delStupdate(stId);
-        }).then(() => {
-          deleteByStId(stId);
-          this.getList();
-          this.msgSuccess("删除成功");
-        }).catch(() => {});
-      }else if(typeId=='3'){
-        this.$confirm('是否确认删除项目合同?', "警告", {
+          type: "warning",
+        })
+          .then(function () {
+            return delStupdate(stId);
+          })
+          .then(() => {
+            deleteByStId(stId);
+            this.getList();
+            this.msgSuccess("删除成功");
+          })
+          .catch(() => {});
+      } else if (typeId == "3") {
+        this.$confirm("是否确认删除项目合同?", "警告", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
-          type: "warning"
-        }).then(function() {
-          return delContract(stId);
-        }).then(() => {
-          deleteByStId(stId);
-          this.getList();
-          this.msgSuccess("删除成功");
-        }).catch(() => {});
-      }else if(typeId=='4'){
-        this.$confirm('是否确认删除预付款?', "警告", {
+          type: "warning",
+        })
+          .then(function () {
+            return delContract(stId);
+          })
+          .then(() => {
+            deleteByStId(stId);
+            this.getList();
+            this.msgSuccess("删除成功");
+          })
+          .catch(() => {});
+      } else if (typeId == "4") {
+        this.$confirm("是否确认删除预付款?", "警告", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
-          type: "warning"
-        }).then(function() {
-          return delApayment(stId);
-        }).then(() => {
-          deleteByStId(stId);
-          this.getList();
-          this.msgSuccess("删除成功");
-        }).catch(() => {});
-      }else if(typeId=='5'){
-        this.$confirm('是否确认删除最终付款?', "警告", {
+          type: "warning",
+        })
+          .then(function () {
+            return delApayment(stId);
+          })
+          .then(() => {
+            deleteByStId(stId);
+            this.getList();
+            this.msgSuccess("删除成功");
+          })
+          .catch(() => {});
+      } else if (typeId == "5") {
+        this.$confirm("是否确认删除最终付款?", "警告", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
-          type: "warning"
-        }).then(function() {
-          return delFpayment(stId);
-        }).then(() => {
-          deleteByStId(stId);
-          this.getList();
-          this.msgSuccess("删除成功");
-        }).catch(() => {});
-      }else if(typeId=='6'){
-        this.$confirm('是否确认删除收款?', "警告", {
+          type: "warning",
+        })
+          .then(function () {
+            return delFpayment(stId);
+          })
+          .then(() => {
+            deleteByStId(stId);
+            this.getList();
+            this.msgSuccess("删除成功");
+          })
+          .catch(() => {});
+      } else if (typeId == "6") {
+        this.$confirm("是否确认删除收款?", "警告", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
-          type: "warning"
-        }).then(function() {
-          return delSk(stId);
-        }).then(() => {
-          deleteByStId(stId);
-          this.getList();
-          this.msgSuccess("删除成功");
-        }).catch(() => {});
-      }else if(typeId=='7'){
-        this.$confirm('是否确认删除保证金?', "警告", {
+          type: "warning",
+        })
+          .then(function () {
+            return delSk(stId);
+          })
+          .then(() => {
+            deleteByStId(stId);
+            this.getList();
+            this.msgSuccess("删除成功");
+          })
+          .catch(() => {});
+      } else if (typeId == "7") {
+        this.$confirm("是否确认删除保证金?", "警告", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
-          type: "warning"
-        }).then(function() {
-          return delMargin(stId);
-        }).then(() => {
-          deleteByStId(stId);
-          this.getList();
-          this.msgSuccess("删除成功");
-        }).catch(() => {});
-      }else if(typeId=='8'){
-        this.$confirm('是否确认删除资金计划?', "警告", {
+          type: "warning",
+        })
+          .then(function () {
+            return delMargin(stId);
+          })
+          .then(() => {
+            deleteByStId(stId);
+            this.getList();
+            this.msgSuccess("删除成功");
+          })
+          .catch(() => {});
+      } else if (typeId == "8") {
+        this.$confirm("是否确认删除资金计划?", "警告", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
-          type: "warning"
-        }).then(function() {
-          return delCplan(stId);
-        }).then(() => {
-          deleteByStId(stId);
-          this.getList();
-          this.msgSuccess("删除成功");
-        }).catch(() => {});
-      }else if(typeId=='9'){
-        this.$confirm('是否确认删除物流付款?', "警告", {
+          type: "warning",
+        })
+          .then(function () {
+            return delCplan(stId);
+          })
+          .then(() => {
+            deleteByStId(stId);
+            this.getList();
+            this.msgSuccess("删除成功");
+          })
+          .catch(() => {});
+      } else if (typeId == "9") {
+        this.$confirm("是否确认删除物流付款?", "警告", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
-          type: "warning"
-        }).then(function() {
-          return delLpayment(stId);
-        }).then(() => {
-          deleteByStId(stId);
-          this.getList();
-          this.msgSuccess("删除成功");
-        }).catch(() => {});
-      }else if(typeId=='10'){
-        this.$confirm('是否确认删除入库单?', "警告", {
+          type: "warning",
+        })
+          .then(function () {
+            return delLpayment(stId);
+          })
+          .then(() => {
+            deleteByStId(stId);
+            this.getList();
+            this.msgSuccess("删除成功");
+          })
+          .catch(() => {});
+      } else if (typeId == "10") {
+        this.$confirm("是否确认删除入库单?", "警告", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
-          type: "warning"
-        }).then(function() {
-          return delGrn(stId);
-        }).then(() => {
-          deleteByStId(stId);
-          this.getList();
-          this.msgSuccess("删除成功");
-        }).catch(() => {});
-      }else if(typeId=='11'){
-        this.$confirm('是否确认删除出库单?', "警告", {
+          type: "warning",
+        })
+          .then(function () {
+            return delGrn(stId);
+          })
+          .then(() => {
+            deleteByStId(stId);
+            this.getList();
+            this.msgSuccess("删除成功");
+          })
+          .catch(() => {});
+      } else if (typeId == "11") {
+        this.$confirm("是否确认删除出库单?", "警告", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
-          type: "warning"
-        }).then(function() {
-          return delGry(stId);
-        }).then(() => {
-          deleteByStId(stId);
-          this.getList();
-          this.msgSuccess("删除成功");
-        }).catch(() => {});
-      }else if(typeId=='12'){
-        this.$confirm('是否确认删除供应商?', "警告", {
+          type: "warning",
+        })
+          .then(function () {
+            return delGry(stId);
+          })
+          .then(() => {
+            deleteByStId(stId);
+            this.getList();
+            this.msgSuccess("删除成功");
+          })
+          .catch(() => {});
+      } else if (typeId == "12") {
+        this.$confirm("是否确认删除供应商?", "警告", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
-          type: "warning"
-        }).then(function() {
-          return delSupplier(stId);
-        }).then(() => {
-          deleteByStId(stId);
-          this.getList();
-          this.msgSuccess("删除成功");
-        }).catch(() => {});
-      }else if(typeId=='13'){
-        this.$confirm('是否确认删除终端用户?', "警告", {
+          type: "warning",
+        })
+          .then(function () {
+            return delSupplier(stId);
+          })
+          .then(() => {
+            deleteByStId(stId);
+            this.getList();
+            this.msgSuccess("删除成功");
+          })
+          .catch(() => {});
+      } else if (typeId == "13") {
+        this.$confirm("是否确认删除终端用户?", "警告", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
-          type: "warning"
-        }).then(function() {
-          return delTerminal(stId);
-        }).then(() => {
-          deleteByStId(stId);
-          this.getList();
-          this.msgSuccess("删除成功");
-        }).catch(() => {});
-      }else if(typeId=='14'){
-        this.$confirm('是否确认删除收票管理?', "警告", {
+          type: "warning",
+        })
+          .then(function () {
+            return delTerminal(stId);
+          })
+          .then(() => {
+            deleteByStId(stId);
+            this.getList();
+            this.msgSuccess("删除成功");
+          })
+          .catch(() => {});
+      } else if (typeId == "14") {
+        this.$confirm("是否确认删除收票管理?", "警告", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
-          type: "warning"
-        }).then(function() {
-          return delSticket(stId);
-        }).then(() => {
-          deleteByStId(stId);
-          this.getList();
-          this.msgSuccess("删除成功");
-        }).catch(() => {});
-      }else if(typeId=='15'){
-        this.$confirm('是否确认删除开票?', "警告", {
+          type: "warning",
+        })
+          .then(function () {
+            return delSticket(stId);
+          })
+          .then(() => {
+            deleteByStId(stId);
+            this.getList();
+            this.msgSuccess("删除成功");
+          })
+          .catch(() => {});
+      } else if (typeId == "15") {
+        this.$confirm("是否确认删除开票?", "警告", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
-          type: "warning"
-        }).then(function() {
-          return delKp(stId);
-        }).then(() => {
-          deleteByStId(stId);
-          this.getList();
-          this.msgSuccess("删除成功");
-        }).catch(() => {});
-      }else if(typeId=='16'){
-        this.$confirm('是否确认删除期间费用?', "警告", {
+          type: "warning",
+        })
+          .then(function () {
+            return delKp(stId);
+          })
+          .then(() => {
+            deleteByStId(stId);
+            this.getList();
+            this.msgSuccess("删除成功");
+          })
+          .catch(() => {});
+      } else if (typeId == "16") {
+        this.$confirm("是否确认删除期间费用?", "警告", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
-          type: "warning"
-        }).then(function() {
-          return delDp(stId);
-        }).then(() => {
-          deleteByStId(stId);
-          this.getList();
-          this.msgSuccess("删除成功");
-        }).catch(() => {});
-      }else if(typeId=='17'){
-        this.$confirm('是否确认删除实际收款?', "警告", {
+          type: "warning",
+        })
+          .then(function () {
+            return delDp(stId);
+          })
+          .then(() => {
+            deleteByStId(stId);
+            this.getList();
+            this.msgSuccess("删除成功");
+          })
+          .catch(() => {});
+      } else if (typeId == "17") {
+        this.$confirm("是否确认删除实际收款?", "警告", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
-          type: "warning"
-        }).then(function() {
-          return delRealsk(stId);
-        }).then(() => {
-          deleteByStId(stId);
-          this.getList();
-          this.msgSuccess("删除成功");
-        }).catch(() => {});
-      }else if(typeId=='18'){
-        this.$confirm('是否确认删除投标申请?', "警告", {
+          type: "warning",
+        })
+          .then(function () {
+            return delRealsk(stId);
+          })
+          .then(() => {
+            deleteByStId(stId);
+            this.getList();
+            this.msgSuccess("删除成功");
+          })
+          .catch(() => {});
+      } else if (typeId == "18") {
+        this.$confirm("是否确认删除投标申请?", "警告", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
-          type: "warning"
-        }).then(function() {
-          return delBidApply(stId);
-        }).then(() => {
-          deleteByStId(stId);
-          this.getList();
-          this.msgSuccess("删除成功");
-        }).catch(() => {});
+          type: "warning",
+        })
+          .then(function () {
+            return delBidApply(stId);
+          })
+          .then(() => {
+            deleteByStId(stId);
+            this.getList();
+            this.msgSuccess("删除成功");
+          })
+          .catch(() => {});
       }
-    }
+    },
+    withdraw(row) {
+      let _this = this;
+      let typeId = row.processType;
+      let stId = row.stId;
+      this.$confirm("确认撤回提单吗?", "提示", {
+        confirmButtonText: "确认",
+        cancelButtonText: "取消",
+        type: "warning",
+      }).then(function () {
+        withdraw(row.processId, row.id).then(() => {
+          reBindSelnyA(stId);
+          if (typeId == "4") {
+            releaseSelnyA(stId);
+          } else if (typeId == "5") {
+            releaseSelnyF(stId);
+          }
+          _this.getList();
+          _this.msgSuccess("撤回成功");
+        });
+      });
+    },
   },
 };
 </script>
