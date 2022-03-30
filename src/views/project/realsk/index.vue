@@ -1125,7 +1125,7 @@ export default {
       this.printData = {};
       await getRealsk(row.realskId).then((response) => {
         this.printData = response.data;
-        this.printData.type = "实际付款";
+        this.printData.type = "实际收款";
       });
       await getProcessDataByStId("17", row.realskId).then((res) => {
         this.printData.approveHisList = res.data;
