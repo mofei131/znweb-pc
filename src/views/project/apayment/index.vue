@@ -199,6 +199,14 @@
             @click="openPayDetailss(scope.row)"
             >付款明细</el-button
           >
+          <el-button
+            v-if="scope.row.state === '3'"
+            size="mini"
+            type="text"
+            icon="el-icon-printer"
+            @click="handlePrint(scope.row)"
+            >打印</el-button
+          >
 
           <!--          <el-button-->
           <!--            size="mini"-->
@@ -563,9 +571,9 @@
                   label="货值单价（元）"
                   width="90"
                 >
-                              <template slot-scope="scope">
-                  {{scope.row.valuePrice|moneyFilter}}
-                </template>
+                  <template slot-scope="scope">
+                    {{ scope.row.valuePrice | moneyFilter }}
+                  </template>
                 </el-table-column>
                 <el-table-column
                   property="valueTprice"
@@ -974,6 +982,349 @@
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
+    <!--打印页-->
+    <el-dialog
+      title="打印预览"
+      :visible.sync="printReviewVisible"
+      @close="onPrintReviewClose"
+      width="60%"
+    >
+      <div class="print-div" id="print_area">
+        <div class="search-title-content">
+          <div style="padding: 30px 0 15px">
+            <el-row type="flex" justify="space-between">
+              <el-col :span="4"
+                ><span
+                  style="font-weight: bold; font-size: 16px"
+                  v-text="printData.type"
+                ></span
+              ></el-col>
+              <el-col :span="4"
+                ><span
+                  style="
+                    color: red;
+                    width: 100%;
+                    display: inline-block;
+                    text-align: end;
+                    font-weight: bold;
+                    font-size: 16px;
+                  "
+                  v-text="selectDictLabel(stateOptions, printData.state)"
+                ></span
+              ></el-col>
+            </el-row>
+          </div>
+          <!--基本信息-->
+          <table border="1" width="100%">
+            <tr>
+              <td class="title" colspan="6">基本信息</td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">项目名称</td>
+              <td class="table-td-content">
+                {{ printData.stName }}
+              </td>
+              <td class="table-td-title detail">项目编号</td>
+              <td class="table-td-content">
+                {{ printData.number }}
+              </td>
+              <td class="table-td-title detail">结算方式</td>
+              <td class="table-td-content">
+                {{ printData.settlementWay }}
+              </td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">付款批次</td>
+              <td class="table-td-content">
+                {{ printData.away }}
+              </td>
+              <td class="table-td-title detail">预付方式</td>
+              <td class="table-td-content">
+                {{ printData.type }}
+              </td>
+              <td class="table-td-title detail">供应商</td>
+              <td class="table-td-content">
+                {{ printData.supplierName }}
+              </td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">供应商账号</td>
+              <td class="table-td-content">
+                {{ printData.account }}
+              </td>
+              <td class="table-td-title detail">供应商开户行</td>
+              <td class="table-td-content" colspan="3">
+                {{ printData.openbank }}
+              </td>
+            </tr>
+          </table>
+          <table border="1" width="100%">
+            <tr>
+              <td class="title" colspan="7">出入库信息</td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">货品名称</td>
+              <td class="table-td-title detail">运输方式</td>
+              <td class="table-td-title detail">物流公司</td>
+              <td class="table-td-title detail">车数</td>
+              <td class="table-td-title detail">批次</td>
+              <td class="table-td-title detail">货值单价(元)</td>
+              <td class="table-td-title detail">货值总额(吨)</td>
+            </tr>
+            <tr v-for="(item, idx) in printData.dataList" :key="idx">
+              <td class="table-td-content" style="text-align: center">
+                {{ item.name }}
+              </td>
+              <td class="table-td-content" style="text-align: center">
+                {{ item.transportType }}
+              </td>
+              <td class="table-td-content" style="text-align: center">
+                {{ item.wlCompany }}
+              </td>
+              <td class="table-td-content" style="text-align: center">
+                {{ item.carNumber }}
+              </td>
+              <td class="table-td-content" style="text-align: center">
+                {{ item.batch }}
+              </td>
+              <td class="table-td-content" style="text-align: center">
+                {{ item.valuePrice | moneyFilter }}
+              </td>
+              <td class="table-td-content" style="text-align: center">
+                {{ item.valueTprice }}
+              </td>
+            </tr>
+          </table>
+          <table border="1" width="100%">
+            <tr>
+              <td class="title" colspan="6">奖惩</td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">水分</td>
+              <td class="table-td-title detail">内水</td>
+              <td class="table-td-title detail">灰份Aad</td>
+              <td class="table-td-title detail">灰份ad</td>
+              <td class="table-td-title detail">挥发份Vda</td>
+              <td class="table-td-title detail">挥发份Vdaf</td>
+            </tr>
+            <tr>
+              <td class="table-td-content" style="text-align: center">
+                {{ printData.jc1 }}
+              </td>
+              <td class="table-td-content" style="text-align: center">
+                {{ printData.jc2 }}
+              </td>
+              <td class="table-td-content" style="text-align: center">
+                {{ printData.jc3 }}
+              </td>
+              <td class="table-td-content" style="text-align: center">
+                {{ printData.jc10 }}
+              </td>
+              <td class="table-td-content" style="text-align: center">
+                {{ printData.jc4 }}
+              </td>
+              <td class="table-td-content" style="text-align: center">
+                {{ printData.jc11 }}
+              </td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">灰熔点</td>
+              <td class="table-td-title detail">固定碳</td>
+              <td class="table-td-title detail">含硫量</td>
+              <td class="table-td-title detail">热值Qgr,ad</td>
+              <td class="table-td-title detail">热值Qnt,ar</td>
+              <td class="table-td-title detail">热值Kcal</td>
+            </tr>
+            <tr>
+              <td class="table-td-content" style="text-align: center">
+                {{ printData.jc5 }}
+              </td>
+              <td class="table-td-content" style="text-align: center">
+                {{ printData.jc6 }}
+              </td>
+              <td class="table-td-content" style="text-align: center">
+                {{ printData.jc7 }}
+              </td>
+              <td class="table-td-content" style="text-align: center">
+                {{ printData.jc8 }}
+              </td>
+              <td class="table-td-content" style="text-align: center">
+                {{ printData.jc9 }}
+              </td>
+              <td class="table-td-content" style="text-align: center">
+                {{ printData.jc12 }}
+              </td>
+            </tr>
+          </table>
+          <table border="1" width="100%">
+            <tr>
+              <td class="title" colspan="6">付款信息</td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">预付总额(元)</td>
+              <td class="table-td-content">
+                {{ printData.totalPrice | moneyFilter }}
+              </td>
+              <td class="table-td-title detail">固定差价</td>
+              <td class="table-td-content">
+                {{ printData.dPrice | moneyFilter }}
+              </td>
+              <td class="table-td-title detail">预付至</td>
+              <td class="table-td-content">
+                {{ printData.ato | moneyFilter }}
+              </td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">税款(元)</td>
+              <td class="table-td-content">
+                {{ printData.tax | moneyFilter }}
+              </td>
+              <td class="table-td-title detail">预付单价(元)</td>
+              <td class="table-td-content">
+                {{ printData.expectPrice | moneyFilter }}
+              </td>
+              <td class="table-td-title detail">扣款金额</td>
+              <td class="table-td-content">
+                {{ printData.kkPrice | moneyFilter }}
+              </td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">扣款备注</td>
+              <td class="table-td-content">
+                {{ printData.kkNode }}
+              </td>
+              <td class="table-td-title detail">运费金额</td>
+              <td class="table-td-content">
+                {{ printData.yfPrice | moneyFilter }}
+              </td>
+              <td class="table-td-title detail">付款总额</td>
+              <td class="table-td-content">
+                {{ printData.payTprice | moneyFilter }}
+              </td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">已付金额</td>
+              <td class="table-td-content">
+                {{ printData.prepaidPrice | moneyFilter }}
+              </td>
+              <td class="table-td-title detail">垫付保证金</td>
+              <td class="table-td-content">
+                {{ printData.dfPrice | moneyFilter }}
+              </td>
+              <td class="table-td-title detail">实际付款金额</td>
+              <td class="table-td-content">
+                {{ printData.actualPrice | moneyFilter }}
+              </td>
+            </tr>
+          </table>
+          <table border="1" width="100%">
+            <tr>
+              <td class="title" colspan="3">合同信息</td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">合同名称</td>
+              <td class="table-td-title detail">合同类型</td>
+              <td class="table-td-title detail">货品重量(吨)</td>
+            </tr>
+            <tr v-for="(item, idx) in printData.contract" :key="idx">
+              <td class="table-td-content" style="text-align: center">
+                {{ item.name }}
+              </td>
+              <td class="table-td-content" style="text-align: center">
+                {{ item.type }}
+              </td>
+              <td class="table-td-content" style="text-align: center">
+                {{ item.expectNumber }}
+              </td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">附件</td>
+              <td class="table-td-content" colspan="2">
+                <div v-for="(item, idx) in printData.fileList" :key="idx">
+                  {{ item.name }}
+                </div>
+              </td>
+            </tr>
+          </table>
+          <!--审批流程-->
+          <table border="1" width="100%">
+            <tr>
+              <td class="title" colspan="6">审批流程</td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">部门</td>
+              <td class="table-td-title detail">应审批人</td>
+              <td class="table-td-title detail">审批人</td>
+              <td class="table-td-title detail">审批时间</td>
+              <td class="table-td-title detail">审批说明</td>
+              <td class="table-td-title detail">审批状态</td>
+            </tr>
+            <tr v-for="(item, idx) in printData.nodeStateList" :key="idx">
+              <td class="table-td-content" style="text-align: center">
+                {{ item.deptName }}
+              </td>
+              <td class="table-td-content" style="text-align: center">
+                {{ item.shouldApprovePerson }}
+              </td>
+              <td class="table-td-content" style="text-align: center">
+                {{ item.nickName }}
+              </td>
+              <td class="table-td-content" style="text-align: center">
+                {{ item.approveTime }}
+              </td>
+              <td
+                class="table-td-content"
+                style="max-width: 150px; text-align: center"
+              >
+                {{ item.processValue }}
+              </td>
+              <td class="table-td-content" style="text-align: center">
+                {{
+                  item.status == 0 || item.status == 1
+                    ? "已审批"
+                    : item.status == -1
+                    ? "待审批"
+                    : "未审批"
+                }}
+              </td>
+            </tr>
+          </table>
+          <!--审批流程-->
+          <table border="1" width="100%">
+            <tr>
+              <td class="title" colspan="6">审批记录</td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">部门</td>
+              <td class="table-td-title detail">审批人</td>
+              <td class="table-td-title detail">审批时间</td>
+              <td class="table-td-title detail">审批说明</td>
+              <td class="table-td-title detail">审批状态</td>
+            </tr>
+            <tr v-for="(item, idx) in printData.approveHisList" :key="idx">
+              <td class="table-td-content" style="text-align: center">
+                {{ item.deptName }}
+              </td>
+              <td class="table-td-content" style="text-align: center">
+                {{ item.nickName }}
+              </td>
+              <td class="table-td-content" style="text-align: center">
+                {{ item.approveTime }}
+              </td>
+              <td
+                class="table-td-content"
+                style="max-width: 150px; text-align: center"
+              >
+                {{ item.processValue }}
+              </td>
+              <td class="table-td-content" style="text-align: center">
+                {{ item.status == 0 ? "驳回" : item.status == 1 ? "通过" : "" }}
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -992,6 +1343,9 @@ import {
   findInit,
 } from "@/api/project/apayment";
 import { getToken } from "@/utils/auth";
+import print from "print-js";
+import { getProcessDataByStId, getApprovalProcessList } from "@/api/approve";
+import { getContractList } from "@/api/project/all";
 
 export default {
   name: "Apayment",
@@ -1160,6 +1514,9 @@ export default {
           { required: true, validator: validatePrice, trigger: "blur" },
         ],
       },
+      // 打印
+      printReviewVisible: false,
+      printData: {},
     };
   },
   created() {
@@ -1965,6 +2322,44 @@ export default {
       } else {
         this.form.actualPrice = 0.0;
       }
+    },
+    // 打印
+    async resolveImg() {
+      let imgBase64 = await this.getImage("print_area");
+      printJS({
+        printable: imgBase64,
+        type: "image",
+        header: null,
+        targetStyles: ["*"],
+        style: "@page {margin:0 10mm}",
+      });
+    },
+    async handlePrint(row) {
+      this.printData = {};
+      await getApayment(row.apyamentId).then((response) => {
+        this.printData = response.data;
+        this.printData.fileList = response.data.fileList;
+        this.printData.dataList = response.data.selnyList;
+        this.printData.type = "预付款";
+        let data = { stId: row.stId };
+        //合同
+        getContractList(data).then((response) => {
+          this.printData.contract = response.rows;
+        });
+      });
+      await getProcessDataByStId("4", row.apyamentId).then((res) => {
+        this.printData.approveHisList = res.data;
+      });
+      await getApprovalProcessList("4", row.apyamentId).then((res) => {
+        this.printData.nodeStateList = res.data;
+      });
+      this.printReviewVisible = true;
+      this.$nextTick(() => {
+        this.printReviewVisible = false;
+      });
+    },
+    onPrintReviewClose() {
+      this.resolveImg();
     },
   },
 };
