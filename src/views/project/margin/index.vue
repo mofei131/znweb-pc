@@ -528,7 +528,7 @@
               <el-col :span="4"
                 ><span
                   style="font-weight: bold; font-size: 16px"
-                  v-text="printData.type"
+                  v-text="printData.printType"
                 ></span
               ></el-col>
               <el-col :span="4"
@@ -565,20 +565,44 @@
                 {{ printData.obj }}
               </td>
             </tr>
-            <tr>
-              <td class="table-td-title detail">合同名称</td>
-              <td class="table-td-content">
-                {{ printData.contractName }}
-              </td>
-              <td class="table-td-title detail">供应商名称</td>
-              <td class="table-td-content">
-                {{ printData.terminalName }}
-              </td>
-              <td class="table-td-title detail">保证金金额(元)</td>
-              <td class="table-td-content">
-                {{ printData.putPrice }}
-              </td>
-            </tr>
+            <template v-if="printData.type == '上游'">
+              <tr>
+                <td class="table-td-title detail">合同名称</td>
+                <td class="table-td-content">
+                  {{ printData.contractName }}
+                </td>
+                <td class="table-td-title detail">供应商名称</td>
+                <td class="table-td-content">
+                  {{ printData.terminalName }}
+                </td>
+                <td class="table-td-title detail">保证金金额(元)</td>
+                <td class="table-td-content">
+                  {{ printData.putPrice }}
+                </td>
+              </tr>
+            </template>
+            <template v-if="printData.type == '下游'">
+              <tr>
+                <td class="table-td-title detail">项目名称</td>
+                <td class="table-td-content">
+                  {{ printData.stName }}
+                </td>
+                <td class="table-td-title detail">合同名称</td>
+                <td class="table-td-content">
+                  {{ printData.contractName }}
+                </td>
+                <td class="table-td-title detail">客户名称</td>
+                <td class="table-td-content">
+                  {{ printData.terminalName }}
+                </td>
+              </tr>
+              <tr>
+                <td class="table-td-title detail">保证金金额(元)</td>
+                <td class="table-td-content" colspan="5">
+                  {{ printData.putPrice }}
+                </td>
+              </tr>
+            </template>
           </table>
           <table border="1" width="100%">
             <tr>
@@ -1170,7 +1194,7 @@ export default {
       await getMargin(row.marginId).then((response) => {
         this.printData = response.data;
         this.printData.fileList = response.data.fileList;
-        this.printData.type = "保证金";
+        this.printData.printType = "保证金";
         let data = { stId: row.stId };
         //合同
         getContractList(data).then((response) => {
