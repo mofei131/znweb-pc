@@ -572,7 +572,7 @@
                   width="90"
                 >
                   <template slot-scope="scope">
-                    {{ scope.row.valuePrice   }}
+                    {{ scope.row.valuePrice }}
                   </template>
                 </el-table-column>
                 <el-table-column
@@ -987,7 +987,7 @@
       title="打印预览"
       :visible.sync="printReviewVisible"
       @close="onPrintReviewClose"
-      width="60%"
+      width="80%"
     >
       <div class="print-div" id="print_area">
         <div class="search-title-content">
@@ -1088,7 +1088,7 @@
                 {{ item.batch }}
               </td>
               <td class="table-td-content" style="text-align: center">
-                {{ item.valuePrice   }}
+                {{ item.valuePrice }}
               </td>
               <td class="table-td-content" style="text-align: center">
                 {{ item.valueTprice }}
@@ -1163,29 +1163,29 @@
             <tr>
               <td class="table-td-title detail">预付总额(元)</td>
               <td class="table-td-content">
-                {{ printData.totalPrice   }}
+                {{ printData.totalPrice }}
               </td>
               <td class="table-td-title detail">固定差价</td>
               <td class="table-td-content">
-                {{ printData.dPrice   }}
+                {{ printData.dPrice }}
               </td>
               <td class="table-td-title detail">预付至</td>
               <td class="table-td-content">
-                {{ printData.ato   }}
+                {{ printData.ato }}
               </td>
             </tr>
             <tr>
               <td class="table-td-title detail">税款(元)</td>
               <td class="table-td-content">
-                {{ printData.tax   }}
+                {{ printData.tax }}
               </td>
               <td class="table-td-title detail">预付单价(元)</td>
               <td class="table-td-content">
-                {{ printData.expectPrice   }}
+                {{ printData.expectPrice }}
               </td>
               <td class="table-td-title detail">扣款金额</td>
               <td class="table-td-content">
-                {{ printData.kkPrice   }}
+                {{ printData.kkPrice }}
               </td>
             </tr>
             <tr>
@@ -1195,25 +1195,25 @@
               </td>
               <td class="table-td-title detail">运费金额</td>
               <td class="table-td-content">
-                {{ printData.yfPrice   }}
+                {{ printData.yfPrice }}
               </td>
               <td class="table-td-title detail">付款总额</td>
               <td class="table-td-content">
-                {{ printData.payTprice   }}
+                {{ printData.payTprice }}
               </td>
             </tr>
             <tr>
               <td class="table-td-title detail">已付金额</td>
               <td class="table-td-content">
-                {{ printData.prepaidPrice   }}
+                {{ printData.prepaidPrice }}
               </td>
               <td class="table-td-title detail">垫付保证金</td>
               <td class="table-td-content">
-                {{ printData.dfPrice   }}
+                {{ printData.dfPrice }}
               </td>
               <td class="table-td-title detail">实际付款金额</td>
               <td class="table-td-content">
-                {{ printData.actualPrice   }}
+                {{ printData.actualPrice }}
               </td>
             </tr>
           </table>
