@@ -131,6 +131,9 @@
               label="货值单价（元）"
               width="90"
             >
+                          <template slot-scope="scope">
+                  {{scope.row.valuePrice|moneyFilter}}
+                </template>
             </el-table-column>
             <el-table-column
               property="valueTprice"
@@ -234,15 +237,15 @@
 
       <el-row class="head-text" style="margin-top: 30px">
         <el-col :span="4" :offset="1">
-          预付总额(元)：<span v-text="form.totalPrice"></span>
+          预付总额(元)：<span v-text="form.totalPrice|moneyFilter"></span>
         </el-col>
         <el-col :span="4">
-          固定差价：<span v-text="form.dPrice"></span>
+          固定差价：<span v-text="form.dPrice|moneyFilter"></span>
         </el-col>
-        <el-col :span="4"> 预付至：<span v-text="form.ato"></span> </el-col>
-        <el-col :span="4"> 税款(元)：<span v-text="form.tax"></span> </el-col>
+        <el-col :span="4"> 预付至：<span v-text="form.ato|moneyFilter"></span> </el-col>
+        <el-col :span="4"> 税款(元)：<span v-text="form.tax|moneyFilter"></span> </el-col>
         <el-col :span="4">
-          预付单价(元)：<span v-text="form.expectPrice"></span>
+          预付单价(元)：<span v-text="form.expectPrice|moneyFilter"></span>
         </el-col>
       </el-row>
 
@@ -259,35 +262,35 @@
       <!--      </el-row>-->
       <el-row class="head-text">
         <el-col :span="4" :offset="1">
-          扣款金额：<span v-text="form.kkPrice"></span>
+          扣款金额：<span v-text="form.kkPrice|moneyFilter"></span>
         </el-col>
         <el-col :span="4">
           扣款备注：<span v-text="form.kkNode"></span>
         </el-col>
         <el-col :span="4">
-          运费金额：<span v-text="form.yfPrice"></span>
+          运费金额：<span v-text="form.yfPrice|moneyFilter"></span>
         </el-col>
       </el-row>
 
       <el-row class="head-text">
         <el-col :span="4" :offset="1">
           <el-form-item label="付款总额：">
-            <span style="color: red">{{ form.payTprice }}</span>
+            <span style="color: red">{{ form.payTprice|moneyFilter }}</span>
           </el-form-item>
         </el-col>
         <el-col :span="4">
           <el-form-item label="已付金额：">
-            <span style="color: red">{{ form.prepaidPrice }}</span>
+            <span style="color: red">{{ form.prepaidPrice|moneyFilter }}</span>
           </el-form-item>
         </el-col>
         <el-col :span="4">
           <el-form-item label="垫付保证金：">
-            <span style="color: red">{{ form.dfPrice }}</span>
+            <span style="color: red">{{ form.dfPrice|moneyFilter }}</span>
           </el-form-item>
         </el-col>
         <el-col :span="4">
           <el-form-item label="实际付款金额：">
-            <span style="color: red">{{ form.actualPrice }}</span>
+            <span style="color: red">{{ form.actualPrice|moneyFilter }}</span>
           </el-form-item>
         </el-col>
       </el-row>

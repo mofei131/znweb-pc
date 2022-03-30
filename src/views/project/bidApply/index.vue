@@ -55,8 +55,16 @@
     <el-table v-loading="loading" :data="bidApplyList" @selection-change="handleSelectionChange">
       <el-table-column label="项目名称" align="center" prop="stName" />
       <el-table-column label="投标平台" align="center" prop="bidPlatform" />
-      <el-table-column label="投标保证金（元）" align="center" prop="bidBond" />
-      <el-table-column label="履约保证金（元）" align="center" prop="performanceBond" />
+      <el-table-column label="投标保证金（元）" align="center" prop="bidBond">
+                      <template slot-scope="scope">
+                  {{scope.row.bidBond|moneyFilter}}
+                </template>
+      </el-table-column>
+      <el-table-column label="履约保证金（元）" align="center" prop="performanceBond">
+                      <template slot-scope="scope">
+                  {{scope.row.performanceBond|moneyFilter}}
+                </template>
+      </el-table-column>
       <el-table-column label="投标数量（吨）" align="center" prop="bidNumber" />
        <el-table-column label="项目状态" :formatter="statusFormat" align="center" prop="state" />
        <el-table-column label="创建时间" align="center" prop="createTime" />

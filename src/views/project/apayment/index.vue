@@ -563,6 +563,9 @@
                   label="货值单价（元）"
                   width="90"
                 >
+                              <template slot-scope="scope">
+                  {{scope.row.valuePrice|moneyFilter}}
+                </template>
                 </el-table-column>
                 <el-table-column
                   property="valueTprice"

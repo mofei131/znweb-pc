@@ -31,19 +31,19 @@
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="3" style="margin-left:12px;">
-        <span>期初占用(万元)：</span> <span v-text="tqc">0.00</span>
+        <span>期初占用(万元)：</span> <span v-text="tqc|moneyFilter">0.00</span>
       </el-col>
       <el-col :span="3" >
-        <span>期末占用(万元)：</span><span v-text="tqm">0.00</span>
+        <span>期末占用(万元)：</span><span v-text="tqm|moneyFilter">0.00</span>
       </el-col>
       <el-col :span="3" >
-        <span>平均占用(万元)：</span><span v-text="tpj">0.00</span>
+        <span>平均占用(万元)：</span><span v-text="tpj|moneyFilter">0.00</span>
       </el-col>
       <el-col :span="3" >
-        <span>收入金额(万元)：</span><span v-text="tsr">0.00</span>
+        <span>收入金额(万元)：</span><span v-text="tsr|moneyFilter">0.00</span>
       </el-col>
       <el-col :span="3" >
-        <span>资金周转率：</span><span v-text="tzz">0.00</span>
+        <span>资金周转率：</span><span v-text="tzz|moneyFilter">0.00</span>
       </el-col>
 <!--      <el-col :span="1.5">-->
 <!--        <el-button-->
