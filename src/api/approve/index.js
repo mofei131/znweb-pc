@@ -211,3 +211,11 @@ export function getApprovalProcessList(typeId, stId) {
         method: "get",
     });
 }
+
+// 撤回
+export function withdraw(query, id) {
+    return request({
+        url: "/approve/process/withdraw/" + query + "/" + id,
+        method: "post",
+    });
+}

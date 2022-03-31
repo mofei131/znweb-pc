@@ -161,7 +161,7 @@
 
       <el-row class="head-title">
         <el-col :span="19">
-          <el-form-item label="入库库信息"></el-form-item>
+          <el-form-item label="入库单信息"></el-form-item>
         </el-col>
       </el-row>
       <el-row style="margin-top: 30px;">

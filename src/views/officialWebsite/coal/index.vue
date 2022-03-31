@@ -225,21 +225,34 @@
               <el-input v-model="form.number" placeholder="请输入数量" />
             </el-form-item>
           </el-col>
-          <el-col :span="12">
-            <el-form-item label="交割地-省" prop="province">
-              <el-input v-model="form.province" placeholder="请输入交割地-省" />
-            </el-form-item>
-          </el-col>
+<!--          <el-col :span="12">-->
+<!--            <el-form-item label="交割地-省" prop="province">-->
+<!--              <el-input v-model="form.province" placeholder="请输入交割地-省" />-->
+<!--            </el-form-item>-->
+<!--          </el-col>-->
         </el-row>
-        <el-row :gutter="20">
-          <el-col :span="12">
-            <el-form-item label="交割地-市" prop="city">
-              <el-input v-model="form.city" placeholder="请输入交割地-市" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="交割地-区" prop="area">
-              <el-input v-model="form.area" placeholder="请输入交割地-区" />
+<!--        <el-row :gutter="20">-->
+<!--          <el-col :span="12">-->
+<!--            <el-form-item label="交割地-市" prop="city">-->
+<!--              <el-input v-model="form.city" placeholder="请输入交割地-市" />-->
+<!--            </el-form-item>-->
+<!--          </el-col>-->
+<!--          <el-col :span="12">-->
+<!--            <el-form-item label="交割地-区" prop="area">-->
+<!--              <el-input v-model="form.area" placeholder="请输入交割地-区" />-->
+<!--            </el-form-item>-->
+<!--          </el-col>-->
+<!--        </el-row>-->
+        <el-row>
+          <el-col :span="24">
+            <el-form-item label="交割地-省市区" prop="area">
+              <el-cascader
+                placeholder="请点击选择地址"
+                :options="options"
+                v-model="selectedOptions"
+                @change="handleChange"
+                clearable
+              ></el-cascader>
             </el-form-item>
           </el-col>
         </el-row>
@@ -372,11 +385,22 @@ import {
   addCoal,
   updateCoal,
 } from "@/api/home/coal";
-
+import axios from "axios";
+import Vue from "vue";
+Vue.prototype.$http=axios;
 export default {
   name: "Coal",
   data() {
     return {
+      selectedOptions: [],
+      distData:'',
+      options:'',
+      cityArr: [], //城市列表
+      areaArr: [], //区县列表
+      province: "", //省
+      city: "", //市
+      area: "", // 区县,
+      provinceCityArea: "", //选择器选择的省市区
       // 遮罩层
       loading: true,
       // 选中数组
@@ -434,6 +458,7 @@ export default {
       rules: {},
     };
   },
+
   created() {
     this.getList();
     this.getDicts("supply_and_demand").then((response) => {
@@ -442,6 +467,7 @@ export default {
     this.getDicts("coal_classification").then((response) => {
       this.coalTypeOptions = response.data;
     });
+    this.initDistPicker();
   },
   methods: {
     typeFormat(row, column) {
@@ -575,6 +601,81 @@ export default {
         },
         `system_coal.xlsx`
       );
+    },
+    initDistPicker() {
+      console.log("initDistrictsPicker");
+      let self = this;
+      this.$http.get("/js/districts.json").then(function(respones) {
+        console.log("respones==>", respones);
+        let distData = respones.data;
+        let options = [];
+        // 省
+        for (var provinceKy in distData["100000"]) {
+          let optProvinceItem = {
+            value: provinceKy,
+            label: distData["100000"][provinceKy]
+          };
+          if (distData[provinceKy]) {
+            // 市
+            for (var cityKy in distData[provinceKy]) {
+              optProvinceItem.children = optProvinceItem.children
+                ? optProvinceItem.children
+                : [];
+              let optCityItem = {
+                value: cityKy,
+                label: distData[provinceKy][cityKy]
+              };
+              if (distData[cityKy]) {
+                // 区
+                for (var areaKy in distData[cityKy]) {
+                  optCityItem.children = optCityItem.children
+                    ? optCityItem.children
+                    : [];
+                  let optAreaItem = {
+                    value: areaKy,
+                    label: distData[cityKy][areaKy]
+                  };
+                  optCityItem.children.push(optAreaItem);
+                }
+              }
+              optProvinceItem.children.push(optCityItem);
+            }
+          }
+          options.push(optProvinceItem);
+        }
+        self.distData = distData;
+        self.options = options;
+      });
+    },
+    //选择地区
+    handleChange(value) {
+      let self = this;
+      console.log("value=>", value);
+      //获取省名
+      self.options.map((item, index) => {
+        if (item.value == value[0]) {
+          self.cityArr = item.children; //存储城市列表
+          self.province = item.label;
+          this.form.province=item.label;
+        }
+      });
+      //获取市名
+      self.cityArr.map((item, index) => {
+        if (item.value == value[1]) {
+          self.areaArr = item.children; //存储区县列表
+          self.city = item.label;
+          this.form.city=item.label;
+        }
+      });
+      //获取区县名
+      self.areaArr.map((item, index) => {
+        if (item.value == value[2]) {
+          self.area = item.label;
+          this.form.area=item.label;
+        }
+      });
+      self.provinceCityArea = self.province + self.city + self.area;
+      console.log("self.provinceCityArea", self.provinceCityArea);
     },
   },
 };

@@ -812,7 +812,7 @@
     >
       <div class="print-div" id="print_area">
         <div class="search-title-content">
-          <div style="margin: 50px 0 15px">
+          <div style="padding: 30px 0 15px">
             <el-row type="flex" justify="space-between">
               <el-col :span="4"
                 ><span
@@ -1028,7 +1028,7 @@
             </template>
             <tr>
               <td class="table-td-title detail">附件</td>
-              <td class="table-td-content" colspan="5" align="left">
+              <td class="table-td-content" colspan="5">
                 <div v-for="(item, idx) in printData.fileList" :key="idx">
                   {{ item.name }}
                 </div>
@@ -1045,7 +1045,7 @@
             </tr>
             <tr>
               <td class="table-td-title detail">附件</td>
-              <td class="table-td-content" colspan="5" align="left">
+              <td class="table-td-content" colspan="5">
                 <div v-for="(item, idx) in printData.bcfileList" :key="idx">
                   {{ item.name }}
                 </div>
@@ -1066,22 +1066,25 @@
               <td class="table-td-title detail">审批状态</td>
             </tr>
             <tr v-for="(item, idx) in printData.nodeStateList" :key="'a' + idx">
-              <td class="table-td-content">
+              <td class="table-td-content" style="text-align: center">
                 {{ item.deptName }}
               </td>
-              <td class="table-td-content">
+              <td class="table-td-content" style="text-align: center">
                 {{ item.shouldApprovePerson }}
               </td>
-              <td class="table-td-content">
+              <td class="table-td-content" style="text-align: center">
                 {{ item.nickName }}
               </td>
-              <td class="table-td-content">
+              <td class="table-td-content" style="text-align: center">
                 {{ item.approveTime }}
               </td>
-              <td class="table-td-content" style="max-width=150px">
+              <td
+                class="table-td-content"
+                style="max-width: 150px; text-align: center"
+              >
                 {{ item.processValue }}
               </td>
-              <td class="table-td-content">
+              <td class="table-td-content" style="text-align: center">
                 {{
                   item.status == 0 || item.status == 1
                     ? "已审批"
@@ -1105,19 +1108,22 @@
               <td class="table-td-title detail">审批状态</td>
             </tr>
             <tr v-for="(item, idx) in printData.approveHisList" :key="idx">
-              <td class="table-td-content">
+              <td class="table-td-content" style="text-align: center">
                 {{ item.deptName }}
               </td>
-              <td class="table-td-content">
+              <td class="table-td-content" style="text-align: center">
                 {{ item.nickName }}
               </td>
-              <td class="table-td-content">
+              <td class="table-td-content" style="text-align: center">
                 {{ item.approveTime }}
               </td>
-              <td class="table-td-content" style="max-width=150px">
+              <td
+                class="table-td-content"
+                style="max-width: 150px; text-align: center"
+              >
                 {{ item.processValue }}
               </td>
-              <td class="table-td-content">
+              <td class="table-td-content" style="text-align: center">
                 {{ item.status == 0 ? "驳回" : item.status == 1 ? "通过" : "" }}
               </td>
             </tr>

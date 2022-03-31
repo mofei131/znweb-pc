@@ -485,8 +485,14 @@
                 <el-table-column property="deliveryTime" label="发货日期">
                 </el-table-column>
                 <el-table-column property="valuePrice" label="货值单价(元)">
+                                <template slot-scope="scope">
+                  {{scope.row.valuePrice }}
+                </template>
                 </el-table-column>
                 <el-table-column property="valueTprice" label="货值总额(元)">
+                                <template slot-scope="scope">
+                  {{scope.row.valuePrice }}
+                </template>
                 </el-table-column>
                 <el-table-column label="操作" width="120">
                   <template slot-scope="scope">
@@ -532,8 +538,14 @@
                 <el-table-column property="okTime" label="发货日期">
                 </el-table-column>
                 <el-table-column property="valuePrice" label="货值单价(元)">
+                                <template slot-scope="scope">
+                  {{scope.row.valuePrice }}
+                </template>
                 </el-table-column>
                 <el-table-column property="valueTprice" label="货值总额(元)">
+                                <template slot-scope="scope">
+                  {{scope.row.valuePrice }}
+                </template>
                 </el-table-column>
                 <el-table-column label="操作" width="120">
                   <template slot-scope="scope">
@@ -576,12 +588,21 @@
                 <el-table-column property="grys" label="验收总量(吨)">
                 </el-table-column>
                 <el-table-column property="totalPrice" label="预付总额(元)">
+                                <template slot-scope="scope">
+                  {{scope.row.totalPrice }}
+                </template>
                 </el-table-column>
                 <el-table-column property="expectPrice" label="预付单价(元)">
+                                <template slot-scope="scope">
+                  {{scope.row.expectPrice }}
+                </template>
                 </el-table-column>
                 <el-table-column property="ato" label="预付至">
                 </el-table-column>
                 <el-table-column property="actualPrice" label="实际付款(元)">
+                                <template slot-scope="scope">
+                  {{scope.row.actualPrice }}
+                </template>
                 </el-table-column>
                 <el-table-column property="state" label="95%收票">
                 </el-table-column>
@@ -619,6 +640,9 @@
                 <el-table-column property="tweight" label="验收重量(吨)">
                 </el-table-column>
                 <el-table-column property="skPrice" label="单价(元)">
+                  <template slot-scope="scope">
+                  {{scope.row.skPrice }}
+                </template>
                 </el-table-column>
                 <el-table-column property="skTprice" label="收款金额">
                 </el-table-column>
@@ -705,12 +729,24 @@
                 <el-table-column property="tweight" label="验收重量（吨）">
                 </el-table-column>
                 <el-table-column property="price" label="终付单价(元)">
+                                <template slot-scope="scope">
+                  {{scope.row.price }}
+                </template>
                 </el-table-column>
                 <el-table-column property="zzPrice" label="电厂结算金额(元)">
+                  <template slot-scope="scope">
+                  {{scope.row.zzPrice }}
+                </template>
                 </el-table-column>
                 <el-table-column property="yfPrice" label="已付款总额(元)">
+                  <template slot-scope="scope">
+                  {{scope.row.yfPrice }}
+                </template>
                 </el-table-column>
                 <el-table-column property="sjPrice" label="最终实际付款(元)">
+                  <template slot-scope="scope">
+                  {{scope.row.sjPrice }}
+                </template>
                 </el-table-column>
                 <el-table-column
                   property="moType"
@@ -749,12 +785,21 @@
                   <span>开票</span>
                 </el-table-column>
                 <el-table-column property="kpPrice" label="开票金额(元)">
+                  <template slot-scope="scope">
+                  {{scope.row.kpPrice }}
+                </template>
                 </el-table-column>
                 <el-table-column property="zzWeight" label="货品总重(吨)">
                 </el-table-column>
                 <el-table-column property="kpTax" label="发票税额(元)">
+                  <template slot-scope="scope">
+                  {{scope.row.kpTax }}
+                </template>
                 </el-table-column>
                 <el-table-column property="kpTotal" label="价税合计(元)">
+                  <template slot-scope="scope">
+                  {{scope.row.kpTotal }}
+                </template>
                 </el-table-column>
                 <el-table-column label="操作" width="120">
                   <template slot-scope="scope">
@@ -781,12 +826,21 @@
                   <span>收票</span>
                 </el-table-column>
                 <el-table-column property="price" label="开票金额(元)">
+                  <template slot-scope="scope">
+                  {{scope.row.price }}
+                </template>
                 </el-table-column>
                 <el-table-column property="number" label="货品总重(吨)">
                 </el-table-column>
                 <el-table-column property="tax" label="发票税额(元)">
+                  <template slot-scope="scope">
+                  {{scope.row.tax }}
+                </template>
                 </el-table-column>
                 <el-table-column property="totalPrice" label="价税合计(元)">
+                  <template slot-scope="scope">
+                  {{scope.row.totalPrice }}
+                </template>
                 </el-table-column>
                 <el-table-column label="操作" width="120">
                   <template slot-scope="scope">
@@ -825,6 +879,9 @@
                   </template>
                 </el-table-column>
                 <el-table-column property="putPrice" label="付款金额(元)">
+                  <template slot-scope="scope">
+                  {{scope.row.putPrice }}
+                </template>
                 </el-table-column>
                 <el-table-column property="outTime" label="回款日期">
                   <template slot-scope="scope">
@@ -836,10 +893,19 @@
                 <el-table-column property="spTime" label="资金占用时间(天)">
                 </el-table-column>
                 <el-table-column property="spPrice" label="代理费(元)">
+                  <template slot-scope="scope">
+                  {{scope.row.spPrice }}
+                </template>
                 </el-table-column>
                 <el-table-column property="sjPrice" label="成本费用(元)">
+                  <template slot-scope="scope">
+                  {{scope.row.sjPrice }}
+                </template>
                 </el-table-column>
                 <el-table-column property="lrPrice" label="资金占用利润(元)">
+                  <template slot-scope="scope">
+                  {{scope.row.lrPrice }}
+                </template>
                 </el-table-column>
               </el-table>
             </el-col>
@@ -1176,6 +1242,9 @@
                   label="货值单价（元）"
                   width="90"
                 >
+                              <template slot-scope="scope">
+                  {{scope.row.valuePrice }}
+                </template>
                 </el-table-column>
                 <el-table-column
                   property="valueTprice"
@@ -1460,6 +1529,9 @@
                 <el-table-column property="deliveryTime" label="到货日期">
                 </el-table-column>
                 <el-table-column property="valuePrice" label="货值单价（元）">
+                                <template slot-scope="scope">
+                  {{scope.row.valuePrice }}
+                </template>
                 </el-table-column>
                 <el-table-column property="valueTprice" label="货值总额（吨）">
                 </el-table-column>
@@ -1670,6 +1742,9 @@
                 <el-table-column property="deliveryTime" label="到货日期">
                 </el-table-column>
                 <el-table-column property="valuePrice" label="货值单价（元）">
+                                <template slot-scope="scope">
+                  {{scope.row.valuePrice }}
+                </template>
                 </el-table-column>
                 <el-table-column property="valueTprice" label="货值总额（吨）">
                 </el-table-column>
@@ -1843,7 +1918,7 @@
                 合同名称：<span v-text="form.contractName"></span>
               </el-col>
               <el-col :span="4">
-                客户名称(元)：<span v-text="form.terminalName"></span>
+                客户名称：<span v-text="form.terminalName"></span>
               </el-col>
               <el-col :span="4">
                 保证金金额(元)：<span v-text="form.putPrice"></span>
@@ -2523,6 +2598,9 @@
                 <el-table-column property="deliveryTime" label="发货日期（吨）">
                 </el-table-column>
                 <el-table-column property="valuePrice" label="货值单价（元）">
+                                <template slot-scope="scope">
+                  {{scope.row.valuePrice }}
+                </template>
                 </el-table-column>
                 <el-table-column property="valueTprice" label="货值总额（吨）">
                 </el-table-column>
