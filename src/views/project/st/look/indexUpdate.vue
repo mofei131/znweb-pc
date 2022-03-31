@@ -96,7 +96,7 @@
           服务费率(%)：<span v-text="form.chargemNx"></span>
         </el-col>
         <el-col :span="4">
-          固定差价(元)：<span v-text="form.chargemGd"></span>
+          固定差价(元)：<span v-text="$options.filters.moneyFilter(form.chargemGd)"></span>
         </el-col>
       </el-row>
       <el-row class="head-text">
@@ -104,13 +104,13 @@
           预计吨数：<span v-text="form.expectWeight"></span>
         </el-col>
         <el-col :span="4">
-          预计单价(元)：<span v-text="form.expectPrice"></span>
+          预计单价(元)：<span v-text="$options.filters.moneyFilter(form.expectPrice)"></span>
         </el-col>
         <el-col :span="4">
           成本年服务费率(%)：<span v-text="form.rateYear"></span>
         </el-col>
         <el-col :span="4">
-          预计利润(元)：<span v-text="form.expectProfits"></span>
+          预计利润(元)：<span v-text="$options.filters.moneyFilter(form.expectProfits)"></span>
         </el-col>
       </el-row>
 <!--      合同信息-->

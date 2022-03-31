@@ -131,8 +131,13 @@
               label="货值单价（元）"
               width="90"
             >
-                          <template slot-scope="scope">
-                  {{scope.row.valuePrice }}
+                <template slot-scope="scope">
+                  {{
+                    Number(scope.row.valuePrice)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
                 </template>
             </el-table-column>
             <el-table-column
@@ -237,15 +242,15 @@
 
       <el-row class="head-text" style="margin-top: 30px">
         <el-col :span="4" :offset="1">
-          预付总额(元)：<span v-text="form.totalPrice"></span>
+          预付总额(元)：<span v-text="$options.filters.moneyFilter(form.totalPrice)"></span>
         </el-col>
         <el-col :span="4">
-          固定差价：<span v-text="form.dPrice"></span>
+          固定差价：<span v-text="$options.filters.moneyFilter(form.dPrice)"></span>
         </el-col>
         <el-col :span="4"> 预付至：<span v-text="form.ato"></span> </el-col>
-        <el-col :span="4"> 税款(元)：<span v-text="form.tax"></span> </el-col>
+        <el-col :span="4"> 税款(元)：<span v-text="$options.filters.moneyFilter(form.tax)"></span> </el-col>
         <el-col :span="4">
-          预付单价(元)：<span v-text="form.expectPrice"></span>
+          预付单价(元)：<span v-text="$options.filters.moneyFilter(form.expectPrice)"></span>
         </el-col>
       </el-row>
 
@@ -262,13 +267,13 @@
       <!--      </el-row>-->
       <el-row class="head-text">
         <el-col :span="4" :offset="1">
-          扣款金额：<span v-text="form.kkPrice"></span>
+          扣款金额：<span v-text="$options.filters.moneyFilter(form.kkPrice)"></span>
         </el-col>
         <el-col :span="4">
           扣款备注：<span v-text="form.kkNode"></span>
         </el-col>
         <el-col :span="4">
-          运费金额：<span v-text="form.yfPrice"></span>
+          运费金额：<span v-text="$options.filters.moneyFilter(form.yfPrice)"></span>
         </el-col>
       </el-row>
 

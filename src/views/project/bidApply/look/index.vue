@@ -50,16 +50,16 @@
 
       <el-row class="head-text">
         <el-col :span="4" :offset="1">
-          单价（元/{{priceLabel }}）：<span v-text="form.bidPrice"></span>
+          单价（元/{{priceLabel }}）：<span v-text="$options.filters.moneyFilter(form.bidPrice)"></span>
         </el-col>
         <el-col :span="4" :offset="1">
           投标数量（吨）：<span v-text="form.bidNumber"></span>
         </el-col>
         <el-col :span="4" :offset="1">
-          投标保证金（元）：<span v-text="form.bidBond"></span>
+          投标保证金（元）：<span v-text="$options.filters.moneyFilter(form.bidBond)"></span>
         </el-col>
         <el-col :span="4" :offset="1">
-          履约保证金（元）：<span v-text="form.performanceBond"></span>
+          履约保证金（元）：<span v-text="$options.filters.moneyFilter(form.performanceBond)"></span>
         </el-col>
       </el-row>
 

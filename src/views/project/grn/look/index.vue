@@ -69,7 +69,7 @@
           批次：<span v-text="form.batch"></span>
         </el-col>
         <el-col :span="4" >
-          基准单价(元)：<span v-text="form.basePrice"></span>
+          基准单价(元)：<span v-text="$options.filters.moneyFilter(form.basePrice)"></span>
         </el-col>
       </el-row>
 
@@ -173,10 +173,10 @@
 
       <el-row class="head-text">
         <el-col :span="5" :offset="1">
-          货值单价(元)：<span v-text="form.valuePrice"></span>
+          货值单价(元)：<span v-text="$options.filters.moneyFilter(form.valuePrice)"></span>
         </el-col>
         <el-col :span="5">
-          货值总价(元)：<span v-text="form.valueTprice"></span>
+          货值总价(元)：<span v-text="$options.filters.moneyFilter(form.valueTprice)"></span>
         </el-col>
       </el-row>
 

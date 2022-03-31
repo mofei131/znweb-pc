@@ -557,7 +557,7 @@
               <td class="table-td-content">
                 {{ printData.jsDj }}
               </td>
-              <td class="table-td-title detail">结算煤量(元)</td>
+              <td class="table-td-title detail">结算煤量</td>
               <td class="table-td-content">
                 {{ printData.jsMl }}
               </td>
@@ -569,7 +569,7 @@
               </td>
               <td class="table-td-title detail">结算税款(元)</td>
               <td class="table-td-content" colspan="3">
-                {{ printData.jsTax }}
+                {{ $options.filters.moneyFilter(printData.jsTax) }}
               </td>
             </tr>
           </table>

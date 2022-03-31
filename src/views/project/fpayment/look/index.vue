@@ -87,8 +87,24 @@
             <el-table-column property="deliveryTime" label="到货日期">
             </el-table-column>
             <el-table-column property="valuePrice" label="货值单价（元）">
+              <template slot-scope="scope">
+                  {{
+                    Number(scope.row.valuePrice)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
             </el-table-column>
-            <el-table-column property="valueTprice" label="货值总额（吨）">
+            <el-table-column property="valueTprice" label="货值总额（元）">
+              <template slot-scope="scope">
+                  {{
+                    Number(scope.row.valuePrice)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
             </el-table-column>
           </el-table>
         </el-col>
@@ -114,26 +130,26 @@
       </el-row>
       <el-row class="head-text">
         <el-col :span="5" :offset="1">
-          电厂结算金额(元)：<span v-text="form.jst"></span>
+          电厂结算金额(元)：<span v-text="$options.filters.moneyFilter(form.jst)"></span>
         </el-col>
         <el-col :span="5"> 税款：<span v-text="form.jstax"></span> </el-col>
         <el-col :span="5">
-          货品单价(元)：<span v-text="form.price"></span>
+          货品单价(元)：<span v-text="$options.filters.moneyFilter(form.price)"></span>
         </el-col>
       </el-row>
 
       <el-row class="head-text">
         <el-col :span="5" :offset="1">
-          运费(元)：<span v-text="form.ttPrice"></span>
+          运费(元)：<span v-text="$options.filters.moneyFilter(form.ttPrice)"></span>
         </el-col>
         <el-col :span="5">
-          保证金(元)：<span v-text="form.bzPrice"></span>
+          保证金(元)：<span v-text="$options.filters.moneyFilter(form.bzPrice)"></span>
         </el-col>
         <el-col :span="5">
-          固定差价总额(元)：<span v-text="form.gdxPrice"></span>
+          固定差价总额(元)：<span v-text="$options.filters.moneyFilter(form.gdxPrice)"></span>
         </el-col>
         <el-col :span="5">
-          服务费：<span v-text="form.servicePrice"></span>
+          服务费：<span v-text="$options.filters.moneyFilter(form.servicePrice)"></span>
         </el-col>
       </el-row>
 
@@ -158,19 +174,19 @@
 
       <el-row class="head-text">
         <el-col :span="5" :offset="1">
-          最终应付款金额：<span v-text="form.yftotalPrice"></span>
+          最终应付款金额：<span v-text="$options.filters.moneyFilter(form.yftotalPrice)"></span>
         </el-col>
         <el-col :span="5">
-          最终应付款税额：<span v-text="form.yftotalPriceatx"></span>
+          最终应付款税额：<span v-text="$options.filters.moneyFilter(form.yftotalPriceatx)"></span>
         </el-col>
         <el-col :span="5">
-          已付金额：<span v-text="form.yfPrice"></span>
+          已付金额：<span v-text="$options.filters.moneyFilter(form.yfPrice)"></span>
         </el-col>
-        <el-col :span="5"> 调整金额：<span v-text="form.je"></span> </el-col>
+        <el-col :span="5"> 调整金额：<span v-text="$options.filters.moneyFilter(form.je)"></span> </el-col>
       </el-row>
       <el-row class="head-text">
         <el-col :span="5" :offset="1">
-          最终实际付款(元)：<span v-text="form.sjPrice"></span>
+          最终实际付款(元)：<span v-text="$options.filters.moneyFilter(form.sjPrice)"></span>
         </el-col>
       </el-row>
 

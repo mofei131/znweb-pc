@@ -978,7 +978,7 @@
               <tr>
                 <td class="table-td-title detail">运输单价(吨/元)</td>
                 <td class="table-td-content">
-                  {{ printData.transportPrice }}
+                  {{ $options.filters.moneyFilter(printData.transportPrice) }}
                 </td>
                 <td class="table-td-title detail">损耗率</td>
                 <td class="table-td-content" colspan="3">
@@ -1018,7 +1018,7 @@
               <tr>
                 <td class="table-td-title detail">运输单价(吨/元)</td>
                 <td class="table-td-content">
-                  {{ printData.transportPrice }}
+                  {{ $options.filters.moneyFilter(printData.transportPrice) }}
                 </td>
                 <td class="table-td-title detail">损耗率</td>
                 <td class="table-td-content" colspan="3">

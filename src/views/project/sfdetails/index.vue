@@ -74,7 +74,16 @@
       </el-table-column>
       <el-table-column label="类型" align="center" prop="type" />
       <el-table-column label="来源" align="center" prop="source" />
-      <el-table-column label="产生金额(元)" align="center" prop="fPrice" />
+      <el-table-column label="产生金额(元)" align="center" prop="fPrice">
+        <template slot-scope="scope">
+                  {{
+                    Number(scope.row.fPrice)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
+      </el-table-column>
 
     </el-table>
 

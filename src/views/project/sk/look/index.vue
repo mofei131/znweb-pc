@@ -98,10 +98,26 @@
             <el-table-column
               property="valuePrice"
               label="货值单价（元）">
+              <template slot-scope="scope">
+                  {{
+                    Number(scope.row.valuePrice)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
             </el-table-column>
             <el-table-column
               property="valueTprice"
-              label="货值总额（吨）">
+              label="货值总额（元）">
+              <template slot-scope="scope">
+                  {{
+                    Number(scope.row.valueTprice)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
             </el-table-column>
           </el-table>
         </el-col>
@@ -121,28 +137,28 @@
 
       <el-row class="head-text" style="margin-top: 30px;">
         <el-col :span="4" :offset="1">
-          收款总额(元)：<span v-text="form.skTprice"></span>
+          收款总额(元)：<span v-text="$options.filters.moneyFilter(form.skTprice)"></span>
         </el-col>
         <el-col :span="4">
-          税款(元)：<span v-text="form.tax"></span>
+          税款(元)：<span v-text="$options.filters.moneyFilter(form.tax)"></span>
         </el-col>
         <el-col :span="4">
-          收款单价：<span v-text="form.skPrice" ></span>
+          收款单价：<span v-text="$options.filters.moneyFilter(form.skPrice)" ></span>
         </el-col>
         <el-col :span="4">
           收款日期：<span>{{ parseTime(form.skTime, '{y}-{m}-{d}') }}</span>
         </el-col>
         <el-col :span="4">
-          承兑：<span v-text="form.accept" ></span>
+          承兑：<span v-text="$options.filters.moneyFilter(form.accept)" ></span>
         </el-col>
       </el-row>
 
       <el-row class="head-text">
         <el-col :span="4" :offset="1">
-          扣罚：<span v-text="form.punish"></span>
+          扣罚：<span v-text="$options.filters.moneyFilter(form.punish)"></span>
         </el-col>
         <el-col :span="4">
-          其他扣罚：<span v-text="form.otherP"></span>
+          其他扣罚：<span v-text="$options.filters.moneyFilter(form.otherP)"></span>
         </el-col>
         <el-col :span="12">
           其他扣罚说明：<span v-text="form.otherN"></span>
@@ -152,17 +168,17 @@
       <el-row class="head-text">
         <el-col :span="4" :offset="1">
           <el-form-item label="总计收款：" >
-            <span  style="color: red">{{form.yftotalPrice}}</span>
+            <span  style="color: red">{{$options.filters.moneyFilter(form.yftotalPrice)}}</span>
           </el-form-item>
         </el-col>
         <el-col :span="4">
           <el-form-item label="已预收金额：" >
-            <span  style="color: red">{{form.yfPrice}}</span>
+            <span  style="color: red">{{$options.filters.moneyFilter(form.yfPrice)}}</span>
           </el-form-item>
         </el-col>
         <el-col :span="4">
           <el-form-item label="实际应收金额：" >
-            <span  style="color: red">{{form.sjPrice}}</span>
+            <span  style="color: red">{{$options.filters.moneyFilter(form.sjPrice)}}</span>
           </el-form-item>
         </el-col>
       </el-row>

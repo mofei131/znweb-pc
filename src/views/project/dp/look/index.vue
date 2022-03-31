@@ -49,7 +49,7 @@
           支出类型：<span v-text="form.type"></span>
         </el-col>
         <el-col :span="4" >
-          金额(元)：<span v-text="form.price"></span>
+          金额(元)：<span v-text="$options.filters.moneyFilter(form.price)"></span>
         </el-col>
       </el-row>
 

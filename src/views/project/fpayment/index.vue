@@ -381,6 +381,14 @@
                 label="货值单价（元）"
                 width="120"
               >
+              <template slot-scope="scope">
+          {{
+            Number(scope.row.valuePrice)
+              .toFixed(2)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
+        </template>
               </el-table-column>
               <el-table-column
                 property="valueTprice"
@@ -786,7 +794,7 @@
               <td class="table-td-title detail">批次</td>
               <td class="table-td-title detail">到货日期</td>
               <td class="table-td-title detail">货值单价(元)</td>
-              <td class="table-td-title detail">货值总额(吨)</td>
+              <td class="table-td-title detail">货值总额(元)</td>
             </tr>
             <tr v-for="(item, idx) in printData.gryList" :key="idx">
               <td class="table-td-content" style="text-align: center">
@@ -814,10 +822,10 @@
                 {{ item.deliveryTime }}
               </td>
               <td class="table-td-content" style="text-align: center">
-                {{ item.valuePrice }}
+                {{ $options.filters.moneyFilter(item.valuePrice) }}
               </td>
               <td class="table-td-content" style="text-align: center">
-                {{ item.valueTprice }}
+                {{ $options.filters.moneyFilter(item.valueTprice) }}
               </td>
             </tr>
           </table>
@@ -828,7 +836,7 @@
             <tr>
               <td class="table-td-title detail">电厂结算金额(元)</td>
               <td class="table-td-content">
-                {{ printData.jst }}
+                {{ $options.filters.moneyFilter(printData.jst) }}
               </td>
               <td class="table-td-title detail">税款</td>
               <td class="table-td-content">
@@ -836,21 +844,21 @@
               </td>
               <td class="table-td-title detail">货品单价(元)</td>
               <td class="table-td-content">
-                {{ printData.price }}
+                {{ $options.filters.moneyFilter(printData.price) }}
               </td>
             </tr>
             <tr>
               <td class="table-td-title detail">运费(元)</td>
               <td class="table-td-content">
-                {{ printData.ttPrice }}
+                {{ $options.filters.moneyFilter(printData.ttPrice) }}
               </td>
               <td class="table-td-title detail">保证金(元)</td>
               <td class="table-td-content">
-                {{ printData.bzPrice }}
+                {{ $options.filters.moneyFilter(printData.bzPrice) }}
               </td>
               <td class="table-td-title detail">固定差价总额(元)</td>
               <td class="table-td-content">
-                {{ printData.gdxPrice }}
+                {{ $options.filters.moneyFilter(printData.gdxPrice) }}
               </td>
             </tr>
             <tr>
@@ -902,7 +910,7 @@
               </td>
               <td class="table-td-title detail">最终实际付款(元)</td>
               <td class="table-td-content" colspan="3">
-                {{ printData.sjPrice }}
+                {{ $options.filters.moneyFilter(printData.sjPrice) }}
               </td>
             </tr>
           </table>

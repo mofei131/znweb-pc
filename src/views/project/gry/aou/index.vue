@@ -100,18 +100,34 @@
                 </el-table-column>
                 <el-table-column
                   property="deliveryTime"
-                  label="发货日期（吨）"
+                  label="发货日期"
                   width="120">
                 </el-table-column>
                 <el-table-column
                   property="valuePrice"
                   label="货值单价（元）"
                   width="90">
+                  <template slot-scope="scope">
+                  {{
+                    Number(scope.row.valuePrice)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
                 </el-table-column>
                 <el-table-column
                   property="valueTprice"
-                  label="货值总额（吨）"
+                  label="货值总额（元）"
                   width="90">
+                  <template slot-scope="scope">
+                  {{
+                    Number(scope.row.valueTprice)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
                 </el-table-column>
               </el-table>
             </el-popover>
@@ -161,18 +177,34 @@
                 </el-table-column>
                 <el-table-column
                   property="deliveryTime"
-                  label="发货日期（吨）"
+                  label="发货日期"
                   width="120">
                 </el-table-column>
                 <el-table-column
                   property="valuePrice"
                   label="货值单价（元）"
                   width="120">
+                  <template slot-scope="scope">
+                  {{
+                    Number(scope.row.valuePrice)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
                 </el-table-column>
                 <el-table-column
                   property="valueTprice"
-                  label="货值总额（吨）"
+                  label="货值总额（元）"
                   width="120">
+                  <template slot-scope="scope">
+                  {{
+                    Number(scope.row.valueTprice)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
                 </el-table-column>
               </el-table>
             </el-col>

@@ -80,7 +80,12 @@
       <el-table-column label="投标平台" align="center" prop="bidPlatform" />
       <el-table-column label="投标保证金（元）" align="center" prop="bidBond">
         <template slot-scope="scope">
-          {{ scope.row.bidBond }}
+          {{
+            Number(scope.row.bidBond)
+              .toFixed(2)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
         </template>
       </el-table-column>
       <el-table-column
@@ -89,7 +94,12 @@
         prop="performanceBond"
       >
         <template slot-scope="scope">
-          {{ scope.row.performanceBond }}
+          {{
+            Number(scope.row.performanceBond)
+              .toFixed(2)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
         </template>
       </el-table-column>
       <el-table-column label="投标数量（吨）" align="center" prop="bidNumber" />
@@ -323,7 +333,7 @@
             <tr>
               <td class="table-td-title detail">投标保证金(元)</td>
               <td class="table-td-content">
-                {{ printData.bidBond }}
+                {{ $options.filters.moneyFilter(printData.bidBond) }}
               </td>
               <td class="table-td-title detail">投标数量(吨)</td>
               <td class="table-td-content">
@@ -331,7 +341,7 @@
               </td>
               <td class="table-td-title detail">单价(元/吨)</td>
               <td class="table-td-content">
-                {{ printData.bidPrice }}
+                {{ $options.filters.moneyFilter(printData.bidPrice) }}
               </td>
             </tr>
             <tr>

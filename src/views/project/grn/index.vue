@@ -619,7 +619,7 @@
               </td>
               <td class="table-td-title detail">基准单价(元)</td>
               <td class="table-td-content" colspan="3">
-                {{ printData.basePrice }}
+                {{ $options.filters.moneyFilter(printData.basePrice) }}
               </td>
             </tr>
           </table>
@@ -741,11 +741,11 @@
             <tr>
               <td class="table-td-title detail">货值单价(元)</td>
               <td class="table-td-content" colspan="2">
-                {{ printData.valuePrice }}
+                {{ $options.filters.moneyFilter(printData.valuePrice) }}
               </td>
               <td class="table-td-title detail">货值总价(元)</td>
               <td class="table-td-content" colspan="2">
-                {{ printData.valueTprice }}
+                {{ $options.filters.moneyFilter(printData.valueTprice) }}
               </td>
             </tr>
           </table>

@@ -339,11 +339,27 @@
               <el-table-column property="carNumber" label="车数">
               </el-table-column>
               <el-table-column property="batch" label="批次"> </el-table-column>
-              <el-table-column property="deliveryTime" label="发货日期（吨）">
+              <el-table-column property="deliveryTime" label="发货日期">
               </el-table-column>
               <el-table-column property="valuePrice" label="货值单价（元）">
+                <template slot-scope="scope">
+          {{
+            Number(scope.row.valuePrice)
+              .toFixed(2)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
+        </template>
               </el-table-column>
-              <el-table-column property="valueTprice" label="货值总额（吨）">
+              <el-table-column property="valueTprice" label="货值总额（元）">
+                <template slot-scope="scope">
+          {{
+            Number(scope.row.valueTprice)
+              .toFixed(2)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
+        </template>
               </el-table-column>
             </el-table>
           </el-popover>
@@ -370,11 +386,27 @@
               <el-table-column property="carNumber" label="车数">
               </el-table-column>
               <el-table-column property="batch" label="批次"> </el-table-column>
-              <el-table-column property="deliveryTime" label="发货日期（吨）">
+              <el-table-column property="deliveryTime" label="发货日期">
               </el-table-column>
               <el-table-column property="valuePrice" label="货值单价（元）">
+                <template slot-scope="scope">
+          {{
+            Number(scope.row.valuePrice)
+              .toFixed(2)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
+        </template>
               </el-table-column>
-              <el-table-column property="valueTprice" label="货值总额（吨）">
+              <el-table-column property="valueTprice" label="货值总额（元）">
+                <template slot-scope="scope">
+          {{
+            Number(scope.row.valueTprice)
+              .toFixed(2)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
+        </template>
               </el-table-column>
             </el-table>
           </el-col>
@@ -821,7 +853,7 @@
               <td class="table-td-title detail">批次</td>
               <td class="table-td-title detail">发货日期</td>
               <td class="table-td-title detail">货值单价(元)</td>
-              <td class="table-td-title detail">货值总额(吨)</td>
+              <td class="table-td-title detail">货值总额(元)</td>
             </tr>
             <tr v-for="(item, idx) in printData.grnList" :key="idx">
               <td class="table-td-content" style="text-align: center">
@@ -849,10 +881,10 @@
                 {{ item.deliveryTime }}
               </td>
               <td class="table-td-content" style="text-align: center">
-                {{ item.valuePrice }}
+                {{ $options.filters.moneyFilter(item.valuePrice) }}
               </td>
               <td class="table-td-content" style="text-align: center">
-                {{ item.valueTprice }}
+                {{ $options.filters.moneyFilter(item.valueTprice) }}
               </td>
             </tr>
             <tr>
