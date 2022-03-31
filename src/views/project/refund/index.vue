@@ -297,7 +297,7 @@
 </template>
 
 <script>
-import { listRefund, getRefund, delRefund, addRefund, updateRefund, getRefundDetail } from "@/api/project/refund";
+import { listRefund, getRefund, delRefund, addRefund, updateRefund, getRefundDetail, addRefundDetail } from "@/api/project/refund";
 
 export default {
   name: "Refund",
@@ -471,11 +471,8 @@ export default {
         // this.refundTitle = "修改退款金额";
 
         getRefundDetail(refundId).then(response => {
-          // console.log(response.data);
-
           this.refunded = response.data;
           this.refunding = data1.moneyAmount - response.data;
-
           this.refundForm = data1;
           this.refundOpen = true;
           this.refundTitle = "修改退款金额";
@@ -486,13 +483,14 @@ export default {
       this.$refs["refundForm"].validate(valid => {
         if (valid) {
           var rd = {
-            refundId: null,
-            detailAmount: null,
-            createTime: null
+            refundId: this.refundForm.refundId,
+            detailAmount: this.queryParams.detailAmount,
+            createTime: this.queryParams.detailTime
           };
           addRefundDetail(rd).then(response => {
             this.msgSuccess("新增成功");
-            this.open = false;
+            this.queryParams = {};
+            this.refundOpen = false;
             this.getList();
           });
         }

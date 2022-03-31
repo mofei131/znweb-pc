@@ -23,6 +23,15 @@ export function getRefund(refundId) {
         method: 'get'
       })
     }
+
+    export function addRefundDetail(rd){
+      return request({
+        url: '/project/refund/addDetail',
+        method: 'post',
+        data: rd
+      })
+    }
+
 // 新增退款金额
 export function addRefund(data) {
   return request({
