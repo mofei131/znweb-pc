@@ -74,7 +74,7 @@ export function getStList() {
 // }
 
 export function getDetail(refundId){
-  console.log(refundId);
+  // console.log(refundId);
   return request({
     url: '/project/refund/listDetail/' + refundId,
     method: 'get'
@@ -87,5 +87,13 @@ export function updateDetailState(data) {
     url: '/project/refund/updateDetailState',
     method: 'put',
     data: data
+  })
+}
+
+
+export function getDetailById(rdId){
+  return request({
+    url: '/project/refund/getDetailById/'+rdId,
+    method: 'get',
   })
 }

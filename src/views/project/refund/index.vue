@@ -338,6 +338,69 @@
       </div>
     </el-dialog>
 
+    <!-- 退款修改对话框 -->
+    <el-dialog
+      :title="refundEditTitle"
+      :visible.sync="refundEditOpen"
+      width="600px"
+      append-to-body
+    >
+      <el-form
+        ref="refundEditForm"
+        :model="refundEditForm"
+        :rules="rules"
+        label-width="120px"
+      >
+        <el-form-item label="应退款金额:">
+          <!-- <el-input v-model="refundEditForm.money_amount" readonly /> -->
+          <span v-text="refundEditForm.money_amount"></span>
+        </el-form-item>
+        <el-form-item label="已退款金额:">
+          <!-- <el-input v-model="refunded" readonly /> -->
+          <span v-text="refunded"></span>
+        </el-form-item>
+        <el-form-item label="剩余应退款金额:" >
+          <!-- <el-input v-model="refunding" readonly /> -->
+          <span v-text="refunding"></span>
+        </el-form-item>
+        <el-form-item label="终端用户:" >
+          <!-- <el-input v-model="refundEditForm.t_name" readonly /> -->
+          <span v-text="refundEditForm.t_name"></span>
+        </el-form-item>
+        <el-form-item label="开户行:" >
+          <!-- <el-input v-model="refundEditForm.bank" readonly /> -->
+          <span v-text="refundEditForm.bank"></span>
+        </el-form-item>
+        <el-form-item label="账号:" >
+          <!-- <el-input v-model="refundEditForm.account" readonly /> -->
+          <span v-text="refundEditForm.account"></span>
+        </el-form-item>
+        <el-form-item label="*退款金额" prop="detailAmount">
+          <el-input
+            v-model="refundEditForm.detail_amount"
+            type="number"
+            placeholder="请输入退款金额"
+            :max="refunding"
+            @input="numberChange(arguments[0], refunding)"
+            @change="numberChange(arguments[0], refunding)"
+          />
+        </el-form-item>
+        <el-form-item label="*退款日期" prop="detailTime">
+          <el-date-picker
+            v-model="refundEditForm.create_time"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            type="datetime"
+            placeholder="选择退款日期"
+          >
+          </el-date-picker>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="editDetail">确 定</el-button>
+        <el-button @click="cancelEdit">取 消</el-button>
+      </div>
+    </el-dialog>
+
     <!-- 退款明细 -->
     <el-dialog
       :title="detailTitle"
@@ -345,7 +408,12 @@
       width="960px"
       append-to-body
     >
-      <el-input v-model="totalRefund" type="text"></el-input><el-input v-model="unrefundDetail" type="text"></el-input><el-input v-model="refundDetailing" type="text"></el-input>
+      <el-row>
+        <el-col :span="4">应退款金额：<span v-text="totalRefund"></span></el-col>
+        <el-col :span="4">已退款金额：<span v-text="unrefundDetail"></span></el-col>
+        <el-col :span="4">剩余退款金额：<span v-text="refundDetailing"></span></el-col>
+      </el-row>
+
       <el-table v-loading="detailLoading" :data="detailList">
         <el-table-column label="付款人" align="center" prop="createBy" />
         <el-table-column label="财务退款金额" align="center" prop="detailAmount" />
@@ -556,11 +624,15 @@ import {
   getStList,
   getDetail,
   updateDetailState,
+  getDetailById,
 } from "@/api/project/refund";
 import { getTerminalList } from "@/api/project/st";
 import { getToken } from "@/utils/auth";
 import print from "print-js";
 import { getProcessDataByStId, getApprovalProcessList } from "@/api/approve";
+import request from "@/utils/request";
+import Moment from 'moment'
+// Vue.prototype.moment = Moment
 
 export default {
   name: "Refund",
@@ -638,6 +710,9 @@ export default {
       // 打印
       printReviewVisible: false,
       printData: {},
+      refundEditTitle: null,
+      refundEditOpen: false,
+      refundEditForm: {},
     };
   },
   created() {
@@ -672,6 +747,14 @@ export default {
       this.open = false;
       this.refundOpen = false;
       this.detailOpen = false;
+      // this.refundEditOpen = false;
+      this.reset();
+    },
+    cancelEdit() {
+      // this.open = false;
+      // this.refundOpen = false;
+      // this.detailOpen = false;
+      this.refundEditOpen = false;
       this.reset();
     },
     // 表单重置
@@ -709,6 +792,18 @@ export default {
         updateTime: null,
         refunded: null,
         refunding: null,
+      };
+      this.refundEditForm = {
+        account: null,
+        bank: null,
+        create_by: null,
+        create_time: null,
+        detail_amount: null,
+        money_amount: null,
+        rd_id: null,
+        refund_id: null,
+        state: null,
+        t_name: null,
       };
       this.resetForm("form");
     },
@@ -771,8 +866,8 @@ export default {
         // this.refundTitle = "修改退款金额";
 
         getRefundDetail(refundId).then((response) => {
-          this.refunded = response.data;
-          this.refunding = data1.moneyAmount - response.data;
+          this.refunded = response.data.toFixed(2);
+          this.refunding = (data1.moneyAmount - response.data).toFixed(2);
           this.refundForm = data1;
           this.refundOpen = true;
           this.refundTitle = "修改退款金额";
@@ -796,6 +891,25 @@ export default {
         }
       });
     },
+
+    editDetail() {
+      this.$refs["refundEditForm"].validate((valid) => {
+        if (valid) {
+          var rd = {
+            rdId: this.refundEditForm.rd_id,
+            // refundId: this.refundEditForm.refundId,
+            detailAmount: this.refundEditForm.detail_amount,
+            createTime: Moment(this.refundEditForm.create_time).format("YYYY-MM-DD HH:mm:ss"),
+          };
+          addRefundDetail(rd).then((response) => {
+            this.msgSuccess("新增成功");
+            this.queryParams = {};
+            this.refundEditOpen = false;
+            this.getList();
+          });
+        }
+      });
+    },
     /** 退款明细按钮操作 */
     handleRefund(row) {
       this.reset();
@@ -804,6 +918,8 @@ export default {
         this.totalRefund = row.moneyAmount;
         this.detailLoading = false;
         this.detailList = response.rows;
+
+        this.unrefundDetail = 0;
         for(var r in response.rows){
           // console.log(r)
           // if(response.rows[r].state == 0){
@@ -812,7 +928,9 @@ export default {
             // this.refundDetailing += response.rows[r].detailAmount;
           // }
         }
-        this.refundDetailing = row.moneyAmount - this.unrefundDetail
+        this.unrefundDetail = this.unrefundDetail.toFixed(2);
+        this.refundDetailing = row.moneyAmount - this.unrefundDetail;
+        this.refundDetailing = this.refundDetailing.toFixed(2);
         this.detailOpen = true;
         this.detailTitle = "退款明细";
       });
@@ -938,10 +1056,31 @@ export default {
     updateFinish(row){
       updateDetailState(row).then(response => {
         this.msgSuccess("更新成功");
-        var refund = {
-          refundId: row.refundId
-        };
-        this.handleRefund(refund);
+        // console.log(row.refundId)
+        /* var refund = {
+          refundId: row
+        }; */
+        getDetail(row.refundId).then(response => {
+          // this.totalRefund = row.moneyAmount;
+          this.detailLoading = true;
+          this.detailList = response.rows;
+          this.unrefundDetail = 0;
+          for(var r in response.rows){
+            // console.log(r)
+            // if(response.rows[r].state == 0){
+              this.unrefundDetail += response.rows[r].detailAmount;
+            // }else if(response.rows[r].state == 1){
+              // this.refundDetailing += response.rows[r].detailAmount;
+            // }
+          }
+          this.unrefundDetail = this.unrefundDetail.toFixed(2);
+          this.refundDetailing = this.totalRefund - this.unrefundDetail;
+          this.refundDetailing = this.refundDetailing.toFixed(2);
+          // this.detailOpen = true;
+          // this.detailTitle = "退款明细";
+
+          this.detailLoading = false;
+        });
       });
     },
     handleExceed(files, fileList) {
@@ -1019,7 +1158,19 @@ export default {
     getUpdateDetail(row){
       this.reset();
       const refundId = row.refundId
-      getRefund(refundId).then(response => {
+      getDetailById(row.rdId).then(response => {
+        console.log(response)
+        var data1 = response.data;
+        data1.create_time = new Date(data1.create_time)
+        getRefundDetail(refundId).then(response => {
+          this.refunded = response.data.toFixed(2);
+          this.refunding = (data1.money_amount - response.data).toFixed(2);
+          this.refundEditForm = data1;
+          this.refundEditOpen = true;
+          this.refundEditTitle = "修改";
+        });
+      });
+      /* getRefund(refundId).then(response => {
         var data1 = response.data;
         // this.refundOpen = true;
         // this.refundTitle = "修改退款金额";
@@ -1031,7 +1182,7 @@ export default {
           this.refundOpen = true;
           this.refundTitle = "财务退款";
         });
-      });
+      }); */
     },
   },
 };
