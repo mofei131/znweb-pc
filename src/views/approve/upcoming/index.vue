@@ -4,7 +4,10 @@
       <div class="top">
         <el-form :model="from" ref="ruleForm" :inline="true" label-width="80px">
           <el-form-item label="流程名称">
-            <el-input v-model="from.processName" placeholder="请输入流程名称"></el-input>
+            <el-input
+              v-model="from.processName"
+              placeholder="请输入流程名称"
+            ></el-input>
           </el-form-item>
           <el-form-item label="流程类型" prop="processType">
             <el-select v-model="from.processType" placeholder="请选择分类">
@@ -17,7 +20,10 @@
             </el-select>
           </el-form-item>
           <el-form-item label="发起人">
-            <el-input v-model="from.sponsor" placeholder="请输入发起人"></el-input>
+            <el-input
+              v-model="from.sponsor"
+              placeholder="请输入发起人"
+            ></el-input>
           </el-form-item>
           <el-button type="primary" icon="el-icon-search" @click="getList"
             >搜索</el-button
@@ -27,7 +33,11 @@
       <el-tabs v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="我的待办" name="first">
           <el-table :data="fromData">
-            <el-table-column label="流程名称" align="center" prop="processName" />
+            <el-table-column
+              label="流程名称"
+              align="center"
+              prop="processName"
+            />
             <el-table-column label="流程类型" align="center" prop="processType">
               <template slot-scope="scope">
                 {{
@@ -67,11 +77,17 @@
                     ? "实际收款"
                     : scope.row.processType == "18"
                     ? "投标申请"
+                    : scope.row.processType == "19"
+                    ? "退款管理"
                     : ""
                 }}
               </template>
             </el-table-column>
-            <el-table-column label="发起时间" align="center" prop="createTime" />
+            <el-table-column
+              label="发起时间"
+              align="center"
+              prop="createTime"
+            />
             <el-table-column label="发起人" align="center" prop="nickName" />
             <el-table-column label="操作" align="center">
               <template slot-scope="scope">
@@ -96,7 +112,11 @@
         </el-tab-pane>
         <el-tab-pane label="部门待办" name="second">
           <el-table :data="fromDataDept">
-            <el-table-column label="流程名称" align="center" prop="processName" />
+            <el-table-column
+              label="流程名称"
+              align="center"
+              prop="processName"
+            />
             <el-table-column label="流程类型" align="center" prop="processType">
               <template slot-scope="scope">
                 {{
@@ -136,11 +156,17 @@
                     ? "实际收款"
                     : scope.row.processType == "18"
                     ? "投标申请"
+                    : scope.row.processType == "19"
+                    ? "退款管理"
                     : ""
                 }}
               </template>
             </el-table-column>
-            <el-table-column label="发起时间" align="center" prop="createTime" />
+            <el-table-column
+              label="发起时间"
+              align="center"
+              prop="createTime"
+            />
             <el-table-column label="发起人" align="center" prop="nickName" />
             <el-table-column label="操作" align="center">
               <template slot-scope="scope">

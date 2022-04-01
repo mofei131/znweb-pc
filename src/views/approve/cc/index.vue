@@ -3,7 +3,10 @@
     <div class="top">
       <el-form :model="fromCc" ref="ruleForm" :inline="true" label-width="80px">
         <el-form-item label="流程名称">
-          <el-input v-model="fromCc.processName" placeholder="请输入流程名称"></el-input>
+          <el-input
+            v-model="fromCc.processName"
+            placeholder="请输入流程名称"
+          ></el-input>
         </el-form-item>
         <el-form-item label="流程类型" prop="processType">
           <el-select v-model="fromCc.processType" placeholder="请选择分类">
@@ -16,9 +19,14 @@
           </el-select>
         </el-form-item>
         <el-form-item label="发起人">
-          <el-input v-model="fromCc.sponsor" placeholder="请输入发起人"></el-input>
+          <el-input
+            v-model="fromCc.sponsor"
+            placeholder="请输入发起人"
+          ></el-input>
         </el-form-item>
-        <el-button type="primary" icon="el-icon-search" @click="getList">搜索</el-button>
+        <el-button type="primary" icon="el-icon-search" @click="getList"
+          >搜索</el-button
+        >
       </el-form>
     </div>
     <div>
@@ -63,6 +71,8 @@
                 ? "实际收款"
                 : scope.row.processType == "18"
                 ? "投标申请"
+                : scope.row.processType == "19"
+                ? "退款管理"
                 : ""
             }}
           </template>
@@ -92,7 +102,7 @@
 
 <script>
 import { myCcList } from "@/api/approve/index.js";
-import {getStupdate} from "@/api/project/st";
+import { getStupdate } from "@/api/project/st";
 export default {
   data() {
     return {
@@ -118,45 +128,50 @@ export default {
         this.fromCcData = res.rows;
       });
     },
-    handleSelectYiban(row){
-      let typeId=row.processType;
-      let stId=row.stId;
-      if(typeId=='1'){
+    handleSelectYiban(row) {
+      let typeId = row.processType;
+      let stId = row.stId;
+      if (typeId == "1") {
         this.$router.push("/st/lookAdd/" + stId);
-      }else if(typeId=='2'){
-        getStupdate(stId).then(response => {
-          this.$router.push({name: 'lookUpdate', query:{stId:response.data.stId+"",stupdateId:stId}})
-        })
-      }else if(typeId=='3'){
+      } else if (typeId == "2") {
+        getStupdate(stId).then((response) => {
+          this.$router.push({
+            name: "lookUpdate",
+            query: { stId: response.data.stId + "", stupdateId: stId },
+          });
+        });
+      } else if (typeId == "3") {
         this.$router.push("/contract/look/" + stId);
-      }else if(typeId=='4'){
+      } else if (typeId == "4") {
         this.$router.push("/apayment/look/" + stId);
-      }else if(typeId=='5'){
+      } else if (typeId == "5") {
         this.$router.push("/fpayment/look/" + stId);
-      }else if(typeId=='6'){
+      } else if (typeId == "6") {
         this.$router.push("/sk/look/" + stId);
-      }else if(typeId=='7'){
+      } else if (typeId == "7") {
         this.$router.push("/margin/look/" + stId);
-      }else if(typeId=='8'){
+      } else if (typeId == "8") {
         this.$router.push("/cplan/look/" + stId);
-      }else if(typeId=='9'){
+      } else if (typeId == "9") {
         this.$router.push("/lpayment/look/" + stId);
-      }else if(typeId=='10'){
+      } else if (typeId == "10") {
         this.$router.push("/grn/look/" + stId);
-      }else if(typeId=='11'){
+      } else if (typeId == "11") {
         this.$router.push("/gry/look/" + stId);
-      }else if(typeId=='12'){
+      } else if (typeId == "12") {
         this.$router.push("/supplier/look/" + stId);
-      }else if(typeId=='13'){
+      } else if (typeId == "13") {
         this.$router.push("/terminal/look/" + stId);
-      }else if(typeId=='14'){
+      } else if (typeId == "14") {
         this.$router.push("/sticket/look/" + stId);
-      }else if(typeId=='15'){
+      } else if (typeId == "15") {
         this.$router.push("/kp/look/" + stId);
-      }else if(typeId=='16'){
+      } else if (typeId == "16") {
         this.$router.push("/dp/look/" + stId);
-      }else if(typeId=='18'){
+      } else if (typeId == "18") {
         this.$router.push("/bidApply/look/" + stId);
+      } else if (typeId == "19") {
+        this.$router.push("/refund/look/" + stId);
       }
     },
   },
