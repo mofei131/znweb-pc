@@ -624,6 +624,26 @@ export const constantRoutes = [{
             meta: { title: "附件预览" },
         }, ],
     },
+    {
+        path: "/refund",
+        component: Layout,
+        hidden: true,
+        children: [{
+                path: "look/:refundId(\\d+)",
+                component: (resolve) =>
+                    require(["@/views/project/refund/look/index"], resolve),
+                name: "refundLook",
+                meta: { title: "退款管理查看" },
+            },
+            {
+                path: "index",
+                component: (resolve) =>
+                    require(["@/views/project/refund/index"], resolve),
+                name: "refundEdit",
+                meta: { title: "添加退款申请" },
+            },
+        ],
+    },
 ];
 
 export default new Router({
