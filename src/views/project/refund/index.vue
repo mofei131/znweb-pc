@@ -144,6 +144,27 @@
             v-hasPermi="['project:refund:remove']"
             >打印</el-button
           >
+          <el-button v-if="scope.row.state=='4' "
+            size="mini"
+            type="text"
+            icon="el-icon-edit"
+            @click="handleUpdate(scope.row)"
+            v-hasPermi="['project:refund:edit']"
+          >编辑</el-button>
+          <el-button v-if="scope.row.state=='4' "
+            size="mini"
+            type="text"
+            icon="el-icon-delete"
+            @click="handleDelete(scope.row)"
+            v-hasPermi="['project:refund:remove']"
+          >删除</el-button>
+          <el-button v-if="scope.row.state=='4' "
+            size="mini"
+            type="text"
+            icon="el-icon-delete"
+            @click="handleRefer(scope.row)"
+            v-hasPermi="['project:refund:edit']"
+          >提交</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -324,78 +345,33 @@
       width="960px"
       append-to-body
     >
-      <el-table v-loading="detailLoading" :data="detialList">
-        <el-table-column label="付款人" align="center" prop="stId" />
-        <el-table-column label="财务退款金额" align="center" prop="stName" />
-        <el-table-column label="退款时间" align="center" prop="tName" />
+      <el-input v-model="totalRefund" type="text"></el-input><el-input v-model="unrefundDetail" type="text"></el-input><el-input v-model="refundDetailing" type="text"></el-input>
+      <el-table v-loading="detailLoading" :data="detailList">
+        <el-table-column label="付款人" align="center" prop="createBy" />
+        <el-table-column label="财务退款金额" align="center" prop="detailAmount" />
+        <el-table-column label="退款时间" align="center" prop="createTime" />
         <el-table-column
           label="操作"
           align="center"
           class-name="small-padding fixed-width"
         >
           <template slot-scope="scope">
-            <el-button
+            <el-button v-if="scope.row.state=='0' "
               size="mini"
               type="text"
-              icon="el-icon-edit"
-              @click="handleUpdate(scope.row)"
+              @click="getUpdateDetail(scope.row)"
               v-hasPermi="['project:refund:edit']"
-              >查看</el-button
-            >
-            <el-button
-              v-if="scope.row.state == '3'"
+            >修改</el-button>
+            <el-button v-if="scope.row.state=='0' "
               size="mini"
               type="text"
-              icon="el-icon-edit"
-              @click="handleUpdate(scope.row)"
-              v-hasPermi="['project:refund:edit']"
-              >退款</el-button
-            >
-            <el-button
-              v-if="scope.row.state == '3'"
-              size="mini"
-              type="text"
-              icon="el-icon-delete"
-              @click="handleDetail(scope.row)"
+              @click="updateFinish(scope.row)"
               v-hasPermi="['project:refund:query']"
-              >退款明细</el-button
-            >
-            <el-button
-              v-if="scope.row.state == '3'"
+            >完成</el-button>
+            <el-button v-if="scope.row.state=='1' "
               size="mini"
               type="text"
-              icon="el-icon-delete"
-              @click="handleDelete(scope.row)"
-              v-hasPermi="['project:refund:remove']"
-              >打印</el-button
-            >
-            <el-button
-              v-if="scope.row.state == '4'"
-              size="mini"
-              type="text"
-              icon="el-icon-edit"
-              @click="handleUpdate(scope.row)"
-              v-hasPermi="['project:refund:edit']"
-              >编辑</el-button
-            >
-            <el-button
-              v-if="scope.row.state == '4'"
-              size="mini"
-              type="text"
-              icon="el-icon-delete"
-              @click="handleDelete(scope.row)"
-              v-hasPermi="['project:refund:remove']"
-              >删除</el-button
-            >
-            <el-button
-              v-if="scope.row.state == '4'"
-              size="mini"
-              type="text"
-              icon="el-icon-delete"
-              @click="handleRefer(scope.row)"
-              v-hasPermi="['project:refund:edit']"
-              >提交</el-button
-            >
+            >已完成</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -578,6 +554,8 @@ import {
   getRefundDetail,
   addRefundDetail,
   getStList,
+  getDetail,
+  updateDetailState,
 } from "@/api/project/refund";
 import { getTerminalList } from "@/api/project/st";
 import { getToken } from "@/utils/auth";
@@ -628,6 +606,15 @@ export default {
       stateOptions: [],
       refunded: null,
       refunding: null,
+      refundTitle: null,
+      detailList: [],
+      detailOpen: false,
+      detailLoading: false,
+      detailTitle: null,
+      refundOpen: false,
+      totalRefund: null,
+      unrefundDetail: 0,
+      refundDetailing: 0,
       // 表单校验
       rules: {
         stId: [{ required: true, message: "请选择项目名称", trigger: "blur" }],
@@ -812,11 +799,22 @@ export default {
     /** 退款明细按钮操作 */
     handleRefund(row) {
       this.reset();
-      const refundId = row.refundId || this.ids;
-      getRefund(refundId).then((response) => {
-        this.refundForm = response.data;
-        this.refundOpen = true;
-        this.title = "财务退款";
+      const refundId = row.refundId || this.ids
+      getDetail(refundId).then(response => {
+        this.totalRefund = row.moneyAmount;
+        this.detailLoading = false;
+        this.detailList = response.rows;
+        for(var r in response.rows){
+          // console.log(r)
+          // if(response.rows[r].state == 0){
+            this.unrefundDetail += response.rows[r].detailAmount;
+          // }else if(response.rows[r].state == 1){
+            // this.refundDetailing += response.rows[r].detailAmount;
+          // }
+        }
+        this.refundDetailing = row.moneyAmount - this.unrefundDetail
+        this.detailOpen = true;
+        this.detailTitle = "退款明细";
       });
     },
     /** 提交按钮操作 */
@@ -937,6 +935,15 @@ export default {
         }
       }
     },
+    updateFinish(row){
+      updateDetailState(row).then(response => {
+        this.msgSuccess("更新成功");
+        var refund = {
+          refundId: row.refundId
+        };
+        this.handleRefund(refund);
+      });
+    },
     handleExceed(files, fileList) {
       this.$message.warning(
         `当前限制选择 5 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
@@ -1008,6 +1015,23 @@ export default {
     },
     onPrintReviewClose() {
       this.resolveImg();
+    },
+    getUpdateDetail(row){
+      this.reset();
+      const refundId = row.refundId
+      getRefund(refundId).then(response => {
+        var data1 = response.data;
+        // this.refundOpen = true;
+        // this.refundTitle = "修改退款金额";
+
+        getRefundDetail(refundId).then(response => {
+          this.refunded = response.data;
+          this.refunding = data1.moneyAmount - response.data;
+          this.refundForm = data1;
+          this.refundOpen = true;
+          this.refundTitle = "财务退款";
+        });
+      });
     },
   },
 };

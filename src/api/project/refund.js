@@ -64,3 +64,28 @@ export function getStList() {
         method: "get",
     });
 }
+
+//获取退款总金额
+// export function getRefundDetail(refundId){
+//   return request({
+//     url: '/project/refund/detail/' + refundId,
+//     method: 'get'
+//   })
+// }
+
+export function getDetail(refundId){
+  console.log(refundId);
+  return request({
+    url: '/project/refund/listDetail/' + refundId,
+    method: 'get'
+  })
+}
+
+// 修改退款明细状态
+export function updateDetailState(data) {
+  return request({
+    url: '/project/refund/updateDetailState',
+    method: 'put',
+    data: data
+  })
+}
