@@ -85,19 +85,19 @@
       :data="refundList"
       @selection-change="handleSelectionChange"
     >
-      <el-table-column type="selection" width="55" align="center" />
+      <!-- <el-table-column type="selection" width="55" align="center" /> -->
       <!-- <el-table-column label="主键" align="center" prop="refundId" /> -->
-      <el-table-column label="项目编号" align="center" prop="stId" />
+      <!-- <el-table-column label="项目编号" align="center" prop="stId" /> -->
       <el-table-column label="项目名称" align="center" prop="stName" />
       <!-- <el-table-column label="终端客户id" align="center" prop="terminalId" /> -->
       <el-table-column label="终端客户" align="center" prop="tName" />
       <!-- <el-table-column label="账号" align="center" prop="account" /> -->
-      <el-table-column label="开户行" align="center" prop="bank" />
+      <!-- <el-table-column label="开户行" align="center" prop="bank" /> -->
       <el-table-column label="退款金额" align="center" prop="moneyAmount" />
       <el-table-column label="创建时间" align="center" prop="createTime" />
       <!-- <el-table-column label="备注" align="center" prop="remark" /> -->
       <el-table-column
-        label="审批状态"
+        label="审核状态"
         align="center"
         prop="state"
         :formatter="stateFormat"
@@ -140,7 +140,7 @@
             size="mini"
             type="text"
             icon="el-icon-printer"
-            @click="handleDelete(scope.row)"
+            @click="handlePrint(scope.row)"
             v-hasPermi="['project:refund:remove']"
             >打印</el-button
           >
@@ -400,6 +400,171 @@
         </el-table-column>
       </el-table>
     </el-dialog>
+    <!--打印页-->
+    <el-dialog
+      title="打印预览"
+      :visible.sync="printReviewVisible"
+      @close="onPrintReviewClose"
+      width="80%"
+    >
+      <div class="print-div" id="print_area">
+        <div class="search-title-content">
+          <div style="padding: 30px 0 15px">
+            <el-row type="flex" justify="space-between">
+              <el-col :span="4"
+                ><span
+                  style="font-weight: bold; font-size: 16px"
+                  v-text="printData.printType"
+                ></span
+              ></el-col>
+              <el-col :span="4"
+                ><span
+                  style="
+                    color: red;
+                    width: 100%;
+                    display: inline-block;
+                    text-align: end;
+                    font-weight: bold;
+                    font-size: 16px;
+                  "
+                  v-text="selectDictLabel(stateOptions, printData.state)"
+                ></span
+              ></el-col>
+            </el-row>
+          </div>
+          <!--基本信息-->
+          <table border="1" width="100%">
+            <tr>
+              <td class="title" colspan="6">基础信息</td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">创建时间</td>
+              <td class="table-td-content">
+                {{ printData.createTime }}
+              </td>
+              <td class="table-td-title detail">项目名称</td>
+              <td class="table-td-content">
+                {{ printData.stName }}
+              </td>
+              <td class="table-td-title detail">项目编号</td>
+              <td class="table-td-content">
+                {{ printData.stNumber }}
+              </td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">终端用户</td>
+              <td class="table-td-content">
+                {{ printData.tName }}
+              </td>
+              <td class="table-td-title detail">账号</td>
+              <td class="table-td-content">
+                {{ printData.account }}
+              </td>
+              <td class="table-td-title detail">开户行</td>
+              <td class="table-td-content">
+                {{ printData.bank }}
+              </td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">退款金额</td>
+              <td class="table-td-content" colspan="5">
+                {{ printData.moneyAmount }}
+              </td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">备注</td>
+              <td class="table-td-textarea" colspan="5">
+                {{ printData.remark }}
+              </td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">附件</td>
+              <td class="table-td-content" colspan="5">
+                <div v-for="(item, idx) in printData.fileList" :key="idx">
+                  {{ item.name }}
+                </div>
+              </td>
+            </tr>
+          </table>
+          <!--审批流程-->
+          <table border="1" width="100%">
+            <tr>
+              <td class="title" colspan="6">审批流程</td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">部门</td>
+              <td class="table-td-title detail">应审批人</td>
+              <td class="table-td-title detail">审批人</td>
+              <td class="table-td-title detail">审批时间</td>
+              <td class="table-td-title detail">审批说明</td>
+              <td class="table-td-title detail">审批状态</td>
+            </tr>
+            <tr v-for="(item, idx) in printData.nodeStateList" :key="idx">
+              <td class="table-td-content" style="text-align: center">
+                {{ item.deptName }}
+              </td>
+              <td class="table-td-content" style="text-align: center">
+                {{ item.shouldApprovePerson }}
+              </td>
+              <td class="table-td-content" style="text-align: center">
+                {{ item.nickName }}
+              </td>
+              <td class="table-td-content" style="text-align: center">
+                {{ item.approveTime }}
+              </td>
+              <td
+                class="table-td-content"
+                style="max-width: 150px; text-align: center"
+              >
+                {{ item.processValue }}
+              </td>
+              <td class="table-td-content" style="text-align: center">
+                {{
+                  item.status == 0 || item.status == 1
+                    ? "已审批"
+                    : item.status == -1
+                    ? "待审批"
+                    : "未审批"
+                }}
+              </td>
+            </tr>
+          </table>
+          <!--审批流程-->
+          <table border="1" width="100%">
+            <tr>
+              <td class="title" colspan="6">审批记录</td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">部门</td>
+              <td class="table-td-title detail">审批人</td>
+              <td class="table-td-title detail">审批时间</td>
+              <td class="table-td-title detail">审批说明</td>
+              <td class="table-td-title detail">审批状态</td>
+            </tr>
+            <tr v-for="(item, idx) in printData.approveHisList" :key="idx">
+              <td class="table-td-content" style="text-align: center">
+                {{ item.deptName }}
+              </td>
+              <td class="table-td-content" style="text-align: center">
+                {{ item.nickName }}
+              </td>
+              <td class="table-td-content" style="text-align: center">
+                {{ item.approveTime }}
+              </td>
+              <td
+                class="table-td-content"
+                style="max-width: 150px; text-align: center"
+              >
+                {{ item.processValue }}
+              </td>
+              <td class="table-td-content" style="text-align: center">
+                {{ item.status == 0 ? "驳回" : item.status == 1 ? "通过" : "" }}
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -416,6 +581,8 @@ import {
 } from "@/api/project/refund";
 import { getTerminalList } from "@/api/project/st";
 import { getToken } from "@/utils/auth";
+import print from "print-js";
+import { getProcessDataByStId, getApprovalProcessList } from "@/api/approve";
 
 export default {
   name: "Refund",
@@ -481,6 +648,9 @@ export default {
       headers: { Authorization: "Bearer " + getToken() },
       //文件集合
       fileList: [],
+      // 打印
+      printReviewVisible: false,
+      printData: {},
     };
   },
   created() {
@@ -669,6 +839,9 @@ export default {
           if (this.form.terminalIdOld) {
             this.form.terminalId = this.form.terminalIdOld;
           }
+          if (this.form.stIdOld) {
+            this.form.stId = this.form.stIdOld;
+          }
           if (this.form.refundId != null) {
             updateRefund(this.form).then((response) => {
               this.msgSuccess("修改成功");
@@ -803,6 +976,38 @@ export default {
     },
     uploadError(err, file, filelist) {
       this.$message.error("上传失败");
+    },
+    // 打印
+    async resolveImg() {
+      let imgBase64 = await this.getImage("print_area");
+      printJS({
+        printable: imgBase64,
+        type: "image",
+        header: null,
+        targetStyles: ["*"],
+        style: "@page {margin:0 10mm}",
+      });
+    },
+    async handlePrint(row) {
+      this.printData = {};
+      await getRefund(row.refundId).then((response) => {
+        this.printData = response.data;
+        this.printData.fileList = this.form.fileList || [];
+        this.printData.printType = "退款管理";
+      });
+      await getProcessDataByStId("19", row.refundId).then((res) => {
+        this.printData.approveHisList = res.data;
+      });
+      await getApprovalProcessList("19", row.refundId).then((res) => {
+        this.printData.nodeStateList = res.data;
+      });
+      this.printReviewVisible = true;
+      this.$nextTick(() => {
+        this.printReviewVisible = false;
+      });
+    },
+    onPrintReviewClose() {
+      this.resolveImg();
     },
   },
 };

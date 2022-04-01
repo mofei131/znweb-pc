@@ -3448,6 +3448,11 @@
 
       <div style="margin-top: 30px">
         <el-form label-width="20px;" label-position="left">
+          <!--      审批流程·-->
+          <approval-process
+            :typeId="initData.processType"
+            :stId="initData.stId"
+          ></approval-process>
           <el-row class="head-title">
             <el-col :span="12">
               <el-form-item label="审批信息"></el-form-item>
