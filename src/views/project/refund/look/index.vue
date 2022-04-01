@@ -74,7 +74,7 @@
         </el-col>
       </el-row>
       <!--      审批流程·-->
-            <approval-process :typeId="18" :stId="bidId"></approval-process>
+            <approval-process :typeId="19" :stId="refundId"></approval-process>
 
       <!--      审批信息-->
       <el-row class="head-title">
