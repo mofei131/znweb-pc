@@ -307,6 +307,7 @@
       <el-col :offset="1" :span="20">
         <div slot=""  class="dialog-footer" style="text-align: right;margin-bottom: 50px;margin-right: 50px;">
           <el-button type="info" @click="cancel">关 闭</el-button>
+          <el-button type="primary" @click="handleExport">导 出</el-button>
         </div>
       </el-col>
     </el-row>
@@ -338,7 +339,10 @@ export default {
       headers: { Authorization: "Bearer " + getToken() },
       //附件集合
       fileList:[],
-
+      //
+      queryParams: {
+        fpaymentId: null,
+      },
       //合同集合
       contract:[],
 
@@ -346,6 +350,7 @@ export default {
   },
   created() {
     const fpaymentId = this.$route.params && this.$route.params.fpaymentId;
+    this.queryParams.fpaymentId=fpaymentId;
     getFpayment(fpaymentId).then(response => {
       this.form=response.data
       this.fileList = this.form.fileList;
@@ -402,6 +407,16 @@ export default {
       }else if(row.type=='5'){
         return "其他合同"
       }
+    },
+    /** 导出按钮操作 */
+    handleExport() {
+      this.download(
+        "project/fpayment/export",
+        {
+          ...this.queryParams,
+        },
+        `最终结算单.xlsx`
+      );
     },
   }
 };
