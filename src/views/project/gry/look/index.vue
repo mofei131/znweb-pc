@@ -161,7 +161,7 @@
 
       <el-row class="head-title">
         <el-col :span="19">
-          <el-form-item label="入库库信息"></el-form-item>
+          <el-form-item label="入库单信息"></el-form-item>
         </el-col>
       </el-row>
       <el-row style="margin-top: 30px;">
@@ -202,15 +202,31 @@
             </el-table-column>
             <el-table-column
               property="deliveryTime"
-              label="发货日期（吨）">
+              label="发货日期">
             </el-table-column>
             <el-table-column
               property="valuePrice"
               label="货值单价（元）">
+              <template slot-scope="scope">
+                  {{
+                    Number(scope.row.valuePrice)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
             </el-table-column>
             <el-table-column
               property="valueTprice"
-              label="货值总额（吨）">
+              label="货值总额（元）">
+              <template slot-scope="scope">
+                  {{
+                    Number(scope.row.valueTprice)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
             </el-table-column>
           </el-table>
         </el-col>

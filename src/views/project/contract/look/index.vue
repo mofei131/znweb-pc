@@ -118,7 +118,7 @@
       </el-row>
       <el-row class="head-text" v-if="form.type=='物流运输合同' || form.type=='物流服务合同'">
         <el-col :span="4" :offset="1" >
-          运费单价(吨/元)：<span v-text="form.transportPrice"></span>
+          运费单价(吨/元)：<span v-text="$options.filters.moneyFilter(form.transportPrice)"></span>
         </el-col>
         <el-col :span="4">
           损耗率：<span v-text="form.transportLoss"></span>

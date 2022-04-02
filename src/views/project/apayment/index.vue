@@ -572,8 +572,13 @@
                   width="90"
                 >
                   <template slot-scope="scope">
-                    {{ scope.row.valuePrice }}
-                  </template>
+          {{
+            Number(scope.row.valuePrice)
+              .toFixed(2)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
+        </template>
                 </el-table-column>
                 <el-table-column
                   property="valueTprice"
@@ -1088,7 +1093,7 @@
                 {{ item.batch }}
               </td>
               <td class="table-td-content" style="text-align: center">
-                {{ item.valuePrice }}
+                {{ $options.filters.moneyFilter(item.valuePrice) }}
               </td>
               <td class="table-td-content" style="text-align: center">
                 {{ item.valueTprice }}
@@ -1163,7 +1168,7 @@
             <tr>
               <td class="table-td-title detail">预付总额(元)</td>
               <td class="table-td-content">
-                {{ printData.totalPrice }}
+                {{ $options.filters.moneyFilter(printData.totalPrice) }}
               </td>
               <td class="table-td-title detail">固定差价</td>
               <td class="table-td-content">
@@ -1177,11 +1182,11 @@
             <tr>
               <td class="table-td-title detail">税款(元)</td>
               <td class="table-td-content">
-                {{ printData.tax }}
+                {{ $options.filters.moneyFilter(printData.tax) }}
               </td>
               <td class="table-td-title detail">预付单价(元)</td>
               <td class="table-td-content">
-                {{ printData.expectPrice }}
+                {{ $options.filters.moneyFilter(printData.expectPrice) }}
               </td>
               <td class="table-td-title detail">扣款金额</td>
               <td class="table-td-content">

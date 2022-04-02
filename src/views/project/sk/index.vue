@@ -410,6 +410,14 @@
                   label="货值单价（元）"
                   width="120"
                 >
+                <template slot-scope="scope">
+                  {{
+                    Number(scope.row.valuePrice)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
                 </el-table-column>
                 <el-table-column
                   property="valueTprice"
@@ -792,7 +800,7 @@
               <td class="table-td-title detail">批次</td>
               <td class="table-td-title detail">到货日期</td>
               <td class="table-td-title detail">货值单价(元)</td>
-              <td class="table-td-title detail">货值总额(吨)</td>
+              <td class="table-td-title detail">货值总额(元)</td>
             </tr>
             <tr v-for="(item, idx) in printData.gryList" :key="idx">
               <td class="table-td-content" style="text-align: center">
@@ -820,10 +828,10 @@
                 {{ item.deliveryTime }}
               </td>
               <td class="table-td-content" style="text-align: center">
-                {{ item.valuePrice }}
+                {{ $options.filters.moneyFilter(item.valuePrice) }}
               </td>
               <td class="table-td-content" style="text-align: center">
-                {{ item.valueTprice }}
+                {{ $options.filters.moneyFilter(item.valueTprice) }}
               </td>
             </tr>
           </table>
@@ -834,15 +842,15 @@
             <tr>
               <td class="table-td-title detail">收款总额(元)</td>
               <td class="table-td-content">
-                {{ printData.skTprice }}
+                {{ $options.filters.moneyFilter(printData.skTprice) }}
               </td>
               <td class="table-td-title detail">税款(元)</td>
               <td class="table-td-content">
-                {{ printData.tax }}
+                {{ $options.filters.moneyFilter(printData.tax) }}
               </td>
               <td class="table-td-title detail">收款单价</td>
               <td class="table-td-content">
-                {{ printData.skPrice }}
+                {{ $options.filters.moneyFilter(printData.skPrice) }}
               </td>
             </tr>
             <tr>
@@ -852,17 +860,17 @@
               </td>
               <td class="table-td-title detail">承兑</td>
               <td class="table-td-content">
-                {{ printData.accept }}
+                {{ $options.filters.moneyFilter(printData.accept) }}
               </td>
               <td class="table-td-title detail">扣罚</td>
               <td class="table-td-content">
-                {{ printData.punish }}
+                {{ $options.filters.moneyFilter(printData.punish) }}
               </td>
             </tr>
             <tr>
               <td class="table-td-title detail">其他扣罚</td>
               <td class="table-td-content">
-                {{ printData.otherP }}
+                {{ $options.filters.moneyFilter(printData.otherP) }}
               </td>
               <td class="table-td-title detail">其他扣罚说明</td>
               <td class="table-td-content">
@@ -870,17 +878,17 @@
               </td>
               <td class="table-td-title detail">总计收款</td>
               <td class="table-td-content">
-                {{ printData.yftotalPrice }}
+                {{ $options.filters.moneyFilter(printData.yftotalPrice) }}
               </td>
             </tr>
             <tr>
               <td class="table-td-title detail">已收取金额</td>
               <td class="table-td-content">
-                {{ printData.yfPrice }}
+                {{ $options.filters.moneyFilter(printData.yfPrice) }}
               </td>
               <td class="table-td-title detail">实际应收金额</td>
               <td class="table-td-content" colspan="3">
-                {{ printData.sjPrice }}
+                {{ $options.filters.moneyFilter(printData.sjPrice) }}
               </td>
             </tr>
             <tr>

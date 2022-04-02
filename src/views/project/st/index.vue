@@ -1336,7 +1336,7 @@
               </td>
               <td class="table-td-title detail">项目金额(万元)</td>
               <td class="table-td-content">
-                <template>{{ printData.amount }}</template>
+                <template>{{ $options.filters.moneyFilter(printData.amount) }}</template>
               </td>
             </tr>
             <tr>
@@ -1367,7 +1367,7 @@
             <tr>
               <td class="table-td-title detail">履约保证金金额(万元)</td>
               <td class="table-td-content">
-                <template>{{ printData.margin }}</template>
+                <template>{{ $options.filters.moneyFilter(printData.margin) }}</template>
               </td>
               <td class="table-td-title detail">服务周期开始</td>
               <td class="table-td-content">
@@ -1377,7 +1377,7 @@
             <tr>
               <td class="table-td-title detail">结算方式(元)</td>
               <td class="table-td-content">
-                <template>{{ printData.settlementWay }}</template>
+                <template>{{ $options.filters.moneyFilter(printData.settlementWay) }}</template>
               </td>
               <td class="table-td-title detail">服务周期结束</td>
               <td class="table-td-content">
@@ -1406,7 +1406,7 @@
             <tr>
               <td class="table-td-title detail">预计单价(元)</td>
               <td class="table-td-content">
-                <template>{{ printData.expectPrice }}</template>
+                <template>{{ $options.filters.moneyFilter(printData.expectPrice) }}</template>
               </td>
               <td class="table-td-title detail">预计重量(吨)</td>
               <td class="table-td-content">
@@ -1459,7 +1459,7 @@
             <tr>
               <td class="table-td-title detail">履约保证金(元)</td>
               <td class="table-td-content">
-                <template>{{ printData.shMargin }}</template>
+                <template>{{ $options.filters.moneyFilter(printData.shMargin) }}</template>
               </td>
               <td class="table-td-title detail">合同签署</td>
               <td class="table-td-content" colspan="5">
@@ -1502,7 +1502,7 @@
             <tr>
               <td class="table-td-title detail">投标保证金(万元)</td>
               <td class="table-td-content">
-                <template>{{ printData.tMargin }}</template>
+                <template>{{ $options.filters.moneyFilter(printData.tMargin) }}</template>
               </td>
               <td class="table-td-title detail">保证金缴纳时间</td>
               <td class="table-td-content">

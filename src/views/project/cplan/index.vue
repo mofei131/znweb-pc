@@ -126,7 +126,16 @@
           <span>{{ parseTime(scope.row.skTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="预计收款金额(元)" align="center" prop="skPrice" />
+      <el-table-column label="预计收款金额(元)" align="center" prop="skPrice">
+        <template slot-scope="scope">
+          {{
+            Number(scope.row.skPrice)
+              .toFixed(2)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
+        </template>
+      </el-table-column>
       <el-table-column label="审核状态" align="center" prop="state" :formatter="stateFormat" />
 <!--      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">-->
 <!--        <template slot-scope="scope">-->

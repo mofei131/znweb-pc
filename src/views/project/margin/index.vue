@@ -577,7 +577,7 @@
                 </td>
                 <td class="table-td-title detail">保证金金额(元)</td>
                 <td class="table-td-content">
-                  {{ printData.putPrice }}
+                  {{ $options.filters.moneyFilter(printData.putPrice) }}
                 </td>
               </tr>
             </template>
@@ -599,7 +599,7 @@
               <tr>
                 <td class="table-td-title detail">保证金金额(元)</td>
                 <td class="table-td-content" colspan="5">
-                  {{ printData.putPrice }}
+                  {{ $options.filters.moneyFilter(printData.putPrice) }}
                 </td>
               </tr>
             </template>

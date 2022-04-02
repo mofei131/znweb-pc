@@ -96,7 +96,7 @@
           服务费率(%)：<span v-text="form.chargemNx"></span>
         </el-col>
         <el-col :span="4">
-          固定差价(元)：<span v-text="form.chargemGd"></span>
+          固定差价(元)：<span v-text="$options.filters.moneyFilter(form.chargemGd)"></span>
         </el-col>
       </el-row>
       <el-row class="head-text">
@@ -104,13 +104,13 @@
           预计吨数：<span v-text="form.expectWeight"></span>
         </el-col>
         <el-col :span="4">
-          预计单价(元)：<span v-text="form.expectPrice"></span>
+          预计单价(元)：<span v-text="$options.filters.moneyFilter(form.expectPrice)"></span>
         </el-col>
         <el-col :span="4">
           成本年服务费率(%)：<span v-text="form.rateYear"></span>
         </el-col>
         <el-col :span="4">
-          预计利润(元)：<span v-text="form.expectProfits"></span>
+          预计利润(元)：<span v-text="$options.filters.moneyFilter(form.expectProfits)"></span>
         </el-col>
       </el-row>
 <!--      合同信息-->
@@ -212,10 +212,26 @@
             <el-table-column
               property="valuePrice"
               label="货值单价(元)">
+              <template slot-scope="scope">
+                  {{
+                    Number(scope.row.valuePrice)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
             </el-table-column>
             <el-table-column
               property="valueTprice"
               label="货值总额(元)">
+              <template slot-scope="scope">
+                  {{
+                    Number(scope.row.valueTprice)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
             </el-table-column>
             <el-table-column
               label="操作"
@@ -279,10 +295,26 @@
             <el-table-column
               property="valuePrice"
               label="货值单价(元)">
+              <template slot-scope="scope">
+                  {{
+                    Number(scope.row.valuePrice)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
             </el-table-column>
             <el-table-column
               property="valueTprice"
               label="货值总额(元)">
+              <template slot-scope="scope">
+                  {{
+                    Number(scope.row.valueTprice)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
             </el-table-column>
             <el-table-column
               label="操作"
@@ -332,10 +364,26 @@
             <el-table-column
               property="totalPrice"
               label="预付总额(元)">
+              <template slot-scope="scope">
+                  {{
+                    Number(scope.row.totalPrice)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
             </el-table-column>
             <el-table-column
               property="expectPrice"
               label="预付单价(元)">
+              <template slot-scope="scope">
+                  {{
+                    Number(scope.row.expectPrice)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
             </el-table-column>
             <el-table-column
               property="ato"
@@ -344,6 +392,14 @@
             <el-table-column
               property="actualPrice"
               label="实际付款(元)">
+              <template slot-scope="scope">
+                  {{
+                    Number(scope.row.actualPrice)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
             </el-table-column>
             <el-table-column
               property="state"
@@ -391,6 +447,14 @@
             <el-table-column
               property="skPrice"
               label="单价(元)">
+              <template slot-scope="scope">
+                  {{
+                    Number(scope.row.skPrice)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
             </el-table-column>
             <el-table-column
               property="skTprice"
@@ -492,18 +556,50 @@
             <el-table-column
               property="price"
               label="终付单价(元)">
+              <template slot-scope="scope">
+                  {{
+                    Number(scope.row.price)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
             </el-table-column>
             <el-table-column
               property="zzPrice"
               label="最终付款总额(元)">
+              <template slot-scope="scope">
+                  {{
+                    Number(scope.row.zzPrice)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
             </el-table-column>
             <el-table-column
               property="yfPrice"
               label="已付款总额(元)">
+              <template slot-scope="scope">
+                  {{
+                    Number(scope.row.yfPrice)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
             </el-table-column>
             <el-table-column
               property="sjPrice"
               label="最终实际付款(元)">
+              <template slot-scope="scope">
+                  {{
+                    Number(scope.row.sjPrice)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
             </el-table-column>
             <el-table-column
               property="moType"
@@ -544,6 +640,14 @@
             <el-table-column
               property="kpPrice"
               label="开票金额(元)">
+              <template slot-scope="scope">
+                  {{
+                    Number(scope.row.kpPrice)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
             </el-table-column>
             <el-table-column
               property="zzWeight"
@@ -552,10 +656,26 @@
             <el-table-column
               property="kpTax"
               label="发票税额(元)">
+              <template slot-scope="scope">
+                  {{
+                    Number(scope.row.kpTax)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
             </el-table-column>
             <el-table-column
               property="kpTotal"
               label="价税合计(元)">
+              <template slot-scope="scope">
+                  {{
+                    Number(scope.row.kpTotal)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
             </el-table-column>
             <el-table-column
               label="操作"
@@ -585,6 +705,14 @@
             <el-table-column
               property="price"
               label="开票金额(元)">
+              <template slot-scope="scope">
+                  {{
+                    Number(scope.row.price)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
             </el-table-column>
             <el-table-column
               property="number"
@@ -593,10 +721,26 @@
             <el-table-column
               property="tax"
               label="发票税额(元)">
+              <template slot-scope="scope">
+                  {{
+                    Number(scope.row.tax)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
             </el-table-column>
             <el-table-column
               property="totalPrice"
               label="价税合计(元)">
+              <template slot-scope="scope">
+                  {{
+                    Number(scope.row.totalPrice)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
             </el-table-column>
             <el-table-column
               label="操作"
@@ -639,6 +783,14 @@
             <el-table-column
               property="putPrice"
               label="付款金额(元)">
+              <template slot-scope="scope">
+                  {{
+                    Number(scope.row.putPrice)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
             </el-table-column>
             <el-table-column
               property="outTime"
@@ -654,14 +806,38 @@
             <el-table-column
               property="spPrice"
               label="代理费(元)">
+              <template slot-scope="scope">
+                  {{
+                    Number(scope.row.spPrice)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
             </el-table-column>
             <el-table-column
               property="sjPrice"
               label="成本费用(元)">
+              <template slot-scope="scope">
+                  {{
+                    Number(scope.row.sjPrice)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
             </el-table-column>
             <el-table-column
               property="lrPrice"
               label="资金占用利润(元)">
+              <template slot-scope="scope">
+                  {{
+                    Number(scope.row.lrPrice)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
             </el-table-column>
           </el-table>
         </el-col>

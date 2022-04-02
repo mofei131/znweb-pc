@@ -58,13 +58,13 @@
 
       <el-row class="head-text">
         <el-col :span="4" :offset="1">
-          预计付款总额(元)：<span v-text="form.fkPrice"></span>
+          预计付款总额(元)：<span v-text="$options.filters.moneyFilter(form.fkPrice)"></span>
         </el-col>
         <el-col :span="4">
           预计收款时间：<span>{{parseTime(form.skTime, '{y}-{m}-{d}') }}</span>
         </el-col>
         <el-col :span="4">
-          预计收款总额(元)：<span v-text="form.skPrice"></span>
+          预计收款总额(元)：<span v-text="$options.filters.moneyFilter(form.skPrice)"></span>
         </el-col>
       </el-row>
 
