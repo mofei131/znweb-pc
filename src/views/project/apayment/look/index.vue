@@ -409,6 +409,7 @@
           style="text-align: right; margin-bottom: 50px; margin-right: 50px"
         >
           <el-button type="info" @click="cancel">关 闭</el-button>
+          <el-button type="primary" @click="handleExport">导 出</el-button>
         </div>
       </el-col>
     </el-row>
@@ -452,6 +453,10 @@ export default {
       //出入库集合
       dataList: [],
 
+      queryParams: {
+        apaymentId: null,
+      },
+
       //上传路径
       url: process.env.VUE_APP_BASE_API + "/file/upload",
       // 设置上传的请求头部
@@ -470,6 +475,7 @@ export default {
   created() {
     const apyamentId = this.$route.params && this.$route.params.apyamentId;
     this.apyamentId = apyamentId;
+    this.queryParams.apyamentId=apyamentId;
     getApayment(apyamentId).then((response) => {
       this.form = response.data;
       this.fileList = response.data.fileList;
@@ -522,6 +528,16 @@ export default {
       } else if (row.type == "5") {
         return "其他合同";
       }
+    },
+    /** 导出按钮操作 */
+    handleExport() {
+      this.download(
+        "project/apayment/export",
+        {
+          ...this.queryParams,
+        },
+        `预结算单.xlsx`
+      );
     },
   },
 };
