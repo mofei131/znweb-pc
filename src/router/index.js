@@ -61,6 +61,17 @@ export const constantRoutes = [{
         }, ],
     },
     {
+        path: "",
+        component: Layout,
+        redirect: "financialStatement",
+        children: [{
+            path: "financialStatement",
+            component: (resolve) => require(["@/views/project/financialStatement/index"], resolve),
+            name: "财务报表",
+            meta: { title: "财务报表", icon: "dashboard", noCache: true, affix: true },
+        }, ],
+    },
+    {
         path: "/user",
         component: Layout,
         hidden: true,
