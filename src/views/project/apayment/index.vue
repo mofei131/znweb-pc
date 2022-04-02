@@ -88,17 +88,17 @@
       <!--          v-hasPermi="['project:apayment:remove']"-->
       <!--        >删除</el-button>-->
       <!--      </el-col>-->
-      <el-col :span="1.5">
-        <el-button
-          type="warning"
-          plain
-          icon="el-icon-download"
-          size="mini"
-          @click="handleExport"
-          v-hasPermi="['project:apayment:export']"
-          >导出</el-button
-        >
-      </el-col>
+<!--      <el-col :span="1.5">-->
+<!--        <el-button-->
+<!--          type="warning"-->
+<!--          plain-->
+<!--          icon="el-icon-download"-->
+<!--          size="mini"-->
+<!--          @click="handleExport"-->
+<!--          v-hasPermi="['project:apayment:export']"-->
+<!--          >导出</el-button-->
+<!--        >-->
+<!--      </el-col>-->
       <right-toolbar
         :showSearch.sync="showSearch"
         @queryTable="getList"
@@ -766,7 +766,7 @@
             <!--          </el-row>-->
             <el-row>
               <el-col :span="12">
-                <el-form-item label="扣款金额" prop="yfPice">
+                <el-form-item label="扣款金额" prop="kkPrice">
                   <el-input
                     @change="atochange"
                     v-model="form.kkPrice"
@@ -775,7 +775,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="扣款备注" prop="yfPice">
+                <el-form-item label="扣款备注" prop="kkNode">
                   <el-input
                     v-model="form.kkNode"
                     placeholder="请输入扣款备注"
