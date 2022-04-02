@@ -53,7 +53,7 @@
           单价（元/{{priceLabel }}）：<span v-text="$options.filters.moneyFilter(form.bidPrice)"></span>
         </el-col>
         <el-col :span="4" :offset="1">
-          投标数量（吨）：<span v-text="form.bidNumber"></span>
+          投标数量（吨）：<span v-text="$options.filters.weightFilter(form.bidNumber)"></span>
         </el-col>
         <el-col :span="4" :offset="1">
           投标保证金（元）：<span v-text="$options.filters.moneyFilter(form.bidBond)"></span>

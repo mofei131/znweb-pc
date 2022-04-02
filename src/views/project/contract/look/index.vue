@@ -77,7 +77,7 @@
           货品名称：<span v-text="form.goodsName"></span>
         </el-col>
         <el-col :span="4" v-if="form.type=='下游合同'">
-          预计吨数：<span v-text="form.expectNumber"></span>
+          预计吨数：<span v-text="$options.filters.weightFilter(form.expectNumber)"></span>
         </el-col>
         <el-col :span="4" v-if="form.type=='下游合同'">
           基准单价：<span v-text="form.price"></span>

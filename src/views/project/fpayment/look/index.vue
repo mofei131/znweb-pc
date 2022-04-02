@@ -74,6 +74,14 @@
             <el-table-column property="name" label="货品名称">
             </el-table-column>
             <el-table-column property="grnNumber" label="出库重量（吨）">
+              <template slot-scope="scope">
+                  {{
+                    Number(scope.row.grnNumber)
+                      .toFixed(4)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
             </el-table-column>
             <el-table-column property="grnRz" label="出库热值（kcal）">
             </el-table-column>
@@ -212,6 +220,14 @@
             >
             </el-table-column>
             <el-table-column property="expectNumber" label="货品重量(吨)">
+              <template slot-scope="scope">
+                  {{
+                    Number(scope.row.expectNumber)
+                      .toFixed(4)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
             </el-table-column>
             <el-table-column property="" label="合同附件"> </el-table-column>
             <el-table-column property="" label="补充合同附件">

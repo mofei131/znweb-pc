@@ -78,6 +78,14 @@
               label="入库重量（吨）"
               width="120"
             >
+            <template slot-scope="scope">
+                    {{
+                      Number(scope.row.grnNumber)
+                        .toFixed(4)
+                        .toString()
+                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    }}
+                  </template>
             </el-table-column>
             <el-table-column
               v-if="form.away == '二次'"
@@ -85,6 +93,14 @@
               label="出库重量（吨）"
               width="120"
             >
+            <template slot-scope="scope">
+                    {{
+                      Number(scope.row.grnNumber)
+                        .toFixed(4)
+                        .toString()
+                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    }}
+                  </template>
             </el-table-column>
             <el-table-column
               v-if="form.away == '首次'"
@@ -142,9 +158,17 @@
             </el-table-column>
             <el-table-column
               property="valueTprice"
-              label="货值总额（吨）"
+              label="货值总额（元）"
               width="90"
             >
+            <template slot-scope="scope">
+                    {{
+                      Number(scope.row.valueTprice)
+                        .toFixed(2)
+                        .toString()
+                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    }}
+                  </template>
             </el-table-column>
           </el-table>
         </el-col>

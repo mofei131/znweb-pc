@@ -102,7 +102,16 @@
           }}
         </template>
       </el-table-column>
-      <el-table-column label="投标数量（吨）" align="center" prop="bidNumber" />
+      <el-table-column label="投标数量（吨）" align="center" prop="bidNumber">
+        <template slot-scope="scope">
+                    {{
+                      Number(scope.row.bidNumber)
+                        .toFixed(4)
+                        .toString()
+                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    }}
+                  </template>
+      </el-table-column>
       <el-table-column
         label="项目状态"
         :formatter="statusFormat"
@@ -337,7 +346,7 @@
               </td>
               <td class="table-td-title detail">投标数量(吨)</td>
               <td class="table-td-content">
-                {{ printData.bidNumber }}
+                {{ $options.filters.weightFilter(printData.bidNumber) }}
               </td>
               <td class="table-td-title detail">单价(元/吨)</td>
               <td class="table-td-content">

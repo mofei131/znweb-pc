@@ -49,7 +49,7 @@
           月份：<span v-text="form.month"></span>
         </el-col>
         <el-col :span="4">
-          数量(吨)：<span v-text="form.number"></span>
+          数量(吨)：<span v-text="$options.filters.weightFilter(form.number)"></span>
         </el-col>
         <el-col :span="4" >
           预计付款时间：<span>{{parseTime(form.fkTime, '{y}-{m}-{d}') }}</span>

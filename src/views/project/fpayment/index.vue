@@ -106,7 +106,16 @@
     >
       <el-table-column label="项目名称" align="center" prop="stName" />
       <el-table-column label="货品名称" align="center" prop="hpName" />
-      <el-table-column label="合计重量(吨)" align="center" prop="tweight" />
+      <el-table-column label="合计重量(吨)" align="center" prop="tweight">
+        <template slot-scope="scope">
+                    {{
+                      Number(scope.row.tweight)
+                        .toFixed(4)
+                        .toString()
+                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    }}
+                  </template>
+      </el-table-column>
       <el-table-column label="结算单价(元)" align="center" prop="price">
         <template slot-scope="scope">
           {{
@@ -347,6 +356,14 @@
                 label="出库重量（吨）"
                 width="120"
               >
+                <template slot-scope="scope">
+                    {{
+                      Number(scope.row.grnNumber)
+                        .toFixed(4)
+                        .toString()
+                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    }}
+                  </template>
               </el-table-column>
               <el-table-column
                 property="gryRz"
@@ -372,7 +389,7 @@
               </el-table-column>
               <el-table-column
                 property="okTime"
-                label="到货日期（吨）"
+                label="到货日期"
                 width="120"
               >
               </el-table-column>
@@ -392,9 +409,17 @@
               </el-table-column>
               <el-table-column
                 property="valueTprice"
-                label="货值总额（吨）"
+                label="货值总额（元）"
                 width="120"
               >
+                <template slot-scope="scope">
+                    {{
+                      Number(scope.row.valueTprice)
+                        .toFixed(4)
+                        .toString()
+                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    }}
+                  </template>
               </el-table-column>
             </el-table>
           </div>
@@ -801,7 +826,7 @@
                 {{ item.name }}
               </td>
               <td class="table-td-content" style="text-align: center">
-                {{ item.grnNumber }}
+                {{ $options.filters.weightFilter(item.grnNumber) }}
               </td>
               <td class="table-td-content" style="text-align: center">
                 {{ item.grnRz }}
@@ -931,7 +956,7 @@
                 {{ item.type }}
               </td>
               <td class="table-td-content" style="text-align: center">
-                {{ item.expectNumber }}
+                {{ $options.filters.weightFilter(item.expectNumber) }}
               </td>
             </tr>
             <tr>

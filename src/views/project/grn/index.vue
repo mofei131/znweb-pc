@@ -118,7 +118,16 @@
       <!--      <el-table-column type="selection" width="55" align="center" />-->
       <el-table-column label="项目名称" align="center" prop="stName" />
       <el-table-column label="货品名称" align="center" prop="name" />
-      <el-table-column label="入库重量(吨)" align="center" prop="grnNumber" />
+      <el-table-column label="入库重量(吨)" align="center" prop="grnNumber" >
+        <template slot-scope="scope">
+                  {{
+                    Number(scope.row.grnNumber)
+                      .toFixed(4)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
+      </el-table-column>
       <el-table-column label="入库热值(Kcal)" align="center" prop="grnRz" />
       <el-table-column label="运输方式" align="center" prop="transportType" />
       <el-table-column label="物流公司" align="center" prop="wlCompany" />
@@ -591,7 +600,7 @@
               </td>
               <td class="table-td-title detail">入库重量(吨)</td>
               <td class="table-td-content">
-                {{ printData.grnNumber }}
+                {{ $options.filters.weightFilter(printData.grnNumber) }}
               </td>
               <td class="table-td-title detail">发货日期</td>
               <td class="table-td-content">

@@ -48,7 +48,7 @@
           货品名称：<span v-text="form.name" ></span>
         </el-col>
         <el-col :span="3">
-          入库重量(吨)：<span v-text="form.grnNumber"></span>
+          入库重量(吨)：<span v-text="$options.filters.weightFilter(form.grnNumber)"></span>
         </el-col>
         <el-col :span="3" >
           发货日期：<span>{{ parseTime(form.deliveryTime, '{y}-{m}-{d}') }}</span>

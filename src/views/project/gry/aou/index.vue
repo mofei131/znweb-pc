@@ -72,6 +72,14 @@
                   property="grnNumber"
                   label="入库重量（吨）"
                   width="90">
+                  <template slot-scope="scope">
+                    {{
+                      Number(scope.row.grnNumber)
+                        .toFixed(4)
+                        .toString()
+                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    }}
+                  </template>
                 </el-table-column>
                 <el-table-column
                   property="grnRz"

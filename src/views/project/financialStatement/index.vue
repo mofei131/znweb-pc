@@ -524,7 +524,7 @@
                       />
                     </div>
                     <div style="margin-top: 3px; margin-left: 3px">
-                      {{ data3.planBalanceAmount }}
+                      {{ $options.filters.moneyFilter(data3.planBalanceAmount) }}
                     </div>
                   </div>
                 </div>
@@ -693,7 +693,7 @@
                       />
                     </div>
                     <div style="margin-top: 3px; margin-left: 3px">
-                      {{ data4.planAmount }}
+                      {{ $options.filters.moneyFilter(data4.planAmount) }}
                     </div>
                   </div>
                 </div>
@@ -743,7 +743,7 @@
                       />
                     </div>
                     <div style="margin-top: 3px; margin-left: 3px">
-                      {{ data4.actualAmount }}
+                      {{ $options.filters.moneyFilter(data4.actualAmount) }}
                     </div>
                   </div>
                 </div>
@@ -793,7 +793,7 @@
                       />
                     </div>
                     <div style="margin-top: 3px; margin-left: 3px">
-                      {{ data4.planBalanceAmount }}
+                      {{ $options.filters.moneyFilter(data4.planBalanceAmount) }}
                     </div>
                   </div>
                 </div>
@@ -886,7 +886,7 @@
                       line-height: 26px;
                     "
                   >
-                    {{ data5.shouldFk }}
+                    {{ $options.filters.moneyFilter(data5.shouldFk) }}
                     <span
                       style="
                         font-size: 13px;
@@ -936,7 +936,7 @@
                       line-height: 26px;
                     "
                   >
-                    {{ data5.actualFk }}
+                    {{ $options.filters.moneyFilter(data5.actualFk) }}
                     <span
                       style="
                         font-size: 13px;
@@ -1036,7 +1036,7 @@
                       line-height: 26px;
                     "
                   >
-                    {{ data6.shouldSk }}
+                    {{ $options.filters.moneyFilter(data6.shouldSk) }}
                     <span
                       style="
                         font-size: 13px;
@@ -1086,7 +1086,7 @@
                       line-height: 26px;
                     "
                   >
-                    {{ data6.actualSk }}
+                    {{ $options.filters.moneyFilter(data6.actualSk) }}
                     <span
                       style="
                         font-size: 13px;

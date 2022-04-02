@@ -122,7 +122,16 @@
       <!--      <el-table-column type="selection" width="55" align="center" />-->
       <el-table-column label="项目名称" align="center" prop="stName" />
       <el-table-column label="货品名称" align="center" prop="name" />
-      <el-table-column label="出库重量(吨)" align="center" prop="grnNumber" />
+      <el-table-column label="出库重量(吨)" align="center" prop="grnNumber">
+        <template slot-scope="scope">
+                    {{
+                      Number(scope.row.grnNumber)
+                        .toFixed(4)
+                        .toString()
+                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    }}
+                  </template>
+      </el-table-column>
       <el-table-column label="出库热值(Kcal)" align="center" prop="gryRz" />
       <el-table-column label="运输方式" align="center" prop="transportType" />
       <el-table-column label="物流公司" align="center" prop="wlCompany" />
@@ -329,6 +338,14 @@
               <el-table-column property="name" label="货品名称">
               </el-table-column>
               <el-table-column property="grnNumber" label="入库重量（吨）">
+                <template slot-scope="scope">
+                    {{
+                      Number(scope.row.grnNumber)
+                        .toFixed(4)
+                        .toString()
+                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    }}
+                  </template>
               </el-table-column>
               <el-table-column property="grnRz" label="热值（kcal）">
               </el-table-column>
@@ -376,6 +393,14 @@
               <el-table-column property="name" label="已选货品名称">
               </el-table-column>
               <el-table-column property="grnNumber" label="入库重量（吨）">
+                <template slot-scope="scope">
+                    {{
+                      Number(scope.row.grnNumber)
+                        .toFixed(4)
+                        .toString()
+                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    }}
+                  </template>
               </el-table-column>
               <el-table-column property="grnRz" label="热值（kcal）">
               </el-table-column>
@@ -860,7 +885,7 @@
                 {{ item.name }}
               </td>
               <td class="table-td-content" style="text-align: center">
-                {{ item.grnNumber }}
+                {{ $options.filters.weightFilter(item.grnNumber) }}
               </td>
               <td class="table-td-content" style="text-align: center">
                 {{ item.grnRz }}
