@@ -135,7 +135,16 @@
         :formatter="typeFormat"
       />
       <el-table-column label="货品名称" align="center" prop="goodsName" />
-      <el-table-column label="预计吨数" align="center" prop="expectNumber" />
+      <el-table-column label="预计吨数" align="center" prop="expectNumber">
+        <template slot-scope="scope">
+                    {{
+                      Number(scope.row.expectNumber)
+                        .toFixed(4)
+                        .toString()
+                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    }}
+                  </template>
+      </el-table-column>
       <el-table-column
         label="审批状态"
         align="center"
@@ -916,7 +925,7 @@
               <tr>
                 <td class="table-td-title detail">预计吨数</td>
                 <td class="table-td-content">
-                  {{ printData.expectNumber }}
+                  {{ $options.filters.weightFilter(printData.expectNumber) }}
                 </td>
                 <td class="table-td-title detail">基准单价</td>
                 <td class="table-td-content" colspan="3">
@@ -978,7 +987,7 @@
               <tr>
                 <td class="table-td-title detail">运输单价(吨/元)</td>
                 <td class="table-td-content">
-                  {{ printData.transportPrice }}
+                  {{ $options.filters.moneyFilter(printData.transportPrice) }}
                 </td>
                 <td class="table-td-title detail">损耗率</td>
                 <td class="table-td-content" colspan="3">
@@ -1018,7 +1027,7 @@
               <tr>
                 <td class="table-td-title detail">运输单价(吨/元)</td>
                 <td class="table-td-content">
-                  {{ printData.transportPrice }}
+                  {{ $options.filters.moneyFilter(printData.transportPrice) }}
                 </td>
                 <td class="table-td-title detail">损耗率</td>
                 <td class="table-td-content" colspan="3">

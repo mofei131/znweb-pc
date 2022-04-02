@@ -61,6 +61,17 @@ export const constantRoutes = [{
         }, ],
     },
     {
+        path: "",
+        component: Layout,
+        redirect: "financialStatement",
+        children: [{
+            path: "financialStatement",
+            component: (resolve) => require(["@/views/project/financialStatement/index"], resolve),
+            name: "财务报表",
+            meta: { title: "财务报表", icon: "dashboard", noCache: true, affix: true },
+        }, ],
+    },
+    {
         path: "/user",
         component: Layout,
         hidden: true,
@@ -623,6 +634,26 @@ export const constantRoutes = [{
             name: "previewPage",
             meta: { title: "附件预览" },
         }, ],
+    },
+    {
+        path: "/refund",
+        component: Layout,
+        hidden: true,
+        children: [{
+                path: "look/:refundId(\\d+)",
+                component: (resolve) =>
+                    require(["@/views/project/refund/look/index"], resolve),
+                name: "refundLook",
+                meta: { title: "退款管理查看" },
+            },
+            {
+                path: "index",
+                component: (resolve) =>
+                    require(["@/views/project/refund/index"], resolve),
+                name: "refundEdit",
+                meta: { title: "添加退款申请" },
+            },
+        ],
     },
 ];
 

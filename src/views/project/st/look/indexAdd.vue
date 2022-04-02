@@ -38,7 +38,7 @@
           项目名称：<span v-text="form.name"></span>
         </el-col>
         <el-col :span="4">
-          项目金额(万元)：<span v-text="form.amount"></span>
+          项目金额(万元)：<span v-text="$options.filters.moneyFilter(form.amount)"></span>
         </el-col>
         <el-col :span="4">
           代办人：<span v-text="form.userName"></span>
@@ -68,10 +68,10 @@
 
       <el-row class="head-text">
         <el-col :span="4" :offset="1">
-          履约保证金金额(万元)：<span v-text="form.margin"></span>
+          履约保证金金额(万元)：<span v-text="$options.filters.moneyFilter(form.margin)"></span>
         </el-col>
         <el-col :span="4">
-          结算方式(元)：<span v-text="form.settlementWay"></span>
+          结算方式(元)：<span v-text="$options.filters.moneyFilter(form.settlementWay)"></span>
         </el-col>
         <el-col :span="4">
           服务周期开始：<span v-text="form.cycleStart"></span>
@@ -98,7 +98,7 @@
           固定差价：<span v-text="form.chargemGd"></span>
         </el-col>
         <el-col :span="4">
-          预计单价(元)：<span v-text="form.expectPrice"></span>
+          预计单价(元)：<span v-text="$options.filters.moneyFilter(form.expectPrice)"></span>
         </el-col>
         <el-col :span="4">
           预计重量(吨)：<span v-text="form.expectWeight"></span>
@@ -143,7 +143,7 @@
           结算比例：<span v-text="form.shSettlement"></span>
         </el-col>
         <el-col :span="4">
-          履约保证金(元)：<span v-text="form.shMargin"></span>
+          履约保证金(元)：<span v-text="$options.filters.moneyFilter(form.shMargin)"></span>
         </el-col>
         <el-col :span="4">
           合同签署：<span v-text="form.shContracttype"></span>
@@ -179,7 +179,7 @@
           投标保证金：<span v-text="form.tMargintype"></span>
         </el-col>
         <el-col :span="4">
-          投标保证金(万元)：<span v-text="form.tMargin"></span>
+          投标保证金(万元)：<span v-text="$options.filters.moneyFilter(form.tMargin)"></span>
         </el-col>
         <el-col :span="4">
           保证金缴纳时间：<span v-text="form.tMargintime"></span>

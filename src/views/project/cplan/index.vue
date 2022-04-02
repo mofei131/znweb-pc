@@ -105,7 +105,16 @@
       <el-table-column label="项目名称" align="center" prop="stName" />
       <el-table-column label="代办人" align="center" prop="userName" />
       <el-table-column label="月份" align="center" prop="month" />
-      <el-table-column label="数量(吨)" align="center" prop="number" />
+      <el-table-column label="数量(吨)" align="center" prop="number">
+        <template slot-scope="scope">
+                    {{
+                      Number(scope.row.number)
+                        .toFixed(4)
+                        .toString()
+                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    }}
+                  </template>
+      </el-table-column>
       <el-table-column label="预计付款时间" align="center" prop="fkTime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.fkTime, '{y}-{m}-{d}') }}</span>
@@ -126,7 +135,16 @@
           <span>{{ parseTime(scope.row.skTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="预计收款金额(元)" align="center" prop="skPrice" />
+      <el-table-column label="预计收款金额(元)" align="center" prop="skPrice">
+        <template slot-scope="scope">
+          {{
+            Number(scope.row.skPrice)
+              .toFixed(2)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
+        </template>
+      </el-table-column>
       <el-table-column label="审核状态" align="center" prop="state" :formatter="stateFormat" />
 <!--      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">-->
 <!--        <template slot-scope="scope">-->

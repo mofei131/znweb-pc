@@ -27,10 +27,10 @@
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="3" style="margin-left:12px;">
-        <span>收入金额合计(万元)：</span> <span v-text="tzy">0.00</span>
+        <span>收入金额合计(万元)：</span> <span v-text="$options.filters.moneyFilter(tzy)">0.00</span>
       </el-col>
       <el-col :span="3" >
-        <span>资金占用合计(万元)：</span><span v-text="tsr">0.00</span>
+        <span>资金占用合计(万元)：</span><span v-text="$options.filters.moneyFilter(tsr)">0.00</span>
       </el-col>
       <el-col :span="3" >
         <span>资金周转率：</span><span v-text="tzz">0.00</span>

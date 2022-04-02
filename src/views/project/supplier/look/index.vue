@@ -44,7 +44,7 @@
           年发运量(万吨)：<span v-text="form.traffic"></span>
         </el-col>
         <el-col :span="5">
-          注册资本(万元)：<span v-text="form.capital"></span>
+          注册资本(万元)：<span v-text="$options.filters.moneyFilter(form.capital)"></span>
         </el-col>
       </el-row>
       <el-row class="head-text">

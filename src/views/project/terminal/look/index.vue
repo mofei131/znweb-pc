@@ -50,7 +50,7 @@
       </el-row>
       <el-row class="head-text">
         <el-col :span="5"  :offset="1">
-          注册资本(万元)：<span v-text="form.capital"></span>
+          注册资本(万元)：<span v-text="$options.filters.moneyFilter(form.capital)"></span>
         </el-col>
         <el-col :span="5" >
           开票结算方式：<span v-text="form.settlementType"></span>

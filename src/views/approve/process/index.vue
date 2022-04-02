@@ -91,6 +91,8 @@
                 ? "实际收款"
                 : scope.row.processType == "18"
                 ? "投标申请"
+                : scope.row.processType == "19"
+                ? "退款管理"
                 : ""
             }}
           </template>
@@ -233,5 +235,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

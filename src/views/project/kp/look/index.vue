@@ -57,19 +57,19 @@
       </el-row>
       <el-row class="head-text">
         <el-col :span="4" :offset="1">
-          开票金额(元)：<span v-text="form.kpPrice"></span>
+          开票金额(元)：<span v-text="$options.filters.moneyFilter(form.kpPrice)"></span>
         </el-col>
         <el-col :span="4">
-          开票税额(元)：<span v-text="form.kpTax"></span>
+          开票税额(元)：<span v-text="$options.filters.moneyFilter(form.kpTax)"></span>
         </el-col>
         <el-col :span="4">
-          价税合计(元)：<span v-text="form.kpTotal"></span>
+          价税合计(元)：<span v-text="$options.filters.moneyFilter(form.kpTotal)"></span>
         </el-col>
       </el-row>
 
       <el-row class="head-text">
         <el-col :span="4" :offset="1">
-          货品单价(元)：<span v-text="form.zzPrice"></span>
+          货品单价(元)：<span v-text="$options.filters.moneyFilter(form.zzPrice)"></span>
         </el-col>
         <el-col :span="4">
           货品名称：<span v-text="form.mc"></span>

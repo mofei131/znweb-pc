@@ -76,6 +76,8 @@
                 ? "实际收款"
                 : scope.row.processType == "18"
                 ? "投标申请"
+                : scope.row.processType == "19"
+                ? "退款管理"
                 : ""
             }}
           </template>
@@ -225,6 +227,7 @@ import { delKp } from "@/api/project/kp";
 import { delDp } from "@/api/project/dp";
 import { delRealsk } from "@/api/project/realsk";
 import { delBidApply } from "@/api/project/bidApply";
+import { delRefund } from "@/api/project/refund";
 export default {
   data() {
     return {
@@ -323,6 +326,8 @@ export default {
         this.$router.push("/realsk/look/" + stId);
       } else if (typeId == "18") {
         this.$router.push("/bidApply/look/" + stId);
+      } else if (typeId == "19") {
+        this.$router.push("/refund/look/" + stId);
       }
     },
     handleUpdate(row) {
@@ -411,6 +416,11 @@ export default {
         this.$router.push({
           name: "bidApplyEdit",
           params: { isEdit: "true", bidId: stId },
+        });
+      } else if (typeId == "19") {
+        this.$router.push({
+          name: "refundEdit",
+          params: { isEdit: "true", refundId: stId },
         });
       }
     },
@@ -681,6 +691,21 @@ export default {
         })
           .then(function () {
             return delBidApply(stId);
+          })
+          .then(() => {
+            deleteByStId(stId);
+            this.getList();
+            this.msgSuccess("删除成功");
+          })
+          .catch(() => {});
+      } else if (typeId == "19") {
+        this.$confirm("是否确认删除退款管理?", "警告", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        })
+          .then(function () {
+            return delRefund(stId);
           })
           .then(() => {
             deleteByStId(stId);

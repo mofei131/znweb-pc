@@ -77,7 +77,7 @@
           货品名称：<span v-text="form.goodsName"></span>
         </el-col>
         <el-col :span="4" v-if="form.type=='下游合同'">
-          预计吨数：<span v-text="form.expectNumber"></span>
+          预计吨数：<span v-text="$options.filters.weightFilter(form.expectNumber)"></span>
         </el-col>
         <el-col :span="4" v-if="form.type=='下游合同'">
           基准单价：<span v-text="form.price"></span>
@@ -118,7 +118,7 @@
       </el-row>
       <el-row class="head-text" v-if="form.type=='物流运输合同' || form.type=='物流服务合同'">
         <el-col :span="4" :offset="1" >
-          运费单价(吨/元)：<span v-text="form.transportPrice"></span>
+          运费单价(吨/元)：<span v-text="$options.filters.moneyFilter(form.transportPrice)"></span>
         </el-col>
         <el-col :span="4">
           损耗率：<span v-text="form.transportLoss"></span>

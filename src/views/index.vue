@@ -156,7 +156,10 @@
                   <div
                     style="font-size: 30px; font-weight: 400; color: #fbfdfd"
                   >
-                    {{ sc }}
+                    {{ sc.toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,") }}
+                    
                   </div>
                   <div
                     style="
@@ -200,7 +203,9 @@
                   <div
                     style="font-size: 30px; font-weight: 400; color: #fbfdfd"
                   >
-                    {{ sf }}
+                    {{ sf.toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,") }}
                   </div>
                   <div
                     style="
@@ -244,7 +249,9 @@
                   <div
                     style="font-size: 30px; font-weight: 400; color: #fbfdfd"
                   >
-                    {{ yf }}
+                    {{ yf.toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,") }}
                   </div>
                   <div
                     style="
@@ -517,6 +524,14 @@
               <el-table-column prop="stName" label="所属项目">
               </el-table-column>
               <el-table-column prop="fkPrice" label="付款金额">
+                <template slot-scope="scope">
+                  {{
+                    Number(scope.row.fkPrice)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
               </el-table-column>
               <el-table-column prop="fkTime" label="付款日期">
                 <template slot-scope="scope">
@@ -524,6 +539,14 @@
                 </template>
               </el-table-column>
               <el-table-column prop="skPrice" label="收款金额">
+                <template slot-scope="scope">
+                  {{
+                    Number(scope.row.skPrice)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
               </el-table-column>
               <el-table-column prop="fkTime" label="收款日期">
                 <template slot-scope="scope">
@@ -569,8 +592,24 @@
               <el-table-column prop="name" label="项目名称" width="220">
               </el-table-column>
               <el-table-column prop="amount" label="项目金额">
+                <template slot-scope="scope">
+                  {{
+                    Number(scope.row.amount)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
               </el-table-column>
               <el-table-column prop="expectProfits" label="预计收入">
+                <template slot-scope="scope">
+                  {{
+                    Number(scope.row.expectProfits)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
               </el-table-column>
               <el-table-column
                 label="创建日期"

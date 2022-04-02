@@ -117,6 +117,14 @@
 <!--          >删除</el-button>-->
 <!--        </template>-->
 <!--      </el-table-column>-->
+<template slot-scope="scope">
+                  {{
+                    Number(scope.row.price)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
     </el-table>
 
     <pagination

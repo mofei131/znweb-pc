@@ -53,7 +53,7 @@
             供应商名称：<span v-text="form.terminalName"></span>
           </el-col>
           <el-col :span="4">
-            保证金金额(元)：<span v-text="form.putPrice"></span>
+            保证金金额(元)：<span v-text="$options.filters.moneyFilter(form.putPrice)"></span>
           </el-col>
         </el-row>
       </div>
@@ -66,10 +66,10 @@
             合同名称：<span v-text="form.contractName"></span>
           </el-col>
           <el-col :span="4">
-            客户名称(元)：<span v-text="form.terminalName"></span>
+            客户名称：<span v-text="form.terminalName"></span>
           </el-col>
           <el-col :span="4">
-            保证金金额(元)：<span v-text="form.putPrice"></span>
+            保证金金额(元)：<span v-text="$options.filters.moneyFilter(form.putPrice)"></span>
           </el-col>
         </el-row>
 
