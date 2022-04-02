@@ -144,7 +144,7 @@
             v-hasPermi="['project:refund:remove']"
             >打印</el-button
           >
-          <el-button v-if="scope.row.state=='4' "
+          <!-- <el-button v-if="scope.row.state=='4' "
             size="mini"
             type="text"
             icon="el-icon-edit"
@@ -164,7 +164,7 @@
             icon="el-icon-delete"
             @click="handleRefer(scope.row)"
             v-hasPermi="['project:refund:edit']"
-          >提交</el-button>
+          >提交</el-button> -->
         </template>
       </el-table-column>
     </el-table>
@@ -359,19 +359,19 @@
           <!-- <el-input v-model="refunded" readonly /> -->
           <span v-text="refunded"></span>
         </el-form-item>
-        <el-form-item label="剩余应退款金额:" >
+        <el-form-item label="剩余应退款金额:">
           <!-- <el-input v-model="refunding" readonly /> -->
           <span v-text="refunding"></span>
         </el-form-item>
-        <el-form-item label="终端用户:" >
+        <el-form-item label="终端用户:">
           <!-- <el-input v-model="refundEditForm.t_name" readonly /> -->
           <span v-text="refundEditForm.t_name"></span>
         </el-form-item>
-        <el-form-item label="开户行:" >
+        <el-form-item label="开户行:">
           <!-- <el-input v-model="refundEditForm.bank" readonly /> -->
           <span v-text="refundEditForm.bank"></span>
         </el-form-item>
-        <el-form-item label="账号:" >
+        <el-form-item label="账号:">
           <!-- <el-input v-model="refundEditForm.account" readonly /> -->
           <span v-text="refundEditForm.account"></span>
         </el-form-item>
@@ -409,14 +409,28 @@
       append-to-body
     >
       <el-row>
-        <el-col :span="4">应退款金额：<span v-text="totalRefund"></span></el-col>
-        <el-col :span="4">已退款金额：<span v-text="unrefundDetail"></span></el-col>
-        <el-col :span="4">剩余退款金额：<span v-text="refundDetailing"></span></el-col>
+        <el-col :span="4"
+          >应退款金额：<span v-text="totalRefund"></span
+        ></el-col>
+        <el-col :span="4"
+          >已退款金额：<span v-text="unrefundDetail"></span
+        ></el-col>
+        <el-col :span="4"
+          >剩余退款金额：<span v-text="refundDetailing"></span
+        ></el-col>
       </el-row>
 
       <el-table v-loading="detailLoading" :data="detailList">
-        <el-table-column label="付款人" align="center" prop="createBy" />
-        <el-table-column label="财务退款金额" align="center" prop="detailAmount" />
+        <el-table-column
+          label="付款人"
+          align="center"
+          prop="refundPersonName"
+        />
+        <el-table-column
+          label="财务退款金额"
+          align="center"
+          prop="detailAmount"
+        />
         <el-table-column label="退款时间" align="center" prop="createTime" />
         <el-table-column
           label="操作"
@@ -424,22 +438,25 @@
           class-name="small-padding fixed-width"
         >
           <template slot-scope="scope">
-            <el-button v-if="scope.row.state=='0' "
+            <el-button
+              v-if="scope.row.state == '0'"
               size="mini"
               type="text"
               @click="getUpdateDetail(scope.row)"
               v-hasPermi="['project:refund:edit']"
-            >修改</el-button>
-            <el-button v-if="scope.row.state=='0' "
+              >修改</el-button
+            >
+            <el-button
+              v-if="scope.row.state == '0'"
               size="mini"
               type="text"
               @click="updateFinish(scope.row)"
               v-hasPermi="['project:refund:query']"
-            >完成</el-button>
-            <el-button v-if="scope.row.state=='1' "
-              size="mini"
-              type="text"
-            >已完成</el-button>
+              >完成</el-button
+            >
+            <el-button v-if="scope.row.state == '1'" size="mini" type="text"
+              >已完成</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -631,7 +648,7 @@ import { getToken } from "@/utils/auth";
 import print from "print-js";
 import { getProcessDataByStId, getApprovalProcessList } from "@/api/approve";
 import request from "@/utils/request";
-import Moment from 'moment'
+import Moment from "moment";
 // Vue.prototype.moment = Moment
 
 export default {
@@ -774,6 +791,7 @@ export default {
         createTime: null,
         updateBy: null,
         updateTime: null,
+        fileList: [],
       };
       this.refundForm = {
         refundId: null,
@@ -843,6 +861,7 @@ export default {
     /** 新增按钮操作 */
     handleAdd() {
       this.reset();
+      this.fileList = [];
       this.open = true;
       this.title = "添加退款申请";
     },
@@ -859,6 +878,7 @@ export default {
     /** 退款按钮操作 */
     handleAddDetail(row) {
       this.reset();
+      debugger;
       const refundId = row.refundId || this.ids;
       getRefund(refundId).then((response) => {
         var data1 = response.data;
@@ -899,7 +919,9 @@ export default {
             rdId: this.refundEditForm.rd_id,
             // refundId: this.refundEditForm.refundId,
             detailAmount: this.refundEditForm.detail_amount,
-            createTime: Moment(this.refundEditForm.create_time).format("YYYY-MM-DD HH:mm:ss"),
+            createTime: Moment(this.refundEditForm.create_time).format(
+              "YYYY-MM-DD HH:mm:ss"
+            ),
           };
           addRefundDetail(rd).then((response) => {
             this.msgSuccess("新增成功");
@@ -913,19 +935,19 @@ export default {
     /** 退款明细按钮操作 */
     handleRefund(row) {
       this.reset();
-      const refundId = row.refundId || this.ids
-      getDetail(refundId).then(response => {
+      const refundId = row.refundId || this.ids;
+      getDetail(refundId).then((response) => {
         this.totalRefund = row.moneyAmount;
         this.detailLoading = false;
         this.detailList = response.rows;
 
         this.unrefundDetail = 0;
-        for(var r in response.rows){
+        for (var r in response.rows) {
           // console.log(r)
           // if(response.rows[r].state == 0){
-            this.unrefundDetail += response.rows[r].detailAmount;
+          this.unrefundDetail += response.rows[r].detailAmount;
           // }else if(response.rows[r].state == 1){
-            // this.refundDetailing += response.rows[r].detailAmount;
+          // this.refundDetailing += response.rows[r].detailAmount;
           // }
         }
         this.unrefundDetail = this.unrefundDetail.toFixed(2);
@@ -1053,24 +1075,24 @@ export default {
         }
       }
     },
-    updateFinish(row){
-      updateDetailState(row).then(response => {
+    updateFinish(row) {
+      updateDetailState(row).then((response) => {
         this.msgSuccess("更新成功");
         // console.log(row.refundId)
         /* var refund = {
           refundId: row
         }; */
-        getDetail(row.refundId).then(response => {
+        getDetail(row.refundId).then((response) => {
           // this.totalRefund = row.moneyAmount;
           this.detailLoading = true;
           this.detailList = response.rows;
           this.unrefundDetail = 0;
-          for(var r in response.rows){
+          for (var r in response.rows) {
             // console.log(r)
             // if(response.rows[r].state == 0){
-              this.unrefundDetail += response.rows[r].detailAmount;
+            this.unrefundDetail += response.rows[r].detailAmount;
             // }else if(response.rows[r].state == 1){
-              // this.refundDetailing += response.rows[r].detailAmount;
+            // this.refundDetailing += response.rows[r].detailAmount;
             // }
           }
           this.unrefundDetail = this.unrefundDetail.toFixed(2);
@@ -1155,14 +1177,14 @@ export default {
     onPrintReviewClose() {
       this.resolveImg();
     },
-    getUpdateDetail(row){
+    getUpdateDetail(row) {
       this.reset();
-      const refundId = row.refundId
-      getDetailById(row.rdId).then(response => {
-        console.log(response)
+      const refundId = row.refundId;
+      getDetailById(row.rdId).then((response) => {
+        console.log(response);
         var data1 = response.data;
-        data1.create_time = new Date(data1.create_time)
-        getRefundDetail(refundId).then(response => {
+        data1.create_time = new Date(data1.create_time);
+        getRefundDetail(refundId).then((response) => {
           this.refunded = response.data.toFixed(2);
           this.refunding = (data1.money_amount - response.data).toFixed(2);
           this.refundEditForm = data1;
