@@ -113,25 +113,25 @@
 
       <el-row class="head-text">
         <el-col :span="5" :offset="1">
-          数量(吨)：<span v-text="form.number"></span>
+          数量(吨)：<span v-text="$options.filters.weightFilter(form.number)"></span>
         </el-col>
       </el-row>
 
       <el-row class="head-text">
         <el-col :span="5" :offset="1">
-          开票金额(元)：<span v-text="form.price"></span>
+          开票金额(元)：<span v-text="$options.filters.moneyFilter(form.price)"></span>
         </el-col>
       </el-row>
 
       <el-row class="head-text">
         <el-col :span="5" :offset="1">
-          开票税额(元)：<span v-text="form.tax"></span>
+          开票税额(元)：<span v-text="$options.filters.moneyFilter(form.tax)"></span>
         </el-col>
       </el-row>
 
       <el-row class="head-text">
         <el-col :span="5" :offset="1">
-          价税合计(元)：<span v-text="form.totalPrice"></span>
+          价税合计(元)：<span v-text="$options.filters.moneyFilter(form.totalPrice)"></span>
         </el-col>
       </el-row>
 

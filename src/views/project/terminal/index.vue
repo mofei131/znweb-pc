@@ -104,7 +104,16 @@
         </template>
       </el-table-column>
       <el-table-column label="年需求量(吨)" align="center" prop="demand" />
-      <el-table-column label="注册资本(万元)" align="center" prop="capital" />
+      <el-table-column label="注册资本(万元)" align="center" prop="capital">
+        <template slot-scope="scope">
+                  {{
+                    Number(scope.row.capital)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
+      </el-table-column>
       <el-table-column
         label="创建时间"
         align="center"
@@ -459,7 +468,7 @@
               </td>
               <td class="table-td-title detail">注册资本(万元)</td>
               <td class="table-td-content">
-                {{ printData.capital }}
+                {{ $options.filters.moneyFilter(printData.capital) }}
               </td>
             </tr>
             <tr>
