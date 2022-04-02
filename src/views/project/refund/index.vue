@@ -294,39 +294,35 @@
         :rules="rules"
         label-width="120px"
       >
-        <el-form-item label="应退款金额" prop="moneyAmount">
-          <el-input v-model="refundForm.moneyAmount" readonly />
+        <el-form-item label="应退款金额">
+          {{ refundForm.moneyAmount }}
         </el-form-item>
-        <el-form-item label="已退款金额" prop="refunded">
-          <el-input v-model="refunded" readonly />
+        <el-form-item label="已退款金额">
+          {{ refundForm.ytPrice }}
         </el-form-item>
-        <el-form-item label="剩余应退款金额" prop="refunding">
-          <el-input v-model="refunding" readonly />
+        <el-form-item label="剩余应退款金额">
+          {{ refundForm.refunding }}
         </el-form-item>
-        <el-form-item label="终端用户" prop="tName">
-          <el-input v-model="refundForm.tName" readonly />
+        <el-form-item label="终端用户">
+          {{ refundForm.tName }}
         </el-form-item>
-        <el-form-item label="开户行" prop="bank">
-          <el-input v-model="refundForm.bank" readonly />
+        <el-form-item label="开户行">
+          {{ refundForm.bank }}
         </el-form-item>
-        <el-form-item label="账号" prop="account">
-          <el-input v-model="refundForm.account" readonly />
+        <el-form-item label="账号">
+          {{ refundForm.account }}
         </el-form-item>
-        <el-form-item label="*退款金额" prop="detailAmount">
-          <el-input
-            v-model="queryParams.detailAmount"
-            type="number"
-            placeholder="请输入退款金额"
-            :max="refunding"
-            @input="numberChange(arguments[0], refunding)"
-            @change="numberChange(arguments[0], refunding)"
-          />
+        <el-form-item label="退款金额(元)" prop="tkPrice">
+          <el-input v-model="refundForm.tkPrice" placeholder="请输入退款金额" />
         </el-form-item>
-        <el-form-item label="*退款日期" prop="detailTime">
+        <el-form-item label="退款日期" prop="tkTime">
           <el-date-picker
-            v-model="queryParams.detailTime"
-            value-format="yyyy-MM-dd HH:mm:ss"
-            type="datetime"
+            clearable
+            size="small"
+            style="width: 100%"
+            v-model="refundForm.tkTime"
+            type="date"
+            value-format="yyyy-MM-dd"
             placeholder="选择退款日期"
           >
           </el-date-picker>
@@ -357,11 +353,11 @@
         </el-form-item>
         <el-form-item label="已退款金额:">
           <!-- <el-input v-model="refunded" readonly /> -->
-          <span v-text="refunded"></span>
+          <span v-text="refundEditForm.ytPrice"></span>
         </el-form-item>
         <el-form-item label="剩余应退款金额:">
           <!-- <el-input v-model="refunding" readonly /> -->
-          <span v-text="refunding"></span>
+          <span v-text="refundEditForm.refunding"></span>
         </el-form-item>
         <el-form-item label="终端用户:">
           <!-- <el-input v-model="refundEditForm.t_name" readonly /> -->
@@ -377,19 +373,19 @@
         </el-form-item>
         <el-form-item label="*退款金额" prop="detailAmount">
           <el-input
-            v-model="refundEditForm.detail_amount"
+            v-model="refundEditForm.tkPrice"
             type="number"
             placeholder="请输入退款金额"
             :max="refunding"
-            @input="numberChange(arguments[0], refunding)"
-            @change="numberChange(arguments[0], refunding)"
+            @input="numberChange(arguments[0], refundEditForm.refunding)"
+            @change="numberChange(arguments[0], refundEditForm.refunding)"
           />
         </el-form-item>
         <el-form-item label="*退款日期" prop="detailTime">
           <el-date-picker
             v-model="refundEditForm.create_time"
-            value-format="yyyy-MM-dd HH:mm:ss"
-            type="datetime"
+            value-format="yyyy-MM-dd"
+            type="date"
             placeholder="选择退款日期"
           >
           </el-date-picker>
@@ -713,6 +709,12 @@ export default {
         moneyAmount: [
           { required: true, message: "请输入退款金额", trigger: "blur" },
         ],
+        tkPrice: [
+          { required: true, message: "请输入退款金额", trigger: "blur" },
+        ],
+        tkTime: [
+          { required: true, message: "请选择退款日期", trigger: "blur" },
+        ],
       },
       // 项目集合
       stOptions: [],
@@ -878,33 +880,21 @@ export default {
     /** 退款按钮操作 */
     handleAddDetail(row) {
       this.reset();
-      debugger;
       const refundId = row.refundId || this.ids;
       getRefund(refundId).then((response) => {
-        var data1 = response.data;
-        // this.refundOpen = true;
-        // this.refundTitle = "修改退款金额";
-
-        getRefundDetail(refundId).then((response) => {
-          this.refunded = response.data.toFixed(2);
-          this.refunding = (data1.moneyAmount - response.data).toFixed(2);
-          this.refundForm = data1;
-          this.refundOpen = true;
-          this.refundTitle = "修改退款金额";
-        });
+        this.refundForm = response.data;
+        this.refundForm.refunding = (
+          this.refundForm.moneyAmount - this.refundForm.ytPrice
+        ).toFixed(2);
+        this.refundOpen = true;
+        this.refundTitle = "财务退款";
       });
     },
     addDetail() {
       this.$refs["refundForm"].validate((valid) => {
         if (valid) {
-          var rd = {
-            refundId: this.refundForm.refundId,
-            detailAmount: this.queryParams.detailAmount,
-            createTime: this.queryParams.detailTime,
-          };
-          addRefundDetail(rd).then((response) => {
-            this.msgSuccess("新增成功");
-            this.queryParams = {};
+          updateRefund(this.refundForm).then((response) => {
+            this.msgSuccess("操作成功");
             this.refundOpen = false;
             this.getList();
           });
@@ -915,18 +905,9 @@ export default {
     editDetail() {
       this.$refs["refundEditForm"].validate((valid) => {
         if (valid) {
-          var rd = {
-            rdId: this.refundEditForm.rd_id,
-            // refundId: this.refundEditForm.refundId,
-            detailAmount: this.refundEditForm.detail_amount,
-            createTime: Moment(this.refundEditForm.create_time).format(
-              "YYYY-MM-DD HH:mm:ss"
-            ),
-          };
-          addRefundDetail(rd).then((response) => {
-            this.msgSuccess("新增成功");
-            this.queryParams = {};
-            this.refundEditOpen = false;
+          updateRefund(this.refundEditForm).then((response) => {
+            this.msgSuccess("修改成功");
+            this.open = false;
             this.getList();
           });
         }
@@ -934,27 +915,9 @@ export default {
     },
     /** 退款明细按钮操作 */
     handleRefund(row) {
-      this.reset();
-      const refundId = row.refundId || this.ids;
-      getDetail(refundId).then((response) => {
-        this.totalRefund = row.moneyAmount;
-        this.detailLoading = false;
-        this.detailList = response.rows;
-
-        this.unrefundDetail = 0;
-        for (var r in response.rows) {
-          // console.log(r)
-          // if(response.rows[r].state == 0){
-          this.unrefundDetail += response.rows[r].detailAmount;
-          // }else if(response.rows[r].state == 1){
-          // this.refundDetailing += response.rows[r].detailAmount;
-          // }
-        }
-        this.unrefundDetail = this.unrefundDetail.toFixed(2);
-        this.refundDetailing = row.moneyAmount - this.unrefundDetail;
-        this.refundDetailing = this.refundDetailing.toFixed(2);
-        this.detailOpen = true;
-        this.detailTitle = "退款明细";
+      this.$router.push({
+        name: "paydetailsList",
+        query: { type: "refund", pid: row.refundId },
       });
     },
     /** 提交按钮操作 */
