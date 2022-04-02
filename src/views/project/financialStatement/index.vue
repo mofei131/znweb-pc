@@ -92,7 +92,9 @@
                   </div>
                   <div class="bottom_right">开票总额(元)</div>
                 </div>
-                <div class="briefing_items_bottom">{{ $options.filters.moneyFilter(data1.kpAmount) }}</div>
+                <div class="briefing_items_bottom">
+                  {{ $options.filters.moneyFilter(data1.kpAmount) }}
+                </div>
               </div>
               <div class="briefing_items">
                 <div class="briefing_items_top">
@@ -105,7 +107,9 @@
                   </div>
                   <div class="bottom_right">开票总数量(吨)</div>
                 </div>
-                <div class="briefing_items_bottom">{{ $options.filters.weightFilter(data1.kpNum) }}</div>
+                <div class="briefing_items_bottom">
+                  {{ $options.filters.weightFilter(data1.kpNum) }}
+                </div>
               </div>
               <div class="briefing_items">
                 <div class="briefing_items_top">
@@ -118,7 +122,9 @@
                   </div>
                   <div class="bottom_right">收票总额(元)</div>
                 </div>
-                <div class="briefing_items_bottom">{{ $options.filters.moneyFilter(data1.spAmount) }}</div>
+                <div class="briefing_items_bottom">
+                  {{ $options.filters.moneyFilter(data1.spAmount) }}
+                </div>
               </div>
               <div class="briefing_items">
                 <div class="briefing_items_top">
@@ -131,7 +137,9 @@
                   </div>
                   <div class="bottom_right">收票总数量(吨)</div>
                 </div>
-                <div class="briefing_items_bottom">{{ $options.filters.weightFilter(data1.spNum) }}</div>
+                <div class="briefing_items_bottom">
+                  {{ $options.filters.weightFilter(data1.spNum) }}
+                </div>
               </div>
               <div class="briefing_items">
                 <div class="briefing_items_top">
@@ -203,7 +211,9 @@
                   </div>
                   <div class="bottom_right">期初资金占用(元)</div>
                 </div>
-                <div class="briefing_items_bottom">{{ $options.filters.moneyFilter(data2.qcOcc) }}</div>
+                <div class="briefing_items_bottom">
+                  {{ $options.filters.moneyFilter(data2.qcOcc) }}
+                </div>
               </div>
               <div class="briefing_items2">
                 <div class="briefing_items_top">
@@ -216,7 +226,9 @@
                   </div>
                   <div class="bottom_right">期末资金占用(元)</div>
                 </div>
-                <div class="briefing_items_bottom">{{ $options.filters.moneyFilter(data2.qmOcc) }}</div>
+                <div class="briefing_items_bottom">
+                  {{ $options.filters.moneyFilter(data2.qmOcc) }}
+                </div>
               </div>
               <div class="briefing_items2">
                 <div class="briefing_items_top">
@@ -229,7 +241,9 @@
                   </div>
                   <div class="bottom_right">收入合计金额(元)</div>
                 </div>
-                <div class="briefing_items_bottom">{{ $options.filters.moneyFilter(data2.totalIncome) }}</div>
+                <div class="briefing_items_bottom">
+                  {{ $options.filters.moneyFilter(data2.totalIncome) }}
+                </div>
               </div>
               <div class="briefing_items2">
                 <div class="briefing_items_top">
@@ -830,8 +844,8 @@
                 display: flex;
                 justify-content: space-around;
                 align-items: center;
-                margin-left:50px;
-                overflow:hidden;
+                margin-left: 50px;
+                overflow: hidden;
               "
             >
               <div style="width: 325px; height: 80px">
@@ -980,8 +994,8 @@
                 display: flex;
                 justify-content: space-around;
                 align-items: center;
-                margin-left:50px;
-                overflow:hidden;
+                margin-left: 50px;
+                overflow: hidden;
               "
             >
               <div style="width: 325px; height: 80px">
@@ -1095,7 +1109,7 @@
 </template>
 
 <script>
-import echarts from "echarts";
+// import echarts from "echarts";
 import {
   getProjectBriefing,
   getFundOccupation,
@@ -1135,14 +1149,14 @@ export default {
       rate1: "",
       userList: [],
       stList: [],
-      progressRate1:'',
-      progressRate2:''
+      progressRate1: "",
+      progressRate2: "",
     };
   },
   mounted() {
     getUserListAll().then((res) => {
       res.rows.forEach((e) => {
-        this.userList.push({ label: e.userName, value: e.userId });
+        this.userList.push({ label: e.nickName, value: e.userId });
       });
     });
     this.getProjectBriefing();
@@ -1172,8 +1186,7 @@ export default {
       this.getStatisticSk();
     },
     myEcharts() {
-      var dom = document.getElementById("chart1");
-      var myChart = echarts.init(dom);
+      var myChart = this.$echarts.init(document.getElementById("chart1"));
       var app = {};
 
       var option;
@@ -1185,7 +1198,7 @@ export default {
       var _animationDuration = 1000;
       var _animationDurationUpdate = 1000;
       var _animationEasingUpdate = "quarticInOut";
-      var _valOnRadianMax = 200;
+      var _valOnRadianMax = this.data5.shouldFk | 100;
       var _outerRadius = 200;
       var _innerRadius = 170;
       var _pointerInnerRadius = 40;
@@ -1315,7 +1328,9 @@ export default {
         if (valOnRadian < -10) {
           alert("illegal during val: " + valOnRadian);
         }
-        return ((valOnRadian / _valOnRadianMax) * 100).toFixed(0) + "%";
+        return _valOnRadianMax == 0
+          ? 0
+          : ((valOnRadian / _valOnRadianMax) * 100).toFixed(0) + "%";
       }
       option = {
         animationEasing: _animationEasingUpdate,
@@ -1323,7 +1338,7 @@ export default {
         animationDurationUpdate: _animationDurationUpdate,
         animationEasingUpdate: _animationEasingUpdate,
         dataset: {
-          source: [[1, this.progressRate1*2]],
+          source: [[0, this.data5.actualFk | 0]],
         },
         tooltip: {},
         angleAxis: {
@@ -1349,8 +1364,7 @@ export default {
       myChart.setOption(option);
     },
     myEcharts2() {
-      var dom = document.getElementById("chart2");
-      var myChart = echarts.init(dom);
+      var myChart = this.$echarts.init(document.getElementById("chart2"));
       var app = {};
 
       var option;
@@ -1362,7 +1376,7 @@ export default {
       var _animationDuration = 1000;
       var _animationDurationUpdate = 1000;
       var _animationEasingUpdate = "quarticInOut";
-      var _valOnRadianMax = 200;
+      var _valOnRadianMax = this.data6.shouldSk | 100;
       var _outerRadius = 200;
       var _innerRadius = 170;
       var _pointerInnerRadius = 40;
@@ -1500,7 +1514,7 @@ export default {
         animationDurationUpdate: _animationDurationUpdate,
         animationEasingUpdate: _animationEasingUpdate,
         dataset: {
-          source: [[1, this.progressRate2*2]],
+          source: [[0, this.data6.actualSk | 0]],
         },
         tooltip: {},
         angleAxis: {
@@ -1579,7 +1593,7 @@ export default {
         dateTo: this.time5[1],
       }).then((res) => {
         this.data5 = res.data;
-        this.progressRate1 = res.data.progressRate
+        this.progressRate1 = res.data.progressRate;
       });
     },
     getStatisticSk() {
@@ -1591,7 +1605,7 @@ export default {
         dateTo: this.time6[1],
       }).then((res) => {
         this.data6 = res.data;
-        this.progressRate2 = res.data.progressRate
+        this.progressRate2 = res.data.progressRate;
       });
     },
   },
@@ -1691,13 +1705,13 @@ export default {
 }
 .report {
   #chart1 {
-    height: 550px;
-    width: 650px;
+    height: 750px;
+    width: 750px;
     transform: scale(0.4);
   }
   #chart2 {
-    height: 550px;
-    width: 650px;
+    height: 750px;
+    width: 750px;
     transform: scale(0.4);
   }
   background-color: #fafafa;
