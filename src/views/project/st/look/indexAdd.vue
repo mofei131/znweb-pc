@@ -71,7 +71,7 @@
           履约保证金金额(万元)：<span v-text="$options.filters.moneyFilter(form.margin)"></span>
         </el-col>
         <el-col :span="4">
-          结算方式(元)：<span v-text="$options.filters.moneyFilter(form.settlementWay)"></span>
+          结算方式：<span v-text="form.settlementWay"></span>
         </el-col>
         <el-col :span="4">
           服务周期开始：<span v-text="form.cycleStart"></span>

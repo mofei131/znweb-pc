@@ -1375,9 +1375,9 @@
               </td>
             </tr>
             <tr>
-              <td class="table-td-title detail">结算方式(元)</td>
+              <td class="table-td-title detail">结算方式</td>
               <td class="table-td-content">
-                <template>{{ $options.filters.moneyFilter(printData.settlementWay) }}</template>
+                <template>{{ printData.settlementWay}}</template>
               </td>
               <td class="table-td-title detail">服务周期结束</td>
               <td class="table-td-content">

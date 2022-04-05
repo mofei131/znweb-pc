@@ -94,8 +94,8 @@
               ></span>
             </el-col>
             <el-col :span="4">
-              结算方式(元)：<span
-                v-text="$options.filters.moneyFilter(form.settlementWay)"
+              结算方式：<span
+                v-text="form.settlementWay"
               ></span>
             </el-col>
             <el-col :span="4">
