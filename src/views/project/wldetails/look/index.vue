@@ -50,13 +50,13 @@
 
       <el-row class="head-text">
         <el-col :span="4" :offset="1">
-          不含税金额合计：<span v-text="form.tntPrice"></span>
+          不含税金额合计：<span v-text="$options.filters.moneyFilter(form.tntPrice)"></span>
         </el-col>
         <el-col :span="4" >
-          补税金额：<span v-text="form.bsPrice"></span>
+          补税金额：<span v-text="$options.filters.moneyFilter(form.bsPrice)"></span>
         </el-col>
         <el-col :span="4" >
-          价税合计：<span v-text="form.jstPrice"></span>
+          价税合计：<span v-text="$options.filters.moneyFilter(form.jstPrice)"></span>
         </el-col>
         <el-col :span="4" >
           收票状态：<span v-text="form.spState"></span>
@@ -85,6 +85,14 @@
             <el-table-column
               property="ntPrice"
               label="不含税金额">
+              <template slot-scope="scope">
+          {{
+            Number(scope.row.ntPrice)
+              .toFixed(2)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+          }}
+        </template>
             </el-table-column>
             <el-table-column
               property="tax"
@@ -93,6 +101,14 @@
             <el-table-column
               property="taxPrice"
               label="税额">
+              <template slot-scope="scope">
+          {{
+            Number(scope.row.ntPrice)
+              .toFixed(2)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+          }}
+        </template>
             </el-table-column>
           </el-table>
         </el-col>
@@ -123,6 +139,14 @@
             <el-table-column
               property="expectNumber"
               label="货品重量(吨)">
+              <template slot-scope="scope">
+          {{
+            Number(scope.row.expectNumber)
+              .toFixed(3)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+          }}
+        </template>
             </el-table-column>
             <el-table-column
               property=""

@@ -126,7 +126,7 @@
         <template slot-scope="scope">
                     {{
                       Number(scope.row.grnNumber)
-                        .toFixed(4)
+                        .toFixed(3)
                         .toString()
                         .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                     }}
@@ -341,7 +341,7 @@
                 <template slot-scope="scope">
                     {{
                       Number(scope.row.grnNumber)
-                        .toFixed(4)
+                        .toFixed(3)
                         .toString()
                         .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                     }}
@@ -396,7 +396,7 @@
                 <template slot-scope="scope">
                     {{
                       Number(scope.row.grnNumber)
-                        .toFixed(4)
+                        .toFixed(3)
                         .toString()
                         .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                     }}
@@ -441,7 +441,7 @@
           <el-row>
             <el-col :span="6">
               <el-form-item label="合计重量" prop="totalWeight">
-                <span style="color: red">{{ form.totalWeight }}</span>
+                <span style="color: red">{{ $options.filters.moneyFilter(form.totalWeight) }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="6">
@@ -466,12 +466,12 @@
             </el-col>
             <el-col :span="5">
               <el-form-item label="单价差" prop="averageRz">
-                <span style="color: red">{{ djc }}</span>
+                <span style="color: red">{{ $options.filters.moneyFilter(djc) }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="5">
               <el-form-item label="总额差" prop="averageRz">
-                <span style="color: red">{{ zec }}</span>
+                <span style="color: red">{{ $options.filters.moneyFilter(zec) }}</span>
               </el-form-item>
             </el-col>
           </el-row>
@@ -738,13 +738,13 @@
               </td>
               <td class="table-td-title detail">货值单价</td>
               <td class="table-td-content">
-                {{ printData.valuePrice }}
+                {{ $options.filters.moneyFilter(printData.valuePrice) }}
               </td>
             </tr>
             <tr>
-              <td class="table-td-title detail">货值总额</td>
+              <td class="table-td-title detail">货值总</td>
               <td class="table-td-content" colspan="5">
-                {{ printData.valueTprice }}
+                {{ $options.filters.moneyFilter(printData.valueTprice) }}
               </td>
             </tr>
           </table>
@@ -925,11 +925,11 @@
             <tr>
               <td class="table-td-title detail" colspan="2">单价差</td>
               <td class="table-td-content" colspan="3">
-                {{ printData.djc }}
+                {{ $options.filters.moneyFilter(printData.djc) }}
               </td>
               <td class="table-td-title detail" colspan="2">总额差</td>
               <td class="table-td-content" colspan="3">
-                {{ printData.zec }}
+                {{ $options.filters.moneyFilter(printData.zec) }}
               </td>
             </tr>
           </table>

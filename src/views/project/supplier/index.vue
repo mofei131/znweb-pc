@@ -79,7 +79,16 @@
           <span>{{ parseTime(scope.row.clTime, '{y}-{m}-{d} {h}:{i}:{s}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="年发运量(万吨)" align="center" prop="traffic" />
+      <el-table-column label="年发运量(万吨)" align="center" prop="traffic">
+        <template slot-scope="scope">
+          {{
+            Number(scope.row.traffic)
+              .toFixed(3)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+          }}
+        </template>
+      </el-table-column>
       <el-table-column label="发票面额" align="center" prop="invoiceType" />
       <el-table-column label="创建时间" align="center" prop="createTime" width="180">
         <template slot-scope="scope">

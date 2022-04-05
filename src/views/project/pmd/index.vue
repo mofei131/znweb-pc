@@ -40,7 +40,7 @@
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="3" style="margin-left:12px;">
-        <span>应付金额：</span> <span v-text="yfp">0.00</span>
+        <span>应付金额：</span> <span v-text="$options.filters.moneyFilter(yfp)">0.00</span>
       </el-col>
 <!--      <el-col :span="1.5">-->
 <!--        <el-button-->
@@ -97,7 +97,16 @@
         </template>
       </el-table-column>
       <el-table-column label="类型" align="center" prop="type" />
-      <el-table-column label="已收票吨数" align="center" prop="number" />
+      <el-table-column label="已收票吨数" align="center" prop="number" >
+        <template slot-scope="scope">
+                    {{
+                      Number(scope.row.number)
+                        .toFixed(3)
+                        .toString()
+                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    }}
+                  </template>
+      </el-table-column>
       <el-table-column label="发生金额(元)" align="center" prop="price" />
 <!--      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">-->
 <!--        <template slot-scope="scope">-->

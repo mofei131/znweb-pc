@@ -106,7 +106,7 @@
         <template slot-scope="scope">
                     {{
                       Number(scope.row.bidNumber)
-                        .toFixed(4)
+                        .toFixed(3)
                         .toString()
                         .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                     }}

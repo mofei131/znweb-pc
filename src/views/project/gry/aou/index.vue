@@ -75,7 +75,7 @@
                   <template slot-scope="scope">
                     {{
                       Number(scope.row.grnNumber)
-                        .toFixed(4)
+                        .toFixed(3)
                         .toString()
                         .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                     }}
@@ -157,6 +157,14 @@
                   property="grnNumber"
                   label="入库重量（吨）"
                   width="120">
+                  <template slot-scope="scope">
+                    {{
+                      Number(scope.row.grnNumber)
+                        .toFixed(3)
+                        .toString()
+                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    }}
+                  </template>
                 </el-table-column>
                 <el-table-column
                   property="grnRz"
@@ -222,7 +230,7 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item label="合计重量" prop="totalWeight">
-                  <span  style="color: red">{{form.totalWeight}}</span>
+                  <span  style="color: red">{{$options.filters.moneyFilter(form.totalWeight)}}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -247,12 +255,12 @@
               </el-col>
               <el-col :span="5">
                 <el-form-item label="单价差" prop="averageRz">
-                  <span  style="color: red">{{djc}}</span>
+                  <span  style="color: red">{{$options.filters.moneyFilter(djc)}}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="5">
                 <el-form-item label="总额差" prop="averageRz">
-                  <span  style="color: red">{{zec}}</span>
+                  <span  style="color: red">{{$options.filters.moneyFilter(zec)}}</span>
                 </el-form-item>
               </el-col>
             </el-row>

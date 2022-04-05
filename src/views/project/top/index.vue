@@ -212,6 +212,14 @@
                 prop="price"
                 label="金额"
                 >
+                <template slot-scope="scope">
+          {{
+            Number(scope.row.price)
+              .toFixed(2)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+          }}
+        </template>
               </el-table-column>
               <el-table-column
                 prop="time"

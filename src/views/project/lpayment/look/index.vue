@@ -59,7 +59,7 @@
 
       <el-row class="head-text">
         <el-col :span="4" :offset="1">
-          实付金额：<span v-text="form.tntPrice"></span>
+          实付金额：<span v-text="$options.filters.moneyFilter(form.tntPrice)"></span>
         </el-col>
       </el-row>
       <el-row class="head-text">
@@ -207,6 +207,14 @@
             <el-table-column
               property="expectNumber"
               label="货品重量(吨)">
+              <template slot-scope="scope">
+                    {{
+                      Number(scope.row.expectNumber)
+                        .toFixed(3)
+                        .toString()
+                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    }}
+                  </template>
             </el-table-column>
             <el-table-column
               property=""

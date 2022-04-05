@@ -54,10 +54,10 @@
 
       <el-row class="head-text">
         <el-col :span="5" :offset="1">
-          货值单价：<span v-text="form.valuePrice"></span>
+          货值单价：<span v-text="$options.filters.moneyFilter(form.valuePrice)"></span>
         </el-col>
         <el-col :span="5">
-          货值总额：<span v-text="form.valueTprice"></span>
+          货值总额：<span v-text="$options.filters.moneyFilter(form.valueTprice)"></span>
         </el-col>
       </el-row>
 
@@ -179,6 +179,14 @@
             <el-table-column
               property="grnNumber"
               label="入库重量（吨）">
+              <template slot-scope="scope">
+                    {{
+                      Number(scope.row.grnNumber)
+                        .toFixed(3)
+                        .toString()
+                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    }}
+                  </template>
             </el-table-column>
             <el-table-column
               property="grnRz"
@@ -244,12 +252,12 @@
         </el-col>
         <el-col :span="4">
           <el-form-item label="单价差" prop="averageRz">
-            <span  style="color: red" v-text="djc"></span>
+            <span  style="color: red" v-text="$options.filters.moneyFilter(djc)"></span>
           </el-form-item>
         </el-col>
         <el-col :span="4">
           <el-form-item label="总额差" prop="averageRz">
-            <span  style="color: red" v-text="zec"></span>
+            <span  style="color: red" v-text="$options.filters.moneyFilter(zec)"></span>
           </el-form-item>
         </el-col>
       </el-row>

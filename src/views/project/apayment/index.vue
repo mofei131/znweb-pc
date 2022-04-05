@@ -117,7 +117,7 @@
         <template slot-scope="scope">
                     {{
                       Number(scope.row.grns)
-                        .toFixed(4)
+                        .toFixed(3)
                         .toString()
                         .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                     }}
@@ -127,7 +127,7 @@
         <template slot-scope="scope">
                     {{
                       Number(scope.row.grys)
-                        .toFixed(4)
+                        .toFixed(3)
                         .toString()
                         .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                     }}
@@ -153,7 +153,16 @@
           }}
         </template>
       </el-table-column>
-      <el-table-column label="预付至" align="center" prop="ato" />
+      <el-table-column label="预付至" align="center" prop="ato">
+        <template slot-scope="scope">
+          {{
+            Number(scope.row.ato)
+              .toFixed(2)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
+        </template>
+      </el-table-column>
       <el-table-column
         label="实际付款金额(元)"
         align="center"
@@ -402,7 +411,7 @@
                 <template slot-scope="scope">
                     {{
                       Number(scope.row.grnNumber)
-                        .toFixed(4)
+                        .toFixed(3)
                         .toString()
                         .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                     }}
@@ -485,7 +494,7 @@
                 <template slot-scope="scope">
                     {{
                       Number(scope.row.grnNumber)
-                        .toFixed(4)
+                        .toFixed(3)
                         .toString()
                         .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                     }}
@@ -544,7 +553,7 @@
                 <template slot-scope="scope">
                     {{
                       Number(scope.row.grnNumber)
-                        .toFixed(4)
+                        .toFixed(3)
                         .toString()
                         .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                     }}
@@ -559,7 +568,7 @@
                 <template slot-scope="scope">
                     {{
                       Number(scope.row.grnNumber)
-                        .toFixed(4)
+                        .toFixed(3)
                         .toString()
                         .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                     }}
@@ -663,7 +672,7 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item label="合计重量" prop="totalWeight">
-                  <span style="color: red">{{ form.totalWeight }}</span>
+                  <span style="color: red">{{ $options.filters.weightFilter(form.totalWeight) }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -976,21 +985,21 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="应付金额：">
-                <span v-text="form.actualPrice"></span>
+                <span v-text="$options.filters.moneyFilter(form.actualPrice)"></span>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
               <el-form-item label="已付金额：">
-                <span v-text="form.ypayPrice"></span>
+                <span v-text="$options.filters.moneyFilter(form.ypayPrice)"></span>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
               <el-form-item label="剩余应付：">
-                <span v-text="form.actualPrice - form.ypayPrice"></span>
+                <span v-text="$options.filters.moneyFilter(form.actualPrice - form.ypayPrice)"></span>
               </el-form-item>
             </el-col>
           </el-row>
@@ -1132,7 +1141,7 @@
               <td class="table-td-title detail">车数</td>
               <td class="table-td-title detail">批次</td>
               <td class="table-td-title detail">货值单价(元)</td>
-              <td class="table-td-title detail">货值总额(吨)</td>
+              <td class="table-td-title detail">货值总额(元)</td>
             </tr>
             <tr v-for="(item, idx) in printData.dataList" :key="idx">
               <td class="table-td-content" style="text-align: center">
@@ -1154,7 +1163,7 @@
                 {{ $options.filters.moneyFilter(item.valuePrice) }}
               </td>
               <td class="table-td-content" style="text-align: center">
-                {{ item.valueTprice }}
+                {{ $options.filters.moneyFilter(item.valueTprice) }}
               </td>
             </tr>
           </table>
@@ -1230,11 +1239,11 @@
               </td>
               <td class="table-td-title detail">固定差价</td>
               <td class="table-td-content">
-                {{ printData.dPrice }}
+                {{ $options.filters.moneyFilter(printData.dPrice) }}
               </td>
               <td class="table-td-title detail">预付至</td>
               <td class="table-td-content">
-                {{ printData.ato }}
+                {{ $options.filters.moneyFilter(printData.ato) }}
               </td>
             </tr>
             <tr>
@@ -1248,35 +1257,35 @@
               </td>
               <td class="table-td-title detail">扣款金额</td>
               <td class="table-td-content">
-                {{ printData.kkPrice }}
+                {{ $options.filters.moneyFilter(printData.kkPrice) }}
               </td>
             </tr>
             <tr>
               <td class="table-td-title detail">扣款备注</td>
               <td class="table-td-content">
-                {{ printData.kkNode }}
+                {{ $options.filters.moneyFilter(printData.kkNode) }}
               </td>
               <td class="table-td-title detail">运费金额</td>
               <td class="table-td-content">
-                {{ printData.yfPrice }}
+                {{ $options.filters.moneyFilter(printData.yfPrice) }}
               </td>
               <td class="table-td-title detail">付款总额</td>
               <td class="table-td-content">
-                {{ printData.payTprice }}
+                {{ $options.filters.moneyFilter(printData.payTprice) }}
               </td>
             </tr>
             <tr>
               <td class="table-td-title detail">已付金额</td>
               <td class="table-td-content">
-                {{ printData.prepaidPrice }}
+                {{ $options.filters.moneyFilter(printData.prepaidPrice) }}
               </td>
               <td class="table-td-title detail">垫付保证金</td>
               <td class="table-td-content">
-                {{ printData.dfPrice }}
+                {{ $options.filters.moneyFilter(printData.dfPrice) }}
               </td>
               <td class="table-td-title detail">实际付款金额</td>
               <td class="table-td-content">
-                {{ printData.actualPrice }}
+                {{ $options.filters.moneyFilter(printData.actualPrice) }}
               </td>
             </tr>
           </table>

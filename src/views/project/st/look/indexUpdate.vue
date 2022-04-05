@@ -101,7 +101,7 @@
       </el-row>
       <el-row class="head-text">
         <el-col :span="4" :offset="1">
-          预计吨数：<span v-text="form.expectWeight"></span>
+          预计吨数：<span v-text="$options.filters.weightFilter(form.expectWeight)"></span>
         </el-col>
         <el-col :span="4">
           预计单价(元)：<span v-text="$options.filters.moneyFilter(form.expectPrice)"></span>
@@ -137,6 +137,14 @@
             <el-table-column
               property="expectNumber"
               label="货品重量(吨)">
+              <template slot-scope="scope">
+          {{
+            Number(scope.row.expectNumber)
+              .toFixed(3)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+          }}
+        </template>
             </el-table-column>
             <el-table-column
               property=""
@@ -184,6 +192,14 @@
             <el-table-column
               property="grnNumber"
               label="入库重量(吨)">
+              <template slot-scope="scope">
+          {{
+            Number(scope.row.grnNumber)
+              .toFixed(3)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+          }}
+        </template>
             </el-table-column>
             <el-table-column
               property="grnRz"
@@ -267,6 +283,14 @@
             <el-table-column
               property="grnNumber"
               label="出库重量(吨)">
+              <template slot-scope="scope">
+          {{
+            Number(scope.row.grnNumber)
+              .toFixed(3)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+          }}
+        </template>
             </el-table-column>
             <el-table-column
               property="gryRz"
@@ -356,10 +380,26 @@
             <el-table-column
               property="grns"
               label="发货总量(吨)">
+              <template slot-scope="scope">
+          {{
+            Number(scope.row.grns)
+              .toFixed(3)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+          }}
+        </template>
             </el-table-column>
             <el-table-column
               property="grys"
               label="验收总量(吨)">
+              <template slot-scope="scope">
+          {{
+            Number(scope.row.grys)
+              .toFixed(3)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+          }}
+        </template>
             </el-table-column>
             <el-table-column
               property="totalPrice"
@@ -388,6 +428,14 @@
             <el-table-column
               property="ato"
               label="预付至">
+              <template slot-scope="scope">
+          {{
+            Number(scope.row.ato)
+              .toFixed(2)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
+        </template>
             </el-table-column>
             <el-table-column
               property="actualPrice"
@@ -443,6 +491,14 @@
             <el-table-column
               property="tweight"
               label="验收重量(吨)">
+              <template slot-scope="scope">
+          {{
+            Number(scope.row.tweight)
+              .toFixed(3)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+          }}
+        </template>
             </el-table-column>
             <el-table-column
               property="skPrice"
@@ -459,6 +515,14 @@
             <el-table-column
               property="skTprice"
               label="收款金额">
+              <template slot-scope="scope">
+                  {{
+                    Number(scope.row.skTprice)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
             </el-table-column>
             <el-table-column
               label="操作"
@@ -494,6 +558,14 @@
             <el-table-column
               property="tntPrice"
               label="实付金额">
+              <template slot-scope="scope">
+                  {{
+                    Number(scope.row.tntPrice)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
             </el-table-column>
             <!-- <el-table-column
               property="serType"
@@ -552,6 +624,14 @@
             <el-table-column
               property="tweight"
               label="验收重量（吨）">
+              <template slot-scope="scope">
+          {{
+            Number(scope.row.tweight)
+              .toFixed(3)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+          }}
+        </template>
             </el-table-column>
             <el-table-column
               property="price"
@@ -652,6 +732,14 @@
             <el-table-column
               property="zzWeight"
               label="货品总重(吨)">
+              <template slot-scope="scope">
+          {{
+            Number(scope.row.zzWeight)
+              .toFixed(3)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+          }}
+        </template>
             </el-table-column>
             <el-table-column
               property="kpTax"
@@ -717,6 +805,14 @@
             <el-table-column
               property="number"
               label="货品总重(吨)">
+              <template slot-scope="scope">
+          {{
+            Number(scope.row.number)
+              .toFixed(3)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+          }}
+        </template>
             </el-table-column>
             <el-table-column
               property="tax"
@@ -863,13 +959,13 @@
               <el-table-column
                 label="固定差价">
                 <template slot-scope="scope" >
-                  <span v-text="form.chargemGd"></span>
+                  <span v-text="$options.filters.moneyFilter(form.chargemGd)"></span>
                 </template>
               </el-table-column>
               <el-table-column
                 label="差价利润">
                 <template slot-scope="scope" >
-                  <span v-text="gryLr"></span>
+                  <span v-text="$options.filters.moneyFilter(gryLr)"></span>
                 </template>
               </el-table-column>
             </el-table>

@@ -30,32 +30,32 @@
     <el-row :gutter="10" class="mb8">
       <div v-if="this.queryParams.type == 'realsk'">
         <el-col :span="3" style="margin-left: 12px">
-          <span>应收金额：</span> <span v-text="yf">0.00</span>
+          <span>应收金额：</span> <span v-text="$options.filters.moneyFilter(yf)">0.00</span>
         </el-col>
         <el-col :span="3">
-          <span>已收金额：</span><span v-text="ypay">0.00</span>
+          <span>已收金额：</span><span v-text="$options.filters.moneyFilter(ypay)">0.00</span>
         </el-col>
         <el-col :span="3">
-          <span>剩余应收：</span><span v-text="yf - ypay">0.00</span>
+          <span>剩余应收：</span><span v-text="$options.filters.moneyFilter(yf - ypay)">0.00</span>
         </el-col>
       </div>
       <div v-else-if="this.queryParams.type == 'refund'">
         <el-col :span="3" style="margin-left: 12px">
-          <span>应退款金额：</span> <span v-text="yf">0.00</span>
+          <span>应退款金额：</span> <span v-text="$options.filters.moneyFilter(yf)">0.00</span>
         </el-col>
         <el-col :span="3">
-          <span>已退款金额：</span><span v-text="ypay">0.00</span>
+          <span>已退款金额：</span><span v-text="$options.filters.moneyFilter(ypay)">0.00</span>
         </el-col>
         <el-col :span="3">
-          <span>剩余退款金额：</span><span v-text="yf - ypay">0.00</span>
+          <span>剩余退款金额：</span><span v-text="$options.filters.moneyFilter(yf - ypay)">0.00</span>
         </el-col>
       </div>
       <div v-else>
         <el-col :span="3" style="margin-left: 12px">
-          <span>应付金额：</span> <span v-text="yf">0.00</span>
+          <span>应付金额：</span> <span v-text="$options.filters.moneyFilter(yf)">0.00</span>
         </el-col>
         <el-col :span="3">
-          <span>已付金额：</span><span v-text="ypay">0.00</span>
+          <span>已付金额：</span><span v-text="$options.filters.moneyFilter(ypay)">0.00</span>
         </el-col>
         <el-col :span="3">
           <span>剩余应付：</span
@@ -130,7 +130,16 @@
         v-if="
           this.queryParams.type != 'realsk' && this.queryParams.type != 'refund'
         "
-      />
+      >
+      <template slot-scope="scope">
+          {{
+            Number(scope.row.payPrice)
+              .toFixed(2)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
+        </template>
+      </el-table-column>
       <el-table-column
         label="付款时间"
         align="center"
@@ -171,7 +180,16 @@
         align="center"
         prop="payPrice"
         v-if="this.queryParams.type == 'realsk'"
-      />
+      >
+      <template slot-scope="scope">
+          {{
+            Number(scope.row.payPrice)
+              .toFixed(2)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
+        </template>
+      </el-table-column>
       <el-table-column
         label="收款时间"
         align="center"
@@ -193,7 +211,16 @@
         align="center"
         prop="payPrice"
         v-if="this.queryParams.type == 'refund'"
-      />
+      >
+      <template slot-scope="scope">
+          {{
+            Number(scope.row.payPrice)
+              .toFixed(2)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
+        </template>
+      </el-table-column>
       <el-table-column
         label="退款时间"
         align="center"

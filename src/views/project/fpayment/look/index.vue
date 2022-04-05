@@ -77,7 +77,7 @@
               <template slot-scope="scope">
                   {{
                     Number(scope.row.grnNumber)
-                      .toFixed(4)
+                      .toFixed(3)
                       .toString()
                       .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                   }}
@@ -121,7 +121,7 @@
       <el-row class="head-text">
         <el-col :span="4" :offset="1">
           <el-form-item label="合计重量：">
-            <span style="color: red">{{ form.tweight }}</span>
+            <span style="color: red">{{ $options.filters.moneyFilter(form.tweight) }}</span>
           </el-form-item>
         </el-col>
         <el-col :span="4">
@@ -163,21 +163,21 @@
 
       <el-row class="head-text">
         <el-col :span="5" :offset="1">
-          承兑贴息：<span v-text="form.cdtx"></span>
+          承兑贴息：<span v-text="$options.filters.moneyFilter(form.cdtx)"></span>
         </el-col>
         <el-col :span="5">
-          补税金额：<span v-text="form.bsPrice"></span>
+          补税金额：<span v-text="$options.filters.moneyFilter(form.bsPrice)"></span>
         </el-col>
         <el-col :span="5">
-          其他扣款：<span v-text="form.otherPrice"></span>
+          其他扣款：<span v-text="$options.filters.moneyFilter(form.otherPrice)"></span>
         </el-col>
       </el-row>
 
       <el-row class="head-text">
         <el-col :span="5" :offset="1">
-          贴息：<span v-text="form.tx"></span>
+          贴息：<span v-text="$options.filters.moneyFilter(form.tx)"></span>
         </el-col>
-        <el-col :span="5"> 其他费用：<span v-text="form.qt"></span> </el-col>
+        <el-col :span="5"> 其他费用：<span v-text="$options.filters.moneyFilter(form.qt)"></span> </el-col>
       </el-row>
 
       <el-row class="head-text">
@@ -223,7 +223,7 @@
               <template slot-scope="scope">
                   {{
                     Number(scope.row.expectNumber)
-                      .toFixed(4)
+                      .toFixed(3)
                       .toString()
                       .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                   }}

@@ -93,7 +93,16 @@
       <el-table-column label="终端客户" align="center" prop="tName" />
       <!-- <el-table-column label="账号" align="center" prop="account" /> -->
       <!-- <el-table-column label="开户行" align="center" prop="bank" /> -->
-      <el-table-column label="退款金额" align="center" prop="moneyAmount" />
+      <el-table-column label="退款金额" align="center" prop="moneyAmount">
+        <template slot-scope="scope">
+                  {{
+                    Number(scope.row.moneyAmount)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
+      </el-table-column>
       <el-table-column label="创建时间" align="center" prop="createTime" />
       <!-- <el-table-column label="备注" align="center" prop="remark" /> -->
       <el-table-column
@@ -295,13 +304,13 @@
         label-width="120px"
       >
         <el-form-item label="应退款金额">
-          {{ refundForm.moneyAmount }}
+          {{ $options.filters.moneyFilter(refundForm.moneyAmount) }}
         </el-form-item>
         <el-form-item label="已退款金额">
-          {{ refundForm.ytPrice }}
+          {{ $options.filters.moneyFilter(refundForm.ytPrice) }}
         </el-form-item>
         <el-form-item label="剩余应退款金额">
-          {{ refundForm.refunding }}
+          {{ $options.filters.moneyFilter(refundForm.refunding) }}
         </el-form-item>
         <el-form-item label="终端用户">
           {{ refundForm.tName }}
@@ -349,15 +358,15 @@
       >
         <el-form-item label="应退款金额:">
           <!-- <el-input v-model="refundEditForm.money_amount" readonly /> -->
-          <span v-text="refundEditForm.money_amount"></span>
+          <span v-text="$options.filters.moneyFilter(refundEditForm.money_amount)"></span>
         </el-form-item>
         <el-form-item label="已退款金额:">
           <!-- <el-input v-model="refunded" readonly /> -->
-          <span v-text="refundEditForm.ytPrice"></span>
+          <span v-text="$options.filters.moneyFilter(refundEditForm.ytPrice)"></span>
         </el-form-item>
         <el-form-item label="剩余应退款金额:">
           <!-- <el-input v-model="refunding" readonly /> -->
-          <span v-text="refundEditForm.refunding"></span>
+          <span v-text="$options.filters.moneyFilter(refundEditForm.refunding)"></span>
         </el-form-item>
         <el-form-item label="终端用户:">
           <!-- <el-input v-model="refundEditForm.t_name" readonly /> -->
@@ -406,13 +415,13 @@
     >
       <el-row>
         <el-col :span="4"
-          >应退款金额：<span v-text="totalRefund"></span
+          >应退款金额：<span v-text="$options.filters.moneyFilter(totalRefund)"></span
         ></el-col>
         <el-col :span="4"
-          >已退款金额：<span v-text="unrefundDetail"></span
+          >已退款金额：<span v-text="$options.filters.moneyFilter(unrefundDetail)"></span
         ></el-col>
         <el-col :span="4"
-          >剩余退款金额：<span v-text="refundDetailing"></span
+          >剩余退款金额：<span v-text="$options.filters.moneyFilter(refundDetailing)"></span
         ></el-col>
       </el-row>
 
@@ -426,7 +435,16 @@
           label="财务退款金额"
           align="center"
           prop="detailAmount"
-        />
+        >
+        <template slot-scope="scope">
+                  {{
+                    Number(scope.row.detailAmount)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
+        </el-table-column>
         <el-table-column label="退款时间" align="center" prop="createTime" />
         <el-table-column
           label="操作"
@@ -525,7 +543,7 @@
             <tr>
               <td class="table-td-title detail">退款金额</td>
               <td class="table-td-content" colspan="5">
-                {{ printData.moneyAmount }}
+                {{ $options.filters.moneyFilter(printData.moneyAmount) }}
               </td>
             </tr>
             <tr>

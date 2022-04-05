@@ -244,14 +244,14 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="开票金额（价税合计）" prop="kpPrice">
-                <span v-text="form.kpPrice"></span>
+                <span v-text="$options.filters.moneyFilter(form.kpPrice)"></span>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
               <el-form-item label="开票吨数" prop="kpNumber">
-                <span v-text="form.kpNumber"></span>
+                <span v-text="$options.filters.weightFilter(form.kpNumber)"></span>
               </el-form-item>
             </el-col>
           </el-row>
@@ -531,17 +531,17 @@
               </td>
               <td class="table-td-title detail">开票金额(价税合计)</td>
               <td class="table-td-content">
-                {{ printData.kpPrice }}
+                {{ $options.filters.moneyFilter(printData.kpPrice) }}
               </td>
             </tr>
             <tr>
               <td class="table-td-title detail">开票吨数</td>
               <td class="table-td-content">
-                {{ printData.kpNumber }}
+                {{ $options.filters.weightFilter(printData.kpNumber) }}
               </td>
               <td class="table-td-title detail">结算单总金额</td>
               <td class="table-td-content">
-                {{ printData.jstPrice }}
+                {{ $options.filters.moneyFilter(printData.jstPrice) }}
               </td>
               <td class="table-td-title detail">热值(Kcal/吨)</td>
               <td class="table-td-content">

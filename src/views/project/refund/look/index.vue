@@ -58,7 +58,7 @@
         </el-col>
         <el-col :span="6"> 开户行：<span v-text="form.bank"></span> </el-col>
         <el-col :span="6">
-          退款金额(元)：<span v-text="form.moneyAmount"></span>
+          退款金额(元)：<span v-text="$options.filters.moneyFilter(form.moneyAmount)"></span>
         </el-col>
       </el-row>
       <el-row class="head-text">

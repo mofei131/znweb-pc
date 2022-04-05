@@ -106,7 +106,16 @@
     >
       <el-table-column label="项目名称" align="center" prop="stName" />
       <el-table-column label="收款类型" align="center" prop="skType" />
-      <el-table-column label="合计重量(吨)" align="center" prop="tweight" />
+      <el-table-column label="合计重量(吨)" align="center" prop="tweight">
+        <template slot-scope="scope">
+          {{
+            Number(scope.row.tweight)
+              .toFixed(3)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+          }}
+        </template>
+      </el-table-column>
       <el-table-column label="收款单价" align="center" prop="skPrice">
         <template slot-scope="scope">
           {{
@@ -326,6 +335,14 @@
                     label="出库重量（吨）"
                     width="120"
                   >
+                  <template slot-scope="scope">
+          {{
+            Number(scope.row.grnNumber)
+              .toFixed(3)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+          }}
+        </template>
                   </el-table-column>
                   <el-table-column
                     property="gryRz"
@@ -380,6 +397,14 @@
                   label="出库重量（吨）"
                   width="120"
                 >
+                <template slot-scope="scope">
+          {{
+            Number(scope.row.grnNumber)
+              .toFixed(3)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+          }}
+        </template>
                 </el-table-column>
                 <el-table-column
                   property="gryRz"
@@ -421,9 +446,17 @@
                 </el-table-column>
                 <el-table-column
                   property="valueTprice"
-                  label="货值总额（吨）"
+                  label="货值总额（元）"
                   width="120"
                 >
+                <template slot-scope="scope">
+          {{
+            Number(scope.row.valueTprice)
+              .toFixed(2)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+          }}
+        </template>
                 </el-table-column>
                 <el-table-column v-if="isLook != 3" label="操作" width="120">
                   <template slot-scope="scope">
@@ -444,7 +477,7 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item label="合计重量" prop="totalWeight">
-                  <span style="color: red">{{ form.tweight }}</span>
+                  <span style="color: red">{{ $options.filters.weightFilter(form.tweight) }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="6">

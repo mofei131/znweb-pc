@@ -103,7 +103,16 @@
           <span>{{ parseTime(scope.row.setupTime, "{y}-{m}-{d}") }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="年需求量(吨)" align="center" prop="demand" />
+      <el-table-column label="年需求量(吨)" align="center" prop="demand">
+        <template slot-scope="scope">
+                  {{
+                    Number(scope.row.demand)
+                      .toFixed(3)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
+      </el-table-column>
       <el-table-column label="注册资本(万元)" align="center" prop="capital">
         <template slot-scope="scope">
                   {{
@@ -464,7 +473,7 @@
               </td>
               <td class="table-td-title detail">年需求量(万吨)</td>
               <td class="table-td-content">
-                {{ printData.demand }}
+                {{ $options.filters.weightFilter(printData.demand) }}
               </td>
               <td class="table-td-title detail">注册资本(万元)</td>
               <td class="table-td-content">

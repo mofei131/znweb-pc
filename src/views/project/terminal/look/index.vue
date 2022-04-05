@@ -44,7 +44,7 @@
           企业性质：<span v-text="form.nature"></span>
         </el-col>
         <el-col :span="5">
-          年需求量(万吨)：<span v-text="form.demand"></span>
+          年需求量(万吨)：<span v-text="$options.filters.weightFilter(form.demand)"></span>
         </el-col>
 
       </el-row>

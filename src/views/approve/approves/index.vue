@@ -120,7 +120,7 @@
               年费服务费费率(%)：<span v-text="form.chargemNx"></span>
             </el-col>
             <el-col :span="4">
-              固定差价：<span v-text="form.chargemGd"></span>
+              固定差价：<span v-text="$options.filters.moneyFilter(form.chargemGd)"></span>
             </el-col>
             <el-col :span="4">
               预计单价(元)：<span
@@ -457,7 +457,7 @@
                   <template slot-scope="scope">
                     {{
                       Number(scope.row.expectNumber)
-                        .toFixed(4)
+                        .toFixed(3)
                         .toString()
                         .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                     }}
@@ -502,7 +502,7 @@
                   <template slot-scope="scope">
                     {{
                       Number(scope.row.grnNumber)
-                        .toFixed(4)
+                        .toFixed(3)
                         .toString()
                         .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                     }}
@@ -573,7 +573,7 @@
                   <template slot-scope="scope">
                     {{
                       Number(scope.row.grnNumber)
-                        .toFixed(4)
+                        .toFixed(3)
                         .toString()
                         .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                     }}
@@ -651,7 +651,7 @@
                   <template slot-scope="scope">
                     {{
                       Number(scope.row.grns)
-                        .toFixed(4)
+                        .toFixed(3)
                         .toString()
                         .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                     }}
@@ -661,7 +661,7 @@
                   <template slot-scope="scope">
                     {{
                       Number(scope.row.grys)
-                        .toFixed(4)
+                        .toFixed(3)
                         .toString()
                         .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                     }}
@@ -688,6 +688,14 @@
                   </template>
                 </el-table-column>
                 <el-table-column property="ato" label="预付至">
+                  <template slot-scope="scope">
+          {{
+            Number(scope.row.ato)
+              .toFixed(2)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
+        </template>
                 </el-table-column>
                 <el-table-column property="actualPrice" label="实际付款(元)">
                   <template slot-scope="scope">
@@ -736,7 +744,7 @@
                   <template slot-scope="scope">
                     {{
                       Number(scope.row.tweight)
-                        .toFixed(4)
+                        .toFixed(3)
                         .toString()
                         .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                     }}
@@ -753,6 +761,14 @@
                   </template>
                 </el-table-column>
                 <el-table-column property="skTprice" label="收款金额">
+                  <template slot-scope="scope">
+          {{
+            Number(scope.row.skTprice)
+              .toFixed(2)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
+        </template>
                 </el-table-column>
                 <el-table-column label="操作" width="120">
                   <template slot-scope="scope">
@@ -783,6 +799,14 @@
               >
                 <el-table-column label="物流类型"> 物流付款 </el-table-column>
                 <el-table-column property="tntPrice" label="实付金额">
+                  <template slot-scope="scope">
+          {{
+            Number(scope.row.tntPrice)
+              .toFixed(2)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
+        </template>
                 </el-table-column>
                 <!-- <el-table-column property="serType" label="是否产生服务费">
                 </el-table-column>
@@ -832,7 +856,7 @@
                   <template slot-scope="scope">
                     {{
                       Number(scope.row.tweight)
-                        .toFixed(4)
+                        .toFixed(3)
                         .toString()
                         .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                     }}
@@ -928,7 +952,7 @@
                   <template slot-scope="scope">
                     {{
                       Number(scope.row.zzWeight)
-                        .toFixed(4)
+                        .toFixed(3)
                         .toString()
                         .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                     }}
@@ -992,7 +1016,7 @@
                   <template slot-scope="scope">
                     {{
                       Number(scope.row.number)
-                        .toFixed(4)
+                        .toFixed(3)
                         .toString()
                         .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                     }}
@@ -1127,12 +1151,12 @@
                   </el-table-column>
                   <el-table-column label="固定差价">
                     <template slot-scope="scope">
-                      <span v-text="form.chargemGd"></span>
+                      <span v-text="$options.filters.moneyFilter(form.chargemGd)"></span>
                     </template>
                   </el-table-column>
                   <el-table-column label="差价利润">
                     <template slot-scope="scope">
-                      <span v-text="gryLr"></span>
+                      <span v-text="$options.filters.moneyFilter(gryLr)"></span>
                     </template>
                   </el-table-column>
                 </el-table>
@@ -1197,7 +1221,7 @@
               预计吨数：<span v-text="$options.filters.weightFilter(form.expectNumber)"></span>
             </el-col>
             <el-col :span="4" v-if="form.type == '下游合同'">
-              基准单价：<span v-text="form.price"></span>
+              基准单价：<span v-text="$options.filters.moneyFilter(form.price)"></span>
             </el-col>
             <el-col :span="4" v-if="form.type == '上游合同'">
               保底服务费期限：<span v-text="form.mfsp"></span>
@@ -1384,7 +1408,7 @@
                 <template slot-scope="scope">
                     {{
                       Number(scope.row.grnNumber)
-                        .toFixed(4)
+                        .toFixed(3)
                         .toString()
                         .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                     }}
@@ -1399,7 +1423,7 @@
                 <template slot-scope="scope">
                     {{
                       Number(scope.row.grnNumber)
-                        .toFixed(4)
+                        .toFixed(3)
                         .toString()
                         .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                     }}
@@ -1484,7 +1508,7 @@
             <el-col :span="4" :offset="1">
               <el-form-item label="合计重量：">
                 <span style="color: red; line-height: 57px !important">{{
-                  form.totalWeight
+                  $options.filters.weightFilter(form.totalWeight)
                 }}</span>
               </el-form-item>
             </el-col>
@@ -1586,7 +1610,7 @@
                 v-text="$options.filters.moneyFilter(form.dPrice)"
               ></span>
             </el-col>
-            <el-col :span="4"> 预付至：<span v-text="form.ato"></span> </el-col>
+            <el-col :span="4"> 预付至：<span v-text="$options.filters.moneyFilter(form.ato)"></span> </el-col>
             <el-col :span="4">
               税款(元)：<span
                 v-text="$options.filters.moneyFilter(form.tax)"
@@ -1612,35 +1636,35 @@
           <!--      </el-row>-->
           <el-row class="head-text">
             <el-col :span="4" :offset="1">
-              扣款金额：<span v-text="form.kkPrice"></span>
+              扣款金额：<span v-text="$options.filters.moneyFilter(form.kkPrice)"></span>
             </el-col>
             <el-col :span="4">
-              扣款备注：<span v-text="form.kkNode"></span>
+              扣款备注：<span v-text="$options.filters.moneyFilter(form.kkNode)"></span>
             </el-col>
             <el-col :span="4">
-              运费金额：<span v-text="form.yfPrice"></span>
+              运费金额：<span v-text="$options.filters.moneyFilter(form.yfPrice)"></span>
             </el-col>
           </el-row>
 
           <el-row class="head-text">
             <el-col :span="4" :offset="1">
               <el-form-item label="付款总额：">
-                <span style="color: red">{{ form.payTprice }}</span>
+                <span style="color: red">{{ $options.filters.moneyFilter(form.payTprice) }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item label="已付金额：">
-                <span style="color: red">{{ form.prepaidPrice }}</span>
+                <span style="color: red">{{ $options.filters.moneyFilter(form.prepaidPrice) }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item label="垫付保证金：">
-                <span style="color: red">{{ form.dfPrice }}</span>
+                <span style="color: red">{{ $options.filters.moneyFilter(form.dfPrice) }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item label="实际付款金额：">
-                <span style="color: red">{{ form.actualPrice }}</span>
+                <span style="color: red">{{ $options.filters.moneyFilter(form.actualPrice) }}</span>
               </el-form-item>
             </el-col>
           </el-row>
@@ -1670,7 +1694,7 @@
                   <template slot-scope="scope">
                     {{
                       Number(scope.row.expectNumber)
-                        .toFixed(4)
+                        .toFixed(3)
                         .toString()
                         .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                     }}
@@ -1759,7 +1783,7 @@
                   <template slot-scope="scope">
                     {{
                       Number(scope.row.grnNumber)
-                        .toFixed(4)
+                        .toFixed(3)
                         .toString()
                         .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                     }}
@@ -1804,7 +1828,7 @@
           <el-row class="head-text">
             <el-col :span="4" :offset="1">
               <el-form-item label="合计重量：">
-                <span style="color: red">{{ form.tweight }}</span>
+                <span style="color: red">{{ $options.filters.weightFilter(form.tweight) }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="4">
@@ -1877,7 +1901,7 @@
               ></span>
             </el-col>
             <el-col :span="5">
-              其他扣款：<span v-text="form.otherPrice"></span>
+              其他扣款：<span v-text="$options.filters.moneyFilter(form.otherPrice)"></span>
             </el-col>
           </el-row>
 
@@ -1941,7 +1965,7 @@
                   <template slot-scope="scope">
                     {{
                       Number(scope.row.expectNumber)
-                        .toFixed(4)
+                        .toFixed(3)
                         .toString()
                         .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                     }}
@@ -2031,7 +2055,7 @@
                   <template slot-scope="scope">
                     {{
                       Number(scope.row.grnNumber)
-                        .toFixed(4)
+                        .toFixed(3)
                         .toString()
                         .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                     }}
@@ -2075,7 +2099,7 @@
           <el-row class="head-text">
             <el-col :span="4" :offset="1">
               <el-form-item label="合计重量：">
-                <span style="color: red">{{ form.tweight }}</span>
+                <span style="color: red">{{ $options.filters.weightFilter(form.tweight) }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="4">
@@ -2170,7 +2194,7 @@
                   <template slot-scope="scope">
                     {{
                       Number(scope.row.expectNumber)
-                        .toFixed(4)
+                        .toFixed(3)
                         .toString()
                         .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                     }}
@@ -2315,7 +2339,7 @@
                   <template slot-scope="scope">
                     {{
                       Number(scope.row.expectNumber)
-                        .toFixed(4)
+                        .toFixed(3)
                         .toString()
                         .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                     }}
@@ -2439,7 +2463,7 @@
 
           <el-row class="head-text">
             <el-col :span="4" :offset="1">
-              实付金额：<span v-text="form.tntPrice"></span>
+              实付金额：<span v-text="$options.filters.moneyFilter(form.tntPrice)"></span>
             </el-col>
           </el-row>
 
@@ -2497,7 +2521,7 @@
                   <template slot-scope="scope">
                     {{
                       Number(scope.row.expectNumber)
-                        .toFixed(4)
+                        .toFixed(3)
                         .toString()
                         .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                     }}
@@ -2787,10 +2811,10 @@
               出库热值：<span v-text="form.gryRz"></span>
             </el-col>
             <el-col :span="5">
-              货值单价：<span v-text="form.valuePrice"></span>
+              货值单价：<span v-text="$options.filters.moneyFilter(form.valuePrice)"></span>
             </el-col>
             <el-col :span="5">
-              货值总额：<span v-text="form.valueTprice"></span>
+              货值总额：<span v-text="$options.filters.moneyFilter(form.valueTprice)"></span>
             </el-col>
           </el-row>
 
@@ -2958,7 +2982,7 @@
                   <template slot-scope="scope">
                     {{
                       Number(scope.row.grnNumber)
-                        .toFixed(4)
+                        .toFixed(3)
                         .toString()
                         .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                     }}
@@ -3020,7 +3044,7 @@
               <el-form-item label="单价差" prop="averageRz">
                 <span
                   style="color: red; line-height: 57px !important"
-                  v-text="djc"
+                  v-text="$options.filters.moneyFilter(djc)"
                 ></span>
               </el-form-item>
             </el-col>
@@ -3028,7 +3052,7 @@
               <el-form-item label="总额差" prop="averageRz">
                 <span
                   style="color: red; line-height: 57px !important"
-                  v-text="zec"
+                  v-text="$options.filters.moneyFilter(zec)"
                 ></span>
               </el-form-item>
             </el-col>
@@ -3064,7 +3088,7 @@
           </el-row>
           <el-row class="head-text">
             <el-col :span="5" :offset="1">
-              发票面额：<span v-text="form.invoiceType"></span>
+              发票面额：<span v-text="$options.filters.moneyFilter(form.invoiceType)"></span>
             </el-col>
             <el-col :span="5">
               企业性质：<span v-text="form.nature"></span>
@@ -3356,7 +3380,7 @@
           </el-row>
           <el-row class="head-text">
             <el-col :span="4" :offset="1">
-              结算金额：<span v-text="form.zzTprice"></span>
+              结算金额：<span v-text="$options.filters.moneyFilter(form.zzTprice)"></span>
             </el-col>
             <el-col :span="4">
               验收重量(吨)：<span v-text="$options.filters.weightFilter(form.zzWeight)"></span>
@@ -3471,10 +3495,10 @@
               项目编号：<span v-text="form.number"></span>
             </el-col>
             <el-col :span="4">
-              预估应收：<span v-text="form.ygPrice"></span>
+              预估应收：<span v-text="$options.filters.moneyFilter(form.ygPrice)"></span>
             </el-col>
             <el-col :span="4">
-              开票金额：<span v-text="form.kpPrice"></span>
+              开票金额：<span v-text="$options.filters.moneyFilter(form.kpPrice)"></span>
             </el-col>
           </el-row>
 
@@ -3612,7 +3636,7 @@
               开户行：<span v-text="form.bank"></span>
             </el-col>
             <el-col :span="6">
-              退款金额(元)：<span v-text="form.moneyAmount"></span>
+              退款金额(元)：<span v-text="$options.filters.moneyFilter(form.moneyAmount)"></span>
             </el-col>
           </el-row>
           <el-row class="head-text">

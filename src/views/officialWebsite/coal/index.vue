@@ -110,7 +110,16 @@
       <el-table-column label="交割地-省" align="center" prop="province" />
       <el-table-column label="交割地-市" align="center" prop="city" />
       <el-table-column label="交割地-区" align="center" prop="area" />
-      <el-table-column label="意向价格" align="center" prop="price" />
+      <el-table-column label="意向价格" align="center" prop="price">
+        <template slot-scope="scope">
+          {{
+            Number(scope.row.price)
+              .toFixed(2)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
+        </template>
+      </el-table-column>
       <!-- <el-table-column label="产地" align="center" prop="adress" /> -->
       <!-- <el-table-column label="结算方式" align="center" prop="payMethod" /> -->
       <!-- <el-table-column label="有效期" align="center" prop="yxTime" width="180">

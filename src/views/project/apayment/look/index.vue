@@ -81,7 +81,7 @@
             <template slot-scope="scope">
                     {{
                       Number(scope.row.grnNumber)
-                        .toFixed(4)
+                        .toFixed(3)
                         .toString()
                         .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                     }}
@@ -96,7 +96,7 @@
             <template slot-scope="scope">
                     {{
                       Number(scope.row.grnNumber)
-                        .toFixed(4)
+                        .toFixed(3)
                         .toString()
                         .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                     }}
@@ -176,7 +176,7 @@
       <el-row class="head-text">
         <el-col :span="4" :offset="1">
           <el-form-item label="合计重量：">
-            <span style="color: red">{{ form.totalWeight }}</span>
+            <span style="color: red">{{ $options.filters.weightFilter(form.totalWeight) }}</span>
           </el-form-item>
         </el-col>
         <el-col :span="4">
@@ -271,7 +271,7 @@
         <el-col :span="4">
           固定差价：<span v-text="$options.filters.moneyFilter(form.dPrice)"></span>
         </el-col>
-        <el-col :span="4"> 预付至：<span v-text="form.ato"></span> </el-col>
+        <el-col :span="4"> 预付至：<span v-text="$options.filters.moneyFilter(form.ato)"></span> </el-col>
         <el-col :span="4"> 税款(元)：<span v-text="$options.filters.moneyFilter(form.tax)"></span> </el-col>
         <el-col :span="4">
           预付单价(元)：<span v-text="$options.filters.moneyFilter(form.expectPrice)"></span>
@@ -304,22 +304,22 @@
       <el-row class="head-text">
         <el-col :span="4" :offset="1">
           <el-form-item label="付款总额：">
-            <span style="color: red">{{ form.payTprice  }}</span>
+            <span style="color: red">{{ $options.filters.moneyFilter(form.payTprice)  }}</span>
           </el-form-item>
         </el-col>
         <el-col :span="4">
           <el-form-item label="已付金额：">
-            <span style="color: red">{{ form.prepaidPrice  }}</span>
+            <span style="color: red">{{ $options.filters.moneyFilter(form.prepaidPrice)  }}</span>
           </el-form-item>
         </el-col>
         <el-col :span="4">
           <el-form-item label="垫付保证金：">
-            <span style="color: red">{{ form.dfPrice  }}</span>
+            <span style="color: red">{{ $options.filters.moneyFilter(form.dfPrice)  }}</span>
           </el-form-item>
         </el-col>
         <el-col :span="4">
           <el-form-item label="实际付款金额：">
-            <span style="color: red">{{ form.actualPrice  }}</span>
+            <span style="color: red">{{ $options.filters.moneyFilter(form.actualPrice)  }}</span>
           </el-form-item>
         </el-col>
       </el-row>

@@ -49,10 +49,10 @@
       </el-row>
       <el-row class="head-text">
         <el-col :span="4" :offset="1">
-          结算金额：<span v-text="form.zzTprice"></span>
+          结算金额：<span v-text="$options.filters.moneyFilter(form.zzTprice)"></span>
         </el-col>
         <el-col :span="4">
-          验收重量(吨)：<span v-text="form.zzWeight"></span>
+          验收重量(吨)：<span v-text="$options.filters.weightFilter(form.zzWeight)"></span>
         </el-col>
       </el-row>
       <el-row class="head-text">

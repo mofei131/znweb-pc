@@ -45,13 +45,13 @@
           项目编号：<span v-text="form.number"></span>
         </el-col>
         <el-col :span="4">
-          开票金额（价税合计）：<span v-text="form.kpPrice"></span>
+          开票金额（价税合计）：<span v-text="$options.filters.moneyFilter(form.kpPrice)"></span>
         </el-col>
         <el-col :span="4">
-          开票吨数：<span v-text="form.kpNumber"></span>
+          开票吨数：<span v-text="$options.filters.weightFilter(form.kpNumber)"></span>
         </el-col>
         <el-col :span="4">
-          结算单总金额：<span v-text="form.jstPrice"></span>
+          结算单总金额：<span v-text="$options.filters.moneyFilter(form.jstPrice)"></span>
         </el-col>
       </el-row>
 
@@ -66,7 +66,7 @@
 
       <el-row class="head-text">
         <el-col :span="4" :offset="1">
-          结算单价：<span v-text="form.jsDj"></span>
+          结算单价：<span v-text="$options.filters.moneyFilter(form.jsDj)"></span>
         </el-col>
         <el-col :span="4" >
           结算煤量：<span v-text="form.jsMl"></span>

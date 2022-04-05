@@ -621,7 +621,7 @@
                 {{ contractTypeFormat(item.type) }}
               </td>
               <td class="table-td-content" style="text-align: center">
-                {{ item.expectNumber }}
+                {{ $options.filters.weightFilter(item.expectNumber) }}
               </td>
             </tr>
             <tr>

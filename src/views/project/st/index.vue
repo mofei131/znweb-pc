@@ -1400,7 +1400,7 @@
               </td>
               <td class="table-td-title detail">固定差价</td>
               <td class="table-td-content">
-                <template>{{ printData.chargemGd }}</template>
+                <template>{{ $options.filters.moneyFilter(printData.chargemGd) }}</template>
               </td>
             </tr>
             <tr>
@@ -1410,7 +1410,7 @@
               </td>
               <td class="table-td-title detail">预计重量(吨)</td>
               <td class="table-td-content">
-                <template>{{ printData.expectWeight }}</template>
+                <template>{{ $options.filters.weightFilter(printData.expectWeight) }}</template>
               </td>
               <td class="table-td-title detail">成本年服务费费率(%)</td>
               <td class="table-td-content">
@@ -1601,7 +1601,7 @@
               </td>
               <td class="table-td-title detail">承运方发运规模(万吨/年)</td>
               <td class="table-td-content" colspan="5">
-                <template>{{ printData.pCnumber }}</template>
+                <template>{{ $options.filters.weightFilter(printData.pCnumber) }}</template>
               </td>
             </tr>
           </table>

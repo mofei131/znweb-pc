@@ -41,7 +41,7 @@
           成立日期：<span v-text="form.clTime"></span>
         </el-col>
         <el-col :span="5">
-          年发运量(万吨)：<span v-text="form.traffic"></span>
+          年发运量(万吨)：<span v-text="$options.filters.weightFilter(form.traffic)"></span>
         </el-col>
         <el-col :span="5">
           注册资本(万元)：<span v-text="$options.filters.moneyFilter(form.capital)"></span>
@@ -57,7 +57,7 @@
       </el-row>
       <el-row class="head-text">
         <el-col :span="5" :offset="1">
-          发票面额：<span v-text="form.invoiceType"></span>
+          发票面额：<span v-text="$options.filters.moneyFilter(form.invoiceType)"></span>
         </el-col>
         <el-col :span="5" >
           企业性质：<span v-text="form.nature"></span>

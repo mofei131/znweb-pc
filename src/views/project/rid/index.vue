@@ -75,16 +75,106 @@
     <el-table v-loading="loading" :data="ridList" @selection-change="handleSelectionChange">
       <el-table-column label="项目名" align="center" prop="stName" />
       <el-table-column label="业务经理" align="center" prop="userName" />
-      <el-table-column label="已开发票吨数" align="center" prop="kpNumber" />
-      <el-table-column label="已开发票金额" align="center" prop="kpPrice" />
-      <el-table-column label="已开发票税额" align="center" prop="kpTax" />
-      <el-table-column label="发票吨数差额" align="center" prop="cyNumber" />
-      <el-table-column label="已开进项吨数" align="center" prop="sNumber" />
-      <el-table-column label="已开进项金额" align="center" prop="sPrice" />
-      <el-table-column label="已开进项税额" align="center" prop="sTax" />
-      <el-table-column label="运费金额" align="center" prop="yPrice" />
-      <el-table-column label="物流税款" align="center" prop="wPrice" />
-      <el-table-column label="运费印花税" align="center" prop="yhPrice" />
+      <el-table-column label="已开发票吨数" align="center" prop="kpNumber">
+        <template slot-scope="scope">
+                    {{
+                      Number(scope.row.kpNumber)
+                        .toFixed(3)
+                        .toString()
+                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    }}
+                  </template>
+      </el-table-column>
+      <el-table-column label="已开发票金额" align="center" prop="kpPrice">
+        <template slot-scope="scope">
+                    {{
+                      Number(scope.row.kpPrice)
+                        .toFixed(2)
+                        .toString()
+                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    }}
+                  </template>
+      </el-table-column>
+      <el-table-column label="已开发票税额" align="center" prop="kpTax" >
+        <template slot-scope="scope">
+                    {{
+                      Number(scope.row.kpTax)
+                        .toFixed(2)
+                        .toString()
+                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    }}
+                  </template>
+      </el-table-column>
+      <el-table-column label="发票吨数差额" align="center" prop="cyNumber" >
+        <template slot-scope="scope">
+                    {{
+                      Number(scope.row.cyNumber)
+                        .toFixed(2)
+                        .toString()
+                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    }}
+                  </template>
+      </el-table-column>
+      <el-table-column label="已开进项吨数" align="center" prop="sNumber">
+        <template slot-scope="scope">
+                  {{
+                    Number(scope.row.sNumber)
+                      .toFixed(3)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
+      </el-table-column>
+      <el-table-column label="已开进项金额" align="center" prop="sPrice">
+        <template slot-scope="scope">
+                  {{
+                    Number(scope.row.sPrice)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
+      </el-table-column>
+      <el-table-column label="已开进项税额" align="center" prop="sTax" >
+        <template slot-scope="scope">
+                  {{
+                    Number(scope.row.sTax)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
+      </el-table-column>
+      <el-table-column label="运费金额" align="center" prop="yPrice" >
+        <template slot-scope="scope">
+                  {{
+                    Number(scope.row.yPrice)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
+      </el-table-column>
+      <el-table-column label="物流税款" align="center" prop="wPrice" >
+        <template slot-scope="scope">
+                  {{
+                    Number(scope.row.wPrice)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
+      </el-table-column>
+      <el-table-column label="运费印花税" align="center" prop="yhPrice">
+        <template slot-scope="scope">
+                  {{
+                    Number(scope.row.yhPrice)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
+      </el-table-column>
 <!--      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">-->
 <!--        <template slot-scope="scope">-->
 <!--          <el-button-->

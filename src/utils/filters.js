@@ -7,7 +7,7 @@ export default {
   },
   weightFilter(value) {
     return Number(value)
-      .toFixed(4)
+      .toFixed(3)
       .toString()
       .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, '$1,')
   }

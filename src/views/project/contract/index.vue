@@ -139,7 +139,7 @@
         <template slot-scope="scope">
                     {{
                       Number(scope.row.expectNumber)
-                        .toFixed(4)
+                        .toFixed(3)
                         .toString()
                         .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                     }}
@@ -929,7 +929,7 @@
                 </td>
                 <td class="table-td-title detail">基准单价</td>
                 <td class="table-td-content" colspan="3">
-                  {{ printData.price }}
+                  {{ $options.filters.moneyFilter(printData.price) }}
                 </td>
               </tr>
             </template>

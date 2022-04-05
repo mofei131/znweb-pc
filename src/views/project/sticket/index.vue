@@ -77,7 +77,16 @@
 <!--          }}-->
 <!--        </template>-->
 <!--      </el-table-column>-->
-      <el-table-column label="数量(吨)" align="center" prop="number" />
+      <el-table-column label="数量(吨)" align="center" prop="number">
+        <template slot-scope="scope">
+          {{
+            Number(scope.row.number)
+              .toFixed(3)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+          }}
+        </template>
+      </el-table-column>
       <el-table-column label="开票金额(元)" align="center" prop="price" >
         <template slot-scope="scope">
           {{

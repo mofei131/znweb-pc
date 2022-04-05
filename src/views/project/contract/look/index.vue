@@ -80,7 +80,7 @@
           预计吨数：<span v-text="$options.filters.weightFilter(form.expectNumber)"></span>
         </el-col>
         <el-col :span="4" v-if="form.type=='下游合同'">
-          基准单价：<span v-text="form.price"></span>
+          基准单价：<span v-text="$options.filters.moneyFilter(form.price)"></span>
         </el-col>
         <el-col :span="4" v-if="form.type=='上游合同'">
           保底服务费期限：<span v-text="form.mfsp"></span>

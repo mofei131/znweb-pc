@@ -70,6 +70,14 @@
             <el-table-column
               property="grnNumber"
               label="出库重量（吨）">
+              <template slot-scope="scope">
+          {{
+            Number(scope.row.grnNumber)
+              .toFixed(3)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+          }}
+        </template>
             </el-table-column>
             <el-table-column
               property="gryRz"
@@ -125,7 +133,7 @@
       <el-row class="head-text">
           <el-col :span="4" :offset="1">
             <el-form-item label="合计重量：" >
-              <span  style="color: red">{{form.tweight}}</span>
+              <span  style="color: red">{{$options.filters.weightFilter(form.tweight)}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="4">

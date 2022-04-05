@@ -324,7 +324,7 @@
           <el-row v-if="isLook == 2">
             <el-col :span="12">
               <el-form-item label="实付金额" prop="tntPrice">
-                <span v-text="form.tntPrice"></span>
+                <span v-text="$options.filters.moneyFilter(form.tntPrice)"></span>
               </el-form-item>
             </el-col>
           </el-row>
@@ -365,6 +365,14 @@
                   label="入库重量（吨）"
                   width="120"
                 >
+                <template slot-scope="scope">
+                    {{
+                      Number(scope.row.grnNumber)
+                        .toFixed(3)
+                        .toString()
+                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    }}
+                  </template>
                 </el-table-column>
                 <el-table-column
                   property="grnRz"
@@ -390,7 +398,7 @@
                 </el-table-column>
                 <el-table-column
                   property="deliveryTime"
-                  label="发货日期（吨）"
+                  label="发货日期"
                   width="120"
                 >
                 </el-table-column>
@@ -419,6 +427,14 @@
                 label="入库重量（吨）"
                 width="120"
               >
+              <template slot-scope="scope">
+                    {{
+                      Number(scope.row.grnNumber)
+                        .toFixed(3)
+                        .toString()
+                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    }}
+                  </template>
               </el-table-column>
               <el-table-column
                 property="grnRz"
@@ -808,7 +824,7 @@
             <tr>
               <td class="table-td-title detail" width="20%">实付金额</td>
               <td class="table-td-content">
-                {{ printData.tntPrice }}
+                {{ $options.filters.moneyFilter(printData.tntPrice) }}
               </td>
             </tr>
             <tr>
@@ -860,7 +876,7 @@
                 {{ item.type }}
               </td>
               <td class="table-td-content" style="text-align: center">
-                {{ item.expectNumber }}
+                {{ $options.filters.weightFilter(item.expectNumber) }}
               </td>
             </tr>
             <tr>
