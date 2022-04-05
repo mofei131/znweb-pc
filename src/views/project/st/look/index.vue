@@ -931,7 +931,7 @@
               style="width: 80%;margin-bottom: 30px;">
               <el-table-column label="出库重量">
                 <template slot-scope="scope" >
-                  <span v-text="gryNumber"></span>
+                  <span v-text="$options.filters.weightFilter(gryNumber)"></span>
                 </template>
               </el-table-column>
               <el-table-column

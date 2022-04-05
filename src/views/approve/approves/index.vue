@@ -137,7 +137,7 @@
               成本年服务费费率(%)：<span v-text="form.rateYear"></span>
             </el-col>
             <el-col :span="4">
-              预计利润：<span v-text="form.expectProfits"></span>
+              预计利润：<span v-text="$options.filters.moneyFilter(form.expectProfits)"></span>
             </el-col>
           </el-row>
 
@@ -1146,7 +1146,7 @@
                 >
                   <el-table-column label="出库重量">
                     <template slot-scope="scope">
-                      <span v-text="gryNumber"></span>
+                      <span v-text="$options.filters.weightFilter(gryNumber)"></span>
                     </template>
                   </el-table-column>
                   <el-table-column label="固定差价">
@@ -2799,7 +2799,7 @@
               项目编号：<span v-text="form.number"></span>
             </el-col>
             <el-col :span="5">
-              出库重量：<span v-text="form.grnNumber"></span>
+              出库重量：<span v-text="$options.filters.weightFilter(form.grnNumber)"></span>
             </el-col>
             <el-col :span="5">
               到货日期：<span>{{ parseTime(form.okTime, "{y}-{m}-{d}") }}</span>
@@ -3028,7 +3028,7 @@
               <el-form-item label="重量差">
                 <span
                   style="color: red; line-height: 57px !important"
-                  v-text="zlc"
+                  v-text="$options.filters.weightFilter(zlc)"
                 ></span>
               </el-form-item>
             </el-col>
@@ -3236,7 +3236,7 @@
           </el-row>
           <el-row class="head-text">
             <el-col :span="5" :offset="1">
-              数量：<span v-text="form.number"></span>
+              数量(吨)：<span v-text="$options.filters.weightFilter(form.number)"></span>
             </el-col>
           </el-row>
           <el-row class="head-text">
@@ -3509,7 +3509,7 @@
               ></span>
             </el-col>
             <el-col :span="4">
-              结算煤量：<span v-text="form.jsMl"></span>
+              结算煤量：<span v-text="$options.filters.weightFilter(form.jsMl)"></span>
             </el-col>
             <el-col :span="4">
               结算煤款：<span

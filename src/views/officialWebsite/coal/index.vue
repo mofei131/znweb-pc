@@ -106,7 +106,16 @@
       <el-table-column label="货品名称" align="center" prop="coalName" />
       <el-table-column label="分类" align="center" prop="coalType" />
       <!-- <el-table-column label="煤种" align="center" prop="coalMz" /> -->
-      <el-table-column label="数量" align="center" prop="number" />
+      <el-table-column label="数量（吨）" align="center" prop="number" >
+        <template slot-scope="scope">
+                    {{
+                      Number(scope.row.number)
+                        .toFixed(3)
+                        .toString()
+                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    }}
+                  </template>
+      </el-table-column>
       <el-table-column label="交割地-省" align="center" prop="province" />
       <el-table-column label="交割地-市" align="center" prop="city" />
       <el-table-column label="交割地-区" align="center" prop="area" />

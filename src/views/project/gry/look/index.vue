@@ -42,7 +42,7 @@
           项目编号：<span v-text="form.number"></span>
         </el-col>
         <el-col :span="4">
-          出库重量：<span v-text="form.grnNumber"></span>
+          出库重量：<span v-text="$options.filters.weightFilter(form.grnNumber)"></span>
         </el-col>
         <el-col :span="4">
           到货日期：<span>{{ parseTime(form.okTime, '{y}-{m}-{d}') }}</span>
@@ -242,7 +242,7 @@
       <el-row class="head-text">
         <el-col :span="4" :offset="1">
           <el-form-item label="重量差" >
-            <span  style="color: red" v-text="zlc"></span>
+            <span  style="color: red" v-text="$options.filters.weightFilter(zlc)"></span>
           </el-form-item>
         </el-col>
         <el-col :span="4">

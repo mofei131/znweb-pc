@@ -456,7 +456,7 @@
           <el-row>
             <el-col :span="5">
               <el-form-item label="重量差">
-                <span style="color: red">{{ zlc }}</span>
+                <span style="color: red">{{ $options.filters.weightFilter(zlc) }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="5">
@@ -724,7 +724,7 @@
               </td>
               <td class="table-td-title detail">出库重量</td>
               <td class="table-td-content">
-                {{ printData.grnNumber }}
+                {{ $options.filters.weightFilter(printData.grnNumber) }}
               </td>
             </tr>
             <tr>
@@ -915,7 +915,7 @@
             <tr>
               <td class="table-td-title detail" colspan="2">重量差</td>
               <td class="table-td-content" colspan="3">
-                {{ printData.zlc }}
+                {{ $options.filters.weightFilter(printData.zlc) }}
               </td>
               <td class="table-td-title detail" colspan="2">热值差</td>
               <td class="table-td-content" colspan="3">

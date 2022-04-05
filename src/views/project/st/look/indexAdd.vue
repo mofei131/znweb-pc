@@ -110,7 +110,7 @@
           成本年服务费费率(%)：<span v-text="form.rateYear"></span>
         </el-col>
         <el-col :span="4">
-          预计利润：<span v-text="form.expectProfits"></span>
+          预计利润：<span v-text="$options.filters.moneyFilter(form.expectProfits)"></span>
         </el-col>
       </el-row>
 

@@ -123,7 +123,16 @@
           }}
         </template>
       </el-table-column>
-      <el-table-column label="结算煤量" align="center" prop="jsMl" />
+      <el-table-column label="结算煤量" align="center" prop="jsMl" >
+        <template slot-scope="scope">
+          {{
+            Number(scope.row.jsMl)
+              .toFixed(3)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
+        </template>
+      </el-table-column>
       <el-table-column label="结算煤款" align="center" prop="jsMk">
         <template slot-scope="scope">
           {{
@@ -559,13 +568,13 @@
               </td>
               <td class="table-td-title detail">结算煤量</td>
               <td class="table-td-content">
-                {{ printData.jsMl }}
+                {{ $options.filters.weightFilter(printData.jsMl) }}
               </td>
             </tr>
             <tr>
               <td class="table-td-title detail">结算煤款</td>
               <td class="table-td-content">
-                {{ printData.jsMk }}
+                {{ $options.filters.moneyFilter(printData.jsMk) }}
               </td>
               <td class="table-td-title detail">结算税款(元)</td>
               <td class="table-td-content" colspan="3">

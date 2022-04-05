@@ -245,7 +245,7 @@
             <el-row>
               <el-col :span="5">
                 <el-form-item label="重量差" >
-                  <span  style="color: red">{{zlc}}</span>
+                  <span  style="color: red">{{$options.filters.weightFilter(zlc)}}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="5">

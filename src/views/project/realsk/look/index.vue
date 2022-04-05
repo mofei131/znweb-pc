@@ -69,10 +69,10 @@
           结算单价：<span v-text="$options.filters.moneyFilter(form.jsDj)"></span>
         </el-col>
         <el-col :span="4" >
-          结算煤量：<span v-text="form.jsMl"></span>
+          结算煤量：<span v-text="$options.filters.weightFilter(form.jsMl)"></span>
         </el-col>
         <el-col :span="4" >
-          结算煤款：<span v-text="form.jsMk"></span>
+          结算煤款：<span v-text="$options.filters.moneyFilter(form.jsMk)"></span>
         </el-col>
         <el-col :span="4" >
           结算税款(元)：<span v-text="$options.filters.moneyFilter(form.jsTax)"></span>
