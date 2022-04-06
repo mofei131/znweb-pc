@@ -332,7 +332,7 @@
               </td>
               <td class="table-td-title detail">项目编号</td>
               <td class="table-td-content">
-                {{ printData.number }}
+                {{ printData.stNumber }}
               </td>
               <td class="table-td-title detail">投标平台</td>
               <td class="table-td-content">
