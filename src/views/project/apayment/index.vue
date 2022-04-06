@@ -154,14 +154,6 @@
         </template>
       </el-table-column>
       <el-table-column label="预付至" align="center" prop="ato">
-        <template slot-scope="scope">
-          {{
-            Number(scope.row.ato)
-              .toFixed(2)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-          }}
-        </template>
       </el-table-column>
       <el-table-column
         label="实际付款金额(元)"
@@ -1243,7 +1235,7 @@
               </td>
               <td class="table-td-title detail">预付至</td>
               <td class="table-td-content">
-                {{ $options.filters.moneyFilter(printData.ato) }}
+                {{ printData.ato }}
               </td>
             </tr>
             <tr>

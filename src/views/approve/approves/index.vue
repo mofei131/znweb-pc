@@ -688,14 +688,6 @@
                   </template>
                 </el-table-column>
                 <el-table-column property="ato" label="预付至">
-                  <template slot-scope="scope">
-          {{
-            Number(scope.row.ato)
-              .toFixed(2)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-          }}
-        </template>
                 </el-table-column>
                 <el-table-column property="actualPrice" label="实际付款(元)">
                   <template slot-scope="scope">
@@ -1610,7 +1602,7 @@
                 v-text="$options.filters.moneyFilter(form.dPrice)"
               ></span>
             </el-col>
-            <el-col :span="4"> 预付至：<span v-text="$options.filters.moneyFilter(form.ato)"></span> </el-col>
+            <el-col :span="4"> 预付至：<span v-text="form.ato"></span> </el-col>
             <el-col :span="4">
               税款(元)：<span
                 v-text="$options.filters.moneyFilter(form.tax)"

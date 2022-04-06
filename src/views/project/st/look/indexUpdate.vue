@@ -428,14 +428,6 @@
             <el-table-column
               property="ato"
               label="预付至">
-              <template slot-scope="scope">
-          {{
-            Number(scope.row.ato)
-              .toFixed(2)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-          }}
-        </template>
             </el-table-column>
             <el-table-column
               property="actualPrice"

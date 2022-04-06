@@ -271,7 +271,7 @@
         <el-col :span="4">
           固定差价：<span v-text="$options.filters.moneyFilter(form.dPrice)"></span>
         </el-col>
-        <el-col :span="4"> 预付至：<span v-text="$options.filters.moneyFilter(form.ato)"></span> </el-col>
+        <el-col :span="4"> 预付至：<span v-text="form.ato"></span> </el-col>
         <el-col :span="4"> 税款(元)：<span v-text="$options.filters.moneyFilter(form.tax)"></span> </el-col>
         <el-col :span="4">
           预付单价(元)：<span v-text="$options.filters.moneyFilter(form.expectPrice)"></span>
