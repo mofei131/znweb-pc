@@ -870,7 +870,7 @@
               </td>
               <td class="table-td-title detail">合同类型</td>
               <td class="table-td-content">
-                {{ contractTypeFormat(printData.type) }}
+                {{ printData.type}}
               </td>
               <td class="table-td-title detail">合同编号</td>
               <td class="table-td-content">
