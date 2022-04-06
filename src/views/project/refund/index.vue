@@ -1161,7 +1161,7 @@ export default {
       this.printData = {};
       await getRefund(row.refundId).then((response) => {
         this.printData = response.data;
-        this.printData.fileList = this.form.fileList || [];
+        this.printData.fileList = response.data.fileList || [];
         this.printData.printType = "退款管理";
       });
       await getProcessDataByStId("19", row.refundId).then((res) => {
