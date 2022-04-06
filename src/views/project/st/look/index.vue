@@ -265,7 +265,7 @@
             </el-table-column>
             <el-table-column
               property="gryRz"
-              label="入库热值(Kcal)">
+              label="出库热值(Kcal)">
             </el-table-column>
             <el-table-column
               property="transportType"
