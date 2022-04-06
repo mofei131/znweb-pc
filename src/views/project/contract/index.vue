@@ -870,7 +870,7 @@
               </td>
               <td class="table-td-title detail">合同类型</td>
               <td class="table-td-content">
-                {{ printData.type }}
+                {{ contractTypeFormat(printData.type) }}
               </td>
               <td class="table-td-title detail">合同编号</td>
               <td class="table-td-content">
@@ -1360,6 +1360,20 @@ export default {
       getStList().then((response) => {
         this.stOptions = response.rows;
       });
+    },
+    // 合同类型字典翻译
+    contractTypeFormat(row, column) {
+      if (row.type == "1") {
+        return "上游合同";
+      } else if (row.type == "2") {
+        return "下游合同";
+      } else if (row.type == "3") {
+        return "物流运输合同";
+      } else if (row.type == "4") {
+        return "物流服务合同";
+      } else if (row.type == "5") {
+        return "其他合同";
+      }
     },
     // 合同类型字典翻译
     typeFormat(row, column) {

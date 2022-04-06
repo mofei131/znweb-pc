@@ -953,7 +953,7 @@
                 {{ item.name }}
               </td>
               <td class="table-td-content" style="text-align: center">
-                {{ item.type }}
+                {{ contractTypeFormat(item.type) }}
               </td>
               <td class="table-td-content" style="text-align: center">
                 {{ $options.filters.weightFilter(item.expectNumber) }}
@@ -1234,6 +1234,20 @@ export default {
     }
   },
   methods: {
+    // 合同类型字典翻译
+    contractTypeFormat(row, column) {
+      if (row.type == "1") {
+        return "上游合同";
+      } else if (row.type == "2") {
+        return "下游合同";
+      } else if (row.type == "3") {
+        return "物流运输合同";
+      } else if (row.type == "4") {
+        return "物流服务合同";
+      } else if (row.type == "5") {
+        return "其他合同";
+      }
+    },
     /** 查询最终付款列表 */
     getList() {
       this.loading = true;

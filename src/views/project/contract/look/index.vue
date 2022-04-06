@@ -45,7 +45,7 @@
           合同名称：<span v-text="form.name"></span>
         </el-col>
         <el-col :span="4">
-          合同类型：<span v-text="form.type"></span>
+          合同类型：<span v-text="contractTypeFormat(form.type)"></span>
         </el-col>
         <el-col :span="4">
           合同编号：<span v-text="form.number"></span>
@@ -300,6 +300,20 @@ export default {
     });
   },
   methods: {
+    // 合同类型字典翻译
+    contractTypeFormat(row, column) {
+      if (row.type == "1") {
+        return "上游合同";
+      } else if (row.type == "2") {
+        return "下游合同";
+      } else if (row.type == "3") {
+        return "物流运输合同";
+      } else if (row.type == "4") {
+        return "物流服务合同";
+      } else if (row.type == "5") {
+        return "其他合同";
+      }
+    },
     cancel(){
       this.$store.dispatch("tagsView/delView", this.$route);
       this.$router.go(-1);
