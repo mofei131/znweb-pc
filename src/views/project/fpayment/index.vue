@@ -856,6 +856,20 @@
           </table>
           <table border="1" width="100%">
             <tr>
+              <td class="table-td-title detail">合计重量</td>
+              <td class="table-td-title detail">平均热值</td>
+            </tr>
+            <tr>
+              <td class="table-td-content" style="text-align: center">
+                {{$options.filters.weightFilter(printData.tweight)}}
+              </td>
+              <td class="table-td-content" style="text-align: center">
+                {{printData.prz}}
+              </td>
+            </tr>
+          </table>
+          <table border="1" width="100%">
+            <tr>
               <td class="title" colspan="6">基础信息</td>
             </tr>
             <tr>
