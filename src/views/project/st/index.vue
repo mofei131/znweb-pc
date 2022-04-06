@@ -19,6 +19,24 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
+      <el-form-item label="项目编号" prop="name">
+        <el-input
+          v-model="queryParams.number"
+          placeholder="请输入项目编号"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="立项编号" prop="name">
+        <el-input
+          v-model="queryParams.productNo"
+          placeholder="请输入立项编号"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
       <el-form-item label="代办人" prop="sqId">
         <el-select
           filterable
@@ -117,6 +135,7 @@
       <!--      <el-table-column label="项目id" align="center" prop="stId" />-->
       <el-table-column label="项目名称" align="center" prop="name" />
       <el-table-column label="项目编号" align="center" prop="number" />
+      <el-table-column label="立项编号" align="center" prop="productNo" />
       <el-table-column label="项目金额" align="center" prop="amount">
         <template slot-scope="scope">
           {{

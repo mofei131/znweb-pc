@@ -23,6 +23,29 @@
           />
         </el-select>
       </el-form-item>
+      <el-form-item label="项目编号" prop="name">
+               
+        <el-input
+          v-model="queryParams.number"
+          placeholder="请输入项目编号"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+             
+      </el-form-item>
+           
+      <el-form-item label="立项编号" prop="name">
+               
+        <el-input
+          v-model="queryParams.productNo"
+          placeholder="请输入立项编号"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+             
+      </el-form-item>
       <el-form-item label="合同名称" prop="name">
         <el-input
           v-model="queryParams.name"
@@ -126,6 +149,8 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column label="项目名称" align="center" prop="stName" />
+      <el-table-column label="立项编号" align="center" prop="productNo" />
+      <el-table-column label="项目编号" align="center" prop="number" />
       <el-table-column label="合同名称" align="center" prop="name" />
       <el-table-column label="合同编号" align="center" prop="number" />
       <el-table-column
@@ -137,13 +162,13 @@
       <el-table-column label="货品名称" align="center" prop="goodsName" />
       <el-table-column label="预计吨数" align="center" prop="expectNumber">
         <template slot-scope="scope">
-                    {{
-                      Number(scope.row.expectNumber)
-                        .toFixed(3)
-                        .toString()
-                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                    }}
-                  </template>
+          {{
+            Number(scope.row.expectNumber)
+              .toFixed(3)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
+        </template>
       </el-table-column>
       <el-table-column
         label="审批状态"
@@ -870,7 +895,7 @@
               </td>
               <td class="table-td-title detail">合同类型</td>
               <td class="table-td-content">
-                {{ printData.type}}
+                {{ printData.type }}
               </td>
               <td class="table-td-title detail">合同编号</td>
               <td class="table-td-content">
