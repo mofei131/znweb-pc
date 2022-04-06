@@ -1124,7 +1124,7 @@
           </table>
           <table border="1" width="100%">
             <tr>
-              <td class="title" colspan="7">出入库信息</td>
+              <td class="title" colspan="10">出入库信息</td>
             </tr>
             <tr>
               <td class="table-td-title detail">货品名称</td>
@@ -1168,6 +1168,20 @@
               </td>
               <td class="table-td-content" style="text-align: center">
                 {{ item.deliveryTime }}
+              </td>
+            </tr>
+          </table>
+          <table border="1" width="100%">
+            <tr>
+              <td class="table-td-title detail">合计重量</td>
+              <td class="table-td-title detail">平均热值</td>
+            </tr>
+            <tr>
+              <td class="table-td-content" style="text-align: center">
+                {{$options.filters.weightFilter(printData.totalWeight)}}
+              </td>
+              <td class="table-td-content" style="text-align: center">
+                {{printData.averageRz}}
               </td>
             </tr>
           </table>
