@@ -82,17 +82,17 @@
       <!--          v-hasPermi="['project:fpayment:remove']"-->
       <!--        >删除</el-button>-->
       <!--      </el-col>-->
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="warning"-->
-<!--          plain-->
-<!--          icon="el-icon-download"-->
-<!--          size="mini"-->
-<!--          @click="handleExport"-->
-<!--          v-hasPermi="['project:fpayment:export']"-->
-<!--          >导出</el-button-->
-<!--        >-->
-<!--      </el-col>-->
+      <!--      <el-col :span="1.5">-->
+      <!--        <el-button-->
+      <!--          type="warning"-->
+      <!--          plain-->
+      <!--          icon="el-icon-download"-->
+      <!--          size="mini"-->
+      <!--          @click="handleExport"-->
+      <!--          v-hasPermi="['project:fpayment:export']"-->
+      <!--          >导出</el-button-->
+      <!--        >-->
+      <!--      </el-col>-->
       <right-toolbar
         :showSearch.sync="showSearch"
         @queryTable="getList"
@@ -108,13 +108,13 @@
       <el-table-column label="货品名称" align="center" prop="hpName" />
       <el-table-column label="合计重量(吨)" align="center" prop="tweight">
         <template slot-scope="scope">
-                    {{
-                      Number(scope.row.tweight)
-                        .toFixed(3)
-                        .toString()
-                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                    }}
-                  </template>
+          {{
+            Number(scope.row.tweight)
+              .toFixed(3)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
+        </template>
       </el-table-column>
       <el-table-column label="结算单价(元)" align="center" prop="price">
         <template slot-scope="scope">
@@ -357,13 +357,13 @@
                 width="120"
               >
                 <template slot-scope="scope">
-                    {{
-                      Number(scope.row.grnNumber)
-                        .toFixed(3)
-                        .toString()
-                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                    }}
-                  </template>
+                  {{
+                    Number(scope.row.grnNumber)
+                      .toFixed(3)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
               </el-table-column>
               <el-table-column
                 property="gryRz"
@@ -387,25 +387,21 @@
               </el-table-column>
               <el-table-column property="batch" label="批次" width="90">
               </el-table-column>
-              <el-table-column
-                property="okTime"
-                label="到货日期"
-                width="120"
-              >
+              <el-table-column property="okTime" label="到货日期" width="120">
               </el-table-column>
               <el-table-column
                 property="valuePrice"
                 label="货值单价（元）"
                 width="120"
               >
-              <template slot-scope="scope">
-          {{
-            Number(scope.row.valuePrice)
-              .toFixed(2)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-          }}
-        </template>
+                <template slot-scope="scope">
+                  {{
+                    Number(scope.row.valuePrice)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
               </el-table-column>
               <el-table-column
                 property="valueTprice"
@@ -413,13 +409,13 @@
                 width="120"
               >
                 <template slot-scope="scope">
-                    {{
-                      Number(scope.row.valueTprice)
-                        .toFixed(3)
-                        .toString()
-                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                    }}
-                  </template>
+                  {{
+                    Number(scope.row.valueTprice)
+                      .toFixed(3)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
               </el-table-column>
             </el-table>
           </div>
@@ -427,7 +423,9 @@
           <el-row>
             <el-col :span="6">
               <el-form-item label="合计重量" prop="totalWeight">
-                <span style="color: red">{{ $options.filters.weightFilter(form.tweight) }}</span>
+                <span style="color: red">{{
+                  $options.filters.weightFilter(form.tweight)
+                }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="6">
@@ -664,14 +662,18 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="应付金额：">
-                <span v-text="$options.filters.moneyFilter(form.sjPrice)"></span>
+                <span
+                  v-text="$options.filters.moneyFilter(form.sjPrice)"
+                ></span>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
               <el-form-item label="已付金额：">
-                <span v-text="$options.filters.moneyFilter(form.ypayPrice)"></span>
+                <span
+                  v-text="$options.filters.moneyFilter(form.ypayPrice)"
+                ></span>
               </el-form-item>
             </el-col>
           </el-row>
@@ -798,8 +800,6 @@
                 {{ printData.openbank }}
               </td>
             </tr>
-              
-
           </table>
           <table border="1" width="100%">
             <tr>
@@ -857,10 +857,10 @@
             </tr>
             <tr>
               <td class="table-td-content" style="text-align: center">
-                {{$options.filters.weightFilter(printData.tweight)}}
+                {{ $options.filters.weightFilter(printData.tweight) }}
               </td>
               <td class="table-td-content" style="text-align: center">
-                {{printData.prz}}
+                {{ printData.prz }}
               </td>
             </tr>
           </table>
@@ -982,6 +982,16 @@
           <table border="1" width="100%">
             <tr>
               <td class="title" colspan="6">审批流程</td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">发起人</td>
+              <td class="table-td-content" colspan="2">
+                <template>{{ printData.sponsor }}</template>
+              </td>
+              <td class="table-td-title detail">发起时间</td>
+              <td class="table-td-content" colspan="2">
+                <template>{{ printData.initiateTime }}</template>
+              </td>
             </tr>
             <tr>
               <td class="table-td-title detail">部门</td>
@@ -1843,6 +1853,11 @@ export default {
       });
       await getApprovalProcessList("5", row.fpaymentId).then((res) => {
         this.printData.nodeStateList = res.data;
+        if (this.printData.nodeStateList) {
+          this.printData.sponsor = this.printData.nodeStateList[0].sponsor;
+          this.printData.initiateTime =
+            this.printData.nodeStateList[0].initiateTime;
+        }
       });
       this.printReviewVisible = true;
       this.$nextTick(() => {

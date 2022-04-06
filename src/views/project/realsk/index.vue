@@ -123,7 +123,7 @@
           }}
         </template>
       </el-table-column>
-      <el-table-column label="结算煤量" align="center" prop="jsMl" >
+      <el-table-column label="结算煤量" align="center" prop="jsMl">
         <template slot-scope="scope">
           {{
             Number(scope.row.jsMl)
@@ -253,14 +253,18 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="开票金额（价税合计）" prop="kpPrice">
-                <span v-text="$options.filters.moneyFilter(form.kpPrice)"></span>
+                <span
+                  v-text="$options.filters.moneyFilter(form.kpPrice)"
+                ></span>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
               <el-form-item label="开票吨数" prop="kpNumber">
-                <span v-text="$options.filters.weightFilter(form.kpNumber)"></span>
+                <span
+                  v-text="$options.filters.weightFilter(form.kpNumber)"
+                ></span>
               </el-form-item>
             </el-col>
           </el-row>
@@ -647,6 +651,16 @@
           <table border="1" width="100%">
             <tr>
               <td class="title" colspan="6">审批流程</td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">发起人</td>
+              <td class="table-td-content" colspan="2">
+                <template>{{ printData.sponsor }}</template>
+              </td>
+              <td class="table-td-title detail">发起时间</td>
+              <td class="table-td-content" colspan="2">
+                <template>{{ printData.initiateTime }}</template>
+              </td>
             </tr>
             <tr>
               <td class="table-td-title detail">部门</td>
@@ -1141,6 +1155,11 @@ export default {
       });
       await getApprovalProcessList("17", row.realskId).then((res) => {
         this.printData.nodeStateList = res.data;
+        if (this.printData.nodeStateList) {
+          this.printData.sponsor = this.printData.nodeStateList[0].sponsor;
+          this.printData.initiateTime =
+            this.printData.nodeStateList[0].initiateTime;
+        }
       });
       this.printReviewVisible = true;
       this.$nextTick(() => {

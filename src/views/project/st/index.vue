@@ -1355,7 +1355,9 @@
               </td>
               <td class="table-td-title detail">项目金额(万元)</td>
               <td class="table-td-content">
-                <template>{{ $options.filters.moneyFilter(printData.amount) }}</template>
+                <template>{{
+                  $options.filters.moneyFilter(printData.amount)
+                }}</template>
               </td>
             </tr>
             <tr>
@@ -1386,7 +1388,9 @@
             <tr>
               <td class="table-td-title detail">履约保证金金额(万元)</td>
               <td class="table-td-content">
-                <template>{{ $options.filters.moneyFilter(printData.margin) }}</template>
+                <template>{{
+                  $options.filters.moneyFilter(printData.margin)
+                }}</template>
               </td>
               <td class="table-td-title detail">服务周期开始</td>
               <td class="table-td-content">
@@ -1396,7 +1400,7 @@
             <tr>
               <td class="table-td-title detail">结算方式</td>
               <td class="table-td-content">
-                <template>{{ printData.settlementWay}}</template>
+                <template>{{ printData.settlementWay }}</template>
               </td>
               <td class="table-td-title detail">服务周期结束</td>
               <td class="table-td-content">
@@ -1419,17 +1423,23 @@
               </td>
               <td class="table-td-title detail">固定差价</td>
               <td class="table-td-content">
-                <template>{{ $options.filters.moneyFilter(printData.chargemGd) }}</template>
+                <template>{{
+                  $options.filters.moneyFilter(printData.chargemGd)
+                }}</template>
               </td>
             </tr>
             <tr>
               <td class="table-td-title detail">预计单价(元)</td>
               <td class="table-td-content">
-                <template>{{ $options.filters.moneyFilter(printData.expectPrice) }}</template>
+                <template>{{
+                  $options.filters.moneyFilter(printData.expectPrice)
+                }}</template>
               </td>
               <td class="table-td-title detail">预计重量(吨)</td>
               <td class="table-td-content">
-                <template>{{ $options.filters.weightFilter(printData.expectWeight) }}</template>
+                <template>{{
+                  $options.filters.weightFilter(printData.expectWeight)
+                }}</template>
               </td>
               <td class="table-td-title detail">成本年服务费费率(%)</td>
               <td class="table-td-content">
@@ -1478,7 +1488,9 @@
             <tr>
               <td class="table-td-title detail">履约保证金(元)</td>
               <td class="table-td-content">
-                <template>{{ $options.filters.moneyFilter(printData.shMargin) }}</template>
+                <template>{{
+                  $options.filters.moneyFilter(printData.shMargin)
+                }}</template>
               </td>
               <td class="table-td-title detail">合同签署</td>
               <td class="table-td-content" colspan="5">
@@ -1521,7 +1533,9 @@
             <tr>
               <td class="table-td-title detail">投标保证金(万元)</td>
               <td class="table-td-content">
-                <template>{{ $options.filters.moneyFilter(printData.tMargin) }}</template>
+                <template>{{
+                  $options.filters.moneyFilter(printData.tMargin)
+                }}</template>
               </td>
               <td class="table-td-title detail">保证金缴纳时间</td>
               <td class="table-td-content">
@@ -1620,7 +1634,9 @@
               </td>
               <td class="table-td-title detail">承运方发运规模(万吨/年)</td>
               <td class="table-td-content" colspan="5">
-                <template>{{ $options.filters.weightFilter(printData.pCnumber) }}</template>
+                <template>{{
+                  $options.filters.weightFilter(printData.pCnumber)
+                }}</template>
               </td>
             </tr>
           </table>
@@ -1647,6 +1663,16 @@
           <table border="1" width="100%">
             <tr>
               <td class="title" colspan="6">审批流程</td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">发起人</td>
+              <td class="table-td-content" colspan="2">
+                <template>{{ printData.sponsor }}</template>
+              </td>
+              <td class="table-td-title detail">发起时间</td>
+              <td class="table-td-content" colspan="2">
+                <template>{{ printData.initiateTime }}</template>
+              </td>
             </tr>
             <tr>
               <td class="table-td-title detail">部门</td>
@@ -2687,6 +2713,11 @@ export default {
       });
       await getApprovalProcessList("1", row.stId).then((res) => {
         this.printData.nodeStateList = res.data;
+        if (this.printData.nodeStateList) {
+          this.printData.sponsor = this.printData.nodeStateList[0].sponsor;
+          this.printData.initiateTime =
+            this.printData.nodeStateList[0].initiateTime;
+        }
       });
       this.printReviewVisible = true;
       this.$nextTick(() => {

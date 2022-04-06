@@ -324,7 +324,9 @@
           <el-row v-if="isLook == 2">
             <el-col :span="12">
               <el-form-item label="实付金额" prop="tntPrice">
-                <span v-text="$options.filters.moneyFilter(form.tntPrice)"></span>
+                <span
+                  v-text="$options.filters.moneyFilter(form.tntPrice)"
+                ></span>
               </el-form-item>
             </el-col>
           </el-row>
@@ -365,7 +367,7 @@
                   label="入库重量（吨）"
                   width="120"
                 >
-                <template slot-scope="scope">
+                  <template slot-scope="scope">
                     {{
                       Number(scope.row.grnNumber)
                         .toFixed(3)
@@ -427,14 +429,14 @@
                 label="入库重量（吨）"
                 width="120"
               >
-              <template slot-scope="scope">
-                    {{
-                      Number(scope.row.grnNumber)
-                        .toFixed(3)
-                        .toString()
-                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                    }}
-                  </template>
+                <template slot-scope="scope">
+                  {{
+                    Number(scope.row.grnNumber)
+                      .toFixed(3)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  }}
+                </template>
               </el-table-column>
               <el-table-column
                 property="grnRz"
@@ -469,28 +471,28 @@
                 label="货值单价（元）"
                 width="90"
               >
-              <template slot-scope="scope">
-          {{
-            Number(scope.row.valuePrice)
-              .toFixed(2)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
-          }}
-        </template>
+                <template slot-scope="scope">
+                  {{
+                    Number(scope.row.valuePrice)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+                  }}
+                </template>
               </el-table-column>
               <el-table-column
                 property="valueTprice"
                 label="货值总额（元）"
                 width="90"
               >
-              <template slot-scope="scope">
-          {{
-            Number(scope.row.valueTprice)
-              .toFixed(2)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
-          }}
-        </template>
+                <template slot-scope="scope">
+                  {{
+                    Number(scope.row.valueTprice)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+                  }}
+                </template>
               </el-table-column>
               <el-table-column v-if="noedit != 2" label="操作" width="120">
                 <template slot-scope="scope">
@@ -894,6 +896,16 @@
               <td class="title" colspan="6">审批流程</td>
             </tr>
             <tr>
+              <td class="table-td-title detail">发起人</td>
+              <td class="table-td-content" colspan="2">
+                <template>{{ printData.sponsor }}</template>
+              </td>
+              <td class="table-td-title detail">发起时间</td>
+              <td class="table-td-content" colspan="2">
+                <template>{{ printData.initiateTime }}</template>
+              </td>
+            </tr>
+            <tr>
               <td class="table-td-title detail">部门</td>
               <td class="table-td-title detail">应审批人</td>
               <td class="table-td-title detail">审批人</td>
@@ -1166,16 +1178,16 @@ export default {
     },
     // 合同类型字典翻译
     contractTypeFormat(row, column) {
-      if(row.type=='1'){
-        return "上游合同"
-      }else if(row.type=='2'){
-        return "下游合同"
-      }else if(row.type=='3'){
-        return "物流运输合同"
-      }else if(row.type=='4'){
-        return "物流服务合同"
-      }else if(row.type=='5'){
-        return "其他合同"
+      if (row.type == "1") {
+        return "上游合同";
+      } else if (row.type == "2") {
+        return "下游合同";
+      } else if (row.type == "3") {
+        return "物流运输合同";
+      } else if (row.type == "4") {
+        return "物流服务合同";
+      } else if (row.type == "5") {
+        return "其他合同";
       }
     },
     /** 查询物流付款列表 */
@@ -1683,6 +1695,11 @@ export default {
       });
       await getApprovalProcessList("9", row.lpaymentId).then((res) => {
         this.printData.nodeStateList = res.data;
+        if (this.printData.nodeStateList) {
+          this.printData.sponsor = this.printData.nodeStateList[0].sponsor;
+          this.printData.initiateTime =
+            this.printData.nodeStateList[0].initiateTime;
+        }
       });
       this.printReviewVisible = true;
       this.$nextTick(() => {

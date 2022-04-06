@@ -1092,6 +1092,16 @@
               <td class="title" colspan="6">审批流程</td>
             </tr>
             <tr>
+              <td class="table-td-title detail">发起人</td>
+              <td class="table-td-content" colspan="2">
+                <template>{{ printData.sponsor }}</template>
+              </td>
+              <td class="table-td-title detail">发起时间</td>
+              <td class="table-td-content" colspan="2">
+                <template>{{ printData.initiateTime }}</template>
+              </td>
+            </tr>
+            <tr>
               <td class="table-td-title detail">部门</td>
               <td class="table-td-title detail">应审批人</td>
               <td class="table-td-title detail">审批人</td>
@@ -1742,6 +1752,11 @@ export default {
       });
       await getApprovalProcessList("3", row.contractId).then((res) => {
         this.printData.nodeStateList = res.data;
+        if (this.printData.nodeStateList) {
+          this.printData.sponsor = this.printData.nodeStateList[0].sponsor;
+          this.printData.initiateTime =
+            this.printData.nodeStateList[0].initiateTime;
+        }
       });
       this.printReviewVisible = true;
       this.$nextTick(() => {
