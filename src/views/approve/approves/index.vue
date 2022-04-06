@@ -202,7 +202,7 @@
           <el-row class="head-text">
             <el-col :span="4" :offset="1">
               投标保证金：<span
-                v-text="$options.filters.moneyFilter(form.tMargintype)"
+                v-text="form.tMargintype"
               ></span>
             </el-col>
             <el-col :span="4">
