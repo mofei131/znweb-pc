@@ -846,12 +846,12 @@
     >
       <div class="print-div" id="print_area">
         <div class="search-title-content">
-          <div style="padding: 30px 0 15px">
+          <div style="padding: 0 0 15px">
             <el-row type="flex" justify="space-between">
               <el-col :span="4"
                 ><span
                   style="font-weight: bold; font-size: 16px"
-                  v-text="printData.type"
+                  v-text="printData.printType"
                 ></span
               ></el-col>
               <el-col :span="4"
@@ -1726,7 +1726,8 @@ export default {
         type: "image",
         header: null,
         targetStyles: ["*"],
-        style: "@page {margin:0 10mm}",
+        documentTitle: "",
+        style: "@page {margin:15mm 10mm}",
       });
     },
     async handlePrint(row) {
@@ -1735,6 +1736,17 @@ export default {
         this.printData = response.data;
         this.printData.fileList = response.data.fileList;
         this.printData.bcfileList = response.data.filebcList;
+        if (this.printData.type == "1") {
+          this.printData.printType = "上游合同";
+        } else if (this.printData.type == "2") {
+          this.printData.printType = "下游合同";
+        } else if (this.printData.type == "3") {
+          this.printData.printType = "物流运输合同";
+        } else if (this.printData.type == "4") {
+          this.printData.printType = "物流服务合同";
+        } else if (this.printData.type == "5") {
+          this.printData.printType = "其他合同";
+        }
         if (this.printData.type == "1") {
           this.printData.type = "上游合同";
         } else if (this.printData.type == "2") {

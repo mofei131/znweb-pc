@@ -1317,12 +1317,12 @@
     >
       <div class="print-div" id="print_area">
         <div class="search-title-content">
-          <div style="padding: 30px 0 15px">
+          <div style="padding: 0 0 15px">
             <el-row type="flex" justify="space-between">
               <el-col :span="4"
                 ><span
                   style="font-weight: bold; font-size: 16px"
-                  v-text="printData.type"
+                  v-text="printData.printType"
                 ></span
               ></el-col>
               <el-col :span="4"
@@ -2698,14 +2698,15 @@ export default {
         type: "image",
         header: null,
         targetStyles: ["*"],
-        style: "@page {margin:0 10mm}",
+        documentTitle: "",
+        style: "@page {margin:15mm 10mm}",
       });
     },
     async handlePrint(row) {
       this.printData = {};
       await getSt(row.stId).then((response) => {
         this.printData = response.data;
-        this.printData.type = "项目新增";
+        this.printData.printType = "项目新增";
         this.printData.fileList = response.data.fileList;
       });
       await getProcessDataByStId("1", row.stId).then((res) => {

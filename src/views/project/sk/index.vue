@@ -768,12 +768,12 @@
     >
       <div class="print-div" id="print_area">
         <div class="search-title-content">
-          <div style="padding: 30px 0 15px">
+          <div style="padding: 0 0 15px">
             <el-row type="flex" justify="space-between">
               <el-col :span="4"
                 ><span
                   style="font-weight: bold; font-size: 16px"
-                  v-text="printData.type"
+                  v-text="printData.printType"
                 ></span
               ></el-col>
               <el-col :span="4"
@@ -1801,7 +1801,8 @@ export default {
         type: "image",
         header: null,
         targetStyles: ["*"],
-        style: "@page {margin:0 10mm}",
+        documentTitle: "",
+        style: "@page {margin:15mm 10mm}",
       });
     },
     async handlePrint(row) {
@@ -1810,7 +1811,7 @@ export default {
         this.printData = response.data;
         this.printData.fileList = response.data.fileList;
         this.printData.gryList = response.data.selnyList;
-        this.printData.type = "预估收款";
+        this.printData.printType = "预估收款";
       });
       await getProcessDataByStId("6", row.skId).then((res) => {
         this.printData.approveHisList = res.data;

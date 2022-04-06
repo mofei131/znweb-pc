@@ -693,7 +693,7 @@
     >
       <div class="print-div" id="print_area">
         <div class="search-title-content">
-          <div style="padding: 30px 0 15px">
+          <div style="padding: 0 0 15px">
             <el-row type="flex" justify="space-between">
               <el-col :span="4"
                 ><span
@@ -1783,7 +1783,8 @@ export default {
         type: "image",
         header: null,
         targetStyles: ["*"],
-        style: "@page {margin:0 10mm}",
+        documentTitle: "",
+        style: "@page {margin:15mm 10mm}",
       });
     },
     async handlePrint(row) {
@@ -1800,6 +1801,7 @@ export default {
           response.data.valuePrice - response.data.grnList[0].valuePrice;
         this.printData.zec =
           response.data.valueTprice - response.data.grnList[0].valueTprice;
+        this.printData.printType = "出库管理";
       });
       await getProcessDataByStId("11", row.gryId).then((res) => {
         this.printData.approveHisList = res.data;
