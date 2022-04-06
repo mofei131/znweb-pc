@@ -190,7 +190,7 @@
     <el-dialog :title="title" :visible.sync="open" width="60%" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="180px">
         <el-row>
-          <el-col :span="24">
+          <el-col :span="12">
             <el-form-item label="项目名称" prop="stId">
               <el-select
                 filterable
@@ -209,12 +209,12 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="24">
+          <el-col :span="12">
             <el-form-item label="项目编号" prop="stNumber">
               {{ form.stNumber }}
             </el-form-item>
           </el-col>
-          <el-col :span="24">
+          <el-col :span="12">
             <el-form-item label="终端用户" prop="terminalId">
               <el-select
                 filterable
@@ -233,17 +233,17 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="24">
+          <el-col :span="12">
             <el-form-item label="账号" prop="account">
               <el-input v-model="form.account" placeholder="请输入账号" />
             </el-form-item>
           </el-col>
-          <el-col :span="24">
+          <el-col :span="12">
             <el-form-item label="开户行" prop="bank">
               <el-input v-model="form.bank" placeholder="请输入开户行" />
             </el-form-item>
           </el-col>
-          <el-col :span="24">
+          <el-col :span="12">
             <el-form-item label="退款金额" prop="moneyAmount">
               <el-input
                 v-model="form.moneyAmount"
@@ -251,7 +251,7 @@
               />
             </el-form-item>
           </el-col>
-          <el-col :span="24">
+          <el-col :span="12">
             <el-form-item label="备注" prop="remark">
               <el-input
                 v-model="form.remark"
