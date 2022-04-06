@@ -307,7 +307,7 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm" v-if="isLook!=3">确 定</el-button>
+        <el-button type="primary" @click.once="submitForm" v-if="isLook!=3">确 定</el-button>
         <el-button @click="cancel" v-if="isLook!=3">取 消</el-button>
 <!--        <el-button @click="cancel" v-if="isLook==3">关 闭</el-button>-->
       </div>
