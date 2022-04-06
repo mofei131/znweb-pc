@@ -47,7 +47,7 @@ export default {
     },
     props:{
         typeId:Number,
-        stId:Number 
+        stId:String 
     },
     mounted(){
         this.info={}

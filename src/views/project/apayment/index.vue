@@ -1134,6 +1134,9 @@
               <td class="table-td-title detail">批次</td>
               <td class="table-td-title detail">货值单价(元)</td>
               <td class="table-td-title detail">货值总额(元)</td>
+              <td class="table-td-title detail">入库重量(吨)</td>
+              <td class="table-td-title detail">入库热值(kcal)</td>
+              <td class="table-td-title detail">发货日期(kcal)</td>
             </tr>
             <tr v-for="(item, idx) in printData.dataList" :key="idx">
               <td class="table-td-content" style="text-align: center">
@@ -1156,6 +1159,15 @@
               </td>
               <td class="table-td-content" style="text-align: center">
                 {{ $options.filters.moneyFilter(item.valueTprice) }}
+              </td>
+              <td class="table-td-content" style="text-align: center">
+                {{ $options.filters.weightFilter(item.grnNumber) }}
+              </td>
+              <td class="table-td-content" style="text-align: center">
+                {{ item.grnRz }}
+              </td>
+              <td class="table-td-content" style="text-align: center">
+                {{ item.deliveryTime }}
               </td>
             </tr>
           </table>
@@ -2418,7 +2430,7 @@ export default {
         this.printData = response.data;
         this.printData.fileList = response.data.fileList;
         this.printData.dataList = response.data.selnyList;
-        this.printData.type = "预付款";
+        // this.printData.type = "预付款";
         let data = { stId: row.stId };
         //合同
         getContractList(data).then((response) => {
