@@ -785,10 +785,6 @@
               </td>
             </tr>
             <tr>
-              <td class="table-td-title detail">预付方式</td>
-              <td class="table-td-content">
-                {{ printData.payType }}
-              </td>
               <td class="table-td-title detail">供应商</td>
               <td class="table-td-content">
                 {{ printData.supplierName }}
@@ -797,13 +793,13 @@
               <td class="table-td-content">
                 {{ printData.account }}
               </td>
-            </tr>
-            <tr>
               <td class="table-td-title detail">供应商开户行</td>
-              <td class="table-td-content" colspan="5">
+              <td class="table-td-content">
                 {{ printData.openbank }}
               </td>
             </tr>
+              
+
           </table>
           <table border="1" width="100%">
             <tr>
