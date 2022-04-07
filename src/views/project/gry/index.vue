@@ -755,6 +755,14 @@
                 {{ $options.filters.moneyFilter(printData.valueTprice) }}
               </td>
             </tr>
+            <tr>
+              <td class="table-td-title detail">附件</td>
+              <td class="table-td-content" colspan="5">
+                <div v-for="(item, idx) in printData.fileList" :key="idx">
+                  {{ item.name }}
+                </div>
+              </td>
+            </tr>
           </table>
           <table border="1" width="100%">
             <tr>
