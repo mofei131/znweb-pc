@@ -23,6 +23,29 @@
           />
         </el-select>
       </el-form-item>
+      <el-form-item label="项目编号" prop="name">
+               
+        <el-input
+          v-model="queryParams.number"
+          placeholder="请输入项目编号"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+             
+      </el-form-item>
+           
+      <el-form-item label="立项编号" prop="name">
+               
+        <el-input
+          v-model="queryParams.productNo"
+          placeholder="请输入立项编号"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+             
+      </el-form-item>
       <el-form-item label="合同名称" prop="name">
         <el-input
           v-model="queryParams.name"
@@ -126,6 +149,8 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column label="项目名称" align="center" prop="stName" />
+      <el-table-column label="立项编号" align="center" prop="productNo" />
+      <el-table-column label="项目编号" align="center" prop="number" />
       <el-table-column label="合同名称" align="center" prop="name" />
       <el-table-column label="合同编号" align="center" prop="number" />
       <el-table-column
@@ -137,13 +162,13 @@
       <el-table-column label="货品名称" align="center" prop="goodsName" />
       <el-table-column label="预计吨数" align="center" prop="expectNumber">
         <template slot-scope="scope">
-                    {{
-                      Number(scope.row.expectNumber)
-                        .toFixed(3)
-                        .toString()
-                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                    }}
-                  </template>
+          {{
+            Number(scope.row.expectNumber)
+              .toFixed(3)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
+        </template>
       </el-table-column>
       <el-table-column
         label="审批状态"
@@ -821,12 +846,12 @@
     >
       <div class="print-div" id="print_area">
         <div class="search-title-content">
-          <div style="padding: 30px 0 15px">
+          <div style="padding: 0 0 15px">
             <el-row type="flex" justify="space-between">
               <el-col :span="4"
                 ><span
                   style="font-weight: bold; font-size: 16px"
-                  v-text="printData.type"
+                  v-text="printData.printType"
                 ></span
               ></el-col>
               <el-col :span="4"
@@ -870,7 +895,7 @@
               </td>
               <td class="table-td-title detail">合同类型</td>
               <td class="table-td-content">
-                {{ printData.type}}
+                {{ printData.type }}
               </td>
               <td class="table-td-title detail">合同编号</td>
               <td class="table-td-content">
@@ -1065,6 +1090,16 @@
           <table border="1" width="100%">
             <tr>
               <td class="title" colspan="6">审批流程</td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">发起人</td>
+              <td class="table-td-content" colspan="2">
+                <template>{{ printData.sponsor }}</template>
+              </td>
+              <td class="table-td-title detail">发起时间</td>
+              <td class="table-td-content" colspan="2">
+                <template>{{ printData.initiateTime }}</template>
+              </td>
             </tr>
             <tr>
               <td class="table-td-title detail">部门</td>
@@ -1691,7 +1726,8 @@ export default {
         type: "image",
         header: null,
         targetStyles: ["*"],
-        style: "@page {margin:0 10mm}",
+        documentTitle: "",
+        style: "@page {margin:15mm 10mm}",
       });
     },
     async handlePrint(row) {
@@ -1700,6 +1736,17 @@ export default {
         this.printData = response.data;
         this.printData.fileList = response.data.fileList;
         this.printData.bcfileList = response.data.filebcList;
+        if (this.printData.type == "1") {
+          this.printData.printType = "上游合同";
+        } else if (this.printData.type == "2") {
+          this.printData.printType = "下游合同";
+        } else if (this.printData.type == "3") {
+          this.printData.printType = "物流运输合同";
+        } else if (this.printData.type == "4") {
+          this.printData.printType = "物流服务合同";
+        } else if (this.printData.type == "5") {
+          this.printData.printType = "其他合同";
+        }
         if (this.printData.type == "1") {
           this.printData.type = "上游合同";
         } else if (this.printData.type == "2") {
@@ -1717,6 +1764,11 @@ export default {
       });
       await getApprovalProcessList("3", row.contractId).then((res) => {
         this.printData.nodeStateList = res.data;
+        if (this.printData.nodeStateList) {
+          this.printData.sponsor = this.printData.nodeStateList[0].sponsor;
+          this.printData.initiateTime =
+            this.printData.nodeStateList[0].initiateTime;
+        }
       });
       this.printReviewVisible = true;
       this.$nextTick(() => {

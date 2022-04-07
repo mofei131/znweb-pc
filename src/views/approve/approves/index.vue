@@ -94,9 +94,7 @@
               ></span>
             </el-col>
             <el-col :span="4">
-              结算方式：<span
-                v-text="form.settlementWay"
-              ></span>
+              结算方式：<span v-text="form.settlementWay"></span>
             </el-col>
             <el-col :span="4">
               服务周期开始：<span v-text="form.cycleStart"></span>
@@ -120,7 +118,9 @@
               年费服务费费率(%)：<span v-text="form.chargemNx"></span>
             </el-col>
             <el-col :span="4">
-              固定差价：<span v-text="$options.filters.moneyFilter(form.chargemGd)"></span>
+              固定差价：<span
+                v-text="$options.filters.moneyFilter(form.chargemGd)"
+              ></span>
             </el-col>
             <el-col :span="4">
               预计单价(元)：<span
@@ -128,7 +128,9 @@
               ></span>
             </el-col>
             <el-col :span="4">
-              预计重量(吨)：<span v-text="$options.filters.weightFilter(form.expectWeight)"></span>
+              预计重量(吨)：<span
+                v-text="$options.filters.weightFilter(form.expectWeight)"
+              ></span>
             </el-col>
           </el-row>
 
@@ -137,7 +139,9 @@
               成本年服务费费率(%)：<span v-text="form.rateYear"></span>
             </el-col>
             <el-col :span="4">
-              预计利润：<span v-text="$options.filters.moneyFilter(form.expectProfits)"></span>
+              预计利润：<span
+                v-text="$options.filters.moneyFilter(form.expectProfits)"
+              ></span>
             </el-col>
           </el-row>
 
@@ -201,9 +205,7 @@
 
           <el-row class="head-text">
             <el-col :span="4" :offset="1">
-              投标保证金：<span
-                v-text="form.tMargintype"
-              ></span>
+              投标保证金：<span v-text="form.tMargintype"></span>
             </el-col>
             <el-col :span="4">
               投标保证金(万元)：<span
@@ -289,7 +291,9 @@
               程远方发运年限：<span v-text="form.pCyear"></span>
             </el-col>
             <el-col :span="4">
-              承运方发运规模(万吨/年)：<span v-text="$options.filters.weightFilter(form.pCnumber)"></span>
+              承运方发运规模(万吨/年)：<span
+                v-text="$options.filters.weightFilter(form.pCnumber)"
+              ></span>
             </el-col>
           </el-row>
 
@@ -416,7 +420,9 @@
           </el-row>
           <el-row class="head-text">
             <el-col :span="4" :offset="1">
-              预计吨数：<span v-text="$options.filters.weightFilter(form.expectWeight)"></span>
+              预计吨数：<span
+                v-text="$options.filters.weightFilter(form.expectWeight)"
+              ></span>
             </el-col>
             <el-col :span="4">
               预计单价(元)：<span
@@ -754,13 +760,13 @@
                 </el-table-column>
                 <el-table-column property="skTprice" label="收款金额">
                   <template slot-scope="scope">
-          {{
-            Number(scope.row.skTprice)
-              .toFixed(2)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-          }}
-        </template>
+                    {{
+                      Number(scope.row.skTprice)
+                        .toFixed(2)
+                        .toString()
+                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    }}
+                  </template>
                 </el-table-column>
                 <el-table-column label="操作" width="120">
                   <template slot-scope="scope">
@@ -792,13 +798,13 @@
                 <el-table-column label="物流类型"> 物流付款 </el-table-column>
                 <el-table-column property="tntPrice" label="实付金额">
                   <template slot-scope="scope">
-          {{
-            Number(scope.row.tntPrice)
-              .toFixed(2)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-          }}
-        </template>
+                    {{
+                      Number(scope.row.tntPrice)
+                        .toFixed(2)
+                        .toString()
+                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    }}
+                  </template>
                 </el-table-column>
                 <!-- <el-table-column property="serType" label="是否产生服务费">
                 </el-table-column>
@@ -1138,12 +1144,16 @@
                 >
                   <el-table-column label="出库重量">
                     <template slot-scope="scope">
-                      <span v-text="$options.filters.weightFilter(gryNumber)"></span>
+                      <span
+                        v-text="$options.filters.weightFilter(gryNumber)"
+                      ></span>
                     </template>
                   </el-table-column>
                   <el-table-column label="固定差价">
                     <template slot-scope="scope">
-                      <span v-text="$options.filters.moneyFilter(form.chargemGd)"></span>
+                      <span
+                        v-text="$options.filters.moneyFilter(form.chargemGd)"
+                      ></span>
                     </template>
                   </el-table-column>
                   <el-table-column label="差价利润">
@@ -1210,10 +1220,14 @@
               货品名称：<span v-text="form.goodsName"></span>
             </el-col>
             <el-col :span="4" v-if="form.type == '下游合同'">
-              预计吨数：<span v-text="$options.filters.weightFilter(form.expectNumber)"></span>
+              预计吨数：<span
+                v-text="$options.filters.weightFilter(form.expectNumber)"
+              ></span>
             </el-col>
             <el-col :span="4" v-if="form.type == '下游合同'">
-              基准单价：<span v-text="$options.filters.moneyFilter(form.price)"></span>
+              基准单价：<span
+                v-text="$options.filters.moneyFilter(form.price)"
+              ></span>
             </el-col>
             <el-col :span="4" v-if="form.type == '上游合同'">
               保底服务费期限：<span v-text="form.mfsp"></span>
@@ -1257,7 +1271,9 @@
             v-if="form.type == '物流运输合同' || form.type == '物流服务合同'"
           >
             <el-col :span="4" :offset="1">
-              运费单价(吨/元)：<span v-text="$options.filters.weightFilter(form.goodsName)"></span>
+              运费单价(吨/元)：<span
+                v-text="$options.filters.weightFilter(form.goodsName)"
+              ></span>
             </el-col>
             <el-col :span="4">
               损耗率：<span v-text="form.expectNumber"></span>
@@ -1397,7 +1413,7 @@
                   label="入库重量（吨）"
                   width="120"
                 >
-                <template slot-scope="scope">
+                  <template slot-scope="scope">
                     {{
                       Number(scope.row.grnNumber)
                         .toFixed(3)
@@ -1412,7 +1428,7 @@
                   label="出库重量（吨）"
                   width="120"
                 >
-                <template slot-scope="scope">
+                  <template slot-scope="scope">
                     {{
                       Number(scope.row.grnNumber)
                         .toFixed(3)
@@ -1484,7 +1500,7 @@
                   label="货值总额（元）"
                   width="90"
                 >
-                <template slot-scope="scope">
+                  <template slot-scope="scope">
                     {{
                       Number(scope.row.valueTprice)
                         .toFixed(2)
@@ -1628,35 +1644,49 @@
           <!--      </el-row>-->
           <el-row class="head-text">
             <el-col :span="4" :offset="1">
-              扣款金额：<span v-text="$options.filters.moneyFilter(form.kkPrice)"></span>
+              扣款金额：<span
+                v-text="$options.filters.moneyFilter(form.kkPrice)"
+              ></span>
             </el-col>
             <el-col :span="4">
-              扣款备注：<span v-text="$options.filters.moneyFilter(form.kkNode)"></span>
+              扣款备注：<span
+                v-text="$options.filters.moneyFilter(form.kkNode)"
+              ></span>
             </el-col>
             <el-col :span="4">
-              运费金额：<span v-text="$options.filters.moneyFilter(form.yfPrice)"></span>
+              运费金额：<span
+                v-text="$options.filters.moneyFilter(form.yfPrice)"
+              ></span>
             </el-col>
           </el-row>
 
           <el-row class="head-text">
             <el-col :span="4" :offset="1">
               <el-form-item label="付款总额：">
-                <span style="color: red">{{ $options.filters.moneyFilter(form.payTprice) }}</span>
+                <span style="color: red">{{
+                  $options.filters.moneyFilter(form.payTprice)
+                }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item label="已付金额：">
-                <span style="color: red">{{ $options.filters.moneyFilter(form.prepaidPrice) }}</span>
+                <span style="color: red">{{
+                  $options.filters.moneyFilter(form.prepaidPrice)
+                }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item label="垫付保证金：">
-                <span style="color: red">{{ $options.filters.moneyFilter(form.dfPrice) }}</span>
+                <span style="color: red">{{
+                  $options.filters.moneyFilter(form.dfPrice)
+                }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item label="实际付款金额：">
-                <span style="color: red">{{ $options.filters.moneyFilter(form.actualPrice) }}</span>
+                <span style="color: red">{{
+                  $options.filters.moneyFilter(form.actualPrice)
+                }}</span>
               </el-form-item>
             </el-col>
           </el-row>
@@ -1820,7 +1850,9 @@
           <el-row class="head-text">
             <el-col :span="4" :offset="1">
               <el-form-item label="合计重量：">
-                <span style="color: red">{{ $options.filters.weightFilter(form.tweight) }}</span>
+                <span style="color: red">{{
+                  $options.filters.weightFilter(form.tweight)
+                }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="4">
@@ -1893,7 +1925,9 @@
               ></span>
             </el-col>
             <el-col :span="5">
-              其他扣款：<span v-text="$options.filters.moneyFilter(form.otherPrice)"></span>
+              其他扣款：<span
+                v-text="$options.filters.moneyFilter(form.otherPrice)"
+              ></span>
             </el-col>
           </el-row>
 
@@ -2091,7 +2125,9 @@
           <el-row class="head-text">
             <el-col :span="4" :offset="1">
               <el-form-item label="合计重量：">
-                <span style="color: red">{{ $options.filters.weightFilter(form.tweight) }}</span>
+                <span style="color: red">{{
+                  $options.filters.weightFilter(form.tweight)
+                }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="4">
@@ -2399,7 +2435,9 @@
             </el-col>
             <el-col :span="4"> 月份：<span v-text="form.month"></span> </el-col>
             <el-col :span="4">
-              数量(吨)：<span v-text="$options.filters.weightFilter(form.number)"></span>
+              数量(吨)：<span
+                v-text="$options.filters.weightFilter(form.number)"
+              ></span>
             </el-col>
             <el-col :span="4">
               预计付款时间：<span>{{
@@ -2455,7 +2493,9 @@
 
           <el-row class="head-text">
             <el-col :span="4" :offset="1">
-              实付金额：<span v-text="$options.filters.moneyFilter(form.tntPrice)"></span>
+              实付金额：<span
+                v-text="$options.filters.moneyFilter(form.tntPrice)"
+              ></span>
             </el-col>
           </el-row>
 
@@ -2586,7 +2626,9 @@
 
           <el-row class="head-text">
             <el-col :span="4" :offset="1">
-              入库重量(吨)：<span v-text="$options.filters.weightFilter(form.grnNumber)"></span>
+              入库重量(吨)：<span
+                v-text="$options.filters.weightFilter(form.grnNumber)"
+              ></span>
             </el-col>
             <el-col :span="4">
               发货日期：<span>{{
@@ -2770,6 +2812,22 @@
               ></span>
             </el-col>
           </el-row>
+          <el-row class="head-text">
+            <el-col :span="12" :offset="1">
+              <el-form-item class="head-text" label="附件：" prop="file">
+                <!-- <el-upload
+                  disabled
+                  :action="url"
+                  :headers="headers"
+                  class="upload-hidden"
+                  :on-preview="handlePreview"
+                  list-type="text"
+                  :file-list="fileList">
+                </el-upload> -->
+                <custom-upload :fileList="fileList"></custom-upload>
+              </el-form-item>
+            </el-col>
+          </el-row>
         </el-form>
       </div>
       <div v-if="initData.processType == '11'">
@@ -2791,7 +2849,9 @@
               项目编号：<span v-text="form.number"></span>
             </el-col>
             <el-col :span="5">
-              出库重量：<span v-text="$options.filters.weightFilter(form.grnNumber)"></span>
+              出库重量：<span
+                v-text="$options.filters.weightFilter(form.grnNumber)"
+              ></span>
             </el-col>
             <el-col :span="5">
               到货日期：<span>{{ parseTime(form.okTime, "{y}-{m}-{d}") }}</span>
@@ -2803,10 +2863,14 @@
               出库热值：<span v-text="form.gryRz"></span>
             </el-col>
             <el-col :span="5">
-              货值单价：<span v-text="$options.filters.moneyFilter(form.valuePrice)"></span>
+              货值单价：<span
+                v-text="$options.filters.moneyFilter(form.valuePrice)"
+              ></span>
             </el-col>
             <el-col :span="5">
-              货值总额：<span v-text="$options.filters.moneyFilter(form.valueTprice)"></span>
+              货值总额：<span
+                v-text="$options.filters.moneyFilter(form.valueTprice)"
+              ></span>
             </el-col>
           </el-row>
 
@@ -3049,6 +3113,22 @@
               </el-form-item>
             </el-col>
           </el-row>
+          <el-row class="head-text">
+            <el-col :span="12" :offset="1">
+              <el-form-item class="head-text" label="附件：" prop="file">
+                <!-- <el-upload
+                  disabled
+                  :action="url"
+                  :headers="headers"
+                  class="upload-hidden"
+                  :on-preview="handlePreview"
+                  list-type="text"
+                  :file-list="fileList">
+                </el-upload> -->
+                <custom-upload :fileList="fileList"></custom-upload>
+              </el-form-item>
+            </el-col>
+          </el-row>
         </el-form>
       </div>
       <div v-if="initData.processType == '12'">
@@ -3070,7 +3150,9 @@
               成立日期：<span v-text="form.clTime"></span>
             </el-col>
             <el-col :span="5">
-              年发运量(万吨)：<span v-text="$options.filters.weightFilter(form.traffic)"></span>
+              年发运量(万吨)：<span
+                v-text="$options.filters.weightFilter(form.traffic)"
+              ></span>
             </el-col>
             <el-col :span="5">
               注册资本(万元)：<span
@@ -3080,7 +3162,9 @@
           </el-row>
           <el-row class="head-text">
             <el-col :span="5" :offset="1">
-              发票面额：<span v-text="$options.filters.moneyFilter(form.invoiceType)"></span>
+              发票面额：<span
+                v-text="$options.filters.moneyFilter(form.invoiceType)"
+              ></span>
             </el-col>
             <el-col :span="5">
               企业性质：<span v-text="form.nature"></span>
@@ -3152,7 +3236,9 @@
               企业性质：<span v-text="form.nature"></span>
             </el-col>
             <el-col :span="5">
-              年需求量(万吨)：<span v-text="$options.filters.weightFilter(form.demand)"></span>
+              年需求量(万吨)：<span
+                v-text="$options.filters.weightFilter(form.demand)"
+              ></span>
             </el-col>
           </el-row>
           <el-row class="head-text">
@@ -3228,7 +3314,9 @@
           </el-row>
           <el-row class="head-text">
             <el-col :span="5" :offset="1">
-              数量(吨)：<span v-text="$options.filters.weightFilter(form.number)"></span>
+              数量(吨)：<span
+                v-text="$options.filters.weightFilter(form.number)"
+              ></span>
             </el-col>
           </el-row>
           <el-row class="head-text">
@@ -3300,7 +3388,9 @@
           <!--          </el-row>-->
           <el-row class="head-text">
             <el-col :span="5" :offset="1">
-              数量(吨)：<span v-text="$options.filters.weightFilter(form.number)"></span>
+              数量(吨)：<span
+                v-text="$options.filters.weightFilter(form.number)"
+              ></span>
             </el-col>
           </el-row>
 
@@ -3372,10 +3462,14 @@
           </el-row>
           <el-row class="head-text">
             <el-col :span="4" :offset="1">
-              结算金额：<span v-text="$options.filters.moneyFilter(form.zzTprice)"></span>
+              结算金额：<span
+                v-text="$options.filters.moneyFilter(form.zzTprice)"
+              ></span>
             </el-col>
             <el-col :span="4">
-              验收重量(吨)：<span v-text="$options.filters.weightFilter(form.zzWeight)"></span>
+              验收重量(吨)：<span
+                v-text="$options.filters.weightFilter(form.zzWeight)"
+              ></span>
             </el-col>
           </el-row>
           <el-row class="head-text">
@@ -3487,10 +3581,14 @@
               项目编号：<span v-text="form.number"></span>
             </el-col>
             <el-col :span="4">
-              预估应收：<span v-text="$options.filters.moneyFilter(form.ygPrice)"></span>
+              预估应收：<span
+                v-text="$options.filters.moneyFilter(form.ygPrice)"
+              ></span>
             </el-col>
             <el-col :span="4">
-              开票金额：<span v-text="$options.filters.moneyFilter(form.kpPrice)"></span>
+              开票金额：<span
+                v-text="$options.filters.moneyFilter(form.kpPrice)"
+              ></span>
             </el-col>
           </el-row>
 
@@ -3501,7 +3599,9 @@
               ></span>
             </el-col>
             <el-col :span="4">
-              结算煤量：<span v-text="$options.filters.weightFilter(form.jsMl)"></span>
+              结算煤量：<span
+                v-text="$options.filters.weightFilter(form.jsMl)"
+              ></span>
             </el-col>
             <el-col :span="4">
               结算煤款：<span
@@ -3547,7 +3647,9 @@
               ></span>
             </el-col>
             <el-col :span="4" :offset="1">
-              投标数量（吨）：<span v-text="$options.filters.weightFilter(form.bidNumber)"></span>
+              投标数量（吨）：<span
+                v-text="$options.filters.weightFilter(form.bidNumber)"
+              ></span>
             </el-col>
             <el-col :span="4" :offset="1">
               投标保证金（元）：<span
@@ -3628,7 +3730,9 @@
               开户行：<span v-text="form.bank"></span>
             </el-col>
             <el-col :span="6">
-              退款金额(元)：<span v-text="$options.filters.moneyFilter(form.moneyAmount)"></span>
+              退款金额(元)：<span
+                v-text="$options.filters.moneyFilter(form.moneyAmount)"
+              ></span>
             </el-col>
           </el-row>
           <el-row class="head-text">
@@ -3690,7 +3794,15 @@
                 </el-table-column>
                 <el-table-column label="审批状态" align="center" prop="status">
                   <template slot-scope="scope">
-                    {{ scope.row.status == 0 ? "驳回" : "通过" }}
+                    {{
+                      scope.row.status == 0
+                        ? "驳回"
+                        : scope.row.status == 1
+                        ? "通过"
+                        : scope.row.status == 5
+                        ? "撤回"
+                        : ""
+                    }}
                   </template>
                 </el-table-column>
               </el-table>
@@ -4141,12 +4253,14 @@ export default {
       } else if (typeId == "10") {
         getGrn(stId).then((response) => {
           this.form = response.data;
+          this.fileList = response.data.fileList;
         });
       } else if (typeId == "11") {
         getGry(stId).then((response) => {
           this.form = response.data;
           console.log(this.form);
           this.grnList = response.data.grnList;
+          this.fileList = response.data.fileList;
           this.zlc = response.data.grnNumber - this.grnList[0].grnNumber;
           this.rzc = response.data.gryRz - this.grnList[0].grnRz;
           this.djc = response.data.valuePrice - this.grnList[0].valuePrice;

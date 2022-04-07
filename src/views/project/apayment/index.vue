@@ -88,17 +88,17 @@
       <!--          v-hasPermi="['project:apayment:remove']"-->
       <!--        >删除</el-button>-->
       <!--      </el-col>-->
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="warning"-->
-<!--          plain-->
-<!--          icon="el-icon-download"-->
-<!--          size="mini"-->
-<!--          @click="handleExport"-->
-<!--          v-hasPermi="['project:apayment:export']"-->
-<!--          >导出</el-button-->
-<!--        >-->
-<!--      </el-col>-->
+      <!--      <el-col :span="1.5">-->
+      <!--        <el-button-->
+      <!--          type="warning"-->
+      <!--          plain-->
+      <!--          icon="el-icon-download"-->
+      <!--          size="mini"-->
+      <!--          @click="handleExport"-->
+      <!--          v-hasPermi="['project:apayment:export']"-->
+      <!--          >导出</el-button-->
+      <!--        >-->
+      <!--      </el-col>-->
       <right-toolbar
         :showSearch.sync="showSearch"
         @queryTable="getList"
@@ -115,23 +115,23 @@
       <el-table-column label="货品名称" align="center" prop="name" />
       <el-table-column label="入库总量(吨)" align="center" prop="grns">
         <template slot-scope="scope">
-                    {{
-                      Number(scope.row.grns)
-                        .toFixed(3)
-                        .toString()
-                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                    }}
-                  </template>
+          {{
+            Number(scope.row.grns)
+              .toFixed(3)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
+        </template>
       </el-table-column>
       <el-table-column label="出库总量(吨)" align="center" prop="grys">
         <template slot-scope="scope">
-                    {{
-                      Number(scope.row.grys)
-                        .toFixed(3)
-                        .toString()
-                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                    }}
-                  </template>
+          {{
+            Number(scope.row.grys)
+              .toFixed(3)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
+        </template>
       </el-table-column>
       <el-table-column label="预付总额(元)" align="center" prop="totalPrice">
         <template slot-scope="scope">
@@ -400,7 +400,7 @@
                   label="入库重量（吨）"
                   width="120"
                 >
-                <template slot-scope="scope">
+                  <template slot-scope="scope">
                     {{
                       Number(scope.row.grnNumber)
                         .toFixed(3)
@@ -483,7 +483,7 @@
                   label="出库重量（吨）"
                   width="120"
                 >
-                <template slot-scope="scope">
+                  <template slot-scope="scope">
                     {{
                       Number(scope.row.grnNumber)
                         .toFixed(3)
@@ -542,7 +542,7 @@
                   label="入库重量（吨）"
                   width="120"
                 >
-                <template slot-scope="scope">
+                  <template slot-scope="scope">
                     {{
                       Number(scope.row.grnNumber)
                         .toFixed(3)
@@ -557,7 +557,7 @@
                   label="出库重量（吨）"
                   width="120"
                 >
-                <template slot-scope="scope">
+                  <template slot-scope="scope">
                     {{
                       Number(scope.row.grnNumber)
                         .toFixed(3)
@@ -623,20 +623,20 @@
                   width="90"
                 >
                   <template slot-scope="scope">
-          {{
-            Number(scope.row.valuePrice)
-              .toFixed(2)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-          }}
-        </template>
+                    {{
+                      Number(scope.row.valuePrice)
+                        .toFixed(2)
+                        .toString()
+                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    }}
+                  </template>
                 </el-table-column>
                 <el-table-column
                   property="valueTprice"
                   label="货值总额（元）"
                   width="90"
                 >
-                <template slot-scope="scope">
+                  <template slot-scope="scope">
                     {{
                       Number(scope.row.valueTprice)
                         .toFixed(2)
@@ -664,7 +664,9 @@
             <el-row>
               <el-col :span="6">
                 <el-form-item label="合计重量" prop="totalWeight">
-                  <span style="color: red">{{ $options.filters.weightFilter(form.totalWeight) }}</span>
+                  <span style="color: red">{{
+                    $options.filters.weightFilter(form.totalWeight)
+                  }}</span>
                 </el-form-item>
               </el-col>
               <el-col :span="6">
@@ -959,7 +961,7 @@
                   :on-error="uploadError"
                   :before-remove="beforeRemove"
                   multiple
-                  :limit="5"
+                  :limit="10"
                   :on-exceed="handleExceed"
                   :file-list="fileList"
                 >
@@ -977,21 +979,31 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="应付金额：">
-                <span v-text="$options.filters.moneyFilter(form.actualPrice)"></span>
+                <span
+                  v-text="$options.filters.moneyFilter(form.actualPrice)"
+                ></span>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
               <el-form-item label="已付金额：">
-                <span v-text="$options.filters.moneyFilter(form.ypayPrice)"></span>
+                <span
+                  v-text="$options.filters.moneyFilter(form.ypayPrice)"
+                ></span>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
               <el-form-item label="剩余应付：">
-                <span v-text="$options.filters.moneyFilter(form.actualPrice - form.ypayPrice)"></span>
+                <span
+                  v-text="
+                    $options.filters.moneyFilter(
+                      form.actualPrice - form.ypayPrice
+                    )
+                  "
+                ></span>
               </el-form-item>
             </el-col>
           </el-row>
@@ -1055,12 +1067,12 @@
     >
       <div class="print-div" id="print_area">
         <div class="search-title-content">
-          <div style="padding: 30px 0 15px">
+          <div style="padding: 0 0 15px">
             <el-row type="flex" justify="space-between">
               <el-col :span="4"
                 ><span
                   style="font-weight: bold; font-size: 16px"
-                  v-text="printData.type"
+                  v-text="printData.printType"
                 ></span
               ></el-col>
               <el-col :span="4"
@@ -1124,7 +1136,7 @@
           </table>
           <table border="1" width="100%">
             <tr>
-              <td class="title" colspan="7">出入库信息</td>
+              <td class="title" colspan="10">出入库信息</td>
             </tr>
             <tr>
               <td class="table-td-title detail">货品名称</td>
@@ -1168,6 +1180,20 @@
               </td>
               <td class="table-td-content" style="text-align: center">
                 {{ item.deliveryTime }}
+              </td>
+            </tr>
+          </table>
+          <table border="1" width="100%">
+            <tr>
+              <td class="table-td-title detail">合计重量</td>
+              <td class="table-td-title detail">平均热值</td>
+            </tr>
+            <tr>
+              <td class="table-td-content" style="text-align: center">
+                {{ $options.filters.weightFilter(printData.totalWeight) }}
+              </td>
+              <td class="table-td-content" style="text-align: center">
+                {{ printData.averageRz }}
               </td>
             </tr>
           </table>
@@ -1326,6 +1352,16 @@
           <table border="1" width="100%">
             <tr>
               <td class="title" colspan="6">审批流程</td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">发起人</td>
+              <td class="table-td-content" colspan="2">
+                <template>{{ printData.sponsor }}</template>
+              </td>
+              <td class="table-td-title detail">发起时间</td>
+              <td class="table-td-content" colspan="2">
+                <template>{{ printData.initiateTime }}</template>
+              </td>
             </tr>
             <tr>
               <td class="table-td-title detail">部门</td>
@@ -1900,7 +1936,7 @@ export default {
     },
     handleExceed(files, fileList) {
       this.$message.warning(
-        `当前限制选择 5 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
+        `当前限制选择 10 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
           files.length + fileList.length
         } 个文件`
       );
@@ -2421,7 +2457,8 @@ export default {
         type: "image",
         header: null,
         targetStyles: ["*"],
-        style: "@page {margin:0 10mm}",
+        documentTitle: "",
+        style: "@page {margin:15mm 10mm}",
       });
     },
     async handlePrint(row) {
@@ -2430,7 +2467,7 @@ export default {
         this.printData = response.data;
         this.printData.fileList = response.data.fileList;
         this.printData.dataList = response.data.selnyList;
-        // this.printData.type = "预付款";
+        this.printData.printType = "预付款";
         let data = { stId: row.stId };
         //合同
         getContractList(data).then((response) => {
@@ -2442,6 +2479,11 @@ export default {
       });
       await getApprovalProcessList("4", row.apyamentId).then((res) => {
         this.printData.nodeStateList = res.data;
+        if (this.printData.nodeStateList) {
+          this.printData.sponsor = this.printData.nodeStateList[0].sponsor;
+          this.printData.initiateTime =
+            this.printData.nodeStateList[0].initiateTime;
+        }
       });
       this.printReviewVisible = true;
       this.$nextTick(() => {

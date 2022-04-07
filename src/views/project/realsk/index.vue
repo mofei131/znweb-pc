@@ -123,7 +123,7 @@
           }}
         </template>
       </el-table-column>
-      <el-table-column label="结算煤量" align="center" prop="jsMl" >
+      <el-table-column label="结算煤量" align="center" prop="jsMl">
         <template slot-scope="scope">
           {{
             Number(scope.row.jsMl)
@@ -253,14 +253,18 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="开票金额（价税合计）" prop="kpPrice">
-                <span v-text="$options.filters.moneyFilter(form.kpPrice)"></span>
+                <span
+                  v-text="$options.filters.moneyFilter(form.kpPrice)"
+                ></span>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
               <el-form-item label="开票吨数" prop="kpNumber">
-                <span v-text="$options.filters.weightFilter(form.kpNumber)"></span>
+                <span
+                  v-text="$options.filters.weightFilter(form.kpNumber)"
+                ></span>
               </el-form-item>
             </el-col>
           </el-row>
@@ -501,12 +505,12 @@
     >
       <div class="print-div" id="print_area">
         <div class="search-title-content">
-          <div style="padding: 30px 0 15px">
+          <div style="padding: 0 0 15px">
             <el-row type="flex" justify="space-between">
               <el-col :span="4"
                 ><span
                   style="font-weight: bold; font-size: 16px"
-                  v-text="printData.type"
+                  v-text="printData.printType"
                 ></span
               ></el-col>
               <el-col :span="4"
@@ -647,6 +651,16 @@
           <table border="1" width="100%">
             <tr>
               <td class="title" colspan="6">审批流程</td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">发起人</td>
+              <td class="table-td-content" colspan="2">
+                <template>{{ printData.sponsor }}</template>
+              </td>
+              <td class="table-td-title detail">发起时间</td>
+              <td class="table-td-content" colspan="2">
+                <template>{{ printData.initiateTime }}</template>
+              </td>
             </tr>
             <tr>
               <td class="table-td-title detail">部门</td>
@@ -1127,20 +1141,26 @@ export default {
         type: "image",
         header: null,
         targetStyles: ["*"],
-        style: "@page {margin:0 10mm}",
+        documentTitle: "",
+        style: "@page {margin:15mm 10mm}",
       });
     },
     async handlePrint(row) {
       this.printData = {};
       await getRealsk(row.realskId).then((response) => {
         this.printData = response.data;
-        this.printData.type = "实际收款";
+        this.printData.printType = "实际收款";
       });
       await getProcessDataByStId("17", row.realskId).then((res) => {
         this.printData.approveHisList = res.data;
       });
       await getApprovalProcessList("17", row.realskId).then((res) => {
         this.printData.nodeStateList = res.data;
+        if (this.printData.nodeStateList) {
+          this.printData.sponsor = this.printData.nodeStateList[0].sponsor;
+          this.printData.initiateTime =
+            this.printData.nodeStateList[0].initiateTime;
+        }
       });
       this.printReviewVisible = true;
       this.$nextTick(() => {

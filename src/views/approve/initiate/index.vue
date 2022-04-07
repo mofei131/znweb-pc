@@ -145,6 +145,7 @@
             <el-button
               size="mini"
               v-if="
+                scope.row.status != '2' &&
                 scope.row.status != '3' &&
                 scope.row.status != '5' &&
                 (scope.row.processType == '4' || scope.row.processType == '5')

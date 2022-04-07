@@ -129,15 +129,15 @@
       <el-table-column label="项目名称" align="center" prop="stName" />
       <el-table-column label="项目编号" align="center" prop="stNo" />
       <el-table-column label="货品名称" align="center" prop="name" />
-      <el-table-column label="入库重量(吨)" align="center" prop="grnNumber" >
+      <el-table-column label="入库重量(吨)" align="center" prop="grnNumber">
         <template slot-scope="scope">
-                  {{
-                    Number(scope.row.grnNumber)
-                      .toFixed(3)
-                      .toString()
-                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
+          {{
+            Number(scope.row.grnNumber)
+              .toFixed(3)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
+        </template>
       </el-table-column>
       <el-table-column label="入库热值(Kcal)" align="center" prop="grnRz" />
       <el-table-column label="运输方式" align="center" prop="transportType" />
@@ -562,7 +562,7 @@
     >
       <div class="print-div" id="print_area">
         <div class="search-title-content">
-          <div style="padding: 30px 0 15px">
+          <div style="padding: 0 0 15px">
             <el-row type="flex" justify="space-between">
               <el-col :span="4"
                 ><span
@@ -640,6 +640,14 @@
               <td class="table-td-title detail">基准单价(元)</td>
               <td class="table-td-content" colspan="3">
                 {{ $options.filters.moneyFilter(printData.basePrice) }}
+              </td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">附件</td>
+              <td class="table-td-content" colspan="5">
+                <div v-for="(item, idx) in printData.fileList" :key="idx">
+                  {{ item.name }}
+                </div>
               </td>
             </tr>
           </table>
@@ -773,6 +781,16 @@
           <table border="1" width="100%">
             <tr>
               <td class="title" colspan="6">审批流程</td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">发起人</td>
+              <td class="table-td-content" colspan="2">
+                <template>{{ printData.sponsor }}</template>
+              </td>
+              <td class="table-td-title detail">发起时间</td>
+              <td class="table-td-content" colspan="2">
+                <template>{{ printData.initiateTime }}</template>
+              </td>
             </tr>
             <tr>
               <td class="table-td-title detail">部门</td>
@@ -1463,7 +1481,8 @@ export default {
         type: "image",
         header: null,
         targetStyles: ["*"],
-        style: "@page {margin:0 10mm}",
+        documentTitle: "",
+        style: "@page {margin:15mm 10mm}",
       });
     },
     async handlePrint(row) {
@@ -1477,6 +1496,11 @@ export default {
       });
       await getApprovalProcessList("10", row.grnId).then((res) => {
         this.printData.nodeStateList = res.data;
+        if (this.printData.nodeStateList) {
+          this.printData.sponsor = this.printData.nodeStateList[0].sponsor;
+          this.printData.initiateTime =
+            this.printData.nodeStateList[0].initiateTime;
+        }
       });
       this.printReviewVisible = true;
       this.$nextTick(() => {

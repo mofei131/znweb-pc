@@ -95,13 +95,13 @@
       <!-- <el-table-column label="开户行" align="center" prop="bank" /> -->
       <el-table-column label="退款金额" align="center" prop="moneyAmount">
         <template slot-scope="scope">
-                  {{
-                    Number(scope.row.moneyAmount)
-                      .toFixed(2)
-                      .toString()
-                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
+          {{
+            Number(scope.row.moneyAmount)
+              .toFixed(2)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
+        </template>
       </el-table-column>
       <el-table-column label="创建时间" align="center" prop="createTime" />
       <!-- <el-table-column label="备注" align="center" prop="remark" /> -->
@@ -228,7 +228,7 @@
                   v-for="te in terminalOptions"
                   :key="te.terminalId"
                   :label="te.name"
-                  :value="te"
+                  :value="te.terminalId"
                 ></el-option>
               </el-select>
             </el-form-item>
@@ -358,15 +358,21 @@
       >
         <el-form-item label="应退款金额:">
           <!-- <el-input v-model="refundEditForm.money_amount" readonly /> -->
-          <span v-text="$options.filters.moneyFilter(refundEditForm.money_amount)"></span>
+          <span
+            v-text="$options.filters.moneyFilter(refundEditForm.money_amount)"
+          ></span>
         </el-form-item>
         <el-form-item label="已退款金额:">
           <!-- <el-input v-model="refunded" readonly /> -->
-          <span v-text="$options.filters.moneyFilter(refundEditForm.ytPrice)"></span>
+          <span
+            v-text="$options.filters.moneyFilter(refundEditForm.ytPrice)"
+          ></span>
         </el-form-item>
         <el-form-item label="剩余应退款金额:">
           <!-- <el-input v-model="refunding" readonly /> -->
-          <span v-text="$options.filters.moneyFilter(refundEditForm.refunding)"></span>
+          <span
+            v-text="$options.filters.moneyFilter(refundEditForm.refunding)"
+          ></span>
         </el-form-item>
         <el-form-item label="终端用户:">
           <!-- <el-input v-model="refundEditForm.t_name" readonly /> -->
@@ -415,13 +421,19 @@
     >
       <el-row>
         <el-col :span="4"
-          >应退款金额：<span v-text="$options.filters.moneyFilter(totalRefund)"></span
+          >应退款金额：<span
+            v-text="$options.filters.moneyFilter(totalRefund)"
+          ></span
         ></el-col>
         <el-col :span="4"
-          >已退款金额：<span v-text="$options.filters.moneyFilter(unrefundDetail)"></span
+          >已退款金额：<span
+            v-text="$options.filters.moneyFilter(unrefundDetail)"
+          ></span
         ></el-col>
         <el-col :span="4"
-          >剩余退款金额：<span v-text="$options.filters.moneyFilter(refundDetailing)"></span
+          >剩余退款金额：<span
+            v-text="$options.filters.moneyFilter(refundDetailing)"
+          ></span
         ></el-col>
       </el-row>
 
@@ -436,14 +448,14 @@
           align="center"
           prop="detailAmount"
         >
-        <template slot-scope="scope">
-                  {{
-                    Number(scope.row.detailAmount)
-                      .toFixed(2)
-                      .toString()
-                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
+          <template slot-scope="scope">
+            {{
+              Number(scope.row.detailAmount)
+                .toFixed(2)
+                .toString()
+                .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+            }}
+          </template>
         </el-table-column>
         <el-table-column label="退款时间" align="center" prop="createTime" />
         <el-table-column
@@ -484,7 +496,7 @@
     >
       <div class="print-div" id="print_area">
         <div class="search-title-content">
-          <div style="padding: 30px 0 15px">
+          <div style="padding: 0 0 15px">
             <el-row type="flex" justify="space-between">
               <el-col :span="4"
                 ><span
@@ -565,6 +577,16 @@
           <table border="1" width="100%">
             <tr>
               <td class="title" colspan="6">审批流程</td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">发起人</td>
+              <td class="table-td-content" colspan="2">
+                <template>{{ printData.sponsor }}</template>
+              </td>
+              <td class="table-td-title detail">发起时间</td>
+              <td class="table-td-content" colspan="2">
+                <template>{{ printData.initiateTime }}</template>
+              </td>
             </tr>
             <tr>
               <td class="table-td-title detail">部门</td>
@@ -955,9 +977,6 @@ export default {
     submitForm() {
       this.$refs["form"].validate((valid) => {
         if (valid) {
-          if (this.form.terminalIdOld) {
-            this.form.terminalId = this.form.terminalIdOld;
-          }
           if (this.form.stIdOld) {
             this.form.stId = this.form.stIdOld;
           }
@@ -1028,10 +1047,21 @@ export default {
       this.form.stIdOld = obj.stId;
       this.form.stName = obj.name;
       this.form.stNumber = obj.number;
+      this.form.terminalId = obj.terminalId;
+      let terminalFind = this.terminalOptions.filter(
+        (x) => x.terminalId == obj.terminalId
+      );
+      if (terminalFind) {
+        this.form.tName = terminalFind[0].name;
+      }
     },
-    changeTerinal(obj) {
-      this.form.terminalIdOld = obj.terminalId;
-      this.form.tName = obj.name;
+    changeTerinal(terminalId) {
+      let terminalFind = this.terminalOptions.filter(
+        (x) => x.terminalId == terminalId
+      );
+      if (terminalFind) {
+        this.form.tName = terminalFind[0].name;
+      }
     },
     //点击触发
     handlePreview(file) {
@@ -1134,14 +1164,15 @@ export default {
         type: "image",
         header: null,
         targetStyles: ["*"],
-        style: "@page {margin:0 10mm}",
+        documentTitle: "",
+        style: "@page {margin:15mm 10mm}",
       });
     },
     async handlePrint(row) {
       this.printData = {};
       await getRefund(row.refundId).then((response) => {
         this.printData = response.data;
-        this.printData.fileList = this.form.fileList || [];
+        this.printData.fileList = response.data.fileList || [];
         this.printData.printType = "退款管理";
       });
       await getProcessDataByStId("19", row.refundId).then((res) => {
@@ -1149,6 +1180,11 @@ export default {
       });
       await getApprovalProcessList("19", row.refundId).then((res) => {
         this.printData.nodeStateList = res.data;
+        if (this.printData.nodeStateList) {
+          this.printData.sponsor = this.printData.nodeStateList[0].sponsor;
+          this.printData.initiateTime =
+            this.printData.nodeStateList[0].initiateTime;
+        }
       });
       this.printReviewVisible = true;
       this.$nextTick(() => {
