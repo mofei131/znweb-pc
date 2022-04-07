@@ -20,6 +20,16 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
+      <el-form-item label="项目编号" prop="stNo">
+
+        <el-input
+          v-model="queryParams.stNo"
+          placeholder="请输入项目编号"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -74,6 +84,7 @@
 
     <el-table v-loading="loading" :data="kpList" @selection-change="handleSelectionChange">
       <el-table-column label="项目名称" align="center" prop="stName" />
+      <el-table-column label="项目编号" align="center" prop="stNo" />
       <el-table-column label="代办人" align="center" prop="uName" />
       <el-table-column label="供应商" align="center" prop="sName" />
       <el-table-column label="开票金额(元)" align="center" prop="kpPrice" >
