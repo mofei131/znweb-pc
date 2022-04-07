@@ -45,6 +45,16 @@
           />
         </el-select>
       </el-form-item>
+      <el-form-item label="项目编号" prop="stNo">
+
+        <el-input
+          v-model="queryParams.stNo"
+          placeholder="请输入项目编号"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
       <el-form-item>
         <el-button
           type="primary"
@@ -118,6 +128,7 @@
       <el-table-column label="保证金对象" align="center" prop="type" />
       <el-table-column label="保证金类型" align="center" prop="obj" />
       <el-table-column label="项目名称" align="center" prop="stName" />
+      <el-table-column label="项目编号" align="center" prop="stNo" />
       <el-table-column label="客户名称" align="center" prop="terminalName" />
       <el-table-column label="保证金金额" align="center" prop="putPrice">
         <template slot-scope="scope">

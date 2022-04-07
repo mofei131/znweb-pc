@@ -23,6 +23,16 @@
           />
         </el-select>
       </el-form-item>
+      <el-form-item label="项目编号" prop="stNo">
+
+        <el-input
+          v-model="queryParams.stNo"
+          placeholder="请输入项目编号"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
       <el-form-item>
         <el-button
           type="primary"
@@ -93,6 +103,7 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column label="项目名称" align="center" prop="stName" />
+      <el-table-column label="项目编号" align="center" prop="stNo" />
       <el-table-column label="预估应收" align="center" prop="ygPrice">
         <template slot-scope="scope">
           {{

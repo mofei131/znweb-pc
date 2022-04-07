@@ -23,6 +23,16 @@
           />
         </el-select>
       </el-form-item>
+      <el-form-item label="项目编号" prop="stNo">
+
+        <el-input
+          v-model="queryParams.stNo"
+          placeholder="请输入项目编号"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
       <el-form-item label="创建时间">
         <el-date-picker
           v-model="dateRange"
@@ -105,6 +115,7 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column label="项目名称" align="center" prop="stName" />
+      <el-table-column label="项目编号" align="center" prop="stNo" />
       <el-table-column label="收款类型" align="center" prop="skType" />
       <el-table-column label="合计重量(吨)" align="center" prop="tweight">
         <template slot-scope="scope">
