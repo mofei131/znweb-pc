@@ -10,6 +10,16 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
+
+      <el-form-item label="项目编号" prop="number">
+        <el-input
+          v-model="queryParams.number"
+          placeholder="请输入项目编号"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
       <el-form-item label="代办人" prop="userName">
         <el-input
           v-model="queryParams.userName"

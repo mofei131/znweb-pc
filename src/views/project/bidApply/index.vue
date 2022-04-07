@@ -19,6 +19,16 @@
           end-placeholder="结束日期"
         ></el-date-picker>
       </el-form-item>
+      <el-form-item label="项目编号" prop="stNo">
+
+        <el-input
+          v-model="queryParams.stNo"
+          placeholder="请输入项目编号"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
       <el-form-item label="审批状态" prop="state">
         <el-select v-model="queryParams.state" placeholder="审批状态">
           <el-option
@@ -77,6 +87,7 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column label="项目名称" align="center" prop="stName" />
+      <el-table-column label="项目编号" align="center" prop="stNo" />
       <el-table-column label="投标平台" align="center" prop="bidPlatform" />
       <el-table-column label="投标保证金（元）" align="center" prop="bidBond">
         <template slot-scope="scope">
