@@ -23,6 +23,16 @@
           />
         </el-select>
       </el-form-item>
+      <el-form-item label="项目编号" prop="stNo">
+
+        <el-input
+          v-model="queryParams.stNo"
+          placeholder="请输入项目编号"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
       <el-form-item label="批次" prop="batch">
         <el-input
           v-model="queryParams.batch"
@@ -117,6 +127,7 @@
     >
       <!--      <el-table-column type="selection" width="55" align="center" />-->
       <el-table-column label="项目名称" align="center" prop="stName" />
+      <el-table-column label="项目编号" align="center" prop="stNo" />
       <el-table-column label="货品名称" align="center" prop="name" />
       <el-table-column label="入库重量(吨)" align="center" prop="grnNumber" >
         <template slot-scope="scope">
