@@ -28,6 +28,16 @@
           />
         </el-select>
       </el-form-item>
+      <el-form-item label="项目编号" prop="stNo">
+
+        <el-input
+          v-model="queryParams.stNo"
+          placeholder="请输入项目编号"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
       <el-form-item label="运输方式" prop="type">
         <el-select
           v-model="queryParams.type"
@@ -110,6 +120,7 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column label="项目名称" align="center" prop="stName" />
+      <el-table-column label="项目编号" align="center" prop="stNo" />
       <el-table-column label="运输类型" align="center" prop="type" />
       <el-table-column label="实付金额(元)" align="center" prop="tntPrice">
         <template slot-scope="scope">
