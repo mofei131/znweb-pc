@@ -11,6 +11,16 @@
           />
         </el-select>
       </el-form-item>
+      <el-form-item label="项目编号" prop="stNo">
+
+        <el-input
+          v-model="queryParams.stNo"
+          placeholder="请输入项目编号"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
       <el-form-item label="代办人" prop="userId">
         <el-select filterable v-model="queryParams.userId" placeholder="请选择代办人" clearable size="small">
           <el-option
@@ -103,6 +113,7 @@
 
     <el-table v-loading="loading" :data="cplanList" @selection-change="handleSelectionChange">
       <el-table-column label="项目名称" align="center" prop="stName" />
+      <el-table-column label="项目编号" align="center" prop="stNo" />
       <el-table-column label="代办人" align="center" prop="userName" />
       <el-table-column label="月份" align="center" prop="month" />
       <el-table-column label="数量(吨)" align="center" prop="number">
