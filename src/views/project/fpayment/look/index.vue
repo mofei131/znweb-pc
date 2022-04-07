@@ -39,9 +39,9 @@
         <el-col :span="5" :offset="1">
           项目编号：<span v-text="form.number"></span>
         </el-col>
-        <el-col :span="5">
-          预付方式：<span v-text="form.payType"></span>
-        </el-col>
+<!--        <el-col :span="5">-->
+<!--          预付方式：<span v-text="form.payType"></span>-->
+<!--        </el-col>-->
         <el-col :span="4">
           结算方式：<span v-text="form.settlementWay"></span>
         </el-col>
@@ -107,7 +107,7 @@
             <el-table-column property="valueTprice" label="货值总额（元）">
               <template slot-scope="scope">
                   {{
-                    Number(scope.row.valuePrice)
+                    Number(scope.row.valueTprice)
                       .toFixed(2)
                       .toString()
                       .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")

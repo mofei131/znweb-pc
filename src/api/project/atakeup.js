@@ -5,7 +5,8 @@ export function listAtakeup(query) {
   return request({
     url: '/project/atakeup/list',
     method: 'get',
-    params: query
+    params: query,
+    timeout: 18000000
   })
 }
 // 查询资金占用情况列表

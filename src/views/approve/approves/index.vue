@@ -2812,6 +2812,22 @@
               ></span>
             </el-col>
           </el-row>
+          <el-row class="head-text">
+            <el-col :span="12" :offset="1">
+              <el-form-item class="head-text" label="附件：" prop="file">
+                <!-- <el-upload
+                  disabled
+                  :action="url"
+                  :headers="headers"
+                  class="upload-hidden"
+                  :on-preview="handlePreview"
+                  list-type="text"
+                  :file-list="fileList">
+                </el-upload> -->
+                <custom-upload :fileList="fileList"></custom-upload>
+              </el-form-item>
+            </el-col>
+          </el-row>
         </el-form>
       </div>
       <div v-if="initData.processType == '11'">
@@ -3094,6 +3110,22 @@
                   style="color: red; line-height: 57px !important"
                   v-text="$options.filters.moneyFilter(zec)"
                 ></span>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row class="head-text">
+            <el-col :span="12" :offset="1">
+              <el-form-item class="head-text" label="附件：" prop="file">
+                <!-- <el-upload
+                  disabled
+                  :action="url"
+                  :headers="headers"
+                  class="upload-hidden"
+                  :on-preview="handlePreview"
+                  list-type="text"
+                  :file-list="fileList">
+                </el-upload> -->
+                <custom-upload :fileList="fileList"></custom-upload>
               </el-form-item>
             </el-col>
           </el-row>
@@ -4221,12 +4253,14 @@ export default {
       } else if (typeId == "10") {
         getGrn(stId).then((response) => {
           this.form = response.data;
+          this.fileList = response.data.fileList;
         });
       } else if (typeId == "11") {
         getGry(stId).then((response) => {
           this.form = response.data;
           console.log(this.form);
           this.grnList = response.data.grnList;
+          this.fileList = response.data.fileList;
           this.zlc = response.data.grnNumber - this.grnList[0].grnNumber;
           this.rzc = response.data.gryRz - this.grnList[0].grnRz;
           this.djc = response.data.valuePrice - this.grnList[0].valuePrice;

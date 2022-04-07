@@ -107,7 +107,18 @@
                     }}
                   </template>
       </el-table-column>
-      <el-table-column label="发生金额(元)" align="center" prop="price" />
+      <el-table-column label="发生金额" align="center" prop="price" >
+        <template slot-scope="scope">
+          {{
+            Number(scope.row.price)
+              .toFixed(3)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
+        </template>
+      </el-table-column>
+
+    </el-table>
 <!--      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">-->
 <!--        <template slot-scope="scope">-->
 <!--          <el-button-->
@@ -126,15 +137,8 @@
 <!--          >删除</el-button>-->
 <!--        </template>-->
 <!--      </el-table-column>-->
-<template slot-scope="scope">
-                  {{
-                    Number(scope.row.price)
-                      .toFixed(2)
-                      .toString()
-                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
-    </el-table>
+
+
 
     <pagination
       v-show="total>0"

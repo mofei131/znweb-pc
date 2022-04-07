@@ -180,6 +180,22 @@
         </el-col>
       </el-row>
 
+      <el-row class="head-text">
+        <el-col :span="12" :offset="1">
+          <el-form-item class="head-text" label="附件：" prop="file">
+            <!-- <el-upload
+              disabled
+              :action="url"
+              :headers="headers"
+              class="upload-hidden"
+              :on-preview="handlePreview"
+              list-type="text"
+              :file-list="fileList">
+            </el-upload> -->
+            <custom-upload :fileList="fileList"></custom-upload>
+          </el-form-item>
+        </el-col>
+      </el-row>
 
       <!--      审批流程·-->
       <approval-process :typeId="10" :stId="grnId"></approval-process>
@@ -250,7 +266,8 @@ export default {
       tabledatas: [
         {show:true}
       ],
-
+      //附件集合
+      fileList: [],
       // 表单参数
       form: {},
       grnId:""
@@ -261,6 +278,7 @@ export default {
     this.grnId=grnId
     getGrn(grnId).then(response => {
       this.form=response.data
+      this.fileList = response.data.fileList;
     })
     getProcessDataByStId("10",grnId).then((res) => {
       this.stateList = res.data;
