@@ -457,12 +457,8 @@
               <td class="table-td-content">
                 {{ printData.name }}
               </td>
-              <td class="table-td-title detail">项目编号</td>
-              <td class="table-td-content">
-                {{ printData.number }}
-              </td>
               <td class="table-td-title detail">成立日期</td>
-              <td class="table-td-content">
+              <td class="table-td-content" colspan="3">
                 {{ printData.setupTime }}
               </td>
             </tr>
