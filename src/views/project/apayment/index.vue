@@ -29,7 +29,6 @@
         </el-select>
       </el-form-item>
       <el-form-item label="项目编号" prop="stNo">
-
         <el-input
           v-model="queryParams.stNo"
           placeholder="请输入项目编号"
@@ -1808,10 +1807,10 @@ export default {
         this.tableselData = response.data.selnyList;
         this.fileList = this.form.fileList;
 
-        getGrnList(this.form.stId2).then((response) => {
+        getGrnList({ stId: this.form.stId2, yfState: "1" }).then((response) => {
           this.tableData = response.rows;
         });
-        getGryList(this.form.stId2).then((response) => {
+        getGryList({ stId: this.form.stId2, yfState: "1" }).then((response) => {
           this.tablegryData = response.rows;
         });
 

@@ -726,7 +726,6 @@ export default {
         type: "warning",
       }).then(function () {
         withdraw(row.processId, row.id).then(() => {
-          reBindSelnyA(stId);
           if (typeId == "4") {
             releaseSelnyA(stId);
           } else if (typeId == "5") {
