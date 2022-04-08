@@ -1413,7 +1413,7 @@
               <td class="title" colspan="6">服务费</td>
             </tr>
             <tr>
-              <td class="table-td-title detail">年费收取模式</td>
+              <td class="table-td-title detail">服务费收取模式</td>
               <td class="table-td-content">
                 <template>{{ printData.chargemType }}</template>
               </td>
@@ -2707,6 +2707,18 @@ export default {
       await getSt(row.stId).then((response) => {
         this.printData = response.data;
         this.printData.printType = "项目新增";
+        if (this.printData.chargemType == "1") {
+          this.printData.chargemType = "年息";
+        } else if (this.printData.chargemType == "2") {
+          this.printData.chargemType = "固定差价";
+        } else if (this.printData.chargemType == "3") {
+          this.printData.chargemType = "年息+固定差价";
+        }
+        if (this.printData.tMargintype == "1") {
+          this.printData.tMargintype = "有";
+        } else if (this.printData.tMargintype == "2") {
+          this.printData.tMargintype = "无";
+        }
         this.printData.fileList = response.data.fileList;
       });
       await getProcessDataByStId("1", row.stId).then((res) => {
