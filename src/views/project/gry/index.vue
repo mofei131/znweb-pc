@@ -29,7 +29,6 @@
         </el-select>
       </el-form-item>
       <el-form-item label="项目编号" prop="stNo">
-
         <el-input
           v-model="queryParams.stNo"
           placeholder="请输入项目编号"
@@ -761,7 +760,7 @@
               </td>
             </tr>
             <tr>
-              <td class="table-td-title detail">货值总</td>
+              <td class="table-td-title detail">货值总额</td>
               <td class="table-td-content" colspan="5">
                 {{ $options.filters.moneyFilter(printData.valueTprice) }}
               </td>

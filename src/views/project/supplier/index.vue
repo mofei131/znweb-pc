@@ -519,7 +519,7 @@
             <tr>
               <td class="table-td-title detail">发票面额</td>
               <td class="table-td-content">
-                {{ $options.filters.moneyFilter(printData.invoiceType) }}
+                {{ printData.invoiceType }}
               </td>
               <td class="table-td-title detail">企业性质</td>
               <td class="table-td-content">
@@ -1041,8 +1041,8 @@ export default {
       this.printData = {};
       await getSupplier(row.supplierId).then((response) => {
         this.printData = response.data;
-        this.printData.fileList = response.data.fileList | [];
-        this.printData.gryList = response.data.selnyList | [];
+        this.printData.fileList = response.data.fileList || [];
+        this.printData.gryList = response.data.selnyList || [];
         this.printData.printType = "供应商管理";
       });
       await getProcessDataByStId("12", row.supplierId).then((res) => {
