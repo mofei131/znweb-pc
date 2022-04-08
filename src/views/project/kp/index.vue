@@ -33,7 +33,6 @@
         />
       </el-form-item>
       <el-form-item label="项目编号" prop="stNo">
-
         <el-input
           v-model="queryParams.stNo"
           placeholder="请输入项目编号"
@@ -918,7 +917,7 @@ export default {
       this.printData = {};
       await getKp(row.kpId).then((response) => {
         this.printData = response.data;
-        this.printData.fileList = response.data.fileList | [];
+        this.printData.fileList = response.data.fileList || [];
         this.printData.printType = "开票管理";
       });
       await getProcessDataByStId("15", row.kpId).then((res) => {

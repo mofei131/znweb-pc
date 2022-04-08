@@ -1041,8 +1041,8 @@ export default {
       this.printData = {};
       await getSupplier(row.supplierId).then((response) => {
         this.printData = response.data;
-        this.printData.fileList = response.data.fileList | [];
-        this.printData.gryList = response.data.selnyList | [];
+        this.printData.fileList = response.data.fileList || [];
+        this.printData.gryList = response.data.selnyList || [];
         this.printData.printType = "供应商管理";
       });
       await getProcessDataByStId("12", row.supplierId).then((res) => {
