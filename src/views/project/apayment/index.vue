@@ -1349,6 +1349,11 @@
                 {{ $options.filters.weightFilter(item.expectNumber) }}
               </td>
             </tr>
+            <tr v-if="!printData.contract || printData.contract.length == 0">
+              <td class="table-td-content" style="text-align: center"></td>
+              <td class="table-td-content" style="text-align: center"></td>
+              <td class="table-td-content" style="text-align: center"></td>
+            </tr>
             <tr>
               <td class="table-td-title detail">附件</td>
               <td class="table-td-content" colspan="2">
@@ -1668,16 +1673,16 @@ export default {
   },
   methods: {
     // 合同类型字典翻译
-    contractTypeFormat(row, column) {
-      if (row.type == "1") {
+    contractTypeFormat(type) {
+      if (type == "1") {
         return "上游合同";
-      } else if (row.type == "2") {
+      } else if (type == "2") {
         return "下游合同";
-      } else if (row.type == "3") {
+      } else if (type == "3") {
         return "物流运输合同";
-      } else if (row.type == "4") {
+      } else if (type == "4") {
         return "物流服务合同";
-      } else if (row.type == "5") {
+      } else if (type == "5") {
         return "其他合同";
       }
     },

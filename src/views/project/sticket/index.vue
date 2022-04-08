@@ -24,7 +24,6 @@
         </el-select>
       </el-form-item>
       <el-form-item label="项目编号" prop="stNo">
-
         <el-input
           v-model="queryParams.stNo"
           placeholder="请输入项目编号"
@@ -528,6 +527,11 @@
                     .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
                 }}
               </td>
+            </tr>
+            <tr v-if="!printData.contract || printData.contract.length == 0">
+              <td class="table-td-content" style="text-align: center"></td>
+              <td class="table-td-content" style="text-align: center"></td>
+              <td class="table-td-content" style="text-align: center"></td>
             </tr>
           </table>
           <!--审批流程-->

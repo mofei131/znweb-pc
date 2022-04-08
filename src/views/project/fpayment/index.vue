@@ -24,7 +24,6 @@
         </el-select>
       </el-form-item>
       <el-form-item label="项目编号" prop="stNo">
-
         <el-input
           v-model="queryParams.stNo"
           placeholder="请输入项目编号"
@@ -979,6 +978,11 @@
               <td class="table-td-content" style="text-align: center">
                 {{ $options.filters.weightFilter(item.expectNumber) }}
               </td>
+            </tr>
+            <tr v-if="!printData.contract || printData.contract.length == 0">
+              <td class="table-td-content" style="text-align: center"></td>
+              <td class="table-td-content" style="text-align: center"></td>
+              <td class="table-td-content" style="text-align: center"></td>
             </tr>
             <tr>
               <td class="table-td-title detail">附件</td>
