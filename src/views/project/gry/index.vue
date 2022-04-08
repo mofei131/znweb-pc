@@ -251,7 +251,13 @@
     />
 
     <!-- 添加或修改出库单对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body>
+    <el-dialog
+      :title="title"
+      :visible.sync="open"
+      width="80%"
+      append-to-body
+      @opened="handleOpen"
+    >
       <el-form ref="form" :model="form" :rules="rules" label-width="180px">
         <el-row>
           <el-col :span="12">
@@ -1209,6 +1215,7 @@ export default {
       // 打印
       printReviewVisible: false,
       printData: {},
+      isDisabled: false,
     };
   },
   created() {
@@ -1398,10 +1405,12 @@ export default {
     },
     /** 提交按钮 */
     submitForm() {
+      this.isDisabled = true;
       this.$refs["form"].validate((valid) => {
         if (valid) {
           if (this.tableselData.length < 1) {
             this.msgError("请选择入库单");
+            this.isDisabled = false;
             return;
           }
           this.form.stId = this.form.stId2;
@@ -1419,6 +1428,8 @@ export default {
               this.getList();
             });
           }
+        } else {
+          this.isDisabled = false;
         }
       });
     },
@@ -1792,6 +1803,9 @@ export default {
         gn = this.form.totalWeight;
       }
       this.form.valueTprice = (gn * vp).toFixed(2);
+    },
+    handleOpen() {
+      this.isDisabled = false;
     },
     // 打印
     async resolveImg() {
