@@ -55,7 +55,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="合同编号" prop="name">
+      <el-form-item label="合同编号" prop="number">
         <el-input
           v-model="queryParams.number"
           placeholder="请输入合同编号"
@@ -323,7 +323,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="合同编号" prop="name">
+              <el-form-item label="合同编号" prop="number">
                 <el-input v-model="form.number" placeholder="请输入合同编号" />
               </el-form-item>
             </el-col>
