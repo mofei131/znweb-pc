@@ -187,7 +187,13 @@
     />
 
     <!-- 添加或修改退款金额对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="60%" append-to-body>
+    <el-dialog
+      :title="title"
+      :visible.sync="open"
+      width="60%"
+      append-to-body
+      @opened="handleOpen"
+    >
       <el-form ref="form" :model="form" :rules="rules" label-width="180px">
         <el-row>
           <el-col :span="12">
@@ -285,7 +291,9 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click.once="submitForm">确 定</el-button>
+        <el-button type="primary" @click="submitForm" :disabled="isDisabled"
+          >确 定</el-button
+        >
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
@@ -772,6 +780,7 @@ export default {
       refundEditTitle: null,
       refundEditOpen: false,
       refundEditForm: {},
+      isDisabled: false,
     };
   },
   created() {
@@ -975,6 +984,7 @@ export default {
     },
     /** 提交按钮 */
     submitForm() {
+      this.isDisabled = true;
       this.$refs["form"].validate((valid) => {
         if (valid) {
           if (this.form.stIdOld) {
@@ -993,6 +1003,8 @@ export default {
               this.getList();
             });
           }
+        } else {
+          this.isDisabled = false;
         }
       });
     },
@@ -1155,6 +1167,9 @@ export default {
     },
     uploadError(err, file, filelist) {
       this.$message.error("上传失败");
+    },
+    handleOpen() {
+      this.isDisabled = false;
     },
     // 打印
     async resolveImg() {

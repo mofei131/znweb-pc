@@ -1,5 +1,5 @@
 <style>
-.head-title{
+.head-title {
   font-size: 16px;
   font-family: Microsoft YaHei;
   font-weight: 400;
@@ -8,7 +8,7 @@
   margin-top: 30px;
   margin-left: 20px;
 }
-.head-text{
+.head-text {
   font-size: 14px;
   font-family: Microsoft YaHei;
   font-weight: 400;
@@ -16,10 +16,9 @@
   line-height: 53px;
 }
 
-.upload-hidden .el-upload--picture-card{
-  display:none;   /* 上传按钮隐藏 */
+.upload-hidden .el-upload--picture-card {
+  display: none; /* 上传按钮隐藏 */
 }
-
 </style>
 <template>
   <div>
@@ -29,9 +28,9 @@
         <el-col :span="19">
           <el-form-item label="项目信息"></el-form-item>
         </el-col>
-<!--        <el-col :span="4">-->
-<!--          <span style="color: #FF0000;">{{stateF(form.state)}}</span>-->
-<!--        </el-col>-->
+        <!--        <el-col :span="4">-->
+        <!--          <span style="color: #FF0000;">{{stateF(form.state)}}</span>-->
+        <!--        </el-col>-->
       </el-row>
       <el-row class="head-text">
         <el-col :span="4" :offset="1">
@@ -50,15 +49,21 @@
 
       <el-row class="head-text">
         <el-col :span="4" :offset="1">
-          不含税金额合计：<span v-text="$options.filters.moneyFilter(form.tntPrice)"></span>
+          不含税金额合计：<span
+            v-text="$options.filters.moneyFilter(form.tntPrice)"
+          ></span>
         </el-col>
-        <el-col :span="4" >
-          补税金额：<span v-text="$options.filters.moneyFilter(form.bsPrice)"></span>
+        <el-col :span="4">
+          补税金额：<span
+            v-text="$options.filters.moneyFilter(form.bsPrice)"
+          ></span>
         </el-col>
-        <el-col :span="4" >
-          价税合计：<span v-text="$options.filters.moneyFilter(form.jstPrice)"></span>
+        <el-col :span="4">
+          价税合计：<span
+            v-text="$options.filters.moneyFilter(form.jstPrice)"
+          ></span>
         </el-col>
-        <el-col :span="4" >
+        <el-col :span="4">
           收票状态：<span v-text="form.spState"></span>
         </el-col>
       </el-row>
@@ -73,47 +78,36 @@
           <el-table
             ref="wlsingleTable"
             :data="form.wldetailsList"
-            style="width: 80%;margin-bottom: 30px;">
-            <el-table-column
-              property="number"
-              label="发票号">
+            style="width: 80%; margin-bottom: 30px"
+          >
+            <el-table-column property="number" label="发票号">
             </el-table-column>
-            <el-table-column
-              property="wlType"
-              label="费用名称">
+            <el-table-column property="wlType" label="费用名称">
             </el-table-column>
-            <el-table-column
-              property="ntPrice"
-              label="不含税金额">
+            <el-table-column property="ntPrice" label="不含税金额">
               <template slot-scope="scope">
-          {{
-            Number(scope.row.ntPrice)
-              .toFixed(2)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
-          }}
-        </template>
+                {{
+                  Number(scope.row.ntPrice)
+                    .toFixed(2)
+                    .toString()
+                    .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+                }}
+              </template>
             </el-table-column>
-            <el-table-column
-              property="tax"
-              label="税率">
-            </el-table-column>
-            <el-table-column
-              property="taxPrice"
-              label="税额">
+            <el-table-column property="tax" label="税率"> </el-table-column>
+            <el-table-column property="taxPrice" label="税额">
               <template slot-scope="scope">
-          {{
-            Number(scope.row.ntPrice)
-              .toFixed(2)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
-          }}
-        </template>
+                {{
+                  Number(scope.row.ntPrice)
+                    .toFixed(2)
+                    .toString()
+                    .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+                }}
+              </template>
             </el-table-column>
           </el-table>
         </el-col>
       </el-row>
-
 
       <!--      合同信息-->
       <el-row class="head-title">
@@ -126,48 +120,38 @@
           <el-table
             ref="singleTable"
             :data="contract"
-            style="width: 80%;margin-bottom: 30px;">
-            <el-table-column
-              property="name"
-              label="合同名称">
+            style="width: 80%; margin-bottom: 30px"
+          >
+            <el-table-column property="name" label="合同名称">
             </el-table-column>
             <el-table-column
               property="type"
               label="合同类型"
-              :formatter="contractTypeFormat">
+              :formatter="contractTypeFormat"
+            >
             </el-table-column>
-            <el-table-column
-              property="expectNumber"
-              label="货品重量(吨)">
+            <el-table-column property="expectNumber" label="货品重量(吨)">
               <template slot-scope="scope">
-          {{
-            Number(scope.row.expectNumber)
-              .toFixed(3)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
-          }}
-        </template>
+                {{
+                  Number(scope.row.expectNumber)
+                    .toFixed(3)
+                    .toString()
+                    .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+                }}
+              </template>
             </el-table-column>
-            <el-table-column
-              property=""
-              label="合同附件">
+            <el-table-column property="" label="合同附件"> </el-table-column>
+            <el-table-column property="" label="补充合同附件">
             </el-table-column>
-            <el-table-column
-              property=""
-              label="补充合同附件">
+            <el-table-column property="" label="双章合同附件">
             </el-table-column>
-            <el-table-column
-              property=""
-              label="双章合同附件">
-            </el-table-column>
-            <el-table-column
-              label="操作"
-              width="120">
+            <el-table-column label="操作" width="120">
               <template slot-scope="scope">
                 <el-button
                   @click.native.prevent="toContract(scope.row.contractId)"
                   type="text"
-                  size="small">
+                  size="small"
+                >
                   查看
                 </el-button>
               </template>
@@ -178,7 +162,7 @@
 
       <el-row class="head-text">
         <el-col :span="20" :offset="1">
-          <el-form-item class="head-text" label="附件：" prop="file" >
+          <el-form-item class="head-text" label="附件：" prop="file">
             <!-- <el-upload
               disabled
               :action="url"
@@ -192,11 +176,14 @@
           </el-form-item>
         </el-col>
       </el-row>
-
     </el-form>
     <el-row>
       <el-col :offset="1" :span="20">
-        <div slot=""  class="dialog-footer" style="text-align: right;margin-bottom: 50px;margin-right: 50px;">
+        <div
+          slot=""
+          class="dialog-footer"
+          style="text-align: right; margin-bottom: 50px; margin-right: 50px"
+        >
           <el-button type="info" @click="cancel">关 闭</el-button>
         </div>
       </el-col>
@@ -204,103 +191,112 @@
   </div>
 </template>
 <script>
-
-import {getContract} from "@/api/project/contract";
-import {getToken} from "@/utils/auth";
-import {getApayment} from "@/api/project/apayment";
-import {getSk} from "@/api/project/sk";
-import {getLpayment} from "@/api/project/lpayment";
-import {getProcessDataByStId} from "@/api/approve";
-import {getContractList} from "@/api/project/all";
-import { getWldetails } from '@/api/project/wldetails'
+import { getContract } from "@/api/project/contract";
+import { getToken } from "@/utils/auth";
+import { getApayment } from "@/api/project/apayment";
+import { getSk } from "@/api/project/sk";
+import { getLpayment } from "@/api/project/lpayment";
+import { getProcessDataByStId } from "@/api/approve";
+import { getContractList } from "@/api/project/all";
+import { getWldetails } from "@/api/project/wldetails";
 
 export default {
   name: "contractLook",
   data() {
     return {
       //审批集合
-      stateList: [{"deptName":"风控部","roleName":"风控部经理","userName":"张三","content":"没有问题，同意审批","state":"已通过"},
-                  {"deptName":"风控部","roleName":"风控部经理","userName":"张三","content":"没有问题，同意审批","state":"已通过"},
-                  {"deptName":"风控部","roleName":"风控部经理","userName":"张三","content":"","state":"未审批"}],
+      stateList: [
+        {
+          deptName: "风控部",
+          roleName: "风控部经理",
+          userName: "张三",
+          content: "没有问题，同意审批",
+          state: "已通过",
+        },
+        {
+          deptName: "风控部",
+          roleName: "风控部经理",
+          userName: "张三",
+          content: "没有问题，同意审批",
+          state: "已通过",
+        },
+        {
+          deptName: "风控部",
+          roleName: "风控部经理",
+          userName: "张三",
+          content: "",
+          state: "未审批",
+        },
+      ],
 
       //上传路径
-      url:process.env.VUE_APP_BASE_API + "/file/upload",
+      url: process.env.VUE_APP_BASE_API + "/file/upload",
       // 设置上传的请求头部
       headers: { Authorization: "Bearer " + getToken() },
       //附件集合
-      fileList:[],
-
+      fileList: [],
 
       //出库集合
-      gryList:[],
+      gryList: [],
       // 表单参数
       form: {},
 
       //合同集合
-      contract:[],
+      contract: [],
     };
   },
   created() {
     const wldetailsId = this.$route.params && this.$route.params.wldetailsId;
-    getWldetails(wldetailsId).then(response => {
+    getWldetails(wldetailsId).then((response) => {
+      this.form = response.data;
+      this.fileList = response.data.fileList;
+      this.form.wldetailsList = response.data.wldetailsList;
 
-      this.form=response.data
-      this.fileList = response.data.fileList
-      this.form.wldetailsList = response.data.wldetailsList
-
-      let data={"stId": this.form.stId}
+      let data = { stId: this.form.stId };
       //合同
-      getContractList(data).then(response =>{
-        this.contract=response.rows
-      })
-
-    })
+      getContractList(data).then((response) => {
+        this.contract = response.rows;
+      });
+    });
   },
   methods: {
-    cancel(){
+    cancel() {
       this.$store.dispatch("tagsView/delView", this.$route);
       this.$router.go(-1);
     },
     //点击触发
     handlePreview(file) {
-      if(file.response==undefined){
-        window.open(file.url)
-      }else{
-        window.open(file.response.data.url)
+      if (file.response == undefined) {
+        window.open(file.url);
+      } else {
+        window.open(file.response.data.url);
       }
     },
-    handleRemove(file, filelist) {
-    },
-    handleExceed(files, fileList) {
-    },
-    beforeRemove(file, fileList) {
-    },
+    handleRemove(file, filelist) {},
+    handleExceed(files, fileList) {},
+    beforeRemove(file, fileList) {},
     // res 表示请求响应体
-    uploadSuccess(res, file, filelist) {
-
-    },
-    uploadError(err, file, filelist) {
-    },
+    uploadSuccess(res, file, filelist) {},
+    uploadError(err, file, filelist) {},
 
     //跳转合同详情
-    toContract(contractId){
+    toContract(contractId) {
       this.$router.push("/contract/look/" + contractId);
     },
     // 合同类型字典翻译
     contractTypeFormat(row, column) {
-      if(row.type=='1'){
-        return "上游合同"
-      }else if(row.type=='2'){
-        return "下游合同"
-      }else if(row.type=='3'){
-        return "物流运输合同"
-      }else if(row.type=='4'){
-        return "物流服务合同"
-      }else if(row.type=='5'){
-        return "其他合同"
+      if (row.type == "1") {
+        return "上游合同";
+      } else if (row.type == "2") {
+        return "下游合同";
+      } else if (row.type == "3") {
+        return "物流运输合同";
+      } else if (row.type == "4") {
+        return "物流服务合同";
+      } else if (row.type == "5") {
+        return "其他合同";
       }
     },
-
-  }
+  },
 };
 </script>

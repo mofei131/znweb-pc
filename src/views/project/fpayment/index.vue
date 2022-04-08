@@ -23,6 +23,15 @@
           />
         </el-select>
       </el-form-item>
+      <el-form-item label="项目编号" prop="stNo">
+        <el-input
+          v-model="queryParams.stNo"
+          placeholder="请输入项目编号"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
       <el-form-item label="创建时间" prop="createTime">
         <el-date-picker
           clearable
@@ -105,6 +114,7 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column label="项目名称" align="center" prop="stName" />
+      <el-table-column label="项目编号" align="center" prop="stNo" />
       <el-table-column label="货品名称" align="center" prop="hpName" />
       <el-table-column label="合计重量(吨)" align="center" prop="tweight">
         <template slot-scope="scope">
@@ -257,7 +267,13 @@
     />
 
     <!-- 添加或修改最终付款对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body>
+    <el-dialog
+      :title="title"
+      :visible.sync="open"
+      width="80%"
+      append-to-body
+      @opened="handleOpen"
+    >
       <el-form ref="form" :model="form" :rules="rules" label-width="180px">
         <div v-if="isLook != '4'">
           <el-row>
@@ -637,7 +653,7 @@
                   :on-error="uploadError"
                   :before-remove="beforeRemove"
                   multiple
-                  :limit="5"
+                  :limit="10"
                   :on-exceed="handleExceed"
                   :file-list="fileList"
                 >
@@ -729,7 +745,11 @@
         </div>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click.once="submitForm" v-if="isLook != 3"
+        <el-button
+          type="primary"
+          @click="submitForm"
+          :disabled="isDisabled"
+          v-if="isLook != 3"
           >确 定</el-button
         >
         <el-button @click="cancel">取 消</el-button>
@@ -968,6 +988,11 @@
               <td class="table-td-content" style="text-align: center">
                 {{ $options.filters.weightFilter(item.expectNumber) }}
               </td>
+            </tr>
+            <tr v-if="!printData.contract || printData.contract.length == 0">
+              <td class="table-td-content" style="text-align: center"></td>
+              <td class="table-td-content" style="text-align: center"></td>
+              <td class="table-td-content" style="text-align: center"></td>
             </tr>
             <tr>
               <td class="table-td-title detail">附件</td>
@@ -1228,6 +1253,7 @@ export default {
       // 打印
       printReviewVisible: false,
       printData: {},
+      isDisabled: false,
     };
   },
   created() {
@@ -1452,6 +1478,7 @@ export default {
 
     /** 提交按钮 */
     submitForm() {
+      this.isDisabled = true;
       this.$refs["form"].validate((valid) => {
         if (valid) {
           if (this.isLook != 4) {
@@ -1476,6 +1503,8 @@ export default {
               this.getList();
             });
           }
+        } else {
+          this.isDisabled = false;
         }
       });
     },
@@ -1533,7 +1562,7 @@ export default {
     },
     handleExceed(files, fileList) {
       this.$message.warning(
-        `当前限制选择 5 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
+        `当前限制选择 10 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
           files.length + fileList.length
         } 个文件`
       );
@@ -1823,6 +1852,9 @@ export default {
         2
       );
       this.atochange();
+    },
+    handleOpen() {
+      this.isDisabled = false;
     },
     // 打印
     async resolveImg() {

@@ -23,6 +23,15 @@
           />
         </el-select>
       </el-form-item>
+      <el-form-item label="项目编号" prop="stNo">
+        <el-input
+          v-model="queryParams.stNo"
+          placeholder="请输入项目编号"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
       <el-form-item>
         <el-button
           type="primary"
@@ -93,6 +102,7 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column label="项目名称" align="center" prop="stName" />
+      <el-table-column label="项目编号" align="center" prop="stNo" />
       <el-table-column label="预估应收" align="center" prop="ygPrice">
         <template slot-scope="scope">
           {{
@@ -209,7 +219,13 @@
     />
 
     <!-- 添加或修改实际收款对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body>
+    <el-dialog
+      :title="title"
+      :visible.sync="open"
+      width="80%"
+      append-to-body
+      @opened="handleOpen"
+    >
       <el-form ref="form" :model="form" :rules="rules" label-width="180px">
         <div v-if="isLook != '4'">
           <el-row>
@@ -492,7 +508,9 @@
         </div>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click.once="submitForm">确 定</el-button>
+        <el-button type="primary" @click="submitForm" :disabled="isDisabled"
+          >确 定</el-button
+        >
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
@@ -834,6 +852,7 @@ export default {
       // 打印
       printReviewVisible: false,
       printData: {},
+      isDisabled: false,
     };
   },
   created() {
@@ -988,6 +1007,7 @@ export default {
 
     /** 提交按钮 */
     submitForm() {
+      this.isDisabled = true;
       this.$refs["form"].validate((valid) => {
         if (valid) {
           this.form.stId = this.form.stId2;
@@ -1004,6 +1024,8 @@ export default {
               this.getList();
             });
           }
+        } else {
+          this.isDisabled = false;
         }
       });
     },
@@ -1132,6 +1154,9 @@ export default {
           this.form.mfsp = 0;
         }
       });
+    },
+    handleOpen() {
+      this.isDisabled = false;
     },
     // 打印
     async resolveImg() {

@@ -28,6 +28,15 @@
           />
         </el-select>
       </el-form-item>
+      <el-form-item label="项目编号" prop="stNo">
+        <el-input
+          v-model="queryParams.stNo"
+          placeholder="请输入项目编号"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
       <el-form-item label="批次" prop="batch">
         <el-input
           v-model="queryParams.batch"
@@ -121,6 +130,7 @@
     >
       <!--      <el-table-column type="selection" width="55" align="center" />-->
       <el-table-column label="项目名称" align="center" prop="stName" />
+      <el-table-column label="项目编号" align="center" prop="stNo" />
       <el-table-column label="货品名称" align="center" prop="name" />
       <el-table-column label="出库重量(吨)" align="center" prop="grnNumber">
         <template slot-scope="scope">
@@ -241,7 +251,13 @@
     />
 
     <!-- 添加或修改出库单对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body>
+    <el-dialog
+      :title="title"
+      :visible.sync="open"
+      width="80%"
+      append-to-body
+      @opened="handleOpen"
+    >
       <el-form ref="form" :model="form" :rules="rules" label-width="180px">
         <el-row>
           <el-col :span="12">
@@ -678,7 +694,7 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button v-if="isLook != 3" type="primary" @click.once="submitForm"
+        <el-button v-if="isLook != 3" type="primary" @click="submitForm"
           >确 定</el-button
         >
         <el-button @click="cancel">取 消</el-button>
@@ -750,7 +766,7 @@
               </td>
             </tr>
             <tr>
-              <td class="table-td-title detail">货值总</td>
+              <td class="table-td-title detail">货值总额</td>
               <td class="table-td-content" colspan="5">
                 {{ $options.filters.moneyFilter(printData.valueTprice) }}
               </td>
@@ -1199,6 +1215,7 @@ export default {
       // 打印
       printReviewVisible: false,
       printData: {},
+      isDisabled: false,
     };
   },
   created() {
@@ -1388,10 +1405,12 @@ export default {
     },
     /** 提交按钮 */
     submitForm() {
+      this.isDisabled = true;
       this.$refs["form"].validate((valid) => {
         if (valid) {
           if (this.tableselData.length < 1) {
             this.msgError("请选择入库单");
+            this.isDisabled = false;
             return;
           }
           this.form.stId = this.form.stId2;
@@ -1409,6 +1428,8 @@ export default {
               this.getList();
             });
           }
+        } else {
+          this.isDisabled = false;
         }
       });
     },
@@ -1782,6 +1803,9 @@ export default {
         gn = this.form.totalWeight;
       }
       this.form.valueTprice = (gn * vp).toFixed(2);
+    },
+    handleOpen() {
+      this.isDisabled = false;
     },
     // 打印
     async resolveImg() {

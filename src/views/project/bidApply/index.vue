@@ -19,6 +19,15 @@
           end-placeholder="结束日期"
         ></el-date-picker>
       </el-form-item>
+      <el-form-item label="项目编号" prop="stNo">
+        <el-input
+          v-model="queryParams.stNo"
+          placeholder="请输入项目编号"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
       <el-form-item label="审批状态" prop="state">
         <el-select v-model="queryParams.state" placeholder="审批状态">
           <el-option
@@ -77,6 +86,7 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column label="项目名称" align="center" prop="stName" />
+      <el-table-column label="项目编号" align="center" prop="stNo" />
       <el-table-column label="投标平台" align="center" prop="bidPlatform" />
       <el-table-column label="投标保证金（元）" align="center" prop="bidBond">
         <template slot-scope="scope">
@@ -170,7 +180,13 @@
     />
 
     <!-- 添加或修改投标申请对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body>
+    <el-dialog
+      :title="title"
+      :visible.sync="open"
+      width="80%"
+      append-to-body
+      @opened="handleOpen"
+    >
       <el-form ref="form" :model="form" :rules="rules" label-width="180px">
         <el-row>
           <el-col :span="12">
@@ -284,7 +300,9 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click.once="submitForm">确 定</el-button>
+        <el-button type="primary" @click="submitForm" :disabled="isDisabled"
+          >确 定</el-button
+        >
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
@@ -554,6 +572,7 @@ export default {
       // 打印
       printReviewVisible: false,
       printData: {},
+      isDisabled: false,
     };
   },
   computed: {
@@ -663,6 +682,7 @@ export default {
     },
     /** 提交按钮 */
     submitForm() {
+      this.isDisabled = true;
       this.$refs["form"].validate((valid) => {
         if (valid) {
           if (this.form.stIdOld) {
@@ -681,6 +701,8 @@ export default {
               this.getList();
             });
           }
+        } else {
+          this.isDisabled = false;
         }
       });
     },
@@ -792,6 +814,9 @@ export default {
       this.reset();
       const bidId = row.bidId || this.ids;
       this.$router.push("/bidApply/look/" + bidId);
+    },
+    handleOpen() {
+      this.isDisabled = false;
     },
     // 打印
     async resolveImg() {

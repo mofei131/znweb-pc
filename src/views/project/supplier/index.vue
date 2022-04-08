@@ -203,7 +203,13 @@
     />
 
     <!-- 添加或修改供应商对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body>
+    <el-dialog
+      :title="title"
+      :visible.sync="open"
+      width="80%"
+      append-to-body
+      @opened="handleOpen"
+    >
       <el-form ref="form" :model="form" :rules="rules" label-width="180px">
         <div v-if="isLook != 4">
           <el-row>
@@ -444,7 +450,11 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click.once="submitForm" v-if="isLook != 3"
+        <el-button
+          type="primary"
+          @click="submitForm"
+          :disabled="isDisabled"
+          v-if="isLook != 3"
           >确 定</el-button
         >
         <el-button @click="cancel" v-if="isLook != 3">取 消</el-button>
@@ -519,7 +529,7 @@
             <tr>
               <td class="table-td-title detail">发票面额</td>
               <td class="table-td-content">
-                {{ $options.filters.moneyFilter(printData.invoiceType) }}
+                {{ printData.invoiceType }}
               </td>
               <td class="table-td-title detail">企业性质</td>
               <td class="table-td-content">
@@ -774,6 +784,7 @@ export default {
       // 打印
       printReviewVisible: false,
       printData: {},
+      isDisabled: false,
     };
   },
   created() {
@@ -918,6 +929,7 @@ export default {
     },
     /** 提交按钮 */
     submitForm() {
+      this.isDisabled = true;
       this.$refs["form"].validate((valid) => {
         if (valid) {
           if (this.form.supplierId != null) {
@@ -933,6 +945,8 @@ export default {
               this.getList();
             });
           }
+        } else {
+          this.isDisabled = false;
         }
       });
     },
@@ -1025,6 +1039,9 @@ export default {
     uploadError(err, file, filelist) {
       this.$message.error("上传失败");
     },
+    handleOpen() {
+      this.isDisabled = false;
+    },
     // 打印
     async resolveImg() {
       let imgBase64 = await this.getImage("print_area");
@@ -1041,8 +1058,8 @@ export default {
       this.printData = {};
       await getSupplier(row.supplierId).then((response) => {
         this.printData = response.data;
-        this.printData.fileList = response.data.fileList | [];
-        this.printData.gryList = response.data.selnyList | [];
+        this.printData.fileList = response.data.fileList || [];
+        this.printData.gryList = response.data.selnyList || [];
         this.printData.printType = "供应商管理";
       });
       await getProcessDataByStId("12", row.supplierId).then((res) => {

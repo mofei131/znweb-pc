@@ -251,7 +251,13 @@
     />
 
     <!-- 添加或修改项目信息对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body>
+    <el-dialog
+      :title="title"
+      :visible.sync="open"
+      width="80%"
+      append-to-body
+      @opened="handleOpen"
+    >
       <el-steps :active="active" finish-status="success" v-if="isLook != 4">
         <el-step title="基本信息"></el-step>
         <el-step title="自融资金方"></el-step>
@@ -1295,13 +1301,18 @@
           @click="next"
           >下一步</el-button
         >
-        <el-button v-if="isLook == 4" type="primary" @click.once="submitForm"
+        <el-button
+          v-if="isLook == 4"
+          type="primary"
+          @click="submitForm"
+          :disabled="isDisabled"
           >确 定</el-button
         >
         <el-button
           v-if="active == '4' && isLook != 3"
           type="primary"
           @click="submitForm"
+          :disabled="isDisabled"
           >确 定</el-button
         >
         <el-button @click="cancel">取 消</el-button>
@@ -1413,7 +1424,7 @@
               <td class="title" colspan="6">服务费</td>
             </tr>
             <tr>
-              <td class="table-td-title detail">年费收取模式</td>
+              <td class="table-td-title detail">服务费收取模式</td>
               <td class="table-td-content">
                 <template>{{ printData.chargemType }}</template>
               </td>
@@ -2206,6 +2217,7 @@ export default {
       },
       printReviewVisible: false,
       printData: {},
+      isDisabled: false,
     };
   },
   created() {
@@ -2447,6 +2459,7 @@ export default {
 
     /** 提交按钮 */
     submitForm() {
+      this.isDisabled = true;
       this.$refs["form"].validate((valid) => {
         if (valid) {
           if (this.form.stId != null) {
@@ -2468,6 +2481,8 @@ export default {
               this.getList();
             });
           }
+        } else {
+          this.isDisabled = false;
         }
       });
     },
@@ -2689,6 +2704,9 @@ export default {
         scanStyles: false,
       });
     },
+    handleOpen() {
+      this.isDisabled = false;
+    },
     // 打印
     async resolveImg() {
       let imgBase64 = await this.getImage("print_area");
@@ -2707,6 +2725,18 @@ export default {
       await getSt(row.stId).then((response) => {
         this.printData = response.data;
         this.printData.printType = "项目新增";
+        if (this.printData.chargemType == "1") {
+          this.printData.chargemType = "年息";
+        } else if (this.printData.chargemType == "2") {
+          this.printData.chargemType = "固定差价";
+        } else if (this.printData.chargemType == "3") {
+          this.printData.chargemType = "年息+固定差价";
+        }
+        if (this.printData.tMargintype == "1") {
+          this.printData.tMargintype = "有";
+        } else if (this.printData.tMargintype == "2") {
+          this.printData.tMargintype = "无";
+        }
         this.printData.fileList = response.data.fileList;
       });
       await getProcessDataByStId("1", row.stId).then((res) => {

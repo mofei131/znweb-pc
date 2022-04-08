@@ -200,7 +200,13 @@
     />
 
     <!-- 添加或修改终端用户对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body>
+    <el-dialog
+      :title="title"
+      :visible.sync="open"
+      width="80%"
+      append-to-body
+      @opened="handleOpen"
+    >
       <el-form ref="form" :model="form" :rules="rules" label-width="180px">
         <div v-if="isLook != 4">
           <el-row v-if="editForm">
@@ -408,7 +414,11 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click.once="submitForm" v-if="isLook != 3"
+        <el-button
+          type="primary"
+          @click="submitForm"
+          :disabled="isDisabled"
+          v-if="isLook != 3"
           >确 定</el-button
         >
         <el-button @click="cancel" v-if="isLook != 3">取 消</el-button>
@@ -704,6 +714,7 @@ export default {
       // 打印
       printReviewVisible: false,
       printData: {},
+      isDisabled: false,
     };
   },
   created() {
@@ -847,6 +858,7 @@ export default {
     },
     /** 提交按钮 */
     submitForm() {
+      this.isDisabled = true;
       this.$refs["form"].validate((valid) => {
         if (valid) {
           if (this.form.terminalId != null) {
@@ -862,6 +874,8 @@ export default {
               this.getList();
             });
           }
+        } else {
+          this.isDisabled = false;
         }
       });
     },
@@ -952,6 +966,9 @@ export default {
     },
     uploadError(err, file, filelist) {
       this.$message.error("上传失败");
+    },
+    handleOpen() {
+      this.isDisabled = false;
     },
     // 打印
     async resolveImg() {

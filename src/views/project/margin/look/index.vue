@@ -1,5 +1,5 @@
 <style>
-.head-title{
+.head-title {
   font-size: 16px;
   font-family: Microsoft YaHei;
   font-weight: 400;
@@ -8,7 +8,7 @@
   margin-top: 30px;
   margin-left: 20px;
 }
-.head-text{
+.head-text {
   font-size: 14px;
   font-family: Microsoft YaHei;
   font-weight: 400;
@@ -16,10 +16,9 @@
   line-height: 53px;
 }
 
-.upload-hidden .el-upload--picture-card{
-  display:none;   /* 上传按钮隐藏 */
+.upload-hidden .el-upload--picture-card {
+  display: none; /* 上传按钮隐藏 */
 }
-
 </style>
 <template>
   <div>
@@ -30,46 +29,48 @@
           <el-form-item label="保证金信息"></el-form-item>
         </el-col>
         <el-col :span="4">
-          <span style="color: #FF0000;">{{stateF(form.state)}}</span>
+          <span style="color: #ff0000">{{ stateF(form.state) }}</span>
         </el-col>
       </el-row>
       <el-row class="head-text">
         <el-col :span="4" :offset="1">
           保证金对象：<span v-text="form.type"></span>
         </el-col>
-        <el-col :span="4">
-          保证金类型：<span v-text="form.obj"></span>
-        </el-col>
+        <el-col :span="4"> 保证金类型：<span v-text="form.obj"></span> </el-col>
         <el-col :span="4">
           项目编号：<span v-text="form.number"></span>
         </el-col>
       </el-row>
-      <div v-if="form.type=='上游'">
+      <div v-if="form.type == '上游'">
         <el-row class="head-text">
           <el-col :span="4" :offset="1">
             合同名称：<span v-text="form.contractName"></span>
           </el-col>
-          <el-col :span="4" >
+          <el-col :span="4">
             供应商名称：<span v-text="form.terminalName"></span>
           </el-col>
           <el-col :span="4">
-            保证金金额(元)：<span v-text="$options.filters.moneyFilter(form.putPrice)"></span>
+            保证金金额(元)：<span
+              v-text="$options.filters.moneyFilter(form.putPrice)"
+            ></span>
           </el-col>
         </el-row>
       </div>
-      <div v-if="form.type=='下游'">
+      <div v-if="form.type == '下游'">
         <el-row class="head-text">
           <el-col :span="4" :offset="1">
             项目名称：<span v-text="form.stName"></span>
           </el-col>
-          <el-col :span="4" >
+          <el-col :span="4">
             合同名称：<span v-text="form.contractName"></span>
           </el-col>
           <el-col :span="4">
             客户名称：<span v-text="form.terminalName"></span>
           </el-col>
           <el-col :span="4">
-            保证金金额(元)：<span v-text="$options.filters.moneyFilter(form.putPrice)"></span>
+            保证金金额(元)：<span
+              v-text="$options.filters.moneyFilter(form.putPrice)"
+            ></span>
           </el-col>
         </el-row>
 
@@ -83,14 +84,13 @@
           <el-col :span="4" :offset="1">
             年服务费率%：<span v-text="form.stRate"></span>
           </el-col>
-          <el-col :span="4" >
+          <el-col :span="4">
             保底服务费期限(天)：<span v-text="form.mfsp"></span>
           </el-col>
-          <el-col :span="4" >
-            支付日期：<span>{{ parseTime(form.putTime, '{y}-{m}-{d}') }}</span>
+          <el-col :span="4">
+            支付日期：<span>{{ parseTime(form.putTime, "{y}-{m}-{d}") }}</span>
           </el-col>
         </el-row>
-
       </div>
 
       <!--      合同信息-->
@@ -104,48 +104,38 @@
           <el-table
             ref="singleTable"
             :data="contract"
-            style="width: 80%;margin-bottom: 30px;">
-            <el-table-column
-              property="name"
-              label="合同名称">
+            style="width: 80%; margin-bottom: 30px"
+          >
+            <el-table-column property="name" label="合同名称">
             </el-table-column>
             <el-table-column
               property="type"
               label="合同类型"
-              :formatter="contractTypeFormat">
+              :formatter="contractTypeFormat"
+            >
             </el-table-column>
-            <el-table-column
-              property="expectNumber"
-              label="货品重量(吨)">
+            <el-table-column property="expectNumber" label="货品重量(吨)">
               <template slot-scope="scope">
-                    {{
-                      Number(scope.row.expectNumber)
-                        .toFixed(3)
-                        .toString()
-                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                    }}
-                  </template>
+                {{
+                  Number(scope.row.expectNumber)
+                    .toFixed(3)
+                    .toString()
+                    .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                }}
+              </template>
             </el-table-column>
-            <el-table-column
-              property=""
-              label="合同附件">
+            <el-table-column property="" label="合同附件"> </el-table-column>
+            <el-table-column property="" label="补充合同附件">
             </el-table-column>
-            <el-table-column
-              property=""
-              label="补充合同附件">
+            <el-table-column property="" label="双章合同附件">
             </el-table-column>
-            <el-table-column
-              property=""
-              label="双章合同附件">
-            </el-table-column>
-            <el-table-column
-              label="操作"
-              width="120">
+            <el-table-column label="操作" width="120">
               <template slot-scope="scope">
                 <el-button
                   @click.native.prevent="toContract(scope.row.contractId)"
                   type="text"
-                  size="small">
+                  size="small"
+                >
                   查看
                 </el-button>
               </template>
@@ -155,7 +145,7 @@
       </el-row>
 
       <el-row class="head-text">
-        <el-col :span="6" :offset="1">
+        <el-col :span="18" :offset="1">
           <el-form-item label="附件：" prop="file">
             <!-- <el-upload
               disabled
@@ -172,7 +162,7 @@
       </el-row>
 
       <!--      审批流程·-->
-      <approval-process :typeId="7" :stId="marginId"></approval-process>
+            <approval-process :typeId="7" :stId="marginId"></approval-process>
 
       <!--      审批信息-->
       <el-row class="head-title">
@@ -185,26 +175,17 @@
           <el-table
             ref="singleTable"
             :data="stateList"
-            style="width: 80%;margin-bottom: 30px;">
-            <el-table-column
-              property="deptName"
-              label="部门">
+            style="width: 80%; margin-bottom: 30px"
+          >
+            <el-table-column property="deptName" label="部门">
             </el-table-column>
-            <el-table-column
-              property="nickName"
-              label="审批人">
+            <el-table-column property="nickName" label="审批人">
             </el-table-column>
-            <el-table-column
-              property="approveTime"
-              label="审批时间">
+            <el-table-column property="approveTime" label="审批时间">
             </el-table-column>
-            <el-table-column
-              property="processValue"
-              label="审批说明">
+            <el-table-column property="processValue" label="审批说明">
             </el-table-column>
-            <el-table-column
-              property="status"
-              label="审批状态">
+            <el-table-column property="status" label="审批状态">
               <template slot-scope="scope">
                 {{ scope.row.status == 0 ? "驳回" : "通过" }}
               </template>
@@ -212,11 +193,14 @@
           </el-table>
         </el-col>
       </el-row>
-
     </el-form>
     <el-row>
       <el-col :offset="1" :span="20">
-        <div slot=""  class="dialog-footer" style="text-align: right;margin-bottom: 50px;margin-right: 50px;">
+        <div
+          slot=""
+          class="dialog-footer"
+          style="text-align: right; margin-bottom: 50px; margin-right: 50px"
+        >
           <el-button type="info" @click="cancel">关 闭</el-button>
         </div>
       </el-col>
@@ -224,101 +208,112 @@
   </div>
 </template>
 <script>
-
-
-import {getToken} from "@/utils/auth";
-import {getSupplier} from "@/api/project/supplier";
-import {getTerminal} from "@/api/project/terminal";
-import {getMargin} from "@/api/project/margin";
-import {getProcessDataByStId} from "@/api/approve";
-import {getContractList} from "@/api/project/all";
+import { getToken } from "@/utils/auth";
+import { getSupplier } from "@/api/project/supplier";
+import { getTerminal } from "@/api/project/terminal";
+import { getMargin } from "@/api/project/margin";
+import { getProcessDataByStId } from "@/api/approve";
+import { getContractList } from "@/api/project/all";
 
 export default {
   name: "contractLook",
   data() {
     return {
       //审批集合
-      stateList: [{"deptName":"风控部","roleName":"风控部经理","userName":"张三","content":"没有问题，同意审批","state":"已通过"},
-                  {"deptName":"风控部","roleName":"风控部经理","userName":"张三","content":"没有问题，同意审批","state":"已通过"},
-                  {"deptName":"风控部","roleName":"风控部经理","userName":"张三","content":"","state":"未审批"}],
+      stateList: [
+        {
+          deptName: "风控部",
+          roleName: "风控部经理",
+          userName: "张三",
+          content: "没有问题，同意审批",
+          state: "已通过",
+        },
+        {
+          deptName: "风控部",
+          roleName: "风控部经理",
+          userName: "张三",
+          content: "没有问题，同意审批",
+          state: "已通过",
+        },
+        {
+          deptName: "风控部",
+          roleName: "风控部经理",
+          userName: "张三",
+          content: "",
+          state: "未审批",
+        },
+      ],
 
       //上传路径
-      url:process.env.VUE_APP_BASE_API + "/file/upload",
+      url: process.env.VUE_APP_BASE_API + "/file/upload",
       // 设置上传的请求头部
       headers: { Authorization: "Bearer " + getToken() },
       //附件集合
-      fileList:[],
+      fileList: [],
 
       //合同集合
-      contract:[],
+      contract: [],
 
       // 表单参数
       form: {},
-      marginId:''
+      marginId: "",
     };
   },
   created() {
     const marginId = this.$route.params && this.$route.params.marginId;
-    this.marginId=marginId
-    getMargin(marginId).then(response => {
-      this.form=response.data
-      this.fileList = response.data.fileList
+    this.marginId = marginId;
+    getMargin(marginId).then((response) => {
+      this.form = response.data;
+      this.fileList = response.data.fileList;
 
-      let data={"stId": this.form.stId}
+      let data = { stId: this.form.stId };
       //合同
-      getContractList(data).then(response =>{
-        this.contract=response.rows
-      })
-
-    })
-    getProcessDataByStId("7",marginId).then((res) => {
+      getContractList(data).then((response) => {
+        this.contract = response.rows;
+      });
+    });
+    getProcessDataByStId("7", marginId).then((res) => {
       this.stateList = res.data;
     });
   },
   methods: {
-    cancel(){
+    cancel() {
       this.$store.dispatch("tagsView/delView", this.$route);
       this.$router.go(-1);
     },
     //点击触发
     handlePreview(file) {
-      if(file.response==undefined){
-        window.open(file.url)
-      }else{
-        window.open(file.response.data.url)
+      if (file.response == undefined) {
+        window.open(file.url);
+      } else {
+        window.open(file.response.data.url);
       }
     },
-    handleRemove(file, filelist) {
-    },
-    handleExceed(files, fileList) {
-    },
-    beforeRemove(file, fileList) {
-    },
+    handleRemove(file, filelist) {},
+    handleExceed(files, fileList) {},
+    beforeRemove(file, fileList) {},
     // res 表示请求响应体
-    uploadSuccess(res, file, filelist) {
-
-    },
-    uploadError(err, file, filelist) {
-    },
+    uploadSuccess(res, file, filelist) {},
+    uploadError(err, file, filelist) {},
 
     //跳转合同详情
-    toContract(contractId){
+    toContract(contractId) {
       this.$router.push("/contract/look/" + contractId);
     },
     // 合同类型字典翻译
     contractTypeFormat(row, column) {
-      if(row.type=='1'){
-        return "上游合同"
-      }else if(row.type=='2'){
-        return "下游合同"
-      }else if(row.type=='3'){
-        return "物流运输合同"
-      }else if(row.type=='4'){
-        return "物流服务合同"
-      }else if(row.type=='5'){
-        return "其他合同"
+      if (row.type == "1") {
+        return "上游合同";
+      } else if (row.type == "2") {
+        return "下游合同";
+      } else if (row.type == "3") {
+        return "物流运输合同";
+      } else if (row.type == "4") {
+        return "物流服务合同";
+      } else if (row.type == "5") {
+        return "其他合同";
       }
     },
-  }
+  },
 };
 </script>

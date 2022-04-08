@@ -55,7 +55,7 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="合同编号" prop="name">
+      <el-form-item label="合同编号" prop="number">
         <el-input
           v-model="queryParams.number"
           placeholder="请输入合同编号"
@@ -261,7 +261,13 @@
     />
 
     <!-- 添加或修改项目合同对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body>
+    <el-dialog
+      :title="title"
+      :visible.sync="open"
+      width="80%"
+      append-to-body
+      @opened="handleOpen"
+    >
       <el-form ref="form" :model="form" :rules="rules" label-width="180px">
         <div v-if="bc == 1 || bc == 3">
           <el-row>
@@ -286,7 +292,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item label="项目编号" prop="name">
-                {{ form.number }}
+                {{ form.projectNumber }}
               </el-form-item>
             </el-col>
           </el-row>
@@ -323,7 +329,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="合同编号" prop="name">
+              <el-form-item label="合同编号" prop="number">
                 <el-input v-model="form.number" placeholder="请输入合同编号" />
               </el-form-item>
             </el-col>
@@ -833,7 +839,9 @@
         </div>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click.once="submitForm">确 定</el-button>
+        <el-button type="primary" @click="submitForm" :disabled="isDisabled"
+          >确 定</el-button
+        >
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
@@ -1348,6 +1356,7 @@ export default {
       // 打印
       printReviewVisible: false,
       printData: {},
+      isDisabled: false,
     };
   },
   created() {
@@ -1572,6 +1581,7 @@ export default {
     },
     /** 提交按钮 */
     submitForm() {
+      this.isDisabled = true;
       this.$refs["form"].validate((valid) => {
         if (valid) {
           this.form.stId = this.form.stId2;
@@ -1604,6 +1614,8 @@ export default {
               }
             });
           }
+        } else {
+          this.isDisabled = false;
         }
       });
     },
@@ -1638,7 +1650,7 @@ export default {
     changeSt(obj) {
       this.form.stId2 = obj.stId;
       this.form.stName = obj.name;
-      this.$set(this.form, "number", obj.number);
+      this.form.projectNumber = obj.number;
 
       this.form.supplierId = obj.supplierName;
       this.form.supplierId2 = obj.supplierId;
@@ -1717,6 +1729,9 @@ export default {
     },
     uploadError(err, file, filelist) {
       this.$message.error("上传失败");
+    },
+    handleOpen() {
+      this.isDisabled = false;
     },
     // 打印
     async resolveImg() {

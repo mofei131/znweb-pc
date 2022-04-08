@@ -1,5 +1,5 @@
 <style>
-.head-title{
+.head-title {
   font-size: 16px;
   font-family: Microsoft YaHei;
   font-weight: 400;
@@ -8,18 +8,16 @@
   margin-top: 30px;
   margin-left: 20px;
 }
-.head-text{
+.head-text {
   font-size: 14px;
   font-family: Microsoft YaHei;
   font-weight: 400;
   color: #333333;
   line-height: 53px;
 }
-
 </style>
 <template>
   <div>
-
     <el-form label-width="20px;" label-position="left">
       <!--    基础信息-->
       <el-row class="head-title">
@@ -27,26 +25,25 @@
           <el-form-item label="基本信息"></el-form-item>
         </el-col>
         <el-col :span="4">
-          <span style="color: #FF0000;">{{stateF(form.state)}}</span>
+          <span style="color: #ff0000">{{ stateF(form.state) }}</span>
         </el-col>
       </el-row>
       <el-row class="head-text">
         <el-col :span="4" :offset="1">
           项目编号：<span v-text="form.number"></span>
         </el-col>
+        <el-col :span="4"> 项目名称：<span v-text="form.name"></span> </el-col>
         <el-col :span="4">
-          项目名称：<span v-text="form.name"></span>
-        </el-col>
-        <el-col :span="4">
-          项目金额(万元)：<span v-text="$options.filters.moneyFilter(form.amount)"></span>
+          项目金额(万元)：<span
+            v-text="$options.filters.moneyFilter(form.amount)"
+          ></span>
         </el-col>
         <el-col :span="4">
           代办人：<span v-text="form.userName"></span>
         </el-col>
-        <el-col :span="4" >
+        <el-col :span="4">
           供应商：<span v-text="form.supplierName"></span>
         </el-col>
-
       </el-row>
       <el-row class="head-text">
         <el-col :span="4" :offset="1">
@@ -55,7 +52,7 @@
         <el-col :span="4">
           结算比例：<span v-text="form.settlementP"></span>
         </el-col>
-        <el-col :span="4" >
+        <el-col :span="4">
           客户经理：<span v-text="form.managerName"></span>
         </el-col>
       </el-row>
@@ -68,7 +65,9 @@
 
       <el-row class="head-text">
         <el-col :span="4" :offset="1">
-          履约保证金金额(万元)：<span v-text="$options.filters.moneyFilter(form.margin)"></span>
+          履约保证金金额(万元)：<span
+            v-text="$options.filters.moneyFilter(form.margin)"
+          ></span>
         </el-col>
         <el-col :span="4">
           结算方式：<span v-text="form.settlementWay"></span>
@@ -89,19 +88,25 @@
 
       <el-row class="head-text">
         <el-col :span="4" :offset="1">
-          年费收取模式：<span v-text="form.chargemType"></span>
+          服务费收取模式：<span v-text="form.chargemType"></span>
         </el-col>
         <el-col :span="4">
           年费服务费费率(%)：<span v-text="form.chargemNx"></span>
         </el-col>
         <el-col :span="4">
-          固定差价：<span v-text="$options.filters.moneyFilter(form.chargemGd)"></span>
+          固定差价：<span
+            v-text="$options.filters.moneyFilter(form.chargemGd)"
+          ></span>
         </el-col>
         <el-col :span="4">
-          预计单价(元)：<span v-text="$options.filters.moneyFilter(form.expectPrice)"></span>
+          预计单价(元)：<span
+            v-text="$options.filters.moneyFilter(form.expectPrice)"
+          ></span>
         </el-col>
         <el-col :span="4">
-          预计重量(吨)：<span v-text="$options.filters.weightFilter(form.expectWeight)"></span>
+          预计重量(吨)：<span
+            v-text="$options.filters.weightFilter(form.expectWeight)"
+          ></span>
         </el-col>
       </el-row>
 
@@ -110,7 +115,9 @@
           成本年服务费费率(%)：<span v-text="form.rateYear"></span>
         </el-col>
         <el-col :span="4">
-          预计利润：<span v-text="$options.filters.moneyFilter(form.expectProfits)"></span>
+          预计利润：<span
+            v-text="$options.filters.moneyFilter(form.expectProfits)"
+          ></span>
         </el-col>
       </el-row>
 
@@ -124,9 +131,7 @@
         <el-col :span="4" :offset="1">
           公司名称：<span v-text="form.shName"></span>
         </el-col>
-        <el-col :span="4">
-          性质：<span v-text="form.shXz"></span>
-        </el-col>
+        <el-col :span="4"> 性质：<span v-text="form.shXz"></span> </el-col>
         <el-col :span="4">
           合作方式：<span v-text="form.shHztype"></span>
         </el-col>
@@ -143,7 +148,9 @@
           结算比例：<span v-text="form.shSettlement"></span>
         </el-col>
         <el-col :span="4">
-          履约保证金(元)：<span v-text="$options.filters.moneyFilter(form.shMargin)"></span>
+          履约保证金(元)：<span
+            v-text="$options.filters.moneyFilter(form.shMargin)"
+          ></span>
         </el-col>
         <el-col :span="4">
           合同签署：<span v-text="form.shContracttype"></span>
@@ -160,16 +167,14 @@
         <el-col :span="4" :offset="1">
           终端客户名称：<span v-text="form.tName"></span>
         </el-col>
-        <el-col :span="4">
-          性质：<span v-text="form.tXz"></span>
-        </el-col>
+        <el-col :span="4"> 性质：<span v-text="form.tXz"></span> </el-col>
         <el-col :span="4">
           立户情况：<span v-text="form.tAccount"></span>
         </el-col>
         <el-col :span="4">
           合作年限：<span v-text="form.tCyear"></span>
         </el-col>
-        <el-col :span="4" >
+        <el-col :span="4">
           投标方式：<span v-text="form.tTender"></span>
         </el-col>
       </el-row>
@@ -179,7 +184,9 @@
           投标保证金：<span v-text="form.tMargintype"></span>
         </el-col>
         <el-col :span="4">
-          投标保证金(万元)：<span v-text="$options.filters.moneyFilter(form.tMargin)"></span>
+          投标保证金(万元)：<span
+            v-text="$options.filters.moneyFilter(form.tMargin)"
+          ></span>
         </el-col>
         <el-col :span="4">
           保证金缴纳时间：<span v-text="form.tMargintime"></span>
@@ -202,7 +209,6 @@
         <el-col :span="4">
           到站：<span v-text="form.tTransportend"></span>
         </el-col>
-
       </el-row>
 
       <el-row class="head-text">
@@ -242,9 +248,7 @@
         <el-col :span="4">
           站台经营方式：<span v-text="form.pJymode"></span>
         </el-col>
-        <el-col :span="4">
-          站台规模：<span v-text="form.pSize"></span>
-        </el-col>
+        <el-col :span="4"> 站台规模：<span v-text="form.pSize"></span> </el-col>
         <el-col :span="4">
           站台发运方式：<span v-text="form.pFymode"></span>
         </el-col>
@@ -265,8 +269,6 @@
         </el-col>
       </el-row>
 
-
-
       <el-row class="head-title">
         <el-col :span="19">
           <el-form-item label="其他内容"></el-form-item>
@@ -275,12 +277,19 @@
 
       <el-row class="head-text">
         <el-col :span="10" :offset="1">
-          备注说明： <el-input type="textarea" disabled :rows="5" v-model="form.node" placeholder="请输入备注说明" />
+          备注说明：
+          <el-input
+            type="textarea"
+            disabled
+            :rows="5"
+            v-model="form.node"
+            placeholder="请输入备注说明"
+          />
         </el-col>
       </el-row>
 
-      <el-row class="head-text" style="margin-bottom: 50px;">
-        <el-col :span="6" :offset="1">
+      <el-row class="head-text" style="margin-bottom: 50px">
+        <el-col :span="18" :offset="1">
           <el-form-item label="附件：" prop="file">
             <!-- <el-upload
               disabled
@@ -297,7 +306,7 @@
       </el-row>
 
       <!--      审批流程·-->
-      <approval-process :typeId="1" :stId="stId"></approval-process>
+            <approval-process :typeId="1" :stId="stId"></approval-process>
 
       <!--      审批信息-->
       <el-row class="head-title">
@@ -310,26 +319,17 @@
           <el-table
             ref="singleTable"
             :data="stateList"
-            style="width: 80%;margin-bottom: 30px;">
-            <el-table-column
-              property="deptName"
-              label="部门">
+            style="width: 80%; margin-bottom: 30px"
+          >
+            <el-table-column property="deptName" label="部门">
             </el-table-column>
-            <el-table-column
-              property="nickName"
-              label="审批人">
+            <el-table-column property="nickName" label="审批人">
             </el-table-column>
-            <el-table-column
-              property="approveTime"
-              label="审批时间">
+            <el-table-column property="approveTime" label="审批时间">
             </el-table-column>
-            <el-table-column
-              property="processValue"
-              label="审批说明">
+            <el-table-column property="processValue" label="审批说明">
             </el-table-column>
-            <el-table-column
-              property="status"
-              label="审批状态">
+            <el-table-column property="status" label="审批状态">
               <template slot-scope="scope">
                 {{ scope.row.status == 0 ? "驳回" : "通过" }}
               </template>
@@ -337,11 +337,14 @@
           </el-table>
         </el-col>
       </el-row>
-
     </el-form>
     <el-row>
       <el-col :offset="1" :span="20">
-        <div slot=""  class="dialog-footer" style="text-align: right;margin-bottom: 50px;margin-right: 50px;">
+        <div
+          slot=""
+          class="dialog-footer"
+          style="text-align: right; margin-bottom: 50px; margin-right: 50px"
+        >
           <el-button type="info" @click="cancel">关 闭</el-button>
         </div>
       </el-col>
@@ -349,130 +352,162 @@
   </div>
 </template>
 
-
 <script>
-
-import {getSt} from "@/api/project/st";
-import {getToken} from "@/utils/auth";
-import {getProcessDataByStId} from "@/api/approve";
-
+import { getSt } from "@/api/project/st";
+import { getToken } from "@/utils/auth";
+import { getProcessDataByStId } from "@/api/approve";
 
 export default {
   name: "look",
   data() {
     return {
-
       //审批集合
       stateList: [],
 
       //上传路径
-      url:process.env.VUE_APP_BASE_API + "/file/upload",
+      url: process.env.VUE_APP_BASE_API + "/file/upload",
       // 设置上传的请求头部
       headers: { Authorization: "Bearer " + getToken() },
       //附件集合
-      fileList:[],
+      fileList: [],
 
       // 表单参数
       form: {},
-      gryLr:0.00,
-      gryNumber:0,
-      stId:''
+      gryLr: 0.0,
+      gryNumber: 0,
+      stId: "",
     };
   },
   created() {
     const stId = this.$route.params && this.$route.params.stId;
-    this.stId=stId
-    getSt(stId).then(response => {
-      this.form=response.data
-      this.fileList = response.data.fileList
-      if(this.form.chargemType=='1'){
-        this.form.chargemType="年息"
-      }else if(this.form.chargemType=='2'){
-        this.form.chargemType="固定差价"
-      }else if(this.form.chargemType=='3'){
-        this.form.chargemType="年息+固定差价"
+    this.stId = stId;
+    getSt(stId).then((response) => {
+      this.form = response.data;
+      this.fileList = response.data.fileList;
+      if (this.form.chargemType == "1") {
+        this.form.chargemType = "年息";
+      } else if (this.form.chargemType == "2") {
+        this.form.chargemType = "固定差价";
+      } else if (this.form.chargemType == "3") {
+        this.form.chargemType = "年息+固定差价";
       }
-      if(this.form.tMargintype=='1'){
-        this.form.tMargintype="有"
-      }else if(this.form.tMargintype=='2'){
-        this.form.tMargintype="无"
+      if (this.form.tMargintype == "1") {
+        this.form.tMargintype = "有";
+      } else if (this.form.tMargintype == "2") {
+        this.form.tMargintype = "无";
       }
 
-      if(this.form.settlementP=='其他'){
-        if(this.form.settlementPA1!=null && this.form.settlementPA1!=''){
-          this.form.settlementP=this.form.settlementPA1+"%";
-          if(this.form.settlementPA2!=null && this.form.settlementPA2!=''){
-            this.form.settlementP=this.form.settlementPA1+"%-"+this.form.settlementPA2+"%";
-            if(this.form.settlementPA3!=null && this.form.settlementPA3!=''){
-              this.form.settlementP=this.form.settlementPA1+"%-"+this.form.settlementPA2+"%-"+this.form.settlementPA3+"%"
+      if (this.form.settlementP == "其他") {
+        if (this.form.settlementPA1 != null && this.form.settlementPA1 != "") {
+          this.form.settlementP = this.form.settlementPA1 + "%";
+          if (
+            this.form.settlementPA2 != null &&
+            this.form.settlementPA2 != ""
+          ) {
+            this.form.settlementP =
+              this.form.settlementPA1 + "%-" + this.form.settlementPA2 + "%";
+            if (
+              this.form.settlementPA3 != null &&
+              this.form.settlementPA3 != ""
+            ) {
+              this.form.settlementP =
+                this.form.settlementPA1 +
+                "%-" +
+                this.form.settlementPA2 +
+                "%-" +
+                this.form.settlementPA3 +
+                "%";
             }
           }
         }
         // this.form.settlementP=this.form.settlementPA1+"%-"+this.form.settlementPA2+"%-"+this.form.settlementPA3+"%"
       }
-      if(this.form.shSettlement=='其他'){
-        if(this.form.shSettlementA1!=null && this.form.shSettlementA1!=''){
-          this.form.shSettlement=this.form.shSettlementA1+"%";
-          if(this.form.shSettlementA2!=null && this.form.shSettlementA2!=''){
-            this.form.shSettlement=this.form.shSettlementA1+"%-"+this.form.shSettlementA2+"%"
-            if(this.form.shSettlementA3!=null && this.form.shSettlementA3!=''){
-              this.form.shSettlement=this.form.shSettlementA1+"%-"+this.form.shSettlementA2+"%-"+this.form.shSettlementA3+"%"
+      if (this.form.shSettlement == "其他") {
+        if (
+          this.form.shSettlementA1 != null &&
+          this.form.shSettlementA1 != ""
+        ) {
+          this.form.shSettlement = this.form.shSettlementA1 + "%";
+          if (
+            this.form.shSettlementA2 != null &&
+            this.form.shSettlementA2 != ""
+          ) {
+            this.form.shSettlement =
+              this.form.shSettlementA1 + "%-" + this.form.shSettlementA2 + "%";
+            if (
+              this.form.shSettlementA3 != null &&
+              this.form.shSettlementA3 != ""
+            ) {
+              this.form.shSettlement =
+                this.form.shSettlementA1 +
+                "%-" +
+                this.form.shSettlementA2 +
+                "%-" +
+                this.form.shSettlementA3 +
+                "%";
             }
           }
         }
         // this.form.shSettlement=this.form.shSettlementA1+"%-"+this.form.shSettlementA2+"%-"+this.form.shSettlementA3+"%"
       }
-    })
+    });
 
-    getProcessDataByStId("1",stId).then((res) => {
+    getProcessDataByStId("1", stId).then((res) => {
       this.stateList = res.data;
     });
   },
   methods: {
-    cancel(){
+    cancel() {
       this.$store.dispatch("tagsView/delView", this.$route);
       this.$router.go(-1);
     },
     //点击触发
     handlePreview(file) {
-      if(file.response==undefined){
-        window.open(file.url)
-      }else{
-        window.open(file.response.data.url)
+      if (file.response == undefined) {
+        window.open(file.url);
+      } else {
+        window.open(file.response.data.url);
       }
     },
     handleRemove(file, filelist) {
-      this.form.fileList=[];
-      for(let i=0;i<filelist.length;i++){
+      this.form.fileList = [];
+      for (let i = 0; i < filelist.length; i++) {
         if (filelist[i].response != undefined) {
-          let art = {"name": filelist[i].response.data.name, "url": filelist[i].response.data.url};
+          let art = {
+            name: filelist[i].response.data.name,
+            url: filelist[i].response.data.url,
+          };
           this.form.fileList.push(art);
-        }else {
-          let art = {"name": filelist[i].name, "url": filelist[i].url};
+        } else {
+          let art = { name: filelist[i].name, url: filelist[i].url };
           this.form.fileList.push(art);
         }
       }
     },
     handleExceed(files, fileList) {
-      this.$message.warning(`当前限制选择 5 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+      this.$message.warning(
+        `当前限制选择 5 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
+          files.length + fileList.length
+        } 个文件`
+      );
     },
     beforeRemove(file, fileList) {
-      return this.$confirm(`确定移除 ${ file.name }？`);
+      return this.$confirm(`确定移除 ${file.name}？`);
     },
     // res 表示请求响应体
     uploadSuccess(res, file, filelist) {
-      if (res.code == '200') {
-        this.form.fileList=[];
-        for(var i=0;i<filelist.length;i++) {
+      if (res.code == "200") {
+        this.form.fileList = [];
+        for (var i = 0; i < filelist.length; i++) {
           if (filelist[i].response != undefined) {
             let name = filelist[i].response.data.name;
             let url = filelist[i].response.data.url;
-            let art = {"name": name, "url": url};
+            let art = { name: name, url: url };
             this.form.fileList.push(art);
-          }else {
+          } else {
             let name = filelist[i].name;
             let url = filelist[i].url;
-            let art = {"name": name, "url": url};
+            let art = { name: name, url: url };
             this.form.fileList.push(art);
           }
         }
@@ -480,13 +515,12 @@ export default {
       } else {
         this.$message.error(res.msg);
         let index = filelist.indexOf(file);
-        filelist.splice(index,1);
+        filelist.splice(index, 1);
       }
     },
     uploadError(err, file, filelist) {
       this.$message.error("上传失败");
     },
-
-  }
+  },
 };
 </script>

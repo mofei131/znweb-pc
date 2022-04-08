@@ -10,6 +10,16 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
+
+      <el-form-item label="项目编号" prop="number">
+        <el-input
+          v-model="queryParams.number"
+          placeholder="请输入项目编号"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
       <el-form-item label="代办人" prop="userName">
         <el-input
           v-model="queryParams.userName"
@@ -860,7 +870,7 @@
       <div slot="footer" class="dialog-footer">
         <el-button v-if="active!='0' && isLook!=4"  type="info" @click="on">上一步</el-button>
         <el-button v-if="active!='4' & isLook!=4" type="success" @click="next">下一步</el-button>
-        <el-button v-if="isLook==4" type="primary" @click.once="submitForm" >确 定</el-button>
+        <el-button v-if="isLook==4" type="primary" @click="submitForm" >确 定</el-button>
         <el-button v-if="active=='4' && isLook!=3" type="primary" @click="submitForm" >确 定</el-button>
         <el-button @click="cancel">取 消</el-button>
       </div>

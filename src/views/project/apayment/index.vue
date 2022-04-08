@@ -28,6 +28,15 @@
           />
         </el-select>
       </el-form-item>
+      <el-form-item label="项目编号" prop="stNo">
+        <el-input
+          v-model="queryParams.stNo"
+          placeholder="请输入项目编号"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
       <el-form-item label="创建时间">
         <el-date-picker
           v-model="dateRange"
@@ -111,6 +120,7 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column label="项目名称" align="center" prop="stName" />
+      <el-table-column label="项目编号" align="center" prop="stNo" />
       <el-table-column label="付款批次" align="center" prop="away" />
       <el-table-column label="货品名称" align="center" prop="name" />
       <el-table-column label="入库总量(吨)" align="center" prop="grns">
@@ -247,7 +257,13 @@
     />
 
     <!-- 添加或修改预付款对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body>
+    <el-dialog
+      :title="title"
+      :visible.sync="open"
+      width="80%"
+      append-to-body
+      @opened="handleOpen"
+    >
       <el-form ref="form" :model="form" :rules="rules" label-width="180px">
         <div v-if="isLook != 4">
           <el-row>
@@ -961,7 +977,7 @@
                   :on-error="uploadError"
                   :before-remove="beforeRemove"
                   multiple
-                  :limit="5"
+                  :limit="10"
                   :on-exceed="handleExceed"
                   :file-list="fileList"
                 >
@@ -1052,7 +1068,11 @@
         </div>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click.once="submitForm" v-if="isLook != 3"
+        <el-button
+          type="primary"
+          @click="submitForm"
+          :disabled="isDisabled"
+          v-if="isLook != 3"
           >确 定</el-button
         >
         <el-button @click="cancel">取 消</el-button>
@@ -1134,7 +1154,7 @@
               </td>
             </tr>
           </table>
-          <table border="1" width="100%">
+          <table border="1" width="100%" v-if="printData.away != '提前付款'">
             <tr>
               <td class="title" colspan="10">出入库信息</td>
             </tr>
@@ -1146,9 +1166,24 @@
               <td class="table-td-title detail">批次</td>
               <td class="table-td-title detail">货值单价(元)</td>
               <td class="table-td-title detail">货值总额(元)</td>
-              <td class="table-td-title detail">入库重量(吨)</td>
-              <td class="table-td-title detail">入库热值(kcal)</td>
-              <td class="table-td-title detail">发货日期(kcal)</td>
+              <td class="table-td-title detail" v-if="printData.away == '首次'">
+                入库重量(吨)
+              </td>
+              <td class="table-td-title detail" v-if="printData.away == '首次'">
+                入库热值(kcal)
+              </td>
+              <td class="table-td-title detail" v-if="printData.away == '首次'">
+                发货日期
+              </td>
+              <td class="table-td-title detail" v-if="printData.away == '二次'">
+                出库重量(吨)
+              </td>
+              <td class="table-td-title detail" v-if="printData.away == '二次'">
+                出库热值(kcal)
+              </td>
+              <td class="table-td-title detail" v-if="printData.away == '二次'">
+                到货日期
+              </td>
             </tr>
             <tr v-for="(item, idx) in printData.dataList" :key="idx">
               <td class="table-td-content" style="text-align: center">
@@ -1172,18 +1207,52 @@
               <td class="table-td-content" style="text-align: center">
                 {{ $options.filters.moneyFilter(item.valueTprice) }}
               </td>
-              <td class="table-td-content" style="text-align: center">
+              <td
+                class="table-td-content"
+                style="text-align: center"
+                v-if="printData.away == '首次'"
+              >
                 {{ $options.filters.weightFilter(item.grnNumber) }}
               </td>
-              <td class="table-td-content" style="text-align: center">
+              <td
+                class="table-td-content"
+                style="text-align: center"
+                v-if="printData.away == '首次'"
+              >
                 {{ item.grnRz }}
               </td>
-              <td class="table-td-content" style="text-align: center">
+              <td
+                class="table-td-content"
+                style="text-align: center"
+                v-if="printData.away == '首次'"
+              >
+                {{ item.deliveryTime }}
+              </td>
+
+              <td
+                class="table-td-content"
+                style="text-align: center"
+                v-if="printData.away == '二次'"
+              >
+                {{ $options.filters.weightFilter(item.grnNumber) }}
+              </td>
+              <td
+                class="table-td-content"
+                style="text-align: center"
+                v-if="printData.away == '二次'"
+              >
+                {{ item.gryRz }}
+              </td>
+              <td
+                class="table-td-content"
+                style="text-align: center"
+                v-if="printData.away == '二次'"
+              >
                 {{ item.deliveryTime }}
               </td>
             </tr>
           </table>
-          <table border="1" width="100%">
+          <table border="1" width="100%" v-if="printData.away != '提前付款'">
             <tr>
               <td class="table-td-title detail">合计重量</td>
               <td class="table-td-title detail">平均热值</td>
@@ -1338,6 +1407,11 @@
               <td class="table-td-content" style="text-align: center">
                 {{ $options.filters.weightFilter(item.expectNumber) }}
               </td>
+            </tr>
+            <tr v-if="!printData.contract || printData.contract.length == 0">
+              <td class="table-td-content" style="text-align: center"></td>
+              <td class="table-td-content" style="text-align: center"></td>
+              <td class="table-td-content" style="text-align: center"></td>
             </tr>
             <tr>
               <td class="table-td-title detail">附件</td>
@@ -1629,6 +1703,7 @@ export default {
       // 打印
       printReviewVisible: false,
       printData: {},
+      isDisabled: false,
     };
   },
   created() {
@@ -1658,16 +1733,16 @@ export default {
   },
   methods: {
     // 合同类型字典翻译
-    contractTypeFormat(row, column) {
-      if (row.type == "1") {
+    contractTypeFormat(type) {
+      if (type == "1") {
         return "上游合同";
-      } else if (row.type == "2") {
+      } else if (type == "2") {
         return "下游合同";
-      } else if (row.type == "3") {
+      } else if (type == "3") {
         return "物流运输合同";
-      } else if (row.type == "4") {
+      } else if (type == "4") {
         return "物流服务合同";
-      } else if (row.type == "5") {
+      } else if (type == "5") {
         return "其他合同";
       }
     },
@@ -1797,10 +1872,10 @@ export default {
         this.tableselData = response.data.selnyList;
         this.fileList = this.form.fileList;
 
-        getGrnList(this.form.stId2).then((response) => {
+        getGrnList({ stId: this.form.stId2, yfState: "1" }).then((response) => {
           this.tableData = response.rows;
         });
-        getGryList(this.form.stId2).then((response) => {
+        getGryList({ stId: this.form.stId2, yfState: "1" }).then((response) => {
           this.tablegryData = response.rows;
         });
 
@@ -1841,6 +1916,7 @@ export default {
     },
     /** 提交按钮 */
     submitForm() {
+      this.isDisabled = true;
       this.$refs["form"].validate((valid) => {
         if (valid) {
           if (this.isLook != 4) {
@@ -1880,6 +1956,8 @@ export default {
               this.getList();
             });
           }
+        } else {
+          this.isDisabled = false;
         }
       });
     },
@@ -1936,7 +2014,7 @@ export default {
     },
     handleExceed(files, fileList) {
       this.$message.warning(
-        `当前限制选择 5 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
+        `当前限制选择 10 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
           files.length + fileList.length
         } 个文件`
       );
@@ -2448,6 +2526,9 @@ export default {
       } else {
         this.form.actualPrice = 0.0;
       }
+    },
+    handleOpen() {
+      this.isDisabled = false;
     },
     // 打印
     async resolveImg() {

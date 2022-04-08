@@ -133,7 +133,7 @@
       </el-row>
     </el-form>
     <div slot="footer" class="dialog-footer">
-      <el-button v-if="edit1==false || edit2==false" type="primary" @click.once="submitForm">确 定</el-button>
+      <el-button v-if="edit1==false || edit2==false" type="primary" @click="submitForm">确 定</el-button>
     </div>
   </div>
 </template>

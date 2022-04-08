@@ -32,6 +32,15 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
+      <el-form-item label="项目编号" prop="stNo">
+        <el-input
+          v-model="queryParams.stNo"
+          placeholder="请输入项目编号"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
       <el-form-item>
         <el-button
           type="primary"
@@ -102,6 +111,7 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column label="项目名称" align="center" prop="stName" />
+      <el-table-column label="项目编号" align="center" prop="stNo" />
       <el-table-column label="代办人" align="center" prop="uName" />
       <el-table-column label="供应商" align="center" prop="sName" />
       <el-table-column label="开票金额(元)" align="center" prop="kpPrice">
@@ -189,7 +199,13 @@
     />
 
     <!-- 添加或修改开票对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body>
+    <el-dialog
+      :title="title"
+      :visible.sync="open"
+      width="80%"
+      append-to-body
+      @opened="handleOpen"
+    >
       <el-form ref="form" :model="form" :rules="rules" label-width="180px">
         <!--        <el-row>-->
         <!--          <el-col :span="24">-->
@@ -349,7 +365,11 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click.once="submitForm" v-if="isLook != 3"
+        <el-button
+          type="primary"
+          @click="submitForm"
+          :disabled="isDisabled"
+          v-if="isLook != 3"
           >确 定</el-button
         >
         <el-button @click="cancel">取 消</el-button>
@@ -624,10 +644,13 @@ export default {
         kpPrice: [{ validator: validatePrice3, trigger: "blur" }],
         kpTax: [{ validator: validatePrice3, trigger: "blur" }],
         kpTotal: [{ validator: validatePrice3, trigger: "blur" }],
+        // zzTprice: [{ validator: validatePrice3, trigger: "blur" }],
+        // zzPrice: [{ validator: validatePrice3, trigger: "blur" }],
       },
       // 打印
       printReviewVisible: false,
       printData: {},
+      isDisabled: false,
     };
   },
   created() {
@@ -753,6 +776,12 @@ export default {
     },
     /** 提交按钮 */
     submitForm() {
+      this.isDisabled = true;
+      this.form.kpPrice = parseFloat(this.form.kpPrice).toFixed(2);
+      this.form.kpTax = parseFloat(this.form.kpTax).toFixed(2);
+      this.form.kpTotal = parseFloat(this.form.kpTotal).toFixed(2);
+      this.form.zzTprice = parseFloat(this.form.zzTprice).toFixed(2);
+      this.form.zzPrice = parseFloat(this.form.zzPrice).toFixed(2);
       this.$refs["form"].validate((valid) => {
         if (valid) {
           this.form.stId = this.form.stId2;
@@ -769,6 +798,8 @@ export default {
               this.getList();
             });
           }
+        } else {
+          this.isDisabled = false;
         }
       });
     },
@@ -891,6 +922,9 @@ export default {
         parseFloat(this.form.kpTotal) - parseFloat(this.form.kpPrice)
       ).toFixed(2);
     },
+    handleOpen() {
+      this.isDisabled = false;
+    },
     // 打印
     async resolveImg() {
       let imgBase64 = await this.getImage("print_area");
@@ -907,7 +941,7 @@ export default {
       this.printData = {};
       await getKp(row.kpId).then((response) => {
         this.printData = response.data;
-        this.printData.fileList = response.data.fileList | [];
+        this.printData.fileList = response.data.fileList || [];
         this.printData.printType = "开票管理";
       });
       await getProcessDataByStId("15", row.kpId).then((res) => {
