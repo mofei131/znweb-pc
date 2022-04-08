@@ -1189,7 +1189,7 @@
               合同名称：<span v-text="form.name"></span>
             </el-col>
             <el-col :span="4">
-              合同类型：<span>{{contractTypeFormat(form)}}</span>
+              合同类型：<span>{{ form.type }}</span>
             </el-col>
             <el-col :span="4">
               合同编号：<span v-text="form.number"></span>
@@ -1254,16 +1254,16 @@
             v-if="form.type == '物流运输合同' || form.type == '物流服务合同'"
           >
             <el-col :span="4" :offset="1">
-              运输单位：<span v-text="form.goodsName"></span>
+              运输单位：<span v-text="form.transportUnit"></span>
             </el-col>
             <el-col :span="4">
-              运输方式：<span v-text="form.expectNumber"></span>
+              运输方式：<span v-text="form.transportType"></span>
             </el-col>
             <el-col :span="4">
-              起运地：<span v-text="form.price"></span>
+              起运地：<span v-text="form.transportStart"></span>
             </el-col>
             <el-col :span="4">
-              目的地：<span v-text="form.mfsp"></span>
+              目的地：<span v-text="form.transportEnd"></span>
             </el-col>
           </el-row>
           <el-row
@@ -1272,11 +1272,11 @@
           >
             <el-col :span="4" :offset="1">
               运费单价(吨/元)：<span
-                v-text="$options.filters.weightFilter(form.goodsName)"
+                v-text="$options.filters.weightFilter(form.transportPrice)"
               ></span>
             </el-col>
             <el-col :span="4">
-              损耗率：<span v-text="form.expectNumber"></span>
+              损耗率：<span v-text="form.transportLoss"></span>
             </el-col>
           </el-row>
 
@@ -4146,16 +4146,7 @@ export default {
           this.form = response.data;
           this.fileList = response.data.fileList;
           this.bcfileList = response.data.filebcList;
-          if (this.form.type == "1") {
-            this.form.type = "上游合同";
-          } else if (this.form.type == "2") {
-            this.form.type = "下游合同";
-          } else if (this.form.type == "3") {
-            this.form.type = "物流运输合同";
-          } else if (this.form.type == "4") {
-            this.form.type = "物流服务合同";
-          }
-          console.log(this.fileList);
+          this.form.type = this.contractTypeFormat(this.form);
         });
       } else if (typeId == "4") {
         getApayment(stId).then((response) => {
