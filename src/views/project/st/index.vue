@@ -1295,7 +1295,7 @@
           @click="next"
           >下一步</el-button
         >
-        <el-button v-if="isLook == 4" type="primary" @click.once="submitForm"
+        <el-button v-if="isLook == 4" type="primary" @click="submitForm"
           >确 定</el-button
         >
         <el-button

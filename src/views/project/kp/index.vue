@@ -360,7 +360,7 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click.once="submitForm" v-if="isLook != 3"
+        <el-button type="primary" @click="submitForm" v-if="isLook != 3"
           >确 定</el-button
         >
         <el-button @click="cancel">取 消</el-button>
@@ -635,6 +635,8 @@ export default {
         kpPrice: [{ validator: validatePrice3, trigger: "blur" }],
         kpTax: [{ validator: validatePrice3, trigger: "blur" }],
         kpTotal: [{ validator: validatePrice3, trigger: "blur" }],
+        // zzTprice: [{ validator: validatePrice3, trigger: "blur" }],
+        // zzPrice: [{ validator: validatePrice3, trigger: "blur" }],
       },
       // 打印
       printReviewVisible: false,
@@ -764,6 +766,11 @@ export default {
     },
     /** 提交按钮 */
     submitForm() {
+      this.form.kpPrice = parseFloat(this.form.kpPrice).toFixed(2)
+      this.form.kpTax = parseFloat(this.form.kpTax).toFixed(2)
+      this.form.kpTotal = parseFloat(this.form.kpTotal).toFixed(2)
+      this.form.zzTprice = parseFloat(this.form.zzTprice).toFixed(2)
+      this.form.zzPrice = parseFloat(this.form.zzPrice).toFixed(2)
       this.$refs["form"].validate((valid) => {
         if (valid) {
           this.form.stId = this.form.stId2;
