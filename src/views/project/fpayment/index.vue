@@ -1085,7 +1085,15 @@
                 {{ item.processValue }}
               </td>
               <td class="table-td-content" style="text-align: center">
-                {{ item.status == 0 ? "驳回" : item.status == 1 ? "通过" : "" }}
+                {{
+                  item.status == 0
+                    ? "驳回"
+                    : item.status == 1
+                    ? "通过"
+                    : item.status == 5
+                    ? "撤回"
+                    : ""
+                }}
               </td>
             </tr>
           </table>
