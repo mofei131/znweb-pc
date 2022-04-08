@@ -3701,7 +3701,7 @@
               <el-form-item label="退款管理查看"></el-form-item>
             </el-col>
             <el-col :span="5">
-              <span>{{ form.state }}</span>
+              <span style="color: #ff0000">{{ stateF(form.state) }}</span>
             </el-col>
           </el-row>
           <el-row class="head-text">

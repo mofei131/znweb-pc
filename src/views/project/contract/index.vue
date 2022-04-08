@@ -286,7 +286,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item label="项目编号" prop="name">
-                {{ form.number }}
+                {{ form.projectNumber }}
               </el-form-item>
             </el-col>
           </el-row>
@@ -1638,7 +1638,7 @@ export default {
     changeSt(obj) {
       this.form.stId2 = obj.stId;
       this.form.stName = obj.name;
-      this.$set(this.form, "number", obj.number);
+      this.form.projectNumber = obj.number;
 
       this.form.supplierId = obj.supplierName;
       this.form.supplierId2 = obj.supplierId;
