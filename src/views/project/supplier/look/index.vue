@@ -91,7 +91,7 @@
       </el-row>
 
       <el-row class="head-text">
-        <el-col :span="6" :offset="1">
+        <el-col :span="18" :offset="1">
           <el-form-item label="附件：" prop="file">
             <!-- <el-upload
               disabled
