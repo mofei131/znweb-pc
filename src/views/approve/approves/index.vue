@@ -1189,7 +1189,7 @@
               合同名称：<span v-text="form.name"></span>
             </el-col>
             <el-col :span="4">
-              合同类型：<span v-text="form.type"></span>
+              合同类型：<span>{{contractTypeFormat(form)}}</span>
             </el-col>
             <el-col :span="4">
               合同编号：<span v-text="form.number"></span>

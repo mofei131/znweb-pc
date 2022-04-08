@@ -431,8 +431,6 @@ export default {
         callback(new Error('不能为空'))
       }else if(!reg.test(value)){
         callback(new Error('请输入正确格式'))
-      }else if(value.length > 10){
-        callback(new Error('最多可输入10个字符'))
       }else{
         callback();
       }

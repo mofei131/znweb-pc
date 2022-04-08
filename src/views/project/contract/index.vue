@@ -291,7 +291,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="项目编号" prop="name">
+              <el-form-item label="项目编号" prop="projectNumber">
                 {{ form.projectNumber }}
               </el-form-item>
             </el-col>
