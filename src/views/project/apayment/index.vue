@@ -1144,7 +1144,7 @@
               </td>
             </tr>
           </table>
-          <table border="1" width="100%">
+          <table border="1" width="100%" v-if="printData.away != '提前付款'">
             <tr>
               <td class="title" colspan="10">出入库信息</td>
             </tr>
@@ -1156,9 +1156,24 @@
               <td class="table-td-title detail">批次</td>
               <td class="table-td-title detail">货值单价(元)</td>
               <td class="table-td-title detail">货值总额(元)</td>
-              <td class="table-td-title detail">入库重量(吨)</td>
-              <td class="table-td-title detail">入库热值(kcal)</td>
-              <td class="table-td-title detail">发货日期(kcal)</td>
+              <td class="table-td-title detail" v-if="printData.away == '首次'">
+                入库重量(吨)
+              </td>
+              <td class="table-td-title detail" v-if="printData.away == '首次'">
+                入库热值(kcal)
+              </td>
+              <td class="table-td-title detail" v-if="printData.away == '首次'">
+                发货日期
+              </td>
+              <td class="table-td-title detail" v-if="printData.away == '二次'">
+                出库重量(吨)
+              </td>
+              <td class="table-td-title detail" v-if="printData.away == '二次'">
+                出库热值(kcal)
+              </td>
+              <td class="table-td-title detail" v-if="printData.away == '二次'">
+                到货日期
+              </td>
             </tr>
             <tr v-for="(item, idx) in printData.dataList" :key="idx">
               <td class="table-td-content" style="text-align: center">
@@ -1182,18 +1197,52 @@
               <td class="table-td-content" style="text-align: center">
                 {{ $options.filters.moneyFilter(item.valueTprice) }}
               </td>
-              <td class="table-td-content" style="text-align: center">
+              <td
+                class="table-td-content"
+                style="text-align: center"
+                v-if="printData.away == '首次'"
+              >
                 {{ $options.filters.weightFilter(item.grnNumber) }}
               </td>
-              <td class="table-td-content" style="text-align: center">
+              <td
+                class="table-td-content"
+                style="text-align: center"
+                v-if="printData.away == '首次'"
+              >
                 {{ item.grnRz }}
               </td>
-              <td class="table-td-content" style="text-align: center">
+              <td
+                class="table-td-content"
+                style="text-align: center"
+                v-if="printData.away == '首次'"
+              >
+                {{ item.deliveryTime }}
+              </td>
+
+              <td
+                class="table-td-content"
+                style="text-align: center"
+                v-if="printData.away == '二次'"
+              >
+                {{ $options.filters.weightFilter(item.grnNumber) }}
+              </td>
+              <td
+                class="table-td-content"
+                style="text-align: center"
+                v-if="printData.away == '二次'"
+              >
+                {{ item.gryRz }}
+              </td>
+              <td
+                class="table-td-content"
+                style="text-align: center"
+                v-if="printData.away == '二次'"
+              >
                 {{ item.deliveryTime }}
               </td>
             </tr>
           </table>
-          <table border="1" width="100%">
+          <table border="1" width="100%" v-if="printData.away != '提前付款'">
             <tr>
               <td class="table-td-title detail">合计重量</td>
               <td class="table-td-title detail">平均热值</td>
