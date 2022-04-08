@@ -519,7 +519,7 @@
             <tr>
               <td class="table-td-title detail">发票面额</td>
               <td class="table-td-content">
-                {{ $options.filters.moneyFilter(printData.invoiceType) }}
+                {{ printData.invoiceType }}
               </td>
               <td class="table-td-title detail">企业性质</td>
               <td class="table-td-content">
