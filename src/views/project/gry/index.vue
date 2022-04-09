@@ -652,6 +652,7 @@
           <el-col :span="12">
             <el-form-item label="货值单价(元)" prop="valuePrice">
               <el-input
+                type="number"
                 v-model="form.valuePrice"
                 placeholder="请输入货值单价"
               />
@@ -660,6 +661,7 @@
           <el-col :span="12">
             <el-form-item label="货值总价(元)" prop="valueTprice">
               <el-input
+                type="number"
                 v-model="form.valueTprice"
                 placeholder="请输入货值总价"
               />
@@ -1181,7 +1183,7 @@ export default {
           // { required: true, validator: validatePrice, trigger: "blur" }
         ],
         valueTprice: [
-          { required: true, validator: validatePrice, trigger: "blur" },
+          { required: true, message: "请输入货值总价", trigger: "blur" },
         ],
         coalSf: [{ required: true, validator: validatePrice, trigger: "blur" }],
         coalNs: [{ required: true, validator: validatePrice, trigger: "blur" }],

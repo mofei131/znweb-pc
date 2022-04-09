@@ -508,6 +508,7 @@
           <el-col :span="12">
             <el-form-item label="货值单价(元)" prop="valuePrice">
               <el-input
+                type="number"
                 v-model="form.valuePrice"
                 placeholder="请输入货值单价"
                 @change="calculate"
@@ -517,6 +518,7 @@
           <el-col :span="12">
             <el-form-item label="货值总额(元)" prop="valueTprice">
               <el-input
+                type="number"
                 v-model="form.valueTprice"
                 placeholder="请输入货值总额"
               />
@@ -903,8 +905,6 @@ export default {
         callback(new Error("不能为空"));
       } else if (!reg.test(value)) {
         callback(new Error("请输入正确格式"));
-      } else if (value.length > 10) {
-        callback(new Error("最多可输入10个字符"));
       } else {
         callback();
       }
@@ -916,8 +916,6 @@ export default {
         callback(new Error("不能为空"));
       } else if (!reg.test(value)) {
         callback(new Error("请输入正确格式"));
-      } else if (value.length > 10) {
-        callback(new Error("最多可输入10个字符"));
       } else {
         callback();
       }
@@ -1000,7 +998,7 @@ export default {
           // { required: true, validator: validatePrice, trigger: "blur" }
         ],
         valueTprice: [
-          { required: true, validator: validatePrice, trigger: "blur" },
+          { required: true, message: "请输入货值总额", trigger: "blur" },
         ],
         coalSf: [{ required: true, validator: validatePrice, trigger: "blur" }],
         coalNs: [{ required: true, validator: validatePrice, trigger: "blur" }],
