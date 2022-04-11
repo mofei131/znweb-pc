@@ -1208,6 +1208,8 @@ export default {
         //y轴
         yAxis: {
           type: "value",
+          axisLine: {show:true},
+          axisTick: {show:true}
         },
         grid: {
           containLabel: true,
@@ -1223,7 +1225,7 @@ export default {
           //自定义鼠标放到统计图的某一项上展示的内容，formatter的值可以是字符串也可以是函数
           // formatter:'{b} 的成绩是 {c}'
           formatter: function (arg) {
-            return arg[0].value;
+            return `${arg[0].value}`;
           },
         },
         series: {
