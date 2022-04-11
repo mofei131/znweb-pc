@@ -237,19 +237,19 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="项目编号" prop="name">
+            <el-form-item label="项目编号">
               {{ form.number }}
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="代办人" prop="kpPrice">
+            <el-form-item label="代办人" prop="uName">
               <el-input v-model="form.uName" placeholder="请输入代办人" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="供应商" prop="kpTax">
+            <el-form-item label="供应商" prop="sName">
               <el-input v-model="form.sName" placeholder="请输入供应商" />
             </el-form-item>
           </el-col>
@@ -257,7 +257,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="开票金额(元)" prop="kpPrice">
-              <el-input
+              <el-input type="number"
                 v-model="form.kpPrice"
                 placeholder="请输入开票金额(元)"
               />
@@ -265,14 +265,14 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="开票税额(元)" prop="kpTax">
-              <el-input v-model="form.kpTax" placeholder="请输入开票税额(元)" />
+              <el-input type="number" v-model="form.kpTax" placeholder="请输入开票税额(元)" />
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="价税合计(元)" prop="kpTotal">
-              <el-input
+              <el-input type="number"
                 @change="jsTax"
                 v-model="form.kpTotal"
                 placeholder="请输入价税合计(元)"
@@ -284,7 +284,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="电厂结算金额" prop="zzTprice">
-              <el-input
+              <el-input type="number"
                 v-model="form.zzTprice"
                 placeholder="请输入电厂结算金额(元)"
               />
@@ -292,9 +292,9 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="合计重量" prop="zzWeight">
-              <el-input
+              <el-input type="number"
                 v-model="form.zzWeight"
-                placeholder="请输入合计重量(元)"
+                placeholder="请输入合计重量"
               />
             </el-form-item>
           </el-col>
@@ -302,7 +302,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="货品单价" prop="zzPrice">
-              <el-input
+              <el-input type="number"
                 v-model="form.zzPrice"
                 placeholder="请输入货品单价(元)"
               />
@@ -321,7 +321,7 @@
           <!--            </el-form-item>-->
           <!--          </el-col>-->
           <el-col :span="12">
-            <el-form-item label="货品型号" prop="kpTax">
+            <el-form-item label="货品型号" prop="xh">
               <el-input v-model="form.xh" placeholder="请输入货品型号" />
             </el-form-item>
           </el-col>
@@ -641,11 +641,16 @@ export default {
       form: {},
       // 表单校验
       rules: {
-        kpPrice: [{ validator: validatePrice3, trigger: "blur" }],
-        kpTax: [{ validator: validatePrice3, trigger: "blur" }],
-        kpTotal: [{ validator: validatePrice3, trigger: "blur" }],
-        // zzTprice: [{ validator: validatePrice3, trigger: "blur" }],
-        // zzPrice: [{ validator: validatePrice3, trigger: "blur" }],
+        stId: [{ required: true, message: "请选择项目名称", trigger: "blur" }],
+        uName: [{ required: true, message: "请输入代办人", trigger: "blur" }],
+        sName: [{ required: true, message: "请输入供应商", trigger: "blur" }],
+        kpPrice: [{ required: true, message: "请输入开票金额", trigger: "blur" },{ validator: validatePrice3, trigger: "blur" }],
+        kpTax: [{ required: true, message: "请输入开票税额", trigger: "blur" },{ validator: validatePrice3, trigger: "blur" }],
+        kpTotal: [{ required: true, message: "请输入价税合计", trigger: "blur" },{ validator: validatePrice3, trigger: "blur" }],
+        zzTprice: [{ required: true, message: "请输入电厂结算金额", trigger: "blur" },{ validator: validatePrice3, trigger: "blur" }],
+        zzPrice: [{ required: true, message: "请输入货品单价", trigger: "blur" },{ validator: validatePrice3, trigger: "blur" }],
+        zzWeight: [{ required: true, message: "请输入合计重量", trigger: "blur" }],
+        mc: [{ required: true, message: "请输入货品名称", trigger: "blur" }],
       },
       // 打印
       printReviewVisible: false,
@@ -777,11 +782,6 @@ export default {
     /** 提交按钮 */
     submitForm() {
       this.isDisabled = true;
-      this.form.kpPrice = parseFloat(this.form.kpPrice).toFixed(2);
-      this.form.kpTax = parseFloat(this.form.kpTax).toFixed(2);
-      this.form.kpTotal = parseFloat(this.form.kpTotal).toFixed(2);
-      this.form.zzTprice = parseFloat(this.form.zzTprice).toFixed(2);
-      this.form.zzPrice = parseFloat(this.form.zzPrice).toFixed(2);
       this.$refs["form"].validate((valid) => {
         if (valid) {
           this.form.stId = this.form.stId2;
