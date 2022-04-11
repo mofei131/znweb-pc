@@ -213,6 +213,8 @@
               {{ form.stNumber }}
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row>
           <el-col :span="12">
             <el-form-item label="单价模式" prop="unitPriceMode">
               <el-radio-group v-model="form.unitPriceMode">
@@ -230,6 +232,8 @@
               <el-input v-model="form.bidPrice" placeholder="请输入单价" />
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row>
           <el-col :span="12">
             <el-form-item label="投标平台" prop="bidPlatform">
               <el-input
@@ -243,6 +247,8 @@
               <el-input v-model="form.bidBond" placeholder="请输入投标保证金" />
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row>
           <el-col :span="12">
             <el-form-item label="履约保证金(元)" prop="performanceBond">
               <el-input
@@ -256,6 +262,8 @@
               <el-input v-model="form.bidNumber" placeholder="请输入投标数量" />
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row>
           <el-col :span="12">
             <el-form-item label="发站" prop="sendStation">
               <el-input v-model="form.sendStation" placeholder="请输入发站" />
@@ -266,6 +274,8 @@
               <el-input v-model="form.arriveStation" placeholder="请输入到站" />
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row>
           <el-col :span="24">
             <el-form-item label="备注" prop="remark">
               <el-input
@@ -275,6 +285,8 @@
               />
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row>
           <el-col :span="24">
             <el-form-item label="附件">
               <el-upload

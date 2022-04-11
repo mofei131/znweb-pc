@@ -220,6 +220,8 @@
               {{ form.stNumber }}
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row>
           <el-col :span="12">
             <el-form-item label="终端用户" prop="terminalId">
               <el-select
@@ -244,6 +246,8 @@
               <el-input v-model="form.account" placeholder="请输入账号" />
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row>
           <el-col :span="12">
             <el-form-item label="开户行" prop="bank">
               <el-input v-model="form.bank" placeholder="请输入开户行" />
@@ -257,6 +261,8 @@
               />
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row>
           <el-col :span="12">
             <el-form-item label="备注" prop="remark">
               <el-input
@@ -266,6 +272,8 @@
               />
             </el-form-item>
           </el-col>
+        </el-row>
+        <el-row>
           <el-col :span="24">
             <el-form-item label="附件">
               <el-upload
