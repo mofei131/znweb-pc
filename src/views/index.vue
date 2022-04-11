@@ -463,7 +463,7 @@
               >
               </el-date-picker>
             </div>
-            <div id="chart"></div>
+            <div id="chartA"></div>
           </div>
         </el-col>
         <el-col :span="10"
@@ -784,7 +784,7 @@ html,body{
   min-width:1530px;
   overflow-x:auto
 }
-#chart {
+#chartA {
   width: 100%;
   height: 345px;
 }
@@ -802,7 +802,6 @@ import shoukuan from "@/assets/logo/shoukuan-4.png";
 import ruku from "@/assets/logo/ruku-2.png";
 import chuku from "@/assets/logo/chuku.png";
 import qijianfeiyong from "@/assets/logo/shoukuan-3.png";
-import echarts from "echarts";
 import { listKp } from "@/api/project/kp";
 import { listAtakeup } from "@/api/project/atakeup";
 import { listPtakeup } from "@/api/project/ptakeup";
@@ -1186,8 +1185,7 @@ export default {
       });
     },
     myEcharts() {
-      const chartDom = document.getElementById("chart");
-      const chart = echarts.init(chartDom);
+      const chart = this.$echarts.init(document.getElementById("chartA"));
       chart.setOption({
         //x轴
         xAxis: {
@@ -1237,7 +1235,7 @@ export default {
               itemStyle: {
                 normal: {
                   barBorderRadius: item > 0 ? [15, 15, 0, 0] : [0, 0, 15, 15], // 动态设置柱状图圆角
-                  color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
                 {
                   offset: 0,
                   color: "#00C0FA",
