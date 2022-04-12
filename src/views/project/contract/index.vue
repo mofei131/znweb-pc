@@ -23,10 +23,10 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="项目编号" prop="name">
+      <el-form-item label="项目编号" prop="projectNumber">
                
         <el-input
-          v-model="queryParams.number"
+          v-model="queryParams.projectNumber"
           placeholder="请输入项目编号"
           clearable
           size="small"
@@ -35,7 +35,7 @@
              
       </el-form-item>
            
-      <el-form-item label="立项编号" prop="name">
+      <el-form-item label="立项编号" prop="productNo">
                
         <el-input
           v-model="queryParams.productNo"
@@ -150,7 +150,7 @@
     >
       <el-table-column label="项目名称" align="center" prop="stName" />
       <el-table-column label="立项编号" align="center" prop="productNo" />
-      <el-table-column label="项目编号" align="center" prop="number" />
+      <el-table-column label="项目编号" align="center" prop="projectNumber" />
       <el-table-column label="合同名称" align="center" prop="name" />
       <el-table-column label="合同编号" align="center" prop="number" />
       <el-table-column
