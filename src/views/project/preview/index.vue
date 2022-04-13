@@ -67,7 +67,7 @@ export default {
           // 支持在线预览
           this.previewUrl =
             `${process.env.VUE_APP_BASE_API}/file/urlResolve?path=` +
-            Base64.encode(encodeURIComponent(url));
+            Base64.encode(url);
           this.supportPreview = true;
         } else {
           // 不支持在线预览

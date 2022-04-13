@@ -108,10 +108,8 @@ export default {
       let url = "";
       if (file.response == undefined) {
         url = file.url;
-        //window.open(file.url)
       } else {
         url = file.response.data.url;
-        //window.open(file.response.data.url)
       }
       parseUrl({ path: Base64.encode(url) }).then((response) => {
         let support = response.data.support;
@@ -119,11 +117,6 @@ export default {
         if (support) {
           // 支持在线预览
           window.open("/preview/index?fileId=" + file.fileId);
-          // this.previewUrl =
-          //   `${process.env.VUE_APP_BASE_API}/file/urlResolve?path=` +
-          //   Base64.encode(url);
-          // this.supportPreview = true;
-          // this.previewDialogVisible = true;
         } else {
           // 不支持在线预览
           this.supportPreview = false;
@@ -133,9 +126,9 @@ export default {
     },
     handleDownload(file) {
       if (file.response == undefined) {
-        window.open(file.url);
+        window.open(`${process.env.VUE_APP_BASE_API}/file/download?path=`+Base64.encode(file.url));
       } else {
-        window.open(file.response.data.url);
+        window.open(`${process.env.VUE_APP_BASE_API}/file/download?path=`+Base64.encode(file.response.data.url));
       }
     },
     handleRemove(file) {
