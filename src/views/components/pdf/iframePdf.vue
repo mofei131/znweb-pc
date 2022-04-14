@@ -23,6 +23,7 @@ export default {
         lock: true,
         text: '加载中'
       });
+      document.getElementById('iframe_document').height = document.documentElement.clientHeight-document.getElementById('iframe_document').offsetTop-80;
       document.getElementById('iframe_document').onload=function(){ 
         loadingInstance.close();
       }
