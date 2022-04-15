@@ -60,19 +60,19 @@ export default {
         url = file.response.data.url;
         //window.open(file.response.data.url)
       }
-      parseUrl({ path: Base64.encode(url) }).then((response) => {
+      parseUrl({ path: Base64.encode(encodeURIComponent(url)) }).then((response) => {
         let support = response.data.support;
         this.previewFileType = response.data.type;
         if (support) {
           // 支持在线预览
           this.previewUrl =
             `${process.env.VUE_APP_BASE_API}/file/urlResolve?path=` +
-            Base64.encode(url);
+            Base64.encode(encodeURIComponent(url));
           this.supportPreview = true;
         } else {
           // 不支持在线预览
           this.supportPreview = false;
-          window.open(url);
+          window.open(`${process.env.VUE_APP_BASE_API}/file/download?path=`+Base64.encode(encodeURIComponent(url)));
         }
       });
     },
