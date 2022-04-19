@@ -111,7 +111,7 @@ export default {
       } else {
         url = file.response.data.url;
       }
-      parseUrl({ path: Base64.encode(url) }).then((response) => {
+      parseUrl({ path: Base64.encode(encodeURIComponent(encodeURIComponent(url))) }).then((response) => {
         let support = response.data.support;
         this.previewFileType = response.data.type;
         if (support) {
@@ -120,15 +120,15 @@ export default {
         } else {
           // 不支持在线预览
           this.supportPreview = false;
-          window.open(url);
+          window.open(`${process.env.VUE_APP_BASE_API}/file/download?path=`+Base64.encode(encodeURIComponent(url)));
         }
       });
     },
     handleDownload(file) {
       if (file.response == undefined) {
-        window.open(`${process.env.VUE_APP_BASE_API}/file/download?path=`+Base64.encode(file.url));
+        window.open(`${process.env.VUE_APP_BASE_API}/file/download?path=`+Base64.encode(encodeURIComponent(file.url)));
       } else {
-        window.open(`${process.env.VUE_APP_BASE_API}/file/download?path=`+Base64.encode(file.response.data.url));
+        window.open(`${process.env.VUE_APP_BASE_API}/file/download?path=`+Base64.encode(encodeURIComponent(file.response.data.url)));
       }
     },
     handleRemove(file) {

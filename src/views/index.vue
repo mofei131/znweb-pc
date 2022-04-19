@@ -154,7 +154,7 @@
                   "
                 >
                   <div
-                    style="font-size: 30px; font-weight: 400; color: #fbfdfd"
+                    style="font-size: 1.5rem; font-weight: 400; color: #fbfdfd"
                   >
                     {{ sc.toFixed(2)
                       .toString()
@@ -201,7 +201,7 @@
                   "
                 >
                   <div
-                    style="font-size: 30px; font-weight: 400; color: #fbfdfd"
+                    style="font-size: 1.5rem; font-weight: 400; color: #fbfdfd"
                   >
                     {{ sf.toFixed(2)
                       .toString()
@@ -247,7 +247,7 @@
                   "
                 >
                   <div
-                    style="font-size: 30px; font-weight: 400; color: #fbfdfd"
+                    style="font-size: 1.5rem; font-weight: 400; color: #fbfdfd"
                   >
                     {{ yf.toFixed(2)
                       .toString()
