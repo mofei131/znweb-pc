@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container" style="height: 100%;overflow: auto;margin: 0">
+  <div class="app-container">
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="我的发起" name="first">
         <div class="top">

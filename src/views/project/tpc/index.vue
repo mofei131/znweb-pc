@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container" style="height: 100%;overflow: auto;margin: 0">
+  <div class="app-container">
     <el-form
       :model="queryParams"
       ref="queryForm"

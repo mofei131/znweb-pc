@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container" style="height: 100%;overflow: auto;margin: 0">
+  <div class="app-container">
     <div class="top">
       <el-form :model="fromCc" ref="ruleForm" :inline="true" label-width="80px">
         <el-form-item label="流程名称">

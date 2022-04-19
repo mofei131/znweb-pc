@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container" style="height: 100%;overflow: auto;margin: 0">
+  <div class="app-container">
      <el-form :model="queryParams" ref="queryForm" v-show="showSearch" :inline="true">
       <el-form-item label="用户名称" prop="userName">
         <el-input

@@ -9,7 +9,7 @@
 }
 </style>
 <template>
-  <div class="app-container" style="height: 100%;overflow: auto;margin: 0">
+  <div class="app-container">
     <!-- 添加或修改前段管理对话框 -->
     <el-form ref="form" :model="form" :rules="rules" label-width="80px">
       <el-row style="margin-bottom: 20px;">
