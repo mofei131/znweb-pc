@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container">
+  <div class="app-container" style="height: 100%;overflow: auto;margin: 0">
     <div>
       <div class="top">
         <el-form :model="from" ref="ruleForm" :inline="true" label-width="80px">
