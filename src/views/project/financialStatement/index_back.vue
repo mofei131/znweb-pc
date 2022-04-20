@@ -230,7 +230,7 @@
                   {{ $options.filters.moneyFilter(data2.qmOcc) }}
                 </div>
               </div>
-              <!-- <div class="briefing_items2">
+              <div class="briefing_items2">
                 <div class="briefing_items_top">
                   <div class="bottom_left">
                     <img
@@ -259,7 +259,7 @@
                 <div class="briefing_items_bottom">
                   {{ data2.turnoverRate }}
                 </div>
-              </div> -->
+              </div>
             </div>
           </div>
         </el-col>
@@ -1338,7 +1338,7 @@ export default {
         animationDurationUpdate: _animationDurationUpdate,
         animationEasingUpdate: _animationEasingUpdate,
         dataset: {
-          source: [[0, this.data5.progressRate | 0]],
+          source: [[0, this.data5.actualFk | 0]],
         },
         tooltip: {},
         angleAxis: {
@@ -1514,7 +1514,7 @@ export default {
         animationDurationUpdate: _animationDurationUpdate,
         animationEasingUpdate: _animationEasingUpdate,
         dataset: {
-          source: [[0, this.data6.progressRate | 0]],
+          source: [[0, this.data6.actualSk | 0]],
         },
         tooltip: {},
         angleAxis: {
@@ -1594,7 +1594,6 @@ export default {
       }).then((res) => {
         this.data5 = res.data;
         this.progressRate1 = res.data.progressRate;
-        this.myEcharts();
       });
     },
     getStatisticSk() {
@@ -1607,7 +1606,6 @@ export default {
       }).then((res) => {
         this.data6 = res.data;
         this.progressRate2 = res.data.progressRate;
-        this.myEcharts2();
       });
     },
   },
@@ -1768,7 +1766,7 @@ export default {
         }
       }
       .briefing_items2 {
-        width: 50%;
+        width: 25%;
         margin-left: 1%;
         height: 97px;
         background: linear-gradient(266deg, #f6f7fb, #f3f7fa);
