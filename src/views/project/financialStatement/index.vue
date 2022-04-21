@@ -1338,7 +1338,7 @@ export default {
         animationDurationUpdate: _animationDurationUpdate,
         animationEasingUpdate: _animationEasingUpdate,
         dataset: {
-          source: [[0, this.data5.actualFk | 0]],
+          source: [[0, this.data5.progressRate | 0]],
         },
         tooltip: {},
         angleAxis: {
@@ -1514,7 +1514,7 @@ export default {
         animationDurationUpdate: _animationDurationUpdate,
         animationEasingUpdate: _animationEasingUpdate,
         dataset: {
-          source: [[0, this.data6.actualSk | 0]],
+          source: [[0, this.data6.progressRate | 0]],
         },
         tooltip: {},
         angleAxis: {
@@ -1594,6 +1594,7 @@ export default {
       }).then((res) => {
         this.data5 = res.data;
         this.progressRate1 = res.data.progressRate;
+        this.myEcharts();
       });
     },
     getStatisticSk() {
@@ -1606,6 +1607,7 @@ export default {
       }).then((res) => {
         this.data6 = res.data;
         this.progressRate2 = res.data.progressRate;
+        this.myEcharts2();
       });
     },
   },
