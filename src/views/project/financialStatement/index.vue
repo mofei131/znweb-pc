@@ -96,7 +96,7 @@
                   </div>
                   <div class="bottom_right">开票总额(元)</div>
                 </div>
-                <div class="briefing_items_bottom">
+                <div class="briefing_items_bottom" style="font-size:14px">
                   {{ $options.filters.moneyFilter(data1.kpAmount) }}
                 </div>
               </div>
@@ -111,7 +111,7 @@
                   </div>
                   <div class="bottom_right">开票总数量(吨)</div>
                 </div>
-                <div class="briefing_items_bottom">
+                <div class="briefing_items_bottom" style="font-size:14px">
                   {{ $options.filters.weightFilter(data1.kpNum) }}
                 </div>
               </div>
@@ -126,7 +126,7 @@
                   </div>
                   <div class="bottom_right">收票总额(元)</div>
                 </div>
-                <div class="briefing_items_bottom">
+                <div class="briefing_items_bottom" style="font-size:14px">
                   {{ $options.filters.moneyFilter(data1.spAmount) }}
                 </div>
               </div>
@@ -141,7 +141,7 @@
                   </div>
                   <div class="bottom_right">收票总数量(吨)</div>
                 </div>
-                <div class="briefing_items_bottom">
+                <div class="briefing_items_bottom" style="font-size:14px">
                   {{ $options.filters.weightFilter(data1.spNum) }}
                 </div>
               </div>
@@ -156,7 +156,7 @@
                   </div>
                   <div class="bottom_right">营业利润</div>
                 </div>
-                <div class="briefing_items_bottom">
+                <div class="briefing_items_bottom" style="font-size:14px">
                   {{ $options.filters.moneyFilter(data1.businessProfits) }}
                 </div>
               </div>
@@ -171,7 +171,7 @@
                   </div>
                   <div class="bottom_right">净利润</div>
                 </div>
-                <div class="briefing_items_bottom">
+                <div class="briefing_items_bottom" style="font-size:14px">
                   {{ $options.filters.moneyFilter(data1.profitsPrice) }}
                 </div>
               </div>
@@ -367,19 +367,21 @@
                     background-color: #e8e9ed;
                   "
                 ></div>
+                                <div v-if="rate<=100" :style="'margin-top:10px;margin-left:' + (rate-2) + '%'">
+                    {{ rate + "%" }}
+                  </div>
+                  <div v-if="rate>100" style="margin-top:10px;margin-left:95%">
+                      {{ rate + "%" }}
+                    </div>
                 <div
                   style="
-                    margin-top: 15px;
                     display: flex;
                     position: relative;
                     font-size: 13px;
                   "
                 >
-                  <div style="margin-top: 20px">0(收款进度)</div>
-                  <div :style="'margin-left:' + (rate - 13) + '%'">
-                    {{ rate + "%" }}
-                  </div>
-                  <div style="margin-top: 20px; position: absolute; right: 0">
+                  <div style="margin-top: 10px">0%(收款进度)</div>
+                  <div style="margin-top: 10px; position: absolute; right: 0">
                     100%
                   </div>
                 </div>
@@ -637,19 +639,21 @@
                       background-color: #e8e9ed;
                     "
                   ></div>
+                                    <div v-if="rate1<=100" :style="'margin-top:10px;margin-left:' + (rate1) + '%'">
+                      {{ rate1 + "%" }}
+                    </div>
+                    <div v-if="rate1>100" style="margin-top:10px;margin-left:95%">
+                      {{ rate1 + "%" }}
+                    </div>
                   <div
                     style="
-                      margin-top: 15px;
                       display: flex;
                       position: relative;
                       font-size: 13px;
                     "
                   >
-                    <div style="margin-top: 20px">0(付款进度)</div>
-                    <div :style="'margin-left:' + (rate1 - 13) + '%'">
-                      {{ rate1 + "%" }}
-                    </div>
-                    <div style="margin-top: 20px; position: absolute; right: 0">
+                    <div style="margin-top: 10px">0%(付款进度)</div>
+                    <div style="margin-top: 10px; position: absolute; right: 0">
                       100%
                     </div>
                   </div>
