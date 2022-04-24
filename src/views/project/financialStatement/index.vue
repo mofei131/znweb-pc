@@ -8,6 +8,7 @@
             v-model="formInline.agentId"
             placeholder="代办人"
             @change="chengeUser"
+            filterable
           >
             <el-option
               v-for="(item, index) in userList"
@@ -22,6 +23,7 @@
             size="mini"
             v-model="formInline.stId"
             placeholder="活动区域"
+            filterable
           >
             <el-option
               v-for="(item, index) in stList"
