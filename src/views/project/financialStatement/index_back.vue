@@ -8,7 +8,6 @@
             v-model="formInline.agentId"
             placeholder="代办人"
             @change="chengeUser"
-            filterable
           >
             <el-option
               v-for="(item, index) in userList"
@@ -23,7 +22,6 @@
             size="mini"
             v-model="formInline.stId"
             placeholder="活动区域"
-            filterable
           >
             <el-option
               v-for="(item, index) in stList"
@@ -232,7 +230,7 @@
                   {{ $options.filters.moneyFilter(data2.qmOcc) }}
                 </div>
               </div>
-              <!-- <div class="briefing_items2">
+              <div class="briefing_items2">
                 <div class="briefing_items_top">
                   <div class="bottom_left">
                     <img
@@ -261,7 +259,7 @@
                 <div class="briefing_items_bottom">
                   {{ data2.turnoverRate }}
                 </div>
-              </div> -->
+              </div>
             </div>
           </div>
         </el-col>
@@ -874,7 +872,6 @@
                         color: #b0bcca;
                         line-height: 25px;
                         margin-left: 10px;
-                        width:100px
                       "
                     >
                       应付款
@@ -887,9 +884,6 @@
                       font-weight: 400;
                       color: #333333;
                       line-height: 26px;
-                      width:150px;
-                      display:flex;
-                      justify-content:end
                     "
                   >
                     {{ $options.filters.moneyFilter(data5.shouldFk) }}
@@ -899,8 +893,6 @@
                         font-weight: bold;
                         color: #b0bcca;
                         line-height: 22px;
-                        margin-left:5px;
-                        margin-top:5px;
                       "
                       >元</span
                     >
@@ -930,7 +922,6 @@
                         color: #b0bcca;
                         line-height: 25px;
                         margin-left: 10px;
-                        width:100px
                       "
                     >
                       付款
@@ -943,9 +934,6 @@
                       font-weight: 400;
                       color: #333333;
                       line-height: 26px;
-                      width:150px;
-                      display:flex;
-                      justify-content:end
                     "
                   >
                     {{ $options.filters.moneyFilter(data5.actualFk) }}
@@ -955,8 +943,6 @@
                         font-weight: bold;
                         color: #b0bcca;
                         line-height: 22px;
-                        margin-left:5px;
-                        margin-top:5px;
                       "
                       >元</span
                     >
@@ -1036,7 +1022,6 @@
                         color: #b0bcca;
                         line-height: 25px;
                         margin-left: 10px;
-                        width:100px
                       "
                     >
                       应收款
@@ -1049,9 +1034,6 @@
                       font-weight: 400;
                       color: #333333;
                       line-height: 26px;
-                      width:150px;
-                      display:flex;
-                      justify-content:end
                     "
                   >
                     {{ $options.filters.moneyFilter(data6.shouldSk) }}
@@ -1061,8 +1043,6 @@
                         font-weight: bold;
                         color: #b0bcca;
                         line-height: 22px;
-                        margin-left:5px;
-                        margin-top:5px;
                       "
                       >元</span
                     >
@@ -1092,7 +1072,6 @@
                         color: #b0bcca;
                         line-height: 25px;
                         margin-left: 10px;
-                        width:100px
                       "
                     >
                       收款
@@ -1105,9 +1084,6 @@
                       font-weight: 400;
                       color: #333333;
                       line-height: 26px;
-                      width:150px;
-                      display:flex;
-                      justify-content:end
                     "
                   >
                     {{ $options.filters.moneyFilter(data6.actualSk) }}
@@ -1117,8 +1093,6 @@
                         font-weight: bold;
                         color: #b0bcca;
                         line-height: 22px;
-                        margin-left:5px;
-                        margin-top:5px;
                       "
                       >元</span
                     >
@@ -1364,7 +1338,7 @@ export default {
         animationDurationUpdate: _animationDurationUpdate,
         animationEasingUpdate: _animationEasingUpdate,
         dataset: {
-          source: [[0, this.data5.progressRate | 0]],
+          source: [[0, this.data5.actualFk | 0]],
         },
         tooltip: {},
         angleAxis: {
@@ -1540,7 +1514,7 @@ export default {
         animationDurationUpdate: _animationDurationUpdate,
         animationEasingUpdate: _animationEasingUpdate,
         dataset: {
-          source: [[0, this.data6.progressRate | 0]],
+          source: [[0, this.data6.actualSk | 0]],
         },
         tooltip: {},
         angleAxis: {
@@ -1620,7 +1594,6 @@ export default {
       }).then((res) => {
         this.data5 = res.data;
         this.progressRate1 = res.data.progressRate;
-        this.myEcharts();
       });
     },
     getStatisticSk() {
@@ -1633,7 +1606,6 @@ export default {
       }).then((res) => {
         this.data6 = res.data;
         this.progressRate2 = res.data.progressRate;
-        this.myEcharts2();
       });
     },
   },
@@ -1794,7 +1766,7 @@ export default {
         }
       }
       .briefing_items2 {
-        width: 50%;
+        width: 25%;
         margin-left: 1%;
         height: 97px;
         background: linear-gradient(266deg, #f6f7fb, #f3f7fa);
