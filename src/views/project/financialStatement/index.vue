@@ -9,6 +9,7 @@
             placeholder="代办人"
             @change="chengeUser"
             filterable
+            clearable
           >
             <el-option
               v-for="(item, index) in userList"
@@ -24,6 +25,7 @@
             v-model="formInline.stId"
             placeholder="活动区域"
             filterable
+            clearable
           >
             <el-option
               v-for="(item, index) in stList"
@@ -526,7 +528,9 @@
                       />
                     </div>
                     <div style="margin-top: 3px; margin-left: 3px">
-                      {{ $options.filters.moneyFilter(data3.planBalanceAmount) }}
+                      {{
+                        $options.filters.moneyFilter(data3.planBalanceAmount)
+                      }}
                     </div>
                   </div>
                 </div>
@@ -795,7 +799,9 @@
                       />
                     </div>
                     <div style="margin-top: 3px; margin-left: 3px">
-                      {{ $options.filters.moneyFilter(data4.planBalanceAmount) }}
+                      {{
+                        $options.filters.moneyFilter(data4.planBalanceAmount)
+                      }}
                     </div>
                   </div>
                 </div>
@@ -874,7 +880,7 @@
                         color: #b0bcca;
                         line-height: 25px;
                         margin-left: 10px;
-                        width:100px
+                        width: 100px;
                       "
                     >
                       应付款
@@ -887,9 +893,9 @@
                       font-weight: 400;
                       color: #333333;
                       line-height: 26px;
-                      width:150px;
-                      display:flex;
-                      justify-content:end
+                      width: 150px;
+                      display: flex;
+                      justify-content: end;
                     "
                   >
                     {{ $options.filters.moneyFilter(data5.shouldFk) }}
@@ -899,8 +905,8 @@
                         font-weight: bold;
                         color: #b0bcca;
                         line-height: 22px;
-                        margin-left:5px;
-                        margin-top:5px;
+                        margin-left: 5px;
+                        margin-top: 5px;
                       "
                       >元</span
                     >
@@ -930,7 +936,7 @@
                         color: #b0bcca;
                         line-height: 25px;
                         margin-left: 10px;
-                        width:100px
+                        width: 100px;
                       "
                     >
                       付款
@@ -943,9 +949,9 @@
                       font-weight: 400;
                       color: #333333;
                       line-height: 26px;
-                      width:150px;
-                      display:flex;
-                      justify-content:end
+                      width: 150px;
+                      display: flex;
+                      justify-content: end;
                     "
                   >
                     {{ $options.filters.moneyFilter(data5.actualFk) }}
@@ -955,8 +961,8 @@
                         font-weight: bold;
                         color: #b0bcca;
                         line-height: 22px;
-                        margin-left:5px;
-                        margin-top:5px;
+                        margin-left: 5px;
+                        margin-top: 5px;
                       "
                       >元</span
                     >
@@ -1036,7 +1042,7 @@
                         color: #b0bcca;
                         line-height: 25px;
                         margin-left: 10px;
-                        width:100px
+                        width: 100px;
                       "
                     >
                       应收款
@@ -1049,9 +1055,9 @@
                       font-weight: 400;
                       color: #333333;
                       line-height: 26px;
-                      width:150px;
-                      display:flex;
-                      justify-content:end
+                      width: 150px;
+                      display: flex;
+                      justify-content: end;
                     "
                   >
                     {{ $options.filters.moneyFilter(data6.shouldSk) }}
@@ -1061,8 +1067,8 @@
                         font-weight: bold;
                         color: #b0bcca;
                         line-height: 22px;
-                        margin-left:5px;
-                        margin-top:5px;
+                        margin-left: 5px;
+                        margin-top: 5px;
                       "
                       >元</span
                     >
@@ -1092,7 +1098,7 @@
                         color: #b0bcca;
                         line-height: 25px;
                         margin-left: 10px;
-                        width:100px
+                        width: 100px;
                       "
                     >
                       收款
@@ -1105,9 +1111,9 @@
                       font-weight: 400;
                       color: #333333;
                       line-height: 26px;
-                      width:150px;
-                      display:flex;
-                      justify-content:end
+                      width: 150px;
+                      display: flex;
+                      justify-content: end;
                     "
                   >
                     {{ $options.filters.moneyFilter(data6.actualSk) }}
@@ -1117,8 +1123,8 @@
                         font-weight: bold;
                         color: #b0bcca;
                         line-height: 22px;
-                        margin-left:5px;
-                        margin-top:5px;
+                        margin-left: 5px;
+                        margin-top: 5px;
                       "
                       >元</span
                     >
