@@ -30,13 +30,17 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="统计时间" prop="createTime">
-        <el-date-picker clearable size="small"
-                        v-model="queryParams.endTime"
-                        type="date"
-                        value-format="yyyy-MM-dd"
-                        placeholder="选择统计时间">
-        </el-date-picker>
+      <el-form-item label="统计时间">
+        <el-date-picker
+          v-model="dateRange"
+          size="small"
+          style="width: 240px"
+          value-format="yyyy-MM-dd"
+          type="daterange"
+          range-separator="-"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+        ></el-date-picker>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -272,6 +276,8 @@ export default {
         pageSize: 10,
         stId: null,
       },
+      // 日期范围
+      dateRange: [],
       // 表单参数
       form: {},
       // 表单校验
@@ -301,7 +307,7 @@ export default {
         this.total = response.total;
         this.loading = false;
       });
-      listPtakeupAll(this.queryParams).then(response => {
+      listPtakeupAll(this.addDateRange(this.queryParams, this.dateRange)).then(response => {
         this.tqc = parseFloat(response.data.tqm).toFixed(2);
         this.tqm = parseFloat(response.data.tqc).toFixed(2);
         this.tpj = parseFloat(response.data.tpj).toFixed(2);

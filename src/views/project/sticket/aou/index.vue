@@ -66,7 +66,7 @@
       <el-row>
         <el-col :span="12">
           <el-form-item label="数量(吨)" prop="number">
-            <el-input v-model="form.number" placeholder="请输入开票金额" />
+            <el-input v-model="form.number" placeholder="请输入数量(吨)" />
           </el-form-item>
         </el-col>
       </el-row>

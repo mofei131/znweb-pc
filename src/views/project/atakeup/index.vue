@@ -11,7 +11,7 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="创建时间">
+      <el-form-item label="统计时间">
         <el-date-picker
           v-model="dateRange"
           size="small"
