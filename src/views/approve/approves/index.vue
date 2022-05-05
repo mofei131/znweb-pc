@@ -3835,8 +3835,8 @@
           </el-row>
         </el-form>
         <div class="button">
-          <el-button type="primary" @click="pass">审批通过</el-button>
-          <el-button type="danger" @click="turnDown">审批驳回</el-button>
+          <el-button type="primary" @click="pass" :disabled="isDisabled">审批通过</el-button>
+          <el-button type="danger" @click="turnDown" :disabled="isDisabled">审批驳回</el-button>
         </div>
       </div>
     </el-form>
@@ -3969,6 +3969,7 @@ export default {
       gryLr: 0.0,
       gryNumber: 0,
       htform: {},
+      isDisabled: false
     };
   },
   computed: {
@@ -4301,6 +4302,7 @@ export default {
       }
     },
     pass() {
+      this.isDisabled = true
       if (this.queryParams.remark == undefined) {
         this.queryParams.remark = "无";
       }
@@ -4313,9 +4315,11 @@ export default {
         this.$messageContent.message("S000003", ["审批"]);
         this.getList();
         this.$emit("popOk");
+        this.isDisabled=false
       });
     },
     turnDown() {
+      this.isDisabled=true
       if (this.queryParams.remark == undefined) {
         this.queryParams.remark = "无";
       }
@@ -4328,6 +4332,7 @@ export default {
         this.getList();
         // this.getMyUpcomings();
         this.$emit("popOk");
+        this.isDisabled=false
       });
       // turnDownByProcessId(this.initData.id).then(() => {
       //   this.$messageContent.message("S000003", ["驳回"]);
