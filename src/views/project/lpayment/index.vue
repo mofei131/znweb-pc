@@ -282,7 +282,7 @@
                     v-for="obj in tpcOptions"
                     :key="obj.tpcId"
                     :label="obj.name"
-                    :value="obj"
+                    :value="obj.tpcId"
                   ></el-option>
                 </el-select>
               </el-form-item>
@@ -1511,10 +1511,14 @@ export default {
 
     //选择第三方公司
     changeTpc(obj) {
-      this.form.tpcId2 = obj.tpcId;
-      this.form.tpcName = obj.name;
-      this.form.account = obj.account;
-      this.form.openbank = obj.openbank;
+      this.tpcOptions.forEach(e => {
+        if(e.tpcId==obj){
+          this.form.tpcId2 = e.tpcId;
+          this.form.tpcName = e.name;
+          this.form.account = e.account;
+          this.form.openbank = e.openbank;
+        }
+      });
     },
 
     //选中数据
