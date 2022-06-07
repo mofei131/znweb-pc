@@ -1320,8 +1320,8 @@ export default {
     },
     changeActualControlName(e) {
       this.userOptions.forEach((options) => {
-        if (e == options.userId) {
-          this.form1.actualControlName = options.nickName;
+        if (e == options.id) {
+          this.form1.actualControlName = options.actualControlPerson;
         }
       });
     },
