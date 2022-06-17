@@ -1049,7 +1049,7 @@ export default {
         this.form.outPrice = null;
         this.form.outTime = null;
         this.form.hkState = 2;
-        (this.isLook = 4), (this.open = true);
+        (this.isLook = 0), (this.open = true);
         this.title = "退还/回收保证金";
       });
     },
