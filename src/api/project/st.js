@@ -3,7 +3,7 @@ import request from "@/utils/request";
 // 查询项目信息列表
 export function listSt(query) {
     return request({
-        url: "/project/st/list",
+        url: "/project/project/list",
         method: "get",
         params: query,
     });
@@ -38,6 +38,13 @@ export function getStupdate(stupdateId) {
 export function addSt(data) {
     return request({
         url: "/project/st",
+        method: "post",
+        data: data,
+    });
+}
+export function addProject(data) {
+    return request({
+        url: "/project/project/save",
         method: "post",
         data: data,
     });
