@@ -666,6 +666,20 @@ export const constantRoutes = [{
             meta: { title: "测试", icon: "dashboard", noCache: true, affix: true },
         }, ],
     },
+    {
+        path: "/platform",
+        component: Layout,
+        hidden: true,
+        children: [
+            {
+                path: "/platform",
+                component: (resolve) =>
+                    require(["@/views/project/platform/index"], resolve),
+                name: "platform",
+                meta: { title: "站台管理" },
+            },
+        ],
+    },
 ];
 
 export default new Router({

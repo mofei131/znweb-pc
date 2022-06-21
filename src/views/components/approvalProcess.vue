@@ -17,6 +17,11 @@
           :data="apList"
           style="width: 80%; margin-bottom: 30px"
         >
+        <el-table-column type="index" label="部门1">
+          <template slot-scope="scope">
+            <div>{{scope.$index}}</div>
+          </template>
+        </el-table-column>
           <el-table-column property="deptName" label="部门"> </el-table-column>
           <el-table-column property="shouldApprovePerson" label="应审批人">
           </el-table-column>
@@ -41,23 +46,46 @@ import {getApprovalProcessList} from "@/api/project/st.js";
 export default {
     data(){
         return {
-            apList:[],
-            info:{}
+            apList:[{
+              deptName:'部门',
+              shouldApprovePerson:'应审批人',
+              nickName:'审批人',
+              approveTime:'2021-00-00',
+              processValue:'审批说明',
+              status:1
+            },{
+              deptName:'部门',
+              shouldApprovePerson:'应审批人',
+              nickName:'审批人',
+              approveTime:'2021-00-00',
+              processValue:'审批说明',
+              status:1
+            },{
+              deptName:'部门',
+              shouldApprovePerson:'应审批人',
+              nickName:'审批人',
+              approveTime:'2021-00-00',
+              processValue:'审批说明',
+              status:1
+            }],
+            info:{},
         }
     },
     props:{
         typeId:Number,
-        stId:String 
+        stId:String
     },
     mounted(){
         this.info={}
-        this.apList=[]
-        getApprovalProcessList(this.typeId,this.stId).then(res=>{
-            this.info=res.data[0]
-            res.data.forEach(element => {
-                this.apList.push(element)
-            });
-        })
+        // this.apList=[]
+        // getApprovalProcessList(this.typeId,this.stId).then(res=>{
+        //     this.info=res.data[0]
+        //     res.data.forEach(element => {
+        //         this.apList.push(element)
+        //     });
+        // })
+    },
+    methods:{
     }
 }
 </script>
