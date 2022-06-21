@@ -8,6 +8,20 @@ export function listSt(query) {
         params: query,
     });
 }
+export function platformList(query) {
+    return request({
+        url: "/project/platform/list",
+        method: "get",
+        params: query,
+    });
+}
+export function addBusiness(data) {
+    return request({
+        url: "/project/business/save",
+        method: "post",
+        data: data,
+    });
+}
 
 // 查询项目信息
 export function projectInfo(id) {

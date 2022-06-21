@@ -26,7 +26,6 @@
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
-
     <el-table v-loading="loading" :data="stList" row-key="projectId"
       :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
       <el-table-column label="项目编号" align="center" prop="projectNo" />
@@ -47,16 +46,13 @@
       <el-table-column label="业务状态" align="center" prop="businessState" />
       <el-table-column label="操作" width="160" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button size="mini" type="text">展开下级</el-button>
-          <el-button size="mini" type="text">收起下级</el-button>
           <el-button size="mini" type="text" icon="el-icon-edit" v-hasPermi="['project:st:edit']"
             @click="openCheckProject(scope.row)">查看项目</el-button>
           <el-button size="mini" type="text" icon="el-icon-edit" v-hasPermi="['project:st:edit']">修改项目</el-button>
-          <el-button size="mini" type="text" icon="el-icon-edit" v-hasPermi="['project:st:edit']"
-            @click="jumpBusiness(scope.row)">业务明细</el-button>
-          <el-button v-if="scope.row.state === '3'" size="mini" type="text" icon="el-icon-printer">打印</el-button>
           <el-button size="mini" type="text" v-hasPermi="['project:st:edit']" @click="openBusinessBox(scope.row)">添加业务
           </el-button>
+          <el-button size="mini" type="text" icon="el-icon-edit" v-hasPermi="['project:st:edit']"
+            @click="jumpBusiness(scope.row)">业务明细</el-button>
           <el-button size="mini" type="text" v-hasPermi="['project:st:edit']">修改业务</el-button>
           <el-button size="mini" type="text" v-hasPermi="['project:st:edit']" @click="openOperateBusiness(scope.row)">
             操作业务</el-button>
@@ -203,51 +199,72 @@
       </div>
     </el-dialog>
     <el-dialog title="添加业务信息" :visible.sync="openAddBusinessBox" width="888px">
-      <div style="font-weight: 600; margin-bottom: 20px;font-size:15px">项目信息</div>
-      <div style="margin-left: 60px">
-        <el-row>
-          <el-col :span="12">立项类型：{{ projectInfo.projectType }}</el-col>
-          <el-col :span="12">项目编号：{{ projectInfo.serialNo }}</el-col>
-        </el-row>
-        <el-row style="margin-top: 12px">
-          <el-col :span="12">项目名称：项目名称</el-col>
-          <el-col :span="12">立项编号：立项编号</el-col>
-        </el-row>
-        <el-row style="margin-top: 12px">
-          <el-col :span="12">供应商：项目名称</el-col>
-          <el-col :span="12">代办人：立项编号</el-col>
-        </el-row>
-        <el-row style="margin-top: 12px">
-          <el-col :span="12">终端客户：项目名称</el-col>
-          <el-col :span="12">业务经理：立项编号</el-col>
-        </el-row>
-        <el-row style="margin-top: 12px">
-          <el-col :span="12">业务类型：项目名称</el-col>
-          <el-col :span="12">业务实控人：立项编号</el-col>
-        </el-row>
-        <el-row style="margin-top: 12px">
-          <el-col :span="12">服务费收取模式：项目名称</el-col>
-          <el-col :span="12">货运方式：项目名称</el-col>
-        </el-row>
-        <el-row style="margin-top: 12px">
-          <el-col :span="12">年息服务费费率（%）：项目名称</el-col>
-          <el-col :span="12">固定差价（元）：立项编号</el-col>
-        </el-row>
-        <el-row style="margin-top: 12px">
-          <el-col :span="12">备注说明：项目名称</el-col>
-        </el-row>
+      <div style="font-weight: 600; margin-bottom: 20px;font-size:16px">项目信息</div>
+      <div style="padding: 20px">
+        <el-descriptions :column="2" border>
+          <el-descriptions-item>
+            <template slot="label">立项类型</template>{{ projectInfo.projectType }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">项目编号</template>{{ projectInfo.projectNo }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">项目名称</template>{{ projectInfo.projectName }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">立项编号</template>{{ projectInfo.serialNo }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">供应商</template>{{ projectInfo.supplierName }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">代办人</template>{{ projectInfo.userName }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">终端客户</template>{{ projectInfo.tName }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">业务经理</template>{{ projectInfo.serviceManagerName }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">业务类型</template>{{ projectInfo.businessType }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">业务实控人</template>{{ projectInfo.actualControlName }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">收费模式</template>{{ projectInfo.chargemType }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">货运方式</template>{{ projectInfo.freightMode }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">年服务费率(%)</template>{{ projectInfo.chargemNx }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">固定差价(元)</template>{{ projectInfo.chargemGd }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">备注说明</template>{{ projectInfo.node }}
+          </el-descriptions-item>
+          <el-descriptions-item></el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">附件</template>
+            <custom-upload :fileList="projectInfo.filesList"></custom-upload>
+          </el-descriptions-item>
+        </el-descriptions>
       </div>
-      <div style="font-weight: 600; margin-bottom: 20px;margin-top:20px;font-size:15px">业务基础信息</div>
-      <el-form ref="form2" :model="form2" :rules="rules2" label-width="170px">
+      <div style="font-weight: 600; margin-bottom: 40px;margin-top:20px;font-size:16px">业务信息</div>
+      <el-form ref="form2" :model="form2" :rules="rules2" label-width="180px">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="业务名称" prop="aaaaaa">
-              <el-input v-model="form2.aaaaaa" placeholder="业务名称" />
+            <el-form-item label="业务名称" prop="stName">
+              <el-input v-model="form2.stName" placeholder="业务名称" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="业务金额(万元)" prop="bbbbbb">
-              <el-input v-model="form2.bbbbbb" placeholder="请输入业务金额" />
+            <el-form-item label="业务金额(万元)" prop="stAmount">
+              <el-input v-model="form2.stAmount" placeholder="请输入业务金额" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -377,7 +394,7 @@
             </el-col>
             <el-col :span="12">
               <div v-if="form2.shHztype == '年息收取'">
-                <el-form-item label="资金费率%" prop="shHzrate">
+                <el-form-item label="资金费率(%)" prop="shHzrate">
                   <el-input v-model="form2.shHzrate" placeholder="请输入资金费率" />
                 </el-form-item>
               </div>
@@ -471,25 +488,34 @@
           </el-radio-group>
         </el-form-item>
         <div v-if="form2.platformType == '1'">
-          <el-row>
-            <el-col :span="12">
-              <el-form-item label="站台名称" prop="pName">
-                <el-input v-model="form2.pName" placeholder="请选择站台名称" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="站台费用" prop="shMargin">
-                <el-input v-model="form2.shMargin" placeholder="请输入站台费用" />
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="12">
-              <el-form-item label="运费" prop="shMargin">
-                <el-input v-model="form2.shMargin" placeholder="请输入运费" />
-              </el-form-item>
-            </el-col>
-          </el-row>
+          <div v-for="(item, index) in form2.ztList" :key="index">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="站台名称" prop="ztId">
+                  <el-select v-model="item.ztId" style="width: 100%" placeholder="请选择站台">
+                    <el-option v-for="obj in platformList" :key="obj.id" :label="obj.ztName" :value="obj.id">
+                    </el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-form-item label="站台费用" prop="ztFee">
+                  <el-input v-model="item.ztFee" placeholder="请输入站台费用" />
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="运费" prop="freight">
+                  <el-input v-model="item.freight" placeholder="请输入运费" />
+                </el-form-item>
+              </el-col>
+              <el-col :span="12">
+                <el-button size="small" style="margin-left:30px" type="primary" @click="addZt(index)">添加站台</el-button>
+                <el-button size="small" type="danger" @click="deleteZt(index)">删除站台</el-button>
+              </el-col>
+            </el-row>
+          </div>
         </div>
         <el-row>
           <el-col>
@@ -516,38 +542,59 @@
       </div>
     </el-dialog>
     <el-dialog title="项目信息" :visible.sync="checkProject" width="888px">
-      <div style="margin-left: 60px">
-        <el-row>
-          <el-col :span="12">立项类型：{{ projectInfo.projectType }}</el-col>
-          <el-col :span="12">项目编号：{{ projectInfo.serialNo }}</el-col>
-        </el-row>
-        <el-row style="margin-top: 12px">
-          <el-col :span="12">项目名称：项目名称</el-col>
-          <el-col :span="12">立项编号：立项编号</el-col>
-        </el-row>
-        <el-row style="margin-top: 12px">
-          <el-col :span="12">供应商：项目名称</el-col>
-          <el-col :span="12">代办人：立项编号</el-col>
-        </el-row>
-        <el-row style="margin-top: 12px">
-          <el-col :span="12">终端客户：项目名称</el-col>
-          <el-col :span="12">业务经理：立项编号</el-col>
-        </el-row>
-        <el-row style="margin-top: 12px">
-          <el-col :span="12">业务类型：项目名称</el-col>
-          <el-col :span="12">业务实控人：立项编号</el-col>
-        </el-row>
-        <el-row style="margin-top: 12px">
-          <el-col :span="12">服务费收取模式：项目名称</el-col>
-          <el-col :span="12">货运方式：项目名称</el-col>
-        </el-row>
-        <el-row style="margin-top: 12px">
-          <el-col :span="12">年息服务费费率（%）：项目名称</el-col>
-          <el-col :span="12">固定差价（元）：立项编号</el-col>
-        </el-row>
-        <el-row style="margin-top: 12px">
-          <el-col :span="12">备注说明：项目名称</el-col>
-        </el-row>
+      <div style="padding: 20px">
+        <el-descriptions title="" :column="2" border>
+          <el-descriptions-item>
+            <template slot="label">立项类型</template>{{ projectInfo.projectType }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">项目编号</template>{{ projectInfo.projectNo }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">项目名称</template>{{ projectInfo.projectName }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">立项编号</template>{{ projectInfo.serialNo }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">供应商</template>{{ projectInfo.supplierName }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">代办人</template>{{ projectInfo.userName }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">终端客户</template>{{ projectInfo.tName }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">业务经理</template>{{ projectInfo.serviceManagerName }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">业务类型</template>{{ projectInfo.businessType }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">业务实控人</template>{{ projectInfo.actualControlName }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">收费模式</template>{{ projectInfo.chargemType }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">货运方式</template>{{ projectInfo.freightMode }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">年服务费率(%)</template>{{ projectInfo.chargemNx }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">固定差价(元)</template>{{ projectInfo.chargemGd }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">备注说明</template>{{ projectInfo.node }}
+          </el-descriptions-item>
+          <el-descriptions-item></el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">附件</template>
+            <custom-upload :fileList="projectInfo.filesList"></custom-upload>
+          </el-descriptions-item>
+        </el-descriptions>
       </div>
     </el-dialog>
     <el-dialog title="操作业务" :visible.sync="operateBusiness" width="888px">
@@ -592,15 +639,17 @@ import {
   getUserList,
   getTerminalList,
   getSupplierList,
-  addSt,
   addProject,
-  projectInfo
+  projectInfo,
+  platformList,
+  addBusiness
 } from "@/api/project/st";
 import { getToken } from "@/utils/auth";
 export default {
   name: "St",
   data() {
     return {
+      platformList: [],
       projectInfo: {},
       checkProject: false,
       operateBusiness: false,
@@ -625,8 +674,7 @@ export default {
         chargemNx: "",
         chargemGd: "",
         node: "",
-        fileUrl: "",
-        fileLists: []
+        filesList: null
       },
       form1back: {
         projectType: "一般立项",
@@ -649,13 +697,22 @@ export default {
         chargemNx: "",
         chargemGd: "",
         node: "",
-        fileUrl: "",
-        fileLists: []
+        filesList: null
       },
       form2: {
-        fileLists: [],
-        aaaaaa: '',
-        bbbbbb: "",
+        projectId:'',
+        serialNo:'',
+        platformType: '2',
+        ztList: [{
+          ztId: '',
+          ztFee: '',
+          freight: ''
+        }
+        ],
+        node: '',
+        filesList: '',
+        stName: '',
+        stAmount: "",
         settlementP: '',
         settlementPA1: '',
         settlementPA2: '',
@@ -667,13 +724,26 @@ export default {
         expectPrice: '',
         expectWeight: '',
         rateYear: '',
-        expectProfits: ''
+        expectProfits: '',
+        shType: '2',
+        shName: '',
+        shXz: '',
+        shHztype: '',
+        shChanneltype: '',
+        shHzrate: '',
+        shChannelyear: '',
+        shSettlement: '',
+        shSettlementA1: '',
+        shSettlementA2: '',
+        shSettlementA3: '',
+        shMargintype: '',
+        shMargin: '',
+        shContracttype: ''
       },
-      form3:{
-        zzzzzz:'',
-        node:'',
-        fileLists:[],
-        fileUrl:''
+      form3: {
+        zzzzzz: '',
+        node: '',
+        filesList: null,
       },
       //文件集合
       fileList: [],
@@ -726,15 +796,15 @@ export default {
       transType: [
         {
           label: "汽运",
-          value: "汽运",
+          value: "qy",
         },
         {
           label: "火运",
-          value: "火运",
+          value: "hy",
         },
         {
           label: "公铁联运",
-          value: "公铁联运",
+          value: "ly",
         },
       ],
       //结算比例集合
@@ -749,27 +819,27 @@ export default {
       businessTypeList: [
         {
           label: "储备业务垫付运费",
-          value: "储备业务垫付运费",
+          value: "cbd",
         },
         {
           label: "储备业务不垫付运费",
-          value: "储备业务不垫付运费",
+          value: "cbb",
         },
         {
           label: "到厂业务垫付运费",
-          value: "到厂业务垫付运费",
+          value: "dcd",
         },
         {
           label: "到厂业务不垫付运费",
-          value: "到厂业务不垫付运费",
+          value: "dcb",
         },
         {
           label: "车板业务垫付运费",
-          value: "车板业务垫付运费",
+          value: "cbd",
         },
         {
           label: "车板业务不垫付运费",
-          value: "车板业务不垫付运费",
+          value: "cbb",
         },
       ],
       // 供应商集合
@@ -842,10 +912,10 @@ export default {
         ],
       },
       rules2: {
-        aaaaaa: [
+        stName: [
           { required: true, message: "业务名称不能为空", trigger: "blur" },
         ],
-        bbbbbb: [
+        stAmount: [
           { required: true, message: "业务金额不能为空", trigger: "blur" },
           {
             pattern: /^\d+(.\d{1,2})?$/,
@@ -908,14 +978,90 @@ export default {
         ],
         expectProfits: [
           { required: true, message: "预计利润不能为空", trigger: "blur" },
+        ],
+        shType: [
+          { required: true, message: "自融资金方为必选", trigger: "blur" },
+        ],
+        shName: [
+          { required: true, message: "公司名称不能为空", trigger: "blur" },
+        ],
+        shXz: [
+          { required: true, message: "性质不能为空", trigger: "blur" },
+        ],
+        shHztype: [
+          { required: true, message: "合作方式不能为空", trigger: "blur" },
+        ],
+        shChanneltype: [
+          { required: true, message: "下游渠道为必选", trigger: "blur" },
+        ],
+        shHzrate: [
+          { required: true, message: "资金费率不能为空", trigger: "blur" },
           {
             pattern: /^\d+(.\d{1,2})?$/,
             message: '只能输入数字且只能保留两位小数',
             trigger: 'change'
           }
+        ],
+        shChannelyear: [
+          { required: true, message: "下游渠道年限不能为空", trigger: "blur" },
+        ],
+        shSettlement: [
+          { required: true, message: "结算比例不能为空", trigger: "blur" },
+        ],
+        shSettlementA1: [
+          { required: true, message: "结算比例不能为空", trigger: "blur" },
+        ],
+        shSettlementA2: [
+          { required: true, message: "结算比例不能为空", trigger: "blur" },
+        ],
+        shSettlementA3: [
+          { required: true, message: "结算比例不能为空", trigger: "blur" },
+        ],
+        shMargintype: [
+          { required: true, message: "履约保证金为必选", trigger: "blur" },
+        ],
+        shMargin: [
+          { required: true, message: "履约保证金金额不能为空", trigger: "blur" },
+          {
+            pattern: /^\d+(.\d{1,2})?$/,
+            message: '只能输入数字且只能保留两位小数',
+            trigger: 'change'
+          }
+        ],
+        shContracttype: [
+          { required: true, message: "合同签署不能为空", trigger: "blur" },
+        ],
+        platformType: [
+          { required: true, message: "有无站台为必选", trigger: "blur" },
         ]
       },
+      rules3: {
+
+      }
     };
+  },
+  watch: {
+    "form2.settlementP": {
+      handler() {
+        if (this.form2.settlementP != '其他') {
+          let arr = this.form2.settlementP.split("-")
+          this.form2.settlementPA1 = arr[0].replace(new RegExp("%"), "")
+          this.form2.settlementPA2 = arr[1].replace(new RegExp("%"), "")
+          this.form2.settlementPA3 = arr[2].replace(new RegExp("%"), "")
+        }
+      },
+    },
+
+    "form2.shSettlement": {
+      handler() {
+        if (this.form2.shSettlement != '其他') {
+          let arr = this.form2.shSettlement.split("-")
+          this.form2.shSettlementA1 = arr[0].replace(new RegExp("%"), "")
+          this.form2.shSettlementA2 = arr[1].replace(new RegExp("%"), "")
+          this.form2.shSettlementA3 = arr[2].replace(new RegExp("%"), "")
+        }
+      },
+    },
   },
   mounted() {
     this.getList();
@@ -928,8 +1074,72 @@ export default {
     getSupplierList().then((response) => {
       this.supplierOptions = response.rows;
     });
+    platformList().then((response) => {
+      this.platformList = response.rows;
+    })
   },
   methods: {
+    addZt(index) {
+      this.form2.ztList.splice(index + 1, 0, {
+        ztId: '',
+        ztFee: '',
+        freight: ''
+      });
+    },
+    deleteZt(index) {
+      if (this.form2.ztList.length == 1) {
+      } else {
+        this.form2.ztList.splice(index, 1)
+      }
+    },
+    jsprice() {
+      let arr = ['cycleStart', 'cycleEnd', 'expectPrice', 'rateYear', 'chargemGd', 'expectWeight']
+      let valida_all = true
+      this.$refs["form2"].validateField(arr, valid => {
+        if (valid) {
+          valida_all = valida_all && false;
+        } else {
+          valida_all = valida_all && true;
+        }
+      })
+      if (valida_all) {
+        let dateSpan, iDays;
+        let sDate1 = Date.parse(this.form2.cycleStart);
+        let sDate2 = Date.parse(this.form2.cycleEnd);
+        dateSpan = sDate2 - sDate1;
+        dateSpan = Math.abs(dateSpan);
+        //周期天数
+        iDays = Math.floor(dateSpan / (24 * 3600 * 1000));
+        //预计单价
+        let a1 = this.form2.expectPrice
+        //年服务费率
+        let a2 = 0.00
+        if (this.form2.chargemType == '1' || this.form2.chargemType == '3') {
+          a2 = parseFloat(this.form.chargemNx) * 100
+        }
+        //固定差价
+        let a3 = 0.00
+        if (this.form2.chargemType == '2' || this.form2.chargemType == '3') {
+          a3 = parseFloat(this.form2.chargemGd)
+        }
+        //预计吨数
+        let a4 = this.form2.expectWeight
+        //单吨收益
+        let jx1 = a1 * 0.09 * a2 / 360 * iDays + a3;
+        //资金成本
+        let jx2 = a1 * 0.9 * 0.08 / 360 * iDays;
+        // 增值税
+        let jx3 = jx1 * 0.13 / 1.13;
+        //
+        let jx4 = jx3 * 0.12
+        //印花税
+        let jx5 = ((2 * a1 - a1 * 0.9 * 0.08 / 360 * iDays) * 0.0003)
+        console.log("jx1:" + jx1 + "-jx2:" + jx2 + "-jx3:" + jx3 + "-jx4:" + jx4 + "-jx5:" + jx5)
+        console.log((jx1 - jx2 - jx3 - jx4 - jx5))
+        let zzjx = (jx1 - jx2 - jx3 - jx4 - jx5) * a4
+        this.form2.expectProfits = zzjx.toFixed(2)
+      }
+    },
     openOperateBusiness(row) {
       console.log(row.projectId)
       this.operateBusiness = true
@@ -969,13 +1179,15 @@ export default {
         }
       });
     },
-    jumpBusiness(row){
-      this.$router.push('/st/lookAdd/'+row.projectId)
+    jumpBusiness(row) {
+      this.$router.push('/st/lookAdd/' + row.projectId)
     },
     openBusinessBox(row) {
       projectInfo(row.projectId).then(res => {
         this.projectInfo = res.data
       })
+      this.form2.projectId=row.projectId
+      this.form2.serialNo=row.serialNo
       this.openAddBusinessBox = true;
     },
     openCheckProject(row) {
@@ -985,7 +1197,6 @@ export default {
       this.checkProject = true;
     },
     submitForm() {
-      this.form1.fileUrl = this.form1.fileLists;
       this.$refs["form1"].validate((valid) => {
         if (valid) {
           addProject(this.form1).then(() => {
@@ -1001,10 +1212,9 @@ export default {
       });
     },
     submitForm2() {
-      this.form2.fileUrl = this.form2.fileLists;
       this.$refs["form2"].validate((valid) => {
         if (valid) {
-          addSt(this.form2).then(() => {
+          addBusiness(this.form2).then(() => {
             this.$message({
               message: "新增成功！",
               type: "success",
@@ -1024,7 +1234,11 @@ export default {
       listSt(this.queryParams).then((response) => {
         this.stList = response.rows;
         this.stList.forEach((e) => {
-          e.children = e.businesses;
+          e.hType="项目"
+          e.children = e.businessList;
+          e.children.forEach(e2=>{
+            e2.hType="业务"
+          })
         });
         this.total = response.total;
         this.loading = false;
@@ -1049,34 +1263,34 @@ export default {
       }
     },
     handleRemove(file, filelist) {
-      this.form1.fileLists = [];
+      this.form1.filesList = [];
       for (let i = 0; i < filelist.length; i++) {
         if (filelist[i].response != undefined) {
           let art = {
             name: filelist[i].response.data.name,
             url: filelist[i].response.data.url,
           };
-          this.form1.fileLists.push(art);
+          this.form1.filesList.push(art);
         } else {
           let art = { name: filelist[i].name, url: filelist[i].url };
-          this.form1.fileLists.push(art);
+          this.form1.filesList.push(art);
         }
       }
     },
     uploadSuccess(res, file, filelist) {
       if (res.code == "200") {
-        this.form1.fileLists = [];
+        this.form1.filesList = [];
         for (var i = 0; i < filelist.length; i++) {
           if (filelist[i].response != undefined) {
             let name = filelist[i].response.data.name;
             let url = filelist[i].response.data.url;
             let art = { name: name, url: url };
-            this.form1.fileLists.push(art);
+            this.form1.filesList.push(art);
           } else {
             let name = filelist[i].name;
             let url = filelist[i].url;
             let art = { name: name, url: url };
-            this.form1.fileLists.push(art);
+            this.form1.filesList.push(art);
           }
         }
         this.$message.success("上传成功");
@@ -1107,34 +1321,34 @@ export default {
       }
     },
     handleRemove2(file, filelist) {
-      this.form2.fileLists = [];
+      this.form2.filesList = [];
       for (let i = 0; i < filelist.length; i++) {
         if (filelist[i].response != undefined) {
           let art = {
             name: filelist[i].response.data.name,
             url: filelist[i].response.data.url,
           };
-          this.form2.fileLists.push(art);
+          this.form2.filesList.push(art);
         } else {
           let art = { name: filelist[i].name, url: filelist[i].url };
-          this.form2.fileLists.push(art);
+          this.form2.filesList.push(art);
         }
       }
     },
     uploadSuccess2(res, file, filelist) {
       if (res.code == "200") {
-        this.form2.fileLists = [];
+        this.form2.filesList = [];
         for (var i = 0; i < filelist.length; i++) {
           if (filelist[i].response != undefined) {
             let name = filelist[i].response.data.name;
             let url = filelist[i].response.data.url;
             let art = { name: name, url: url };
-            this.form2.fileLists.push(art);
+            this.form2.filesList.push(art);
           } else {
             let name = filelist[i].name;
             let url = filelist[i].url;
             let art = { name: name, url: url };
-            this.form2.fileLists.push(art);
+            this.form2.filesList.push(art);
           }
         }
         this.$message.success("上传成功");
@@ -1165,34 +1379,34 @@ export default {
       }
     },
     handleRemove3(file, filelist) {
-      this.form3.fileLists = [];
+      this.form3.filesList = [];
       for (let i = 0; i < filelist.length; i++) {
         if (filelist[i].response != undefined) {
           let art = {
             name: filelist[i].response.data.name,
             url: filelist[i].response.data.url,
           };
-          this.form3.fileLists.push(art);
+          this.form3.filesList.push(art);
         } else {
           let art = { name: filelist[i].name, url: filelist[i].url };
-          this.form3.fileLists.push(art);
+          this.form3.filesList.push(art);
         }
       }
     },
     uploadSuccess3(res, file, filelist) {
       if (res.code == "200") {
-        this.form3.fileLists = [];
+        this.form3.filesList = [];
         for (var i = 0; i < filelist.length; i++) {
           if (filelist[i].response != undefined) {
             let name = filelist[i].response.data.name;
             let url = filelist[i].response.data.url;
             let art = { name: name, url: url };
-            this.form3.fileLists.push(art);
+            this.form3.filesList.push(art);
           } else {
             let name = filelist[i].name;
             let url = filelist[i].url;
             let art = { name: name, url: url };
-            this.form3.fileLists.push(art);
+            this.form3.filesList.push(art);
           }
         }
         this.$message.success("上传成功");
