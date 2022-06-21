@@ -9,6 +9,14 @@ export function listSt(query) {
     });
 }
 
+// 查询项目信息
+export function projectInfo(id) {
+    return request({
+        url: "/project/project/"+id,
+        method: "get"
+    });
+}
+
 // 查询项目操作列表
 export function listStUpdate(query) {
     return request({

@@ -49,12 +49,17 @@
         <template slot-scope="scope">
           <el-button size="mini" type="text">展开下级</el-button>
           <el-button size="mini" type="text">收起下级</el-button>
-          <el-button size="mini" type="text" icon="el-icon-edit" v-hasPermi="['project:st:edit']">查看项目</el-button>
+          <el-button size="mini" type="text" icon="el-icon-edit" v-hasPermi="['project:st:edit']"
+            @click="openCheckProject(scope.row)">查看项目</el-button>
           <el-button size="mini" type="text" icon="el-icon-edit" v-hasPermi="['project:st:edit']">修改项目</el-button>
+          <el-button size="mini" type="text" icon="el-icon-edit" v-hasPermi="['project:st:edit']"
+            @click="jumpBusiness(scope.row)">业务明细</el-button>
           <el-button v-if="scope.row.state === '3'" size="mini" type="text" icon="el-icon-printer">打印</el-button>
-          <el-button size="mini" type="text" v-hasPermi="['project:st:edit']" @click="openBusinessBox(scope.row)">添加业务</el-button>
+          <el-button size="mini" type="text" v-hasPermi="['project:st:edit']" @click="openBusinessBox(scope.row)">添加业务
+          </el-button>
           <el-button size="mini" type="text" v-hasPermi="['project:st:edit']">修改业务</el-button>
-          <el-button size="mini" type="text" v-hasPermi="['project:st:edit']">操作业务</el-button>
+          <el-button size="mini" type="text" v-hasPermi="['project:st:edit']" @click="openOperateBusiness(scope.row)">
+            操作业务</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -201,8 +206,8 @@
       <div style="font-weight: 600; margin-bottom: 20px;font-size:15px">项目信息</div>
       <div style="margin-left: 60px">
         <el-row>
-          <el-col :span="12">立项类型：{{projectInfo.projectType}}</el-col>
-          <el-col :span="12">项目编号：{{projectInfo.serialNo}}</el-col>
+          <el-col :span="12">立项类型：{{ projectInfo.projectType }}</el-col>
+          <el-col :span="12">项目编号：{{ projectInfo.serialNo }}</el-col>
         </el-row>
         <el-row style="margin-top: 12px">
           <el-col :span="12">项目名称：项目名称</el-col>
@@ -510,6 +515,74 @@
         <el-button @click="cancel2">取 消</el-button>
       </div>
     </el-dialog>
+    <el-dialog title="项目信息" :visible.sync="checkProject" width="888px">
+      <div style="margin-left: 60px">
+        <el-row>
+          <el-col :span="12">立项类型：{{ projectInfo.projectType }}</el-col>
+          <el-col :span="12">项目编号：{{ projectInfo.serialNo }}</el-col>
+        </el-row>
+        <el-row style="margin-top: 12px">
+          <el-col :span="12">项目名称：项目名称</el-col>
+          <el-col :span="12">立项编号：立项编号</el-col>
+        </el-row>
+        <el-row style="margin-top: 12px">
+          <el-col :span="12">供应商：项目名称</el-col>
+          <el-col :span="12">代办人：立项编号</el-col>
+        </el-row>
+        <el-row style="margin-top: 12px">
+          <el-col :span="12">终端客户：项目名称</el-col>
+          <el-col :span="12">业务经理：立项编号</el-col>
+        </el-row>
+        <el-row style="margin-top: 12px">
+          <el-col :span="12">业务类型：项目名称</el-col>
+          <el-col :span="12">业务实控人：立项编号</el-col>
+        </el-row>
+        <el-row style="margin-top: 12px">
+          <el-col :span="12">服务费收取模式：项目名称</el-col>
+          <el-col :span="12">货运方式：项目名称</el-col>
+        </el-row>
+        <el-row style="margin-top: 12px">
+          <el-col :span="12">年息服务费费率（%）：项目名称</el-col>
+          <el-col :span="12">固定差价（元）：立项编号</el-col>
+        </el-row>
+        <el-row style="margin-top: 12px">
+          <el-col :span="12">备注说明：项目名称</el-col>
+        </el-row>
+      </div>
+    </el-dialog>
+    <el-dialog title="操作业务" :visible.sync="operateBusiness" width="888px">
+      <el-form ref="form3" :model="form3" :rules="rules3" label-width="160px">
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="操作业务" prop="supplierId">
+              <el-select @change="changeSupplierName" filterable value-key="supplierId" v-model="form3.zzzzzz"
+                placeholder="请选择供应商" style="width: 100%">
+                <el-option label="异常" value="异常"></el-option>
+                <el-option label="进行中" value="进行中"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col>
+            <el-form-item label="备注" prop="node">
+              <el-input type="textarea" v-model="form3.node" placeholder="请输入备注" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="附件" prop="file">
+              <el-upload class="upload-demo" :action="url" :headers="headers" :on-preview="handlePreview3"
+                :on-remove="handleRemove3" :on-success="uploadSuccess3" :on-error="uploadError3"
+                :before-remove="beforeRemove3" multiple :limit="5" :on-exceed="handleExceed3" :file-list="fileList">
+                <el-button type="primary">点击上传</el-button>
+              </el-upload>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 
@@ -520,14 +593,17 @@ import {
   getTerminalList,
   getSupplierList,
   addSt,
-  addProject
+  addProject,
+  projectInfo
 } from "@/api/project/st";
 import { getToken } from "@/utils/auth";
 export default {
   name: "St",
   data() {
     return {
-      projectInfo:{},
+      projectInfo: {},
+      checkProject: false,
+      operateBusiness: false,
       form1: {
         projectType: "一般立项",
         projectName: "",
@@ -550,7 +626,7 @@ export default {
         chargemGd: "",
         node: "",
         fileUrl: "",
-        fileLists: ''
+        fileLists: []
       },
       form1back: {
         projectType: "一般立项",
@@ -574,10 +650,10 @@ export default {
         chargemGd: "",
         node: "",
         fileUrl: "",
-        fileLists: ''
+        fileLists: []
       },
       form2: {
-        fileLists: '',
+        fileLists: [],
         aaaaaa: '',
         bbbbbb: "",
         settlementP: '',
@@ -592,6 +668,12 @@ export default {
         expectWeight: '',
         rateYear: '',
         expectProfits: ''
+      },
+      form3:{
+        zzzzzz:'',
+        node:'',
+        fileLists:[],
+        fileUrl:''
       },
       //文件集合
       fileList: [],
@@ -848,6 +930,10 @@ export default {
     });
   },
   methods: {
+    openOperateBusiness(row) {
+      console.log(row.projectId)
+      this.operateBusiness = true
+    },
     changetName(e) {
       this.terminalOptions.forEach((options) => {
         if (e == options.terminalId) {
@@ -883,10 +969,20 @@ export default {
         }
       });
     },
+    jumpBusiness(row){
+      this.$router.push('/st/lookAdd/'+row.projectId)
+    },
     openBusinessBox(row) {
-      console.log(row,'huolinzhen')
-      this.projectInfo=row
+      projectInfo(row.projectId).then(res => {
+        this.projectInfo = res.data
+      })
       this.openAddBusinessBox = true;
+    },
+    openCheckProject(row) {
+      projectInfo(row.projectId).then(res => {
+        this.projectInfo = res.data
+      })
+      this.checkProject = true;
     },
     submitForm() {
       this.form1.fileUrl = this.form1.fileLists;
@@ -898,7 +994,7 @@ export default {
               type: "success",
             });
             this.openAddBox = false;
-            this.form1=this.form1back
+            this.form1 = this.form1back
             this.getList();
           });
         }
@@ -1055,6 +1151,64 @@ export default {
       return this.$confirm(`确定移除 ${file.name}？`);
     },
     handleExceed2(files, fileList) {
+      this.$message.warning(
+        `当前限制选择 5 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length
+        } 个文件`
+      );
+    },
+    //文件上传3
+    handlePreview3(file) {
+      if (file.response == undefined) {
+        window.open(file.url);
+      } else {
+        window.open(file.response.data.url);
+      }
+    },
+    handleRemove3(file, filelist) {
+      this.form3.fileLists = [];
+      for (let i = 0; i < filelist.length; i++) {
+        if (filelist[i].response != undefined) {
+          let art = {
+            name: filelist[i].response.data.name,
+            url: filelist[i].response.data.url,
+          };
+          this.form3.fileLists.push(art);
+        } else {
+          let art = { name: filelist[i].name, url: filelist[i].url };
+          this.form3.fileLists.push(art);
+        }
+      }
+    },
+    uploadSuccess3(res, file, filelist) {
+      if (res.code == "200") {
+        this.form3.fileLists = [];
+        for (var i = 0; i < filelist.length; i++) {
+          if (filelist[i].response != undefined) {
+            let name = filelist[i].response.data.name;
+            let url = filelist[i].response.data.url;
+            let art = { name: name, url: url };
+            this.form3.fileLists.push(art);
+          } else {
+            let name = filelist[i].name;
+            let url = filelist[i].url;
+            let art = { name: name, url: url };
+            this.form3.fileLists.push(art);
+          }
+        }
+        this.$message.success("上传成功");
+      } else {
+        this.$message.error(res.msg);
+        let index = filelist.indexOf(file);
+        filelist.splice(index, 1);
+      }
+    },
+    uploadError3(err, file, filelist) {
+      this.$message.error("上传失败");
+    },
+    beforeRemove3(file, fileList) {
+      return this.$confirm(`确定移除 ${file.name}？`);
+    },
+    handleExceed3(files, fileList) {
       this.$message.warning(
         `当前限制选择 5 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length
         } 个文件`
