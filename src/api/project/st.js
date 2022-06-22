@@ -8,6 +8,14 @@ export function listSt(query) {
         params: query,
     });
 }
+// 查询项目信息列表
+export function updateBStatus(data) {
+    return request({
+        url: "/project/business/updateStatus",
+        method: "put",
+        data: data,
+    });
+}
 // 查询业务信息
 export function getStInfo(stId) {
     return request({
@@ -82,6 +90,20 @@ export function addSt(data) {
 export function addProject(data) {
     return request({
         url: "/project/project/save",
+        method: "post",
+        data: data,
+    });
+}
+export function editProject(data) {
+    return request({
+        url: "/project/project/update",
+        method: "post",
+        data: data,
+    });
+}
+export function editBusiness(data) {
+    return request({
+        url: "/project/business/update",
         method: "post",
         data: data,
     });
