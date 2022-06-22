@@ -1,526 +1,278 @@
-<style>
-.head-title {
-  font-size: 16px;
-  font-family: Microsoft YaHei;
-  font-weight: 400;
-  color: #333333;
-  line-height: 33px;
-  margin-top: 30px;
-  margin-left: 20px;
-}
-.head-text {
-  font-size: 14px;
-  font-family: Microsoft YaHei;
-  font-weight: 400;
-  color: #333333;
-  line-height: 53px;
-}
-</style>
 <template>
   <div>
-    <el-form label-width="20px;" label-position="left">
-      <!--    基础信息-->
-      <el-row class="head-title">
-        <el-col :span="19">
-          <el-form-item label="基本信息"></el-form-item>
-        </el-col>
-        <el-col :span="4">
-          <span style="color: #ff0000">{{ stateF(form.state) }}</span>
-        </el-col>
-      </el-row>
-      <el-row class="head-text">
-        <el-col :span="4" :offset="1">
-          项目编号：<span v-text="form.number"></span>
-        </el-col>
-        <el-col :span="4"> 项目名称：<span v-text="form.name"></span> </el-col>
-        <el-col :span="4">
-          项目金额(万元)：<span
-            v-text="$options.filters.moneyFilter(form.amount)"
-          ></span>
-        </el-col>
-        <el-col :span="4">
-          代办人：<span v-text="form.userName"></span>
-        </el-col>
-        <el-col :span="4">
-          供应商：<span v-text="form.supplierName"></span>
-        </el-col>
-      </el-row>
-      <el-row class="head-text">
-        <el-col :span="4" :offset="1">
-          立项编号：<span v-text="form.productNo"></span>
-        </el-col>
-        <el-col :span="4">
-          结算比例：<span v-text="form.settlementP"></span>
-        </el-col>
-        <el-col :span="4">
-          客户经理：<span v-text="form.managerName"></span>
-        </el-col>
-      </el-row>
-
-      <el-row class="head-title">
-        <el-col :span="19">
-          <el-form-item label="履约保证金"></el-form-item>
-        </el-col>
-      </el-row>
-
-      <el-row class="head-text">
-        <el-col :span="4" :offset="1">
-          履约保证金金额(万元)：<span
-            v-text="$options.filters.moneyFilter(form.margin)"
-          ></span>
-        </el-col>
-        <el-col :span="4">
-          结算方式：<span v-text="form.settlementWay"></span>
-        </el-col>
-        <el-col :span="4">
-          服务周期开始：<span v-text="form.cycleStart"></span>
-        </el-col>
-        <el-col :span="4">
-          服务周期结束：<span v-text="form.cycleEnd"></span>
-        </el-col>
-      </el-row>
-
-      <el-row class="head-title">
-        <el-col :span="19">
-          <el-form-item label="服务费"></el-form-item>
-        </el-col>
-      </el-row>
-
-      <el-row class="head-text">
-        <el-col :span="4" :offset="1">
-          服务费收取模式：<span v-text="form.chargemType"></span>
-        </el-col>
-        <el-col :span="4">
-          年费服务费费率(%)：<span v-text="form.chargemNx"></span>
-        </el-col>
-        <el-col :span="4">
-          固定差价：<span
-            v-text="$options.filters.moneyFilter(form.chargemGd)"
-          ></span>
-        </el-col>
-        <el-col :span="4">
-          预计单价(元)：<span
-            v-text="$options.filters.moneyFilter(form.expectPrice)"
-          ></span>
-        </el-col>
-        <el-col :span="4">
-          预计重量(吨)：<span
-            v-text="$options.filters.weightFilter(form.expectWeight)"
-          ></span>
-        </el-col>
-      </el-row>
-
-      <el-row class="head-text">
-        <el-col :span="4" :offset="1">
-          成本年服务费费率(%)：<span v-text="form.rateYear"></span>
-        </el-col>
-        <el-col :span="4">
-          预计利润：<span
-            v-text="$options.filters.moneyFilter(form.expectProfits)"
-          ></span>
-        </el-col>
-      </el-row>
-
-      <el-row class="head-title">
-        <el-col :span="19">
-          <el-form-item label="自助金融方"></el-form-item>
-        </el-col>
-      </el-row>
-
-      <el-row class="head-text">
-        <el-col :span="4" :offset="1">
-          公司名称：<span v-text="form.shName"></span>
-        </el-col>
-        <el-col :span="4"> 性质：<span v-text="form.shXz"></span> </el-col>
-        <el-col :span="4">
-          合作方式：<span v-text="form.shHztype"></span>
-        </el-col>
-        <el-col :span="4">
-          资金费率(%)：<span v-text="form.shHzrate"></span>
-        </el-col>
-        <el-col :span="4">
-          下游渠道年限：<span v-text="form.shChannelyear"></span>
-        </el-col>
-      </el-row>
-
-      <el-row class="head-text">
-        <el-col :span="4" :offset="1">
-          结算比例：<span v-text="form.shSettlement"></span>
-        </el-col>
-        <el-col :span="4">
-          履约保证金(元)：<span
-            v-text="$options.filters.moneyFilter(form.shMargin)"
-          ></span>
-        </el-col>
-        <el-col :span="4">
-          合同签署：<span v-text="form.shContracttype"></span>
-        </el-col>
-      </el-row>
-
-      <el-row class="head-title">
-        <el-col :span="19">
-          <el-form-item label="终端客户"></el-form-item>
-        </el-col>
-      </el-row>
-
-      <el-row class="head-text">
-        <el-col :span="4" :offset="1">
-          终端客户名称：<span v-text="form.tName"></span>
-        </el-col>
-        <el-col :span="4"> 性质：<span v-text="form.tXz"></span> </el-col>
-        <el-col :span="4">
-          立户情况：<span v-text="form.tAccount"></span>
-        </el-col>
-        <el-col :span="4">
-          合作年限：<span v-text="form.tCyear"></span>
-        </el-col>
-        <el-col :span="4">
-          投标方式：<span v-text="form.tTender"></span>
-        </el-col>
-      </el-row>
-
-      <el-row class="head-text">
-        <el-col :span="4" :offset="1">
-          投标保证金：<span v-text="form.tMargintype"></span>
-        </el-col>
-        <el-col :span="4">
-          投标保证金(万元)：<span
-            v-text="$options.filters.moneyFilter(form.tMargin)"
-          ></span>
-        </el-col>
-        <el-col :span="4">
-          保证金缴纳时间：<span v-text="form.tMargintime"></span>
-        </el-col>
-        <el-col :span="4">
-          合同签署：<span v-text="form.tContracttype"></span>
-        </el-col>
-        <el-col :span="4">
-          合同后置时间：<span v-text="form.tContracttime"></span>
-        </el-col>
-      </el-row>
-
-      <el-row class="head-text">
-        <el-col :span="4" :offset="1">
-          运输方式：<span v-text="form.tTransporttype"></span>
-        </el-col>
-        <el-col :span="4">
-          发站：<span v-text="form.tTransportstart"></span>
-        </el-col>
-        <el-col :span="4">
-          到站：<span v-text="form.tTransportend"></span>
-        </el-col>
-      </el-row>
-
-      <el-row class="head-text">
-        <el-col :span="8" :offset="1">
-          到场数质确认时间：<span v-text="form.tOktime"></span>
-        </el-col>
-        <el-col :span="8">
-          到场数质确认方式：<span v-text="form.tOktype"></span>
-        </el-col>
-      </el-row>
-
-      <el-row class="head-text">
-        <el-col :span="4" :offset="1">
-          开票结算方式：<span v-text="form.tSettlementtype"></span>
-        </el-col>
-        <el-col :span="4">
-          结算规则：<span v-text="form.tSettlementgz"></span>
-        </el-col>
-        <el-col :span="4">
-          回款账期：<span v-text="form.tPaymentdays"></span>
-        </el-col>
-        <el-col :span="4">
-          付款方式：<span v-text="form.tPaymenttype"></span>
-        </el-col>
-      </el-row>
-
-      <el-row class="head-title">
-        <el-col :span="19">
-          <el-form-item label="站台情况"></el-form-item>
-        </el-col>
-      </el-row>
-
-      <el-row class="head-text">
-        <el-col :span="4" :offset="1">
-          站台名字：<span v-text="form.pName"></span>
-        </el-col>
-        <el-col :span="4">
-          站台经营方式：<span v-text="form.pJymode"></span>
-        </el-col>
-        <el-col :span="4"> 站台规模：<span v-text="form.pSize"></span> </el-col>
-        <el-col :span="4">
-          站台发运方式：<span v-text="form.pFymode"></span>
-        </el-col>
-        <el-col :span="4">
-          承运方发运名称：<span v-text="form.pCname"></span>
-        </el-col>
-      </el-row>
-
-      <el-row class="head-text">
-        <el-col :span="4" :offset="1">
-          承运方性质：<span v-text="form.pCxz"></span>
-        </el-col>
-        <el-col :span="4">
-          程远方发运年限：<span v-text="form.pCyear"></span>
-        </el-col>
-        <el-col :span="4">
-          承运方发运规模(万吨/年)：<span v-text="form.pCnumber"></span>
-        </el-col>
-      </el-row>
-
-      <el-row class="head-title">
-        <el-col :span="19">
-          <el-form-item label="其他内容"></el-form-item>
-        </el-col>
-      </el-row>
-
-      <el-row class="head-text">
-        <el-col :span="10" :offset="1">
-          备注说明：
-          <el-input
-            type="textarea"
-            disabled
-            :rows="5"
-            v-model="form.node"
-            placeholder="请输入备注说明"
-          />
-        </el-col>
-      </el-row>
-
-      <el-row class="head-text" style="margin-bottom: 50px">
-        <el-col :span="18" :offset="1">
-          <el-form-item label="附件：" prop="file">
-            <!-- <el-upload
-              disabled
-              :action="url"
-              :headers="headers"
-              class="upload-hidden "
-              :on-preview="handlePreview"
-              list-type="text"
-              :file-list="fileList">
-            </el-upload> -->
-            <custom-upload :fileList="fileList"></custom-upload>
-          </el-form-item>
-        </el-col>
-      </el-row>
-
-      <!--      审批流程·-->
-            <approval-process :typeId="1" :stId="stId"></approval-process>
-
-      <!--      审批信息-->
-      <el-row class="head-title">
-        <el-col :span="12">
-          <el-form-item label="审批记录"></el-form-item>
-        </el-col>
-      </el-row>
-      <el-row class="head-text">
-        <el-col :offset="1">
-          <el-table
-            ref="singleTable"
-            :data="stateList"
-            style="width: 80%; margin-bottom: 30px"
-          >
-            <el-table-column property="deptName" label="部门">
-            </el-table-column>
-            <el-table-column property="nickName" label="审批人">
-            </el-table-column>
-            <el-table-column property="approveTime" label="审批时间">
-            </el-table-column>
-            <el-table-column property="processValue" label="审批说明">
-            </el-table-column>
-            <el-table-column property="status" label="审批状态">
-              <template slot-scope="scope">
-                {{ scope.row.status == 0 ? "驳回" : "通过" }}
-              </template>
-            </el-table-column>
-          </el-table>
-        </el-col>
-      </el-row>
-    </el-form>
-    <el-row>
-      <el-col :offset="1" :span="20">
-        <div
-          slot=""
-          class="dialog-footer"
-          style="text-align: right; margin-bottom: 50px; margin-right: 50px"
-        >
-          <el-button type="info" @click="cancel">关 闭</el-button>
-        </div>
-      </el-col>
-    </el-row>
+    <div style="display:flex;justify-content:end;margin-top:20px;margin-right:20px">
+      <el-button @click="exportInfo" type="primary" size="small">导出</el-button>
+    </div>
+    <div style="padding:20px">
+      <el-descriptions title="项目信息" :column="3" border>
+        <el-descriptions-item>
+          <template slot="label">立项类型</template>{{ projectInfo.projectType }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">项目编号</template>{{ projectInfo.projectNo }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">项目名称</template>{{ projectInfo.projectName }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">立项编号</template>{{ projectInfo.serialNo }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">供应商</template>{{ projectInfo.supplierName }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">代办人</template>{{ projectInfo.userName }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">终端客户</template>{{ projectInfo.tName }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">业务经理</template>{{ projectInfo.serviceManagerName }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">业务类型</template>{{ projectInfo.businessType }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">业务实控人</template>{{ projectInfo.actualControlName }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">收费模式</template>{{ projectInfo.chargemType }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">货运方式</template>{{ projectInfo.freightMode }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">年服务费率(%)</template>{{ projectInfo.chargemNx }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">固定差价(元)</template>{{ projectInfo.chargemGd }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">备注说明</template>{{ projectInfo.node }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">附件</template>
+          <custom-upload :fileList="projectInfo.filesList"></custom-upload>
+        </el-descriptions-item>
+      </el-descriptions>
+      <el-descriptions style="margin-top:20px" title="业务基础信息" :column="3" border>
+        <el-descriptions-item>
+          <template slot="label">业务名称</template>{{ stInfo.stName }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">业务金额(万元)</template>{{ stInfo.stAmount }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">结算比例</template>{{ stInfo.settlementPA1 + '-' + stInfo.settlementPA2 + '-' +
+              stInfo.settlementPA3
+          }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">履约保证金</template>{{ stInfo.marginType == 1 ? '有' : '无' }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">履约保证金金额(万元)</template>{{ stInfo.margin }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">服务周期</template>{{ stInfo.cycleStart + '-' + stInfo.cycleEnd }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">预计重量(吨)</template>{{ stInfo.expectWeight }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">预计单价(元)</template>{{ stInfo.expectPrice }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">成本年服务费率(%)</template>{{ stInfo.rateYear }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">预计利润</template>{{ stInfo.expectProfits }}
+        </el-descriptions-item>
+      </el-descriptions>
+      <el-descriptions style="margin-top:20px" title="自融资金方" :column="3" border>
+        <el-descriptions-item>
+          <template slot="label">公司名称</template>{{ stInfo.shName }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">性质</template>{{ stInfo.shXz }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">合作方式</template>{{ stInfo.shHztype }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">资金费率(%)</template>{{ stInfo.shHzrate }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">下游渠道</template>{{ stInfo.shChanneltype == 1 ? '有' : '无' }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">下游渠道年限</template>{{ stInfo.shChannelyear }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">结算比例</template>{{ stInfo.shSettlementA1 + '-' + stInfo.shSettlementA2 + '-' +
+              stInfo.shSettlementA3
+          }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">履约保证金</template>{{ stInfo.shMargintype == 1 ? '有' : '无' }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">保证金金额</template>{{ stInfo.shMargin }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">合同签署</template>{{ stInfo.shContracttype }}
+        </el-descriptions-item>
+      </el-descriptions>
+      <el-descriptions v-for="(item, index) in stInfo.ztList" :key="index" style="margin-top:20px" :title="'站台' + (index+1)"
+        :column="3" border>
+        <el-descriptions-item>
+          <template slot="label">站台名称</template>{{ item.ztId }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">站台费用</template>{{ item.ztFee }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">运费</template>{{ item.freight }}
+        </el-descriptions-item>
+      </el-descriptions>
+    </div>
+    <div style="padding:20px">
+      <div>投标申请</div>
+      <bid-apply :stId="stId" :projectId="projectId"></bid-apply>
+    </div>
+    <div style="padding:20px">
+      <div>合同信息</div>
+      <contract :stId="stId" :projectId="projectId"></contract>
+    </div>
+    <div style="padding:20px">
+      <div>奖惩设置</div>
+      <rewardsp :stId="stId" :projectId="projectId"></rewardsp>
+    </div>
+    <div style="padding:20px">
+      <div>随车数质量</div>
+      <grn :stId="stId" :projectId="projectId"></grn>
+    </div>
+    <div style="padding:20px">
+      <div>到厂数质量</div>
+      <gry :stId="stId" :projectId="projectId"></gry>
+    </div>
+    <div style="padding:20px">
+      <div>保证金管理</div>
+      <margin :stId="stId" :projectId="projectId"></margin>
+    </div>
+    <div style="padding:20px">
+      <div>物流付款</div>
+      <lpayment :stId="stId" :projectId="projectId"></lpayment>
+    </div>
+    <div style="padding:20px">
+      <div>物流收票</div>
+      <wldetails :stId="stId" :projectId="projectId"></wldetails>
+    </div>
+    <div style="padding:20px">
+      <div>预付款信息</div>
+      <apayment :stId="stId" :projectId="projectId"></apayment>
+    </div>
+    <div style="padding:20px">
+      <div>最终付款</div>
+      <fpayment :stId="stId" :projectId="projectId"></fpayment>
+    </div>
+    <div style="padding:20px">
+      <div>预估收款</div>
+      <estimated-receipts :stId="stId" :projectId="projectId"></estimated-receipts>
+    </div>
+    <div style="padding:20px">
+      <div>实际收款</div>
+      <realsk :stId="stId" :projectId="projectId"></realsk>
+    </div>
+    <div style="padding:20px">
+      <div>退款管理</div>
+      <refund :stId="stId" :projectId="projectId"></refund>
+    </div>
+    <div style="padding:20px">
+      <div>财务收付款明细</div>
+      <sfdetails :stId="stId" :projectId="projectId"></sfdetails>
+    </div>
+    <div style="padding:20px">
+      <div>收票管理</div>
+      <sp :stId="stId" :projectId="projectId"></sp>
+    </div>
+    <div style="padding:20px">
+      <div>开票管理</div>
+      <kp :stId="stId" :projectId="projectId"></kp>
+    </div>
+    <div style="padding:20px">
+      <div>服务费明细</div>
+      <service-details :stId="stId" :projectId="projectId"></service-details>
+    </div>
+    <div style="padding:20px">
+      <div>固定差价明细</div>
+    </div>
   </div>
 </template>
 
 <script>
-import { getSt } from "@/api/project/st";
-import { getToken } from "@/utils/auth";
-import { getProcessDataByStId } from "@/api/approve";
-
+import bidApply from '@/views/project/st/components/bidApply'
+import contract from '@/views/project/st/components/contract'
+import rewardsp from '@/views/project/st/components/rewardsp'
+import margin from '@/views/project/st/components/margin'
+import lpayment from '@/views/project/st/components/lpayment'
+import wldetails from '@/views/project/st/components/wldetails'
+import apayment from '@/views/project/st/components/apayment'
+import fpayment from '@/views/project/st/components/fpayment'
+import estimatedReceipts from '@/views/project/st/components/fpayment'
+import realsk from '@/views/project/st/components/realsk'
+import refund from '@/views/project/st/components/refund'
+import sfdetails from '@/views/project/st/components/sfdetails'
+import serviceDetails from '@/views/project/st/components/serviceDetails'
+import grn from '@/views/project/st/components/grn'
+import gry from '@/views/project/st/components/gry'
+import sp from '@/views/project/st/components/sp'
+import kp from '@/views/project/st/components/kp'
+import { exportBusiness, getStInfo, projectInfo } from "@/api/project/st";
 export default {
   name: "look",
   data() {
     return {
-      //审批集合
-      stateList: [],
-
-      //上传路径
-      url: process.env.VUE_APP_BASE_API + "/file/upload",
-      // 设置上传的请求头部
-      headers: { Authorization: "Bearer " + getToken() },
-      //附件集合
-      fileList: [],
-
-      // 表单参数
-      form: {},
-      gryLr: 0.0,
-      gryNumber: 0,
-      stId: "",
-    };
+      stId: '',
+      stInfo: '',
+      projectInfo: ''
+    }
   },
-  created() {
-    const stId = this.$route.params && this.$route.params.stId;
-    this.stId = stId;
-    getSt(stId).then((response) => {
-      this.form = response.data;
-      this.fileList = response.data.fileList;
-      if (this.form.chargemType == "1") {
-        this.form.chargemType = "年息";
-      } else if (this.form.chargemType == "2") {
-        this.form.chargemType = "固定差价";
-      } else if (this.form.chargemType == "3") {
-        this.form.chargemType = "年息+固定差价";
-      }
-      if (this.form.tMargintype == "1") {
-        this.form.tMargintype = "有";
-      } else if (this.form.tMargintype == "2") {
-        this.form.tMargintype = "无";
-      }
-
-      if (this.form.settlementP == "其他") {
-        if (this.form.settlementPA1 != null && this.form.settlementPA1 != "") {
-          this.form.settlementP = this.form.settlementPA1 + "%";
-          if (
-            this.form.settlementPA2 != null &&
-            this.form.settlementPA2 != ""
-          ) {
-            this.form.settlementP =
-              this.form.settlementPA1 + "%-" + this.form.settlementPA2 + "%";
-            if (
-              this.form.settlementPA3 != null &&
-              this.form.settlementPA3 != ""
-            ) {
-              this.form.settlementP =
-                this.form.settlementPA1 +
-                "%-" +
-                this.form.settlementPA2 +
-                "%-" +
-                this.form.settlementPA3 +
-                "%";
-            }
-          }
-        }
-        // this.form.settlementP=this.form.settlementPA1+"%-"+this.form.settlementPA2+"%-"+this.form.settlementPA3+"%"
-      }
-      if (this.form.shSettlement == "其他") {
-        if (
-          this.form.shSettlementA1 != null &&
-          this.form.shSettlementA1 != ""
-        ) {
-          this.form.shSettlement = this.form.shSettlementA1 + "%";
-          if (
-            this.form.shSettlementA2 != null &&
-            this.form.shSettlementA2 != ""
-          ) {
-            this.form.shSettlement =
-              this.form.shSettlementA1 + "%-" + this.form.shSettlementA2 + "%";
-            if (
-              this.form.shSettlementA3 != null &&
-              this.form.shSettlementA3 != ""
-            ) {
-              this.form.shSettlement =
-                this.form.shSettlementA1 +
-                "%-" +
-                this.form.shSettlementA2 +
-                "%-" +
-                this.form.shSettlementA3 +
-                "%";
-            }
-          }
-        }
-        // this.form.shSettlement=this.form.shSettlementA1+"%-"+this.form.shSettlementA2+"%-"+this.form.shSettlementA3+"%"
-      }
-    });
-
-    getProcessDataByStId("1", stId).then((res) => {
-      this.stateList = res.data;
-    });
+  components: {
+    bidApply,
+    contract,
+    rewardsp,
+    margin,
+    lpayment,
+    wldetails,
+    apayment,
+    fpayment,
+    estimatedReceipts,
+    realsk,
+    refund,
+    sfdetails,
+    serviceDetails,
+    grn,
+    gry,
+    kp,
+    sp
+  },
+  mounted() {
+    this.stId = this.$route.fullPath.match(/\d+/)[0]
+    getStInfo(this.stId).then(res => {
+      this.stInfo = res.data
+      projectInfo(res.data.projectId).then(res => {
+        this.projectId=res.data.projectId
+        this.projectInfo = res.data
+      })
+    })
   },
   methods: {
-    cancel() {
-      this.$store.dispatch("tagsView/delView", this.$route);
-      this.$router.go(-1);
-    },
-    //点击触发
-    handlePreview(file) {
-      if (file.response == undefined) {
-        window.open(file.url);
-      } else {
-        window.open(file.response.data.url);
-      }
-    },
-    handleRemove(file, filelist) {
-      this.form.fileList = [];
-      for (let i = 0; i < filelist.length; i++) {
-        if (filelist[i].response != undefined) {
-          let art = {
-            name: filelist[i].response.data.name,
-            url: filelist[i].response.data.url,
-          };
-          this.form.fileList.push(art);
-        } else {
-          let art = { name: filelist[i].name, url: filelist[i].url };
-          this.form.fileList.push(art);
-        }
-      }
-    },
-    handleExceed(files, fileList) {
-      this.$message.warning(
-        `当前限制选择 5 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
-          files.length + fileList.length
-        } 个文件`
-      );
-    },
-    beforeRemove(file, fileList) {
-      return this.$confirm(`确定移除 ${file.name}？`);
-    },
-    // res 表示请求响应体
-    uploadSuccess(res, file, filelist) {
-      if (res.code == "200") {
-        this.form.fileList = [];
-        for (var i = 0; i < filelist.length; i++) {
-          if (filelist[i].response != undefined) {
-            let name = filelist[i].response.data.name;
-            let url = filelist[i].response.data.url;
-            let art = { name: name, url: url };
-            this.form.fileList.push(art);
-          } else {
-            let name = filelist[i].name;
-            let url = filelist[i].url;
-            let art = { name: name, url: url };
-            this.form.fileList.push(art);
-          }
-        }
-        this.$message.success("上传成功");
-      } else {
-        this.$message.error(res.msg);
-        let index = filelist.indexOf(file);
-        filelist.splice(index, 1);
-      }
-    },
-    uploadError(err, file, filelist) {
-      this.$message.error("上传失败");
-    },
-  },
-};
+    exportInfo() {
+      exportBusiness({ stId: this.stId }).then(res => {
+
+      })
+    }
+  }
+}
 </script>

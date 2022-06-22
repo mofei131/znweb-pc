@@ -13,8 +13,8 @@
             placeholder="请输入流程名称"
           ></el-input>
         </el-form-item> -->
-        <el-form-item label="流程类型" prop="processType">
-          <el-select v-model="queryParams.processType" placeholder="请选择分类">
+        <el-form-item label="流程类型" prop="processTypeList">
+          <el-select v-model="queryParams.approvalType" placeholder="请选择分类">
             <el-option
               v-for="dict in processTypeList"
               :key="dict.dictValue"
@@ -23,7 +23,7 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="一级审批人">
+     <!--   <el-form-item label="一级审批人">
           <el-input
             v-model="queryParams.levelOneApproval"
             placeholder="请输入一级审批人"
@@ -34,7 +34,7 @@
             v-model="queryParams.levelTowApproval"
             placeholder="请输入二级审批人"
           ></el-input>
-        </el-form-item>
+        </el-form-item> -->
         <!-- <el-form-item label="发起人">
           <el-input
             v-model="queryParams.sponsor"
@@ -52,7 +52,12 @@
     <div>
       <el-table :data="initiateData">
         <!-- <el-table-column label="流程名称" align="center" prop="processName" /> -->
-        <el-table-column label="流程类型" align="center" prop="processType">
+        <el-table-column
+          label="流程类型"
+          align="center"
+          prop="approvalType"
+        />
+        <!-- <el-table-column label="流程类型" align="center" prop="processType">
           <template slot-scope="scope">
             {{
               scope.row.processType == "1"
@@ -96,8 +101,8 @@
                 : ""
             }}
           </template>
-        </el-table-column>
-        <el-table-column
+        </el-table-column> -->
+        <!-- <el-table-column
           label="一级审批"
           align="center"
           prop="levelOneApproval"
@@ -111,18 +116,18 @@
           <template slot-scope="scope">
             {{ scope.row.status == "0" ? "启用" : "禁用" }}
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column label="操作" align="center">
           <template slot-scope="scope">
-            <el-button type="text" @click="handleSelect(scope.row)" circle
+            <!-- <el-button type="text" @click="handleSelect(scope.row)" circle
               >查看</el-button
-            >
+            > -->
             <el-button type="text" @click="handleUpdate(scope.row)" circle
               >编辑</el-button
             >
-            <el-button type="text" @click="status(scope.row)" circle>{{
+            <!-- <el-button type="text" @click="status(scope.row)" circle>{{
               scope.row.status == "0" ? "禁用" : "启用"
-            }}</el-button>
+            }}</el-button> -->
           </template>
         </el-table-column>
       </el-table>
@@ -178,16 +183,24 @@ export default {
     };
   },
   created() {
-    this.getList();
     this.getDicts("process_type").then((response) => {
       this.processTypeList = response.data;
     });
+    this.getList();
   },
   methods: {
     getList() {
+      let that = this
       list(this.queryParams).then((res) => {
-        this.initiateData = res.data.records;
-        this.total = res.data.total;
+        // this.initiateData = res.data.records;
+        // console.log(res.rows)
+        let list = res.rows
+        list.forEach(function(item,index){
+          list[index].approvalType = that.processTypeList[that.processTypeList.findIndex((it) => it.dictValue == item.approvalType)].dictLabel
+        })
+        // console.log(list)
+        this.initiateData = list
+        this.total = res.total;
       });
     },
     // 搜索按钮

@@ -349,7 +349,8 @@
           </el-table>
         </el-col>
       </el-row>
-
+      <!--      审批信息-->
+      <approval-record :typeId="9" :stId="lpaymentId"></approval-record>
     </el-form>
     <el-row>
       <el-col :offset="1" :span="20">

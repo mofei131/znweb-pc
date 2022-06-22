@@ -127,14 +127,14 @@ export function view(query) {
     });
 }
 
-// 获取全部流程
-export function list(query) {
-    return request({
-        url: "/approve/process/list",
-        method: "post",
-        data: query,
-    });
-}
+// // 获取全部流程
+// export function list(query) {
+//     return request({
+//         url: "/approve/process/list",
+//         method: "post",
+//         data: query,
+//     });
+// }
 
 // 根据流程ID获取流程信息
 export function info(query) {
@@ -217,5 +217,36 @@ export function withdraw(query, id) {
     return request({
         url: "/approve/process/withdraw/" + query + "/" + id,
         method: "post",
+    });
+}
+
+//220621流程配置保存
+export function processDefSave(query) {
+    return request({
+        url: "/approve/processDef/save",
+        method: "post",
+        data: query,
+    });
+}
+//220621获取所有人员列表
+export function listForCombobox(query) {
+    return request({
+        url: "/system/user/listForCombobox",
+        method: "get",
+    });
+}
+// 220621获取全部流程
+export function list(query) {
+    return request({
+        url: "/approve/processDef/list",
+        method: "get",
+        params: query,
+    });
+}
+//220621获取流程详情
+export function getProcessDefInfo(query) {
+    return request({
+        url: "/approve/processDef/info/" + query,
+        method: "get",
     });
 }
