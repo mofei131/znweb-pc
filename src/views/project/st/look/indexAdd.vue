@@ -214,7 +214,7 @@ import realsk from '@/views/project/st/components/realsk'
 import refund from '@/views/project/st/components/refund'
 import sfdetails from '@/views/project/st/components/sfdetails'
 import serviceDetails from '@/views/project/st/components/serviceDetails'
-import {exportBusiness} from "@/api/project/st";
+import {exportBusiness,getStInfo} from "@/api/project/st";
 export default {
   name: "look",
   data() {
@@ -239,6 +239,9 @@ export default {
   },
   mounted(){
     this.stId=this.$route.fullPath.match(/\d+/)[0]
+    getStInfo().then(res=>{
+      console.log(res)
+    })
   },
   methods:{
     exportInfo(){

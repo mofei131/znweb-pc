@@ -8,6 +8,13 @@ export function listSt(query) {
         params: query,
     });
 }
+// 查询业务信息
+export function getStInfo(stId) {
+    return request({
+        url: "project/business/info/"+stId,
+        method: "get"
+    });
+}
 //导出业务明细
 export function exportBusiness(data) {
     return request({

@@ -44,12 +44,12 @@
       </el-table-column>
       <el-table-column label="审批状态" align="center">
         <template slot-scope="scope">
-          <div :style="'color:'+scope.row.scolor">{{stateChange(scope.row)}}</div>
+          <div v-if="scope.row.hType=='项目'" :style="'color:'+scope.row.scolor">{{stateChange(scope.row)}}</div>
         </template>
         </el-table-column>
       <el-table-column label="业务状态" align="center">
         <template slot-scope="scope">
-          <div v-if="scope.row.state==3" :style="'color:'+scope.row.bcolor">{{businessStateChange(scope.row)}}</div>
+          <div v-if="scope.row.state==3 && scope.row.hType=='业务'" :style="'color:'+scope.row.bcolor">{{businessStateChange(scope.row)}}</div>
         </template>
         </el-table-column>
       <el-table-column label="操作" width="160" align="center" class-name="small-padding fixed-width">
