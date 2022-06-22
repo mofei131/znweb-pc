@@ -97,14 +97,14 @@ export function addProject(data) {
 export function editProject(data) {
     return request({
         url: "/project/project/update",
-        method: "post",
+        method: "put",
         data: data,
     });
 }
 export function editBusiness(data) {
     return request({
         url: "/project/business/update",
-        method: "post",
+        method: "put",
         data: data,
     });
 }

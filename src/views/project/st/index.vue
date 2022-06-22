@@ -664,7 +664,8 @@ import {
   addBusiness,
   editProject,
   getStInfo,
-  editBusiness
+  editBusiness,
+  updateBStatus
 } from "@/api/project/st";
 import { getToken } from "@/utils/auth";
 export default {
