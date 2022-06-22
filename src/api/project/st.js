@@ -8,6 +8,14 @@ export function listSt(query) {
         params: query,
     });
 }
+//导出业务明细
+export function exportBusiness(data) {
+    return request({
+        url: "/project/business/export",
+        method: "post",
+        data: data,
+    });
+}
 export function platformList(query) {
     return request({
         url: "/project/platform/list",

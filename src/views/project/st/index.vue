@@ -42,19 +42,27 @@
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="审批状态" align="center" prop="state" />
-      <el-table-column label="业务状态" align="center" prop="businessState" />
+      <el-table-column label="审批状态" align="center">
+        <template slot-scope="scope">
+          <div :style="'color:'+scope.row.scolor">{{stateChange(scope.row)}}</div>
+        </template>
+        </el-table-column>
+      <el-table-column label="业务状态" align="center">
+        <template slot-scope="scope">
+          <div v-if="scope.row.state==3" :style="'color:'+scope.row.bcolor">{{businessStateChange(scope.row)}}</div>
+        </template>
+        </el-table-column>
       <el-table-column label="操作" width="160" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button size="mini" type="text" icon="el-icon-edit" v-hasPermi="['project:st:edit']"
+          <el-button v-if="scope.row.hType=='项目'" size="mini" type="text" icon="el-icon-edit" v-hasPermi="['project:st:edit']" 
             @click="openCheckProject(scope.row)">查看项目</el-button>
-          <el-button size="mini" type="text" icon="el-icon-edit" v-hasPermi="['project:st:edit']">修改项目</el-button>
-          <el-button size="mini" type="text" v-hasPermi="['project:st:edit']" @click="openBusinessBox(scope.row)">添加业务
+          <el-button size="mini" type="text" icon="el-icon-edit" v-if="scope.row.hType=='项目'" v-hasPermi="['project:st:edit']">修改项目</el-button>
+          <el-button size="mini" type="text" v-hasPermi="['project:st:edit']" v-if="scope.row.hType=='项目'" @click="openBusinessBox(scope.row)">添加业务
           </el-button>
-          <el-button size="mini" type="text" icon="el-icon-edit" v-hasPermi="['project:st:edit']"
+          <el-button size="mini" type="text" v-if="scope.row.hType=='业务'" icon="el-icon-edit" v-hasPermi="['project:st:edit']"
             @click="jumpBusiness(scope.row)">业务明细</el-button>
-          <el-button size="mini" type="text" v-hasPermi="['project:st:edit']">修改业务</el-button>
-          <el-button size="mini" type="text" v-hasPermi="['project:st:edit']" @click="openOperateBusiness(scope.row)">
+          <el-button size="mini" type="text" v-if="scope.row.hType=='业务'" v-hasPermi="['project:st:edit']">修改业务</el-button>
+          <el-button size="mini" v-if="scope.row.hType=='业务'" type="text" v-hasPermi="['project:st:edit']" @click="openOperateBusiness(scope.row)">
             操作业务</el-button>
         </template>
       </el-table-column>
@@ -1079,6 +1087,37 @@ export default {
     })
   },
   methods: {
+    stateChange(e){
+      if(e.state==1){
+        return '未审批'
+      } else if(e.state==2){
+        e.scolor='#09CC9D'
+        return '审批中'
+      } else if(e.state==3){
+        e.scolor='#007AFF'
+        return '已通过'
+      } else if(e.state==4){
+        e.scolor='#F12801'
+        return '已打回'
+      }
+    },
+    businessStateChange(e){
+      if(e.businessState==0){
+        return '提交中'
+      } else if(e.businessState==1){
+        e.bcolor='#09CC9D'
+        return '进行中'
+      } else if(e.businessState==2){
+        e.bcolor='#FFAC00'
+        return '异常'
+      } else if(e.businessState==3){
+        e.bcolor='#F12801'
+        return '结束'
+      } else if(e.businessState==4){
+        e.bcolor='#007AFF'
+        return '完成'
+      }
+    },
     addZt(index) {
       this.form2.ztList.splice(index + 1, 0, {
         ztId: '',
@@ -1180,7 +1219,7 @@ export default {
       });
     },
     jumpBusiness(row) {
-      this.$router.push('/st/lookAdd/' + row.projectId)
+      this.$router.push('/st/lookAdd/'+row.stId)
     },
     openBusinessBox(row) {
       projectInfo(row.projectId).then(res => {

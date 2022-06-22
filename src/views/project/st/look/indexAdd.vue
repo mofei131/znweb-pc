@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div style="display:flex;justify-content:end;margin-top:20px;margin-right:20px">
+      <el-button @click="exportInfo" type="primary" size="small">导出</el-button>
+    </div>
     <div style="padding:20px">
       <el-descriptions title="项目信息" :column="3" border>
         <el-descriptions-item>
@@ -175,27 +178,24 @@
     </div>
     <div style="padding:20px">
       <div>退款管理</div>
-      <contract></contract>
+      <refund></refund>
     </div>
     <div style="padding:20px">
-      <div>财务首付款明细</div>
-      <contract></contract>
+      <div>财务收付款明细</div>
+      <sfdetails></sfdetails>
     </div>
     <div style="padding:20px">
       <div>收票管理</div>
-      <contract></contract>
     </div>
     <div style="padding:20px">
       <div>开票管理</div>
-      <contract></contract>
     </div>
     <div style="padding:20px">
       <div>服务费明细</div>
-      <contract></contract>
+      <service-details></service-details>
     </div>
     <div style="padding:20px">
       <div>固定差价明细</div>
-      <contract></contract>
     </div>
   </div>
 </template>
@@ -211,10 +211,15 @@ import apayment from '@/views/project/st/components/apayment'
 import fpayment from '@/views/project/st/components/fpayment'
 import estimatedReceipts from '@/views/project/st/components/fpayment'
 import realsk from '@/views/project/st/components/realsk'
+import refund from '@/views/project/st/components/refund'
+import sfdetails from '@/views/project/st/components/sfdetails'
+import serviceDetails from '@/views/project/st/components/serviceDetails'
+import {exportBusiness} from "@/api/project/st";
 export default {
   name: "look",
   data() {
     return {
+      stId:''
     }
   },
   components:{
@@ -227,7 +232,20 @@ export default {
     apayment,
     fpayment,
     estimatedReceipts,
-    realsk
+    realsk,
+    refund,
+    sfdetails,
+    serviceDetails
+  },
+  mounted(){
+    this.stId=this.$route.fullPath.match(/\d+/)[0]
+  },
+  methods:{
+    exportInfo(){
+      exportBusiness({stId:this.stId}).then(res=>{
+
+      })
+    }
   }
 }
 </script>
