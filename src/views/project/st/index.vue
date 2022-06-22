@@ -1,3 +1,4 @@
+<!--项目新增-->
 <template>
   <div class="app-container">
     <!-- <createPrint @abcClick="printSomething"></createPrint>
@@ -133,10 +134,13 @@
       @selection-change="handleSelectionChange"
     >
       <!--      <el-table-column label="项目id" align="center" prop="stId" />-->
-      <el-table-column label="项目名称" align="center" prop="name" />
       <el-table-column label="项目编号" align="center" prop="number" />
+      <el-table-column label="项目名称" align="center" prop="name" />
       <el-table-column label="立项编号" align="center" prop="productNo" />
-      <el-table-column label="项目金额" align="center" prop="amount">
+      <el-table-column label="业务类型" align="center" prop="settlementWay" />
+      <el-table-column label="业务经理" align="center" prop="managerName" />
+      <el-table-column label="货运方式" align="center" prop="tTransporttype" />
+      <!-- <el-table-column label="项目金额" align="center" prop="amount">
         <template slot-scope="scope">
           {{
             Number(scope.row.amount)
@@ -156,7 +160,7 @@
               .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
           }}
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column label="代办人" align="center" prop="userName" />
       <el-table-column
         label="创建时间"
@@ -792,6 +796,7 @@
             <el-col :span="12">
               <el-form-item label="终端客户名称" prop="terminalId">
                 <el-select
+                
                   filterable
                   value-key="terminalId"
                   style="width: 100%"

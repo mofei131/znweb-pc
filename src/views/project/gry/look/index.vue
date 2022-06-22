@@ -36,10 +36,13 @@
       </el-row>
       <el-row class="head-text">
         <el-col :span="4" :offset="1">
-          项目名称：<span v-text="form.stName"></span>
+          项目名称：<span v-text="form.projectName"></span>
         </el-col>
         <el-col :span="4" :offset="1">
-          项目编号：<span v-text="form.number"></span>
+          业务名称：<span v-text="form.stName"></span>
+        </el-col>
+        <el-col :span="4" :offset="1">
+          立项编号：<span v-text="form.serialNo"></span>
         </el-col>
         <el-col :span="4">
           出库重量：<span v-text="$options.filters.weightFilter(form.grnNumber)"></span>

@@ -1,5 +1,5 @@
 <style>
-.head-title{
+.head-title {
   font-size: 16px;
   font-family: Microsoft YaHei;
   font-weight: 400;
@@ -8,7 +8,7 @@
   margin-top: 30px;
   margin-left: 20px;
 }
-.head-text{
+.head-text {
   font-size: 14px;
   font-family: Microsoft YaHei;
   font-weight: 400;
@@ -16,13 +16,12 @@
   line-height: 53px;
 }
 
-.upload-hidden .el-upload--picture-card{
-  display:none;   /* 上传按钮隐藏 */
+.upload-hidden .el-upload--picture-card {
+  display: none; /* 上传按钮隐藏 */
 }
-.el-textarea.is-disabled .el-textarea__inner{
-  background-color:#FFF; /* 设置背景颜色为黑色 */
+.el-textarea.is-disabled .el-textarea__inner {
+  background-color: #fff; /* 设置背景颜色为黑色 */
 }
-
 </style>
 <template>
   <div>
@@ -35,10 +34,13 @@
       </el-row>
       <el-row class="head-text">
         <el-col :span="4" :offset="1">
-          项目名称：<span v-text="form.stName"></span>
+          项目名称：<span v-text="form.projectName"></span>
         </el-col>
         <el-col :span="4" :offset="1">
-          项目编号：<span v-text="form.stNumber"></span>
+          业务名称: <span v-text="form.stName"></span>
+        </el-col>
+        <el-col :span="4" :offset="1">
+          立项编号: <span v-text="form.serialNo"></span>
         </el-col>
         <el-col :span="4" :offset="1">
           投标平台：<span v-text="form.bidPlatform"></span>
@@ -50,16 +52,24 @@
 
       <el-row class="head-text">
         <el-col :span="4" :offset="1">
-          单价（元/{{priceLabel }}）：<span v-text="$options.filters.moneyFilter(form.bidPrice)"></span>
+          单价（元/{{ priceLabel }}）：<span
+            v-text="$options.filters.moneyFilter(form.bidPrice)"
+          ></span>
         </el-col>
         <el-col :span="4" :offset="1">
-          投标数量（吨）：<span v-text="$options.filters.weightFilter(form.bidNumber)"></span>
+          投标数量（吨）：<span
+            v-text="$options.filters.weightFilter(form.bidNumber)"
+          ></span>
         </el-col>
         <el-col :span="4" :offset="1">
-          投标保证金（元）：<span v-text="$options.filters.moneyFilter(form.bidBond)"></span>
+          投标保证金（元）：<span
+            v-text="$options.filters.moneyFilter(form.bidBond)"
+          ></span>
         </el-col>
         <el-col :span="4" :offset="1">
-          履约保证金（元）：<span v-text="$options.filters.moneyFilter(form.performanceBond)"></span>
+          履约保证金（元）：<span
+            v-text="$options.filters.moneyFilter(form.performanceBond)"
+          ></span>
         </el-col>
       </el-row>
 
@@ -74,19 +84,25 @@
 
       <el-row class="head-text">
         <el-col :span="18" :offset="1">
-          备注：<el-input disabled type="textarea"  :rows="3" v-model="form.remark" placeholder=""  />
+          备注：<el-input
+            disabled
+            type="textarea"
+            :rows="3"
+            v-model="form.remark"
+            placeholder=""
+          />
         </el-col>
       </el-row>
 
       <el-row class="head-text">
         <el-col :span="20" :offset="1">
-          <el-form-item class="head-text" label="附件：" prop="file" >
+          <el-form-item class="head-text" label="附件：" prop="file">
             <custom-upload :fileList="fileList"></custom-upload>
           </el-form-item>
         </el-col>
       </el-row>
-       <!--      审批流程·-->
-      <approval-process :typeId="18" :stId="bidId"></approval-process>
+      <!--      审批流程·-->
+            <approval-process :typeId="18" :stId="bidId"></approval-process>
 
       <!--      审批信息-->
       <el-row class="head-title">
@@ -99,26 +115,17 @@
           <el-table
             ref="singleTable"
             :data="stateList"
-            style="width: 80%;margin-bottom: 30px;">
-            <el-table-column
-              property="deptName"
-              label="部门">
+            style="width: 80%; margin-bottom: 30px"
+          >
+            <el-table-column property="deptName" label="部门">
             </el-table-column>
-            <el-table-column
-              property="nickName"
-              label="审批人">
+            <el-table-column property="nickName" label="审批人">
             </el-table-column>
-            <el-table-column
-              property="approveTime"
-              label="审批时间">
+            <el-table-column property="approveTime" label="审批时间">
             </el-table-column>
-            <el-table-column
-              property="processValue"
-              label="审批说明">
+            <el-table-column property="processValue" label="审批说明">
             </el-table-column>
-            <el-table-column
-              property="status"
-              label="审批状态">
+            <el-table-column property="status" label="审批状态">
               <template slot-scope="scope">
                 {{ scope.row.status == 0 ? "驳回" : "通过" }}
               </template>
@@ -129,7 +136,11 @@
     </el-form>
     <el-row>
       <el-col :offset="1" :span="20">
-        <div slot=""  class="dialog-footer" style="text-align: right;margin-bottom: 50px;margin-right: 50px;">
+        <div
+          slot=""
+          class="dialog-footer"
+          style="text-align: right; margin-bottom: 50px; margin-right: 50px"
+        >
           <el-button type="info" @click="cancel">关 闭</el-button>
         </div>
       </el-col>
@@ -137,58 +148,97 @@
   </div>
 </template>
 <script>
-
-import {getToken} from "@/utils/auth";
-import {getProcessDataByStId} from "@/api/approve";
-import { getBidApply } from "@/api/project/bidApply";
-import CustomUpload from '@/views/components/customUpload'
+import { getToken } from "@/utils/auth";
+import { getProcessDataByStId } from "@/api/approve";
+import { getBidApply, listForBus, listForPro } from "@/api/project/bidApply";
+import CustomUpload from "@/views/components/customUpload";
 export default {
   name: "bidApplyLook",
   components: {
-    CustomUpload
+    CustomUpload,
   },
   data() {
     return {
       //审批集合
-      stateList: [{"deptName":"风控部","roleName":"风控部经理","userName":"张三","content":"没有问题，同意审批","state":"已通过"},
-                  {"deptName":"风控部","roleName":"风控部经理","userName":"张三","content":"没有问题，同意审批","state":"已通过"},
-                  {"deptName":"风控部","roleName":"风控部经理","userName":"张三","content":"","state":"未审批"}],
+      stateList: [
+        {
+          deptName: "风控部",
+          roleName: "风控部经理",
+          userName: "张三",
+          content: "没有问题，同意审批",
+          state: "已通过",
+        },
+        {
+          deptName: "风控部",
+          roleName: "风控部经理",
+          userName: "张三",
+          content: "没有问题，同意审批",
+          state: "已通过",
+        },
+        {
+          deptName: "风控部",
+          roleName: "风控部经理",
+          userName: "张三",
+          content: "",
+          state: "未审批",
+        },
+      ],
       //上传路径
-      url:process.env.VUE_APP_BASE_API + "/file/upload",
+      url: process.env.VUE_APP_BASE_API + "/file/upload",
       // 设置上传的请求头部
       headers: { Authorization: "Bearer " + getToken() },
       //附件集合
-      fileList:[],
+      fileList: [],
       // 表单参数
       form: {},
-      bidId:''
+      bidId: "",
+      listForBusArr: [],
+      listForProArr: [],
     };
   },
-  computed:{
-    priceLabel(){
-      if(this.form.unitPriceMode === '吨'){
-        return '吨';
-      }else if(this.form.unitPriceMode === '热值'){
-        return 'kcal';
+  computed: {
+    priceLabel() {
+      if (this.form.unitPriceMode === "吨") {
+        return "吨";
+      } else if (this.form.unitPriceMode === "热值") {
+        return "kcal";
       }
-    }
+    },
   },
   created() {
+    this.listForBus();
+    this.listForPro();
     const bidId = this.$route.params && this.$route.params.bidId;
-    this.bidId=bidId
-    getBidApply(bidId).then(response => {
-        this.form = response.data;
-        this.fileList = this.form.fileList || []
-      });
-    getProcessDataByStId("18",bidId).then((res) => {
+    this.bidId = bidId;
+    getBidApply(bidId).then((response) => {
+      this.form = response.data;
+      this.fileList = this.form.fileList || [];
+    });
+    getProcessDataByStId("18", bidId).then((res) => {
       this.stateList = res.data;
     });
   },
   methods: {
-    cancel(){
+    cancel() {
       this.$store.dispatch("tagsView/delView", this.$route);
       this.$router.go(-1);
-    }
-  }
+    },
+    // 查询业务列表
+    async listForBus() {
+      const { data } = await listForBus();
+      this.listForBusArr = data;
+      // console.log(11, this.listForBusArr);
+      this.form = this.listForBusArr;
+      // console.log(33, this.form);
+    },
+    // 查询项目列表
+    async listForPro() {
+      const { data } = await listForPro();
+      this.listForProArr = data;
+      // console.log(22, this.listForProArr);
+      this.form = this.listForProArr;
+      // console.log(44, this.form);
+    },
+  },
 };
 </script>

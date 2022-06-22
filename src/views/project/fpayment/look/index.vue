@@ -34,17 +34,23 @@
       </el-row>
       <el-row class="head-text">
         <el-col :span="5" :offset="1">
-          项目名称：<span v-text="form.stName"></span>
+          项目名称：<span v-text="form.projectName"></span>
         </el-col>
         <el-col :span="5" :offset="1">
-          项目编号：<span v-text="form.number"></span>
+          业务名称：<span v-text="form.stName"></span>
+        </el-col>
+        <el-col :span="5" :offset="1">
+          立项编号：<span v-text="form.serialNo"></span>
+        </el-col>
+        <el-col :span="5" :offset="1">
+          业务类型: <span v-text="form.settlementWay"></span>
         </el-col>
 <!--        <el-col :span="5">-->
 <!--          预付方式：<span v-text="form.payType"></span>-->
 <!--        </el-col>-->
-        <el-col :span="4">
+        <!-- <el-col :span="4">
           结算方式：<span v-text="form.settlementWay"></span>
-        </el-col>
+        </el-col> -->
       </el-row>
       <el-row class="head-text">
         <el-col :span="4" :offset="1">

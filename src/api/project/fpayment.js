@@ -128,3 +128,18 @@ export function releaseSelnyF(fpaymentId) {
         method: "post",
     });
 }
+// 业务列表
+export function listForBus() {
+    return request({
+      url: "/project/business/listForCombobox",
+      method: "get",
+    });
+  }
+  // 项目列表
+  export function listForPro() {
+    return request({
+      url: "/project/project/listForCombobox",
+      method: "get",
+    });
+  }
+  

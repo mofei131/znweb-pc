@@ -1,28 +1,28 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="项目名称" prop="name">
+      <el-form-item label="项目名称" prop="projectName">
         <el-input
-          v-model="queryParams.name"
+          v-model="queryParams.projectName"
           placeholder="请输入项目名称"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="项目编号" prop="number">
+        <el-form-item label="业务名称" prop="stName">
         <el-input
-          v-model="queryParams.number"
-          placeholder="请输入项目编号"
+          v-model="queryParams.stName"
+          placeholder="请输入业务名称"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="代办人" prop="userName">
+      <el-form-item label="立项编号" prop="serialNo">
         <el-input
-          v-model="queryParams.userName"
-          placeholder="请输入代办人"
+          v-model="queryParams.serialNo"
+          placeholder="请输入立项编号"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -82,11 +82,13 @@
 
     <el-table v-loading="loading" :data="stList" @selection-change="handleSelectionChange">
 <!--      <el-table-column label="项目id" align="center" prop="stId" />-->
-      <el-table-column label="项目名称" align="center" prop="stName" />
-      <el-table-column label="项目编号" align="center" prop="number" />
+      <el-table-column label="项目名称" align="center" prop="projectName" />
+      <el-table-column label="业务名称" align="center" prop="stName" />
+      <el-table-column label="立项编号" align="center" prop="serialNo" />
       <el-table-column label="供应商名称" align="center" prop="supplierName" />
       <el-table-column label="用煤单位" align="center" prop="terminalName" />
       <el-table-column label="代办人" align="center" prop="userName" />
+      <el-table-column label="业务状态" align="center" prop="" />
       <el-table-column label="创建时间" align="center" prop="createTime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d} {h}:{i}:{s}') }}</span>

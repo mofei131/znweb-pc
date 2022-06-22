@@ -41,10 +41,13 @@
       </el-row>
       <el-row class="head-text">
         <el-col :span="6" :offset="1">
-          项目名称：<span v-text="form.stName"></span>
+          项目名称：<span v-text="form.projectName"></span>
+        </el-col>
+        <el-col :span="6" :offset="1">
+          业务名称：<span v-text="form.stName"></span>
         </el-col>
         <el-col :span="6">
-          项目编号：<span v-text="form.stNumber"></span>
+          立项编号：<span v-text="form.serialNo"></span>
         </el-col>
       </el-row>
       <el-row class="head-text">

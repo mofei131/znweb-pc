@@ -88,6 +88,7 @@
     <el-table v-loading="loading" :data="profitsList" @selection-change="handleSelectionChange">
       <el-table-column label="项目编号" align="center" prop="stNumber" />
       <el-table-column label="项目名称" align="center" prop="stName" />
+      <el-table-column label="代办人" align="center" prop="userName" />
       <el-table-column label="营业利润" align="center" prop="businessProfits" >
         <template slot-scope="scope">
           {{
