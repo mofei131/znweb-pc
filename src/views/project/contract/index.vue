@@ -7,27 +7,44 @@
       v-show="showSearch"
       label-width="68px"
     >
-      <el-form-item label="项目" prop="stId">
+          <el-form-item label="合同类型" prop="type">
         <el-select
-          filterable
-          v-model="queryParams.stId"
-          placeholder="请选择项目"
+          v-model="queryParams.type"
+          placeholder="请选择合同类型"
           clearable
           size="small"
         >
           <el-option
-            v-for="dict in stOptions"
-            :key="dict.stId"
-            :label="dict.name"
-            :value="dict.stId"
+            v-for="dict in typeOptions"
+            :key="dict.dictValue"
+            :label="dict.dictLabel"
+            :value="dict.dictValue"
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="项目编号" prop="projectNumber">
+      <el-form-item label="项目名称" prop="projectId">
+       <el-input
+          v-model="queryParams.projectName"
+          placeholder="请输入项目名称"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+            <el-form-item label="合同名称" prop="name">
+        <el-input
+          v-model="queryParams.name"
+          placeholder="请输入合同名称"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="业务名称" prop="stName">
                
         <el-input
-          v-model="queryParams.projectNumber"
-          placeholder="请输入项目编号"
+          v-model="queryParams.stName"
+          placeholder="请输入业务名称"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -46,16 +63,8 @@
         />
              
       </el-form-item>
-      <el-form-item label="合同名称" prop="name">
-        <el-input
-          v-model="queryParams.name"
-          placeholder="请输入合同名称"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="合同编号" prop="number">
+
+      <!-- <el-form-item label="合同编号" prop="number">
         <el-input
           v-model="queryParams.number"
           placeholder="请输入合同编号"
@@ -63,22 +72,8 @@
           size="small"
           @keyup.enter.native="handleQuery"
         />
-      </el-form-item>
-      <el-form-item label="合同类型" prop="type">
-        <el-select
-          v-model="queryParams.type"
-          placeholder="请选择合同类型"
-          clearable
-          size="small"
-        >
-          <el-option
-            v-for="dict in typeOptions"
-            :key="dict.dictValue"
-            :label="dict.dictLabel"
-            :value="dict.dictValue"
-          />
-        </el-select>
-      </el-form-item>
+      </el-form-item> -->
+
       <el-form-item>
         <el-button
           type="primary"
@@ -148,11 +143,11 @@
       :data="contractList"
       @selection-change="handleSelectionChange"
     >
-      <el-table-column label="项目名称" align="center" prop="stName" />
-      <el-table-column label="立项编号" align="center" prop="productNo" />
-      <el-table-column label="项目编号" align="center" prop="projectNumber" />
+      <el-table-column label="项目名称" align="center" prop="projectName" />
+      <el-table-column label="业务名称" align="center" prop="stName" />
+      <el-table-column label="立项编号" align="center" prop="serialNo" />
+      <el-table-column label="合同立项编号" align="center" prop="productNo" />
       <el-table-column label="合同名称" align="center" prop="name" />
-      <el-table-column label="合同编号" align="center" prop="number" />
       <el-table-column
         label="合同类型"
         align="center"
@@ -270,48 +265,7 @@
     >
       <el-form ref="form" :model="form" :rules="rules" label-width="180px">
         <div v-if="bc == 1 || bc == 3">
-          <el-row>
-            <el-col :span="12">
-              <el-form-item label="项目" prop="stId">
-                <el-select
-                  filterable
-                  value-key="stId"
-                  @change="changeSt"
-                  v-model="form.stId"
-                  placeholder="请选择项目"
-                  style="width: 100%"
-                >
-                  <el-option
-                    v-for="obj in stOptions"
-                    :key="obj.stId"
-                    :label="obj.name"
-                    :value="obj"
-                  ></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="项目编号" prop="projectNumber">
-                {{ form.projectNumber }}
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="12">
-              <el-form-item label="合同名称" prop="name">
-                <el-input v-model="form.name" placeholder="请输入合同名称" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="立项编号" prop="productNo">
-                <el-input
-                  v-model="form.productNo"
-                  placeholder="请输入立项编号"
-                />
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
+           <el-row>
             <el-col :span="12">
               <el-form-item label="合同类型" prop="type">
                 <el-select
@@ -328,12 +282,83 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
+            <!-- <el-col :span="12">
               <el-form-item label="合同编号" prop="number">
                 <el-input v-model="form.number" placeholder="请输入合同编号" />
               </el-form-item>
+            </el-col> -->
+          </el-row>
+          <!-- 项目 -->
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="项目名称" prop="projectId">
+                <el-select
+                  filterable
+                  value-key="projectId"
+                  @change="changeProject"
+                  v-model="form.projectId"
+                  placeholder="请选择项目"
+                  style="width: 100%"
+                >
+                  <el-option
+                    v-for="pro in listForProArr"
+                    :key="pro.projectId"
+                    :label="pro.projectName"
+                    :value="pro"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <!-- <el-col :span="12">
+              <el-form-item label="项目编号" prop="projectNumber">
+                {{ form.projectNumber }}
+              </el-form-item>
+            </el-col> -->
+          </el-row>
+          <!-- 业务 -->
+           <el-row>
+            <el-col :span="12">
+              <el-form-item label="业务名称" prop="stId">
+                <el-select
+                  filterable
+                  value-key="stId"
+                  @change="changeSt"
+                  v-model="form.stId"
+                  placeholder="请选择"
+                  style="width: 100%"
+                >
+                  <el-option
+                    v-for="obj in listForBusArr"
+                    :key="obj.stId"
+                    :label="obj.stName"
+                    :value="obj"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="立项编号: " prop="serialNo">
+                {{ form.serialNo }}
+              </el-form-item>
             </el-col>
           </el-row>
+          <!-- 合同 -->
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="合同名称" prop="name">
+                <el-input v-model="form.name" placeholder="请输入合同名称" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="合同立项编号" prop="productNo">
+                <el-input
+                  v-model="form.productNo"
+                  placeholder="请输入"
+                />
+              </el-form-item>
+            </el-col>
+          </el-row>
+         
           <div v-if="form.type == '1'">
             <el-row>
               <el-col :span="12">
@@ -1196,6 +1221,8 @@ import {
   getStList,
   getSupplierList,
   getTerminalList,
+  listForBus,
+  listForPro,
 } from "@/api/project/contract";
 import { getToken } from "@/utils/auth";
 import print from "print-js";
@@ -1283,6 +1310,7 @@ export default {
       stateOptions: [],
       // 项目集合
       stOptions: [],
+      projectOptions: [],
       // 供应商集合
       supplierOptions: [],
       // 终端客户集合
@@ -1300,12 +1328,14 @@ export default {
         stName: null,
         name: null,
         type: null,
+        projectId: null,
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
         stId: [{ required: true, message: "请选择项目名称", trigger: "blur" }],
+        projectId:[{ required: true, message: "请选择项目名称", trigger: "blur" }],
         name: [
           { required: true, message: "合同名称不能为空", trigger: "blur" },
         ],
@@ -1357,6 +1387,8 @@ export default {
       printReviewVisible: false,
       printData: {},
       isDisabled: false,
+      listForBusArr: [],
+      listForProArr: [],
     };
   },
   created() {
@@ -1404,7 +1436,16 @@ export default {
       getStList().then((response) => {
         this.stOptions = response.rows;
       });
+       // 业务
+      listForBus().then((response) => {
+        this.listForBusArr = response.data
+      }) 
+      // 项目
+      listForPro().then((response) => {
+        this.listForProArr = response.data
+      })
     },
+       
     // 合同类型字典翻译
     contractTypeFormat(row, column) {
       if (row.type == "1") {
@@ -1473,6 +1514,8 @@ export default {
         node: null,
         number: null,
         productNo: null,
+        projectId: null,
+        projectId2: null
       };
       this.resetForm("form");
     },
@@ -1585,6 +1628,7 @@ export default {
       this.$refs["form"].validate((valid) => {
         if (valid) {
           this.form.stId = this.form.stId2;
+          this.form.projectId = this.form.projectId2
           this.form.supplierId = this.form.supplierId2;
           this.form.terminalId = this.form.terminalId2;
           if (this.bc == 2) {
@@ -1649,7 +1693,7 @@ export default {
     },
     changeSt(obj) {
       this.form.stId2 = obj.stId;
-      this.form.stName = obj.name;
+      this.form.stName = obj.stName;
       this.form.projectNumber = obj.number;
 
       this.form.supplierId = obj.supplierName;
@@ -1659,6 +1703,10 @@ export default {
       this.form.terminalId = obj.tName;
       this.form.terminalId2 = obj.terminalId;
       this.form.terminalName = obj.tName;
+    },
+    changeProject(pro) {
+      this.form.projectId2 = pro.projectId;
+      this.form.serialNo = pro.serialNo;
     },
     changeSupplier(obj) {
       this.form.supplierId2 = obj.supplierId;

@@ -14,6 +14,7 @@
   font-weight: 400;
   color: #333333;
   line-height: 53px;
+  text-align: center;
 }
 
 .upload-hidden .el-upload--picture-card {
@@ -33,12 +34,18 @@
         </el-col>
       </el-row>
       <el-row class="head-text">
-        <el-col :span="4" :offset="1">
+        <!-- <el-col :span="4" :offset="1">
           保证金对象：<span v-text="form.type"></span>
-        </el-col>
+        </el-col> -->
         <el-col :span="4"> 保证金类型：<span v-text="form.obj"></span> </el-col>
+         <el-col :span="4" :offset="1">
+            项目名称：<span v-text="form.projectName"></span>
+          </el-col>
+           <el-col :span="4" :offset="1">
+            业务名称：<span v-text="form.stName"></span>
+          </el-col>
         <el-col :span="4">
-          项目编号：<span v-text="form.number"></span>
+          立项编号：<span v-text="form.serialNo"></span>
         </el-col>
       </el-row>
       <div v-if="form.type == '上游'">
@@ -58,9 +65,6 @@
       </div>
       <div v-if="form.type == '下游'">
         <el-row class="head-text">
-          <el-col :span="4" :offset="1">
-            项目名称：<span v-text="form.stName"></span>
-          </el-col>
           <el-col :span="4">
             合同名称：<span v-text="form.contractName"></span>
           </el-col>

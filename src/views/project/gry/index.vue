@@ -12,41 +12,7 @@
       v-show="showSearch"
       label-width="68px"
     >
-      <el-form-item label="项目" prop="stId">
-        <el-select
-          filterable
-          v-model="queryParams.stId"
-          placeholder="请选择项目"
-          clearable
-          size="small"
-        >
-          <el-option
-            v-for="dict in stOptions"
-            :key="dict.stId"
-            :label="dict.name"
-            :value="dict.stId"
-          />
-        </el-select>
-      </el-form-item>
-      <el-form-item label="项目编号" prop="stNo">
-        <el-input
-          v-model="queryParams.stNo"
-          placeholder="请输入项目编号"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="批次" prop="batch">
-        <el-input
-          v-model="queryParams.batch"
-          placeholder="请输入批次"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="创建时间">
+    <el-form-item label="创建时间">
         <el-date-picker
           v-model="dateRange"
           size="small"
@@ -57,6 +23,43 @@
           start-placeholder="开始日期"
           end-placeholder="结束日期"
         ></el-date-picker>
+      </el-form-item>
+      <el-form-item label="项目名称" prop="projectId">
+        <el-input
+          v-model="queryParams.projectName"
+          placeholder="请输入项目名称"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+    
+      <el-form-item label="批次" prop="batch">
+        <el-input
+          v-model="queryParams.batch"
+          placeholder="请输入批次"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+       <el-form-item label="业务名称" prop="stId">
+            <el-input
+          v-model="queryParams.stName"
+          placeholder="请输入业务名称"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+        <el-form-item label="立项编号" prop="serialNo">
+        <el-input
+          v-model="queryParams.serialNo"
+          placeholder="请输入立项编号"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
       </el-form-item>
       <el-form-item>
         <el-button
@@ -129,8 +132,9 @@
       @selection-change="handleSelectionChange"
     >
       <!--      <el-table-column type="selection" width="55" align="center" />-->
-      <el-table-column label="项目名称" align="center" prop="stName" />
-      <el-table-column label="项目编号" align="center" prop="stNo" />
+      <el-table-column label="项目名称" align="center" prop="projectName" />
+      <el-table-column label="业务名称" align="center" prop="stName" />
+      <el-table-column label="立项编号" align="center" prop="serialNo" />
       <el-table-column label="货品名称" align="center" prop="name" />
       <el-table-column label="出库重量(吨)" align="center" prop="grnNumber">
         <template slot-scope="scope">
@@ -261,27 +265,47 @@
       <el-form ref="form" :model="form" :rules="rules" label-width="180px">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="项目" prop="stId">
+            <el-form-item label="项目名称" prop="projectId">
+              <el-select
+                filterable
+                value-key="projectId"
+                @change="changeProject"
+                v-model="form.projectId"
+                placeholder="请选择项目名称"
+                style="width: 100%"
+              >
+                <el-option
+                  v-for="pro in listForProArr"
+                  :key="pro.projectId"
+                  :label="pro.projectName"
+                  :value="pro"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <!-- 业务 -->
+          <el-col :span="12">
+            <el-form-item label="业务名称" prop="stId">
               <el-select
                 filterable
                 value-key="stId"
                 @change="changeSt"
                 v-model="form.stId"
-                placeholder="请选择项目"
+                placeholder="请选择业务名称"
                 style="width: 100%"
               >
                 <el-option
-                  v-for="obj in stOptions"
+                  v-for="obj in listForBusArr"
                   :key="obj.stId"
-                  :label="obj.name"
+                  :label="obj.stName"
                   :value="obj"
                 ></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="项目编号" prop="name">
-              {{ form.number }}
+            <el-form-item label="立项编号" prop="serialNo">
+              {{ form.serialNo }}
             </el-form-item>
           </el-col>
         </el-row>
@@ -1070,6 +1094,8 @@ import {
   getGrnList,
   getContract,
   getJsjc,
+  listForBus,
+  listForPro,
 } from "@/api/project/gry";
 import { getToken } from "@/utils/auth";
 import print from "print-js";
@@ -1140,6 +1166,7 @@ export default {
       stateOptions: [],
       //项目集合
       stOptions: [],
+      projectOptions: [],
       // 日期范围
       dateRange: [],
       zlc: 0,
@@ -1156,12 +1183,14 @@ export default {
         pageNum: 1,
         pageSize: 10,
         stId: null,
+        projectId: null
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
-        stId: [{ required: true, message: "请选择项目名称", trigger: "blur" }],
+        stId: [{ required: true, message: "请选择业务名称", trigger: "blur" }],
+        projectId: [{ required: true, message: "请选择项目名称", trigger: "blur" }],
         grnNumber: [
           { required: true, validator: validatePrice, trigger: "blur" },
         ],
@@ -1214,6 +1243,8 @@ export default {
       printReviewVisible: false,
       printData: {},
       isDisabled: false,
+      listForBusArr: [],
+      listForProArr: [],
     };
   },
   created() {
@@ -1240,6 +1271,7 @@ export default {
     }
   },
   methods: {
+    
     /** 查询出库单列表 */
     getList() {
       this.loading = true;
@@ -1253,6 +1285,16 @@ export default {
       getStList().then((response) => {
         this.stOptions = response.rows;
       });
+      // 业务
+      listForBus().then((response)=> {
+        this.stOptions = response.data
+        this.listForBusArr = response.data
+      })
+      // 项目
+      listForPro().then((response) => {
+        this.stOptions = response.data
+        this.listForProArr = response.data
+      })
     },
     // 审核状态字典翻译
     stateFormat(row, column) {
@@ -1280,6 +1322,7 @@ export default {
         gryId: null,
         stId: null,
         stId2: null,
+        projectId: null,
         stName: null,
         wlCompany: null,
         name: null,
@@ -1322,6 +1365,10 @@ export default {
         chargemGd: null,
         grnList: [],
         fileList: [],
+        projectId: null,
+        projectIdOld: null,
+        projectName: null,
+        serialNo: null
       };
       this.resetForm("form");
     },
@@ -1412,6 +1459,7 @@ export default {
             return;
           }
           this.form.stId = this.form.stId2;
+          this.form.projectId = this.form.projectIdOld
           this.form.grnList = this.tableselData;
           if (this.form.gryId != null) {
             updateGry(this.form).then((response) => {
@@ -1524,6 +1572,10 @@ export default {
 
     // 业务开始
     // 选择项目
+    changeProject(pro) {
+      this.form.stName = pro.stName
+      this.form.serialNo = pro.serialNo
+    },
     changeSt(obj) {
       this.form.jc1 = 0;
       this.form.jc2 = 0;
@@ -1539,7 +1591,7 @@ export default {
       this.form.jc12 = 0;
       this.form.rewardp = 0;
       this.form.stId2 = obj.stId;
-      this.form.stName = obj.name;
+      this.form.stName = obj.stName;
       this.$set(this.form, "number", obj.number);
       //赋值固定差价
       if (obj.chargemType == "2" || obj.chargemType == "3") {

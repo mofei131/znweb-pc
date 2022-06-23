@@ -7,25 +7,7 @@
       v-show="showSearch"
       label-width="68px"
     >
-      <el-form-item label="项目编号" prop="stId">
-        <el-input
-          v-model="queryParams.stId"
-          placeholder="请输入项目编号"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="项目名称" prop="stName">
-        <el-input
-          v-model="queryParams.stName"
-          placeholder="请输入项目名称"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="创建时间">
+          <el-form-item label="创建时间">
         <el-date-picker
           v-model="dateRange"
           size="small"
@@ -36,6 +18,34 @@
           start-placeholder="开始日期"
           end-placeholder="结束日期"
         ></el-date-picker>
+      </el-form-item>
+     
+      <el-form-item label="项目名称" prop="projectName">
+        <el-input
+          v-model="queryParams.projectName"
+          placeholder="请输入项目名称"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="业务名称" prop="stName">
+        <el-input
+          v-model="queryParams.stName"
+          placeholder="请输入业务名称"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+ <el-form-item label="立项编号" prop="serialNo">
+        <el-input
+          v-model="queryParams.serialNo"
+          placeholder="请输入立项编号"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
       </el-form-item>
       <el-form-item>
         <el-button
@@ -88,7 +98,9 @@
       <!-- <el-table-column type="selection" width="55" align="center" /> -->
       <!-- <el-table-column label="主键" align="center" prop="refundId" /> -->
       <!-- <el-table-column label="项目编号" align="center" prop="stId" /> -->
-      <el-table-column label="项目名称" align="center" prop="stName" />
+      <el-table-column label="项目名称" align="center" prop="projectName" />
+      <el-table-column label="业务名称" align="center" prop="stName" />
+      <el-table-column label="立项编号" align="center" prop="serialNo" />
       <!-- <el-table-column label="终端客户id" align="center" prop="terminalId" /> -->
       <el-table-column label="终端客户" align="center" prop="tName" />
       <!-- <el-table-column label="账号" align="center" prop="account" /> -->
@@ -197,27 +209,48 @@
       <el-form ref="form" :model="form" :rules="rules" label-width="180px">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="项目名称" prop="stId">
+            <el-form-item label="项目名称" prop="projectId">
+              <el-select
+                filterable
+                value-key="projectId"
+                @change="changeProject"
+                v-model="form.projectId"
+                placeholder="请选择项目"
+                style="width: 100%"
+              >
+                <el-option
+                  v-for="pro in listForProArr"
+                  :key="pro.projectId"
+                  :label="pro.projectName"
+                  :value="pro"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="业务名称" prop="stId">
               <el-select
                 filterable
                 value-key="stId"
                 @change="changeSt"
                 v-model="form.stId"
-                placeholder="请选择项目"
+                placeholder="请选择业务"
                 style="width: 100%"
               >
                 <el-option
-                  v-for="obj in stOptions"
+                  v-for="obj in listForBusArr"
                   :key="obj.stId"
-                  :label="obj.name"
+                  :label="obj.stName"
                   :value="obj"
                 ></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="项目编号" prop="stNumber">
-              {{ form.stNumber }}
+            <el-form-item label="立项编号" prop="serialNo">
+              {{ form.serialNo }}
             </el-form-item>
           </el-col>
         </el-row>
@@ -694,6 +727,8 @@ import {
   getDetail,
   updateDetailState,
   getDetailById,
+  listForBus,
+  listForPro,
 } from "@/api/project/refund";
 import { getTerminalList } from "@/api/project/st";
 import { getToken } from "@/utils/auth";
@@ -737,6 +772,8 @@ export default {
         bank: null,
         moneyAmount: null,
         state: null,
+        projectId: null,
+        name: null
       },
       dateRange: [],
       detailTime: null,
@@ -759,6 +796,7 @@ export default {
       // 表单校验
       rules: {
         stId: [{ required: true, message: "请选择项目名称", trigger: "blur" }],
+        projectId: [{ required: true, message: "请选择项目名称", trigger: "blur" }],
         terminalId: [
           { required: true, message: "请选择终端用户", trigger: "blur" },
         ],
@@ -774,6 +812,7 @@ export default {
       },
       // 项目集合
       stOptions: [],
+      projectOptions: [],
       // 终端客户集合
       terminalOptions: [],
       //上传路径
@@ -789,6 +828,8 @@ export default {
       refundEditOpen: false,
       refundEditForm: {},
       isDisabled: false,
+      listForBusArr: [],
+      listForProArr: [],
     };
   },
   created() {
@@ -814,6 +855,14 @@ export default {
       getTerminalList().then((response) => {
         this.terminalOptions = response.rows;
       });
+               // 业务
+      listForBus().then((response) => {
+        this.listForBusArr = response.data
+      }) 
+      // 项目
+      listForPro().then((response) => {
+        this.listForProArr = response.data
+      })
     },
     stateFormat(row, column) {
       return this.selectDictLabel(this.stateOptions, row.state);
@@ -838,6 +887,7 @@ export default {
       this.form = {
         refundId: null,
         stId: null,
+        name: null,
         stName: null,
         terminalId: null,
         tName: null,
@@ -851,6 +901,10 @@ export default {
         updateBy: null,
         updateTime: null,
         fileList: [],
+        projectId: null,
+        projectIdOld: null,
+        projectName: null,
+        serialNo: null
       };
       this.refundForm = {
         refundId: null,
@@ -997,6 +1051,7 @@ export default {
         if (valid) {
           if (this.form.stIdOld) {
             this.form.stId = this.form.stIdOld;
+            this.form.projectId = this.form.projectIdOld
           }
           if (this.form.refundId != null) {
             updateRefund(this.form).then((response) => {
@@ -1063,9 +1118,13 @@ export default {
       const refundId = row.refundId || this.ids;
       this.$router.push("/refund/look/" + refundId);
     },
+      changeProject(pro) {
+      this.form.projectIdOld = pro.projectId;
+      this.form.serialNo = pro.serialNo;
+    },
     changeSt(obj) {
       this.form.stIdOld = obj.stId;
-      this.form.stName = obj.name;
+      this.form.stName = obj.stName;
       this.form.stNumber = obj.number;
       this.form.terminalId = obj.terminalId;
       let terminalFind = this.terminalOptions.filter(

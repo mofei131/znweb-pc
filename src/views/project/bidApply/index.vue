@@ -19,15 +19,6 @@
           end-placeholder="结束日期"
         ></el-date-picker>
       </el-form-item>
-      <el-form-item label="项目编号" prop="stNo">
-        <el-input
-          v-model="queryParams.stNo"
-          placeholder="请输入项目编号"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
       <el-form-item label="审批状态" prop="state">
         <el-select v-model="queryParams.state" placeholder="审批状态">
           <el-option
@@ -39,13 +30,31 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="项目名称" prop="stName">
+      <el-form-item label="项目名称" prop="projectName">
         <el-input
-          v-model="queryParams.stName"
+          v-model="queryParams.projectName"
           placeholder="项目名称"
           clearable
           size="small"
-          @keyup.enter.native="stName"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="业务名称" prop="stName">
+        <el-input
+          v-model="queryParams.stName"
+          placeholder="业务名称"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+      <el-form-item label="立项编号" prop="serialNo">
+        <el-input
+          v-model="queryParams.serialNo"
+          placeholder="请输入立项编号"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
         />
       </el-form-item>
       <el-form-item>
@@ -85,8 +94,9 @@
       :data="bidApplyList"
       @selection-change="handleSelectionChange"
     >
-      <el-table-column label="项目名称" align="center" prop="stName" />
-      <el-table-column label="项目编号" align="center" prop="stNo" />
+      <el-table-column label="项目名称" align="center" prop="projectName" />
+      <el-table-column label="业务名称" align="center" prop="stName" />
+      <el-table-column label="立项编号" align="center" prop="serialNo" />
       <el-table-column label="投标平台" align="center" prop="bidPlatform" />
       <el-table-column label="投标保证金（元）" align="center" prop="bidBond">
         <template slot-scope="scope">
@@ -190,27 +200,45 @@
       <el-form ref="form" :model="form" :rules="rules" label-width="180px">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="项目名称" prop="stId">
+            <el-form-item label="项目名称" prop="projectId">
+              <el-select
+                filterable
+                value-key="projectId"
+                @change="changeProject"
+                v-model="form.projectId"
+                placeholder="请选择项目"
+                style="width: 100%"
+              >
+                <el-option
+                  v-for="pro in listForProArr"
+                  :key="pro.projectId"
+                  :label="pro.projectName"
+                  :value="pro"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+
+            <el-form-item label="业务名称" prop="stId">
               <el-select
                 filterable
                 value-key="stId"
                 @change="changeSt"
                 v-model="form.stId"
-                placeholder="请选择项目"
+                placeholder="请选择业务"
                 style="width: 100%"
               >
                 <el-option
-                  v-for="obj in stOptions"
+                  v-for="obj in listForBusArr"
                   :key="obj.stId"
-                  :label="obj.name"
+                  :label="obj.stName"
                   :value="obj"
                 ></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="项目编号" prop="stNumber">
-              {{ form.stNumber }}
+            <el-form-item label="立项编号" prop="serialNo">
+              {{ form.serialNo }}
             </el-form-item>
           </el-col>
         </el-row>
@@ -508,6 +536,8 @@ import {
   addBidApply,
   updateBidApply,
   getStList,
+  listForBus,
+  listForPro,
 } from "@/api/project/bidApply";
 import { getToken } from "@/utils/auth";
 import print from "print-js";
@@ -549,7 +579,10 @@ export default {
       form: {},
       // 表单校验
       rules: {
-        stId: [{ required: true, message: "请选择项目名称", trigger: "blur" }],
+        stId: [{ required: true, message: "请选择业务名称", trigger: "blur" }],
+        projectId: [
+          { required: true, message: "请选择项目名称", trigger: "blur" },
+        ],
         unitPriceMode: [
           { required: true, message: "请选单价模式", trigger: "blur" },
         ],
@@ -575,6 +608,7 @@ export default {
       ],
       // 项目集合
       stOptions: [],
+      projectOptions: [],
       //上传路径
       url: process.env.VUE_APP_BASE_API + "/file/upload",
       // 设置上传的请求头部
@@ -585,6 +619,8 @@ export default {
       printReviewVisible: false,
       printData: {},
       isDisabled: false,
+      listForBusArr: [],
+      listForProArr: [],
     };
   },
   computed: {
@@ -630,6 +666,14 @@ export default {
       getStList().then((response) => {
         this.stOptions = response.rows;
       });
+         // 业务
+      listForBus().then((response) => {
+        this.listForBusArr = response.data
+      }) 
+      // 项目
+      listForPro().then((response) => {
+        this.listForProArr = response.data
+      })
     },
     // 取消按钮
     cancel() {
@@ -654,6 +698,11 @@ export default {
         state: null,
         stIdOld: null,
         fileList: [],
+        
+        projectId: null,
+        projectIdOld: null,
+        projectName: null,
+        serialNo: null
       };
       this.resetForm("form");
     },
@@ -696,9 +745,13 @@ export default {
     submitForm() {
       this.isDisabled = true;
       this.$refs["form"].validate((valid) => {
+        console.log(valid);
         if (valid) {
           if (this.form.stIdOld) {
             this.form.stId = this.form.stIdOld;
+          }
+          if(this.form.projectIdOld) {
+            this.form.projectId = this.form.projectIdOld
           }
           if (this.form.bidId != null) {
             updateBidApply(this.form).then((response) => {
@@ -755,8 +808,11 @@ export default {
     },
     changeSt(obj) {
       this.form.stIdOld = obj.stId;
-      this.form.stName = obj.name;
-      this.form.stNumber = obj.number;
+      this.form.stName = obj.stName;
+    },
+    changeProject(pro) {
+      this.form.projectIdOld = pro.projectId;
+      this.form.serialNo = pro.serialNo;
     },
     //点击触发
     handlePreview(file) {

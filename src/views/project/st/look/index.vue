@@ -474,7 +474,7 @@
                   type="text"
                   size="small"
                 >
-                  查看
+                 查看
                 </el-button>
               </template>
             </el-table-column>

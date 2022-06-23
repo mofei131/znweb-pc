@@ -81,8 +81,9 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="项目名称" align="center" prop="stName" />
-      <el-table-column label="项目编号" align="center" prop="stNo" />
+      <el-table-column label="项目名称" align="center" prop="projectName" />
+      <el-table-column label="业务名称" align="center" prop="stName" />
+      <el-table-column label="立项编号" align="center" prop="serialNo" />
       <el-table-column label="标准名称" align="center" prop="name" />
       <el-table-column
         label="操作"
@@ -135,31 +136,50 @@
     >
       <el-form ref="form" :model="form" :rules="rules" label-width="180px">
         <el-row>
-          <el-col :span="12">
-            <el-form-item label="项目名称" prop="stId">
+              <el-col :span="12">
+            <el-form-item label="项目名称" prop="projectId">
+              <el-select
+                filterable
+                value-key="projectId"
+                @change="changeProject"
+                v-model="form.projectId"
+                placeholder="请选择项目"
+                style="width: 100%"
+              >
+                <el-option
+                  v-for="pro in listForProArr"
+                  :key="pro.projectId"
+                  :label="pro.projectName"
+                  :value="pro"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+           <el-col :span="12">
+            <el-form-item label="业务名称" prop="stId">
               <el-select
                 filterable
                 value-key="stId"
                 @change="changeSt"
                 v-model="form.stId"
-                placeholder="请选择项目"
+                placeholder="请选择业务"
                 style="width: 100%"
               >
                 <el-option
-                  v-for="obj in stOptions"
+                  v-for="obj in listForBusArr"
                   :key="obj.stId"
-                  :label="obj.name"
+                  :label="obj.stName"
                   :value="obj"
                 ></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="项目编号" prop="name">
-              {{ form.number }}
+            <el-form-item label="立项编号" prop="serialNo">
+              {{ form.serialNo }}
             </el-form-item>
           </el-col>
-        </el-row>
+            </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="标准名称" prop="name">
@@ -1557,6 +1577,8 @@ import {
   addRewardsp,
   updateRewardsp,
   getStList,
+  listForBus,
+  listForPro,
 } from "@/api/project/rewardsp";
 
 export default {
@@ -1580,6 +1602,7 @@ export default {
       rewardspList: [],
       //项目集合
       stOptions: [],
+      projectOptions: [],
       //奖惩集合
       //热值MJ/kg
       tableData1: [],
@@ -1612,12 +1635,14 @@ export default {
         s1: null,
         s2: null,
         s3: null,
+        projectId: null
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
         stId: [{ required: true, message: "请选择项目", trigger: "blur" }],
+        projectId: [{ required: true, message: "请选择项目名称", trigger: "blur" }],
         name: [{ required: true, message: "请输入标准", trigger: "blur" }],
         a1: [{ required: true, message: "请选择", trigger: "blur" }],
         s1: [{ required: true, message: "请选择", trigger: "blur" }],
@@ -1628,6 +1653,8 @@ export default {
         c1: [{ required: true, message: "请输入", trigger: "blur" }],
       },
       isDisabled: false,
+      listForBusArr: [],
+      listForProArr: [],
     };
   },
   created() {
@@ -1648,6 +1675,14 @@ export default {
       getStList().then((response) => {
         this.stOptions = response.rows;
       });
+      // 业务
+      listForBus().then((response) => {
+        this.listForBusArr = response.data
+      }) 
+      // 项目
+      listForPro().then((response) => {
+        this.listForProArr = response.data
+      })
     },
     // 取消按钮
     cancel() {
@@ -1680,6 +1715,10 @@ export default {
         tableData9: [],
         createBy: null,
         createTime: null,
+        projectId: null,
+        projectIdOld: null,
+        projectName: null,
+        serialNo: null
       };
       this.resetForm("form");
     },
@@ -1793,6 +1832,7 @@ export default {
       this.$refs["form"].validate((valid) => {
         if (valid) {
           this.form.stId = this.form.stId2;
+          this.form.projectId = this.form.projectIdOld
           if (this.form.rewardspId != null) {
             updateRewardsp(this.form).then((response) => {
               this.msgSuccess("修改成功");
@@ -1841,9 +1881,13 @@ export default {
 
     //业务开始
     //选择项目
+    changeProject(pro) {
+      this.form.projectIdOld = pro.projectId;
+      this.form.serialNo = pro.serialNo;
+    },
     changeSt(obj) {
       this.form.stId2 = obj.stId;
-      this.form.stName = obj.name;
+      this.form.stName = obj.stName;
       this.$set(this.form, "number", obj.number);
     },
     //溢出选中数据

@@ -1,3 +1,4 @@
+<!--项目新增-->
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
@@ -26,6 +27,22 @@
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
+<<<<<<< HEAD
+
+    <el-table
+      v-loading="loading"
+      :data="stList"
+      @selection-change="handleSelectionChange"
+    >
+      <!--      <el-table-column label="项目id" align="center" prop="stId" />-->
+      <el-table-column label="项目编号" align="center" prop="number" />
+      <el-table-column label="项目名称" align="center" prop="name" />
+      <el-table-column label="立项编号" align="center" prop="productNo" />
+      <el-table-column label="业务类型" align="center" prop="settlementWay" />
+      <el-table-column label="业务经理" align="center" prop="managerName" />
+      <el-table-column label="货运方式" align="center" prop="tTransporttype" />
+      <!-- <el-table-column label="项目金额" align="center" prop="amount">
+=======
     <el-table v-loading="loading" :data="stList" row-key="projectId"
       :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
       <el-table-column label="项目编号" align="center" prop="projectNo" />
@@ -36,25 +53,50 @@
       <el-table-column label="货运方式" align="center" prop="freightMode" />
       <el-table-column label="代办人" align="center" prop="userName" />
       <el-table-column label="创建时间" align="center" prop="createTime" width="180">
+>>>>>>> 452279228a34b02b821a9a5f937ed9c6f58f5daf
         <template slot-scope="scope">
           <span>{{
               parseTime(scope.row.createTime, "{y}-{m}-{d} {h}:{i}:{s}")
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="审批状态" align="center" prop="state" />
-      <el-table-column label="业务状态" align="center" prop="businessState" />
+      <el-table-column label="审批状态" align="center">
+        <template slot-scope="scope">
+          <div v-if="scope.row.hType == '项目'" :style="'color:' + scope.row.scolor">{{ stateChange(scope.row) }}</div>
+        </template>
+<<<<<<< HEAD
+      </el-table-column> -->
+      <el-table-column label="代办人" align="center" prop="userName" />
+      <el-table-column
+        label="创建时间"
+        align="center"
+        prop="createTime"
+        width="180"
+      >
+=======
+      </el-table-column>
+      <el-table-column label="业务状态" align="center">
+>>>>>>> 452279228a34b02b821a9a5f937ed9c6f58f5daf
+        <template slot-scope="scope">
+          <div v-if="scope.row.state == 3 && scope.row.hType == '业务'" :style="'color:' + scope.row.bcolor">
+            {{ businessStateChange(scope.row) }}</div>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" width="160" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button size="mini" type="text" icon="el-icon-edit" v-hasPermi="['project:st:edit']"
-            @click="openCheckProject(scope.row)">查看项目</el-button>
-          <el-button size="mini" type="text" icon="el-icon-edit" v-hasPermi="['project:st:edit']">修改项目</el-button>
-          <el-button size="mini" type="text" v-hasPermi="['project:st:edit']" @click="openBusinessBox(scope.row)">添加业务
+          <el-button v-if="scope.row.hType == '项目'" size="mini" type="text" icon="el-icon-edit"
+            v-hasPermi="['project:st:edit']" @click="openCheckProject(scope.row)">查看项目</el-button>
+          <el-button size="mini" type="text" icon="el-icon-edit" v-if="scope.row.hType == '项目'"
+            @click="openChangeProject(scope.row)" v-hasPermi="['project:st:edit']">修改项目</el-button>
+          <el-button size="mini" type="text" v-hasPermi="['project:st:edit']" v-if="scope.row.hType == '项目'"
+            @click="openBusinessBox(scope.row)">添加业务
           </el-button>
-          <el-button size="mini" type="text" icon="el-icon-edit" v-hasPermi="['project:st:edit']"
-            @click="jumpBusiness(scope.row)">业务明细</el-button>
-          <el-button size="mini" type="text" v-hasPermi="['project:st:edit']">修改业务</el-button>
-          <el-button size="mini" type="text" v-hasPermi="['project:st:edit']" @click="openOperateBusiness(scope.row)">
+          <el-button size="mini" type="text" v-if="scope.row.hType == '业务'" icon="el-icon-edit"
+            v-hasPermi="['project:st:edit']" @click="jumpBusiness(scope.row)">业务明细</el-button>
+          <el-button size="mini" type="text" v-if="scope.row.hType == '业务'" @click="openChangeBusiness(scope.row)"
+            v-hasPermi="['project:st:edit']">修改业务</el-button>
+          <el-button size="mini" v-if="scope.row.hType == '业务'" type="text" v-hasPermi="['project:st:edit']"
+            @click="openOperateBusiness(scope.row)">
             操作业务</el-button>
         </template>
       </el-table-column>
@@ -418,6 +460,106 @@
                   </el-select>
                 </el-form-item>
               </div>
+<<<<<<< HEAD
+            </el-row>
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="履约保证金" prop="shMargintype">
+                  <el-radio-group
+                    v-model="form.shMargintype"
+                    :rules="
+                      form.shType == '1'
+                        ? rules.shMargintype
+                        : [{ required: false }]
+                    "
+                  >
+                    <el-radio label="1">有</el-radio>
+                    <el-radio label="2">无</el-radio>
+                  </el-radio-group>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <div v-if="form.shMargintype == '1'">
+                <el-col :span="12">
+                  <el-form-item label="履约保证金(元)" prop="shMargin">
+                    <el-input
+                      v-model="form.shMargin"
+                      placeholder="请输入履约保证金"
+                      :rules="
+                        form.shType == '1'
+                          ? rules.shMargin
+                          : [{ required: false }]
+                      "
+                    />
+                  </el-form-item>
+                </el-col>
+              </div>
+            </el-row>
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="合同签署" prop="shContracttype">
+                  <el-select
+                    v-model="form.shContracttype"
+                    style="width: 100%"
+                    placeholder="请选择合同签署"
+                    :rules="
+                      form.shType == '1'
+                        ? rules.shContracttype
+                        : [{ required: false }]
+                    "
+                  >
+                    <el-option
+                      v-for="obj in shContracttypeOptions"
+                      :key="obj.key"
+                      :label="obj.label"
+                      :value="obj.key"
+                    ></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+            </el-row>
+          </div>
+        </div>
+        <div style="margin-top: 50px" v-if="active == '2' && isLook != 4">
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="终端客户名称" prop="terminalId">
+                <el-select
+                
+                  filterable
+                  value-key="terminalId"
+                  style="width: 100%"
+                  @change="changeTerinal"
+                  v-model="form.terminalId"
+                  placeholder="请选择终端客户"
+                >
+                  <el-option
+                    v-for="te in terminalOptions"
+                    :key="te.terminalId"
+                    :label="te.name"
+                    :value="te"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="性质" prop="tXz">
+                <el-select
+                  v-model="form.tXz"
+                  style="width: 100%"
+                  placeholder="请选择性质"
+                >
+                  <el-option
+                    v-for="obj in tXzOptions"
+                    :key="obj.key"
+                    :label="obj.label"
+                    :value="obj.key"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+=======
+>>>>>>> 452279228a34b02b821a9a5f937ed9c6f58f5daf
             </el-col>
           </el-row>
           <el-row>
@@ -601,11 +743,13 @@
       <el-form ref="form3" :model="form3" :rules="rules3" label-width="160px">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="操作业务" prop="supplierId">
-              <el-select @change="changeSupplierName" filterable value-key="supplierId" v-model="form3.zzzzzz"
+            <el-form-item label="操作业务" prop="businessState">
+              <el-select @change="changeSupplierName" filterable value-key="value" v-model="form3.businessState"
                 placeholder="请选择供应商" style="width: 100%">
-                <el-option label="异常" value="异常"></el-option>
-                <el-option label="进行中" value="进行中"></el-option>
+                <el-option v-if="businessState == 1" label="异常" value="2"></el-option>
+                <el-option v-if="businessState == 2" label="继续" value="1"></el-option>
+                <el-option v-if="businessState == 2" label="结束" value="3"></el-option>
+                <el-option v-if="businessState == 1" label="完成" value="4"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -629,6 +773,10 @@
           </el-col>
         </el-row>
       </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="submitForm3">确 定</el-button>
+        <el-button @click="cancel3">取 消</el-button>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -642,13 +790,18 @@ import {
   addProject,
   projectInfo,
   platformList,
-  addBusiness
+  addBusiness,
+  editProject,
+  getStInfo,
+  editBusiness,
+  updateBStatus
 } from "@/api/project/st";
 import { getToken } from "@/utils/auth";
 export default {
   name: "St",
   data() {
     return {
+      businessState: '',
       platformList: [],
       projectInfo: {},
       checkProject: false,
@@ -700,8 +853,49 @@ export default {
         filesList: null
       },
       form2: {
-        projectId:'',
-        serialNo:'',
+        projectId: '',
+        serialNo: '',
+        platformType: '2',
+        ztList: [{
+          ztId: '',
+          ztFee: '',
+          freight: ''
+        }
+        ],
+        node: '',
+        filesList: '',
+        stName: '',
+        stAmount: "",
+        settlementP: '',
+        settlementPA1: '',
+        settlementPA2: '',
+        settlementPA3: '',
+        marginType: '2',
+        margin: '',
+        cycleStart: '',
+        cycleEnd: '',
+        expectPrice: '',
+        expectWeight: '',
+        rateYear: '',
+        expectProfits: '',
+        shType: '2',
+        shName: '',
+        shXz: '',
+        shHztype: '',
+        shChanneltype: '',
+        shHzrate: '',
+        shChannelyear: '',
+        shSettlement: '',
+        shSettlementA1: '',
+        shSettlementA2: '',
+        shSettlementA3: '',
+        shMargintype: '',
+        shMargin: '',
+        shContracttype: ''
+      },
+      form2back: {
+        projectId: '',
+        serialNo: '',
         platformType: '2',
         ztList: [{
           ztId: '',
@@ -741,7 +935,14 @@ export default {
         shContracttype: ''
       },
       form3: {
-        zzzzzz: '',
+        stId:'',
+        businessState: '',
+        node: '',
+        filesList: null,
+      },
+      form3back: {
+        stId:'',
+        businessState: '',
         node: '',
         filesList: null,
       },
@@ -1079,6 +1280,37 @@ export default {
     })
   },
   methods: {
+    stateChange(e) {
+      if (e.state == 1) {
+        return '未审批'
+      } else if (e.state == 2) {
+        e.scolor = '#09CC9D'
+        return '审批中'
+      } else if (e.state == 3) {
+        e.scolor = '#007AFF'
+        return '已通过'
+      } else if (e.state == 4) {
+        e.scolor = '#F12801'
+        return '已打回'
+      }
+    },
+    businessStateChange(e) {
+      if (e.businessState == 0) {
+        return '提交中'
+      } else if (e.businessState == 1) {
+        e.bcolor = '#09CC9D'
+        return '进行中'
+      } else if (e.businessState == 2) {
+        e.bcolor = '#FFAC00'
+        return '异常'
+      } else if (e.businessState == 3) {
+        e.bcolor = '#F12801'
+        return '结束'
+      } else if (e.businessState == 4) {
+        e.bcolor = '#007AFF'
+        return '完成'
+      }
+    },
     addZt(index) {
       this.form2.ztList.splice(index + 1, 0, {
         ztId: '',
@@ -1141,7 +1373,8 @@ export default {
       }
     },
     openOperateBusiness(row) {
-      console.log(row.projectId)
+      this.businessState = row.businessState
+      this.form3.stId=row.stId
       this.operateBusiness = true
     },
     changetName(e) {
@@ -1180,14 +1413,31 @@ export default {
       });
     },
     jumpBusiness(row) {
-      this.$router.push('/st/lookAdd/' + row.projectId)
+      this.$router.push('/st/lookAdd/' + row.stId)
     },
     openBusinessBox(row) {
       projectInfo(row.projectId).then(res => {
         this.projectInfo = res.data
       })
-      this.form2.projectId=row.projectId
-      this.form2.serialNo=row.serialNo
+      this.form2.projectId = row.projectId
+      this.form2.serialNo = row.serialNo
+      this.openAddBusinessBox = true;
+    },
+    openChangeBusiness(row) {
+      projectInfo(row.projectId).then(res => {
+        this.projectInfo = res.data
+      })
+      getStInfo(row.stId).then(res => {
+        this.form2 = res.data
+        this.form2.settlementP = res.data.settlementPA1 + '%-' + res.data.settlementPA2 + '%-' + res.data.settlementPA3 + '%'
+        if (this.form2.settlementP != "70%-20%-10%" && this.form2.settlementP != "70%-10%-20%" && this.form2.settlementP != "70%-15%-15%" && this.form2.settlementP != "80%-10%-10%") {
+          this.form2.settlementP = '其他'
+        }
+        this.form2.shSettlement = res.data.shSettlementA1 + '%-' + res.data.shSettlementA2 + '%-' + res.data.shSettlementA3 + '%'
+        if (this.form2.shSettlement != "70%-25%-5%" && this.form2.shSettlement != "95%-5%") {
+          this.form2.settlementP = '其他'
+        }
+      })
       this.openAddBusinessBox = true;
     },
     openCheckProject(row) {
@@ -1196,32 +1446,83 @@ export default {
       })
       this.checkProject = true;
     },
+    openChangeProject(row) {
+      projectInfo(row.projectId).then(res => {
+        this.form1 = res.data
+        this.form1.userId = parseInt(res.data.userId)
+        this.form1.supplierId = parseInt(res.data.supplierId)
+        this.form1.terminalId = parseInt(res.data.terminalId)
+        this.form1.serviceManagerId = parseInt(res.data.serviceManagerId)
+        this.form1.actualControlId = parseInt(res.data.actualControlId)
+      })
+      this.openAddBox = true;
+    },
     submitForm() {
       this.$refs["form1"].validate((valid) => {
         if (valid) {
-          addProject(this.form1).then(() => {
-            this.$message({
-              message: "新增成功！",
-              type: "success",
+          if (this.form1.projectId) {
+            editProject(this.form1).then(() => {
+              this.$message({
+                message: "修改成功！",
+                type: "success",
+              });
+              this.openAddBox = false;
+              this.form1 = this.form1back
+              this.getList();
             });
-            this.openAddBox = false;
-            this.form1 = this.form1back
-            this.getList();
-          });
+          } else {
+            addProject(this.form1).then(() => {
+              this.$message({
+                message: "新增成功！",
+                type: "success",
+              });
+              this.openAddBox = false;
+              this.form1 = this.form1back
+              this.getList();
+            });
+          }
         }
       });
     },
     submitForm2() {
       this.$refs["form2"].validate((valid) => {
         if (valid) {
-          addBusiness(this.form2).then(() => {
+          if (this.form2.stId) {
+            editBusiness(this.form2).then(() => {
+              this.$message({
+                message: "修改成功！",
+                type: "success",
+              });
+              this.openAddBusinessBox = false;
+              this.form2 = this.form2back
+              this.getList();
+            });
+          } else {
+            addBusiness(this.form2).then(() => {
+              this.$message({
+                message: "新增成功！",
+                type: "success",
+              });
+              this.openAddBusinessBox = false;
+              this.form2 = this.form2back
+              this.getList();
+            });
+          }
+        }
+      });
+    },
+    submitForm3() {
+      this.$refs["form3"].validate((valid) => {
+        if (valid) {
+          updateBStatus(this.form3).then(res => {
             this.$message({
               message: "新增成功！",
               type: "success",
             });
-            this.openAddBusinessBox = false;
+            this.operateBusiness = false;
+            this.form3 = this.form3back
             this.getList();
-          });
+          })
         }
       });
     },
@@ -1234,10 +1535,10 @@ export default {
       listSt(this.queryParams).then((response) => {
         this.stList = response.rows;
         this.stList.forEach((e) => {
-          e.hType="项目"
+          e.hType = "项目"
           e.children = e.businessList;
-          e.children.forEach(e2=>{
-            e2.hType="业务"
+          e.children.forEach(e2 => {
+            e2.hType = "业务"
           })
         });
         this.total = response.total;
@@ -1253,6 +1554,9 @@ export default {
     },
     cancel2() {
       this.openAddBusinessBox = false;
+    },
+    cancel3() {
+      this.operateBusiness = false;
     },
     //文件上传
     handlePreview(file) {

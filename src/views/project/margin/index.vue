@@ -7,7 +7,7 @@
       v-show="showSearch"
       label-width="100px"
     >
-      <el-form-item label="保证金对象" prop="type">
+      <!-- <el-form-item label="保证金对象" prop="type">
         <el-select
           v-model="queryParams.type"
           placeholder="请选择保证金对象"
@@ -17,7 +17,7 @@
           <el-option label="上游" value="上游" />
           <el-option label="下游" value="下游" />
         </el-select>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="保证金类型" prop="type">
         <el-select
           v-model="queryParams.obj"
@@ -29,26 +29,28 @@
           <el-option label="投标保证金" value="投标保证金" />
         </el-select>
       </el-form-item>
-      <el-form-item label="项目" prop="stId">
-        <el-select
-          filterable
-          v-model="queryParams.stId"
-          placeholder="请选择项目"
+            <el-form-item label="项目名称" prop="projectName">
+        <el-input
+          v-model="queryParams.projectName"
+          placeholder="请输入项目名称"
           clearable
           size="small"
-        >
-          <el-option
-            v-for="dict in stOptions"
-            :key="dict.stId"
-            :label="dict.name"
-            :value="dict.stId"
-          />
-        </el-select>
+          @keyup.enter.native="handleQuery"
+        />
       </el-form-item>
-      <el-form-item label="项目编号" prop="stNo">
+      <el-form-item label="业务名称" prop="stName">
         <el-input
-          v-model="queryParams.stNo"
-          placeholder="请输入项目编号"
+          v-model="queryParams.stName"
+          placeholder="请输入业务名称"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
+      </el-form-item>
+ <el-form-item label="立项编号" prop="serialNo">
+        <el-input
+          v-model="queryParams.serialNo"
+          placeholder="请输入立项编号"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -125,9 +127,10 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column label="保证金对象" align="center" prop="type" />
+      <el-table-column label="项目名称" align="center" prop="projectName" />
+      <el-table-column label="业务名称" align="center" prop="stName" />
+      <el-table-column label="立项编号" align="center" prop="serialNo" />
       <el-table-column label="保证金类型" align="center" prop="obj" />
-      <el-table-column label="项目名称" align="center" prop="stName" />
-      <el-table-column label="项目编号" align="center" prop="stNo" />
       <el-table-column label="客户名称" align="center" prop="terminalName" />
       <el-table-column label="保证金金额" align="center" prop="putPrice">
         <template slot-scope="scope">
@@ -276,29 +279,48 @@
           <div v-if="form.type == '上游'">
             <el-row>
               <el-col :span="12">
-                <el-form-item label="项目" prop="stId">
-                  <el-select
-                    filterable
-                    value-key="stId"
-                    @change="changeSt"
-                    v-model="form.stId"
-                    placeholder="请选择项目"
-                    style="width: 100%"
-                  >
-                    <el-option
-                      v-for="obj in stOptions"
-                      :key="obj.stId"
-                      :label="obj.name"
-                      :value="obj"
-                    ></el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item label="项目编号" prop="name">
-                  {{ form.number }}
-                </el-form-item>
-              </el-col>
+            <el-form-item label="项目名称" prop="projectId">
+              <el-select
+                filterable
+                value-key="projectId"
+                @change="changeProject"
+                v-model="form.projectId"
+                placeholder="请选择项目"
+                style="width: 100%"
+              >
+                <el-option
+                  v-for="pro in listForProArr"
+                  :key="pro.projectId"
+                  :label="pro.projectName"
+                  :value="pro"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+           <el-col :span="12">
+            <el-form-item label="业务名称" prop="stId">
+              <el-select
+                filterable
+                value-key="stId"
+                @change="changeSt"
+                v-model="form.stId"
+                placeholder="请选择业务"
+                style="width: 100%"
+              >
+                <el-option
+                  v-for="obj in listForBusArr"
+                  :key="obj.stId"
+                  :label="obj.stName"
+                  :value="obj"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="立项编号" prop="serialNo">
+              {{ form.serialNo }}
+            </el-form-item>
+          </el-col>
             </el-row>
             <el-row>
               <el-col :span="12">
@@ -352,24 +374,48 @@
           <div v-if="form.type == '下游'">
             <el-row>
               <el-col :span="12">
-                <el-form-item label="项目" prop="stId">
-                  <el-select
-                    filterable
-                    value-key="stId"
-                    @change="changeSt"
-                    v-model="form.stId"
-                    placeholder="请选择项目"
-                    style="width: 100%"
-                  >
-                    <el-option
-                      v-for="obj in stOptions"
-                      :key="obj.stId"
-                      :label="obj.name"
-                      :value="obj"
-                    ></el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
+            <el-form-item label="项目名称" prop="projectId">
+              <el-select
+                filterable
+                value-key="projectId"
+                @change="changeProject"
+                v-model="form.projectId"
+                placeholder="请选择项目"
+                style="width: 100%"
+              >
+                <el-option
+                  v-for="pro in listForProArr"
+                  :key="pro.projectId"
+                  :label="pro.projectName"
+                  :value="pro"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+           <el-col :span="12">
+            <el-form-item label="业务名称" prop="stId">
+              <el-select
+                filterable
+                value-key="stId"
+                @change="changeSt"
+                v-model="form.stId"
+                placeholder="请选择业务"
+                style="width: 100%"
+              >
+                <el-option
+                  v-for="obj in listForBusArr"
+                  :key="obj.stId"
+                  :label="obj.stName"
+                  :value="obj"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="立项编号" prop="serialNo">
+              {{ form.serialNo }}
+            </el-form-item>
+          </el-col>
             </el-row>
             <el-row>
               <el-col :span="12">
@@ -761,6 +807,8 @@ import {
   getContractListAll,
   getTerminalListAll,
   getSupplierListAll,
+  listForBus,
+  listForPro,
 } from "@/api/project/margin";
 import { getToken } from "@/utils/auth";
 import { getContract } from "@/api/project/apayment";
@@ -835,6 +883,7 @@ export default {
       marginList: [],
       // 项目集合
       stOptions: [],
+      projectOptions: [],
       //合同集合
       contractNameOptions: [],
       //客户集合
@@ -853,12 +902,14 @@ export default {
         pageSize: 10,
         type: null,
         stId: null,
+        projectId: null
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
         stId: [{ required: true, message: "请选择项目名称", trigger: "blur" }],
+        projectId: [{ required: true, message: "请选择项目名称", trigger: "blur" }],
         contractName: [
           { required: true, message: "请选择合同", trigger: "blur" },
         ],
@@ -887,6 +938,8 @@ export default {
       printReviewVisible: false,
       printData: {},
       isDisabled: false,
+      listForBusArr: [],
+      listForProArr: [],
     };
   },
   created() {
@@ -935,6 +988,14 @@ export default {
       getStList().then((response) => {
         this.stOptions = response.rows;
       });
+            // 业务
+      listForBus().then((response) => {
+        this.listForBusArr = response.data
+      }) 
+      // 项目
+      listForPro().then((response) => {
+        this.listForProArr = response.data
+      })
     },
     // 审核状态字典翻译
     stateFormat(row, column) {
@@ -985,6 +1046,10 @@ export default {
         stRate: null,
         mfsp: null,
         fileList: [],
+        projectId: null,
+        projectIdOld: null,
+        projectName: null,
+        serialNo: null
       };
       this.resetForm("form");
     },
@@ -1059,6 +1124,7 @@ export default {
       this.$refs["form"].validate((valid) => {
         if (valid) {
           this.form.stId = this.form.stId2;
+          this.form.projectId = this.form.projectIdOld
           if (this.form.marginId != null) {
             updateMargin(this.form).then((response) => {
               this.msgSuccess("修改成功");
@@ -1169,10 +1235,14 @@ export default {
     },
     //业务开始
     //选择项目
+     changeProject(pro) {
+      this.form.projectIdOld = pro.projectId;
+      this.form.serialNo = pro.serialNo;
+    },
     changeSt(obj) {
       this.contractNameOptions = [];
       this.form.stId2 = obj.stId;
-      this.form.stName = obj.name;
+      this.form.stName = obj.stName;
       this.$set(this.form, "number", obj.number);
       let data = { stId: obj.stId };
       getContractListAll(data).then((response) => {

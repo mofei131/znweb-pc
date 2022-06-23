@@ -1,3 +1,4 @@
+<!--权限管理-->
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" v-show="showSearch" :inline="true">

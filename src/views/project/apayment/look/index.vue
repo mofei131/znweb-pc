@@ -14,6 +14,7 @@
   font-weight: 400;
   color: #333333;
   line-height: 53px;
+  text-align: center;
 }
 
 .upload-hidden .el-upload--picture-card {
@@ -32,22 +33,27 @@
           <span style="color: #ff0000">{{ stateF(form.state) }}</span>
         </el-col>
       </el-row>
-      <el-row class="head-text">
-        <el-col :span="4" :offset="1">
-          项目名称：<span v-text="form.stName"></span>
+      
+        <el-row class="head-text">
+          <el-col :span="4" :offset="1">
+          项目名称：<span v-text="form.projectName"></span>
         </el-col>
         <el-col :span="4" :offset="1">
-          项目编号：<span v-text="form.number"></span>
+          供应商：<span v-text="form.supplierName"></span>
         </el-col>
-        <el-col :span="4"> 付款批次：<span v-text="form.away"></span> </el-col>
+        <el-col :span="4" :offset="1">
+          业务名称: <span v-text="form.stName"></span>
+        </el-col>
+        <el-col :span="4" :offset="1">
+          立项编号: <span v-text="form.serialNo"></span>
+        </el-col>
+        <el-col :span="4" :offset="1">
+          业务类型: <span v-text="form.settlementWay"></span>
+        </el-col>
+          <el-col :span="4"> 付款批次：<span v-text="form.away"></span> </el-col>
         <el-col :span="4"> 预付方式：<span v-text="form.type"></span> </el-col>
         <el-col :span="4">
           结算方式：<span v-text="form.settlementWay"></span>
-        </el-col>
-      </el-row>
-      <el-row class="head-text">
-        <el-col :span="4" :offset="1">
-          供应商：<span v-text="form.supplierName"></span>
         </el-col>
         <el-col :span="4">
           供应商账号：<span v-text="form.account"></span>
@@ -55,7 +61,8 @@
         <el-col :span="4">
           供应商开户行：<span v-text="form.openbank"></span>
         </el-col>
-      </el-row>
+       </el-row>
+      
 
       <el-row class="head-title">
         <el-col :span="19">
