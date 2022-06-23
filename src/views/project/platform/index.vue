@@ -99,7 +99,7 @@
     </el-row>
 
     <el-table v-loading="loading" :data="platformList" @selection-change="handleSelectionChange">
-      <el-table-column type="selection" width="55" align="center" />
+      <!-- <el-table-column type="selection" width="55" align="center" /> -->
       <!-- <el-table-column label="主键" align="center" prop="id" /> -->
       <el-table-column label="站台名称" align="center" prop="ztName" />
       <el-table-column label="站台发运方式" align="center" prop="shipVia" />
