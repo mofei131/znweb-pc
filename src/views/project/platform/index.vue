@@ -316,6 +316,10 @@ export default {
     },
     /** 提交按钮 */
     submitForm() {
+      if(this.form.shipVia != '第三方代发'){
+        this.form.carrier = ''
+        this.form.nature = ''
+      }
       this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.form.id != null) {
