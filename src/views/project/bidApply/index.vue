@@ -809,10 +809,11 @@ export default {
     changeSt(obj) {
       this.form.stIdOld = obj.stId;
       this.form.stName = obj.stName;
+      this.form.serialNo = obj.serialNo;
     },
     changeProject(pro) {
       this.form.projectIdOld = pro.projectId;
-      this.form.serialNo = pro.serialNo;
+      
     },
     //点击触发
     handlePreview(file) {

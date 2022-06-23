@@ -1669,13 +1669,14 @@ export default {
     //选择项目 加载数据
         changeProject(pro) {
       this.form.projectIdOld = pro.projectId;
-      this.form.serialNo = pro.serialNo;
     },
     changeSt(obj) {
       this.form.supplierId = null;
       this.form.supplierName = null;
       this.form.account = null;
       this.form.openbank = null;
+      this.form.serialNo = obj.serialNo;
+
       this.$set(this.form, "number", obj.number);
       this.$set(this.form, "settlementWay", obj.settlementWay);
 

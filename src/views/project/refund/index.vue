@@ -1120,13 +1120,14 @@ export default {
     },
       changeProject(pro) {
       this.form.projectIdOld = pro.projectId;
-      this.form.serialNo = pro.serialNo;
     },
     changeSt(obj) {
       this.form.stIdOld = obj.stId;
       this.form.stName = obj.stName;
       this.form.stNumber = obj.number;
       this.form.terminalId = obj.terminalId;
+      this.form.serialNo = obj.serialNo;
+
       let terminalFind = this.terminalOptions.filter(
         (x) => x.terminalId == obj.terminalId
       );

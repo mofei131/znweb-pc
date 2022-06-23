@@ -1574,7 +1574,6 @@ export default {
     // 选择项目
     changeProject(pro) {
       this.form.stName = pro.stName
-      this.form.serialNo = pro.serialNo
     },
     changeSt(obj) {
       this.form.jc1 = 0;
@@ -1590,6 +1589,7 @@ export default {
       this.form.jc11 = 0;
       this.form.jc12 = 0;
       this.form.rewardp = 0;
+      this.form.serialNo = obj.serialNo
       this.form.stId2 = obj.stId;
       this.form.stName = obj.stName;
       this.$set(this.form, "number", obj.number);

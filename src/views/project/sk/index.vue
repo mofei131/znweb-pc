@@ -313,8 +313,8 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="项目编号" prop="number">
-                <span v-text="form.number"></span>
+              <el-form-item label="项目编号" prop="projectNo">
+                <span v-text="form.projectNo"></span>
               </el-form-item>
             </el-col>
           </el-row>
@@ -851,7 +851,7 @@
               </td>
               <td class="table-td-title detail">项目编号</td>
               <td class="table-td-content">
-                {{ printData.number }}
+                {{ printData.projectNo }}
               </td>
               <td class="table-td-title detail">收款类型</td>
               <td class="table-td-content">
@@ -1581,7 +1581,7 @@ export default {
     //选择项目 加载数据
     changeProject(pro) {
       this.form.projectIdOld = pro.projectId;
-      this.form.serialNo = pro.serialNo;
+      this.form.projectNo = pro.projectNo
     },
     changeSt(obj) {
       this.form.jc1 = 0;
@@ -1602,6 +1602,8 @@ export default {
       this.form.stName = obj.stName;
       this.form.tId = null;
       this.form.tName = null;
+      this.form.serialNo = obj.serialNo;
+
       this.$set(this.form, "number", obj.number);
       //查询煤炭销售合同
       let c2 = { stId: this.form.stId2, type: "2" };

@@ -293,7 +293,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="立项编号" prop="projectNumber">
+            <el-form-item label="立项编号" prop="serialNo">
               {{ form.serialNo }}
             </el-form-item>
           </el-col>
@@ -1344,7 +1344,6 @@ export default {
     // 选择项目
     changeProject(pro) {
       this.form.projectIdOld = pro.projectId;
-      this.form.serialNo = pro.serialNo;
     },
     changeSt(obj) {
       this.form.jc1 = 0;
@@ -1361,6 +1360,7 @@ export default {
       this.form.jc12 = 0;
       this.form.rewardp = 0;
       this.form.stId2 = obj.stId;
+      this.form.serialNo = obj.serialNo;
       this.form.stName = obj.stName;
       this.$set(this.form, "number", obj.number);
       getContract(obj.stId).then((response) => {
