@@ -1525,7 +1525,7 @@ export default {
     changeSt(obj) {
       this.tableData = [];
       this.form.stId2 = obj.stId;
-      this.form.stName = obj.name;
+      this.form.stName = obj.stName;
       this.$set(this.form, "number", obj.number);
       let data = { stId: obj.stId, wlState: "1" };
       getGrnList(data).then((response) => {
