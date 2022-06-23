@@ -250,3 +250,48 @@ export function getProcessDefInfo(query) {
         method: "get",
     });
 }
+
+// 我的待办
+export function taskTodo(query) {
+    return request({
+        url: "/approve/approve/taskTodo",
+        method: "get",
+        params: query,
+    });
+}
+
+// 我的已办
+export function taskDone(query) {
+    return request({
+        url: "/approve/approve/taskDone",
+        method: "get",
+        params: query,
+    });
+}
+
+// 抄送我的
+export function taskCc(query) {
+    return request({
+        url: "/approve/approve/taskCc",
+        method: "get",
+        params: query,
+    });
+}
+
+// 我的发起
+export function taskInitiator(query) {
+    return request({
+        url: "/approve/approve/taskInitiator",
+        method: "get",
+        params: query,
+    });
+}
+
+// 任务提交
+export function submitTask(query) {
+    return request({
+        url: "/approve/approve/submitTask",
+        method: "post",
+        data: query,
+    });
+}

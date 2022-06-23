@@ -13,8 +13,8 @@
             placeholder="请输入流程名称"
           ></el-input>
         </el-form-item>
-        <el-form-item label="流程类型" prop="processType">
-          <el-select v-model="queryParams.processType" placeholder="请选择分类">
+        <el-form-item label="流程类型">
+          <el-select v-model="queryParams.approvalType" placeholder="请选择分类">
             <el-option
               v-for="dict in processTypeList"
               :key="dict.dictValue"
@@ -25,7 +25,7 @@
         </el-form-item>
         <el-form-item label="发起人">
           <el-input
-            v-model="queryParams.sponsor"
+            v-model="queryParams.initiatorUserName"
             placeholder="请输入发起人"
           ></el-input>
         </el-form-item>
@@ -36,48 +36,50 @@
     </div>
     <div>
       <el-table :data="initiateData">
-        <el-table-column label="流程名称" align="center" prop="projectName" />
-        <el-table-column label="流程类型" align="center" prop="processType">
+        <el-table-column label="流程名称" align="center" prop="processName" />
+        <el-table-column label="流程类型" align="center" prop="approvalType">
           <template slot-scope="scope">
             {{
-              scope.row.processType == "1"
-                ? "新增项目"
-                : scope.row.processType == "2"
-                ? "项目操作"
-                : scope.row.processType == "3"
+              scope.row.approvalType == "1"
+                ? "新增业务"
+                : scope.row.approvalType == "2"
+                ? "项目业务"
+                : scope.row.approvalType == "3"
                 ? "合同管理"
-                : scope.row.processType == "4"
+                : scope.row.approvalType == "4"
                 ? "预付款管理"
-                : scope.row.processType == "5"
+                : scope.row.approvalType == "5"
                 ? "最终付款管理"
-                : scope.row.processType == "6"
+                : scope.row.approvalType == "6"
                 ? "预估收款"
-                : scope.row.processType == "7"
+                : scope.row.approvalType == "7"
                 ? "保证金管理"
-                : scope.row.processType == "8"
+                : scope.row.approvalType == "8"
                 ? "资金计划"
-                : scope.row.processType == "9"
+                : scope.row.approvalType == "9"
                 ? "物流付款"
-                : scope.row.processType == "10"
-                ? "入库"
-                : scope.row.processType == "11"
-                ? "出库"
-                : scope.row.processType == "12"
+                : scope.row.approvalType == "10"
+                ? "初次质量单"
+                : scope.row.approvalType == "11"
+                ? "电厂质量单"
+                : scope.row.approvalType == "12"
                 ? "供应商管理"
-                : scope.row.processType == "13"
+                : scope.row.approvalType == "13"
                 ? "用煤单位"
-                : scope.row.processType == "14"
+                : scope.row.approvalType == "14"
                 ? "收票记录"
-                : scope.row.processType == "15"
+                : scope.row.approvalType == "15"
                 ? "开票申请"
-                : scope.row.processType == "16"
+                : scope.row.approvalType == "16"
                 ? "期间费用"
-                : scope.row.processType == "17"
+                : scope.row.approvalType == "17"
                 ? "实际收款"
-                : scope.row.processType == "18"
+                : scope.row.approvalType == "18"
                 ? "投标申请"
-                : scope.row.processType == "19"
+                : scope.row.approvalType == "19"
                 ? "退款管理"
+                : scope.row.approvalType == "20"
+                ? "项目立项"
                 : ""
             }}
           </template>
@@ -134,7 +136,7 @@
                 (scope.row.status == '0' ||
                   scope.row.status == '3' ||
                   scope.row.status == '5') &&
-                scope.row.processType != '2'
+                scope.row.approvalType != '2'
               "
               type="text"
               @click="handleUpdate(scope.row)"
@@ -148,7 +150,7 @@
                 scope.row.status != '2' &&
                 scope.row.status != '3' &&
                 scope.row.status != '5' &&
-                (scope.row.processType == '4' || scope.row.processType == '5')
+                (scope.row.approvalType == '4' || scope.row.approvalType == '5')
               "
               type="text"
               @click="withdraw(scope.row)"
@@ -172,7 +174,7 @@
               size="mini"
               v-if="
                 (scope.row.status == '3' || scope.row.status == '5') &&
-                scope.row.processType != '2'
+                scope.row.approvalType != '2'
               "
               type="text"
               @click="reInitiate(scope.row)"
@@ -186,8 +188,8 @@
       <pagination
         v-show="total > 0"
         :total="total"
-        :page.sync="queryParams.pageNum"
-        :limit.sync="queryParams.pageSize"
+        :page.sync="queryParams.page"
+        :limit.sync="queryParams.limit"
         @pagination="getList"
       />
     </div>
@@ -197,7 +199,7 @@
 <script>
 import {
   deleteByStId,
-  myInitiate,
+  taskInitiator,
   reInitiates,
   withdraw,
 } from "@/api/approve/index.js";
@@ -233,8 +235,8 @@ export default {
   data() {
     return {
       queryParams: {
-        pageNum: 1,
-        pageSize: 10,
+        page: 1,
+        limit: 10,
       },
       total: 0,
       processTypeList: [],
@@ -249,13 +251,13 @@ export default {
   },
   methods: {
     getList() {
-      myInitiate(this.queryParams).then((res) => {
-        this.total = res.data.total;
-        this.initiateData = res.data.records;
+      taskInitiator(this.queryParams).then((res) => {
+        this.total = res.total;
+        this.initiateData = res.rows;
       });
     },
     async reInitiate(row) {
-      let typeId = row.processType;
+      let typeId = row.approvalType;
       let stId = row.stId;
       let isOk = true;
       if (typeId == "4") {
@@ -284,7 +286,7 @@ export default {
       }
     },
     handleSelect(row) {
-      let typeId = row.processType;
+      let typeId = row.approvalType;
       let stId = row.stId;
       if (typeId == "1") {
         this.$router.push("/st/lookAdd/" + stId);
@@ -332,7 +334,7 @@ export default {
       }
     },
     handleUpdate(row) {
-      let typeId = row.processType;
+      let typeId = row.approvalType;
       let stId = row.stId;
       if (typeId == "1") {
         this.$router.push({
@@ -426,7 +428,7 @@ export default {
       }
     },
     handleDelete(row) {
-      let typeId = row.processType;
+      let typeId = row.approvalType;
       let stId = row.stId;
 
       if (typeId == "1") {
@@ -718,7 +720,7 @@ export default {
     },
     withdraw(row) {
       let _this = this;
-      let typeId = row.processType;
+      let typeId = row.approvalType;
       let stId = row.stId;
       this.$confirm("确认撤回提单吗?", "提示", {
         confirmButtonText: "确认",
