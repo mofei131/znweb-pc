@@ -2766,8 +2766,4 @@ export default {
   },
 };
 </script>
-<<<<<<< HEAD
 <style lang="scss" scoped></style>
-=======
-<style lang="scss" scoped></style>
->>>>>>> ae2fb97f3cdefcc94f7d10fca6335a90aabadf7b
