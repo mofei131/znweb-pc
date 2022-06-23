@@ -24,11 +24,7 @@
           </el-table-column>
           <el-table-column property="status" label="审批状态">
             <template slot-scope="scope">
-              {{
-                scope.row.extra.opt == 'pass'
-                  ? "已通过"
-                  : "已拒绝"
-              }}
+              {{scope.row.extra.opt == 'pass'?"已通过":"已拒绝"}}
             </template>
           </el-table-column>
         </el-table>
@@ -47,19 +43,14 @@
     data(){
       return{
         //审批集合
-        stateList: [{"deptName":"风控部","roleName":"风控部经理","userName":"张三","content":"没有问题，同意审批","state":"已通过"},
-                    {"deptName":"风控部","roleName":"风控部经理","userName":"张三","content":"没有问题，同意审批","state":"已通过"},
-                    {"deptName":"风控部","roleName":"风控部经理","userName":"张三","content":"","state":"未审批"}],
+        stateList: [],
       }
     },
     mounted() {
-      // getProcessDataByStId(this.typeId, this.stId).then((res) => {
-      //   this.stateList = res.data;
-      // });
       approveHistory({
-        businessKey:123
+        businessKey:this.stId,
+        approvalType:this.typeId
       }).then(res => {
-        console.log(res)
         this.stateList = res.data
       })
     }
