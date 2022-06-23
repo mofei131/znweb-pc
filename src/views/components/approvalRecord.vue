@@ -11,25 +11,23 @@
           ref="singleTable"
           :data="stateList"
           style="width: 80%; margin-bottom: 30px"
+          :header-cell-style="{'text-align':'center'}"
+          :cell-style="{'text-align':'center'}"
         >
-          <el-table-column property="deptName" label="部门">
-          </el-table-column>
           <el-table-column property="nickName" label="审批人">
           </el-table-column>
-          <el-table-column property="approveTime" label="审批时间">
+          <el-table-column property="postName" label="职位">
           </el-table-column>
-          <el-table-column property="processValue" label="审批说明">
+          <el-table-column property="approvalTime" label="审批时间">
+          </el-table-column>
+          <el-table-column property="extra.opinion" label="审批说明">
           </el-table-column>
           <el-table-column property="status" label="审批状态">
             <template slot-scope="scope">
               {{
-                scope.row.status == 0
-                  ? "已打回"
-                  : scope.row.status == 1
+                scope.row.extra.opt == 'pass'
                   ? "已通过"
-                  : scope.row.status == 5
-                  ? "已撤回"
-                  : ""
+                  : "已拒绝"
               }}
             </template>
           </el-table-column>
@@ -40,7 +38,7 @@
 </template>
 
 <script>
-  import { getProcessDataByStId } from "@/api/approve";
+  import {approveHistory} from "@/api/project/st.js";
   export default{
     props:{
         typeId:Number,
@@ -55,12 +53,18 @@
       }
     },
     mounted() {
-      getProcessDataByStId(this.typeId, this.stId).then((res) => {
-        this.stateList = res.data;
-      });
+      // getProcessDataByStId(this.typeId, this.stId).then((res) => {
+      //   this.stateList = res.data;
+      // });
+      approveHistory({
+        businessKey:123
+      }).then(res => {
+        console.log(res)
+        this.stateList = res.data
+      })
     }
   }
 </script>
 
-<style>
+<style scoped lang="scss">
 </style>

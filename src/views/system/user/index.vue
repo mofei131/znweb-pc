@@ -275,7 +275,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="职位">
-              <el-select v-model="form.postIds" multiple placeholder="请选择" style="width: 100%">
+              <el-select v-model="form.postId" placeholder="请选择" style="width: 100%">
                 <el-option
                   v-for="item in postOptions"
                   :key="item.postId"
@@ -551,7 +551,7 @@ export default {
         sex: undefined,
         status: "0",
         remark: undefined,
-        postIds: [],
+        postId: '',
         roleIds: []
       };
       this.resetForm("form");
@@ -607,7 +607,7 @@ export default {
         this.form = response.data;
         this.postOptions = response.posts;
         this.roleOptions = response.roles;
-        this.form.postIds = response.postIds;
+        this.form.postId = response.postId;
         this.form.roleIds = response.roleIds;
         this.open = true;
         this.title = "修改用户";

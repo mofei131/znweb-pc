@@ -59,17 +59,23 @@
         </el-row>
         <el-row :gutter="24" v-if="item2.scope == 'post'">
           <el-col :span="24">
-            <el-cascader
+            <el-select
               :disabled="disabled"
+              filterable
               v-model="item2.approverRange"
-              :options="deptOptions"
-              :key="keyValue"
-              :props="{ checkStrictly: true }"
+              placeholder="请选择指定职位"
               clearable
-
+              multiple
               style="width: 300px"
-            ></el-cascader>
-            <!-- @change="change" -->
+              value-key="nickName"
+            >
+              <el-option
+                v-for="(it2,index) in deptOptions"
+                :key="index"
+                :label="it2.postName"
+                :value="it2.postId"
+              ></el-option>
+            </el-select>
           </el-col>
         </el-row>
         <el-row :gutter="24" v-if="item2.scope == 'user'">
@@ -126,18 +132,24 @@
           <el-row :gutter="24" v-if="item.scope == 'post'">
             <el-col :span="24">
               <el-form-item prop="ccRange">
-                <el-cascader
+                <el-select
                   :disabled="disabled"
+                  filterable
                   v-model="item.ccRange"
-                  :options="deptOptions"
-                  :key="keyValue"
-                  :props="{ checkStrictly: true }"
+                  placeholder="请选择指定职位"
                   clearable
-
+                  multiple
                   style="width: 300px"
-                ></el-cascader>
+                  value-key="nickName"
+                >
+                  <el-option
+                    v-for="(it2,index) in deptOptions"
+                    :key="index"
+                    :label="it2.postName"
+                    :value="it2.postId"
+                  ></el-option>
+                </el-select>
               </el-form-item>
-              <!-- @change="change" -->
             </el-col>
           </el-row>
           <el-row :gutter="24" v-if="item.scope == 'user'">
@@ -197,6 +209,7 @@
     listForCombobox,
     getProcessDefInfo
   } from "@/api/approve/index.js";
+  import {getUser} from "@/api/system/user";
   export default{
     props: ["mode", "initData"],
     data(){
@@ -225,7 +238,6 @@
         rules: {
           processType: [{required: true,message: '请选择审批类型',trigger: "blur",}],
           originatorType:[{required: true,message: '请选择发起人',trigger: "blur",}],
-          // type:[{required: true,message: '请选择发起人',trigger: "blur",}],
           status:[{required: true,message: '状态必选',trigger: "blur",}],
         },
         disabled:false,
@@ -250,9 +262,7 @@
           value:'0',
           label:'禁用'
         }],//状态列表
-        deptOptions: [],//一级部门
-        deptOptions1: [],//二级部门,
-        deptOptionscc: [],//三级部门
+        deptOptions: [],//职位列表
         keyValue: 0,
         userList:[{
           value:1,
@@ -261,12 +271,14 @@
           value:2,
           label:'莫非2'
         }],
+        loop:true,//阻止事件执行
       }
     },
     created() {
       this.getUserList()
       this.getDictsList()
       this.getTreeselect();
+      this.loop = true
     },
     methods:{
       //获取审批流程内容
@@ -284,7 +296,6 @@
                  this.planList[index].initiator.push(
                   this.originatorListDate[this.originatorListDate.findIndex((it) => it.userId == item2.initiatorUserId)]
                  )
-                 // console.log(this.planList[index].initiator)
                })
              })
            }else{
@@ -308,20 +319,16 @@
           this.processTypeList = response.data;
         });
       },
-      /** 查询部门下拉树结构 */
+      /** 查询职位下拉树结构 */
       getTreeselect() {
-        treeselects().then((response) => {
-          this.deptOptions = response.data;
-          this.deptOptions1 = response.data;
-          this.deptOptionscc = response.data;
+        getUser(4).then(response => {
+          this.deptOptions = response.posts;
         });
       },
       //获取审批类型
       typeChange(index,index2,val){
         this.planList[index].nodeList[index2].scope = val
         this.planList[index].nodeList[index2].approverRange = []
-        // this.approvalSelect = val
-        // console.log(this.planList[index].nodeList[index2].approverRange)
       },
       modeChange(index,index2,val){
         this.planList[index].nodeList[index2].approvalMethod = val
@@ -389,19 +396,25 @@
         this.planList.forEach(function(item,index){
           if(item.initiatorList .length < 1){
             that.$message.error("请选择"+(index+1)+"流程中发起人")
+            that.loop = false
             return
           }
           if(item.ifCc && item.ccRange.length < 1){
              that.$message.error("请选择"+(index+1)+"流程中抄送部门或人员")
+             that.loop = false
             return
           }
           item.nodeList.forEach(function(item2,index2){
             if(item2.approverRange < 1){
               that.$message.error("请选择"+(index2+1)+"审批中部门或人员")
+              that.loop = false
               return
             }
           })
         })
+        if(!this.loop){
+          return
+        }
         processDefSave({
           id:this.mode == 'reInitiate'?this.initData.id:null,
           approvalType:this.processType,
@@ -439,6 +452,7 @@
             scope:'post',//审批类型
             approverRange:[],//职位
             approvalMethod:'or',//审批方式
+            seq:1
           }],
           ifCc: false,//是否添加抄送
           scope:'post',//抄送方式

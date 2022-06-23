@@ -656,17 +656,6 @@ export const constantRoutes = [{
         ],
     },
     {
-        path: "",
-        component: Layout,
-        hidden: true,
-        children: [{
-            path: "test",
-            component: (resolve) => require(["@/views/project/test"], resolve),
-            name: "测试",
-            meta: { title: "测试", icon: "dashboard", noCache: true, affix: true },
-        }, ],
-    },
-    {
         path: "/platform",
         component: Layout,
         hidden: true,

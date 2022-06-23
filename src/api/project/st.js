@@ -183,3 +183,19 @@ export function getFileInfo(query) {
         params: query,
     });
 }
+//220622查询审批流程
+export function approveNode(query) {
+    return request({
+        url: "/approve/approve/approveNode",
+        method: "get",
+        params: query,
+    });
+}
+//220622审批历史记录
+export function approveHistory(query) {
+    return request({
+        url: "/approve/approve/approveHistory",
+        method: "get",
+        params: query,
+    });
+}
