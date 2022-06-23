@@ -59,17 +59,23 @@
         </el-row>
         <el-row :gutter="24" v-if="item2.scope == 'post'">
           <el-col :span="24">
-            <el-cascader
+            <el-select
               :disabled="disabled"
+              filterable
               v-model="item2.approverRange"
-              :options="deptOptions"
-              :key="keyValue"
-              :props="{ checkStrictly: true }"
+              placeholder="请选择指定职位"
               clearable
-
+              multiple
               style="width: 300px"
-            ></el-cascader>
-            <!-- @change="change" -->
+              value-key="nickName"
+            >
+              <el-option
+                v-for="(it2,index) in deptOptions"
+                :key="index"
+                :label="it2.postName"
+                :value="it2.postId"
+              ></el-option>
+            </el-select>
           </el-col>
         </el-row>
         <el-row :gutter="24" v-if="item2.scope == 'user'">
@@ -126,18 +132,24 @@
           <el-row :gutter="24" v-if="item.scope == 'post'">
             <el-col :span="24">
               <el-form-item prop="ccRange">
-                <el-cascader
+                <el-select
                   :disabled="disabled"
+                  filterable
                   v-model="item.ccRange"
-                  :options="deptOptions"
-                  :key="keyValue"
-                  :props="{ checkStrictly: true }"
+                  placeholder="请选择指定职位"
                   clearable
-
+                  multiple
                   style="width: 300px"
-                ></el-cascader>
+                  value-key="nickName"
+                >
+                  <el-option
+                    v-for="(it2,index) in deptOptions"
+                    :key="index"
+                    :label="it2.postName"
+                    :value="it2.postId"
+                  ></el-option>
+                </el-select>
               </el-form-item>
-              <!-- @change="change" -->
             </el-col>
           </el-row>
           <el-row :gutter="24" v-if="item.scope == 'user'">
@@ -197,6 +209,7 @@
     listForCombobox,
     getProcessDefInfo
   } from "@/api/approve/index.js";
+  import {getUser} from "@/api/system/user";
   export default{
     props: ["mode", "initData"],
     data(){
@@ -249,9 +262,7 @@
           value:'0',
           label:'禁用'
         }],//状态列表
-        deptOptions: [],//一级部门
-        deptOptions1: [],//二级部门,
-        deptOptionscc: [],//三级部门
+        deptOptions: [],//职位列表
         keyValue: 0,
         userList:[{
           value:1,
@@ -308,12 +319,10 @@
           this.processTypeList = response.data;
         });
       },
-      /** 查询部门下拉树结构 */
+      /** 查询职位下拉树结构 */
       getTreeselect() {
-        treeselects().then((response) => {
-          this.deptOptions = response.data;
-          this.deptOptions1 = response.data;
-          this.deptOptionscc = response.data;
+        getUser(4).then(response => {
+          this.deptOptions = response.posts;
         });
       },
       //获取审批类型
