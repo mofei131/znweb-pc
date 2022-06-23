@@ -761,11 +761,11 @@ export default {
     changeSt(obj) {
       this.form.stId2 = obj.stId;
       this.form.stName = obj.stName;
+      this.form.serialNo = obj.serialNo;
       this.$set(this.form, "number", obj.number);
     },
 changeProject(pro) {
       this.form.projectIdOld = pro.projectId;
-      this.form.serialNo = pro.serialNo;
     },
     //选择第三方公司
     changeTpc(obj) {

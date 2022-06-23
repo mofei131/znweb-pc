@@ -1181,13 +1181,12 @@ export default {
     //选择项目
         changeProject(pro) {
       this.form.projectIdOld = pro.projectId;
-      this.form.serialNo = pro.serialNo;
     },
     changeSt(obj) {
       this.form.tId = null;
       this.form.tName = null;
       this.$set(this.form, "number", obj.number);
-
+      this.form.serialNo = obj.serialNo;
       this.form.stId2 = obj.stId;
       this.form.stName = obj.stName;
       this.form.tId = obj.terminalId;

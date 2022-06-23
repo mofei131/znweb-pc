@@ -52,10 +52,10 @@
              
       </el-form-item>
            
-      <el-form-item label="立项编号" prop="productNo">
+      <el-form-item label="立项编号" prop="serialNo">
                
         <el-input
-          v-model="queryParams.productNo"
+          v-model="queryParams.serialNo"
           placeholder="请输入立项编号"
           clearable
           size="small"
@@ -1703,10 +1703,10 @@ export default {
       this.form.terminalId = obj.tName;
       this.form.terminalId2 = obj.terminalId;
       this.form.terminalName = obj.tName;
+      this.form.serialNo = obj.serialNo;
     },
     changeProject(pro) {
       this.form.projectId2 = pro.projectId;
-      this.form.serialNo = pro.serialNo;
     },
     changeSupplier(obj) {
       this.form.supplierId2 = obj.supplierId;

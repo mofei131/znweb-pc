@@ -776,11 +776,11 @@ export default {
     //选择项目
      changeProject(pro) {
       this.form.projectIdOld = pro.projectId;
-      this.form.serialNo = pro.serialNo;
     },
     changeSt(obj) {
       this.form.stId2 = obj.stId;
       this.form.stName = obj.stName;
+      this.form.serialNo = obj.serialNo;
       this.$set(this.form, "number", obj.number);
     },
     //选择代办人

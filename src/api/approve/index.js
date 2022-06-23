@@ -295,3 +295,21 @@ export function submitTask(query) {
         data: query,
     });
 }
+
+// 重新发起流程
+export function restartProcess(query) {
+    return request({
+        url: "/approve/approve/restartProcess",
+        method: "post",
+        data: query,
+    });
+}
+
+// 撤回流程
+export function withdrawProcess(query) {
+    return request({
+        url: "/approve/approve/withdrawProcess",
+        method: "post",
+        data: query,
+    });
+}

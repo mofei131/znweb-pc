@@ -340,13 +340,6 @@
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="结算方式" prop="settlementWay">
-                <span v-text="form.settlementWay"></span>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="12">
               <el-form-item label="供应商账号" prop="account">
                 <el-input
                   v-model="form.account"
@@ -386,7 +379,7 @@
           <!--        </div>-->
 
           <!--已选择的出库单-->
-          <div style="margin-bottom: 30px">
+          <!-- <div style="margin-bottom: 30px">
             <el-table
               ref="singleTable"
               :data="tableselData"
@@ -461,9 +454,9 @@
                 </template>
               </el-table-column>
             </el-table>
-          </div>
+          </div> -->
 
-          <el-row>
+          <!-- <el-row>
             <el-col :span="6">
               <el-form-item label="合计重量" prop="totalWeight">
                 <span style="color: red">{{
@@ -476,7 +469,7 @@
                 <span style="color: red">{{ form.prz }}</span>
               </el-form-item>
             </el-col>
-          </el-row>
+          </el-row> -->
 
           <el-row>
             <el-col :span="12">
@@ -574,7 +567,6 @@
               </el-form-item>
             </el-col>
           </el-row>
-
           <el-row>
             <el-col :span="12">
               <el-form-item label="其他扣款" prop="otherPrice">
@@ -585,8 +577,30 @@
                 />
               </el-form-item>
             </el-col>
+          <el-col :span="24">
+            <el-form-item label="附件">
+              <el-upload
+                :action="url"
+                :headers="headers"
+                :on-preview="handlePreview"
+                :on-remove="handleRemove"
+                :on-success="uploadSuccess"
+                :on-error="uploadError"
+                :before-remove="beforeRemove"
+                multiple
+                :limit="5"
+                :on-exceed="handleExceed"
+                :file-list="fileList"
+              >
+                <el-button size="small" type="primary">点击上传</el-button>
+                <div slot="tip" class="el-upload__tip">
+                  支持扩展名：.rar .zip .doc .docx .pdf .jpg...
+                </div>
+              </el-upload>
+            </el-form-item>
+          </el-col>
           </el-row>
-
+           
           <el-form-item label="增加费用明细:" style="color: black">
           </el-form-item>
           <el-row>
@@ -609,13 +623,13 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row>
+          <!-- <el-row>
             <el-col :span="12">
               <el-form-item label="增加费用合计" prop="tx">
                 <span v-text="$options.filters.moneyFilter(form.zjt)"></span>
               </el-form-item>
             </el-col>
-          </el-row>
+          </el-row> -->
           <el-row>
             <el-col :span="12">
               <el-form-item label="最终应付款金额" prop="yftotalPrice">
@@ -667,7 +681,7 @@
             </el-col>
           </el-row>
           <!--        图片上传-->
-          <el-row>
+          <!-- <el-row>
             <el-col :span="12">
               <el-form-item label="附件" prop="file">
                 <el-upload
@@ -686,19 +700,19 @@
                 >
                   <el-button size="small" type="primary" v-if="isLook != 3"
                     >点击上传</el-button
-                  >
+                  > -->
                   <!--                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
-                </el-upload>
+                <!-- </el-upload>
               </el-form-item>
             </el-col>
-          </el-row>
-          <el-row>
+          </el-row> -->
+          <!-- <el-row>
             <el-col :span="12">
               <el-form-item label="实际支付" prop="sjzf">
                 <span v-text="form.sjzf"></span>
               </el-form-item>
             </el-col>
-          </el-row>
+          </el-row> -->
         </div>
 
         <div v-if="isLook == '4'">
@@ -1655,13 +1669,14 @@ export default {
     //选择项目 加载数据
         changeProject(pro) {
       this.form.projectIdOld = pro.projectId;
-      this.form.serialNo = pro.serialNo;
     },
     changeSt(obj) {
       this.form.supplierId = null;
       this.form.supplierName = null;
       this.form.account = null;
       this.form.openbank = null;
+      this.form.serialNo = obj.serialNo;
+
       this.$set(this.form, "number", obj.number);
       this.$set(this.form, "settlementWay", obj.settlementWay);
 

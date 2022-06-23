@@ -1520,12 +1520,12 @@ export default {
     //选择项目
     changeProject(pro) {
       this.form.projectIdOld = pro.projectId;
-      this.form.serialNo = pro.serialNo;
     },
     changeSt(obj) {
       this.tableData = [];
       this.form.stId2 = obj.stId;
-      this.form.stName = obj.name;
+      this.form.stName = obj.stName;
+      this.form.serialNo = obj.serialNo;
       this.$set(this.form, "number", obj.number);
       let data = { stId: obj.stId, wlState: "1" };
       getGrnList(data).then((response) => {
