@@ -146,11 +146,19 @@
         </el-col>
         <el-col :span="12">
         <el-form-item label="发运方式" prop="shipVia">
-          <el-input v-model="form.shipVia" placeholder="请输入发运方式" />
+          <!-- <el-input v-model="form.shipVia" placeholder="请输入发运方式" /> -->
+          <el-select
+            v-model="form.shipVia"
+            placeholder="请选择发运方式"
+            style="width: 100%"
+          >
+            <el-option label="独立立户" value="独立立户" />
+            <el-option label="第三方代发" value="第三方代发" />
+          </el-select>
         </el-form-item>
         </el-col>
         </el-row>
-        <el-row>
+        <el-row v-if="form.shipVia == '第三方代发'">
         <el-col :span="12">
         <el-form-item label="承运单位" prop="carrier">
           <el-input v-model="form.carrier" placeholder="请输入承运单位" />
@@ -166,9 +174,9 @@
             placeholder="请选择承运方性质"
             style="width: 100%"
           >
-            <el-option label="企业" value="企业" />
-            <el-option label="个人" value="个人" />
-            <el-option label="第三方" value="第三方" />
+            <el-option label="国有企业" value="国有企业" />
+            <el-option label="上市公司" value="上市公司" />
+            <el-option label="私营企业" value="私营企业" />
           </el-select>
         </el-form-item>
         </el-col>
