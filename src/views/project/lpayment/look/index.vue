@@ -312,7 +312,7 @@
       <approval-process :typeId="9" :stId="lpaymentId"></approval-process>
 
       <!--      审批信息-->
-      <el-row class="head-title">
+      <!-- <el-row class="head-title">
         <el-col :span="12">
           <el-form-item label="审批记录"></el-form-item>
         </el-col>
@@ -348,7 +348,7 @@
             </el-table-column>
           </el-table>
         </el-col>
-      </el-row>
+      </el-row> -->
       <!--      审批信息-->
       <approval-record :typeId="9" :stId="lpaymentId"></approval-record>
     </el-form>
@@ -415,9 +415,9 @@ export default {
       })
 
     })
-    getProcessDataByStId("9",lpaymentId).then((res) => {
-      this.stateList = res.data;
-    });
+    // getProcessDataByStId("9",lpaymentId).then((res) => {
+    //   this.stateList = res.data;
+    // });
   },
   methods: {
     cancel(){

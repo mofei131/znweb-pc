@@ -6,34 +6,48 @@
         <el-form-item label="审批流程"></el-form-item>
       </el-col>
     </el-row>
-    <el-row class="head-text">
+    <el-row class="head-text freeWar">
       <el-col style="margin-left: 60px">
-        <span>发起人：{{info.sponsor}}</span>
-        <span style="margin-left: 60px">发起时间：{{info.initiateTime}}</span>
+        <span>发起人：{{info.initiatorUserName}}</span>
+        <span style="margin-left: 60px">发起时间：{{info.initiatorTime}}</span>
       </el-col>
       <el-col :offset="1">
         <el-table
           ref="singleTable"
-          :data="apList"
+          :data="info.rows"
+          fit
           style="width: 80%; margin-bottom: 30px"
+          :header-cell-style="{'text-align':'center','border-bottom':'1px solid #fff','padding':'0','margin':'0'}"
+          :cell-style="{'text-align':'center'}"
         >
-        <el-table-column type="index" label="部门1">
-          <template slot-scope="scope">
-            <div>{{scope.$index}}</div>
-          </template>
-        </el-table-column>
-          <el-table-column property="deptName" label="部门"> </el-table-column>
-          <el-table-column property="shouldApprovePerson" label="应审批人">
-          </el-table-column>
-          <el-table-column property="nickName" label="审批人">
-          </el-table-column>
-          <el-table-column property="approveTime" label="审批时间">
-          </el-table-column>
-          <el-table-column property="processValue" label="审批说明">
-          </el-table-column>
-          <el-table-column property="status" label="审批状态">
+          <el-table-column>
             <template slot-scope="scope">
-              {{ scope.row.status == 0 ? "已审批" : scope.row.status == 1 ? "已审批":scope.row.status == -1 ? "待审批" :scope.row.status == '' ? "未审批":scope.row.status == -1 ? "待审批" :scope.row.status == null ? "未审批":scope.row.status == -1 ? "待审批" :scope.row.status == undefined ? "未审批":""}}
+              <div class="elTableColumn">{{scope.row.approvalSeq}} 审批人：</div>
+              <div class="elTableColumn">{{scope.row.approvalMethod == 'or'?'或签':'会签'}}</div>
+              <div class="elTableColumn">{{scope.row.approvalState == 'pass'?'已通过':''}}</div>
+            </template>
+          </el-table-column>
+          <el-table-column>
+            <template slot-scope="scope">
+              <div v-for="item in scope.row.approvalNodes">{{item.nickName+"("+item.postName+")"}}</div>
+            </template>
+          </el-table-column>
+          <el-table-column label="审批时间">
+            <template slot-scope="scope">
+              <div v-for="item in scope.row.approvalNodes">{{item.approvalTime}}</div>
+            </template>
+          </el-table-column>
+          <el-table-column>
+            <template slot-scope="scope">
+              <div v-for="item in scope.row.approvalNodes">
+                <div v-if="item.extra.opt == 'pass' ">通过</div>
+                <div v-else>拒绝</div>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column>
+            <template slot-scope="scope">
+              <div v-for="item in scope.row.approvalNodes">{{item.extra.opinion}}</div>
             </template>
           </el-table-column>
         </el-table>
@@ -42,32 +56,11 @@
   </div>
 </template>
 <script>
-import {getApprovalProcessList} from "@/api/project/st.js";
+import {getApprovalProcessList,approveNode} from "@/api/project/st.js";
 export default {
     data(){
         return {
-            apList:[{
-              deptName:'部门',
-              shouldApprovePerson:'应审批人',
-              nickName:'审批人',
-              approveTime:'2021-00-00',
-              processValue:'审批说明',
-              status:1
-            },{
-              deptName:'部门',
-              shouldApprovePerson:'应审批人',
-              nickName:'审批人',
-              approveTime:'2021-00-00',
-              processValue:'审批说明',
-              status:1
-            },{
-              deptName:'部门',
-              shouldApprovePerson:'应审批人',
-              nickName:'审批人',
-              approveTime:'2021-00-00',
-              processValue:'审批说明',
-              status:1
-            }],
+            apList:[],
             info:{},
         }
     },
@@ -77,13 +70,18 @@ export default {
     },
     mounted(){
         this.info={}
-        // this.apList=[]
-        // getApprovalProcessList(this.typeId,this.stId).then(res=>{
-        //     this.info=res.data[0]
-        //     res.data.forEach(element => {
-        //         this.apList.push(element)
-        //     });
-        // })
+        this.apList=[]
+        // this.stId
+        // this.typeId
+        approveNode({
+          businessKey:123
+        }).then(res => {
+            // this.info=res.data[0]
+            // res.data.forEach(element => {
+            //     this.apList.push(element)
+            // });
+            this.info = res.data
+        })
     },
     methods:{
     }
@@ -91,7 +89,7 @@ export default {
 </script>
 
 
-<style>
+<style lang="scss">
 .head-title {
   font-size: 16px;
   font-family: Microsoft YaHei;
@@ -107,5 +105,27 @@ export default {
   font-weight: 400;
   color: #333333;
   line-height: 53px;
+}
+.elTableColumn{
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.freeWar{
+
+  .is-leaf{
+       background-color: white!important;
+       height: 10px!important;
+  }
+  .el-table__row:hover > td {
+      background-color: #ffffff !important;
+
+  }
+
+  .el-table__row--striped:hover > td {
+      background-color: #fafafa !important;
+
+  }
 }
 </style>

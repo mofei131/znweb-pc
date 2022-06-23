@@ -225,7 +225,6 @@
         rules: {
           processType: [{required: true,message: '请选择审批类型',trigger: "blur",}],
           originatorType:[{required: true,message: '请选择发起人',trigger: "blur",}],
-          // type:[{required: true,message: '请选择发起人',trigger: "blur",}],
           status:[{required: true,message: '状态必选',trigger: "blur",}],
         },
         disabled:false,
@@ -261,12 +260,14 @@
           value:2,
           label:'莫非2'
         }],
+        loop:true,//阻止事件执行
       }
     },
     created() {
       this.getUserList()
       this.getDictsList()
       this.getTreeselect();
+      this.loop = true
     },
     methods:{
       //获取审批流程内容
@@ -284,7 +285,6 @@
                  this.planList[index].initiator.push(
                   this.originatorListDate[this.originatorListDate.findIndex((it) => it.userId == item2.initiatorUserId)]
                  )
-                 // console.log(this.planList[index].initiator)
                })
              })
            }else{
@@ -320,8 +320,6 @@
       typeChange(index,index2,val){
         this.planList[index].nodeList[index2].scope = val
         this.planList[index].nodeList[index2].approverRange = []
-        // this.approvalSelect = val
-        // console.log(this.planList[index].nodeList[index2].approverRange)
       },
       modeChange(index,index2,val){
         this.planList[index].nodeList[index2].approvalMethod = val
@@ -389,19 +387,25 @@
         this.planList.forEach(function(item,index){
           if(item.initiatorList .length < 1){
             that.$message.error("请选择"+(index+1)+"流程中发起人")
+            that.loop = false
             return
           }
           if(item.ifCc && item.ccRange.length < 1){
              that.$message.error("请选择"+(index+1)+"流程中抄送部门或人员")
+             that.loop = false
             return
           }
           item.nodeList.forEach(function(item2,index2){
             if(item2.approverRange < 1){
               that.$message.error("请选择"+(index2+1)+"审批中部门或人员")
+              that.loop = false
               return
             }
           })
         })
+        if(!this.loop){
+          return
+        }
         processDefSave({
           id:this.mode == 'reInitiate'?this.initData.id:null,
           approvalType:this.processType,
@@ -439,6 +443,7 @@
             scope:'post',//审批类型
             approverRange:[],//职位
             approvalMethod:'or',//审批方式
+            seq:1
           }],
           ifCc: false,//是否添加抄送
           scope:'post',//抄送方式
