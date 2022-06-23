@@ -7,7 +7,7 @@
       </el-col>
     </el-row>
     <el-row class="head-text freeWar">
-      <el-col style="margin-left: 60px">
+      <el-col style="margin-left: 60px;display: flex;align-items: center;justify-content: flex-start;">
         <span>发起人：{{info.initiatorUserName}}</span>
         <span style="margin-left: 60px">发起时间：{{info.initiatorTime}}</span>
       </el-col>
@@ -29,25 +29,24 @@
           </el-table-column>
           <el-table-column>
             <template slot-scope="scope">
-              <div v-for="item in scope.row.approvalNodes">{{item.nickName+"("+item.postName+")"}}</div>
+              <div class="elTableColumn" v-for="item in scope.row.approvalNodes">{{item.nickName+"("+item.postName+")"}}</div>
             </template>
           </el-table-column>
           <el-table-column label="审批时间">
             <template slot-scope="scope">
-              <div v-for="item in scope.row.approvalNodes">{{item.approvalTime}}</div>
+              <div class="elTableColumn" v-for="item in scope.row.approvalNodes">{{item.approvalTime}}</div>
             </template>
           </el-table-column>
           <el-table-column>
             <template slot-scope="scope">
-              <div v-for="item in scope.row.approvalNodes">
-                <div v-if="item.extra.opt == 'pass' ">通过</div>
-                <div v-else>拒绝</div>
+              <div class="elTableColumn" v-for="item in scope.row.approvalNodes">
+                {{item.extra != null?(item.extra.opt == 'pass'?'通过':'拒绝'):''}}
               </div>
             </template>
           </el-table-column>
           <el-table-column>
             <template slot-scope="scope">
-              <div v-for="item in scope.row.approvalNodes">{{item.extra.opinion}}</div>
+              <div class="elTableColumn" v-for="item in scope.row.approvalNodes">{{item.extra != null?item.extra.opinion:''}}</div>
             </template>
           </el-table-column>
         </el-table>
@@ -71,15 +70,10 @@ export default {
     mounted(){
         this.info={}
         this.apList=[]
-        // this.stId
-        // this.typeId
         approveNode({
-          businessKey:123
+          businessKey:this.stId,
+          approvalType:this.typeId
         }).then(res => {
-            // this.info=res.data[0]
-            // res.data.forEach(element => {
-            //     this.apList.push(element)
-            // });
             this.info = res.data
         })
     },

@@ -80,34 +80,7 @@
             <approval-process :typeId="19" :stId="refundId"></approval-process>
 
       <!--      审批信息-->
-      <el-row class="head-title">
-        <el-col :span="12">
-          <el-form-item label="审批记录"></el-form-item>
-        </el-col>
-      </el-row>
-      <el-row class="head-text">
-        <el-col :offset="1">
-          <el-table
-            ref="singleTable"
-            :data="stateList"
-            style="width: 80%; margin-bottom: 30px"
-          >
-            <el-table-column property="deptName" label="部门">
-            </el-table-column>
-            <el-table-column property="nickName" label="审批人">
-            </el-table-column>
-            <el-table-column property="approveTime" label="审批时间">
-            </el-table-column>
-            <el-table-column property="processValue" label="审批说明">
-            </el-table-column>
-            <el-table-column property="status" label="审批状态">
-              <template slot-scope="scope">
-                {{ scope.row.status == 0 ? "驳回" : "通过" }}
-              </template>
-            </el-table-column>
-          </el-table>
-        </el-col>
-      </el-row>
+      <approval-record :typeId="19" :stId="refundId"></approval-record>
     </el-form>
     <el-row>
       <el-col :offset="1" :span="20">
@@ -134,8 +107,6 @@ export default {
   },
   data() {
     return {
-      //审批集合
-      stateList: [],
       //上传路径
       url: process.env.VUE_APP_BASE_API + "/file/upload",
       // 设置上传的请求头部
@@ -154,9 +125,6 @@ export default {
     getRefund(refundId).then((response) => {
       this.form = response.data;
       this.fileList = this.form.fileList || [];
-    });
-    getProcessDataByStId("19", refundId).then((res) => {
-      this.stateList = res.data;
     });
   },
   methods: {

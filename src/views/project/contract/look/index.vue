@@ -209,34 +209,7 @@
       <approval-process :typeId="3" :stId="contractId"></approval-process>
 
       <!--      审批信息-->
-      <el-row class="head-title">
-        <el-col :span="12">
-          <el-form-item label="审批记录"></el-form-item>
-        </el-col>
-      </el-row>
-      <el-row class="head-text">
-        <el-col :offset="1">
-          <el-table
-            ref="singleTable"
-            :data="stateList"
-            style="width: 80%; margin-bottom: 30px"
-          >
-            <el-table-column property="deptName" label="部门">
-            </el-table-column>
-            <el-table-column property="nickName" label="审批人">
-            </el-table-column>
-            <el-table-column property="approveTime" label="审批时间">
-            </el-table-column>
-            <el-table-column property="processValue" label="审批说明">
-            </el-table-column>
-            <el-table-column property="status" label="审批状态">
-              <template slot-scope="scope">
-                {{ scope.row.status == 0 ? "驳回" : "通过" }}
-              </template>
-            </el-table-column>
-          </el-table>
-        </el-col>
-      </el-row>
+      <approval-record :typeId="3" :stId="contractId"></approval-record>
     </el-form>
     <el-row>
       <el-col :offset="1" :span="20">
@@ -260,30 +233,6 @@ export default {
   name: "contractLook",
   data() {
     return {
-      //审批集合
-      stateList: [
-        {
-          deptName: "风控部",
-          roleName: "风控部经理",
-          userName: "张三",
-          content: "没有问题，同意审批",
-          state: "已通过",
-        },
-        {
-          deptName: "风控部",
-          roleName: "风控部经理",
-          userName: "张三",
-          content: "没有问题，同意审批",
-          state: "已通过",
-        },
-        {
-          deptName: "风控部",
-          roleName: "风控部经理",
-          userName: "张三",
-          content: "",
-          state: "未审批",
-        },
-      ],
       //合同集合
       contract: [],
 
@@ -319,9 +268,6 @@ export default {
       } else if (this.form.type == "5") {
         this.form.type = "其他合同";
       }
-    });
-    getProcessDataByStId("3", contractId).then((res) => {
-      this.stateList = res.data;
     });
   },
   methods: {
