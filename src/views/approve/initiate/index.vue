@@ -200,8 +200,8 @@
 import {
   deleteByStId,
   taskInitiator,
-  reInitiates,
-  withdraw,
+  restartProcess,
+  withdrawProcess,
 } from "@/api/approve/index.js";
 import { delSt, delStupdate, getStupdate } from "@/api/project/st";
 import { delContract } from "@/api/project/contract";
@@ -279,7 +279,7 @@ export default {
         } else if (typeId == "5") {
           await reBindSelnyF(stId);
         }
-        reInitiates(row.id).then(() => {
+        restartProcess({approvalType:typeId,businessKey:stId}).then(() => {
           this.$messageContent.message("S000003", ["重新发起"]);
           this.getList();
         });
@@ -727,7 +727,7 @@ export default {
         cancelButtonText: "取消",
         type: "warning",
       }).then(function () {
-        withdraw(row.processId, row.id).then(() => {
+        withdrawProcess({approvalType:typeId,businessKey:stId}).then(() => {
           if (typeId == "4") {
             releaseSelnyA(stId);
           } else if (typeId == "5") {
