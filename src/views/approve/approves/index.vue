@@ -3855,8 +3855,7 @@
 <script>
 import {
   getProcessData,
-  passed,
-  turnDownByProcessId,
+  submitTask
 } from "@/api/approve/index.js";
 import { getToken } from "@/utils/auth";
 import { getSupplier } from "@/api/project/supplier";
@@ -4315,11 +4314,12 @@ export default {
       if (this.queryParams.remark == undefined) {
         this.queryParams.remark = "无";
       }
-      passed(
-        this.initData.processId,
-        this.initData.id,
-        this.initData.level,
-        this.queryParams.remark
+      submitTask(
+        {
+        taskId:this.initData.taskId,
+        opt:'pass',
+        opinion:this.queryParams.remark
+      }
       ).then(() => {
         this.$messageContent.message("S000003", ["审批"]);
         this.getList();
@@ -4332,10 +4332,12 @@ export default {
       if (this.queryParams.remark == undefined) {
         this.queryParams.remark = "无";
       }
-      turnDownByProcessId(
-        this.initData.processId,
-        this.initData.id,
-        this.queryParams.remark
+      submitTask(
+        {
+        taskId:this.initData.taskId,
+        opt:'refuse',
+        opinion:this.queryParams.remark
+      }
       ).then((res) => {
         this.$messageContent.message("S000003", ["驳回"]);
         this.getList();

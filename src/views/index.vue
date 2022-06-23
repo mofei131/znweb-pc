@@ -808,10 +808,10 @@ import { listPtakeup } from "@/api/project/ptakeup";
 import { listSt } from "@/api/project/st";
 import { listCplan } from "@/api/project/cplan";
 import {
-  getMyUpcoming,
-  myAlreadyDoneList,
-  myCcList,
-  myInitiate,
+  taskTodo,
+  taskDone,
+  taskCc,
+  taskInitiator,
   listByMonth,
   getMyUpcomingDept,
 } from "@/api/approve";
@@ -822,10 +822,10 @@ export default {
   name: "index",
   mounted() {
     this.getlistByMonth();
-    getMyUpcoming(this.queryParams).then((res) => {
-      this.bmdb = res.data.total;
-      if(res.data.records.length>0){
-        this.tongzhi = res.data.records[0].processName
+    taskTodo().then((res) => {
+      this.bmdb = res.total;
+      if(res.rows.length>0){
+        this.tongzhi = res.rows[0].processName
       }else{
         this.tongzhi="暂无通知"
       }
@@ -1151,26 +1151,26 @@ export default {
     },
 
     getList5() {
-      myInitiate(this.queryParams).then((res) => {
-        this.initiateTotal = res.data.total;
+      taskInitiator().then((res) => {
+        this.initiateTotal = res.total;
       });
     },
 
     getList6() {
-      getMyUpcoming(this.queryParams).then((res) => {
-        this.upcomingTotal = res.data.total;
+      taskTodo().then((res) => {
+        this.upcomingTotal = res.total;
       });
     },
 
     getList7() {
-      myCcList(this.queryParams).then((res) => {
+      taskCc().then((res) => {
         this.ccTotal = res.total;
       });
     },
 
     getList8() {
-      myAlreadyDoneList(this.queryParams).then((res) => {
-        this.alreadyDoneTotal = res.data.total;
+      taskDone().then((res) => {
+        this.alreadyDoneTotal = res.total;
       });
     },
     getList9() {

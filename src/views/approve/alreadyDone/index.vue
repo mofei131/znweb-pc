@@ -10,13 +10,13 @@
         >
           <el-form-item label="流程名称">
             <el-input
-              v-model="doneListFrom.processName"
+              v-model="doneListFrom.taskName"
               placeholder="请输入流程名称"
             ></el-input>
           </el-form-item>
-          <el-form-item label="流程类型" prop="processType">
+          <el-form-item label="流程类型" >
             <el-select
-              v-model="doneListFrom.processType"
+              v-model="doneListFrom.approvalType"
               placeholder="请选择分类"
             >
               <el-option
@@ -29,7 +29,7 @@
           </el-form-item>
           <el-form-item label="发起人">
             <el-input
-              v-model="doneListFrom.sponsor"
+              v-model="doneListFrom.initiatorUserName"
               placeholder="请输入发起人"
             ></el-input>
           </el-form-item>
@@ -39,54 +39,56 @@
         </el-form>
       </div>
       <el-table :data="doneList">
-        <el-table-column label="流程名称" align="center" prop="processName" />
-        <el-table-column label="流程类型" align="center" prop="processType">
+        <el-table-column label="流程名称" align="center" prop="taskName" />
+        <el-table-column label="流程类型" align="center" prop="approvalType">
           <template slot-scope="scope">
             {{
-              scope.row.processType == "1"
-                ? "新增项目"
-                : scope.row.processType == "2"
-                ? "操作项目"
-                : scope.row.processType == "3"
+              scope.row.approvalType == "1"
+                ? "新增业务"
+                : scope.row.approvalType == "2"
+                ? "操作业务"
+                : scope.row.approvalType == "3"
                 ? "合同管理"
-                : scope.row.processType == "4"
+                : scope.row.approvalType == "4"
                 ? "预付款管理"
-                : scope.row.processType == "5"
+                : scope.row.approvalType == "5"
                 ? "最终付款管理"
-                : scope.row.processType == "6"
+                : scope.row.approvalType == "6"
                 ? "预估收款"
-                : scope.row.processType == "7"
+                : scope.row.approvalType == "7"
                 ? "保证金管理"
-                : scope.row.processType == "8"
+                : scope.row.approvalType == "8"
                 ? "资金计划"
-                : scope.row.processType == "9"
+                : scope.row.approvalType == "9"
                 ? "物流付款"
-                : scope.row.processType == "10"
+                : scope.row.approvalType == "10"
                 ? "入库"
-                : scope.row.processType == "11"
+                : scope.row.approvalType == "11"
                 ? "出库"
-                : scope.row.processType == "12"
+                : scope.row.approvalType == "12"
                 ? "供应商管理"
-                : scope.row.processType == "13"
+                : scope.row.approvalType == "13"
                 ? "用煤单位"
-                : scope.row.processType == "14"
+                : scope.row.approvalType == "14"
                 ? "收票记录"
-                : scope.row.processType == "15"
+                : scope.row.approvalType == "15"
                 ? "开票申请"
-                : scope.row.processType == "16"
+                : scope.row.approvalType == "16"
                 ? "期间费用"
-                : scope.row.processType == "17"
+                : scope.row.approvalType == "17"
                 ? "实际收款"
-                : scope.row.processType == "18"
+                : scope.row.approvalType == "18"
                 ? "投标申请"
-                : scope.row.processType == "19"
+                : scope.row.approvalType == "19"
                 ? "退款管理"
+                : scope.row.approvalType == "20"
+                ? "项目立项"
                 : ""
             }}
           </template>
         </el-table-column>
-        <el-table-column label="发起时间" align="center" prop="createTime" />
-        <el-table-column label="发起人" align="center" prop="nickName" />
+        <el-table-column label="发起时间" align="center" prop="initiatorTime" />
+        <el-table-column label="发起人" align="center" prop="initiatorUserName" />
         <el-table-column label="操作" align="center">
           <template slot-scope="scope">
             <!-- <el-tooltip content="查看详情" id="view" placement="bottom"> -->
@@ -100,8 +102,8 @@
       <pagination
         v-show="total > 0"
         :total="total"
-        :page.sync="doneListFrom.pageNum"
-        :limit.sync="doneListFrom.pageSize"
+        :page.sync="doneListFrom.page"
+        :limit.sync="doneListFrom.limit"
         @pagination="getList"
       />
     </div>
@@ -109,15 +111,15 @@
 </template>
 
 <script>
-import { myAlreadyDoneList } from "@/api/approve/index.js";
+import { taskDone } from "@/api/approve/index.js";
 import { getStupdate } from "@/api/project/st";
 export default {
   data() {
     return {
       total: 0,
       doneListFrom: {
-        pageNum: 1,
-        pageSize: 10,
+        page: 1,
+        limit: 10,
       },
       doneList: [],
       processTypeList: [],
@@ -131,13 +133,13 @@ export default {
   },
   methods: {
     getList() {
-      myAlreadyDoneList(this.doneListFrom).then((res) => {
-        this.total = res.data.total;
-        this.doneList = res.data.records;
+      taskDone(this.doneListFrom).then((res) => {
+        this.total = res.total;
+        this.doneList = res.rows;
       });
     },
     handleSelectYiban(row) {
-      let typeId = row.processType;
+      let typeId = row.approvalType;
       let stId = row.stId;
       if (typeId == "1") {
         this.$router.push("/st/lookAdd/" + stId);
