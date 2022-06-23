@@ -56,14 +56,14 @@
             <!-- <el-col :span="1.5">
                 <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"
                     v-hasPermi="['project:grn:export']">导出</el-button>
-            </el-col> -->
-            <!-- <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar> -->
+            </el-col>
+            <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar> -->
         </el-row>
 
         <el-table v-loading="loading" :data="grnList" @selection-change="handleSelectionChange">
             <!--      <el-table-column type="selection" width="55" align="center" />-->
-            <el-table-column label="项目名称" align="center" prop="stName" />
-            <el-table-column label="项目编号" align="center" prop="stNo" />
+            <!-- <el-table-column label="项目名称" align="center" prop="stName" />
+            <el-table-column label="项目编号" align="center" prop="stNo" /> -->
             <el-table-column label="货品名称" align="center" prop="name" />
             <el-table-column label="入库重量(吨)" align="center" prop="grnNumber">
                 <template slot-scope="scope">
@@ -133,8 +133,8 @@
             :limit.sync="queryParams.pageSize" @pagination="getList" />
 
         <!-- 添加或修改入库单对话框 -->
-        <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body @opened="handleOpen">
-            <el-form ref="form" :model="form" :rules="rules" label-width="180px">
+        <el-dialog :title="title" :visible.sync="open" width="773px" append-to-body @opened="handleOpen">
+            <el-form ref="form" :model="form" :rules="rules" label-width="125px">
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="项目" prop="stId">
@@ -282,38 +282,34 @@
                     </el-col>
                 </el-row>
                 <!--        奖惩-->
-                <el-row>
+                <el-row style="margin-bottom:20px">
                     <el-col :span="24">
-                        <el-form-item label="奖惩(元)">
-                            <span>水分：<span style="color: red" v-text="form.jc1">0.00</span></span>
-                            <span style="margin-left: 20px">内水：<span style="color: red"
-                                    v-text="form.jc2">0.00</span></span>
-                            <span style="margin-left: 20px">灰份Aad：<span style="color: red"
-                                    v-text="form.jc3">0.00</span></span>
-                            <span style="margin-left: 20px">灰份ad：<span style="color: red"
-                                    v-text="form.jc10">0.00</span></span>
-                            <span style="margin-left: 20px">挥发份Vda：<span style="color: red"
-                                    v-text="form.jc4">0.00</span></span>
-                            <span style="margin-left: 20px">挥发份Vdaf：<span style="color: red"
-                                    v-text="form.jc11">0.00</span></span>
-                        </el-form-item>
+                        <span style="font-weight:600">奖惩(元){{ "\xa0\xa0" }}</span>
+                        <span>水分：<span style="color: red" v-text="form.jc1">0.00</span></span>
+                        <span style="margin-left: 20px">内水：<span style="color: red" v-text="form.jc2">0.00</span></span>
+                        <span style="margin-left: 20px">灰份Aad：<span style="color: red"
+                                v-text="form.jc3">0.00</span></span>
+                        <span style="margin-left: 20px">灰份ad：<span style="color: red"
+                                v-text="form.jc10">0.00</span></span>
+                        <span style="margin-left: 20px">挥发份Vda：<span style="color: red"
+                                v-text="form.jc4">0.00</span></span>
+                        <span style="margin-left: 20px">挥发份Vdaf：<span style="color: red"
+                                v-text="form.jc11">0.00</span></span>
                     </el-col>
-                    <el-col :span="24">
-                        <el-form-item label="">
-                            <span>灰熔点：<span style="color: red" v-text="form.jc5">0.00</span></span>
-                            <span style="margin-left: 20px">固定碳：<span style="color: red"
-                                    v-text="form.jc6">0.00</span></span>
-                            <span style="margin-left: 20px">含硫量：<span style="color: red"
-                                    v-text="form.jc7">0.00</span></span>
-                            <span style="margin-left: 20px">热值Qgr,ad：<span style="color: red"
-                                    v-text="form.jc8">0.00</span></span>
-                            <span style="margin-left: 20px">热值Qnt,ar：<span style="color: red"
-                                    v-text="form.jc9">0.00</span></span>
-                            <span style="margin-left: 20px">热值Kcal：<span style="color: red"
-                                    v-text="form.jc12">0.00</span></span>
-                            <el-button style="margin-left: 20px" type="primary" @click="jsjc" v-if="isLook != 3">奖惩计算
-                            </el-button>
-                        </el-form-item>
+                    <el-col :span="24" style="margin-top:10px;margin-left:60px">
+                        <span>灰熔点：<span style="color: red" v-text="form.jc5">0.00</span></span>
+                        <span style="margin-left: 20px">固定碳：<span style="color: red"
+                                v-text="form.jc6">0.00</span></span>
+                        <span style="margin-left: 20px">含硫量：<span style="color: red"
+                                v-text="form.jc7">0.00</span></span>
+                        <span style="margin-left: 20px">热值Qgr,ad：<span style="color: red"
+                                v-text="form.jc8">0.00</span></span>
+                        <span style="margin-left: 20px">热值Qnt,ar：<span style="color: red"
+                                v-text="form.jc9">0.00</span></span>
+                        <span style="margin-left: 20px">热值Kcal：<span style="color: red"
+                                v-text="form.jc12">0.00</span></span>
+                        <el-button size="small" style="margin-left: 20px" type="primary" @click="jsjc"
+                            v-if="isLook != 3">奖惩计算</el-button>
                     </el-col>
                 </el-row>
 
@@ -663,6 +659,7 @@ import { getProcessDataByStId, getApprovalProcessList } from "@/api/approve";
 
 export default {
     name: "Grn",
+    props:['stIdd','projectIdd'],
     data() {
         const validatePrice = (rule, value, callback) => {
             let reg = /^(\-|\+)?(([1-9]{1}\d*)|(0{1}))(\.\d{1,2})?$/;
@@ -798,12 +795,19 @@ export default {
         };
     },
     created() {
+        this.queryParams.stId=this.stIdd
+        this.form.stId=this.projectIdd
         this.getList();
         this.getDicts("project_approval_state").then((response) => {
             this.stateOptions = response.data;
         });
         getStList().then((response) => {
             this.stOptions = response.rows;
+            this.stOptions.forEach(e=>{
+                    if(e.stId==this.projectIdd){
+                        this.changeSt(e)
+                    }
+                })
         });
         if (
             this.$route.params.isEdit != null &&
@@ -833,6 +837,11 @@ export default {
             );
             getStList().then((response) => {
                 this.stOptions = response.rows;
+                this.stOptions.forEach(e=>{
+                    if(e.stId==this.projectIdd){
+                        this.changeSt(e)
+                    }
+                })
             });
         },
         // 审核状态字典翻译

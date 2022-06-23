@@ -36,8 +36,8 @@
         </el-row>
 
         <el-table v-loading="loading" :data="bidApplyList" @selection-change="handleSelectionChange">
-            <el-table-column label="项目名称" align="center" prop="stName" />
-            <el-table-column label="项目编号" align="center" prop="stNo" />
+            <!-- <el-table-column label="项目名称" align="center" prop="stName" />
+            <el-table-column label="项目编号" align="center" prop="stNo" /> -->
             <el-table-column label="投标平台" align="center" prop="bidPlatform" />
             <el-table-column label="投标保证金（元）" align="center" prop="bidBond">
                 <template slot-scope="scope">
@@ -95,8 +95,8 @@
             :limit.sync="queryParams.pageSize" @pagination="getList" />
 
         <!-- 添加或修改投标申请对话框 -->
-        <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body @opened="handleOpen">
-            <el-form ref="form" :model="form" :rules="rules" label-width="180px">
+        <el-dialog :title="title" :visible.sync="open" width="773px" append-to-body @opened="handleOpen">
+            <el-form ref="form" :model="form" :rules="rules" label-width="125px">
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="项目名称" prop="stId">
@@ -368,6 +368,7 @@ import print from "print-js";
 import { getProcessDataByStId, getApprovalProcessList } from "@/api/approve";
 export default {
     name: "BidApply",
+    props:['stIdd','projectIdd'],
     data() {
         return {
             // 遮罩层
@@ -451,6 +452,8 @@ export default {
         },
     },
     created() {
+        this.queryParams.stId=this.stIdd
+        this.form.stId=this.projectIdd
         this.getList();
         this.getDicts("project_approval_state").then((response) => {
             this.statusOptions = response.data;
@@ -483,6 +486,11 @@ export default {
             );
             getStList().then((response) => {
                 this.stOptions = response.rows;
+                this.stOptions.forEach(e=>{
+                    if(e.stId==this.projectIdd){
+                        this.changeSt(e)
+                    }
+                })
             });
         },
         // 取消按钮

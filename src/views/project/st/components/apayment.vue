@@ -68,8 +68,8 @@
         </el-row>
 
         <el-table v-loading="loading" :data="apaymentList" @selection-change="handleSelectionChange">
-            <el-table-column label="项目名称" align="center" prop="stName" />
-            <el-table-column label="项目编号" align="center" prop="stNo" />
+            <!-- <el-table-column label="项目名称" align="center" prop="stName" />
+            <el-table-column label="项目编号" align="center" prop="stNo" /> -->
             <el-table-column label="付款批次" align="center" prop="away" />
             <el-table-column label="货品名称" align="center" prop="name" />
             <el-table-column label="入库总量(吨)" align="center" prop="grns">
@@ -158,8 +158,8 @@
             :limit.sync="queryParams.pageSize" @pagination="getList" />
 
         <!-- 添加或修改预付款对话框 -->
-        <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body @opened="handleOpen">
-            <el-form ref="form" :model="form" :rules="rules" label-width="180px">
+        <el-dialog :title="title" :visible.sync="open" width="773px" append-to-body @opened="handleOpen">
+            <el-form ref="form" :model="form" :rules="rules" label-width="140px">
                 <div v-if="isLook != 4">
                     <el-row>
                         <el-col :span="12">
@@ -171,8 +171,6 @@
                                 </el-select>
                             </el-form-item>
                         </el-col>
-                    </el-row>
-                    <el-row>
                         <el-col :span="12">
                             <el-form-item label="项目编号" prop="number">
                                 <span v-text="form.number"></span>
@@ -185,8 +183,6 @@
                                 <span v-text="form.supplierName"></span>
                             </el-form-item>
                         </el-col>
-                    </el-row>
-                    <el-row>
                         <el-col :span="12">
                             <el-form-item label="结算方式" prop="settlementWay">
                                 <span v-text="form.settlementWay"></span>
@@ -199,8 +195,6 @@
                                 <el-input v-model="form.account" placeholder="请输入供应商账号" />
                             </el-form-item>
                         </el-col>
-                    </el-row>
-                    <el-row>
                         <el-col :span="12">
                             <el-form-item label="供应商开户行" prop="openbank">
                                 <el-input v-model="form.openbank" placeholder="请输入供应商开户行" />
@@ -217,9 +211,7 @@
                                 </el-select>
                             </el-form-item>
                         </el-col>
-                    </el-row>
-                    <div v-if="form.away != '提前付款'">
-                        <el-row>
+                        <div v-if="form.away != '提前付款'">
                             <el-col :span="12">
                                 <el-form-item label="预付方式" prop="type">
                                     <el-select v-model="form.type" @change="jsdj" placeholder="请选择预付方式"
@@ -229,17 +221,15 @@
                                     </el-select>
                                 </el-form-item>
                             </el-col>
-                        </el-row>
-                    </div>
-                    <div v-if="form.type == '热值'">
-                        <el-row>
+                        </div>
+                        <div v-if="form.type == '热值'">
                             <el-col :span="12">
                                 <el-form-item label="热值价格" prop="rzPrice">
                                     <el-input v-model="form.rzPrice" @change="jsdj" placeholder="请输入热值价格" />
                                 </el-form-item>
                             </el-col>
-                        </el-row>
-                    </div>
+                        </div>
+                    </el-row>
                     <div v-if="
                         (form.type == '吨' || form.type == '热值') &&
                         form.away == '首次' &&
@@ -248,9 +238,10 @@
                         <!--          选择入库单-->
                         <el-popover placement="bottom-start" width="100%" @selection-change="grnSelectionChange"
                             v-model="visible" popper-class="area_popper">
-                            <el-button type="primary" slot="reference" style="margin-bottom: 30px">选择入库单</el-button>
+                            <el-button size="small" type="primary" slot="reference"
+                                style="margin-bottom: 30px;margin-left:50px">选择入库单</el-button>
                             <el-table ref="singleTable1" :data="tableData" @selection-change="grnSelectionChange"
-                                style="width: 100%">
+                                style="width: 632px">
                                 <el-table-column type="selection" width="55"> </el-table-column>
                                 <el-table-column property="name" label="货品名称" width="120">
                                 </el-table-column>
@@ -291,9 +282,10 @@
                         <!--          选择出库单-->
                         <el-popover placement="bottom-start" width="100%" @selection-change="grnSelectionChange"
                             v-model="visible" popper-class="area_popper">
-                            <el-button type="primary" slot="reference" style="margin-bottom: 30px">选择出库单</el-button>
+                            <el-button size="small" type="primary" slot="reference"
+                                style="margin-bottom: 30px;margin-left:50px">选择出库单</el-button>
                             <el-table ref="singleTable2" :data="tablegryData" @selection-change="grnSelectionChange"
-                                style="width: 100%">
+                                style="width: 632px">
                                 <el-table-column type="selection" width="55"> </el-table-column>
                                 <el-table-column property="name" label="货品名称" width="120">
                                 </el-table-column>
@@ -408,57 +400,54 @@
                             </el-table>
                         </div>
                         <!--          合计-->
-                        <el-row>
+                        <el-row style="margin-bottom:10px">
                             <el-col :span="6">
-                                <el-form-item label="合计重量" prop="totalWeight">
-                                    <span style="color: red">{{
-                                            $options.filters.weightFilter(form.totalWeight)
-                                    }}</span>
-                                </el-form-item>
+                                <span style="font-weight:600">合计重量{{ "\xa0\xa0" }}</span>
+                                <span style="color: red">{{
+                                        $options.filters.weightFilter(form.totalWeight)
+                                }}</span>
                             </el-col>
+                        </el-row>
+                        <el-row style="margin-bottom:10px">
                             <el-col :span="6">
-                                <el-form-item label="平均热值" prop="averageRz">
-                                    <span style="color: red">{{ form.averageRz }}</span>
-                                </el-form-item>
+                                <span style="font-weight:600">平均热值{{ "\xa0\xa0" }}</span>
+                                <span style="color: red">{{ form.averageRz }}</span>
                             </el-col>
                         </el-row>
                         <!--          奖惩-->
-                        <el-row>
+                        <el-row style="margin-bottom:20px">
                             <el-col :span="24">
-                                <el-form-item label="奖惩(元)">
-                                    <span>水分：<span style="color: red" v-text="form.jc1">0.00</span></span>
-                                    <span style="margin-left: 20px">内水：<span style="color: red"
-                                            v-text="form.jc2">0.00</span></span>
-                                    <span style="margin-left: 20px">灰份Aad：<span style="color: red"
-                                            v-text="form.jc3">0.00</span></span>
-                                    <span style="margin-left: 20px">灰份ad：<span style="color: red"
-                                            v-text="form.jc10">0.00</span></span>
-                                    <span style="margin-left: 20px">挥发份Vda：<span style="color: red"
-                                            v-text="form.jc4">0.00</span></span>
-                                    <span style="margin-left: 20px">挥发份Vdaf：<span style="color: red"
-                                            v-text="form.jc11">0.00</span></span>
-                                </el-form-item>
+                                <span style="font-weight:600">奖惩(元){{ "\xa0\xa0" }}</span>
+                                <span>水分：<span style="color: red" v-text="form.jc1">0.00</span></span>
+                                <span style="margin-left: 20px">内水：<span style="color: red"
+                                        v-text="form.jc2">0.00</span></span>
+                                <span style="margin-left: 20px">灰份Aad：<span style="color: red"
+                                        v-text="form.jc3">0.00</span></span>
+                                <span style="margin-left: 20px">灰份ad：<span style="color: red"
+                                        v-text="form.jc10">0.00</span></span>
+                                <span style="margin-left: 20px">挥发份Vda：<span style="color: red"
+                                        v-text="form.jc4">0.00</span></span>
+                                <span style="margin-left: 20px">挥发份Vdaf：<span style="color: red"
+                                        v-text="form.jc11">0.00</span></span>
                             </el-col>
-                            <el-col :span="24">
-                                <el-form-item label="">
-                                    <span>灰熔点：<span style="color: red" v-text="form.jc5">0.00</span></span>
-                                    <span style="margin-left: 20px">固定碳：<span style="color: red"
-                                            v-text="form.jc6">0.00</span></span>
-                                    <span style="margin-left: 20px">含硫量：<span style="color: red"
-                                            v-text="form.jc7">0.00</span></span>
-                                    <span style="margin-left: 20px">热值Qgr,ad：<span style="color: red"
-                                            v-text="form.jc8">0.00</span></span>
-                                    <span style="margin-left: 20px">热值Qnt,ar：<span style="color: red"
-                                            v-text="form.jc9">0.00</span></span>
-                                    <span style="margin-left: 20px">热值Kcal：<span style="color: red"
-                                            v-text="form.jc12">0.00</span></span>
-                                    <el-button style="margin-left: 20px" type="primary" @click="jsjc"
-                                        v-if="isLook != 3">奖惩计算</el-button>
-                                </el-form-item>
+                            <el-col :span="24" style="margin-top:10px;margin-left:60px">
+                                <span>灰熔点：<span style="color: red" v-text="form.jc5">0.00</span></span>
+                                <span style="margin-left: 20px">固定碳：<span style="color: red"
+                                        v-text="form.jc6">0.00</span></span>
+                                <span style="margin-left: 20px">含硫量：<span style="color: red"
+                                        v-text="form.jc7">0.00</span></span>
+                                <span style="margin-left: 20px">热值Qgr,ad：<span style="color: red"
+                                        v-text="form.jc8">0.00</span></span>
+                                <span style="margin-left: 20px">热值Qnt,ar：<span style="color: red"
+                                        v-text="form.jc9">0.00</span></span>
+                                <span style="margin-left: 20px">热值Kcal：<span style="color: red"
+                                        v-text="form.jc12">0.00</span></span>
+                                <el-button size="small" style="margin-left: 10px" type="primary" @click="jsjc"
+                                    v-if="isLook != 3">奖惩计算</el-button>
                             </el-col>
                         </el-row>
 
-                        <el-row>
+                        <el-row style="margin-top:33px">
                             <el-col :span="12">
                                 <el-form-item label="预付总额" prop="totalPrice">
                                     <el-input @change="atochange" v-model="form.totalPrice" placeholder="请输入预付总额" />
@@ -502,32 +491,30 @@
                                     <el-input @change="jsdj" v-model="form.expectPrice" placeholder="请输入预计单价" />
                                 </el-form-item>
                             </el-col>
-                        </el-row>
-                        <!--          <el-row>-->
-                        <!--            <el-col :span="12">-->
-                        <!--              <el-form-item label="保底服务费期限(天)" prop="mfsp">-->
-                        <!--                <el-input v-model="form.mfsp" placeholder="请输入保底服务费期限" />-->
-                        <!--              </el-form-item>-->
-                        <!--            </el-col>-->
-                        <!--            <el-col :span="12">-->
-                        <!--              <el-form-item label="成本年服务费率(%)" prop="rateYear">-->
-                        <!--                <el-input  v-model="form.rateYear" placeholder="请输入成本年服务费率" />-->
-                        <!--              </el-form-item>-->
-                        <!--            </el-col>-->
-                        <!--          </el-row>-->
-                        <el-row>
+                            <!--          <el-row>-->
+                            <!--            <el-col :span="12">-->
+                            <!--              <el-form-item label="保底服务费期限(天)" prop="mfsp">-->
+                            <!--                <el-input v-model="form.mfsp" placeholder="请输入保底服务费期限" />-->
+                            <!--              </el-form-item>-->
+                            <!--            </el-col>-->
+                            <!--            <el-col :span="12">-->
+                            <!--              <el-form-item label="成本年服务费率(%)" prop="rateYear">-->
+                            <!--                <el-input  v-model="form.rateYear" placeholder="请输入成本年服务费率" />-->
+                            <!--              </el-form-item>-->
+                            <!--            </el-col>-->
+                            <!--          </el-row>-->
                             <el-col :span="12">
                                 <el-form-item label="扣款金额" prop="kkPrice">
                                     <el-input @change="atochange" v-model="form.kkPrice" placeholder="请输入扣款金额" />
                                 </el-form-item>
                             </el-col>
+                        </el-row>
+                        <el-row>
                             <el-col :span="12">
                                 <el-form-item label="扣款备注" prop="kkNode">
                                     <el-input v-model="form.kkNode" placeholder="请输入扣款备注" />
                                 </el-form-item>
                             </el-col>
-                        </el-row>
-                        <el-row class="ic">
                             <el-col :span="12">
                                 <el-form-item label="付款总额" prop="payTprice">
                                     <el-input v-model="form.payTprice" placeholder="请输入付款总额" />
@@ -540,8 +527,6 @@
                                     <el-input @change="atochange" v-model="form.yfPrice" placeholder="请输入运费金额" />
                                 </el-form-item>
                             </el-col>
-                        </el-row>
-                        <el-row>
                             <el-col :span="12">
                                 <el-form-item label="垫付保证金" prop="dfPrice">
                                     <el-input @change="atochange" v-model="form.dfPrice" placeholder="请输入垫付保证金" />
@@ -554,8 +539,6 @@
                                     <el-input disabled v-model="form.prepaidPrice" placeholder="请输入提单金额" />
                                 </el-form-item>
                             </el-col>
-                        </el-row>
-                        <el-row>
                             <el-col :span="12">
                                 <el-form-item label="实际付款金额" prop="actualPrice">
                                     <el-input v-model="form.actualPrice" placeholder="请输入实际付款金额" />
@@ -570,8 +553,6 @@
                                     <el-input @change="jspay1" v-model="form.totalPrice" placeholder="请输入预计总额" />
                                 </el-form-item>
                             </el-col>
-                        </el-row>
-                        <el-row>
                             <el-col :span="12">
                                 <el-form-item label="运费金额" prop="yfPrice">
                                     <el-input @change="jspay1" v-model="form.yfPrice" placeholder="请输入运费金额" />
@@ -584,8 +565,6 @@
                                     <el-input @change="jspay1" v-model="form.dfPrice" placeholder="请输入垫付保证金" />
                                 </el-form-item>
                             </el-col>
-                        </el-row>
-                        <el-row>
                             <el-col :span="12">
                                 <el-form-item label="实际付款金额" prop="actualPrice">
                                     <el-input v-model="form.actualPrice" placeholder="请输入实际付款金额" />
@@ -615,8 +594,6 @@
                                 <span v-text="$options.filters.moneyFilter(form.actualPrice)"></span>
                             </el-form-item>
                         </el-col>
-                    </el-row>
-                    <el-row>
                         <el-col :span="12">
                             <el-form-item label="已付金额：">
                                 <span v-text="$options.filters.moneyFilter(form.ypayPrice)"></span>
@@ -1088,6 +1065,7 @@ import { getContractList } from "@/api/project/all";
 
 export default {
     name: "Apayment",
+    props:['stIdd','projectIdd'],
     data() {
         // 两位小数点验证
         const validatePrice = (rule, value, callback) => {
@@ -1260,6 +1238,8 @@ export default {
         };
     },
     created() {
+        this.queryParams.stId=this.stIdd
+        this.form.stId=this.projectIdd
         this.getList();
         this.getDicts("project_approval_state").then((response) => {
             this.stateOptions = response.data;
@@ -1311,6 +1291,11 @@ export default {
             );
             getStList().then((response) => {
                 this.stOptions = response.rows;
+                this.stOptions.forEach(e=>{
+                    if(e.stId==this.projectIdd){
+                        this.changeSt(e)
+                    }
+                })
             });
         },
         // 审批状态字典翻译

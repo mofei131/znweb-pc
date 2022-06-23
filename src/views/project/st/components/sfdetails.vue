@@ -13,49 +13,49 @@
         </el-form> -->
 
         <!-- <el-row :gutter="10" class="mb8"> -->
-            <!-- <el-col :span="6" style="margin-left:12px;">
+        <!-- <el-col :span="21" style="margin-left:12px;font-size: 14px;">
                 <span>资金占用余额：</span> <span v-text="$options.filters.moneyFilter(zPrice)">0.00</span>
             </el-col> -->
-            <!--      <el-col :span="1.5">-->
-            <!--        <el-button-->
-            <!--          type="primary"-->
-            <!--          plain-->
-            <!--          icon="el-icon-plus"-->
-            <!--          size="mini"-->
-            <!--          @click="handleAdd"-->
-            <!--          v-hasPermi="['project:sfdetails:add']"-->
-            <!--        >新增</el-button>-->
-            <!--      </el-col>-->
-            <!--      <el-col :span="1.5">-->
-            <!--        <el-button-->
-            <!--          type="success"-->
-            <!--          plain-->
-            <!--          icon="el-icon-edit"-->
-            <!--          size="mini"-->
-            <!--          :disabled="single"-->
-            <!--          @click="handleUpdate"-->
-            <!--          v-hasPermi="['project:sfdetails:edit']"-->
-            <!--        >修改</el-button>-->
-            <!--      </el-col>-->
-            <!--      <el-col :span="1.5">-->
-            <!--        <el-button-->
-            <!--          type="danger"-->
-            <!--          plain-->
-            <!--          icon="el-icon-delete"-->
-            <!--          size="mini"-->
-            <!--          :disabled="multiple"-->
-            <!--          @click="handleDelete"-->
-            <!--          v-hasPermi="['project:sfdetails:remove']"-->
-            <!--        >删除</el-button>-->
-            <!--      </el-col>-->
-            <!-- <el-col :span="1.5">
+        <!--      <el-col :span="1.5">-->
+        <!--        <el-button-->
+        <!--          type="primary"-->
+        <!--          plain-->
+        <!--          icon="el-icon-plus"-->
+        <!--          size="mini"-->
+        <!--          @click="handleAdd"-->
+        <!--          v-hasPermi="['project:sfdetails:add']"-->
+        <!--        >新增</el-button>-->
+        <!--      </el-col>-->
+        <!--      <el-col :span="1.5">-->
+        <!--        <el-button-->
+        <!--          type="success"-->
+        <!--          plain-->
+        <!--          icon="el-icon-edit"-->
+        <!--          size="mini"-->
+        <!--          :disabled="single"-->
+        <!--          @click="handleUpdate"-->
+        <!--          v-hasPermi="['project:sfdetails:edit']"-->
+        <!--        >修改</el-button>-->
+        <!--      </el-col>-->
+        <!--      <el-col :span="1.5">-->
+        <!--        <el-button-->
+        <!--          type="danger"-->
+        <!--          plain-->
+        <!--          icon="el-icon-delete"-->
+        <!--          size="mini"-->
+        <!--          :disabled="multiple"-->
+        <!--          @click="handleDelete"-->
+        <!--          v-hasPermi="['project:sfdetails:remove']"-->
+        <!--        >删除</el-button>-->
+        <!--      </el-col>-->
+        <!-- <el-col :span="1.5">
                 <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport">导出</el-button>
             </el-col> -->
-            <!-- <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar> -->
+        <!-- <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar> -->
         <!-- </el-row> -->
 
         <el-table v-loading="loading" :data="sfdetailsList" @selection-change="handleSelectionChange">
-            <el-table-column label="项目名称" align="center" prop="stName" />
+            <!-- <el-table-column label="项目名称" align="center" prop="stName" /> -->
             <el-table-column label="日期" align="center" prop="createTime">
                 <template slot-scope="scope">
                     <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
@@ -76,8 +76,8 @@
 
         </el-table>
 
-        <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
-            @pagination="getList" />
+        <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum"
+            :limit.sync="queryParams.pageSize" @pagination="getList" />
 
         <!-- 添加或修改收付款明细对话框 -->
         <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
@@ -156,10 +156,18 @@ export default {
             zPrice: null,
         };
     },
+    props: ['stIdd', 'projectIdd'],
     created() {
+        this.queryParams.stId = this.stIdd
+        this.form.stId = this.projectIdd
         this.getList();
         getStList().then(response => {
             this.stOptions = response.rows;
+            this.stOptions.forEach(e=>{
+                    if(e.stId==this.projectIdd){
+                        this.changeSt(e)
+                    }
+                })
         });
     },
     methods: {
@@ -173,6 +181,11 @@ export default {
             });
             getStList().then(response => {
                 this.stOptions = response.rows;
+                this.stOptions.forEach(e=>{
+                    if(e.stId==this.projectIdd){
+                        this.changeSt(e)
+                    }
+                })
             });
             findInit(this.queryParams).then(response => {
                 this.zPrice = parseFloat(response.data.zPrice).toFixed(2);

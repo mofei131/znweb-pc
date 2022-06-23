@@ -28,15 +28,15 @@
             <!-- <el-col :span="1.5">
                 <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"
                     v-hasPermi="['project:refund:export']">导出</el-button>
-            </el-col> -->
-            <!-- <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar> -->
+            </el-col>
+            <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar> -->
         </el-row>
 
         <el-table v-loading="loading" :data="refundList" @selection-change="handleSelectionChange">
             <!-- <el-table-column type="selection" width="55" align="center" /> -->
             <!-- <el-table-column label="主键" align="center" prop="refundId" /> -->
             <!-- <el-table-column label="项目编号" align="center" prop="stId" /> -->
-            <el-table-column label="项目名称" align="center" prop="stName" />
+            <!-- <el-table-column label="项目名称" align="center" prop="stName" /> -->
             <!-- <el-table-column label="终端客户id" align="center" prop="terminalId" /> -->
             <el-table-column label="终端客户" align="center" prop="tName" />
             <!-- <el-table-column label="账号" align="center" prop="account" /> -->
@@ -93,8 +93,8 @@
             :limit.sync="queryParams.pageSize" @pagination="getList" />
 
         <!-- 添加或修改退款金额对话框 -->
-        <el-dialog :title="title" :visible.sync="open" width="60%" append-to-body @opened="handleOpen">
-            <el-form ref="form" :model="form" :rules="rules" label-width="180px">
+        <el-dialog :title="title" :visible.sync="open" width="773px" append-to-body @opened="handleOpen">
+            <el-form ref="form" :model="form" :rules="rules" label-width="120px">
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="项目名称" prop="stId">
@@ -548,11 +548,15 @@ export default {
             isDisabled: false,
         };
     },
+    props: ['stIdd', 'projectIdd'],
     created() {
+        this.queryParams.stId = this.stIdd
+        this.form.stId = this.projectIdd
         this.getList();
         this.getDicts("project_approval_state").then((response) => {
             this.stateOptions = response.data;
         });
+
     },
     methods: {
         /** 查询退款金额列表 */
@@ -567,6 +571,11 @@ export default {
             );
             getStList().then((response) => {
                 this.stOptions = response.rows;
+                this.stOptions.forEach(e=>{
+                    if(e.stId==this.projectIdd){
+                        this.changeSt(e)
+                    }
+                })
             });
             getTerminalList().then((response) => {
                 this.terminalOptions = response.rows;

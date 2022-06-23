@@ -61,8 +61,8 @@
         </el-row>
 
         <el-table v-loading="loading" :data="kpList" @selection-change="handleSelectionChange">
-            <el-table-column label="项目名称" align="center" prop="stName" />
-            <el-table-column label="项目编号" align="center" prop="stNo" />
+            <!-- <el-table-column label="项目名称" align="center" prop="stName" />
+            <el-table-column label="项目编号" align="center" prop="stNo" /> -->
             <el-table-column label="代办人" align="center" prop="uName" />
             <el-table-column label="供应商" align="center" prop="sName" />
             <el-table-column label="开票金额(元)" align="center" prop="kpPrice">
@@ -124,8 +124,8 @@
             :limit.sync="queryParams.pageSize" @pagination="getList" />
 
         <!-- 添加或修改开票对话框 -->
-        <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body @opened="handleOpen">
-            <el-form ref="form" :model="form" :rules="rules" label-width="180px">
+        <el-dialog :title="title" :visible.sync="open" width="773px" append-to-body @opened="handleOpen">
+            <el-form ref="form" :model="form" :rules="rules" label-width="120px">
                 <!--        <el-row>-->
                 <!--          <el-col :span="24">-->
                 <!--            <el-form-item >-->
@@ -440,6 +440,7 @@ import { getProcessDataByStId, getApprovalProcessList } from "@/api/approve";
 
 export default {
     name: "Kp",
+    props:['stIdd','projectIdd'],
     data() {
         // 可空无两位小数点
         const validatePrice3 = (rule, value, callback) => {
@@ -514,12 +515,19 @@ export default {
         };
     },
     created() {
+        this.queryParams.stId=this.stIdd
+        this.form.stId=this.projectIdd
         this.getList();
         this.getDicts("project_approval_state").then((response) => {
             this.stateOptions = response.data;
         });
         getStList().then((response) => {
             this.stOptions = response.rows;
+            this.stOptions.forEach(e=>{
+                    if(e.stId==this.projectIdd){
+                        this.changeSt(e)
+                    }
+                })
         });
         if (
             this.$route.params.isEdit != null &&
@@ -547,6 +555,11 @@ export default {
             });
             getStList().then((response) => {
                 this.stOptions = response.rows;
+                this.stOptions.forEach(e=>{
+                    if(e.stId==this.projectIdd){
+                        this.changeSt(e)
+                    }
+                })
             });
         },
         // 审核状态字典翻译

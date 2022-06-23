@@ -57,8 +57,8 @@
         </el-row>
 
         <el-table v-loading="loading" :data="wldetailsList" @selection-change="handleSelectionChange">
-            <el-table-column label="项目名称" align="center" prop="stName" />
-            <el-table-column label="项目编号" align="center" prop="stNo" />
+            <!-- <el-table-column label="项目名称" align="center" prop="stName" />
+            <el-table-column label="项目编号" align="center" prop="stNo" /> -->
             <el-table-column label="不含税金额合计" align="center" prop="tntPrice">
                 <template slot-scope="scope">
                     {{
@@ -110,8 +110,8 @@
             :limit.sync="queryParams.pageSize" @pagination="getList" />
 
         <!-- 添加或修改物流收票对话框 -->
-        <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body @opened="handleOpen">
-            <el-form ref="form" :model="form" :rules="rules" label-width="180px">
+        <el-dialog :title="title" :visible.sync="open" width="773px" append-to-body @opened="handleOpen">
+            <el-form ref="form" :model="form" :rules="rules" label-width="120px">
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="项目" prop="stId">
@@ -122,8 +122,6 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
-                </el-row>
-                <el-row>
                     <el-col :span="12">
                         <el-form-item label="项目编号" prop="name">
                             {{ form.number }}
@@ -140,8 +138,6 @@
                             </el-select>
                         </el-form-item>
                     </el-col>
-                </el-row>
-                <el-row>
                     <el-col :span="12">
                         <el-form-item label="收票日期" prop="sticketTime">
                             <el-date-picker clearable size="small" style="width: 100%" v-model="form.sticketTime"
@@ -161,9 +157,10 @@
                 <!--          </el-col>-->
                 <!--        </el-row>-->
                 <!--物流收票明细-->
-                <el-row style="margin-top: 20px">
+                <el-row>
                     <el-col :span="12">
-                        <el-button type="primary" @click="addTableData" style="margin-bottom: 30px">追加费用</el-button>
+                        <el-button size="small" type="primary" @click="addTableData" style="margin-bottom: 30px">追加费用
+                        </el-button>
                     </el-col>
                 </el-row>
                 <div style="margin-bottom: 30px">
@@ -175,7 +172,7 @@
                                     <template slot-scope="scope">
                                         <el-form-item label-width="0"
                                             :prop="'wldetailsList.' + scope.$index + '.number'" :rules="rules.number">
-                                            <el-input v-model="scope.row.number" placeholder="请输入发票号" />
+                                            <el-input v-model="scope.row.number" placeholder="请输入" />
                                         </el-form-item>
                                     </template>
                                 </el-table-column>
@@ -200,7 +197,7 @@
                                         <el-form-item label-width="0"
                                             :prop="'wldetailsList.' + scope.$index + '.ntPrice'" :rules="rules.ntPrice">
                                             <el-input @change="jsTaxPrice(scope.$index)" v-model="scope.row.ntPrice"
-                                                placeholder="请输入不含税金额" />
+                                                placeholder="请输入" />
                                         </el-form-item>
                                     </template>
                                 </el-table-column>
@@ -224,7 +221,7 @@
                                         <el-form-item label-width="0"
                                             :prop="'wldetailsList.' + scope.$index + '.taxPrice'"
                                             :rules="rules.taxPrice">
-                                            <el-input disabled v-model="scope.row.taxPrice" placeholder="请输入税额" />
+                                            <el-input disabled v-model="scope.row.taxPrice" placeholder="请输入" />
                                         </el-form-item>
                                     </template>
                                 </el-table-column>
@@ -243,17 +240,17 @@
                     </el-row>
                 </div>
                 <el-row>
-                    <el-col :span="5">
+                    <el-col :span="8">
                         <el-form-item label="不含税金额合计" prop="tntPrice" label-width="120px">
                             <span v-text="$options.filters.moneyFilter(form.tntPrice)"></span>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="5">
+                    <el-col :span="8">
                         <el-form-item label="补税金额" prop="bsPrice" label-width="120px">
                             <span v-text="$options.filters.moneyFilter(form.bsPrice)"></span>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="5">
+                    <el-col :span="8">
                         <el-form-item label="价税合计" prop="bsPrice" label-width="120px">
                             <span v-text="$options.filters.moneyFilter(form.jstPrice)"></span>
                         </el-form-item>
@@ -358,10 +355,18 @@ export default {
             isDisabled: false,
         };
     },
+    props: ['stIdd', 'projectIdd'],
     created() {
+        this.queryParams.stId = this.stIdd
+        this.form.stId = this.projectIdd
         this.getList();
         getStList().then((response) => {
             this.stOptions = response.rows;
+            this.stOptions.forEach(e=>{
+                    if(e.stId==this.projectIdd){
+                        this.changeSt(e)
+                    }
+                })
         });
         getTpcList().then((response) => {
             this.tpcOptions = response.rows;
@@ -378,6 +383,11 @@ export default {
             });
             getStList().then((response) => {
                 this.stOptions = response.rows;
+                this.stOptions.forEach(e=>{
+                    if(e.stId==this.projectIdd){
+                        this.changeSt(e)
+                    }
+                })
             });
             getTpcList().then((response) => {
                 this.tpcOptions = response.rows;

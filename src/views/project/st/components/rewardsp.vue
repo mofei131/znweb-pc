@@ -32,8 +32,8 @@
 
         <el-table v-loading="loading" :data="rewardspList" @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55" align="center" />
-            <el-table-column label="项目名称" align="center" prop="stName" />
-            <el-table-column label="项目编号" align="center" prop="stNo" />
+            <!-- <el-table-column label="项目名称" align="center" prop="stName" />
+            <el-table-column label="项目编号" align="center" prop="stNo" /> -->
             <el-table-column label="标准名称" align="center" prop="name" />
             <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
                 <template slot-scope="scope">
@@ -56,8 +56,8 @@
             :limit.sync="queryParams.pageSize" @pagination="getList" />
 
         <!-- 添加或修改奖惩对话框 -->
-        <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body @opened="handleOpen">
-            <el-form ref="form" :model="form" :rules="rules" label-width="180px">
+        <el-dialog :title="title" :visible.sync="open" width="773px" append-to-body @opened="handleOpen">
+            <el-form ref="form" :model="form" :rules="rules" label-width="120px">
                 <el-row>
                     <el-col :span="12">
                         <el-form-item label="项目名称" prop="stId">
@@ -84,7 +84,7 @@
 
                 <!--        热值MJ/Kg-->
                 <el-row style="margin-top: 30px">
-                    <el-col :span="3">
+                    <el-col :span="4">
                         <span style="font-size: 20px; color: black">热值MJ/Kg</span>
                     </el-col>
                     <el-col :span="2" v-if="isLook != 3">
@@ -102,7 +102,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="类别">
+                        <el-table-column width="150px" label="类别">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData1.' + scope.$index + '.a1'"
                                     :rules="rules.a1">
@@ -127,7 +127,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="热值">
+                        <el-table-column width="150px" label="热值">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData1.' + scope.$index + '.a2'"
                                     :rules="rules.a2">
@@ -142,7 +142,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="上升/下降">
+                        <el-table-column width="150px" label="上升/下降">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData1.' + scope.$index + '.s2'"
                                     :rules="rules.s2">
@@ -153,7 +153,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="热值">
+                        <el-table-column width="150px" label="热值">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData1.' + scope.$index + '.b1'"
                                     :rules="rules.b1">
@@ -168,7 +168,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="上升/下降">
+                        <el-table-column width="150px" label="上升/下降">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData1.' + scope.$index + '.s3'"
                                     :rules="rules.s3">
@@ -179,7 +179,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="价格">
+                        <el-table-column width="150px" label="价格">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData1.' + scope.$index + '.c1'"
                                     :rules="rules.c1">
@@ -203,7 +203,7 @@
 
                 <!--        热值Kcal/Kg-->
                 <el-row>
-                    <el-col :span="3">
+                    <el-col :span="4">
                         <span style="font-size: 20px; color: black">热值Kcal/Kg</span>
                     </el-col>
                     <el-col :span="2" v-if="isLook != 3">
@@ -221,7 +221,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="类别">
+                        <el-table-column label="类别" width="150px">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData2.' + scope.$index + '.a1'"
                                     :rules="rules.a1">
@@ -245,7 +245,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="热值">
+                        <el-table-column label="热值" width="150px">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData2.' + scope.$index + '.a2'"
                                     :rules="rules.a2">
@@ -260,7 +260,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="上升/下降">
+                        <el-table-column width="150px" label="上升/下降">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData2.' + scope.$index + '.s2'"
                                     :rules="rules.s2">
@@ -271,7 +271,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="热值">
+                        <el-table-column width="150px" label="热值">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData2.' + scope.$index + '.b1'"
                                     :rules="rules.b1">
@@ -279,14 +279,14 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="价格" width="70">
+                        <el-table-column label="价格">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" style="text-align: right">
                                     <span>价格：</span>
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="上升/下降">
+                        <el-table-column width="150px" label="上升/下降">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData2.' + scope.$index + '.s3'"
                                     :rules="rules.s3">
@@ -297,7 +297,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="价格">
+                        <el-table-column width="150px" label="价格">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData2.' + scope.$index + '.c1'"
                                     :rules="rules.c1">
@@ -339,7 +339,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="类别">
+                        <el-table-column width="150px" label="类别">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData3.' + scope.$index + '.a1'"
                                     :rules="rules.a1">
@@ -363,7 +363,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="热值">
+                        <el-table-column width="150px" label="热值">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData3.' + scope.$index + '.a2'"
                                     :rules="rules.a2">
@@ -378,7 +378,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="上升/下降">
+                        <el-table-column width="150px" label="上升/下降">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData3.' + scope.$index + '.s2'"
                                     :rules="rules.s2">
@@ -389,7 +389,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="热值">
+                        <el-table-column width="150px" label="热值">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData3.' + scope.$index + '.b1'"
                                     :rules="rules.b1">
@@ -404,7 +404,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="上升/下降">
+                        <el-table-column width="150px" label="上升/下降">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData3.' + scope.$index + '.s3'"
                                     :rules="rules.s3">
@@ -415,7 +415,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="价格">
+                        <el-table-column width="150px" label="价格">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData3.' + scope.$index + '.c1'"
                                     :rules="rules.c1">
@@ -457,7 +457,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="类别">
+                        <el-table-column width="150px" label="类别">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData4.' + scope.$index + '.a1'"
                                     :rules="rules.a1">
@@ -482,7 +482,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="热值">
+                        <el-table-column width="150px" label="热值">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData4.' + scope.$index + '.a2'"
                                     :rules="rules.a2">
@@ -497,7 +497,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="上升/下降">
+                        <el-table-column width="150px" label="上升/下降">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData4.' + scope.$index + '.s2'"
                                     :rules="rules.s2">
@@ -508,7 +508,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="热值">
+                        <el-table-column width="150px" label="热值">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData4.' + scope.$index + '.b1'"
                                     :rules="rules.b1">
@@ -523,7 +523,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="上升/下降">
+                        <el-table-column width="150px" label="上升/下降">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData4.' + scope.$index + '.s3'"
                                     :rules="rules.s3">
@@ -534,7 +534,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="价格">
+                        <el-table-column width="150px" label="价格">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData4.' + scope.$index + '.c1'"
                                     :rules="rules.c1">
@@ -558,7 +558,7 @@
 
                 <!--        灰分-->
                 <el-row>
-                    <el-col :span="3">
+                    <el-col :span="2">
                         <span style="font-size: 20px; color: black">灰分</span>
                     </el-col>
                     <el-col :span="2" v-if="isLook != 3">
@@ -576,7 +576,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="类别">
+                        <el-table-column width="150px" label="类别">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData5.' + scope.$index + '.a1'"
                                     :rules="rules.a1">
@@ -601,7 +601,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="热值">
+                        <el-table-column width="150px" label="热值">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData5.' + scope.$index + '.a2'"
                                     :rules="rules.a2">
@@ -616,7 +616,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="上升/下降">
+                        <el-table-column width="150px" label="上升/下降">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData5.' + scope.$index + '.s2'"
                                     :rules="rules.s2">
@@ -627,7 +627,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="热值">
+                        <el-table-column width="150px" label="热值">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData5.' + scope.$index + '.b1'"
                                     :rules="rules.b1">
@@ -642,7 +642,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="上升/下降">
+                        <el-table-column width="150px" label="上升/下降">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData5.' + scope.$index + '.s3'"
                                     :rules="rules.s3">
@@ -653,7 +653,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="价格">
+                        <el-table-column width="150px" label="价格">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData5.' + scope.$index + '.c1'"
                                     :rules="rules.c1">
@@ -677,7 +677,7 @@
 
                 <!--        水分-->
                 <el-row>
-                    <el-col :span="3">
+                    <el-col :span="2">
                         <span style="font-size: 20px; color: black">水分</span>
                     </el-col>
                     <el-col :span="2" v-if="isLook != 3">
@@ -695,7 +695,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="类别">
+                        <el-table-column width="150px" label="类别">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData6.' + scope.$index + '.a1'"
                                     :rules="rules.a1">
@@ -719,7 +719,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="热值">
+                        <el-table-column width="150px" label="热值">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData6.' + scope.$index + '.a2'"
                                     :rules="rules.a2">
@@ -734,7 +734,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="上升/下降">
+                        <el-table-column width="150px" label="上升/下降">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData6.' + scope.$index + '.s2'"
                                     :rules="rules.s2">
@@ -745,7 +745,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="热值">
+                        <el-table-column width="150px" label="热值">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData6.' + scope.$index + '.b1'"
                                     :rules="rules.b1">
@@ -760,7 +760,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="上升/下降">
+                        <el-table-column width="150px" label="上升/下降">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData6.' + scope.$index + '.s3'"
                                     :rules="rules.s3">
@@ -771,7 +771,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="价格">
+                        <el-table-column width="150px" label="价格">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData6.' + scope.$index + '.c1'"
                                     :rules="rules.c1">
@@ -795,7 +795,7 @@
 
                 <!--        内水-->
                 <el-row>
-                    <el-col :span="3">
+                    <el-col :span="2">
                         <span style="font-size: 20px; color: black">内水</span>
                     </el-col>
                     <el-col :span="2" v-if="isLook != 3">
@@ -813,7 +813,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="类别">
+                        <el-table-column width="150px" label="类别">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData7.' + scope.$index + '.a1'"
                                     :rules="rules.a1">
@@ -837,7 +837,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="热值">
+                        <el-table-column width="150px" label="热值">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData7.' + scope.$index + '.a2'"
                                     :rules="rules.a2">
@@ -845,14 +845,14 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="热值" width="90">
+                        <el-table-column label="热值" width="150">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" style="text-align: right">
                                     <span>该值每：</span>
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="上升/下降">
+                        <el-table-column width="150px" label="上升/下降">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData7.' + scope.$index + '.s2'"
                                     :rules="rules.s2">
@@ -863,7 +863,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="热值">
+                        <el-table-column width="150px" label="热值">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData7.' + scope.$index + '.b1'"
                                     :rules="rules.b1">
@@ -878,7 +878,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="上升/下降">
+                        <el-table-column width="150px" label="上升/下降">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData7.' + scope.$index + '.s3'"
                                     :rules="rules.s3">
@@ -889,7 +889,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="价格">
+                        <el-table-column width="150px" label="价格">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData7.' + scope.$index + '.c1'"
                                     :rules="rules.c1">
@@ -931,7 +931,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="类别">
+                        <el-table-column width="150px" label="类别">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData8.' + scope.$index + '.a1'"
                                     :rules="rules.a1">
@@ -955,7 +955,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="热值">
+                        <el-table-column width="150px" label="热值">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData8.' + scope.$index + '.a2'"
                                     :rules="rules.a2">
@@ -963,14 +963,14 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="热值" width="90">
+                        <el-table-column label="热值" width="150">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" style="text-align: right">
                                     <span>该值每：</span>
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="上升/下降">
+                        <el-table-column width="150px" label="上升/下降">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData8.' + scope.$index + '.s2'"
                                     :rules="rules.s2">
@@ -981,7 +981,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="热值">
+                        <el-table-column width="150px" label="热值">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData8.' + scope.$index + '.b1'"
                                     :rules="rules.b1">
@@ -996,7 +996,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="上升/下降">
+                        <el-table-column width="150px" label="上升/下降">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData8.' + scope.$index + '.s3'"
                                     :rules="rules.s3">
@@ -1007,7 +1007,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="价格">
+                        <el-table-column width="150px" label="价格">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData8.' + scope.$index + '.c1'"
                                     :rules="rules.c1">
@@ -1049,7 +1049,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="类别">
+                        <el-table-column width="150px" label="类别">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData9.' + scope.$index + '.a1'"
                                     :rules="rules.a1">
@@ -1073,7 +1073,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="热值">
+                        <el-table-column width="150px" label="热值">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData9.' + scope.$index + '.a2'"
                                     :rules="rules.a2">
@@ -1088,7 +1088,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="上升/下降">
+                        <el-table-column width="150px" label="上升/下降">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData9.' + scope.$index + '.s2'"
                                     :rules="rules.s2">
@@ -1099,7 +1099,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="热值">
+                        <el-table-column width="150px" label="热值">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData9.' + scope.$index + '.b1'"
                                     :rules="rules.b1">
@@ -1114,7 +1114,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="上升/下降">
+                        <el-table-column width="150px" label="上升/下降">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData9.' + scope.$index + '.s3'"
                                     :rules="rules.s3">
@@ -1125,7 +1125,7 @@
                                 </el-form-item>
                             </template>
                         </el-table-column>
-                        <el-table-column label="价格">
+                        <el-table-column width="150px" label="价格">
                             <template slot-scope="scope">
                                 <el-form-item label-width="0" :prop="'tableData9.' + scope.$index + '.c1'"
                                     :rules="rules.c1">
@@ -1236,10 +1236,18 @@ export default {
             isDisabled: false,
         };
     },
+    props: ['stIdd', 'projectIdd'],
     created() {
+        this.queryParams.stId = this.stIdd
+        this.form.stId = this.projectIdd
         this.getList();
         getStList().then((response) => {
             this.stOptions = response.rows;
+            this.stOptions.forEach(e=>{
+                    if(e.stId==this.projectIdd){
+                        this.changeSt(e)
+                    }
+                })
         });
     },
     methods: {
@@ -1253,6 +1261,11 @@ export default {
             });
             getStList().then((response) => {
                 this.stOptions = response.rows;
+                this.stOptions.forEach(e=>{
+                    if(e.stId==this.projectIdd){
+                        this.changeSt(e)
+                    }
+                })
             });
         },
         // 取消按钮

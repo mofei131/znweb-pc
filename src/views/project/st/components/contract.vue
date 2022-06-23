@@ -80,9 +80,9 @@
         </el-row>
 
         <el-table v-loading="loading" :data="contractList" @selection-change="handleSelectionChange">
-            <el-table-column label="项目名称" align="center" prop="stName" />
+            <!-- <el-table-column label="项目名称" align="center" prop="stName" /> -->
             <el-table-column label="立项编号" align="center" prop="productNo" />
-            <el-table-column label="项目编号" align="center" prop="projectNumber" />
+            <!-- <el-table-column label="项目编号" align="center" prop="projectNumber" /> -->
             <el-table-column label="合同名称" align="center" prop="name" />
             <el-table-column label="合同编号" align="center" prop="number" />
             <el-table-column label="合同类型" align="center" prop="type" :formatter="typeFormat" />
@@ -130,8 +130,377 @@
             :limit.sync="queryParams.pageSize" @pagination="getList" />
 
         <!-- 添加或修改项目合同对话框 -->
-        <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body @opened="handleOpen">
-            <el-form ref="form" :model="form" :rules="rules" label-width="180px">
+        <el-dialog v-if="title == '补充项目合同' || title == '补充合同模板'" :title="title" :visible.sync="open" width="500px"
+            append-to-body @opened="handleOpen">
+            <el-form ref="form" :model="form" :rules="rules" label-width="100px">
+                <div v-if="bc == 1 || bc == 3">
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item label="项目" prop="stId">
+                                <el-select filterable value-key="stId" @change="changeSt" v-model="form.stId"
+                                    placeholder="请选择项目" style="width: 100%">
+                                    <el-option v-for="obj in stOptions" :key="obj.stId" :label="obj.name" :value="obj">
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="项目编号" prop="projectNumber">
+                                {{ form.projectNumber }}
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item label="合同名称" prop="name">
+                                <el-input v-model="form.name" placeholder="请输入合同名称" />
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="立项编号" prop="productNo">
+                                <el-input v-model="form.productNo" placeholder="请输入立项编号" />
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item label="合同类型" prop="type">
+                                <el-select v-model="form.type" placeholder="请选择合同类型" style="width: 100%">
+                                    <el-option v-for="dict in typeOptions" :key="dict.dictValue" :label="dict.dictLabel"
+                                        :value="dict.dictValue"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="合同编号" prop="number">
+                                <el-input v-model="form.number" placeholder="请输入合同编号" />
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <div v-if="form.type == '1'">
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="供应商" prop="supplierId">
+                                    <el-select filterable value-key="supplierId" @change="changeSupplier"
+                                        v-model="form.supplierId" placeholder="请选择供应商" style="width: 100%">
+                                        <el-option v-for="obj in supplierOptions" :key="obj.supplierId"
+                                            :label="obj.name" :value="obj"></el-option>
+                                    </el-select>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="签约时间" prop="signingTime">
+                                    <el-date-picker clearable size="small" style="width: 100%"
+                                        v-model="form.signingTime" type="date" value-format="yyyy-MM-dd"
+                                        placeholder="选择签约时间">
+                                    </el-date-picker>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="货品名称" prop="goodsName">
+                                    <el-input v-model="form.goodsName" placeholder="请输入货品名称" />
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="预计吨数(吨)" prop="expectNumber">
+                                    <el-input v-model="form.expectNumber" placeholder="请输入预计吨数" />
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="保底服务费期限" prop="mfsp">
+                                    <el-input v-model="form.mfsp" placeholder="请输入保底服务费期限" />
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="超时服务费期限" prop="csmfsp">
+                                    <el-input v-model="form.csmfsp" placeholder="请输入超时服务费期限" />
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="超时服务费费率" prop="csmfsp">
+                                    <el-input v-model="form.csrate" placeholder="请输入超时服务费费率" />
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="违约服务费期限" prop="vymfsp">
+                                    <el-input v-model="form.vymfsp" placeholder="请输入违约服务费期限" />
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="违约服务费费率" prop="vymfsp">
+                                    <el-input v-model="form.vyrate" placeholder="请输入违约服务费费率" />
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                    </div>
+                    <div v-if="form.type == '2'">
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="终端客户" prop="terminalId">
+                                    <el-select filterable value-key="terminalId" @change="changeTerinal"
+                                        v-model="form.terminalId" placeholder="请选择终端客户" style="width: 100%">
+                                        <el-option v-for="te in terminalOptions" :key="te.terminalId" :label="te.name"
+                                            :value="te"></el-option>
+                                    </el-select>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="签约时间" prop="signingTime">
+                                    <el-date-picker clearable size="small" style="width: 100%"
+                                        v-model="form.signingTime" type="date" value-format="yyyy-MM-dd"
+                                        placeholder="选择签约时间">
+                                    </el-date-picker>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="基准价格(元)" prop="price">
+                                    <el-input v-model="form.price" placeholder="请输入基准价格" />
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="货品名称" prop="goodsName">
+                                    <el-input v-model="form.goodsName" placeholder="请输入货品名称" />
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="预计吨数" prop="expectNumber">
+                                    <el-input v-model="form.expectNumber" placeholder="请输入预计吨数" />
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                    </div>
+                    <div v-if="form.type == '3'">
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="运输单位" prop="transportUnit">
+                                    <el-input v-model="form.transportUnit" placeholder="请输入运输单位/服务单位" />
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="签约时间" prop="signingTime">
+                                    <el-date-picker clearable size="small" style="width: 100%"
+                                        v-model="form.signingTime" type="date" value-format="yyyy-MM-dd"
+                                        placeholder="选择签约时间">
+                                    </el-date-picker>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="运输方式" prop="transportType">
+                                    <el-select v-model="form.transportType" placeholder="请选择运输方式" style="width: 100%">
+                                        <el-option v-for="obj in transportTypeOptions" :key="obj.key" :label="obj.label"
+                                            :value="obj.key"></el-option>
+                                    </el-select>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="起运地" prop="transportStart">
+                                    <el-input v-model="form.transportStart" placeholder="请输入起运地" />
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="目的地" prop="transportEnd">
+                                    <el-input v-model="form.transportEnd" placeholder="请输入目的地" />
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="运费单价(元/吨)" prop="transportPrice">
+                                    <el-input v-model="form.transportPrice" placeholder="请输入运费单价(吨/元)" />
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="损耗率" prop="transportLoss">
+                                    <el-input v-model="form.transportLoss" placeholder="请输入损耗率" />
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                    </div>
+                    <div v-if="form.type == '4'">
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="运输单位" prop="transportUnit">
+                                    <el-input v-model="form.transportUnit" placeholder="请输入运输单位/服务单位" />
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="签约时间" prop="signingTime">
+                                    <el-date-picker clearable size="small" style="width: 100%"
+                                        v-model="form.signingTime" type="date" value-format="yyyy-MM-dd"
+                                        placeholder="选择签约时间">
+                                    </el-date-picker>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="运输方式" prop="transportType">
+                                    <el-select v-model="form.transportType" placeholder="请选择运输方式" style="width: 100%">
+                                        <el-option v-for="obj in transportTypeOptions" :key="obj.key" :label="obj.label"
+                                            :value="obj.key"></el-option>
+                                    </el-select>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="起运地" prop="transportStart">
+                                    <el-input v-model="form.transportStart" placeholder="请输入起运地" />
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="目的地" prop="transportEnd">
+                                    <el-input v-model="form.transportEnd" placeholder="请输入目的地" />
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="运费单价(吨/元)" prop="transportPrice">
+                                    <el-input v-model="form.transportPrice" placeholder="请输入运费单价(吨/元)" />
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="损耗率" prop="transportLoss">
+                                    <el-input v-model="form.transportLoss" placeholder="请输入损耗率" />
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                    </div>
+                    <div v-if="form.type == '5'">
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="客户名称" prop="khName">
+                                    <el-input v-model="form.khName" placeholder="请输入客户名称" />
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="签约时间" prop="signingTime">
+                                    <el-date-picker clearable size="small" style="width: 100%"
+                                        v-model="form.signingTime" type="date" value-format="yyyy-MM-dd"
+                                        placeholder="选择签约时间">
+                                    </el-date-picker>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="备注" prop="node">
+                                    <el-input type="textarea" :rows="5" v-model="form.node" placeholder="请输入备注" />
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                    </div>
+                    <el-row v-if="bc == 3">
+                        <el-col :span="12">
+                            <el-form-item label="合同模板" prop="file">
+                                <el-upload class="upload-demo" :action="url" :headers="headers"
+                                    :on-preview="handlePreview" :on-remove="handleRemove" :on-success="uploadSuccess"
+                                    :on-error="uploadError" :before-remove="beforeRemove" multiple :limit="5"
+                                    :on-exceed="handleExceed" :file-list="fileList">
+                                    <el-button size="small" type="primary">点击上传</el-button>
+                                    <!--                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
+                                </el-upload>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row v-if="bc == 1">
+                        <el-col :span="12">
+                            <el-form-item label="合同模板" prop="file">
+                                <el-upload disabled class="upload-demo" :action="url" :headers="headers"
+                                    :on-preview="handlePreview" :on-remove="handleRemove" :on-success="uploadSuccess"
+                                    :on-error="uploadError" :before-remove="beforeRemove" multiple :limit="5"
+                                    :on-exceed="handleExceed" :file-list="fileList">
+                                    <el-button size="small" type="primary">点击上传</el-button>
+                                    <!--                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
+                                </el-upload>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                </div>
+                <div v-if="bc == 1 && form.issc == '2'">
+                    <el-row>
+                        <el-col :span="24">
+                            <el-form-item label="补充说明" prop="content">
+                                <el-input v-model="form.content" placeholder="请输入补充说明" />
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item label="补充附件" prop="file">
+                                <el-upload disabled class="upload-demo" :action="url" :headers="headers"
+                                    :on-preview="handlePreview" :on-remove="handleRemove" :on-success="uploadSuccess"
+                                    :before-remove="beforeRemove" multiple :limit="5" :on-exceed="handleExceed"
+                                    :file-list="filebcList">
+                                    <!--                  <el-button size="small" type="primary">点击上传</el-button>-->
+                                    <!--                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
+                                </el-upload>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                </div>
+                <div v-if="bc == 2">
+                    <el-row>
+                        <el-col :span="24">
+                            <el-form-item label="补充说明" prop="content">
+                                <el-input type="textarea" :rows="4" v-model="form.content" placeholder="请输入补充说明" />
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item label="附件" prop="file">
+                                <el-upload class="upload-demo" :action="url" :headers="headers"
+                                    :on-preview="handlePreview" :on-remove="handleRemove" :on-success="uploadSuccess"
+                                    :on-error="uploadError" :before-remove="beforeRemove" multiple :limit="5"
+                                    :on-exceed="handleExceed" :file-list="fileList">
+                                    <el-button size="small" type="primary">点击上传</el-button>
+                                    <!--                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
+                                </el-upload>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                </div>
+                <div v-if="bc == 4">
+                    <el-row>
+                        <el-col :span="12">
+                            <el-form-item label="合同模板" prop="file">
+                                <el-upload class="upload-demo" :action="url" :headers="headers"
+                                    :on-preview="handlePreview" :on-remove="handleRemove" :on-success="uploadSuccess"
+                                    :on-error="uploadError" :before-remove="beforeRemove" multiple :limit="5"
+                                    :on-exceed="handleExceed" :file-list="fileList">
+                                    <el-button size="small" type="primary">点击上传</el-button>
+                                    <!--                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
+                                </el-upload>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                </div>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="submitForm" :disabled="isDisabled">确 定</el-button>
+                <el-button @click="cancel">取 消</el-button>
+            </div>
+        </el-dialog>
+        <el-dialog v-else :title="title" :visible.sync="open" width="773px" append-to-body @opened="handleOpen">
+            <el-form ref="form" :model="form" :rules="rules" label-width="120px">
                 <div v-if="bc == 1 || bc == 3">
                     <el-row>
                         <el-col :span="12">
@@ -836,6 +1205,7 @@ import { getProcessDataByStId, getApprovalProcessList } from "@/api/approve";
 
 export default {
     name: "Contract",
+    props:['stIdd','projectIdd'],
     data() {
         const validatePrice = (rule, value, callback) => {
             let reg = /^(\-|\+)?(([1-9]{1}\d*)|(0{1}))(\.\d{1,2})?$/;
@@ -993,6 +1363,8 @@ export default {
         };
     },
     created() {
+        this.queryParams.stId=this.stIdd
+        this.form.stId=this.projectIdd
         this.getList();
         this.getDicts("project_contract_type").then((response) => {
             this.typeOptions = response.data;
@@ -1002,6 +1374,11 @@ export default {
         });
         getStList().then((response) => {
             this.stOptions = response.rows;
+            this.stOptions.forEach(e=>{
+                    if(e.stId==this.projectIdd){
+                        this.changeSt(e)
+                    }
+                })
         });
         getSupplierList().then((response) => {
             this.supplierOptions = response.rows;
@@ -1036,6 +1413,11 @@ export default {
             });
             getStList().then((response) => {
                 this.stOptions = response.rows;
+                this.stOptions.forEach(e=>{
+                    if(e.stId==this.projectIdd){
+                        this.changeSt(e)
+                    }
+                })
             });
         },
         // 合同类型字典翻译

@@ -8,6 +8,36 @@ export function listSt(query) {
         params: query,
     });
 }
+export function countTotal(query) {
+    return request({
+        url: "/project/business/countTotal",
+        method: "get",
+        params: query,
+    });
+}
+export function stupdateList(query) {
+    return request({
+        url: "/project/stupdate/list",
+        method: "get",
+        params: query,
+    });
+}
+export function businessList(query) {
+    return request({
+        url: "/project/business/list",
+        method: "get",
+        params: query,
+    });
+}
+
+
+export function getActualControl(query) {
+    return request({
+        url: "/project/actualControl/listForCombobox",
+        method: "get",
+        params: query,
+    });
+}
 // 查询项目信息列表
 export function updateBStatus(data) {
     return request({

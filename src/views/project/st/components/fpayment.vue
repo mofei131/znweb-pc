@@ -63,8 +63,8 @@
         </el-row>
 
         <el-table v-loading="loading" :data="fpaymentList" @selection-change="handleSelectionChange">
-            <el-table-column label="项目名称" align="center" prop="stName" />
-            <el-table-column label="项目编号" align="center" prop="stNo" />
+            <!-- <el-table-column label="项目名称" align="center" prop="stName" />
+            <el-table-column label="项目编号" align="center" prop="stNo" /> -->
             <el-table-column label="货品名称" align="center" prop="hpName" />
             <el-table-column label="合计重量(吨)" align="center" prop="tweight">
                 <template slot-scope="scope">
@@ -160,8 +160,8 @@
             :limit.sync="queryParams.pageSize" @pagination="getList" />
 
         <!-- 添加或修改最终付款对话框 -->
-        <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body @opened="handleOpen">
-            <el-form ref="form" :model="form" :rules="rules" label-width="180px">
+        <el-dialog :title="title" :visible.sync="open" width="773px" append-to-body @opened="handleOpen">
+            <el-form ref="form" :model="form" :rules="rules" label-width="130px">
                 <div v-if="isLook != '4'">
                     <el-row>
                         <el-col :span="12">
@@ -173,8 +173,6 @@
                                 </el-select>
                             </el-form-item>
                         </el-col>
-                    </el-row>
-                    <el-row>
                         <el-col :span="12">
                             <el-form-item label="项目编号" prop="number">
                                 <span v-text="form.number"></span>
@@ -187,8 +185,6 @@
                                 <span v-text="form.supplierName"></span>
                             </el-form-item>
                         </el-col>
-                    </el-row>
-                    <el-row>
                         <el-col :span="12">
                             <el-form-item label="结算方式" prop="settlementWay">
                                 <span v-text="form.settlementWay"></span>
@@ -201,8 +197,6 @@
                                 <el-input v-model="form.account" placeholder="请输入供应商账号" />
                             </el-form-item>
                         </el-col>
-                    </el-row>
-                    <el-row>
                         <el-col :span="12">
                             <el-form-item label="供应商开户行" prop="openbank">
                                 <el-input v-model="form.openbank" placeholder="请输入供应商开户行" />
@@ -349,8 +343,8 @@
                             <el-form-item label="补税金额" prop="bsPrice">
                                 <el-input v-model="form.bsPrice" @change="atochange" placeholder="请输入补税金额"
                                     style="width: 60%" />
-                                <el-button type="primary" @click="cxjs" v-if="isLook != 3" :disabled="isCxjs != 1">重新计算
-                                </el-button>
+                                <el-button style="margin-left:10px" size="small" type="primary" @click="cxjs"
+                                    v-if="isLook != 3" :disabled="isCxjs != 1">重新计算</el-button>
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -445,8 +439,6 @@
                                 <span v-text="$options.filters.moneyFilter(form.sjPrice)"></span>
                             </el-form-item>
                         </el-col>
-                    </el-row>
-                    <el-row>
                         <el-col :span="12">
                             <el-form-item label="已付金额：">
                                 <span v-text="$options.filters.moneyFilter(form.ypayPrice)"></span>
@@ -840,6 +832,7 @@ import { getProcessDataByStId, getApprovalProcessList } from "@/api/approve";
 
 export default {
     name: "Fpayment",
+    props:['stIdd','projectIdd'],
     data() {
         // 两位小数点验证
         const validatePrice = (rule, value, callback) => {
@@ -983,12 +976,19 @@ export default {
         };
     },
     created() {
+        this.queryParams.stId=this.stIdd
+        this.form.stId=this.projectIdd
         this.getList();
         this.getDicts("project_approval_state").then((response) => {
             this.stateOptions = response.data;
         });
         getStList().then((response) => {
             this.stOptions = response.rows;
+            this.stOptions.forEach(e=>{
+                    if(e.stId==this.projectIdd){
+                        this.changeSt(e)
+                    }
+                })
         });
         if (
             this.$route.params.isEdit != null &&
@@ -1043,6 +1043,11 @@ export default {
             });
             getStList().then((response) => {
                 this.stOptions = response.rows;
+                this.stOptions.forEach(e=>{
+                    if(e.stId==this.projectIdd){
+                        this.changeSt(e)
+                    }
+                })
             });
         },
         // 审核状态字典翻译

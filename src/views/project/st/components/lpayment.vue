@@ -62,8 +62,8 @@
         </el-row>
 
         <el-table v-loading="loading" :data="lpaymentList" @selection-change="handleSelectionChange">
-            <el-table-column label="项目名称" align="center" prop="stName" />
-            <el-table-column label="项目编号" align="center" prop="stNo" />
+            <!-- <el-table-column label="项目名称" align="center" prop="stName" />
+            <el-table-column label="项目编号" align="center" prop="stNo" /> -->
             <el-table-column label="运输类型" align="center" prop="type" />
             <el-table-column label="实付金额(元)" align="center" prop="tntPrice">
                 <template slot-scope="scope">
@@ -119,8 +119,8 @@
             :limit.sync="queryParams.pageSize" @pagination="getList" />
 
         <!-- 添加或修改物流付款对话框 -->
-        <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body @opened="handleOpen">
-            <el-form ref="form" :model="form" :rules="rules" label-width="180px">
+        <el-dialog :title="title" :visible.sync="open" width="773px" append-to-body @opened="handleOpen">
+            <el-form ref="form" :model="form" :rules="rules" label-width="150px">
                 <div v-if="isLook != 4 && isLook != 5">
                     <el-row>
                         <el-col :span="12">
@@ -148,8 +148,6 @@
                                 </el-select>
                             </el-form-item>
                         </el-col>
-                    </el-row>
-                    <el-row>
                         <el-col :span="12">
                             <el-form-item label="公司账号" prop="account">
                                 <el-input v-model="form.account" placeholder="请输入公司账号" />
@@ -162,8 +160,6 @@
                                 <el-input v-model="form.openbank" placeholder="请输入公司开户行" />
                             </el-form-item>
                         </el-col>
-                    </el-row>
-                    <el-row>
                         <el-col :span="12">
                             <el-form-item label="运输类型" prop="type">
                                 <el-radio-group v-model="form.type">
@@ -183,8 +179,12 @@
                                 </el-radio-group>
                             </el-form-item>
                         </el-col>
+                        <el-col :span="12">
+                            <el-form-item label="备注" prop="bz">
+                                <el-input v-model="form.bz" placeholder="请输入备注" />
+                            </el-form-item>
+                        </el-col>
                     </el-row>
-
                     <el-row v-if="isLook == 1">
                         <el-col :span="12">
                             <el-form-item label="实付金额" prop="tntPrice">
@@ -196,13 +196,6 @@
                         <el-col :span="12">
                             <el-form-item label="实付金额" prop="tntPrice">
                                 <span v-text="$options.filters.moneyFilter(form.tntPrice)"></span>
-                            </el-form-item>
-                        </el-col>
-                    </el-row>
-                    <el-row>
-                        <el-col :span="12">
-                            <el-form-item label="备注" prop="bz">
-                                <el-input v-model="form.bz" placeholder="请输入备注" />
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -704,6 +697,7 @@ import { getContractList } from "@/api/project/all";
 
 export default {
     name: "Lpayment",
+    props: ['stIdd', 'projectIdd'],
     data() {
         // 两位小数点验证
         const validatePrice = (rule, value, callback) => {
@@ -842,12 +836,19 @@ export default {
         };
     },
     created() {
+        this.queryParams.stId = this.stIdd
+        this.form.stId = this.projectIdd
         this.getList();
         this.getDicts("project_approval_state").then((response) => {
             this.stateOptions = response.data;
         });
         getStList().then((response) => {
             this.stOptions = response.rows;
+            this.stOptions.forEach(e=>{
+                    if(e.stId==this.projectIdd){
+                        this.changeSt(e)
+                    }
+                })
         });
         getTpcList().then((response) => {
             this.tpcOptions = response.rows;
@@ -905,6 +906,11 @@ export default {
             });
             getStList().then((response) => {
                 this.stOptions = response.rows;
+                this.stOptions.forEach(e=>{
+                    if(e.stId==this.projectIdd){
+                        this.changeSt(e)
+                    }
+                })
             });
             getTpcList().then((response) => {
                 this.tpcOptions = response.rows;

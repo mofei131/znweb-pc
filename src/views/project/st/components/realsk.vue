@@ -57,8 +57,8 @@
         </el-row>
 
         <el-table v-loading="loading" :data="realskList" @selection-change="handleSelectionChange">
-            <el-table-column label="项目名称" align="center" prop="stName" />
-            <el-table-column label="项目编号" align="center" prop="stNo" />
+            <!-- <el-table-column label="项目名称" align="center" prop="stName" />
+            <el-table-column label="项目编号" align="center" prop="stNo" /> -->
             <el-table-column label="预估应收" align="center" prop="ygPrice">
                 <template slot-scope="scope">
                     {{
@@ -137,8 +137,8 @@
             :limit.sync="queryParams.pageSize" @pagination="getList" />
 
         <!-- 添加或修改实际收款对话框 -->
-        <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body @opened="handleOpen">
-            <el-form ref="form" :model="form" :rules="rules" label-width="180px">
+        <el-dialog :title="title" :visible.sync="open" width="773px" append-to-body @opened="handleOpen">
+            <el-form ref="form" :model="form" :rules="rules" label-width="160px">
                 <div v-if="isLook != '4'">
                     <el-row>
                         <el-col :span="12">
@@ -174,8 +174,6 @@
                                 <span v-text="$options.filters.moneyFilter(form.kpPrice)"></span>
                             </el-form-item>
                         </el-col>
-                    </el-row>
-                    <el-row>
                         <el-col :span="12">
                             <el-form-item label="开票吨数" prop="kpNumber">
                                 <span v-text="$options.filters.weightFilter(form.kpNumber)"></span>
@@ -188,8 +186,6 @@
                                 <el-input v-model="form.jstPrice" placeholder="请输入结算单总金额(元)" />
                             </el-form-item>
                         </el-col>
-                    </el-row>
-                    <el-row>
                         <el-col :span="12">
                             <el-form-item label="热值(Kcal/吨)" prop="rz">
                                 <el-input v-model="form.rz" placeholder="请输入热值(Kcal/吨)" />
@@ -312,7 +308,7 @@
                         </el-col>
                     </el-row>
                     <el-row>
-                        <el-col :span="12">
+                        <el-col :span="24">
                             <el-form-item label="备注" prop="node">
                                 <el-input type="textarea" :rows="5" v-model="form.node" placeholder="请输入备注" />
                             </el-form-item>
@@ -320,7 +316,7 @@
                     </el-row>
                     <el-row style="margin-top: 20px">
                         <el-col :span="12">
-                            <el-form-item label="附件" prop="file" label-width="50px">
+                            <el-form-item label="附件" prop="file" label-width="150px">
                                 <el-upload class="upload-demo" :action="url" :headers="headers"
                                     :on-preview="handlePreview" :on-remove="handleRemove" :on-success="uploadSuccess"
                                     :on-error="uploadError" :before-remove="beforeRemove" multiple :limit="5"
@@ -340,8 +336,6 @@
                                 <span v-text="form.jstPrice"></span>
                             </el-form-item>
                         </el-col>
-                    </el-row>
-                    <el-row>
                         <el-col :span="12">
                             <el-form-item label="已收金额：">
                                 <span v-text="form.ysPrice"></span>
@@ -697,13 +691,21 @@ export default {
             isDisabled: false,
         };
     },
+    props: ['stIdd', 'projectIdd'],
     created() {
+        this.queryParams.stId = this.stIdd
+        this.form.stId = this.projectIdd
         this.getList();
         this.getDicts("project_approval_state").then((response) => {
             this.stateOptions = response.data;
         });
         getStList().then((response) => {
             this.stOptions = response.rows;
+            this.stOptions.forEach(e=>{
+                    if(e.stId==this.projectIdd){
+                        this.changeSt(e)
+                    }
+                })
         });
 
         if (
@@ -734,6 +736,11 @@ export default {
             });
             getStList().then((response) => {
                 this.stOptions = response.rows;
+                this.stOptions.forEach(e=>{
+                    if(e.stId==this.projectIdd){
+                        this.changeSt(e)
+                    }
+                })
             });
         },
         // 审批状态字典翻译
