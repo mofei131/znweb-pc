@@ -3763,16 +3763,16 @@
         <el-form label-width="20px;" label-position="left">
           <!--      审批流程·-->
           <approval-process
-            :typeId="initData.processType"
-            :stId="initData.stId"
+            :typeId="initData.processInstanceId"
+            :stId="initData.taskId"
           ></approval-process>
-          <el-row class="head-title">
+         <!-- <el-row class="head-title">
             <el-col :span="12">
               <el-form-item label="审批信息"></el-form-item>
             </el-col>
-          </el-row>
+          </el-row> -->
           <!--        <span>审批信息</span>-->
-          <el-row class="head-text">
+          <!-- <el-row class="head-text">
             <el-col :offset="1">
               <el-table :data="processData" fit style="width: 80%">
                 <el-table-column label="部门" align="center" prop="deptName" />
@@ -3816,7 +3816,9 @@
                 </el-table-column>
               </el-table>
             </el-col>
-          </el-row>
+          </el-row> -->
+          <!--      审批信息-->
+          <approval-record :typeId="initData.processInstanceId" :stId="initData.taskId"></approval-record>
         </el-form>
       </div>
       <div style="margin-top: 30px">
