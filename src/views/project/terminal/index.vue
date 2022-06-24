@@ -377,7 +377,7 @@
             </el-col>
           </el-row>
           <el-row>
-            <el-col :span="24">
+            <el-col :span="24">.
               <el-form-item label="评级说明：" prop="node">
                 <el-input
                   type="textarea"
@@ -393,6 +393,7 @@
           <el-col :span="12">
             <el-form-item label="客户代码:" prop="customerCode">
               <el-input
+                oninput="value=value.replace(/[^0-9a-zA-Z]/g, '')"
                 v-model="form.customerCode"
                 placeholder="请输入客户代码"
               />
@@ -705,7 +706,7 @@ export default {
           { required: true, message: "请选择企业性质", trigger: "blur" },
         ],
         customerCode:[
-          { required: true, message: "请输入客户代码", trigger: "blur" },
+          { required: false, message: "请输入客户代码", trigger: "blur" },
         ],
         demand: [{ required: true, validator: validatePrice, trigger: "blur" }],
         capital: [
