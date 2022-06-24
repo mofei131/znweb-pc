@@ -3762,63 +3762,9 @@
       <div style="margin-top: 30px">
         <el-form label-width="20px;" label-position="left">
           <!--      审批流程·-->
-          <approval-process
-            :typeId="initData.processInstanceId"
-            :stId="initData.taskId"
-          ></approval-process>
-         <!-- <el-row class="head-title">
-            <el-col :span="12">
-              <el-form-item label="审批信息"></el-form-item>
-            </el-col>
-          </el-row> -->
-          <!--        <span>审批信息</span>-->
-          <!-- <el-row class="head-text">
-            <el-col :offset="1">
-              <el-table :data="processData" fit style="width: 80%">
-                <el-table-column label="部门" align="center" prop="deptName" />
-                <el-table-column
-                  label="审批人"
-                  align="center"
-                  prop="nickName"
-                />
-                <el-table-column
-                  label="审批时间"
-                  align="center"
-                  prop="approveTime"
-                />
-                <el-table-column
-                  label="审批说明"
-                  align="center"
-                  prop="processValue"
-                >
-                  <template slot-scope="scope">
-                    {{
-                      scope.row.processValue == undefined ||
-                      scope.row.processValue == null ||
-                      scope.row.processValue == "undefined"
-                        ? ""
-                        : scope.row.processValue
-                    }}
-                  </template>
-                </el-table-column>
-                <el-table-column label="审批状态" align="center" prop="status">
-                  <template slot-scope="scope">
-                    {{
-                      scope.row.status == 0
-                        ? "驳回"
-                        : scope.row.status == 1
-                        ? "通过"
-                        : scope.row.status == 5
-                        ? "撤回"
-                        : ""
-                    }}
-                  </template>
-                </el-table-column>
-              </el-table>
-            </el-col>
-          </el-row> -->
+          <approval-process :typeId="initData.approvalType" :stId="initData.businessKey"></approval-process>
           <!--      审批信息-->
-          <approval-record :typeId="initData.processInstanceId" :stId="initData.taskId"></approval-record>
+          <approval-record :typeId="initData.approvalType" :stId="initData.businessKey"></approval-record>
         </el-form>
       </div>
       <div style="margin-top: 30px">
@@ -3998,12 +3944,13 @@ export default {
   methods: {
     init() {
       this.queryParams = this.initData;
+      console.log(this.initData)
     },
     getList() {
       console.log("A1:" + this.queryParams.id);
-      getProcessData(this.initData.id).then((res) => {
-        this.processData = res.data;
-      });
+      // getProcessData(this.initData.id).then((res) => {
+      //   this.processData = res.data;
+      // });
       let typeId = this.initData.processType;
       let stId = this.initData.stId;
       if (typeId == "1") {

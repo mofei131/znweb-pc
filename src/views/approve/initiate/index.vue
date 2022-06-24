@@ -292,8 +292,9 @@ export default {
       }
     },
     handleSelect(row) {
+      // console.log(row)
       let typeId = row.approvalType;
-      let stId = row.stId;
+      let stId = row.businessKey;
       if (typeId == "1") {
         this.$router.push("/st/lookAdd/" + stId);
       } else if (typeId == "2") {
