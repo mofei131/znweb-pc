@@ -909,7 +909,7 @@ export default {
         },
         {
           label: "储备业务不垫付运费",
-          value: "cub",
+          value: "cu",
         },
         {
           label: "到厂业务垫付运费",
@@ -917,7 +917,7 @@ export default {
         },
         {
           label: "到厂业务不垫付运费",
-          value: "dcb",
+          value: "dc",
         },
         {
           label: "车板业务垫付运费",
@@ -925,7 +925,7 @@ export default {
         },
         {
           label: "车板业务不垫付运费",
-          value: "cbb",
+          value: "cb",
         },
       ],
       // 供应商集合
@@ -1203,15 +1203,15 @@ export default {
     changeBusinessType(e) {
       if (e == 'cud') {
         return '储备业务垫付运费'
-      } else if (e = 'cub') {
+      } else if (e = 'cu') {
         return '储备业务不垫付运费'
       } else if (e = 'dcd') {
         return '到厂业务垫付运费'
-      } else if (e = 'dcb') {
+      } else if (e = 'dc') {
         return '到厂业务不垫付运费'
       } else if (e = 'cbd') {
         return '车板业务垫付运费'
-      } else if (e = 'cbb') {
+      } else if (e = 'cb') {
         return '车板业务不垫付运费'
       }
     },
