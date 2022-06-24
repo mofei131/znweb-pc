@@ -40,9 +40,9 @@
         </template>
       </el-table-column>
       <el-table-column label="业务经理" align="center" prop="serviceManagerName" />
-      <el-table-column label="货运方式" align="center" prop="freightMode">
-        <template slot-scope="scope">
-          {{changeTransType(scope.row.transType)}}
+      <el-table-column label="货运方式" align="center">
+        <template slot-scope="scope" v-if="scope.row.hType=='项目'">
+          {{ changeTransType(scope.row.transType) }}
         </template>
       </el-table-column>
       <el-table-column label="代办人" align="center" prop="userName" />
@@ -77,8 +77,9 @@
             v-hasPermi="['project:st:edit']" @click="jumpBusiness(scope.row)">业务明细</el-button>
           <!-- <el-button size="mini" type="text" v-if="scope.row.hType == '业务'" @click="openChangeBusiness(scope.row)"
             v-hasPermi="['project:st:edit']">修改业务</el-button> -->
-          <el-button size="mini" v-if="scope.row.hType == '业务'&&(scope.row.businessState==1||scope.row.businessState==2)" type="text" v-hasPermi="['project:st:edit']"
-            @click="openOperateBusiness(scope.row)">
+          <el-button size="mini"
+            v-if="scope.row.hType == '业务' && scope.row.state == 3 && (scope.row.businessState == 1 || scope.row.businessState == 2)"
+            type="text" v-hasPermi="['project:st:edit']" @click="openOperateBusiness(scope.row)">
             操作业务</el-button>
         </template>
       </el-table-column>
@@ -1649,4 +1650,5 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+
 </style>
