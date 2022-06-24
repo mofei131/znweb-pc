@@ -34,54 +34,9 @@
             <el-table-column
               label="流程名称"
               align="center"
-              prop="processName"
+              prop="taskName"
             />
-            <el-table-column label="流程类型" align="center" prop="approvalType">
-              <template slot-scope="scope">
-                {{
-                  scope.row.approvalType == "1"
-                    ? "新增业务"
-                    : scope.row.approvalType == "2"
-                    ? "操作业务"
-                    : scope.row.approvalType == "3"
-                    ? "合同管理"
-                    : scope.row.approvalType == "4"
-                    ? "预付款管理"
-                    : scope.row.approvalType == "5"
-                    ? "最终付款管理"
-                    : scope.row.approvalType == "6"
-                    ? "预估收款"
-                    : scope.row.approvalType == "7"
-                    ? "保证金管理"
-                    : scope.row.approvalType == "8"
-                    ? "资金计划"
-                    : scope.row.approvalType == "9"
-                    ? "物流付款"
-                    : scope.row.approvalType == "10"
-                    ? "入库"
-                    : scope.row.approvalType == "11"
-                    ? "出库"
-                    : scope.row.approvalType == "12"
-                    ? "供应商管理"
-                    : scope.row.approvalType == "13"
-                    ? "用煤单位"
-                    : scope.row.approvalType == "14"
-                    ? "收票记录"
-                    : scope.row.approvalType == "15"
-                    ? "开票申请"
-                    : scope.row.approvalType == "16"
-                    ? "期间费用"
-                    : scope.row.approvalType == "17"
-                    ? "实际收款"
-                    : scope.row.approvalType == "18"
-                    ? "投标申请"
-                    : scope.row.approvalType == "19"
-                    ? "退款管理"
-                    : scope.row.approvalType == "20"
-                    ? "项目立项"
-                    : ""
-                }}
-              </template>
+            <el-table-column label="流程类型" align="center" prop="processTypeLabel">
             </el-table-column>
             <el-table-column
               label="发起时间"
@@ -155,16 +110,21 @@ export default {
     };
   },
   created() {
-    this.getList();
     this.getDicts("process_type").then((response) => {
       this.processTypeList = response.data;
+      this.getList();
     });
   },
   methods: {
     getList() {
+      let that = this
       taskTodo(this.from).then((res) => {
         this.total = res.total;
-        this.fromData = res.rows;
+        let list = res.rows
+        list.forEach(function(item,index){
+          item.processTypeLabel = that.processTypeList[that.processTypeList.findIndex((it) => it.dictValue == item.approvalType)].dictLabel
+        })
+        this.fromData = list
       });
     },
     // getMyUpcomings() {
