@@ -706,7 +706,7 @@ export default {
           { required: true, message: "请选择企业性质", trigger: "blur" },
         ],
         customerCode:[
-          { required: false, message: "请输入客户代码", trigger: "blur" },
+          { required: true, message: "请输入客户代码", trigger: "blur" },
         ],
         demand: [{ required: true, validator: validatePrice, trigger: "blur" }],
         capital: [
