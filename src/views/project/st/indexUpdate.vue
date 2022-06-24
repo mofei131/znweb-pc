@@ -1,27 +1,24 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="项目名称" prop="projectName">
-        <el-input v-model="queryParams.projectName" placeholder="请输入项目名称" clearable size="small"
-          @keyup.enter.native="handleQuery" />
+    <el-form :model="queryParams" :inline="true" v-show="showSearch" label-width="68px">
+      <el-form-item label="业务状态">
+        <el-select filterable v-model="queryParams.xmState" placeholder="请选择代办人" clearable>
+          <el-option v-for="item in businessStateOptions" :key="item.value" :label="item.label" :value="item.value" />
+        </el-select>
       </el-form-item>
-      <el-form-item label="业务名称" prop="stName">
-        <el-input v-model="queryParams.stName" placeholder="请输入业务名称" clearable size="small"
-          @keyup.enter.native="handleQuery" />
+      <el-form-item label="审核状态">
+        <el-select filterable v-model="queryParams.state" placeholder="请选择代办人" clearable>
+          <el-option v-for="item in stateOptions" :key="item.value" :label="item.label" :value="item.value" />
+        </el-select>
       </el-form-item>
-
-      <el-form-item label="项目编号" prop="serialNo">
-        <el-input
-          v-model="queryParams.serialNo"
-          placeholder="请输入项目编号"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+      <el-form-item label="项目名称">
+        <el-input v-model="queryParams.projectName" placeholder="请输入项目名称" clearable size="small" />
       </el-form-item>
-      <el-form-item label="立项编号" prop="projectNo">
-        <el-input v-model="queryParams.projectNo" placeholder="请输入立项编号" clearable size="small"
-          @keyup.enter.native="handleQuery" />
+      <el-form-item label="业务名称">
+        <el-input v-model="queryParams.stName" placeholder="请输入业务名称" clearable size="small" />
+      </el-form-item>
+      <el-form-item label="项目编号">
+        <el-input v-model="queryParams.serialNo" placeholder="请输入项目编号" clearable size="small" />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -37,19 +34,19 @@
       <el-table-column label="项目名称" align="center" prop="projectName" />
       <el-table-column label="业务名称" align="center" prop="stName" />
       <el-table-column label="项目编号" align="center" prop="serialNo" />
-      <el-table-column label="立项编号" align="center" prop="projectNo" />
       <el-table-column label="供应商名称" align="center" prop="supplierName" />
       <el-table-column label="用煤单位" align="center" prop="terminalName" />
       <el-table-column label="代办人" align="center" prop="userName" />
-      <el-table-column label="创建时间" align="center" prop="createTime" width="180">
-        <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d} {h}:{i}:{s}') }}</span>
-        </template>
-      </el-table-column>
       <el-table-column label="业务状态" align="center">
         <template slot-scope="scope">
           <div :style="'color:' + scope.row.bcolor">
             {{ businessStateChange(scope.row) }}</div>
+        </template>
+      </el-table-column>
+      <el-table-column label="说明" align="center" prop="xmNode" />
+      <el-table-column label="创建时间" align="center" prop="createTime" width="180">
+        <template slot-scope="scope">
+          <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d} {h}:{i}:{s}') }}</span>
         </template>
       </el-table-column>
       <el-table-column label="审核状态" align="center">
@@ -57,7 +54,7 @@
           <div :style="'color:' + scope.row.scolor">
             {{ stateChange(scope.row) }}</div>
         </template>
-        </el-table-column>
+      </el-table-column>
       <el-table-column label="操作" width="160" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button size="mini" type="text" icon="el-icon-edit" @click="handleLook(scope.row)"
@@ -79,6 +76,46 @@ export default {
   name: "StUpdate",
   data() {
     return {
+      stateOptions:[
+        {
+          value:1,
+          label:'未审批'
+        },
+        {
+          value:2,
+          label:'审批中'
+        },
+        {
+          value:3,
+          label:'已通过'
+        },
+        {
+          value:4,
+          label:'已打回'
+        }
+      ],
+      businessStateOptions:[
+        {
+          value:0,
+          label:'提交中'
+        },
+        {
+          value:1,
+          label:'进行中'
+        },
+        {
+          value:2,
+          label:'异常'
+        },
+        {
+          value:3,
+          label:'结束'
+        },
+        {
+          value:4,
+          label:'完成'
+        },
+      ],
       // 显示搜索条件
       showSearch: true,
       // 总条数
@@ -92,7 +129,7 @@ export default {
       },
       queryParamsback: {
         pageNum: 1,
-        pageSize: 10,
+        pageSize: 10
       },
     };
   },
