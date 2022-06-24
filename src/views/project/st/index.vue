@@ -1164,7 +1164,7 @@ export default {
       this.platformList = response.rows;
     })
     getActualControl().then(res => {
-      this.actualControlOptions = res.rows
+      this.actualControlOptions = res.data
     })
 
   },
