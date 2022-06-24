@@ -7,25 +7,18 @@
       v-show="showSearch"
       label-width="68px"
     >
-      <el-form-item label="项目" prop="stId">
-        <el-select
-          filterable
-          v-model="queryParams.stId"
-          placeholder="请选择项目"
+      <el-form-item label="项目名称" prop="projectName">
+        <el-input
+          v-model="queryParams.projectName"
+          placeholder="请输入项目名称"
           clearable
           size="small"
-        >
-          <el-option
-            v-for="dict in stOptions"
-            :key="dict.stId"
-            :label="dict.name"
-            :value="dict.stId"
-          />
-        </el-select>
+          @keyup.enter.native="handleQuery"
+        />
       </el-form-item>
-      <el-form-item label="项目编号" prop="stNo">
+      <el-form-item label="项目编号" prop="serialNo">
         <el-input
-          v-model="queryParams.stNo"
+          v-model="queryParams.serialNo"
           placeholder="请输入项目编号"
           clearable
           size="small"
@@ -83,7 +76,7 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="项目名称" align="center" prop="projectName" />
       <el-table-column label="业务名称" align="center" prop="stName" />
-      <el-table-column label="立项编号" align="center" prop="serialNo" />
+      <el-table-column label="项目编号" align="center" prop="serialNo" />
       <el-table-column label="标准名称" align="center" prop="name" />
       <el-table-column
         label="操作"
@@ -175,7 +168,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="立项编号" prop="serialNo">
+            <el-form-item label="项目编号" prop="serialNo">
               {{ form.serialNo }}
             </el-form-item>
           </el-col>
@@ -1883,6 +1876,7 @@ export default {
     //选择项目
     changeProject(pro) {
       this.form.projectIdOld = pro.projectId;
+      this.form.projectName = pro.projectName
     },
     changeSt(obj) {
       this.form.stId2 = obj.stId;

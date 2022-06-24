@@ -938,7 +938,7 @@ export default {
     //选择项目
     changeProject(pro) {
       this.form.projectIdOld = pro.projectId;
-      this.form.serialNo = pro.serialNo;
+      this.form.projectName = pro.projectName
     },
     changeSt(obj) {
       this.form.stId2 = obj.stId;
@@ -946,6 +946,7 @@ export default {
       this.form.uName = obj.userName;
       this.form.uId = obj.userId;
       this.form.sName = obj.supplierName;
+      this.form.serialNo = obj.serialNo;
       this.form.sId = obj.supplierId;
       this.$set(this.form, "number", obj.number);
     },

@@ -52,10 +52,10 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-        <el-form-item label="立项编号" prop="serialNo">
+        <el-form-item label="项目编号" prop="serialNo">
         <el-input
           v-model="queryParams.serialNo"
-          placeholder="请输入立项编号"
+          placeholder="请输入项目编号"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -134,7 +134,7 @@
       <!--      <el-table-column type="selection" width="55" align="center" />-->
       <el-table-column label="项目名称" align="center" prop="projectName" />
       <el-table-column label="业务名称" align="center" prop="stName" />
-      <el-table-column label="立项编号" align="center" prop="serialNo" />
+      <el-table-column label="项目编号" align="center" prop="serialNo" />
       <el-table-column label="货品名称" align="center" prop="name" />
       <el-table-column label="出库重量(吨)" align="center" prop="grnNumber">
         <template slot-scope="scope">
@@ -304,7 +304,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="立项编号" prop="serialNo">
+            <el-form-item label="项目编号" prop="serialNo">
               {{ form.serialNo }}
             </el-form-item>
           </el-col>

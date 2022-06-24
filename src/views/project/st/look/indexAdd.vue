@@ -64,8 +64,8 @@
             <template slot="label">业务金额(万元)</template>{{ stInfo.stAmount }}
           </el-descriptions-item>
           <el-descriptions-item>
-            <template slot="label">结算比例</template>{{ stInfo.settlementPA1 + '-' + stInfo.settlementPA2 + '-' +
-                stInfo.settlementPA3
+            <template slot="label">结算比例</template>{{ stInfo.settlementPA1?stInfo.settlementPA1 + '-' + stInfo.settlementPA2 + '-' +
+                stInfo.settlementPA3:''
             }}
           </el-descriptions-item>
           <el-descriptions-item>
@@ -110,8 +110,8 @@
             <template slot="label">下游渠道年限</template>{{ stInfo.shChannelyear }}
           </el-descriptions-item>
           <el-descriptions-item>
-            <template slot="label">结算比例</template>{{ stInfo.shSettlementA1 + '-' + stInfo.shSettlementA2 + '-' +
-                stInfo.shSettlementA3
+            <template slot="label">结算比例</template>{{ stInfo.shSettlementA1?stInfo.shSettlementA1 + '-' + stInfo.shSettlementA2 + '-' +
+                stInfo.shSettlementA3:''
             }}
           </el-descriptions-item>
           <el-descriptions-item>
