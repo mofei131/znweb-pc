@@ -747,7 +747,7 @@ export default {
         }
         ],
         node: '',
-        filesList: '',
+        filesList: null,
         stName: '',
         stAmount: "",
         settlementP: '',
@@ -788,7 +788,7 @@ export default {
         }
         ],
         node: '',
-        filesList: '',
+        filesList: null,
         stName: '',
         stAmount: "",
         settlementP: '',
@@ -1319,7 +1319,7 @@ export default {
       });
     },
     changeActualControlName(e) {
-      this.userOptions.forEach((options) => {
+      this.actualControlOptions.forEach((options) => {
         if (e == options.id) {
           this.form1.actualControlName = options.actualControlPerson;
         }
