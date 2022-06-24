@@ -391,6 +391,16 @@
         </div>
         <el-row>
           <el-col :span="12">
+            <el-form-item label="客户代码:" prop="customerCode">
+              <el-input
+                v-model="form.customerCode"
+                placeholder="请输入客户代码"
+              />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
             <el-form-item label="附件" prop="file">
               <el-upload
                 class="upload-demo"
@@ -693,6 +703,9 @@ export default {
         ],
         nature: [
           { required: true, message: "请选择企业性质", trigger: "blur" },
+        ],
+        customerCode:[
+          { required: true, message: "请输入客户代码", trigger: "blur" },
         ],
         demand: [{ required: true, validator: validatePrice, trigger: "blur" }],
         capital: [
