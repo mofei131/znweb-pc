@@ -1,21 +1,19 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
-      <el-form-item label="项目名称" prop="projectName">
-        <el-input v-model="queryParams.projectName" placeholder="请输入项目名称" clearable size="small"
-          @keyup.enter.native="handleQuery" />
+    <el-form :model="queryParams" :inline="true" label-width="68px">
+      <el-form-item label="创建时间">
+        <el-date-picker v-model="dataValue" type="daterange" value-format="yyyy-MM-dd" range-separator="至" start-placeholder="开始日期"
+          end-placeholder="结束日期">
+        </el-date-picker>
       </el-form-item>
-      <el-form-item label="业务名称" prop="stName">
-        <el-input v-model="queryParams.stName" placeholder="请输入业务名称" clearable size="small"
-          @keyup.enter.native="handleQuery" />
+      <el-form-item label="项目名称">
+        <el-input v-model="queryParams.projectName" placeholder="请输入项目名称" clearable size="small" />
       </el-form-item>
-      <el-form-item label="项目编号" prop="serialNo">
-        <el-input v-model="queryParams.serialNo" placeholder="请输入项目编号" clearable size="small"
-          @keyup.enter.native="handleQuery" />
+      <el-form-item label="业务名称">
+        <el-input v-model="queryParams.stName" placeholder="请输入业务名称" clearable size="small" />
       </el-form-item>
-      <el-form-item label="代办人" prop="userName">
-        <el-input v-model="queryParams.userName" placeholder="请输入代办人" clearable size="small"
-          @keyup.enter.native="handleQuery" />
+      <el-form-item label="项目编号">
+        <el-input v-model="queryParams.serialNo" placeholder="请输入项目编号" clearable size="small" />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -75,7 +73,8 @@ export default {
   name: "StDetails",
   data() {
     return {
-      total:0,
+      dataValue:'',
+      total: 0,
       stList: [],
       // 查询参数
       queryParams: {
@@ -107,6 +106,8 @@ export default {
     },
     /** 搜索按钮操作 */
     handleQuery() {
+      this.queryParams.beginTime=this.dataValue[0]
+      this.queryParams.endTime=this.dataValue[1]
       this.queryParams.pageNum = 1;
       this.getList();
     },
