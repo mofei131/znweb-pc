@@ -2,23 +2,14 @@
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="项目名称" prop="projectName">
-        <el-input
-          v-model="queryParams.projectName"
-          placeholder="请输入项目名称"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+        <el-input v-model="queryParams.projectName" placeholder="请输入项目名称" clearable size="small"
+          @keyup.enter.native="handleQuery" />
       </el-form-item>
-        <el-form-item label="业务名称" prop="stName">
-        <el-input
-          v-model="queryParams.stName"
-          placeholder="请输入业务名称"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+      <el-form-item label="业务名称" prop="stName">
+        <el-input v-model="queryParams.stName" placeholder="请输入业务名称" clearable size="small"
+          @keyup.enter.native="handleQuery" />
       </el-form-item>
+<<<<<<< HEAD
       <el-form-item label="项目编号" prop="serialNo">
         <el-input
           v-model="queryParams.serialNo"
@@ -27,6 +18,11 @@
           size="small"
           @keyup.enter.native="handleQuery"
         />
+=======
+      <el-form-item label="立项编号" prop="projectNo">
+        <el-input v-model="queryParams.projectNo" placeholder="请输入立项编号" clearable size="small"
+          @keyup.enter.native="handleQuery" />
+>>>>>>> 89252473027c5481cab55a638df6dec32eb0182d
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -41,7 +37,11 @@
     <el-table v-loading="loading" :data="stList">
       <el-table-column label="项目名称" align="center" prop="projectName" />
       <el-table-column label="业务名称" align="center" prop="stName" />
+<<<<<<< HEAD
       <el-table-column label="项目编号" align="center" prop="serialNo" />
+=======
+      <el-table-column label="立项编号" align="center" prop="projectNo" />
+>>>>>>> 89252473027c5481cab55a638df6dec32eb0182d
       <el-table-column label="供应商名称" align="center" prop="supplierName" />
       <el-table-column label="用煤单位" align="center" prop="terminalName" />
       <el-table-column label="代办人" align="center" prop="userName" />
@@ -50,28 +50,28 @@
           <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d} {h}:{i}:{s}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="业务状态" align="center" prop="businessState" />
-      <el-table-column label="审核状态" align="center" prop="state" />
-      <el-table-column label="操作"   width="160" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="业务状态" align="center">
         <template slot-scope="scope">
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-edit"
-            @click="handleLook(scope.row)"
-            v-hasPermi="['project:st:edit']"
-          >查看</el-button>
+          <div :style="'color:' + scope.row.bcolor">
+            {{ businessStateChange(scope.row) }}</div>
+        </template>
+      </el-table-column>
+      <el-table-column label="审核状态" align="center">
+        <template slot-scope="scope">
+          <div :style="'color:' + scope.row.scolor">
+            {{ stateChange(scope.row) }}</div>
+        </template>
+        </el-table-column>
+      <el-table-column label="操作" width="160" align="center" class-name="small-padding fixed-width">
+        <template slot-scope="scope">
+          <el-button size="mini" type="text" icon="el-icon-edit" @click="handleLook(scope.row)"
+            v-hasPermi="['project:st:edit']">查看</el-button>
         </template>
       </el-table-column>
     </el-table>
 
-    <pagination
-      v-show="total>0"
-      :total="total"
-      :page.sync="queryParams.pageNum"
-      :limit.sync="queryParams.pageSize"
-      @pagination="getList"
-    />
+    <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
+      @pagination="getList" />
   </div>
 </template>
 
@@ -104,8 +104,8 @@ export default {
     this.getList();
   },
   methods: {
-    handleLook(row){
-
+    handleLook(row) {
+      this.$router.push('/st/lookAdd/' + row.stId)
     },
     /** 查询项目信息列表 */
     getList() {
@@ -123,21 +123,40 @@ export default {
     },
     /** 重置按钮操作 */
     resetQuery() {
-      this.queryParams=this.queryParamsback
+      this.queryParams = this.queryParamsback
       this.handleQuery();
     },
-    // 菜单状态字典翻译
-    xmStateFormat(row, column){
-      if(row.xmState=='1'){
-        return "进行中"
-      }else if(row.xmState=='2'){
-        return "异常"
-      }else if(row.xmState=='3'){
-        return "结束"
-      }else if(row.xmState=='4'){
-        return "完成"
+    stateChange(e) {
+      if (e.state == 1) {
+        return '未审批'
+      } else if (e.state == 2) {
+        e.scolor = '#09CC9D'
+        return '审批中'
+      } else if (e.state == 3) {
+        e.scolor = '#007AFF'
+        return '已通过'
+      } else if (e.state == 4) {
+        e.scolor = '#F12801'
+        return '已打回'
       }
-    }
+    },
+    businessStateChange(e) {
+      if (e.businessState == 0) {
+        return '提交中'
+      } else if (e.businessState == 1) {
+        e.bcolor = '#09CC9D'
+        return '进行中'
+      } else if (e.businessState == 2) {
+        e.bcolor = '#FFAC00'
+        return '异常'
+      } else if (e.businessState == 3) {
+        e.bcolor = '#F12801'
+        return '结束'
+      } else if (e.businessState == 4) {
+        e.bcolor = '#007AFF'
+        return '完成'
+      }
+    },
   }
 };
 </script>

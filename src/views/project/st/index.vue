@@ -4,11 +4,11 @@
       <el-form-item label="项目名称">
         <el-input v-model="queryParams.projectName" placeholder="请输入项目名称" clearable />
       </el-form-item>
-      <el-form-item label="项目编号">
-        <el-input v-model="queryParams.projectNo" placeholder="请输入项目编号" clearable />
-      </el-form-item>
       <el-form-item label="立项编号">
-        <el-input v-model="queryParams.serialNo" placeholder="请输入立项编号" clearable />
+        <el-input v-model="queryParams.projectNo" placeholder="请输入立项编号" clearable />
+      </el-form-item>
+      <el-form-item label="项目编号">
+        <el-input v-model="queryParams.serialNo" placeholder="请输入项目编号" clearable />
       </el-form-item>
       <el-form-item label="代办人">
         <el-select filterable v-model="queryParams.userId" placeholder="请选择代办人" clearable>
@@ -31,18 +31,18 @@
     </el-row>
     <el-table v-loading="loading" :data="stList" row-key="projectId"
       :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
-      <el-table-column label="项目编号" align="center" prop="projectNo" />
+      <el-table-column label="立项编号" align="center" prop="projectNo" />
       <el-table-column label="项目名称" align="center" prop="projectName" />
-      <el-table-column label="立项编号" align="center" prop="serialNo" />
+      <el-table-column label="项目编号" align="center" prop="serialNo" />
       <el-table-column label="业务类型" align="center">
-        <template slot-scope="scope">
+        <template slot-scope="scope"  v-if="scope.row.hType=='项目'">
           {{ changeBusinessType(scope.row.businessType) }}
         </template>
       </el-table-column>
       <el-table-column label="业务经理" align="center" prop="serviceManagerName" />
-      <el-table-column label="货运方式" align="center" prop="freightMode">
-        <template slot-scope="scope">
-          {{changeTransType(scope.row.transType)}}
+      <el-table-column label="货运方式" align="center">
+        <template slot-scope="scope" v-if="scope.row.hType=='项目'">
+          {{ changeTransType(scope.row.transType) }}
         </template>
       </el-table-column>
       <el-table-column label="代办人" align="center" prop="userName" />
@@ -68,17 +68,18 @@
         <template slot-scope="scope">
           <el-button v-if="scope.row.hType == '项目'" size="mini" type="text" icon="el-icon-edit"
             v-hasPermi="['project:st:edit']" @click="openCheckProject(scope.row)">查看项目</el-button>
-          <el-button size="mini" type="text" icon="el-icon-edit" v-if="scope.row.hType == '项目'"
-            @click="openChangeProject(scope.row)" v-hasPermi="['project:st:edit']">修改项目</el-button>
+          <!-- <el-button size="mini" type="text" icon="el-icon-edit" v-if="scope.row.hType == '项目'"
+            @click="openChangeProject(scope.row)" v-hasPermi="['project:st:edit']">修改项目</el-button> -->
           <el-button size="mini" type="text" v-hasPermi="['project:st:edit']"
             v-if="scope.row.hType == '项目' && scope.row.state == 3" @click="openBusinessBox(scope.row)">添加业务
           </el-button>
           <el-button size="mini" type="text" v-if="scope.row.hType == '业务'" icon="el-icon-edit"
             v-hasPermi="['project:st:edit']" @click="jumpBusiness(scope.row)">业务明细</el-button>
-          <el-button size="mini" type="text" v-if="scope.row.hType == '业务'" @click="openChangeBusiness(scope.row)"
-            v-hasPermi="['project:st:edit']">修改业务</el-button>
-          <el-button size="mini" v-if="scope.row.hType == '业务'&&(scope.row.businessState==1||scope.row.businessState==2)" type="text" v-hasPermi="['project:st:edit']"
-            @click="openOperateBusiness(scope.row)">
+          <!-- <el-button size="mini" type="text" v-if="scope.row.hType == '业务'" @click="openChangeBusiness(scope.row)"
+            v-hasPermi="['project:st:edit']">修改业务</el-button> -->
+          <el-button size="mini"
+            v-if="scope.row.hType == '业务' && scope.row.state == 3 && (scope.row.businessState == 1 || scope.row.businessState == 2)"
+            type="text" v-hasPermi="['project:st:edit']" @click="openOperateBusiness(scope.row)">
             操作业务</el-button>
         </template>
       </el-table-column>
@@ -231,13 +232,13 @@
             <template slot="label">立项类型</template>{{ projectInfo.projectType }}
           </el-descriptions-item>
           <el-descriptions-item>
-            <template slot="label">项目编号</template>{{ projectInfo.projectNo }}
+            <template slot="label">立项编号</template>{{ projectInfo.projectNo }}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">项目名称</template>{{ projectInfo.projectName }}
           </el-descriptions-item>
           <el-descriptions-item>
-            <template slot="label">立项编号</template>{{ projectInfo.serialNo }}
+            <template slot="label">项目编号</template>{{ projectInfo.serialNo }}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">供应商</template>{{ projectInfo.supplierName }}
@@ -573,13 +574,13 @@
             <template slot="label">立项类型</template>{{ projectInfo.projectType }}
           </el-descriptions-item>
           <el-descriptions-item>
-            <template slot="label">项目编号</template>{{ projectInfo.projectNo }}
+            <template slot="label">立项编号</template>{{ projectInfo.projectNo }}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">项目名称</template>{{ projectInfo.projectName }}
           </el-descriptions-item>
           <el-descriptions-item>
-            <template slot="label">立项编号</template>{{ projectInfo.serialNo }}
+            <template slot="label">项目编号</template>{{ projectInfo.serialNo }}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">供应商</template>{{ projectInfo.supplierName }}
@@ -747,7 +748,7 @@ export default {
         }
         ],
         node: '',
-        filesList: '',
+        filesList: null,
         stName: '',
         stAmount: "",
         settlementP: '',
@@ -788,7 +789,7 @@ export default {
         }
         ],
         node: '',
-        filesList: '',
+        filesList: null,
         stName: '',
         stAmount: "",
         settlementP: '',
@@ -909,7 +910,7 @@ export default {
         },
         {
           label: "储备业务不垫付运费",
-          value: "cub",
+          value: "cu",
         },
         {
           label: "到厂业务垫付运费",
@@ -917,7 +918,7 @@ export default {
         },
         {
           label: "到厂业务不垫付运费",
-          value: "dcb",
+          value: "dc",
         },
         {
           label: "车板业务垫付运费",
@@ -925,7 +926,7 @@ export default {
         },
         {
           label: "车板业务不垫付运费",
-          value: "cbb",
+          value: "cb",
         },
       ],
       // 供应商集合
@@ -1164,7 +1165,7 @@ export default {
       this.platformList = response.rows;
     })
     getActualControl().then(res => {
-      this.actualControlOptions = res.rows
+      this.actualControlOptions = res.data
     })
 
   },
@@ -1203,15 +1204,15 @@ export default {
     changeBusinessType(e) {
       if (e == 'cud') {
         return '储备业务垫付运费'
-      } else if (e = 'cub') {
+      } else if (e = 'cu') {
         return '储备业务不垫付运费'
       } else if (e = 'dcd') {
         return '到厂业务垫付运费'
-      } else if (e = 'dcb') {
+      } else if (e = 'dc') {
         return '到厂业务不垫付运费'
       } else if (e = 'cbd') {
         return '车板业务垫付运费'
-      } else if (e = 'cbb') {
+      } else if (e = 'cb') {
         return '车板业务不垫付运费'
       }
     },
@@ -1319,9 +1320,9 @@ export default {
       });
     },
     changeActualControlName(e) {
-      this.userOptions.forEach((options) => {
-        if (e == options.userId) {
-          this.form1.actualControlName = options.nickName;
+      this.actualControlOptions.forEach((options) => {
+        if (e == options.id) {
+          this.form1.actualControlName = options.actualControlPerson;
         }
       });
     },
@@ -1649,4 +1650,5 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+
 </style>

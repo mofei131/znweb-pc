@@ -141,7 +141,7 @@
 
         <el-table v-loading="loading" :data="userList" @selection-change="handleSelectionChange">
           <el-table-column type="selection" width="50" align="center" />
-          <el-table-column label="用户编号" align="center" key="remark" prop="remark"  />
+          <el-table-column label="用户代码" align="center" key="remark" prop="remark"  />
           <el-table-column label="部门" align="center" key="deptName" prop="dept.deptName" v-if="columns[3].visible" :show-overflow-tooltip="true" />
           <el-table-column label="职位" align="center" key="postName" prop="postName" />
           <el-table-column label="手机号码" align="center" key="phonenumber" prop="phonenumber" v-if="columns[4].visible" width="120" />
@@ -307,8 +307,9 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="用户编号">
-              <el-input v-model="form.remark"  placeholder="请输入用户编号" :disabled="this.title == '修改用户'"></el-input>
+            <el-form-item label="用户代码">
+              <!-- :disabled="this.title == '修改用户'" -->
+              <el-input v-model="form.remark" oninput="value=value.replace(/[^0-9a-zA-Z]/g, '')"  placeholder="请输入用户代码" ></el-input>
             </el-form-item>
           </el-col>
 <!--          <el-col :span="24">-->
@@ -434,7 +435,7 @@ export default {
       },
       // 列信息
       columns: [
-        { key: 0, label: `用户编号`, visible: true },
+        { key: 0, label: `用户代码`, visible: true },
         { key: 1, label: `用户名称`, visible: true },
         { key: 2, label: `用户昵称`, visible: true },
         { key: 3, label: `部门`, visible: true },

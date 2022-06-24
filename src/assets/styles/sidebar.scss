@@ -101,6 +101,18 @@
         background-color: $subMenuHover !important;
       }
     }
+    & .theme-dark .el-submenu .is-active{
+      background-color: #ffffff !important;
+      &:hover {
+        background-color: #ffffff !important;
+      }
+    }
+    & .theme-dark .is-active{
+      background-color: #ffffff !important;
+      &:hover {
+        background-color: #ffffff !important;
+      }
+    }
   }
 
   .hideSidebar {

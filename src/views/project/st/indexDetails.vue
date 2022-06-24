@@ -9,8 +9,8 @@
         <el-input v-model="queryParams.stName" placeholder="请输入业务名称" clearable size="small"
           @keyup.enter.native="handleQuery" />
       </el-form-item>
-      <el-form-item label="立项编号" prop="serialNo">
-        <el-input v-model="queryParams.serialNo" placeholder="请输入立项编号" clearable size="small"
+      <el-form-item label="项目编号" prop="serialNo">
+        <el-input v-model="queryParams.serialNo" placeholder="请输入项目编号" clearable size="small"
           @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item label="代办人" prop="userName">
@@ -36,7 +36,7 @@
     <el-table v-loading="loading" :data="stList">
       <el-table-column label="项目名称" align="center" prop="projectName" />
       <el-table-column label="业务名称" align="center" prop="stName" />
-      <el-table-column label="立项编号" align="center" prop="serialNo" />
+      <el-table-column label="项目编号" align="center" prop="serialNo" />
       <el-table-column label="供应商名称" align="center" prop="supplierName" />
       <el-table-column label="用煤单位" align="center" prop="terminalName" />
       <el-table-column label="代办人" align="center" prop="userName" />
@@ -50,7 +50,12 @@
           <span>{{ parseTime(scope.row.xmTime, '{y}-{m}-{d} {h}:{i}:{s}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="业务状态" align="center" prop="businessState" :formatter="xmStateFormat" />
+      <el-table-column label="业务状态" align="center">
+        <template slot-scope="scope">
+          <div :style="'color:' + scope.row.bcolor">
+            {{ businessStateChange(scope.row) }}</div>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" width="160" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button size="mini" type="text" icon="el-icon-edit" @click="handleLook(scope.row)"
@@ -113,19 +118,25 @@ export default {
 
     /** 查看按钮操作 */
     handleLook(row) {
-
+      this.$router.push('/st/lookAdd/' + row.stId)
     },
-    xmStateFormat(row, column){
-      if(row.xmState=='1'){
-        return "进行中"
-      }else if(row.xmState=='2'){
-        return "异常"
-      }else if(row.xmState=='3'){
-        return "结束"
-      }else if(row.xmState=='4'){
-        return "完成"
+    businessStateChange(e) {
+      if (e.businessState == 0) {
+        return '提交中'
+      } else if (e.businessState == 1) {
+        e.bcolor = '#09CC9D'
+        return '进行中'
+      } else if (e.businessState == 2) {
+        e.bcolor = '#FFAC00'
+        return '异常'
+      } else if (e.businessState == 3) {
+        e.bcolor = '#F12801'
+        return '结束'
+      } else if (e.businessState == 4) {
+        e.bcolor = '#007AFF'
+        return '完成'
       }
-    }
+    },
   }
 };
 </script>

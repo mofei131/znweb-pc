@@ -73,6 +73,9 @@
         <el-col :span="5">
           评级说明：<span v-text="form.ratingDe"></span>
         </el-col>
+        <el-col :span="5">
+          客户代码：<span v-text="form.customerCode"></span>
+        </el-col>
       </el-row>
 
       <el-row class="head-text">
