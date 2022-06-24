@@ -17,3 +17,12 @@ export default  {
     }
 }
 </script>
+<style>
+ .el-dialog__header {
+    background: #ECEDF4;
+  }
+  .el-dialog__footer {
+    display: flex;
+    margin-left:222px
+  }
+</style>
