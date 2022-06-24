@@ -19,10 +19,10 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="立项编号" prop="serialNo">
+      <el-form-item label="项目编号" prop="serialNo">
         <el-input
           v-model="queryParams.serialNo"
-          placeholder="请输入立项编号"
+          placeholder="请输入项目编号"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -41,7 +41,7 @@
     <el-table v-loading="loading" :data="stList">
       <el-table-column label="项目名称" align="center" prop="projectName" />
       <el-table-column label="业务名称" align="center" prop="stName" />
-      <el-table-column label="立项编号" align="center" prop="stNumber" />
+      <el-table-column label="项目编号" align="center" prop="serialNo" />
       <el-table-column label="供应商名称" align="center" prop="supplierName" />
       <el-table-column label="用煤单位" align="center" prop="terminalName" />
       <el-table-column label="代办人" align="center" prop="userName" />

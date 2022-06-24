@@ -45,7 +45,7 @@
           业务名称: <span v-text="form.stName"></span>
         </el-col>
         <el-col :span="4" :offset="1">
-          立项编号: <span v-text="form.serialNo"></span>
+          项目编号: <span v-text="form.serialNo"></span>
         </el-col>
         <el-col :span="4" :offset="1">
           业务类型: <span v-text="form.settlementWay"></span>

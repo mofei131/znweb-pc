@@ -37,10 +37,10 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
- <el-form-item label="立项编号" prop="serialNo">
+ <el-form-item label="项目编号" prop="serialNo">
         <el-input
           v-model="queryParams.serialNo"
-          placeholder="请输入立项编号"
+          placeholder="请输入项目编号"
           clearable
           size="small"
           @keyup.enter.native="handleQuery"
@@ -72,38 +72,38 @@
           >新增</el-button
         >
       </el-col>
-      <!--      <el-col :span="1.5">-->
-      <!--        <el-button-->
-      <!--          type="success"-->
-      <!--          plain-->
-      <!--          icon="el-icon-edit"-->
-      <!--          size="mini"-->
-      <!--          :disabled="single"-->
-      <!--          @click="handleUpdate"-->
-      <!--          v-hasPermi="['project:wldetails:edit']"-->
-      <!--        >修改</el-button>-->
-      <!--      </el-col>-->
-      <!--      <el-col :span="1.5">-->
-      <!--        <el-button-->
-      <!--          type="danger"-->
-      <!--          plain-->
-      <!--          icon="el-icon-delete"-->
-      <!--          size="mini"-->
-      <!--          :disabled="multiple"-->
-      <!--          @click="handleDelete"-->
-      <!--          v-hasPermi="['project:wldetails:remove']"-->
-      <!--        >删除</el-button>-->
-      <!--      </el-col>-->
-      <!--      <el-col :span="1.5">-->
-      <!--        <el-button-->
-      <!--          type="warning"-->
-      <!--          plain-->
-      <!--          icon="el-icon-download"-->
-      <!--          size="mini"-->
-      <!--          @click="handleExport"-->
-      <!--          v-hasPermi="['project:wldetails:export']"-->
-      <!--        >导出</el-button>-->
-      <!--      </el-col>-->
+           <!-- <el-col :span="1.5">
+             <el-button
+               type="success"
+               plain
+               icon="el-icon-edit"
+               size="mini"
+               :disabled="single"
+               @click="handleUpdate"
+               v-hasPermi="['project:wldetails:edit']"
+             >修改</el-button>
+           </el-col> -->
+           <!-- <el-col :span="1.5">
+             <el-button
+               type="danger"
+               plain
+               icon="el-icon-delete"
+               size="mini"
+               :disabled="multiple"
+               @click="handleDelete"
+               v-hasPermi="['project:wldetails:remove']"
+             >删除</el-button>
+           </el-col> -->
+           <!-- <el-col :span="1.5">
+             <el-button
+               type="warning"
+               plain
+               icon="el-icon-download"
+               size="mini"
+               @click="handleExport"
+               v-hasPermi="['project:wldetails:export']"
+             >导出</el-button>
+           </el-col> -->
       <right-toolbar
         :showSearch.sync="showSearch"
         @queryTable="getList"
@@ -117,7 +117,7 @@
     >
       <el-table-column label="项目名称" align="center" prop="projectName" />
       <el-table-column label="业务名称" align="center" prop="stName" />
-      <el-table-column label="立项编号" align="center" prop="serialNo" />
+      <el-table-column label="项目编号" align="center" prop="serialNo" />
       <el-table-column label="实际收款" align="center" prop="" />
       <el-table-column label="不含税金额合计" align="center" prop="tntPrice">
         <template slot-scope="scope">
@@ -252,7 +252,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="立项编号" prop="serialNo">
+            <el-form-item label="项目编号" prop="serialNo">
               {{ form.serialNo }}
             </el-form-item>
           </el-col>
@@ -518,6 +518,8 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
+      // 日期
+      dateRange: [],
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -578,7 +580,7 @@ export default {
     /** 查询物流收票列表 */
     getList() {
       this.loading = true;
-      listWldetails(this.queryParams).then((response) => {
+      listWldetails(this.addDateRange(this.queryParams, this.dateRange)).then((response) => {
         this.wldetailsList = response.rows;
         this.total = response.total;
         this.loading = false;
@@ -640,6 +642,7 @@ export default {
     },
     /** 重置按钮操作 */
     resetQuery() {
+      this.dateRange = []
       this.resetForm("queryForm");
       this.handleQuery();
     },
@@ -766,6 +769,7 @@ export default {
     },
 changeProject(pro) {
       this.form.projectIdOld = pro.projectId;
+      this.form.projectName = pro.projectName
     },
     //选择第三方公司
     changeTpc(obj) {
