@@ -29,7 +29,7 @@
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
-    <el-table v-loading="loading" :data="stList" row-key="projectId"
+    <el-table ref="topicTable" v-loading="loading" :data="stList" row-key="projectId"
       :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
       <el-table-column label="立项编号" align="center" prop="projectNo" />
       <el-table-column label="项目名称" align="center" prop="projectName" />
@@ -66,14 +66,16 @@
       </el-table-column>
       <el-table-column label="操作" width="160" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button v-if="scope.row.hType == '项目'" size="mini" type="text" icon="el-icon-edit"
+          <el-button v-if="scope.row.hType == '项目'&&scope.row.businessList.length!=0" size="mini" type="text" @click="toggleRowExpansion1(scope.row)">展开业务</el-button>
+          <el-button v-if="scope.row.hType == '项目'&&scope.row.businessList.length!=0" size="mini" type="text" @click="toggleRowExpansion2(scope.row)">关闭业务</el-button>
+          <el-button v-if="scope.row.hType == '项目'" size="mini" type="text"
             v-hasPermi="['project:st:edit']" @click="openCheckProject(scope.row)">查看项目</el-button>
-          <!-- <el-button size="mini" type="text" icon="el-icon-edit" v-if="scope.row.hType == '项目'"
+          <!-- <el-button size="mini" type="text" v-if="scope.row.hType == '项目'"
             @click="openChangeProject(scope.row)" v-hasPermi="['project:st:edit']">修改项目</el-button> -->
           <el-button size="mini" type="text" v-hasPermi="['project:st:edit']"
             v-if="scope.row.hType == '项目' && scope.row.state == 3" @click="openBusinessBox(scope.row)">添加业务
           </el-button>
-          <el-button size="mini" type="text" v-if="scope.row.hType == '业务'" icon="el-icon-edit"
+          <el-button size="mini" type="text" v-if="scope.row.hType == '业务'"
             v-hasPermi="['project:st:edit']" @click="jumpBusiness(scope.row)">业务明细</el-button>
           <!-- <el-button size="mini" type="text" v-if="scope.row.hType == '业务'" @click="openChangeBusiness(scope.row)"
             v-hasPermi="['project:st:edit']">修改业务</el-button> -->
@@ -1325,6 +1327,12 @@ export default {
           this.form1.actualControlName = options.actualControlPerson;
         }
       });
+    },
+    toggleRowExpansion1(row){
+       this.$refs.topicTable.toggleRowExpansion(row, true)
+    },
+    toggleRowExpansion2(row){
+       this.$refs.topicTable.toggleRowExpansion(row, false)
     },
     jumpBusiness(row) {
       this.$router.push('/st/lookAdd/' + row.stId)
