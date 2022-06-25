@@ -247,15 +247,15 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row>
-            <el-col :span="12">
-              <el-form-item label="客户代码:" prop="customerCode">
-                <el-input oninput="value=value.replace(/[^0-9a-zA-Z]/g, '')" v-model="form.customerCode"
-                  placeholder="请输入客户代码" />
-              </el-form-item>
-            </el-col>
-          </el-row>
         </div>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="客户代码:" prop="customerCode">
+              <el-input oninput="value=value.replace(/[^0-9a-zA-Z]/g, '')" v-model="form.customerCode"
+                placeholder="请输入客户代码" />
+            </el-form-item>
+          </el-col>
+        </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="附件" prop="file">
