@@ -8,6 +8,13 @@ export function listSt(query) {
         params: query,
     });
 }
+export function checkProcessConfig(query) {
+    return request({
+        url: "/approve/approve/checkProcessConfig",
+        method: "get",
+        params: query,
+    });
+}
 export function countTotal(query) {
     return request({
         url: "/project/business/countTotal",

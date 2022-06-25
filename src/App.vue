@@ -25,7 +25,4 @@ export default  {
     display: flex;
     margin-left:222px
   }
-  .el-icon-arrow-right{
-    display:none
-  }
 </style>

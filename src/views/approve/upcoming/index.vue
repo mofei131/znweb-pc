@@ -127,21 +127,6 @@ export default {
         this.fromData = list
       });
     },
-    // getMyUpcomings() {
-    //   getMyUpcomingDept(this.from).then((res) => {
-    //     this.total = res.data.total;
-    //     this.fromDataDept = res.data.records;
-    //   });
-    // },
-    handleClick(tab, event) {
-      console.log(tab, event);
-      if (tab.name == "first") {
-        this.getList();
-      }
-      if (tab.name == "second") {
-        this.getMyUpcomings();
-      }
-    },
     // 搜索按钮
     searchDaiban() {},
     // 审批
@@ -149,23 +134,16 @@ export default {
       this.popMode = "approve";
       this.popData = row;
       this.insertDialog = true;
-      // passed(row.processId, row.id, row.level).then(() => {
-      //   this.$messageContent.message("S000003", ["审批"]);
-      //   this.getList();
-      //   this.getMyUpcomings();
-      // });
     },
     // 驳回
     handleReInitiate(row) {
       turnDownByProcessId(row.processId, row.id).then((res) => {
         this.$messageContent.message("S000003", ["驳回"]);
         this.getList();
-        this.getMyUpcomings();
       });
     },
     popOk() {
       this.insertDialog = false;
-      this.getMyUpcomings();
       this.getList();
     },
     popCancle() {},

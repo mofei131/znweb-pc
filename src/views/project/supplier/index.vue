@@ -206,11 +206,11 @@
     <el-dialog
       :title="title"
       :visible.sync="open"
-      width="773px"
+      width="80%"
       append-to-body
       @opened="handleOpen"
     >
-      <el-form ref="form" :model="form" :rules="rules" label-width="130px">
+      <el-form ref="form" :model="form" :rules="rules" label-width="180px">
         <div v-if="isLook != 4">
           <el-row>
             <el-col :span="12">
@@ -579,91 +579,7 @@
             </tr>
           </table>
           <!--审批流程-->
-          <table border="1" width="100%">
-            <tr>
-              <td class="title" colspan="6">审批流程</td>
-            </tr>
-            <tr>
-              <td class="table-td-title detail">发起人</td>
-              <td class="table-td-content" colspan="2">
-                <template>{{ printData.sponsor }}</template>
-              </td>
-              <td class="table-td-title detail">发起时间</td>
-              <td class="table-td-content" colspan="2">
-                <template>{{ printData.initiateTime }}</template>
-              </td>
-            </tr>
-            <tr>
-              <td class="table-td-title detail">部门</td>
-              <td class="table-td-title detail">应审批人</td>
-              <td class="table-td-title detail">审批人</td>
-              <td class="table-td-title detail">审批时间</td>
-              <td class="table-td-title detail">审批说明</td>
-              <td class="table-td-title detail">审批状态</td>
-            </tr>
-            <tr v-for="(item, idx) in printData.nodeStateList" :key="idx">
-              <td class="table-td-content" style="text-align: center">
-                {{ item.deptName }}
-              </td>
-              <td class="table-td-content" style="text-align: center">
-                {{ item.shouldApprovePerson }}
-              </td>
-              <td class="table-td-content" style="text-align: center">
-                {{ item.nickName }}
-              </td>
-              <td class="table-td-content" style="text-align: center">
-                {{ item.approveTime }}
-              </td>
-              <td
-                class="table-td-content"
-                style="max-width: 150px; text-align: center"
-              >
-                {{ item.processValue }}
-              </td>
-              <td class="table-td-content" style="text-align: center">
-                {{
-                  item.status == 0 || item.status == 1
-                    ? "已审批"
-                    : item.status == -1
-                    ? "待审批"
-                    : "未审批"
-                }}
-              </td>
-            </tr>
-          </table>
-          <!--审批流程-->
-          <table border="1" width="100%">
-            <tr>
-              <td class="title" colspan="6">审批记录</td>
-            </tr>
-            <tr>
-              <td class="table-td-title detail">部门</td>
-              <td class="table-td-title detail">审批人</td>
-              <td class="table-td-title detail">审批时间</td>
-              <td class="table-td-title detail">审批说明</td>
-              <td class="table-td-title detail">审批状态</td>
-            </tr>
-            <tr v-for="(item, idx) in printData.approveHisList" :key="idx">
-              <td class="table-td-content" style="text-align: center">
-                {{ item.deptName }}
-              </td>
-              <td class="table-td-content" style="text-align: center">
-                {{ item.nickName }}
-              </td>
-              <td class="table-td-content" style="text-align: center">
-                {{ item.approveTime }}
-              </td>
-              <td
-                class="table-td-content"
-                style="max-width: 150px; text-align: center"
-              >
-                {{ item.processValue }}
-              </td>
-              <td class="table-td-content" style="text-align: center">
-                {{ item.status == 0 ? "驳回" : item.status == 1 ? "通过" : "" }}
-              </td>
-            </tr>
-          </table>
+          <approval-print :typeId="12" :stId="apyamentId" ></approval-print>
         </div>
       </div>
     </el-dialog>
@@ -785,6 +701,7 @@ export default {
       printReviewVisible: false,
       printData: {},
       isDisabled: false,
+      apyamentId:'',//子组件id
     };
   },
   created() {
@@ -1055,26 +972,13 @@ export default {
       });
     },
     async handlePrint(row) {
+      this.apyamentId = row.supplierId
       this.printData = {};
       await getSupplier(row.supplierId).then((response) => {
         this.printData = response.data;
         this.printData.fileList = response.data.fileList || [];
         this.printData.gryList = response.data.selnyList || [];
         this.printData.printType = "供应商管理";
-      });
-      await getProcessDataByStId("12", row.supplierId).then((res) => {
-        this.printData.approveHisList = res.data;
-      });
-      await getApprovalProcessList("12", row.supplierId).then((res) => {
-        this.printData.nodeStateList = res.data;
-        if (
-          this.printData.nodeStateList &&
-          this.printData.nodeStateList.length > 0
-        ) {
-          this.printData.sponsor = this.printData.nodeStateList[0].sponsor;
-          this.printData.initiateTime =
-            this.printData.nodeStateList[0].initiateTime;
-        }
       });
       this.printReviewVisible = true;
       this.$nextTick(() => {
