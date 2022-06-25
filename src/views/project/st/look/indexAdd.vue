@@ -64,8 +64,9 @@
             <template slot="label">业务金额(万元)</template>{{ stInfo.stAmount }}
           </el-descriptions-item>
           <el-descriptions-item>
-            <template slot="label">结算比例</template>{{ stInfo.settlementPA1?stInfo.settlementPA1 + '-' + stInfo.settlementPA2 + '-' +
-                stInfo.settlementPA3:''
+            <template slot="label">结算比例</template>{{ stInfo.settlementPA1 ? stInfo.settlementPA1 + '-' +
+                stInfo.settlementPA2 + '-' +
+                stInfo.settlementPA3 : ''
             }}
           </el-descriptions-item>
           <el-descriptions-item>
@@ -110,8 +111,9 @@
             <template slot="label">下游渠道年限</template>{{ stInfo.shChannelyear }}
           </el-descriptions-item>
           <el-descriptions-item>
-            <template slot="label">结算比例</template>{{ stInfo.shSettlementA1?stInfo.shSettlementA1 + '-' + stInfo.shSettlementA2 + '-' +
-                stInfo.shSettlementA3:''
+            <template slot="label">结算比例</template>{{ stInfo.shSettlementA1 ? stInfo.shSettlementA1 + '-' +
+                stInfo.shSettlementA2 + '-' +
+                stInfo.shSettlementA3 : ''
             }}
           </el-descriptions-item>
           <el-descriptions-item>
@@ -211,25 +213,34 @@
         </div>
       </div>
     </div>
-    <div class="maodian"
-      style="width:15%;background-color: #ffffff;border-radius: 10px;text-align: center;line-height:30px;font-size: 13px;padding-top:10px">
-      <div @click="jump('bid')">投标申请</div>
-      <div @click="jump('contract')">合同管理</div>
-      <div v-if="projectInfo.businessType != 'cu' && projectInfo.businessType != 'cud'" @click="jump('rewardsp')">奖惩设置</div>
-      <div v-if="projectInfo.businessType != 'cu' && projectInfo.businessType != 'cud'" @click="jump('grn')">随车数质量</div>
-      <div v-if="projectInfo.businessType != 'cu' && projectInfo.businessType != 'cud'" @click="jump('gry')">到厂数质量</div>
-      <div v-if="projectInfo.businessType != 'cu' && projectInfo.businessType != 'cud'" @click="jump('margin')">保证金管理</div>
-      <div v-if="projectInfo.businessType != 'cu' && projectInfo.businessType != 'cud'" @click="jump('lpayment')">物流付款</div>
-      <div v-if="projectInfo.businessType != 'cu' && projectInfo.businessType != 'cud'" @click="jump('wldetails')">物流收票</div>
-      <div v-if="projectInfo.businessType != 'cu' && projectInfo.businessType != 'cud'" @click="jump('apayment')">预付款管理</div>
-      <div @click="jump('fpayment')">最终付款</div>
-      <div v-if="projectInfo.businessType != 'cu' && projectInfo.businessType != 'cud'" @click="jump('estimated')">预估收款</div>
-      <div @click="jump('realsk')">实际收款</div>
-      <div @click="jump('refund')">退款管理</div>
-      <div @click="jump('sp')">收票管理</div>
-      <div @click="jump('kp')">开票管理</div>
-      <div @click="jump('sfdetails')">财务收付款明细</div>
-      <div v-if="projectInfo.businessType != 'cu' && projectInfo.businessType != 'cud'" @click="jump('service')">服务费明细</div>
+    <div
+      style="width:15%;background-color: #ffffff;border-radius: 10px;text-align: center;line-height:30px;font-size: 13px;padding-top:10px;cursor:pointer">
+      <div ref="bid" @click="jump('bid')">投标申请</div>
+      <div ref="contract" @click="jump('contract')">合同管理</div>
+      <div ref="rewardsp" v-if="projectInfo.businessType != 'cu' && projectInfo.businessType != 'cud'"
+        @click="jump('rewardsp')">奖惩设置</div>
+      <div ref="grn" v-if="projectInfo.businessType != 'cu' && projectInfo.businessType != 'cud'" @click="jump('grn')">
+        随车数质量</div>
+      <div ref="gry" v-if="projectInfo.businessType != 'cu' && projectInfo.businessType != 'cud'" @click="jump('gry')">
+        到厂数质量</div>
+      <div ref="margin" v-if="projectInfo.businessType != 'cu' && projectInfo.businessType != 'cud'"
+        @click="jump('margin')">保证金管理</div>
+      <div ref="lpayment" v-if="projectInfo.businessType != 'cu' && projectInfo.businessType != 'cud'"
+        @click="jump('lpayment')">物流付款</div>
+      <div ref="wldetails" v-if="projectInfo.businessType != 'cu' && projectInfo.businessType != 'cud'"
+        @click="jump('wldetails')">物流收票</div>
+      <div ref="apayment" v-if="projectInfo.businessType != 'cu' && projectInfo.businessType != 'cud'"
+        @click="jump('apayment')">预付款管理</div>
+      <div ref="fpayment" @click="jump('fpayment')">最终付款</div>
+      <div ref="estimated" v-if="projectInfo.businessType != 'cu' && projectInfo.businessType != 'cud'"
+        @click="jump('estimated')">预估收款</div>
+      <div ref="realsk" @click="jump('realsk')">实际收款</div>
+      <div ref="refund" @click="jump('refund')">退款管理</div>
+      <div ref="sp" @click="jump('sp')">收票管理</div>
+      <div ref="kp" @click="jump('kp')">开票管理</div>
+      <div ref="sfdetails" @click="jump('sfdetails')">财务收付款明细</div>
+      <div ref="service" v-if="projectInfo.businessType != 'cu' && projectInfo.businessType != 'cud'"
+        @click="jump('service')">服务费明细</div>
       <div v-if="projectInfo.businessType != 'cu' && projectInfo.businessType != 'cud'">固定差价明细</div>
     </div>
   </div>
@@ -295,7 +306,24 @@ export default {
   methods: {
     jump(e) {
       document.querySelector("#" + e).scrollIntoView(true)
-      document.getElementById("maodian").style.color = "#333333";
+      this.$refs.bid.style.color = "#333333";
+      this.$refs.contract.style.color = "#333333";
+      this.$refs.rewardsp.style.color = "#333333";
+      this.$refs.margin.style.color = "#333333";
+      this.$refs.lpayment.style.color = "#333333";
+      this.$refs.wldetails.style.color = "#333333";
+      this.$refs.apayment.style.color = "#333333";
+      this.$refs.fpayment.style.color = "#333333";
+      this.$refs.estimated.style.color = "#333333";
+      this.$refs.realsk.style.color = "#333333";
+      this.$refs.refund.style.color = "#333333";
+      this.$refs.sfdetails.style.color = "#333333";
+      this.$refs.service.style.color = "#333333";
+      this.$refs.grn.style.color = "#333333";
+      this.$refs.gry.style.color = "#333333";
+      this.$refs.kp.style.color = "#333333";
+      this.$refs.sp.style.color = "#333333";
+      this.$refs[e].style.color = "#406BFF";
     },
     changeBusinessType(e) {
       if (e == 'cud') {
