@@ -49,6 +49,8 @@ import approvalProcess from "@/views/components/approvalProcess.vue";
 Vue.component("approvalProcess", approvalProcess);
 import approvalRecord from '@/views/components/approvalRecord.vue';
 Vue.component("approvalRecord", approvalRecord);
+import approvalPrint from '@/views/components/approvalPrint.vue';
+Vue.component("approvalPrint", approvalPrint);
 import customUpload from "@/views/components/customUpload.vue";
 Vue.component("customUpload", customUpload);
 import htmlImage from "@/utils/htmlImage";

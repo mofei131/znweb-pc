@@ -1456,100 +1456,7 @@
               </td>
             </tr>
           </table>
-          <!--审批流程-->
-          <table border="1" width="100%">
-            <tr>
-              <td class="title" colspan="6">审批流程</td>
-            </tr>
-            <tr>
-              <td class="table-td-title detail">发起人</td>
-              <td class="table-td-content" colspan="2">
-                <template>{{ printData.sponsor }}</template>
-              </td>
-              <td class="table-td-title detail">发起时间</td>
-              <td class="table-td-content" colspan="2">
-                <template>{{ printData.initiateTime }}</template>
-              </td>
-            </tr>
-            <tr>
-              <td class="table-td-title detail">部门</td>
-              <td class="table-td-title detail">应审批人</td>
-              <td class="table-td-title detail">审批人</td>
-              <td class="table-td-title detail">审批时间</td>
-              <td class="table-td-title detail">审批说明</td>
-              <td class="table-td-title detail">审批状态</td>
-            </tr>
-            <tr v-for="(item, idx) in printData.nodeStateList" :key="idx">
-              <td class="table-td-content" style="text-align: center">
-                {{ item.deptName }}
-              </td>
-              <td class="table-td-content" style="text-align: center">
-                {{ item.shouldApprovePerson }}
-              </td>
-              <td class="table-td-content" style="text-align: center">
-                {{ item.nickName }}
-              </td>
-              <td class="table-td-content" style="text-align: center">
-                {{ item.approveTime }}
-              </td>
-              <td
-                class="table-td-content"
-                style="max-width: 150px; text-align: center"
-              >
-                {{ item.processValue }}
-              </td>
-              <td class="table-td-content" style="text-align: center">
-                {{
-                  item.status == 0 || item.status == 1
-                    ? "已审批"
-                    : item.status == -1
-                    ? "待审批"
-                    : "未审批"
-                }}
-              </td>
-            </tr>
-          </table>
-          <!--审批流程-->
-          <table border="1" width="100%">
-            <tr>
-              <td class="title" colspan="6">审批记录</td>
-            </tr>
-            <tr>
-              <td class="table-td-title detail">部门</td>
-              <td class="table-td-title detail">审批人</td>
-              <td class="table-td-title detail">审批时间</td>
-              <td class="table-td-title detail">审批说明</td>
-              <td class="table-td-title detail">审批状态</td>
-            </tr>
-            <tr v-for="(item, idx) in printData.approveHisList" :key="idx">
-              <td class="table-td-content" style="text-align: center">
-                {{ item.deptName }}
-              </td>
-              <td class="table-td-content" style="text-align: center">
-                {{ item.nickName }}
-              </td>
-              <td class="table-td-content" style="text-align: center">
-                {{ item.approveTime }}
-              </td>
-              <td
-                class="table-td-content"
-                style="max-width: 150px; text-align: center"
-              >
-                {{ item.processValue }}
-              </td>
-              <td class="table-td-content" style="text-align: center">
-                {{
-                  item.status == 0
-                    ? "驳回"
-                    : item.status == 1
-                    ? "通过"
-                    : item.status == 5
-                    ? "撤回"
-                    : ""
-                }}
-              </td>
-            </tr>
-          </table>
+          <approval-print :typeId="4" :stId="apyamentId" ></approval-print>
         </div>
       </div>
     </el-dialog>
@@ -1576,7 +1483,6 @@ import { getToken } from "@/utils/auth";
 import print from "print-js";
 import { getProcessDataByStId, getApprovalProcessList } from "@/api/approve";
 import { getContractList } from "@/api/project/all";
-
 export default {
   name: "Apayment",
   data() {
@@ -1754,6 +1660,7 @@ export default {
       isDisabled: false,
       listForBusArr: [],
       listForProArr: [],
+      apyamentId:'',//子组件id
     };
   },
   created() {
@@ -1812,7 +1719,7 @@ export default {
         // 业务
       listForBus().then((response) => {
         this.listForBusArr = response.data
-      }) 
+      })
       // 项目
       listForPro().then((response) => {
         this.listForProArr = response.data
@@ -2609,6 +2516,7 @@ export default {
       });
     },
     async handlePrint(row) {
+      this.apyamentId = row.apyamentId
       this.printData = {};
       await getApayment(row.apyamentId).then((response) => {
         this.printData = response.data;
@@ -2620,17 +2528,6 @@ export default {
         getContractList(data).then((response) => {
           this.printData.contract = response.rows;
         });
-      });
-      await getProcessDataByStId("4", row.apyamentId).then((res) => {
-        this.printData.approveHisList = res.data;
-      });
-      await getApprovalProcessList("4", row.apyamentId).then((res) => {
-        this.printData.nodeStateList = res.data;
-        if (this.printData.nodeStateList) {
-          this.printData.sponsor = this.printData.nodeStateList[0].sponsor;
-          this.printData.initiateTime =
-            this.printData.nodeStateList[0].initiateTime;
-        }
       });
       this.printReviewVisible = true;
       this.$nextTick(() => {
