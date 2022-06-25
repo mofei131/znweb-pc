@@ -173,10 +173,6 @@
               </el-form-item>
             </el-col>
           </el-row>
-<<<<<<< HEAD
-
-=======
->>>>>>> a76f0d828bc8cff0d0c5b5d570c97edd21f54b4a
           <div v-if="form.type == '1'">
             <el-row>
               <el-col :span="12">
@@ -1082,89 +1078,7 @@
             </tr>
           </table>
           <!--审批流程-->
-<<<<<<< HEAD
          <approval-print :typeId="3" :stId="apyamentId" ></approval-print>
-=======
-          <table border="1" width="100%">
-            <tr>
-              <td class="title" colspan="6">审批流程</td>
-            </tr>
-            <tr>
-              <td class="table-td-title detail">发起人</td>
-              <td class="table-td-content" colspan="2">
-                <template>{{ printData.sponsor }}</template>
-              </td>
-              <td class="table-td-title detail">发起时间</td>
-              <td class="table-td-content" colspan="2">
-                <template>{{ printData.initiateTime }}</template>
-              </td>
-            </tr>
-            <tr>
-              <td class="table-td-title detail">部门</td>
-              <td class="table-td-title detail">应审批人</td>
-              <td class="table-td-title detail">审批人</td>
-              <td class="table-td-title detail">审批时间</td>
-              <td class="table-td-title detail">审批说明</td>
-              <td class="table-td-title detail">审批状态</td>
-            </tr>
-            <tr v-for="(item, idx) in printData.nodeStateList" :key="'a' + idx">
-              <td class="table-td-content" style="text-align: center">
-                {{ item.deptName }}
-              </td>
-              <td class="table-td-content" style="text-align: center">
-                {{ item.shouldApprovePerson }}
-              </td>
-              <td class="table-td-content" style="text-align: center">
-                {{ item.nickName }}
-              </td>
-              <td class="table-td-content" style="text-align: center">
-                {{ item.approveTime }}
-              </td>
-              <td class="table-td-content" style="max-width: 150px; text-align: center">
-                {{ item.processValue }}
-              </td>
-              <td class="table-td-content" style="text-align: center">
-                {{
-                item.status == 0 || item.status == 1
-                ? "已审批"
-                : item.status == -1
-                ? "待审批"
-                : "未审批"
-                }}
-              </td>
-            </tr>
-          </table>
-          <!--审批流程-->
-          <table border="1" width="100%">
-            <tr>
-              <td class="title" colspan="6">审批记录</td>
-            </tr>
-            <tr>
-              <td class="table-td-title detail">部门</td>
-              <td class="table-td-title detail">审批人</td>
-              <td class="table-td-title detail">审批时间</td>
-              <td class="table-td-title detail">审批说明</td>
-              <td class="table-td-title detail">审批状态</td>
-            </tr>
-            <tr v-for="(item, idx) in printData.approveHisList" :key="idx">
-              <td class="table-td-content" style="text-align: center">
-                {{ item.deptName }}
-              </td>
-              <td class="table-td-content" style="text-align: center">
-                {{ item.nickName }}
-              </td>
-              <td class="table-td-content" style="text-align: center">
-                {{ item.approveTime }}
-              </td>
-              <td class="table-td-content" style="max-width: 150px; text-align: center">
-                {{ item.processValue }}
-              </td>
-              <td class="table-td-content" style="text-align: center">
-                {{ item.status == 0 ? "驳回" : item.status == 1 ? "通过" : "" }}
-              </td>
-            </tr>
-          </table>
->>>>>>> a76f0d828bc8cff0d0c5b5d570c97edd21f54b4a
         </div>
       </div>
     </el-dialog>

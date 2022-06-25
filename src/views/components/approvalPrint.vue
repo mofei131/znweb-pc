@@ -16,6 +16,9 @@
          </td>
        </tr>
        <tr>
+         <td class="title" colspan="6">1审批人 会签</td>
+       </tr>
+       <tr>
          <td class="table-td-title detail">审批人</td>
          <td class="table-td-title detail">审批时间</td>
          <td class="table-td-title detail">审批状态</td>
