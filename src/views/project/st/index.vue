@@ -55,21 +55,26 @@
       </el-table-column>
       <el-table-column label="审批状态" align="center">
         <template slot-scope="scope">
-          <div :style="'color:' + scope.row.scolor">{{ stateChange(scope.row) }}</div>
+          <div :style="'color:' + scope.row.scolor">
+            {{ stateChange(scope.row) }}
+          </div>
         </template>
       </el-table-column>
       <el-table-column label="业务状态" align="center">
         <template slot-scope="scope">
           <div v-if="scope.row.state == 3 && scope.row.hType == '业务'" :style="'color:' + scope.row.bcolor">
-            {{ businessStateChange(scope.row) }}</div>
+            {{ businessStateChange(scope.row) }}
+          </div>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="160" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button v-if="scope.row.hType == '项目' && scope.row.businessList.length != 0" size="mini" type="text"
-            @click="toggleRowExpansion1(scope.row)">展开业务</el-button>
-          <el-button v-if="scope.row.hType == '项目' && scope.row.businessList.length != 0" size="mini" type="text"
-            @click="toggleRowExpansion2(scope.row)">关闭业务</el-button>
+          <el-button v-if="
+            scope.row.hType == '项目' && scope.row.businessList.length != 0
+          " size="mini" type="text" @click="toggleRowExpansion1(scope.row)">展开业务</el-button>
+          <el-button v-if="
+            scope.row.hType == '项目' && scope.row.businessList.length != 0
+          " size="mini" type="text" @click="toggleRowExpansion2(scope.row)">关闭业务</el-button>
           <el-button v-if="scope.row.hType == '项目'" size="mini" type="text" v-hasPermi="['project:st:edit']"
             @click="openCheckProject(scope.row)">查看项目</el-button>
           <!-- <el-button size="mini" type="text" v-if="scope.row.hType == '项目'"
@@ -81,9 +86,11 @@
             @click="jumpBusiness(scope.row)">业务明细</el-button>
           <!-- <el-button size="mini" type="text" v-if="scope.row.hType == '业务'" @click="openChangeBusiness(scope.row)"
             v-hasPermi="['project:st:edit']">修改业务</el-button> -->
-          <el-button size="mini"
-            v-if="scope.row.hType == '业务' && scope.row.state == 3 && (scope.row.businessState == 1 || scope.row.businessState == 2)"
-            type="text" v-hasPermi="['project:st:edit']" @click="openOperateBusiness(scope.row)">
+          <el-button size="mini" v-if="
+            scope.row.hType == '业务' &&
+            scope.row.state == 3 &&
+            (scope.row.businessState == 1 || scope.row.businessState == 2)
+          " type="text" v-hasPermi="['project:st:edit']" @click="openOperateBusiness(scope.row)">
             操作业务</el-button>
         </template>
       </el-table-column>
@@ -229,7 +236,9 @@
       </div>
     </el-dialog>
     <el-dialog title="添加业务信息" :visible.sync="openAddBusinessBox" width="888px">
-      <div style="font-weight: 600; margin-bottom: 20px;font-size:16px">项目信息</div>
+      <div style="font-weight: 600; margin-bottom: 20px; font-size: 16px">
+        项目信息
+      </div>
       <div style="padding: 20px">
         <el-descriptions :column="2" border>
           <el-descriptions-item>
@@ -284,7 +293,14 @@
           </el-descriptions-item>
         </el-descriptions>
       </div>
-      <div style="font-weight: 600; margin-bottom: 40px;margin-top:20px;font-size:16px">业务信息</div>
+      <div style="
+          font-weight: 600;
+          margin-bottom: 40px;
+          margin-top: 20px;
+          font-size: 16px;
+        ">
+        业务信息
+      </div>
       <el-form ref="form2" :model="form2" :rules="rules2" label-width="180px">
         <el-row>
           <el-col :span="12">
@@ -541,7 +557,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-button size="small" style="margin-left:30px" type="primary" @click="addZt(index)">添加站台</el-button>
+                <el-button size="small" style="margin-left: 30px" type="primary" @click="addZt(index)">添加站台</el-button>
                 <el-button size="small" type="danger" @click="deleteZt(index)">删除站台</el-button>
               </el-col>
             </el-row>
@@ -683,14 +699,15 @@ import {
   getStInfo,
   editBusiness,
   updateBStatus,
-  getActualControl
+  getActualControl,
+  checkProcessConfig,
 } from "@/api/project/st";
 import { getToken } from "@/utils/auth";
 export default {
   name: "St",
   data() {
     return {
-      businessState: '',
+      businessState: "",
       platformList: [],
       projectInfo: {},
       checkProject: false,
@@ -716,7 +733,7 @@ export default {
         chargemNx: "",
         chargemGd: "",
         node: "",
-        filesList: null
+        filesList: null,
       },
       form1back: {
         projectType: "一般立项",
@@ -739,100 +756,102 @@ export default {
         chargemNx: "",
         chargemGd: "",
         node: "",
-        filesList: null
+        filesList: null,
       },
       form2: {
-        projectId: '',
-        serialNo: '',
-        platformType: '2',
-        ztList: [{
-          ztId: '',
-          ztFee: '',
-          freight: ''
-        }
+        projectId: "",
+        serialNo: "",
+        platformType: "2",
+        ztList: [
+          {
+            ztId: "",
+            ztFee: "",
+            freight: "",
+          },
         ],
-        node: '',
+        node: "",
         filesList: null,
-        stName: '',
+        stName: "",
         stAmount: "",
-        settlementP: '',
-        settlementPA1: '',
-        settlementPA2: '',
-        settlementPA3: '',
-        marginType: '2',
-        margin: '',
-        cycleStart: '',
-        cycleEnd: '',
-        expectPrice: '',
-        expectWeight: '',
-        rateYear: '',
-        expectProfits: '',
-        shType: '2',
-        shName: '',
-        shXz: '',
-        shHztype: '',
-        shChanneltype: '',
-        shHzrate: '',
-        shChannelyear: '',
-        shSettlement: '',
-        shSettlementA1: '',
-        shSettlementA2: '',
-        shSettlementA3: '',
-        shMargintype: '',
-        shMargin: '',
-        shContracttype: ''
+        settlementP: "",
+        settlementPA1: "",
+        settlementPA2: "",
+        settlementPA3: "",
+        marginType: "2",
+        margin: "",
+        cycleStart: "",
+        cycleEnd: "",
+        expectPrice: "",
+        expectWeight: "",
+        rateYear: "",
+        expectProfits: "",
+        shType: "2",
+        shName: "",
+        shXz: "",
+        shHztype: "",
+        shChanneltype: "",
+        shHzrate: "",
+        shChannelyear: "",
+        shSettlement: "",
+        shSettlementA1: "",
+        shSettlementA2: "",
+        shSettlementA3: "",
+        shMargintype: "",
+        shMargin: "",
+        shContracttype: "",
       },
       form2back: {
-        projectId: '',
-        serialNo: '',
-        platformType: '2',
-        ztList: [{
-          ztId: '',
-          ztFee: '',
-          freight: ''
-        }
+        projectId: "",
+        serialNo: "",
+        platformType: "2",
+        ztList: [
+          {
+            ztId: "",
+            ztFee: "",
+            freight: "",
+          },
         ],
-        node: '',
+        node: "",
         filesList: null,
-        stName: '',
+        stName: "",
         stAmount: "",
-        settlementP: '',
-        settlementPA1: '',
-        settlementPA2: '',
-        settlementPA3: '',
-        marginType: '2',
-        margin: '',
-        cycleStart: '',
-        cycleEnd: '',
-        expectPrice: '',
-        expectWeight: '',
-        rateYear: '',
-        expectProfits: '',
-        shType: '2',
-        shName: '',
-        shXz: '',
-        shHztype: '',
-        shChanneltype: '',
-        shHzrate: '',
-        shChannelyear: '',
-        shSettlement: '',
-        shSettlementA1: '',
-        shSettlementA2: '',
-        shSettlementA3: '',
-        shMargintype: '',
-        shMargin: '',
-        shContracttype: ''
+        settlementP: "",
+        settlementPA1: "",
+        settlementPA2: "",
+        settlementPA3: "",
+        marginType: "2",
+        margin: "",
+        cycleStart: "",
+        cycleEnd: "",
+        expectPrice: "",
+        expectWeight: "",
+        rateYear: "",
+        expectProfits: "",
+        shType: "2",
+        shName: "",
+        shXz: "",
+        shHztype: "",
+        shChanneltype: "",
+        shHzrate: "",
+        shChannelyear: "",
+        shSettlement: "",
+        shSettlementA1: "",
+        shSettlementA2: "",
+        shSettlementA3: "",
+        shMargintype: "",
+        shMargin: "",
+        shContracttype: "",
       },
       form3: {
-        stId: '',
-        businessState: '',
-        node: '',
+        stId: "",
+        businessState: "",
+        node: "",
         filesList: null,
       },
       form3back: {
-        stId: '',
-        businessState: '',
-        node: '',
+        stId: "",
+        businessState: "",
+        node: "",
         filesList: null,
       },
       //文件集合
@@ -989,17 +1008,17 @@ export default {
           },
           {
             pattern: /^\d+(.\d{1,2})?$/,
-            message: '只能输入数字且只能保留两位小数',
-            trigger: 'change'
-          }
+            message: "只能输入数字且只能保留两位小数",
+            trigger: "change",
+          },
         ],
         chargemGd: [
           { required: true, message: "固定差价不能为空", trigger: "blur" },
           {
             pattern: /^\d+(.\d{1,2})?$/,
-            message: '只能输入数字且只能保留两位小数',
-            trigger: 'change'
-          }
+            message: "只能输入数字且只能保留两位小数",
+            trigger: "change",
+          },
         ],
       },
       rules2: {
@@ -1010,9 +1029,9 @@ export default {
           { required: true, message: "业务金额不能为空", trigger: "blur" },
           {
             pattern: /^\d+(.\d{1,2})?$/,
-            message: '只能输入数字且只能保留两位小数',
-            trigger: 'change'
-          }
+            message: "只能输入数字且只能保留两位小数",
+            trigger: "change",
+          },
         ],
         settlementP: [
           { required: true, message: "结算比例为必选", trigger: "blur" },
@@ -1033,39 +1052,51 @@ export default {
           { required: true, message: "履约保证金不能为空", trigger: "blur" },
           {
             pattern: /^\d+(.\d{1,2})?$/,
-            message: '只能输入数字且只能保留两位小数',
-            trigger: 'change'
-          }
+            message: "只能输入数字且只能保留两位小数",
+            trigger: "change",
+          },
         ],
         cycleStart: [
-          { required: true, message: "服务周期开始时间不能为空", trigger: "blur" },
+          {
+            required: true,
+            message: "服务周期开始时间不能为空",
+            trigger: "blur",
+          },
         ],
         cycleEnd: [
-          { required: true, message: "服务周期结束时间不能为空", trigger: "blur" },
+          {
+            required: true,
+            message: "服务周期结束时间不能为空",
+            trigger: "blur",
+          },
         ],
         expectPrice: [
           { required: true, message: "预计单价不能为空", trigger: "blur" },
           {
             pattern: /^\d+(.\d{1,2})?$/,
-            message: '只能输入数字且只能保留两位小数',
-            trigger: 'change'
-          }
+            message: "只能输入数字且只能保留两位小数",
+            trigger: "change",
+          },
         ],
         expectWeight: [
           { required: true, message: "预计重量不能为空", trigger: "blur" },
           {
             pattern: /^\d+(.\d{1,2})?$/,
-            message: '只能输入数字且只能保留两位小数',
-            trigger: 'change'
-          }
+            message: "只能输入数字且只能保留两位小数",
+            trigger: "change",
+          },
         ],
         rateYear: [
-          { required: true, message: "成本年服务费费率不能为空", trigger: "blur" },
+          {
+            required: true,
+            message: "成本年服务费费率不能为空",
+            trigger: "blur",
+          },
           {
             pattern: /^\d+(.\d{1,2})?$/,
-            message: '只能输入数字且只能保留两位小数',
-            trigger: 'change'
-          }
+            message: "只能输入数字且只能保留两位小数",
+            trigger: "change",
+          },
         ],
         expectProfits: [
           { required: true, message: "预计利润不能为空", trigger: "blur" },
@@ -1076,9 +1107,7 @@ export default {
         shName: [
           { required: true, message: "公司名称不能为空", trigger: "blur" },
         ],
-        shXz: [
-          { required: true, message: "性质不能为空", trigger: "blur" },
-        ],
+        shXz: [{ required: true, message: "性质不能为空", trigger: "blur" }],
         shHztype: [
           { required: true, message: "合作方式不能为空", trigger: "blur" },
         ],
@@ -1089,9 +1118,9 @@ export default {
           { required: true, message: "资金费率不能为空", trigger: "blur" },
           {
             pattern: /^\d+(.\d{1,2})?$/,
-            message: '只能输入数字且只能保留两位小数',
-            trigger: 'change'
-          }
+            message: "只能输入数字且只能保留两位小数",
+            trigger: "change",
+          },
         ],
         shChannelyear: [
           { required: true, message: "下游渠道年限不能为空", trigger: "blur" },
@@ -1112,44 +1141,46 @@ export default {
           { required: true, message: "履约保证金为必选", trigger: "blur" },
         ],
         shMargin: [
-          { required: true, message: "履约保证金金额不能为空", trigger: "blur" },
+          {
+            required: true,
+            message: "履约保证金金额不能为空",
+            trigger: "blur",
+          },
           {
             pattern: /^\d+(.\d{1,2})?$/,
-            message: '只能输入数字且只能保留两位小数',
-            trigger: 'change'
-          }
+            message: "只能输入数字且只能保留两位小数",
+            trigger: "change",
+          },
         ],
         shContracttype: [
           { required: true, message: "合同签署不能为空", trigger: "blur" },
         ],
         platformType: [
           { required: true, message: "有无站台为必选", trigger: "blur" },
-        ]
+        ],
       },
-      rules3: {
-
-      }
+      rules3: {},
     };
   },
   watch: {
     "form2.settlementP": {
       handler() {
-        if (this.form2.settlementP != '其他') {
-          let arr = this.form2.settlementP.split("-")
-          this.form2.settlementPA1 = arr[0].replace(new RegExp("%"), "")
-          this.form2.settlementPA2 = arr[1].replace(new RegExp("%"), "")
-          this.form2.settlementPA3 = arr[2].replace(new RegExp("%"), "")
+        if (this.form2.settlementP != "其他") {
+          let arr = this.form2.settlementP.split("-");
+          this.form2.settlementPA1 = arr[0].replace(new RegExp("%"), "");
+          this.form2.settlementPA2 = arr[1].replace(new RegExp("%"), "");
+          this.form2.settlementPA3 = arr[2].replace(new RegExp("%"), "");
         }
       },
     },
 
     "form2.shSettlement": {
       handler() {
-        if (this.form2.shSettlement != '其他') {
-          let arr = this.form2.shSettlement.split("-")
-          this.form2.shSettlementA1 = arr[0].replace(new RegExp("%"), "")
-          this.form2.shSettlementA2 = arr[1].replace(new RegExp("%"), "")
-          this.form2.shSettlementA3 = arr[2].replace(new RegExp("%"), "")
+        if (this.form2.shSettlement != "其他") {
+          let arr = this.form2.shSettlement.split("-");
+          this.form2.shSettlementA1 = arr[0].replace(new RegExp("%"), "");
+          this.form2.shSettlementA2 = arr[1].replace(new RegExp("%"), "");
+          this.form2.shSettlementA3 = arr[2].replace(new RegExp("%"), "");
         }
       },
     },
@@ -1167,91 +1198,97 @@ export default {
     });
     platformList().then((response) => {
       this.platformList = response.rows;
-    })
-    getActualControl().then(res => {
-      this.actualControlOptions = res.data
-    })
-
+    });
+    getActualControl().then((res) => {
+      this.actualControlOptions = res.data;
+    });
   },
   methods: {
     stateChange(e) {
       if (e.state == 1) {
-        return '未审批'
+        return "未审批";
       } else if (e.state == 2) {
-        e.scolor = '#09CC9D'
-        return '审批中'
+        e.scolor = "#09CC9D";
+        return "审批中";
       } else if (e.state == 3) {
-        e.scolor = '#007AFF'
-        return '已通过'
+        e.scolor = "#007AFF";
+        return "已通过";
       } else if (e.state == 4) {
-        e.scolor = '#F12801'
-        return '已打回'
+        e.scolor = "#F12801";
+        return "已打回";
       }
     },
     businessStateChange(e) {
       if (e.businessState == 0) {
-        return '提交中'
+        return "提交中";
       } else if (e.businessState == 1) {
-        e.bcolor = '#09CC9D'
-        return '进行中'
+        e.bcolor = "#09CC9D";
+        return "进行中";
       } else if (e.businessState == 2) {
-        e.bcolor = '#FFAC00'
-        return '异常'
+        e.bcolor = "#FFAC00";
+        return "异常";
       } else if (e.businessState == 3) {
-        e.bcolor = '#F12801'
-        return '结束'
+        e.bcolor = "#F12801";
+        return "结束";
       } else if (e.businessState == 4) {
-        e.bcolor = '#007AFF'
-        return '完成'
+        e.bcolor = "#007AFF";
+        return "完成";
       }
     },
     changeBusinessType(e) {
-      if (e == 'cud') {
-        return '储备业务垫付运费'
-      } else if (e = 'cu') {
-        return '储备业务不垫付运费'
-      } else if (e = 'dcd') {
-        return '到厂业务垫付运费'
-      } else if (e = 'dc') {
-        return '到厂业务不垫付运费'
-      } else if (e = 'cbd') {
-        return '车板业务垫付运费'
-      } else if (e = 'cb') {
-        return '车板业务不垫付运费'
+      if (e == "cud") {
+        return "储备业务垫付运费";
+      } else if ((e = "cu")) {
+        return "储备业务不垫付运费";
+      } else if ((e = "dcd")) {
+        return "到厂业务垫付运费";
+      } else if ((e = "dc")) {
+        return "到厂业务不垫付运费";
+      } else if ((e = "cbd")) {
+        return "车板业务垫付运费";
+      } else if ((e = "cb")) {
+        return "车板业务不垫付运费";
       }
     },
     changeTransType(e) {
-      if (e == 'qy') {
-        return '汽运'
-      } else if (e = 'hy') {
-        return '火运'
-      } else if (e = 'dcd') {
-        return '公铁联运'
+      if (e == "qy") {
+        return "汽运";
+      } else if ((e = "hy")) {
+        return "火运";
+      } else if ((e = "dcd")) {
+        return "公铁联运";
       }
     },
     addZt(index) {
       this.form2.ztList.splice(index + 1, 0, {
-        ztId: '',
-        ztFee: '',
-        freight: ''
+        ztId: "",
+        ztFee: "",
+        freight: "",
       });
     },
     deleteZt(index) {
       if (this.form2.ztList.length == 1) {
       } else {
-        this.form2.ztList.splice(index, 1)
+        this.form2.ztList.splice(index, 1);
       }
     },
     jsprice() {
-      let arr = ['cycleStart', 'cycleEnd', 'expectPrice', 'rateYear', 'chargemGd', 'expectWeight']
-      let valida_all = true
-      this.$refs["form2"].validateField(arr, valid => {
+      let arr = [
+        "cycleStart",
+        "cycleEnd",
+        "expectPrice",
+        "rateYear",
+        "chargemGd",
+        "expectWeight",
+      ];
+      let valida_all = true;
+      this.$refs["form2"].validateField(arr, (valid) => {
         if (valid) {
           valida_all = valida_all && false;
         } else {
           valida_all = valida_all && true;
         }
-      })
+      });
       if (valida_all) {
         let dateSpan, iDays;
         let sDate1 = Date.parse(this.form2.cycleStart);
@@ -1261,39 +1298,58 @@ export default {
         //周期天数
         iDays = Math.floor(dateSpan / (24 * 3600 * 1000));
         //预计单价
-        let a1 = this.form2.expectPrice
+        let a1 = this.form2.expectPrice;
         //年服务费率
-        let a2 = 0.00
-        if (this.form2.chargemType == '1' || this.form2.chargemType == '3') {
-          a2 = parseFloat(this.form.chargemNx) * 100
+        let a2 = 0.0;
+        if (this.form2.chargemType == "1" || this.form2.chargemType == "3") {
+          a2 = parseFloat(this.form.chargemNx) * 100;
         }
         //固定差价
-        let a3 = 0.00
-        if (this.form2.chargemType == '2' || this.form2.chargemType == '3') {
-          a3 = parseFloat(this.form2.chargemGd)
+        let a3 = 0.0;
+        if (this.form2.chargemType == "2" || this.form2.chargemType == "3") {
+          a3 = parseFloat(this.form2.chargemGd);
         }
         //预计吨数
-        let a4 = this.form2.expectWeight
+        let a4 = this.form2.expectWeight;
         //单吨收益
-        let jx1 = a1 * 0.09 * a2 / 360 * iDays + a3;
+        let jx1 = ((a1 * 0.09 * a2) / 360) * iDays + a3;
         //资金成本
-        let jx2 = a1 * 0.9 * 0.08 / 360 * iDays;
+        let jx2 = ((a1 * 0.9 * 0.08) / 360) * iDays;
         // 增值税
-        let jx3 = jx1 * 0.13 / 1.13;
+        let jx3 = (jx1 * 0.13) / 1.13;
         //
-        let jx4 = jx3 * 0.12
+        let jx4 = jx3 * 0.12;
         //印花税
-        let jx5 = ((2 * a1 - a1 * 0.9 * 0.08 / 360 * iDays) * 0.0003)
-        console.log("jx1:" + jx1 + "-jx2:" + jx2 + "-jx3:" + jx3 + "-jx4:" + jx4 + "-jx5:" + jx5)
-        console.log((jx1 - jx2 - jx3 - jx4 - jx5))
-        let zzjx = (jx1 - jx2 - jx3 - jx4 - jx5) * a4
-        this.form2.expectProfits = zzjx.toFixed(2)
+        let jx5 = (2 * a1 - ((a1 * 0.9 * 0.08) / 360) * iDays) * 0.0003;
+        console.log(
+          "jx1:" +
+          jx1 +
+          "-jx2:" +
+          jx2 +
+          "-jx3:" +
+          jx3 +
+          "-jx4:" +
+          jx4 +
+          "-jx5:" +
+          jx5
+        );
+        console.log(jx1 - jx2 - jx3 - jx4 - jx5);
+        let zzjx = (jx1 - jx2 - jx3 - jx4 - jx5) * a4;
+        this.form2.expectProfits = zzjx.toFixed(2);
       }
     },
     openOperateBusiness(row) {
-      this.businessState = row.businessState
-      this.form3.stId = row.stId
-      this.operateBusiness = true
+      checkProcessConfig({ approvalType: 20 }).then((res) => {
+        if (res.code == 200) {
+          this.businessState = row.businessState;
+          this.form3.stId = row.stId;
+          this.operateBusiness = true;
+        } else {
+          this.$alert(res.msg, "提示", {
+            confirmButtonText: "确定",
+          });
+        }
+      });
     },
     changetName(e) {
       this.terminalOptions.forEach((options) => {
@@ -1331,54 +1387,83 @@ export default {
       });
     },
     toggleRowExpansion1(row) {
-      this.$refs.topicTable.toggleRowExpansion(row, true)
+      this.$refs.topicTable.toggleRowExpansion(row, true);
     },
     toggleRowExpansion2(row) {
-      this.$refs.topicTable.toggleRowExpansion(row, false)
+      this.$refs.topicTable.toggleRowExpansion(row, false);
     },
     jumpBusiness(row) {
-      this.$router.push('/st/lookAdd/' + row.stId)
+      this.$router.push("/st/lookAdd/" + row.stId);
     },
     openBusinessBox(row) {
-      projectInfo(row.projectId).then(res => {
-        this.projectInfo = res.data
-      })
-      this.form2.projectId = row.projectId
-      this.form2.serialNo = row.serialNo
-      this.openAddBusinessBox = true;
+      checkProcessConfig({ approvalType: 20 }).then((res) => {
+        if (res.code == 200) {
+          projectInfo(row.projectId).then((res2) => {
+            this.projectInfo = res2.data;
+          });
+          this.form2.projectId = row.projectId;
+          this.form2.serialNo = row.serialNo;
+          this.openAddBusinessBox = true;
+        } else {
+          this.$alert(res.msg, "提示", {
+            confirmButtonText: "确定",
+          });
+        }
+      });
     },
     openChangeBusiness(row) {
-      projectInfo(row.projectId).then(res => {
-        this.projectInfo = res.data
-      })
-      getStInfo(row.stId).then(res => {
-        this.form2 = res.data
-        this.form2.settlementP = res.data.settlementPA1 + '%-' + res.data.settlementPA2 + '%-' + res.data.settlementPA3 + '%'
-        if (this.form2.settlementP != "70%-20%-10%" && this.form2.settlementP != "70%-10%-20%" && this.form2.settlementP != "70%-15%-15%" && this.form2.settlementP != "80%-10%-10%") {
-          this.form2.settlementP = '其他'
+      projectInfo(row.projectId).then((res) => {
+        this.projectInfo = res.data;
+      });
+      getStInfo(row.stId).then((res) => {
+        this.form2 = res.data;
+        this.form2.settlementP =
+          res.data.settlementPA1 +
+          "%-" +
+          res.data.settlementPA2 +
+          "%-" +
+          res.data.settlementPA3 +
+          "%";
+        if (
+          this.form2.settlementP != "70%-20%-10%" &&
+          this.form2.settlementP != "70%-10%-20%" &&
+          this.form2.settlementP != "70%-15%-15%" &&
+          this.form2.settlementP != "80%-10%-10%"
+        ) {
+          this.form2.settlementP = "其他";
         }
-        this.form2.shSettlement = res.data.shSettlementA1 + '%-' + res.data.shSettlementA2 + '%-' + res.data.shSettlementA3 + '%'
-        if (this.form2.shSettlement != "70%-25%-5%" && this.form2.shSettlement != "95%-5%") {
-          this.form2.settlementP = '其他'
+        this.form2.shSettlement =
+          res.data.shSettlementA1 +
+          "%-" +
+          res.data.shSettlementA2 +
+          "%-" +
+          res.data.shSettlementA3 +
+          "%";
+        if (
+          this.form2.shSettlement != "70%-25%-5%" &&
+          this.form2.shSettlement != "95%-5%"
+        ) {
+          this.form2.settlementP = "其他";
         }
-      })
+      });
       this.openAddBusinessBox = true;
     },
     openCheckProject(row) {
-      projectInfo(row.projectId).then(res => {
-        this.projectInfo = res.data
-      })
-      this.checkProject = true;
+      this.$router.push("/st/lookAddP/" + row.projectId);
+      // projectInfo(row.projectId).then(res => {
+      //   this.projectInfo = res.data
+      // })
+      // this.checkProject = true;
     },
     openChangeProject(row) {
-      projectInfo(row.projectId).then(res => {
-        this.form1 = res.data
-        this.form1.userId = parseInt(res.data.userId)
-        this.form1.supplierId = parseInt(res.data.supplierId)
-        this.form1.terminalId = parseInt(res.data.terminalId)
-        this.form1.serviceManagerId = parseInt(res.data.serviceManagerId)
-        this.form1.actualControlId = parseInt(res.data.actualControlId)
-      })
+      projectInfo(row.projectId).then((res) => {
+        this.form1 = res.data;
+        this.form1.userId = parseInt(res.data.userId);
+        this.form1.supplierId = parseInt(res.data.supplierId);
+        this.form1.terminalId = parseInt(res.data.terminalId);
+        this.form1.serviceManagerId = parseInt(res.data.serviceManagerId);
+        this.form1.actualControlId = parseInt(res.data.actualControlId);
+      });
       this.openAddBox = true;
     },
     submitForm() {
@@ -1391,7 +1476,7 @@ export default {
                 type: "success",
               });
               this.openAddBox = false;
-              this.form1 = this.form1back
+              this.form1 = this.form1back;
               this.getList();
             });
           } else {
@@ -1401,7 +1486,7 @@ export default {
                 type: "success",
               });
               this.openAddBox = false;
-              this.form1 = this.form1back
+              this.form1 = this.form1back;
               this.getList();
             });
           }
@@ -1418,7 +1503,7 @@ export default {
                 type: "success",
               });
               this.openAddBusinessBox = false;
-              this.form2 = this.form2back
+              this.form2 = this.form2back;
               this.getList();
             });
           } else {
@@ -1428,7 +1513,7 @@ export default {
                 type: "success",
               });
               this.openAddBusinessBox = false;
-              this.form2 = this.form2back
+              this.form2 = this.form2back;
               this.getList();
             });
           }
@@ -1438,20 +1523,28 @@ export default {
     submitForm3() {
       this.$refs["form3"].validate((valid) => {
         if (valid) {
-          updateBStatus(this.form3).then(res => {
+          updateBStatus(this.form3).then((res) => {
             this.$message({
               message: "新增成功！",
               type: "success",
             });
             this.operateBusiness = false;
-            this.form3 = this.form3back
+            this.form3 = this.form3back;
             this.getList();
-          })
+          });
         }
       });
     },
     handleAdd() {
-      this.openAddBox = true;
+      checkProcessConfig({ approvalType: 20 }).then((res) => {
+        if (res.code == 200) {
+          this.openAddBox = true;
+        } else {
+          this.$alert(res.msg, "提示", {
+            confirmButtonText: "确定",
+          });
+        }
+      });
     },
     /** 查询项目信息列表 */
     getList() {
@@ -1459,11 +1552,11 @@ export default {
       listSt(this.queryParams).then((response) => {
         this.stList = response.rows;
         this.stList.forEach((e) => {
-          e.hType = "项目"
+          e.hType = "项目";
           e.children = e.businessList;
-          e.children.forEach(e2 => {
-            e2.hType = "业务"
-          })
+          e.children.forEach((e2) => {
+            e2.hType = "业务";
+          });
         });
         this.total = response.total;
         this.loading = false;
@@ -1660,7 +1753,7 @@ export default {
 };
 </script>
 <style scoped>
- .projectlist >>> .el-icon-arrow-right{
-    display:none
-  }
+.projectlist>>>.el-icon-arrow-right {
+  display: none;
+}
 </style>
