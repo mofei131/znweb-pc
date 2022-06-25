@@ -28,36 +28,36 @@
     </el-form>
 
     <el-row :gutter="10" class="mb8">
-      <div v-if="this.queryParams.type == 'realsk'">
-        <el-col :span="3" style="margin-left: 12px">
+      <div v-if="this.queryParams.type == 'realsk'" style="font-size:14px" >
+        <el-col :span="4" style="margin-left: 12px;">
           <span>应收金额：</span> <span v-text="$options.filters.moneyFilter(yf)">0.00</span>
         </el-col>
-        <el-col :span="3">
+        <el-col :span="4">
           <span>已收金额：</span><span v-text="$options.filters.moneyFilter(ypay)">0.00</span>
         </el-col>
-        <el-col :span="3">
+        <el-col :span="4">
           <span>剩余应收：</span><span v-text="$options.filters.moneyFilter(yf - ypay)">0.00</span>
         </el-col>
       </div>
-      <div v-else-if="this.queryParams.type == 'refund'">
-        <el-col :span="3" style="margin-left: 12px">
+      <div v-else-if="this.queryParams.type == 'refund'" style="font-size:14px">
+        <el-col :span="4" style="margin-left: 12px">
           <span>应退款金额：</span> <span v-text="$options.filters.moneyFilter(yf)">0.00</span>
         </el-col>
-        <el-col :span="3">
+        <el-col :span="4">
           <span>已退款金额：</span><span v-text="$options.filters.moneyFilter(ypay)">0.00</span>
         </el-col>
-        <el-col :span="3">
+        <el-col :span="4">
           <span>剩余退款金额：</span><span v-text="$options.filters.moneyFilter(yf - ypay)">0.00</span>
         </el-col>
       </div>
-      <div v-else>
-        <el-col :span="3" style="margin-left: 12px">
+      <div v-else style="font-size:14px">
+        <el-col :span="4" style="margin-left: 12px">
           <span>应付金额：</span> <span v-text="$options.filters.moneyFilter(yf)">0.00</span>
         </el-col>
-        <el-col :span="3">
+        <el-col :span="4">
           <span>已付金额：</span><span v-text="$options.filters.moneyFilter(ypay)">0.00</span>
         </el-col>
-        <el-col :span="3">
+        <el-col :span="4">
           <span>剩余应付：</span
           ><span v-text="(yf - ypay).toFixed(2)">0.00</span>
         </el-col>

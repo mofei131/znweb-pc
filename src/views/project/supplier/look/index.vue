@@ -1,4 +1,4 @@
-<style>
+<style scoped>
 .head-title {
   font-size: 16px;
   font-family: Microsoft YaHei;
@@ -13,7 +13,13 @@
   font-family: Microsoft YaHei;
   font-weight: 400;
   color: #333333;
-  line-height: 53px;
+  line-height: 30px;
+}
+.head-text span{
+  display: block;
+  width:220px;
+  line-height:30px;
+  margin-top:0px
 }
 
 .upload-hidden .el-upload--picture-card {
@@ -33,41 +39,39 @@
         </el-col>
       </el-row>
       <el-row class="head-text">
-        <el-col :span="5" :offset="1">
-          供应商名称：<span v-text="form.name"></span>
+        <el-col :span="7" :offset="1">
+          <div style="display:flex">
+            <div>供应商名称：</div><span v-text="form.name"></span>
+          </div>
+          <div style="display:flex">
+            <div>成立日期：</div><span v-text="form.clTime"></span>
+          </div>
+          <div style="display:flex">
+            <div>年发运量(万吨)：</div><span v-text="$options.filters.weightFilter(form.traffic)"></span>
+          </div>
+          <div style="display:flex">
+            <div>注册资本(万元)：</div><span v-text="$options.filters.moneyFilter(form.capital)"></span>
+          </div>
+          <div style="display:flex">
+            <div>供应商账号：</div><span v-text="form.account"></span>
+          </div>
         </el-col>
-        <el-col :span="5">
-          成立日期：<span v-text="form.clTime"></span>
-        </el-col>
-        <el-col :span="5">
-          年发运量(万吨)：<span
-            v-text="$options.filters.weightFilter(form.traffic)"
-          ></span>
-        </el-col>
-        <el-col :span="5">
-          注册资本(万元)：<span
-            v-text="$options.filters.moneyFilter(form.capital)"
-          ></span>
-        </el-col>
-      </el-row>
-      <el-row class="head-text">
-        <el-col :span="5" :offset="1">
-          供应商账号：<span v-text="form.account"></span>
-        </el-col>
-        <el-col :span="5">
-          开户行：<span v-text="form.openbank"></span>
-        </el-col>
-      </el-row>
-      <el-row class="head-text">
-        <el-col :span="5" :offset="1">
-          发票面额：<span v-text="form.invoiceType"></span>
-        </el-col>
-        <el-col :span="5">
-          企业性质：<span v-text="form.nature"></span>
-        </el-col>
-        <el-col :span="5"> 评级：<span v-text="form.rating"></span> </el-col>
-        <el-col :span="5">
-          评级说明：<span v-text="form.ratingDe"></span>
+        <el-col :span="7" :offset="1">
+          <div style="display:flex">
+            <div>开户行：</div><span v-text="form.openbank"></span>
+          </div>
+          <div style="display:flex">
+            <div>发票面额：</div><span v-text="form.invoiceType"></span>
+          </div>
+          <div style="display:flex">
+            <div>企业性质：</div><span v-text="form.nature"></span>
+          </div>
+          <div style="display:flex">
+            <div>评级：</div><span v-text="form.rating"></span>
+          </div>
+          <div style="display:flex">
+            <div>评级说明：</div><span v-text="form.ratingDe"></span>
+          </div>
         </el-col>
       </el-row>
       <el-row class="head-title">
@@ -76,17 +80,19 @@
         </el-col>
       </el-row>
       <el-row class="head-text">
-        <el-col :span="5" :offset="1">
-          原资方名称：<span v-text="form.sourcemName"></span>
-        </el-col>
-        <el-col :span="5">
-          原资方放款节点：<span v-text="form.sourcemLn"></span>
-        </el-col>
-        <el-col :span="5">
-          原资方费率：<span v-text="form.sourcemRate"></span>
-        </el-col>
-        <el-col :span="5">
-          原资方放款比例：<span v-text="form.sourcemLr"></span>
+        <el-col :span="7" :offset="1">
+          <div style="display:flex">
+            <div>原资方名称：</div><span v-text="form.sourcemName"></span>
+          </div>
+          <div style="display:flex">
+            <div>原资方放款节点：</div><span v-text="form.sourcemLn"></span>
+          </div>
+          <div style="display:flex">
+            <div>原资方费率：</div><span v-text="form.sourcemRate"></span>
+          </div>
+          <div style="display:flex">
+            <div>原资方放款比例：</div><span v-text="form.sourcemLr"></span>
+          </div>
         </el-col>
       </el-row>
 
@@ -107,7 +113,6 @@
         </el-col>
       </el-row>
       <!--      审批流程·-->
-           
       <approval-process :typeId="12" :stId="supplierId"></approval-process>
 
       <!--      审批信息-->
@@ -115,12 +120,8 @@
     </el-form>
     <el-row>
       <el-col :offset="1" :span="20">
-        <div
-          slot=""
-          class="dialog-footer"
-          style="text-align: right; margin-bottom: 50px; margin-right: 50px"
-        >
-          <el-button type="info" @click="cancel">关 闭</el-button>
+        <div slot="" class="dialog-footer" style="text-align: right; margin-bottom: 50px; margin-right: 50px">
+          <el-button size="small" type="info" @click="cancel">关 闭</el-button>
         </div>
       </el-col>
     </el-row>
@@ -135,7 +136,6 @@ export default {
   name: "contractLook",
   data() {
     return {
-
       //上传路径
       url: process.env.VUE_APP_BASE_API + "/file/upload",
       // 设置上传的请求头部

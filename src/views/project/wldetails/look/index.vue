@@ -1,4 +1,4 @@
-<style>
+<style scoped>
 .head-title {
   font-size: 16px;
   font-family: Microsoft YaHei;
@@ -13,7 +13,13 @@
   font-family: Microsoft YaHei;
   font-weight: 400;
   color: #333333;
-  line-height: 53px;
+  line-height: 30px;
+}
+.head-text span{
+  display: block;
+  width:220px;
+  line-height:30px;
+  margin-top:0px
 }
 
 .upload-hidden .el-upload--picture-card {
@@ -33,11 +39,9 @@
         <!--        </el-col>-->
       </el-row>
       <el-row class="head-text">
-        <el-col :span="4" :offset="1">
-          项目名称：<span v-text="form.stName"></span>
-        </el-col>
-        <el-col :span="4" :offset="1">
-          项目编号：<span v-text="form.projectNumber"></span>
+        <el-col :span="7" :offset="1">
+          <div style="display:flex"><div>项目名称：</div><span v-text="form.stName"></span></div>
+          <div style="display:flex"><div>项目编号：</div><span v-text="form.projectNumber"></span></div>
         </el-col>
       </el-row>
 
@@ -48,23 +52,17 @@
       </el-row>
 
       <el-row class="head-text">
-        <el-col :span="4" :offset="1">
-          不含税金额合计：<span
+        <el-col :span="7" :offset="1">
+          <div style="display:flex"><div>不含税金额合计：</div><span
             v-text="$options.filters.moneyFilter(form.tntPrice)"
-          ></span>
-        </el-col>
-        <el-col :span="4">
-          补税金额：<span
+          ></span></div>
+          <div style="display:flex"><div>补税金额：</div><span
             v-text="$options.filters.moneyFilter(form.bsPrice)"
-          ></span>
-        </el-col>
-        <el-col :span="4">
-          价税合计：<span
+          ></span></div>
+          <div style="display:flex"><div>价税合计：</div><span
             v-text="$options.filters.moneyFilter(form.jstPrice)"
-          ></span>
-        </el-col>
-        <el-col :span="4">
-          收票状态：<span v-text="form.spState"></span>
+          ></span></div>
+          <div style="display:flex"><div>收票状态：</div><span v-text="form.spState"></span></div>
         </el-col>
       </el-row>
 
@@ -184,7 +182,7 @@
           class="dialog-footer"
           style="text-align: right; margin-bottom: 50px; margin-right: 50px"
         >
-          <el-button type="info" @click="cancel">关 闭</el-button>
+          <el-button size="small" type="info" @click="cancel">关 闭</el-button>
         </div>
       </el-col>
     </el-row>

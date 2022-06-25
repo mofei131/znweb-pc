@@ -1722,7 +1722,7 @@ export default {
     box-shadow: 0px 0px 6px 0px rgba(146, 153, 161, 0.28);
     .demo-form-inline {
       display: flex;
-      justify-content: end;
+      justify-content: flex-end;
       padding-top: 15px;
     }
   }

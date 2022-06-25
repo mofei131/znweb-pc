@@ -1,5 +1,6 @@
-<style>
-.head-title {
+<style scoped>
+
+.head-title{
   font-size: 16px;
   font-family: Microsoft YaHei;
   font-weight: 400;
@@ -8,20 +9,27 @@
   margin-top: 30px;
   margin-left: 20px;
 }
-.head-text {
+.head-text{
   font-size: 14px;
   font-family: Microsoft YaHei;
   font-weight: 400;
   color: #333333;
-  line-height: 53px;
+  line-height: 30px;
+}
+.head-text span{
+  display: block;
+  width:220px;
+  line-height:30px;
+  margin-top:0px
 }
 
-.upload-hidden .el-upload--picture-card {
-  display: none; /* 上传按钮隐藏 */
+.upload-hidden .el-upload--picture-card{
+  display:none;   /* 上传按钮隐藏 */
 }
-.el-textarea.is-disabled .el-textarea__inner {
-  background-color: #fff; /* 设置背景颜色为黑色 */
+.el-textarea.is-disabled .el-textarea__inner{
+  background-color:#fff; /* 设置背景颜色为黑色 */
 }
+
 </style>
 <template>
   <div>
@@ -33,64 +41,54 @@
         </el-col>
       </el-row>
       <el-row class="head-text">
-        <el-col :span="4" :offset="1">
-          项目名称：<span v-text="form.projectName"></span>
+        <el-col :span="7" :offset="1">
+          <div style="display:flex">
+            <div>项目名称：</div><span v-text="form.projectName"></span>
+          </div>
+          <div style="display:flex">
+            <div>业务名称：</div><span v-text="form.stName"></span>
+          </div>
+          <div style="display:flex">
+            <div>项目编号：</div><span v-text="form.serialNo"></span>
+          </div>
+          <div style="display:flex">
+            <div>投标平台：</div><span v-text="form.bidPlatform"></span>
+          </div>
+          <div style="display:flex">
+            <div>单价模式：</div><span v-text="form.unitPriceMode"></span>
+          </div>
+          <div style="display:flex">
+            <div>项目名称：</div><span v-text="form.stName"></span>
+          </div>
         </el-col>
-        <el-col :span="4" :offset="1">
-          业务名称: <span v-text="form.stName"></span>
+        <el-col :span="7" :offset="1">
+          <div style="display:flex">
+            <div>单价（元/{{priceLabel }}）：</div><span v-text="$options.filters.moneyFilter(form.bidPrice)"></span>
+          </div>
+          <div style="display:flex">
+            <div>投标数量（吨）：</div><span v-text="$options.filters.weightFilter(form.bidNumber)"></span>
+          </div>
+          <div style="display:flex">
+            <div>投标保证金（元）：</div><span v-text="$options.filters.moneyFilter(form.bidBond)"></span>
+          </div>
+          <div style="display:flex">
+            <div>履约保证金（元）：</div><span v-text="$options.filters.moneyFilter(form.performanceBond)"></span>
+          </div>
+          <div style="display:flex">
+            <div>发站：</div><span v-text="form.sendStation"></span>
+          </div>
         </el-col>
-        <el-col :span="4" :offset="1">
-          项目编号: <span v-text="form.serialNo"></span>
-        </el-col>
-        <el-col :span="4" :offset="1">
-          投标平台：<span v-text="form.bidPlatform"></span>
-        </el-col>
-        <el-col :span="4" :offset="1">
-          单价模式：<span v-text="form.unitPriceMode"></span>
-        </el-col>
-      </el-row>
-
-      <el-row class="head-text">
-        <el-col :span="4" :offset="1">
-          单价（元/{{ priceLabel }}）：<span
-            v-text="$options.filters.moneyFilter(form.bidPrice)"
-          ></span>
-        </el-col>
-        <el-col :span="4" :offset="1">
-          投标数量（吨）：<span
-            v-text="$options.filters.weightFilter(form.bidNumber)"
-          ></span>
-        </el-col>
-        <el-col :span="4" :offset="1">
-          投标保证金（元）：<span
-            v-text="$options.filters.moneyFilter(form.bidBond)"
-          ></span>
-        </el-col>
-        <el-col :span="4" :offset="1">
-          履约保证金（元）：<span
-            v-text="$options.filters.moneyFilter(form.performanceBond)"
-          ></span>
-        </el-col>
-      </el-row>
-
-      <el-row class="head-text">
-        <el-col :span="4" :offset="1">
-          发站：<span v-text="form.sendStation"></span>
-        </el-col>
-        <el-col :span="4" :offset="1">
-          到站：<span v-text="form.arriveStation"></span>
+        <el-col :span="7" :offset="1">
+          <div style="display:flex">
+            <div>到站：</div><span v-text="form.arriveStation"></span>
+          </div>
         </el-col>
       </el-row>
 
       <el-row class="head-text">
         <el-col :span="18" :offset="1">
-          备注：<el-input
-            disabled
-            type="textarea"
-            :rows="3"
-            v-model="form.remark"
-            placeholder=""
-          />
+          备注：
+          <el-input disabled type="textarea" :rows="3" v-model="form.remark" placeholder="" />
         </el-col>
       </el-row>
 
@@ -102,42 +100,42 @@
         </el-col>
       </el-row>
       <!--      审批流程·-->
-            <approval-process :typeId="18" :stId="bidId"></approval-process>
-
+      <approval-process :typeId="18" :stId="bidId"></approval-process>
       <!--      审批信息-->
       <approval-record :typeId="18" :stId="bidId"></approval-record>
     </el-form>
     <el-row>
       <el-col :offset="1" :span="20">
-        <div
-          slot=""
-          class="dialog-footer"
-          style="text-align: right; margin-bottom: 50px; margin-right: 50px"
-        >
-          <el-button type="info" @click="cancel">关 闭</el-button>
+        <div slot="" class="dialog-footer" style="text-align: right;margin-bottom: 50px;margin-right: 50px;">
+          <el-button size="small" type="info" @click="cancel">关 闭</el-button>
         </div>
       </el-col>
     </el-row>
   </div>
 </template>
 <script>
-import { getToken } from "@/utils/auth";
-import { getProcessDataByStId } from "@/api/approve";
+
+import {getToken} from "@/utils/auth";
+import {getProcessDataByStId} from "@/api/approve";
 import { getBidApply, listForBus, listForPro } from "@/api/project/bidApply";
-import CustomUpload from "@/views/components/customUpload";
+import CustomUpload from '@/views/components/customUpload'
 export default {
   name: "bidApplyLook",
   components: {
-    CustomUpload,
+    CustomUpload
   },
   data() {
     return {
+      //审批集合
+      stateList: [{"deptName":"风控部","roleName":"风控部经理","userName":"张三","content":"没有问题，同意审批","state":"已通过"},
+                  {"deptName":"风控部","roleName":"风控部经理","userName":"张三","content":"没有问题，同意审批","state":"已通过"},
+                  {"deptName":"风控部","roleName":"风控部经理","userName":"张三","content":"","state":"未审批"}],
       //上传路径
-      url: process.env.VUE_APP_BASE_API + "/file/upload",
+      url:process.env.VUE_APP_BASE_API + "/file/upload",
       // 设置上传的请求头部
       headers: { Authorization: "Bearer " + getToken() },
       //附件集合
-      fileList: [],
+      fileList:[],
       // 表单参数
       form: {},
       bidId: "",
@@ -145,27 +143,27 @@ export default {
       listForProArr: [],
     };
   },
-  computed: {
-    priceLabel() {
-      if (this.form.unitPriceMode === "吨") {
-        return "吨";
-      } else if (this.form.unitPriceMode === "热值") {
-        return "kcal";
+  computed:{
+    priceLabel(){
+      if(this.form.unitPriceMode === '吨'){
+        return '吨';
+      }else if(this.form.unitPriceMode === '热值'){
+        return 'kcal';
       }
-    },
+    }
   },
   created() {
     this.listForBus();
     this.listForPro();
     const bidId = this.$route.params && this.$route.params.bidId;
-    this.bidId = bidId;
-    getBidApply(bidId).then((response) => {
-      this.form = response.data;
-      this.fileList = this.form.fileList || [];
-    });
+    this.bidId=bidId
+    getBidApply(bidId).then(response => {
+        this.form = response.data;
+        this.fileList = this.form.fileList || []
+      });
   },
   methods: {
-    cancel() {
+    cancel(){
       this.$store.dispatch("tagsView/delView", this.$route);
       this.$router.go(-1);
     },
@@ -184,7 +182,7 @@ export default {
       // console.log(22, this.listForProArr);
       this.form = this.listForProArr;
       // console.log(44, this.form);
-    },
-  },
+    }
+  }
 };
 </script>

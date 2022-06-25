@@ -209,7 +209,7 @@
       @pagination="getList"
     />
 
-    <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body>
+    <el-dialog :title="title" :visible.sync="open" width="773px" append-to-body>
       <aou
         ref="aou"
         :aouform="form"

@@ -899,7 +899,7 @@
                       line-height: 26px;
                       width: 150px;
                       display: flex;
-                      justify-content: end;
+                      justify-content: flex-end;
                     "
                   >
                     {{ $options.filters.moneyFilter(data5.shouldFk) }}
@@ -955,7 +955,7 @@
                       line-height: 26px;
                       width: 150px;
                       display: flex;
-                      justify-content: end;
+                      justify-content: flex-end;
                     "
                   >
                     {{ $options.filters.moneyFilter(data5.actualFk) }}
@@ -1061,7 +1061,7 @@
                       line-height: 26px;
                       width: 150px;
                       display: flex;
-                      justify-content: end;
+                      justify-content: flex-end;
                     "
                   >
                     {{ $options.filters.moneyFilter(data6.shouldSk) }}
@@ -1117,7 +1117,7 @@
                       line-height: 26px;
                       width: 150px;
                       display: flex;
-                      justify-content: end;
+                      justify-content: flex-end;
                     "
                   >
                     {{ $options.filters.moneyFilter(data6.actualSk) }}
@@ -1760,7 +1760,7 @@ export default {
     box-shadow: 0px 0px 6px 0px rgba(146, 153, 161, 0.28);
     .demo-form-inline {
       display: flex;
-      justify-content: end;
+      justify-content: flex-end;
       padding-top: 15px;
     }
   }
