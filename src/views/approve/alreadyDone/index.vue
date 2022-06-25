@@ -141,7 +141,10 @@ export default {
     handleSelectYiban(row) {
       let typeId = row.approvalType;
       let stId = row.businessKey;
-      if (typeId == "1") {
+      if (typeId == "20") {
+        this.$router.push("/st/lookAddP/" + stId);
+      }
+      else if (typeId == "1") {
         this.$router.push("/st/lookAdd/" + stId);
       } else if (typeId == "2") {
         getStupdate(stId).then((response) => {
