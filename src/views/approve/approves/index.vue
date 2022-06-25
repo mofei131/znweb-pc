@@ -28,7 +28,7 @@
         <el-col :span="19">
           <el-form-item label="发起人：">{{
             queryParams.initiatorUserName
-            }}</el-form-item>
+          }}</el-form-item>
         </el-col>
       </el-row>
     </el-form>
@@ -413,8 +413,8 @@
             </el-col>
             <el-col :span="4">
               立项日期：<span>{{
-                parseTime(form.createTime, "{y}-{m}-{d}")
-                }}</span>
+              parseTime(form.createTime, "{y}-{m}-{d}")
+              }}</span>
             </el-col>
           </el-row>
           <el-row class="head-text">
@@ -994,8 +994,8 @@
                 <el-table-column property="putTime" label="付款日期">
                   <template slot-scope="scope">
                     <span>{{
-                      parseTime(scope.row.putTime, "{y}-{m}-{d}")
-                      }}</span>
+                    parseTime(scope.row.putTime, "{y}-{m}-{d}")
+                    }}</span>
                   </template>
                 </el-table-column>
                 <el-table-column property="putPrice" label="付款金额(元)">
@@ -1011,8 +1011,8 @@
                 <el-table-column property="outTime" label="回款日期">
                   <template slot-scope="scope">
                     <span>{{
-                      parseTime(scope.row.outTime, "{y}-{m}-{d}")
-                      }}</span>
+                    parseTime(scope.row.outTime, "{y}-{m}-{d}")
+                    }}</span>
                   </template>
                 </el-table-column>
                 <el-table-column property="spTime" label="资金占用时间(天)">
@@ -1115,8 +1115,8 @@
             </el-col>
             <el-col :span="4">
               签约日期：<span>{{
-                parseTime(form.signingTime, "{y}-{m}-{d}")
-                }}</span>
+              parseTime(form.signingTime, "{y}-{m}-{d}")
+              }}</span>
             </el-col>
             <el-col :span="4" :offset="1" v-if="form.type == '上游合同'">
               供应商：<span v-text="form.supplierName"></span>
@@ -1362,15 +1362,15 @@
             <el-col :span="4" :offset="1">
               <el-form-item label="合计重量：">
                 <span style="color: red; line-height: 57px !important">{{
-                  $options.filters.weightFilter(form.totalWeight)
-                  }}</span>
+                $options.filters.weightFilter(form.totalWeight)
+                }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item label="平均热值：">
                 <span style="color: red; line-height: 57px !important">{{
-                  form.averageRz
-                  }}</span>
+                form.averageRz
+                }}</span>
               </el-form-item>
             </el-col>
           </el-row>
@@ -1448,29 +1448,29 @@
             <el-col :span="4" :offset="1">
               <el-form-item label="付款总额：">
                 <span style="color: red">{{
-                  $options.filters.moneyFilter(form.payTprice)
-                  }}</span>
+                $options.filters.moneyFilter(form.payTprice)
+                }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item label="已付金额：">
                 <span style="color: red">{{
-                  $options.filters.moneyFilter(form.prepaidPrice)
-                  }}</span>
+                $options.filters.moneyFilter(form.prepaidPrice)
+                }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item label="垫付保证金：">
                 <span style="color: red">{{
-                  $options.filters.moneyFilter(form.dfPrice)
-                  }}</span>
+                $options.filters.moneyFilter(form.dfPrice)
+                }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item label="实际付款金额：">
                 <span style="color: red">{{
-                  $options.filters.moneyFilter(form.actualPrice)
-                  }}</span>
+                $options.filters.moneyFilter(form.actualPrice)
+                }}</span>
               </el-form-item>
             </el-col>
           </el-row>
@@ -1618,8 +1618,8 @@
             <el-col :span="4" :offset="1">
               <el-form-item label="合计重量：">
                 <span style="color: red">{{
-                  $options.filters.weightFilter(form.tweight)
-                  }}</span>
+                $options.filters.weightFilter(form.tweight)
+                }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="4">
@@ -1646,8 +1646,8 @@
             </el-col>
             <el-col :span="5">
               付款日期：<span>{{
-                parseTime(form.payTime, "{y}-{m}-{d}")
-                }}</span>
+              parseTime(form.payTime, "{y}-{m}-{d}")
+              }}</span>
             </el-col>
           </el-row>
 
@@ -1848,8 +1848,8 @@
             <el-col :span="4" :offset="1">
               <el-form-item label="合计重量：">
                 <span style="color: red">{{
-                  $options.filters.weightFilter(form.tweight)
-                  }}</span>
+                $options.filters.weightFilter(form.tweight)
+                }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="4">
@@ -1893,22 +1893,22 @@
             <el-col :span="4" :offset="1">
               <el-form-item label="总计收款：">
                 <span style="color: red">{{
-                  $options.filters.moneyFilter(form.yftotalPrice)
-                  }}</span>
+                $options.filters.moneyFilter(form.yftotalPrice)
+                }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item label="已预收金额：">
                 <span style="color: red">{{
-                  $options.filters.moneyFilter(form.yfPrice)
-                  }}</span>
+                $options.filters.moneyFilter(form.yfPrice)
+                }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="4">
               <el-form-item label="实际应收金额：">
                 <span style="color: red">{{
-                  $options.filters.moneyFilter(form.sjPrice)
-                  }}</span>
+                $options.filters.moneyFilter(form.sjPrice)
+                }}</span>
               </el-form-item>
             </el-col>
           </el-row>
@@ -2037,8 +2037,8 @@
               </el-col>
               <el-col :span="4">
                 支付日期：<span>{{
-                  parseTime(form.putTime, "{y}-{m}-{d}")
-                  }}</span>
+                parseTime(form.putTime, "{y}-{m}-{d}")
+                }}</span>
               </el-col>
             </el-row>
           </div>
@@ -2127,8 +2127,8 @@
             </el-col>
             <el-col :span="4">
               预计付款时间：<span>{{
-                parseTime(form.fkTime, "{y}-{m}-{d}")
-                }}</span>
+              parseTime(form.fkTime, "{y}-{m}-{d}")
+              }}</span>
             </el-col>
           </el-row>
 
@@ -2138,8 +2138,8 @@
             </el-col>
             <el-col :span="4">
               预计收款时间：<span>{{
-                parseTime(form.skTime, "{y}-{m}-{d}")
-                }}</span>
+              parseTime(form.skTime, "{y}-{m}-{d}")
+              }}</span>
             </el-col>
             <el-col :span="4">
               预计收款总额(元)：<span v-text="$options.filters.moneyFilter(form.skPrice)"></span>
@@ -2206,8 +2206,8 @@
             </el-col>
             <el-col :span="5">
               支付日期：<span>{{
-                parseTime(form.putTime, "{y}-{m}-{d}")
-                }}</span>
+              parseTime(form.putTime, "{y}-{m}-{d}")
+              }}</span>
             </el-col>
             <el-col :span="5">
               年服务费费率(%)：<span v-text="form.stRate"></span>
@@ -2307,8 +2307,8 @@
             </el-col>
             <el-col :span="4">
               发货日期：<span>{{
-                parseTime(form.deliveryTime, "{y}-{m}-{d}")
-                }}</span>
+              parseTime(form.deliveryTime, "{y}-{m}-{d}")
+              }}</span>
             </el-col>
             <el-col :span="4">
               入库热值：<span v-text="form.grnRz"></span>
@@ -3074,8 +3074,8 @@
           <el-row class="head-text">
             <el-col :span="4" :offset="1">
               支出时间：<span>{{
-                parseTime(form.payTime, "{y}-{m}-{d}")
-                }}</span>
+              parseTime(form.payTime, "{y}-{m}-{d}")
+              }}</span>
             </el-col>
           </el-row>
         </el-form>
