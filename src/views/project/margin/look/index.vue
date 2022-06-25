@@ -1,4 +1,5 @@
-<style>
+<style scoped>
+
 .head-title {
   font-size: 16px;
   font-family: Microsoft YaHei;
@@ -13,8 +14,14 @@
   font-family: Microsoft YaHei;
   font-weight: 400;
   color: #333333;
-  line-height: 53px;
+  line-height: 30px;
   text-align: center;
+}
+.head-text span{
+  display: block;
+  width:220px;
+  line-height:30px;
+  margin-top:0px
 }
 
 .upload-hidden .el-upload--picture-card {
@@ -34,68 +41,60 @@
         </el-col>
       </el-row>
       <el-row class="head-text">
-        <!-- <el-col :span="4" :offset="1">
-          保证金对象：<span v-text="form.type"></span>
-        </el-col> -->
-        <el-col :span="4"> 保证金类型：<span v-text="form.obj"></span> </el-col>
-         <el-col :span="4" :offset="1">
-            项目名称：<span v-text="form.projectName"></span>
-          </el-col>
-           <el-col :span="4" :offset="1">
-            业务名称：<span v-text="form.stName"></span>
-          </el-col>
-        <el-col :span="4">
-          项目编号：<span v-text="form.serialNo"></span>
+        <el-col :span="7" :offset="1">
+          <div style="display:flex">
+            <div>项目名称：</div><span v-text="form.projectName"></span>
+          </div>
+          <div style="display:flex">
+            <div>业务名称：</div><span v-text="form.stName"></span>
+          </div>
+          <div style="display:flex">
+            <div>项目编号：</div><span v-text="form.serialNo"></span>
+          </div>
+          <div style="display:flex">
+            <div>保证金对象：</div><span v-text="form.type"></span>
+          </div>
+        </el-col>
+        <el-col :span="7" :offset="1" v-if="form.type == '上游'">
+          <div style="display:flex">
+            <div>合同名称：</div><span v-text="form.contractName"></span>
+          </div>
+          <div style="display:flex">
+            <div>供应商名称：</div><span v-text="form.terminalName"></span>
+          </div>
+          <div style="display:flex">
+            <div>保证金金额(元)：</div><span v-text="$options.filters.moneyFilter(form.putPrice)"></span>
+          </div>
+          <div style="display:flex">
+            <div>合同名称：</div><span v-text="form.contractName"></span>
+          </div>
+          <div style="display:flex">
+            <div>合同名称：</div><span v-text="form.contractName"></span>
+          </div>
+        </el-col>
+        <el-col :span="7" :offset="1" v-if="form.type == '下游'">
+          <div style="display:flex">
+            <div>合同名称：</div><span v-text="form.contractName"></span>
+          </div>
+          <div style="display:flex">
+            <div>客户名称：</div><span v-text="form.terminalName"></span>
+          </div>
+          <div style="display:flex">
+            <div>保证金金额(元)：</div><span v-text="$options.filters.moneyFilter(form.putPrice)"></span>
+          </div>
+          <div style="display:flex">
+            <div>年服务费率%：</div><span v-text="form.stRate"></span>
+          </div>
+        </el-col>
+        <el-col :span="7" :offset="1" v-if="form.type == '下游'">
+          <div style="display:flex">
+            <div>保底服务费期限(天)：</div><span v-text="form.mfsp"></span>
+          </div>
+          <div style="display:flex">
+            <div>支付日期：</div><span>{{ parseTime(form.putTime, "{y}-{m}-{d}") }}</span>
+          </div>
         </el-col>
       </el-row>
-      <div v-if="form.type == '上游'">
-        <el-row class="head-text">
-          <el-col :span="4" :offset="1">
-            合同名称：<span v-text="form.contractName"></span>
-          </el-col>
-          <el-col :span="4">
-            供应商名称：<span v-text="form.terminalName"></span>
-          </el-col>
-          <el-col :span="4">
-            保证金金额(元)：<span
-              v-text="$options.filters.moneyFilter(form.putPrice)"
-            ></span>
-          </el-col>
-        </el-row>
-      </div>
-      <div v-if="form.type == '下游'">
-        <el-row class="head-text">
-          <el-col :span="4">
-            合同名称：<span v-text="form.contractName"></span>
-          </el-col>
-          <el-col :span="4">
-            客户名称：<span v-text="form.terminalName"></span>
-          </el-col>
-          <el-col :span="4">
-            保证金金额(元)：<span
-              v-text="$options.filters.moneyFilter(form.putPrice)"
-            ></span>
-          </el-col>
-        </el-row>
-
-        <el-row class="head-title">
-          <el-col :span="19">
-            <el-form-item label="服务费"></el-form-item>
-          </el-col>
-        </el-row>
-
-        <el-row class="head-text">
-          <el-col :span="4" :offset="1">
-            年服务费率%：<span v-text="form.stRate"></span>
-          </el-col>
-          <el-col :span="4">
-            保底服务费期限(天)：<span v-text="form.mfsp"></span>
-          </el-col>
-          <el-col :span="4">
-            支付日期：<span>{{ parseTime(form.putTime, "{y}-{m}-{d}") }}</span>
-          </el-col>
-        </el-row>
-      </div>
 
       <!--      合同信息-->
       <el-row class="head-title">
@@ -105,26 +104,18 @@
       </el-row>
       <el-row class="head-text">
         <el-col :offset="1">
-          <el-table
-            ref="singleTable"
-            :data="contract"
-            style="width: 80%; margin-bottom: 30px"
-          >
+          <el-table ref="singleTable" :data="contract" style="width: 80%; margin-bottom: 30px">
             <el-table-column property="name" label="合同名称">
             </el-table-column>
-            <el-table-column
-              property="type"
-              label="合同类型"
-              :formatter="contractTypeFormat"
-            >
+            <el-table-column property="type" label="合同类型" :formatter="contractTypeFormat">
             </el-table-column>
             <el-table-column property="expectNumber" label="货品重量(吨)">
               <template slot-scope="scope">
                 {{
-                  Number(scope.row.expectNumber)
-                    .toFixed(3)
-                    .toString()
-                    .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                Number(scope.row.expectNumber)
+                .toFixed(3)
+                .toString()
+                .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                 }}
               </template>
             </el-table-column>
@@ -135,11 +126,7 @@
             </el-table-column>
             <el-table-column label="操作" width="120">
               <template slot-scope="scope">
-                <el-button
-                  @click.native.prevent="toContract(scope.row.contractId)"
-                  type="text"
-                  size="small"
-                >
+                <el-button @click.native.prevent="toContract(scope.row.contractId)" type="text" size="small">
                   查看
                 </el-button>
               </template>
@@ -166,19 +153,15 @@
       </el-row>
 
       <!--      审批流程·-->
-            <approval-process :typeId="7" :stId="marginId"></approval-process>
+      <approval-process :typeId="7" :stId="marginId"></approval-process>
 
       <!--      审批信息-->
       <approval-record :typeId="7" :stId="marginId"></approval-record>
     </el-form>
     <el-row>
       <el-col :offset="1" :span="20">
-        <div
-          slot=""
-          class="dialog-footer"
-          style="text-align: right; margin-bottom: 50px; margin-right: 50px"
-        >
-          <el-button type="info" @click="cancel">关 闭</el-button>
+        <div slot="" class="dialog-footer" style="text-align: right; margin-bottom: 50px; margin-right: 50px">
+          <el-button size="small" type="info" @click="cancel">关 闭</el-button>
         </div>
       </el-col>
     </el-row>
@@ -196,7 +179,6 @@ export default {
   name: "contractLook",
   data() {
     return {
-
       //上传路径
       url: process.env.VUE_APP_BASE_API + "/file/upload",
       // 设置上传的请求头部

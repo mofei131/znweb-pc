@@ -1,4 +1,4 @@
-<style>
+<style scoped>
 .head-title{
   font-size: 16px;
   font-family: Microsoft YaHei;
@@ -13,7 +13,12 @@
   font-family: Microsoft YaHei;
   font-weight: 400;
   color: #333333;
-  line-height: 53px;
+  line-height: 30px;
+}
+.head-text span{
+  display: block;
+  width:220px;
+  margin-top:0px
 }
 
 .upload-hidden .el-upload--picture-card{
@@ -32,33 +37,15 @@
         </el-col>
       </el-row>
       <el-row class="head-text">
-        <el-col :span="5" :offset="1">
-          名称：<span v-text="form.name"></span>
+        <el-col :span="7" :offset="1">
+          <div style="display:flex"><div>名称：</div><span v-text="form.name"></span></div>
+          <div style="display:flex"><div>快递名称：</div><span v-text="form.kdName"></span></div>
+          <div style="display:flex"><div>快递单号：</div><span v-text="form.kdNumber"></span></div>
+          <div style="display:flex"><div>快递物品：</div><span v-text="form.kdWp"></span></div>
+          <div style="display:flex"><div>发出时间：</div><span>{{parseTime(form.kdTime, '{y}-{m}-{d}') }}</span></div>
         </el-col>
-      </el-row>
-      <el-row class="head-text">
-        <el-col :span="5" :offset="1">
-          快递名称：<span v-text="form.kdName"></span>
-        </el-col>
-      </el-row>
-      <el-row class="head-text">
-        <el-col :span="5" :offset="1">
-          快递单号：<span v-text="form.kdNumber"></span>
-        </el-col>
-      </el-row>
-      <el-row class="head-text">
-        <el-col :span="5" :offset="1">
-          快递物品：<span v-text="form.kdWp"></span>
-        </el-col>
-      </el-row>
-      <el-row class="head-text">
-        <el-col :span="5" :offset="1">
-          发出时间：<span>{{parseTime(form.kdTime, '{y}-{m}-{d}') }}</span>
-        </el-col>
-      </el-row>
-      <el-row class="head-text">
-        <el-col :span="5" :offset="1">
-          备注说明：<span v-text="form.node"></span>
+        <el-col :span="7" :offset="1">
+          <div style="display:flex"><div>备注说明：</div><span v-text="form.node"></span></div>
         </el-col>
       </el-row>
 
@@ -66,7 +53,7 @@
     <el-row>
       <el-col :offset="1" :span="20">
         <div slot=""  class="dialog-footer" style="text-align: right;margin-bottom: 50px;margin-right: 50px;">
-          <el-button type="info" @click="cancel">关 闭</el-button>
+          <el-button size="small" type="info" @click="cancel">关 闭</el-button>
         </div>
       </el-col>
     </el-row>

@@ -1,4 +1,4 @@
-<style>
+<style scoped>
 .head-title {
   font-size: 16px;
   font-family: Microsoft YaHei;
@@ -13,7 +13,13 @@
   font-family: Microsoft YaHei;
   font-weight: 400;
   color: #333333;
-  line-height: 53px;
+  line-height: 30px;
+}
+.head-text span{
+  display: block;
+  width:220px;
+  line-height:30px;
+  margin-top:0px
 }
 
 .upload-hidden .el-upload--picture-card {
@@ -35,38 +41,33 @@
         </el-col>
       </el-row>
       <el-row class="head-text">
-        <el-col :span="6" :offset="1">
-          创建时间：<span v-text="form.createTime"></span>
+        <el-col :span="7" :offset="1">
+          <div style="display:flex">
+            <div>创建时间：</div><span v-text="form.createTime"></span>
+          </div>
+          <div style="display:flex">
+            <div>业务名称：</div><span v-text="form.projectName"></span>
+          </div>
+          <div style="display:flex">
+            <div>项目名称：</div><span v-text="form.stName"></span>
+          </div>
+          <div style="display:flex">
+            <div>项目编号：</div><span v-text="form.serialNo"></span>
+          </div>
+          <div style="display:flex">
+            <div>终端用户：</div><span v-text="form.tName"></span>
+          </div>
+          <div style="display:flex">
+            <div>账号：</div><span v-text="form.account"></span>
+          </div>
         </el-col>
-      </el-row>
-      <el-row class="head-text">
-        <el-col :span="6" :offset="1">
-          项目名称：<span v-text="form.projectName"></span>
-        </el-col>
-        <el-col :span="6" :offset="1">
-          业务名称：<span v-text="form.stName"></span>
-        </el-col>
-        <el-col :span="6">
-          项目编号：<span v-text="form.serialNo"></span>
-        </el-col>
-      </el-row>
-      <el-row class="head-text">
-        <el-col :span="6" :offset="1">
-          终端用户：<span v-text="form.tName"></span>
-        </el-col>
-      </el-row>
-      <el-row class="head-text">
-        <el-col :span="6" :offset="1">
-          账号：<span v-text="form.account"></span>
-        </el-col>
-        <el-col :span="6"> 开户行：<span v-text="form.bank"></span> </el-col>
-        <el-col :span="6">
-          退款金额(元)：<span v-text="$options.filters.moneyFilter(form.moneyAmount)"></span>
-        </el-col>
-      </el-row>
-      <el-row class="head-text">
-        <el-col :span="8" :offset="1">
-          备注：<span v-text="form.remark"></span>
+        <el-col :span="7" :offset="1">
+          <div style="display:flex">
+            <div>退款金额(元)：</div><span v-text="$options.filters.moneyFilter(form.moneyAmount)"></span>
+          </div>
+          <div style="display:flex">
+            <div>备注：</div><span v-text="form.remark"></span>
+          </div>
         </el-col>
       </el-row>
       <el-row class="head-text">
@@ -77,19 +78,15 @@
         </el-col>
       </el-row>
       <!--      审批流程·-->
-            <approval-process :typeId="19" :stId="refundId"></approval-process>
+      <approval-process :typeId="19" :stId="refundId"></approval-process>
 
       <!--      审批信息-->
       <approval-record :typeId="19" :stId="refundId"></approval-record>
     </el-form>
     <el-row>
       <el-col :offset="1" :span="20">
-        <div
-          slot=""
-          class="dialog-footer"
-          style="text-align: right; margin-bottom: 50px; margin-right: 50px"
-        >
-          <el-button type="info" @click="cancel">关 闭</el-button>
+        <div slot="" class="dialog-footer" style="text-align: right; margin-bottom: 50px; margin-right: 50px">
+          <el-button size="small" type="info" @click="cancel">关 闭</el-button>
         </div>
       </el-col>
     </el-row>

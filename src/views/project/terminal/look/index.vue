@@ -1,4 +1,4 @@
-<style>
+<style scoped>
 .head-title {
   font-size: 16px;
   font-family: Microsoft YaHei;
@@ -13,7 +13,13 @@
   font-family: Microsoft YaHei;
   font-weight: 400;
   color: #333333;
-  line-height: 53px;
+  line-height: 30px;
+}
+.head-text span{
+  display: block;
+  width:220px;
+  line-height:30px;
+  margin-top:0px
 }
 
 .upload-hidden .el-upload--picture-card {
@@ -33,45 +39,44 @@
         </el-col>
       </el-row>
       <el-row class="head-text">
-        <el-col :span="5" :offset="1">
-          终端客户名称：<span v-text="form.name"></span>
+        <el-col :span="7" :offset="1">
+          <div style="display:flex">
+            <div>终端客户名称：</div><span v-text="form.name"></span>
+          </div>
+          <div style="display:flex">
+            <div>成立日期：</div><span v-text="form.setupTime"></span>
+          </div>
+          <div style="display:flex">
+            <div>企业性质：</div><span v-text="form.nature"></span>
+          </div>
+          <div style="display:flex">
+            <div>年需求量(万吨)：</div><span v-text="$options.filters.weightFilter(form.demand)"></span>
+          </div>
+          <div style="display:flex">
+            <div>注册资本(万元)：</div><span v-text="$options.filters.moneyFilter(form.capital)"></span>
+          </div>
         </el-col>
-        <el-col :span="5">
-          成立日期：<span v-text="form.setupTime"></span>
+        <el-col :span="7" :offset="1">
+          <div style="display:flex">
+            <div>开票结算方式：</div><span v-text="form.settlementType"></span>
+          </div>
+          <div style="display:flex">
+            <div>结算规则：</div><span v-text="form.settlementGz"></span>
+          </div>
+          <div style="display:flex">
+            <div>回款账期：</div><span v-text="form.paymentdays"></span>
+          </div>
+          <div style="display:flex">
+            <div>付款方式：</div><span v-text="form.paymentType"></span>
+          </div>
+          <div style="display:flex">
+            <div>评级：</div><span v-text="form.rating"></span>
+          </div>
         </el-col>
-        <el-col :span="5">
-          企业性质：<span v-text="form.nature"></span>
-        </el-col>
-        <el-col :span="5">
-          年需求量(万吨)：<span
-            v-text="$options.filters.weightFilter(form.demand)"
-          ></span>
-        </el-col>
-      </el-row>
-      <el-row class="head-text">
-        <el-col :span="5" :offset="1">
-          注册资本(万元)：<span
-            v-text="$options.filters.moneyFilter(form.capital)"
-          ></span>
-        </el-col>
-        <el-col :span="5">
-          开票结算方式：<span v-text="form.settlementType"></span>
-        </el-col>
-        <el-col :span="5">
-          结算规则：<span v-text="form.settlementGz"></span>
-        </el-col>
-        <el-col :span="5">
-          回款账期：<span v-text="form.paymentdays"></span>
-        </el-col>
-      </el-row>
-
-      <el-row class="head-text">
-        <el-col :span="5" :offset="1">
-          付款方式：<span v-text="form.paymentType"></span>
-        </el-col>
-        <el-col :span="5"> 评级：<span v-text="form.rating"></span> </el-col>
-        <el-col :span="5">
-          评级说明：<span v-text="form.ratingDe"></span>
+        <el-col :span="7" :offset="1">
+          <div style="display:flex">
+            <div>评级说明：</div><span v-text="form.ratingDe"></span>
+          </div>
         </el-col>
         <el-col :span="5">
           客户代码：<span v-text="form.customerCode"></span>
@@ -96,19 +101,14 @@
       </el-row>
 
       <!--      审批流程·-->
-           
       <approval-process :typeId="13" :stId="terminalId"></approval-process>
       <!--      审批信息-->
       <approval-record :typeId="13" :stId="terminalId"></approval-record>
     </el-form>
     <el-row>
       <el-col :offset="1" :span="20">
-        <div
-          slot=""
-          class="dialog-footer"
-          style="text-align: right; margin-bottom: 50px; margin-right: 50px"
-        >
-          <el-button type="info" @click="cancel">关 闭</el-button>
+        <div slot="" class="dialog-footer" style="text-align: right; margin-bottom: 50px; margin-right: 50px">
+          <el-button size="small" type="info" @click="cancel">关 闭</el-button>
         </div>
       </el-col>
     </el-row>

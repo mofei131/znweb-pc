@@ -18,7 +18,7 @@
     </el-form>
 
     <el-row :gutter="10" class="mb8">
-      <el-col :span="6" style="margin-left:12px;">
+      <el-col :span="21" style="margin-left:12px;font-size: 14px;">
         <span>资金占用余额：</span> <span v-text="$options.filters.moneyFilter(zPrice)">0.00</span>
       </el-col>
 <!--      <el-col :span="1.5">-->

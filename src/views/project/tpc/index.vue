@@ -136,19 +136,18 @@
     <el-dialog
       :title="title"
       :visible.sync="open"
-      width="80%"
+      width="773px"
       append-to-body
       @opened="handleOpen"
     >
-      <el-form ref="form" :model="form" :rules="rules" label-width="180px">
+      <el-form ref="form" :model="form" :rules="rules" label-width="100px">
         <el-row>
           <el-col :span="12">
             <el-form-item label="公司名称" prop="name">
               <el-input v-model="form.name" placeholder="请输入公司名称" />
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row>
+ 
           <el-col :span="12">
             <el-form-item label="公司账户" prop="account">
               <el-input v-model="form.account" placeholder="请输入公司账户" />

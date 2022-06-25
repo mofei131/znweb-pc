@@ -1,4 +1,4 @@
-<style>
+<style scoped>
 .head-title {
   font-size: 16px;
   font-family: Microsoft YaHei;
@@ -13,7 +13,13 @@
   font-family: Microsoft YaHei;
   font-weight: 400;
   color: #333333;
-  line-height: 53px;
+  line-height: 30px;
+}
+.head-text span{
+  display: block;
+  width:220px;
+  line-height:30px;
+  margin-top:0px
 }
 
 .upload-hidden .el-upload--picture-card {
@@ -36,112 +42,98 @@
         </el-col>
       </el-row>
       <el-row class="head-text">
-        <el-col :span="4" :offset="1">
-          项目名称：<span v-text="form.stName"></span>
+        <el-col :span="7" :offset="1">
+          <div style="display:flex">
+            <div>项目名称：</div><span v-text="form.stName"></span>
+          </div>
+          <div style="display:flex">
+            <div>合同名称：</div><span v-text="form.name"></span>
+          </div>
+          <div style="display:flex">
+            <div>合同类型：</div><span v-text="form.type"></span>
+          </div>
+          <div style="display:flex">
+            <div>合同编号：</div><span v-text="form.number"></span>
+          </div>
+          <div style="display:flex">
+            <div>签约日期：</div><span>{{
+              parseTime(form.signingTime, "{y}-{m}-{d}")
+              }}</span>
+          </div>
         </el-col>
-        <el-col :span="4"> 合同名称：<span v-text="form.name"></span> </el-col>
-        <el-col :span="4"> 合同类型：<span v-text="form.type"></span> </el-col>
-        <el-col :span="4">
-          合同编号：<span v-text="form.number"></span>
+        <el-col :span="7" :offset="1" v-if="form.type == '上游合同'">
+          <div style="display:flex">
+            <div>供应商：</div><span v-text="form.supplierName"></span>
+          </div>
+          <div style="display:flex">
+            <div>终端客户：</div><span v-text="form.terminalName"></span>
+          </div>
+          <div style="display:flex">
+            <div>客户名称：</div><span v-text="form.khName"></span>
+          </div>
+          <div style="display:flex">
+            <div>立项编号：</div><span v-text="form.productNo"></span>
+          </div>
+          <div style="display:flex">
+            <div>项目编号：</div><span v-text="form.projectNumber"></span>
+          </div>
         </el-col>
-        <el-col :span="4">
-          签约日期：<span>{{
-            parseTime(form.signingTime, "{y}-{m}-{d}")
-          }}</span>
+        <el-col :span="7" :offset="1">
+          <div style="display:flex">
+            <div>货品名称：</div><span v-text="form.goodsName"></span>
+          </div>
+          <div style="display:flex" v-if="form.type == '下游合同'">
+            <div>预计吨数：</div><span v-text="$options.filters.weightFilter(form.expectNumber)"></span>
+          </div>
+          <div style="display:flex" v-if="form.type == '下游合同'">
+            <div>基准单价：</div><span v-text="$options.filters.moneyFilter(form.price)"></span>
+          </div>
+          <div v-if="form.type == '上游合同'" style="display:flex">
+            <div>保底服务费期限：</div><span v-text="form.mfsp"></span>
+          </div>
+          <div v-if="form.type == '上游合同'" style="display:flex">
+            <div>超时服务费期限：</div><span v-text="form.csmfsp"></span>
+          </div>
+          <div v-if="form.type == '上游合同'" style="display:flex">
+            <div>超时服务费费率：</div><span v-text="form.csrate"></span>
+          </div>
+          <div v-if="form.type == '上游合同'" style="display:flex">
+            <div>违约服务费期限：</div><span v-text="form.vymfsp"></span>
+          </div>
+          <div v-if="form.type == '上游合同'" style="display:flex">
+            <div>违约服务费费率：</div><span v-text="form.vyrate"></span>
+          </div>
+          <div style="display:flex" v-if="form.type == '物流运输合同' || form.type == '物流服务合同'">
+            <div>运输单位：</div><span v-text="form.transportUnit"></span>
+          </div>
+          <div style="display:flex" v-if="form.type == '物流运输合同' || form.type == '物流服务合同'">
+            <div>运输方式：</div><span v-text="form.transportType"></span>
+          </div>
+          <div style="display:flex" v-if="form.type == '物流运输合同' || form.type == '物流服务合同'">
+            <div>起运地：</div><span v-text="form.transportStart"></span>
+          </div>
+          <div style="display:flex" v-if="form.type == '物流运输合同' || form.type == '物流服务合同'">
+            <div>目的地：</div><span v-text="form.transportEnd"></span>
+          </div>
+          <div style="display:flex" v-if="form.type == '其他合同'">
+            <div style="width:50px">备注：</div>
+            <el-input disabled type="textarea" :rows="5" v-model="form.node" placeholder="" />
+          </div>
         </el-col>
-      </el-row>
-      <el-row class="head-text">
-        <el-col :span="4" :offset="1" v-if="form.type == '上游合同'">
-          供应商：<span v-text="form.supplierName"></span>
-        </el-col>
-        <el-col :span="4" :offset="1" v-if="form.type == '下游合同'">
-          终端客户：<span v-text="form.terminalName"></span>
-        </el-col>
-        <el-col :span="4" :offset="1" v-if="form.type == '其他合同'">
-          客户名称：<span v-text="form.khName"></span>
-        </el-col>
-        <el-col :span="4">
-          立项编号：<span v-text="form.productNo"></span>
-        </el-col>
-        <el-col :span="4">
-          项目编号：<span v-text="form.projectNumber"></span>
-        </el-col>
-      </el-row>
-
-      <el-row class="head-text">
-        <el-col :span="4" :offset="1">
-          货品名称：<span v-text="form.goodsName"></span>
-        </el-col>
-        <el-col :span="4" v-if="form.type == '下游合同'">
-          预计吨数：<span
-            v-text="$options.filters.weightFilter(form.expectNumber)"
-          ></span>
-        </el-col>
-        <el-col :span="4" v-if="form.type == '下游合同'">
-          基准单价：<span
-            v-text="$options.filters.moneyFilter(form.price)"
-          ></span>
-        </el-col>
-        <el-col :span="4" v-if="form.type == '上游合同'">
-          保底服务费期限：<span v-text="form.mfsp"></span>
-        </el-col>
-      </el-row>
-
-      <el-row class="head-text" v-if="form.type == '上游合同'">
-        <el-col :span="4" :offset="1">
-          超时服务费期限：<span v-text="form.csmfsp"></span>
-        </el-col>
-        <el-col :span="4">
-          超时服务费费率：<span v-text="form.csrate"></span>
-        </el-col>
-        <el-col :span="4">
-          违约服务费期限：<span v-text="form.vymfsp"></span>
-        </el-col>
-        <el-col :span="4">
-          违约服务费费率：<span v-text="form.vyrate"></span>
-        </el-col>
-      </el-row>
-
-      <el-row
-        class="head-text"
-        v-if="form.type == '物流运输合同' || form.type == '物流服务合同'"
-      >
-        <el-col :span="4" :offset="1">
-          运输单位：<span v-text="form.transportUnit"></span>
-        </el-col>
-        <el-col :span="4">
-          运输方式：<span v-text="form.transportType"></span>
-        </el-col>
-        <el-col :span="4">
-          起运地：<span v-text="form.transportStart"></span>
-        </el-col>
-        <el-col :span="4">
-          目的地：<span v-text="form.transportEnd"></span>
-        </el-col>
-      </el-row>
-      <el-row
-        class="head-text"
-        v-if="form.type == '物流运输合同' || form.type == '物流服务合同'"
-      >
-        <el-col :span="4" :offset="1">
-          运费单价(吨/元)：<span
-            v-text="$options.filters.moneyFilter(form.transportPrice)"
-          ></span>
-        </el-col>
-        <el-col :span="4">
-          损耗率：<span v-text="form.transportLoss"></span>
+        <el-col :span="7" :offset="1" v-if="form.type == '物流运输合同' || form.type == '物流服务合同'">
+          <div style="display:flex">
+            <div style="width:115px">运费单价(吨/元)：</div><span
+              v-text="$options.filters.moneyFilter(form.transportPrice)"></span>
+          </div>
+          <div style="display:flex">
+            <div>损耗率：</div><span v-text="form.transportLoss"></span>
+          </div>
         </el-col>
       </el-row>
 
       <el-row class="head-text" v-if="form.type == '其他合同'">
         <el-col :span="4" :offset="1">
-          备注：<el-input
-            disabled
-            type="textarea"
-            :rows="5"
-            v-model="form.node"
-            placeholder=""
-          />
+
         </el-col>
       </el-row>
 
@@ -213,12 +205,8 @@
     </el-form>
     <el-row>
       <el-col :offset="1" :span="20">
-        <div
-          slot=""
-          class="dialog-footer"
-          style="text-align: right; margin-bottom: 50px; margin-right: 50px"
-        >
-          <el-button type="info" @click="cancel">关 闭</el-button>
+        <div slot="" class="dialog-footer" style="text-align: right; margin-bottom: 50px; margin-right: 50px">
+          <el-button size="small" type="info" @click="cancel">关 闭</el-button>
         </div>
       </el-col>
     </el-row>

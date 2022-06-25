@@ -37,8 +37,8 @@
     <div>
       <el-table :data="initiateData">
         <el-table-column label="流程名称" align="center" prop="processName" />
-        <el-table-column label="流程类型" align="center" prop="approvalType">
-          <template slot-scope="scope">
+        <el-table-column label="流程类型" align="center" prop="processTypeLabel">
+          <!-- <template slot-scope="scope">
             {{
               scope.row.approvalType == "1"
                 ? "新增业务"
@@ -82,37 +82,37 @@
                 ? "项目立项"
                 : ""
             }}
-          </template>
+          </template> -->
         </el-table-column>
-        <el-table-column label="发起时间" align="center" prop="createTime" />
+        <el-table-column label="发起时间" align="center" prop="initiatorTime" />
 <!--        <el-table-column label="审批人" align="center" prop="nickName" />-->
         <el-table-column label="状态" align="center" prop="status">
           <template slot-scope="scope">
             <el-tag
               :type="
-                scope.row.status == '0'
+                scope.row.state == '0'
                   ? 'info'
-                  : scope.row.status == '1'
+                  : scope.row.state == '1'
                   ? 'warning'
-                  : scope.row.status == '2'
+                  : scope.row.state == '2'
                   ? 'success'
-                  : scope.row.status == '3'
+                  : scope.row.state == '3'
                   ? 'danger'
-                  : scope.row.status == '5'
+                  : scope.row.state == '5'
                   ? 'warning'
                   : ''
               "
             >
               {{
-                scope.row.status == "0"
+                scope.row.state == "0"
                   ? "未审批"
-                  : scope.row.status == "1"
+                  : scope.row.state == "1"
                   ? "审批中"
-                  : scope.row.status == "2"
+                  : scope.row.state == "2"
                   ? "已完成"
-                  : scope.row.status == "3"
+                  : scope.row.state == "3"
                   ? "驳回"
-                  : scope.row.status == "5"
+                  : scope.row.state == "5"
                   ? "已撤回"
                   : ""
               }}
@@ -244,16 +244,22 @@ export default {
     };
   },
   created() {
-    this.getList();
     this.getDicts("process_type").then((response) => {
       this.processTypeList = response.data;
+      this.getList();
     });
   },
   methods: {
     getList() {
+      let that = this
       taskInitiator(this.queryParams).then((res) => {
         this.total = res.total;
-        this.initiateData = res.rows;
+        // this.initiateData = res.rows;
+        let list = res.rows
+        list.forEach(function(item,index){
+          item.processTypeLabel = that.processTypeList[that.processTypeList.findIndex((it) => it.dictValue == item.approvalType)].dictLabel
+        })
+        this.initiateData = list
       });
     },
     async reInitiate(row) {
@@ -286,8 +292,9 @@ export default {
       }
     },
     handleSelect(row) {
+      // console.log(row)
       let typeId = row.approvalType;
-      let stId = row.stId;
+      let stId = row.businessKey;
       if (typeId == "1") {
         this.$router.push("/st/lookAdd/" + stId);
       } else if (typeId == "2") {

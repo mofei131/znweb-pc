@@ -5,78 +5,33 @@
 </style>
 <template>
   <div class="app-container">
-    <el-form
-      :model="queryParams"
-      ref="queryForm"
-      :inline="true"
-      v-show="showSearch"
-      label-width="68px"
-    >
-          <el-form-item label="创建时间">
-        <el-date-picker
-          v-model="dateRange"
-          size="small"
-          style="width: 240px"
-          value-format="yyyy-MM-dd"
-          type="daterange"
-          range-separator="-"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-        ></el-date-picker>
+    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
+      <el-form-item label="创建时间">
+        <el-date-picker v-model="dateRange" size="small" style="width: 240px" value-format="yyyy-MM-dd" type="daterange"
+          range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
       </el-form-item>
       <el-form-item label="项目" prop="stId">
-       <el-input
-          v-model="queryParams.projectName"
-          placeholder="项目名称"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+        <el-input v-model="queryParams.projectName" placeholder="项目名称" clearable size="small"
+          @keyup.enter.native="handleQuery" />
       </el-form-item>
-       <el-form-item label="业务名称" prop="stName">
-        <el-input
-          v-model="queryParams.stName"
-          placeholder="业务名称"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+      <el-form-item label="业务名称" prop="stName">
+        <el-input v-model="queryParams.stName" placeholder="业务名称" clearable size="small"
+          @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item label="项目编号" prop="serialNo">
-        <el-input
-          v-model="queryParams.serialNo"
-          placeholder="请输入项目编号"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+        <el-input v-model="queryParams.serialNo" placeholder="请输入项目编号" clearable size="small"
+          @keyup.enter.native="handleQuery" />
       </el-form-item>
-
       <el-form-item>
-        <el-button
-          type="primary"
-          icon="el-icon-search"
-          size="mini"
-          @click="handleQuery"
-          >搜索</el-button
-        >
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery"
-          >重置</el-button
-        >
+        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button
-          type="primary"
-          plain
-          icon="el-icon-plus"
-          size="mini"
-          @click="handleAdd"
-          v-hasPermi="['project:apayment:add']"
-          >新增</el-button
-        >
+        <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
+          v-hasPermi="['project:apayment:add']">新增</el-button>
       </el-col>
       <!--      <el-col :span="1.5">-->
       <!--        <el-button-->
@@ -111,17 +66,10 @@
       <!--          >导出</el-button-->
       <!--        >-->
       <!--      </el-col>-->
-      <right-toolbar
-        :showSearch.sync="showSearch"
-        @queryTable="getList"
-      ></right-toolbar>
+      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table
-      v-loading="loading"
-      :data="apaymentList"
-      @selection-change="handleSelectionChange"
-    >
+    <el-table v-loading="loading" :data="apaymentList" @selection-change="handleSelectionChange">
       <el-table-column label="项目名称" align="center" prop="projectName" />
       <el-table-column label="业务名称" align="center" prop="stName" />
       <el-table-column label="项目编号" align="center" prop="serialNo" />
@@ -130,116 +78,73 @@
       <el-table-column label="入库总量(吨)" align="center" prop="grns">
         <template slot-scope="scope">
           {{
-            Number(scope.row.grns)
-              .toFixed(3)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          Number(scope.row.grns)
+          .toFixed(3)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
       <el-table-column label="出库总量(吨)" align="center" prop="grys">
         <template slot-scope="scope">
           {{
-            Number(scope.row.grys)
-              .toFixed(3)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          Number(scope.row.grys)
+          .toFixed(3)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
       <el-table-column label="预付总额(元)" align="center" prop="totalPrice">
         <template slot-scope="scope">
           {{
-            Number(scope.row.totalPrice)
-              .toFixed(2)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          Number(scope.row.totalPrice)
+          .toFixed(2)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
       <el-table-column label="预付单价(元)" align="center" prop="expectPrice">
         <template slot-scope="scope">
           {{
-            Number(scope.row.expectPrice)
-              .toFixed(2)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          Number(scope.row.expectPrice)
+          .toFixed(2)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
       <el-table-column label="预付至" align="center" prop="ato">
       </el-table-column>
-      <el-table-column
-        label="实际付款金额(元)"
-        align="center"
-        prop="actualPrice"
-      >
+      <el-table-column label="实际付款金额(元)" align="center" prop="actualPrice">
         <template slot-scope="scope">
           {{
-            Number(scope.row.actualPrice)
-              .toFixed(2)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          Number(scope.row.actualPrice)
+          .toFixed(2)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
-      <el-table-column
-        label="创建时间"
-        align="center"
-        prop="createTime"
-        width="180"
-      >
+      <el-table-column label="创建时间" align="center" prop="createTime" width="180">
         <template slot-scope="scope">
           <span>{{
             parseTime(scope.row.createTime, "{y}-{m}-{d} {h}:{i}:{s}")
-          }}</span>
+            }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        label="审批状态"
-        align="center"
-        prop="state"
-        :formatter="stateFormat"
-      />
+      <el-table-column label="审批状态" align="center" prop="state" :formatter="stateFormat" />
       <!--      <el-table-column label="付款状态" align="center" prop="fkState"  />-->
-      <el-table-column
-        label="操作"
-        width="160"
-        align="center"
-        class-name="small-padding fixed-width"
-      >
+      <el-table-column label="操作" width="160" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-edit"
-            @click="handleLook(scope.row)"
-            >查看</el-button
-          >
-          <el-button
-            v-if="scope.row.state == '3' && scope.row.fkState == '未付款'"
-            size="mini"
-            type="text"
-            icon="el-icon-edit"
-            @click="handleUpdatePayTime(scope.row)"
-            >付款</el-button
-          >
-          <el-button
-            v-if="scope.row.state == '3'"
-            size="mini"
-            type="text"
-            icon="el-icon-edit"
-            @click="openPayDetailss(scope.row)"
-            >付款明细</el-button
-          >
-          <el-button
-            v-if="scope.row.state === '3'"
-            size="mini"
-            type="text"
-            icon="el-icon-printer"
-            @click="handlePrint(scope.row)"
-            >打印</el-button
-          >
+          <el-button size="mini" type="text" icon="el-icon-edit" @click="handleLook(scope.row)">查看</el-button>
+          <el-button v-if="scope.row.state == '3' && scope.row.fkState == '未付款'" size="mini" type="text"
+            icon="el-icon-edit" @click="handleUpdatePayTime(scope.row)">付款</el-button>
+          <el-button v-if="scope.row.state == '3'" size="mini" type="text" icon="el-icon-edit"
+            @click="openPayDetailss(scope.row)">付款明细</el-button>
+          <el-button v-if="scope.row.state === '3'" size="mini" type="text" icon="el-icon-printer"
+            @click="handlePrint(scope.row)">打印</el-button>
 
           <!--          <el-button-->
           <!--            size="mini"-->
@@ -252,79 +157,36 @@
       </el-table-column>
     </el-table>
 
-    <pagination
-      v-show="total > 0"
-      :total="total"
-      :page.sync="queryParams.pageNum"
-      :limit.sync="queryParams.pageSize"
-      @pagination="getList"
-    />
+    <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
+      @pagination="getList" />
 
     <!-- 添加或修改预付款对话框 -->
-    <el-dialog
-      :title="title"
-      :visible.sync="open"
-      width="80%"
-      append-to-body
-      @opened="handleOpen"
-    >
-      <el-form ref="form" :model="form" :rules="rules" label-width="180px">
+    <el-dialog :title="title" :visible.sync="open" width="773px" append-to-body @opened="handleOpen">
+      <el-form ref="form" :model="form" :rules="rules" label-width="140px">
         <div v-if="isLook != 4">
           <el-row>
             <el-col :span="12">
               <!-- 项目 -->
               <el-form-item label="项目名称" prop="projectId">
-                <el-select
-                  filterable
-                  value-key="projectId"
-                  @change="changeProject"
-                  v-model="form.projectId"
-                  placeholder="请选择项目"
-                  style="width: 100%"
-                >
-                  <el-option
-                    v-for="pro in listForProArr"
-                    :key="pro.projectId"
-                    :label="pro.projectName"
-                    :value="pro"
-                  ></el-option>
+                <el-select filterable value-key="projectId" @change="changeProject" v-model="form.projectId"
+                  placeholder="请选择项目" style="width: 100%">
+                  <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName" :value="pro">
+                  </el-option>
                 </el-select>
               </el-form-item>
-              <!-- 业务 -->
-               <el-form-item label="业务名称" prop="stId">
-              <el-select
-                filterable
-                value-key="stId"
-                @change="changeSt"
-                v-model="form.stId"
-                placeholder="请选择业务"
-                style="width: 100%"
-              >
-                <el-option
-                  v-for="obj in listForBusArr"
-                  :key="obj.stId"
-                  :label="obj.stName"
-                  :value="obj"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="项目编号" prop="serialNo">
-              {{ form.serialNo }}
-            </el-form-item>
             </el-col>
-             <el-col :span="12">
-            <el-form-item label="业务类型" prop="settlementWay">
-              {{ form.settlementWay }}
-            </el-form-item>
-            </el-col>
-          </el-row>
-
-          <el-row>
             <el-col :span="12">
-              <el-form-item label="业务编号" prop="projectNo">
-                <span v-text="form.projectNo"></span>
+              <!-- 业务 -->
+              <el-form-item label="业务名称" prop="stId">
+                <el-select filterable value-key="stId" @change="changeSt" v-model="form.stId" placeholder="请选择业务"
+                  style="width: 100%">
+                  <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="项目编号" prop="serialNo">
+                {{ form.serialNo }}
               </el-form-item>
             </el-col>
           </el-row>
@@ -334,8 +196,6 @@
                 <span v-text="form.supplierName"></span>
               </el-form-item>
             </el-col>
-          </el-row>
-          <el-row>
             <el-col :span="12">
               <el-form-item label="结算方式" prop="settlementWay">
                 <span v-text="form.settlementWay"></span>
@@ -345,220 +205,114 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="供应商账号" prop="account">
-                <el-input
-                  v-model="form.account"
-                  placeholder="请输入供应商账号"
-                />
+                <el-input v-model="form.account" placeholder="请输入供应商账号" />
               </el-form-item>
             </el-col>
-          </el-row>
-          <el-row>
             <el-col :span="12">
               <el-form-item label="供应商开户行" prop="openbank">
-                <el-input
-                  v-model="form.openbank"
-                  placeholder="请输入供应商开户行"
-                />
+                <el-input v-model="form.openbank" placeholder="请输入供应商开户行" />
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
               <el-form-item label="预付批次" prop="away">
-                <el-select
-                  v-model="form.away"
-                  @change="changeAway"
-                  placeholder="请选择预付批次"
-                  style="width: 100%"
-                >
-                  <el-option
-                    v-for="obj in awaysOptions"
-                    :key="obj.key"
-                    :label="obj.label"
-                    :value="obj.key"
-                  ></el-option>
+                <el-select v-model="form.away" @change="changeAway" placeholder="请选择预付批次" style="width: 100%">
+                  <el-option v-for="obj in awaysOptions" :key="obj.key" :label="obj.label" :value="obj.key"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
-          </el-row>
-          <div v-if="form.away != '提前付款'">
-            <el-row>
+            <div v-if="form.away != '提前付款'">
               <el-col :span="12">
                 <el-form-item label="预付方式" prop="type">
-                  <el-select
-                    v-model="form.type"
-                    @change="jsdj"
-                    placeholder="请选择预付方式"
-                    style="width: 100%"
-                  >
-                    <el-option
-                      v-for="obj in typesOptions"
-                      :key="obj.key"
-                      :label="obj.label"
-                      :value="obj.key"
-                    ></el-option>
+                  <el-select v-model="form.type" @change="jsdj" placeholder="请选择预付方式" style="width: 100%">
+                    <el-option v-for="obj in typesOptions" :key="obj.key" :label="obj.label" :value="obj.key">
+                    </el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
-            </el-row>
-          </div>
-          <div v-if="form.type == '热值'">
-            <el-row>
+            </div>
+            <div v-if="form.type == '热值'">
               <el-col :span="12">
                 <el-form-item label="热值价格" prop="rzPrice">
-                  <el-input
-                    v-model="form.rzPrice"
-                    @change="jsdj"
-                    placeholder="请输入热值价格"
-                  />
+                  <el-input v-model="form.rzPrice" @change="jsdj" placeholder="请输入热值价格" />
                 </el-form-item>
               </el-col>
-            </el-row>
-          </div>
-          <div
-            v-if="
+            </div>
+          </el-row>
+          <div v-if="
               (form.type == '吨' || form.type == '热值') &&
               form.away == '首次' &&
               isLook != 3
-            "
-          >
+            ">
             <!--          选择入库单-->
-            <el-popover
-              placement="bottom-start"
-              width="100%"
-              @selection-change="grnSelectionChange"
-              v-model="visible"
-              popper-class="area_popper"
-            >
-              <el-button
-                type="primary"
-                slot="reference"
-                style="margin-bottom: 30px"
-                >选择入库单</el-button
-              >
-              <el-table
-                ref="singleTable1"
-                :data="tableData"
-                @selection-change="grnSelectionChange"
-                style="width: 100%"
-              >
+            <el-popover placement="bottom-start" width="100%" @selection-change="grnSelectionChange" v-model="visible"
+              popper-class="area_popper">
+              <el-button size="small" type="primary" slot="reference" style="margin-bottom: 30px;margin-left:50px">选择入库单
+              </el-button>
+              <el-table ref="singleTable1" :data="tableData" @selection-change="grnSelectionChange"
+                style="width: 632px">
                 <el-table-column type="selection" width="55"> </el-table-column>
                 <el-table-column property="name" label="货品名称" width="120">
                 </el-table-column>
-                <el-table-column
-                  property="grnNumber"
-                  label="入库重量（吨）"
-                  width="120"
-                >
+                <el-table-column property="grnNumber" label="入库重量（吨）" width="120">
                   <template slot-scope="scope">
                     {{
-                      Number(scope.row.grnNumber)
-                        .toFixed(3)
-                        .toString()
-                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    Number(scope.row.grnNumber)
+                    .toFixed(3)
+                    .toString()
+                    .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                     }}
                   </template>
                 </el-table-column>
-                <el-table-column
-                  property="grnRz"
-                  label="入库热值（kcal）"
-                  width="120"
-                >
+                <el-table-column property="grnRz" label="入库热值（kcal）" width="120">
                 </el-table-column>
-                <el-table-column
-                  property="transportType"
-                  label="运输方式"
-                  width="90"
-                >
+                <el-table-column property="transportType" label="运输方式" width="90">
                 </el-table-column>
-                <el-table-column
-                  property="wlCompany"
-                  label="物流公司"
-                  width="120"
-                >
+                <el-table-column property="wlCompany" label="物流公司" width="120">
                 </el-table-column>
                 <el-table-column property="carNumber" label="车数" width="90">
                 </el-table-column>
                 <el-table-column property="batch" label="批次" width="90">
                 </el-table-column>
-                <el-table-column
-                  property="deliveryTime"
-                  label="发货日期"
-                  width="120"
-                >
+                <el-table-column property="deliveryTime" label="发货日期" width="120">
                 </el-table-column>
               </el-table>
               <div style="margin-top: 20px">
-                <el-button
-                  type="primary"
-                  style="float: right"
-                  @click="toggleSelection()"
-                  >确认选择</el-button
-                >
+                <el-button type="primary" style="float: right" @click="toggleSelection()">确认选择</el-button>
               </div>
             </el-popover>
           </div>
-          <div
-            v-if="
+          <div v-if="
               (form.type == '吨' || form.type == '热值') &&
               form.away == '二次' &&
               isLook != 3
-            "
-          >
+            ">
             <!--          选择出库单-->
-            <el-popover
-              placement="bottom-start"
-              width="100%"
-              @selection-change="grnSelectionChange"
-              v-model="visible"
-              popper-class="area_popper"
-            >
-              <el-button
-                type="primary"
-                slot="reference"
-                style="margin-bottom: 30px"
-                >选择出库单</el-button
-              >
-              <el-table
-                ref="singleTable2"
-                :data="tablegryData"
-                @selection-change="grnSelectionChange"
-                style="width: 100%"
-              >
+            <el-popover placement="bottom-start" width="100%" @selection-change="grnSelectionChange" v-model="visible"
+              popper-class="area_popper">
+              <el-button size="small" type="primary" slot="reference" style="margin-bottom: 30px;margin-left:50px">选择出库单
+              </el-button>
+              <el-table ref="singleTable2" :data="tablegryData" @selection-change="grnSelectionChange"
+                style="width: 632px">
                 <el-table-column type="selection" width="55"> </el-table-column>
                 <el-table-column property="name" label="货品名称" width="120">
                 </el-table-column>
-                <el-table-column
-                  property="grnNumber"
-                  label="出库重量（吨）"
-                  width="120"
-                >
+                <el-table-column property="grnNumber" label="出库重量（吨）" width="120">
                   <template slot-scope="scope">
                     {{
-                      Number(scope.row.grnNumber)
-                        .toFixed(3)
-                        .toString()
-                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    Number(scope.row.grnNumber)
+                    .toFixed(3)
+                    .toString()
+                    .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                     }}
                   </template>
                 </el-table-column>
-                <el-table-column
-                  property="gryRz"
-                  label="出库热值（kcal）"
-                  width="120"
-                >
+                <el-table-column property="gryRz" label="出库热值（kcal）" width="120">
                 </el-table-column>
-                <el-table-column
-                  property="transportType"
-                  label="运输方式"
-                  width="90"
-                >
+                <el-table-column property="transportType" label="运输方式" width="90">
                 </el-table-column>
-                <el-table-column
-                  property="wlCompany"
-                  label="物流公司"
-                  width="120"
-                >
+                <el-table-column property="wlCompany" label="物流公司" width="120">
                 </el-table-column>
                 <el-table-column property="carNumber" label="车数" width="90">
                 </el-table-column>
@@ -568,142 +322,79 @@
                 </el-table-column>
               </el-table>
               <div style="margin-top: 20px">
-                <el-button
-                  type="primary"
-                  style="float: right"
-                  @click="toggleSelection()"
-                  >确认选择</el-button
-                >
+                <el-button type="primary" style="float: right" @click="toggleSelection()">确认选择</el-button>
               </div>
             </el-popover>
           </div>
           <div v-if="form.away != '提前付款'">
             <div style="margin-bottom: 30px">
-              <el-table
-                ref="singleTable"
-                :data="tableselData"
-                style="width: 100%"
-              >
+              <el-table ref="singleTable" :data="tableselData" style="width: 100%">
                 <el-table-column property="name" label="货品名称" width="90">
                 </el-table-column>
-                <el-table-column
-                  v-if="form.away == '首次'"
-                  property="grnNumber"
-                  label="入库重量（吨）"
-                  width="120"
-                >
+                <el-table-column v-if="form.away == '首次'" property="grnNumber" label="入库重量（吨）" width="120">
                   <template slot-scope="scope">
                     {{
-                      Number(scope.row.grnNumber)
-                        .toFixed(3)
-                        .toString()
-                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    Number(scope.row.grnNumber)
+                    .toFixed(3)
+                    .toString()
+                    .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                     }}
                   </template>
                 </el-table-column>
-                <el-table-column
-                  v-if="form.away == '二次'"
-                  property="grnNumber"
-                  label="出库重量（吨）"
-                  width="120"
-                >
+                <el-table-column v-if="form.away == '二次'" property="grnNumber" label="出库重量（吨）" width="120">
                   <template slot-scope="scope">
                     {{
-                      Number(scope.row.grnNumber)
-                        .toFixed(3)
-                        .toString()
-                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    Number(scope.row.grnNumber)
+                    .toFixed(3)
+                    .toString()
+                    .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                     }}
                   </template>
                 </el-table-column>
-                <el-table-column
-                  v-if="form.away == '首次'"
-                  property="grnRz"
-                  label="入库热值（kcal）"
-                  width="120"
-                >
+                <el-table-column v-if="form.away == '首次'" property="grnRz" label="入库热值（kcal）" width="120">
                 </el-table-column>
-                <el-table-column
-                  v-if="form.away == '二次'"
-                  property="gryRz"
-                  label="出库热值（kcal）"
-                  width="120"
-                >
+                <el-table-column v-if="form.away == '二次'" property="gryRz" label="出库热值（kcal）" width="120">
                 </el-table-column>
-                <el-table-column
-                  property="transportType"
-                  label="运输方式"
-                  width="90"
-                >
+                <el-table-column property="transportType" label="运输方式" width="90">
                 </el-table-column>
-                <el-table-column
-                  property="wlCompany"
-                  label="物流公司"
-                  width="120"
-                >
+                <el-table-column property="wlCompany" label="物流公司" width="120">
                 </el-table-column>
                 <el-table-column property="carNumber" label="车数" width="90">
                 </el-table-column>
                 <el-table-column property="batch" label="批次" width="90">
                 </el-table-column>
-                <el-table-column
-                  v-if="form.away == '首次'"
-                  property="deliveryTime"
-                  label="发货日期"
-                  width="120"
-                >
+                <el-table-column v-if="form.away == '首次'" property="deliveryTime" label="发货日期" width="120">
                 </el-table-column>
-                <el-table-column
-                  v-if="form.away == '二次' && isLook != 3"
-                  property="okTime"
-                  label="到货日期"
-                  width="120"
-                >
+                <el-table-column v-if="form.away == '二次' && isLook != 3" property="okTime" label="到货日期" width="120">
                 </el-table-column>
-                <el-table-column
-                  v-if="form.away == '二次' && isLook == 3"
-                  property="deliveryTime"
-                  label="到货日期"
-                  width="120"
-                >
+                <el-table-column v-if="form.away == '二次' && isLook == 3" property="deliveryTime" label="到货日期"
+                  width="120">
                 </el-table-column>
-                <el-table-column
-                  property="valuePrice"
-                  label="货值单价（元）"
-                  width="90"
-                >
+                <el-table-column property="valuePrice" label="货值单价（元）" width="90">
                   <template slot-scope="scope">
                     {{
-                      Number(scope.row.valuePrice)
-                        .toFixed(2)
-                        .toString()
-                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    Number(scope.row.valuePrice)
+                    .toFixed(2)
+                    .toString()
+                    .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                     }}
                   </template>
                 </el-table-column>
-                <el-table-column
-                  property="valueTprice"
-                  label="货值总额（元）"
-                  width="90"
-                >
+                <el-table-column property="valueTprice" label="货值总额（元）" width="90">
                   <template slot-scope="scope">
                     {{
-                      Number(scope.row.valueTprice)
-                        .toFixed(2)
-                        .toString()
-                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    Number(scope.row.valueTprice)
+                    .toFixed(2)
+                    .toString()
+                    .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                     }}
                   </template>
                 </el-table-column>
                 <el-table-column v-if="isLook != 3" label="操作" width="120">
                   <template slot-scope="scope">
-                    <el-button
-                      @click.native.prevent="
+                    <el-button @click.native.prevent="
                         deleteRow(scope.$index, tableselData, scope)
-                      "
-                      type="text"
-                      size="small"
-                    >
+                      " type="text" size="small">
                       移除
                     </el-button>
                   </template>
@@ -711,115 +402,52 @@
               </el-table>
             </div>
             <!--          合计-->
-            <el-row>
+            <el-row style="margin-bottom:10px">
               <el-col :span="6">
-                <el-form-item label="合计重量" prop="totalWeight">
-                  <span style="color: red">{{
-                    $options.filters.weightFilter(form.totalWeight)
+                <span style="font-weight:600">合计重量{{"\xa0\xa0"}}</span>
+                <span style="color: red">{{
+                  $options.filters.weightFilter(form.totalWeight)
                   }}</span>
-                </el-form-item>
               </el-col>
+            </el-row>
+            <el-row style="margin-bottom:10px">
               <el-col :span="6">
-                <el-form-item label="平均热值" prop="averageRz">
-                  <span style="color: red">{{ form.averageRz }}</span>
-                </el-form-item>
+                <span style="font-weight:600">平均热值{{"\xa0\xa0"}}</span>
+                <span style="color: red">{{ form.averageRz }}</span>
               </el-col>
             </el-row>
             <!--          奖惩-->
-            <el-row>
+            <el-row style="margin-bottom:20px">
               <el-col :span="24">
-                <el-form-item label="奖惩(元)">
-                  <span
-                    >水分：<span style="color: red" v-text="form.jc1"
-                      >0.00</span
-                    ></span
-                  >
-                  <span style="margin-left: 20px"
-                    >内水：<span style="color: red" v-text="form.jc2"
-                      >0.00</span
-                    ></span
-                  >
-                  <span style="margin-left: 20px"
-                    >灰份Aad：<span style="color: red" v-text="form.jc3"
-                      >0.00</span
-                    ></span
-                  >
-                  <span style="margin-left: 20px"
-                    >灰份ad：<span style="color: red" v-text="form.jc10"
-                      >0.00</span
-                    ></span
-                  >
-                  <span style="margin-left: 20px"
-                    >挥发份Vda：<span style="color: red" v-text="form.jc4"
-                      >0.00</span
-                    ></span
-                  >
-                  <span style="margin-left: 20px"
-                    >挥发份Vdaf：<span style="color: red" v-text="form.jc11"
-                      >0.00</span
-                    ></span
-                  >
-                </el-form-item>
+                <span style="font-weight:600">奖惩(元){{"\xa0\xa0"}}</span>
+                <span>水分：<span style="color: red" v-text="form.jc1">0.00</span></span>
+                <span style="margin-left: 20px">内水：<span style="color: red" v-text="form.jc2">0.00</span></span>
+                <span style="margin-left: 20px">灰份Aad：<span style="color: red" v-text="form.jc3">0.00</span></span>
+                <span style="margin-left: 20px">灰份ad：<span style="color: red" v-text="form.jc10">0.00</span></span>
+                <span style="margin-left: 20px">挥发份Vda：<span style="color: red" v-text="form.jc4">0.00</span></span>
+                <span style="margin-left: 20px">挥发份Vdaf：<span style="color: red" v-text="form.jc11">0.00</span></span>
               </el-col>
-              <el-col :span="24">
-                <el-form-item label="">
-                  <span
-                    >灰熔点：<span style="color: red" v-text="form.jc5"
-                      >0.00</span
-                    ></span
-                  >
-                  <span style="margin-left: 20px"
-                    >固定碳：<span style="color: red" v-text="form.jc6"
-                      >0.00</span
-                    ></span
-                  >
-                  <span style="margin-left: 20px"
-                    >含硫量：<span style="color: red" v-text="form.jc7"
-                      >0.00</span
-                    ></span
-                  >
-                  <span style="margin-left: 20px"
-                    >热值Qgr,ad：<span style="color: red" v-text="form.jc8"
-                      >0.00</span
-                    ></span
-                  >
-                  <span style="margin-left: 20px"
-                    >热值Qnt,ar：<span style="color: red" v-text="form.jc9"
-                      >0.00</span
-                    ></span
-                  >
-                  <span style="margin-left: 20px"
-                    >热值Kcal：<span style="color: red" v-text="form.jc12"
-                      >0.00</span
-                    ></span
-                  >
-                  <el-button
-                    style="margin-left: 20px"
-                    type="primary"
-                    @click="jsjc"
-                    v-if="isLook != 3"
-                    >奖惩计算</el-button
-                  >
-                </el-form-item>
+              <el-col :span="24" style="margin-top:10px;margin-left:60px">
+                <span>灰熔点：<span style="color: red" v-text="form.jc5">0.00</span></span>
+                <span style="margin-left: 20px">固定碳：<span style="color: red" v-text="form.jc6">0.00</span></span>
+                <span style="margin-left: 20px">含硫量：<span style="color: red" v-text="form.jc7">0.00</span></span>
+                <span style="margin-left: 20px">热值Qgr,ad：<span style="color: red" v-text="form.jc8">0.00</span></span>
+                <span style="margin-left: 20px">热值Qnt,ar：<span style="color: red" v-text="form.jc9">0.00</span></span>
+                <span style="margin-left: 20px">热值Kcal：<span style="color: red" v-text="form.jc12">0.00</span></span>
+                <el-button size="small" style="margin-left: 10px" type="primary" @click="jsjc" v-if="isLook != 3">奖惩计算
+                </el-button>
               </el-col>
             </el-row>
 
-            <el-row>
+            <el-row style="margin-top:33px">
               <el-col :span="12">
                 <el-form-item label="预付总额" prop="totalPrice">
-                  <el-input
-                    @change="atochange"
-                    v-model="form.totalPrice"
-                    placeholder="请输入预付总额"
-                  />
+                  <el-input @change="atochange" v-model="form.totalPrice" placeholder="请输入预付总额" />
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="固定差价" prop="dPrice">
-                  <el-input
-                    v-model="form.dPrice"
-                    placeholder="请输入固定差价"
-                  />
+                  <el-input v-model="form.dPrice" placeholder="请输入固定差价" />
                 </el-form-item>
               </el-col>
             </el-row>
@@ -831,18 +459,9 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item label="预付至" prop="ato">
-                  <el-select
-                    v-model="form.ato"
-                    @change="atochange"
-                    placeholder="请选择预付批次"
-                    style="width: 100%"
-                  >
-                    <el-option
-                      v-for="obj in atosOptions"
-                      :key="obj.key"
-                      :label="obj.label"
-                      :value="obj.key"
-                    ></el-option>
+                  <el-select v-model="form.ato" @change="atochange" placeholder="请选择预付批次" style="width: 100%">
+                    <el-option v-for="obj in atosOptions" :key="obj.key" :label="obj.label" :value="obj.key">
+                    </el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -860,95 +479,60 @@
               <!--            </el-col>-->
               <el-col :span="12">
                 <el-form-item label="预付单价" prop="expectPrice">
-                  <el-input
-                    @change="jsdj"
-                    v-model="form.expectPrice"
-                    placeholder="请输入预计单价"
-                  />
+                  <el-input @change="jsdj" v-model="form.expectPrice" placeholder="请输入预计单价" />
                 </el-form-item>
               </el-col>
-            </el-row>
-            <!--          <el-row>-->
-            <!--            <el-col :span="12">-->
-            <!--              <el-form-item label="保底服务费期限(天)" prop="mfsp">-->
-            <!--                <el-input v-model="form.mfsp" placeholder="请输入保底服务费期限" />-->
-            <!--              </el-form-item>-->
-            <!--            </el-col>-->
-            <!--            <el-col :span="12">-->
-            <!--              <el-form-item label="成本年服务费率(%)" prop="rateYear">-->
-            <!--                <el-input  v-model="form.rateYear" placeholder="请输入成本年服务费率" />-->
-            <!--              </el-form-item>-->
-            <!--            </el-col>-->
-            <!--          </el-row>-->
-            <el-row>
+              <!--          <el-row>-->
+              <!--            <el-col :span="12">-->
+              <!--              <el-form-item label="保底服务费期限(天)" prop="mfsp">-->
+              <!--                <el-input v-model="form.mfsp" placeholder="请输入保底服务费期限" />-->
+              <!--              </el-form-item>-->
+              <!--            </el-col>-->
+              <!--            <el-col :span="12">-->
+              <!--              <el-form-item label="成本年服务费率(%)" prop="rateYear">-->
+              <!--                <el-input  v-model="form.rateYear" placeholder="请输入成本年服务费率" />-->
+              <!--              </el-form-item>-->
+              <!--            </el-col>-->
+              <!--          </el-row>-->
               <el-col :span="12">
                 <el-form-item label="扣款金额" prop="kkPrice">
-                  <el-input
-                    @change="atochange"
-                    v-model="form.kkPrice"
-                    placeholder="请输入扣款金额"
-                  />
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item label="扣款备注" prop="kkNode">
-                  <el-input
-                    v-model="form.kkNode"
-                    placeholder="请输入扣款备注"
-                  />
+                  <el-input @change="atochange" v-model="form.kkPrice" placeholder="请输入扣款金额" />
                 </el-form-item>
               </el-col>
             </el-row>
-            <el-row class="ic">
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="扣款备注" prop="kkNode">
+                  <el-input v-model="form.kkNode" placeholder="请输入扣款备注" />
+                </el-form-item>
+              </el-col>
               <el-col :span="12">
                 <el-form-item label="付款总额" prop="payTprice">
-                  <el-input
-                    v-model="form.payTprice"
-                    placeholder="请输入付款总额"
-                  />
+                  <el-input v-model="form.payTprice" placeholder="请输入付款总额" />
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="12">
                 <el-form-item label="运费金额" prop="yfPrice">
-                  <el-input
-                    @change="atochange"
-                    v-model="form.yfPrice"
-                    placeholder="请输入运费金额"
-                  />
+                  <el-input @change="atochange" v-model="form.yfPrice" placeholder="请输入运费金额" />
                 </el-form-item>
               </el-col>
-            </el-row>
-            <el-row>
               <el-col :span="12">
                 <el-form-item label="垫付保证金" prop="dfPrice">
-                  <el-input
-                    @change="atochange"
-                    v-model="form.dfPrice"
-                    placeholder="请输入垫付保证金"
-                  />
+                  <el-input @change="atochange" v-model="form.dfPrice" placeholder="请输入垫付保证金" />
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row class="ic">
               <el-col :span="12">
                 <el-form-item label="提单金额" prop="prepaidPrice">
-                  <el-input
-                    disabled
-                    v-model="form.prepaidPrice"
-                    placeholder="请输入提单金额"
-                  />
+                  <el-input disabled v-model="form.prepaidPrice" placeholder="请输入提单金额" />
                 </el-form-item>
               </el-col>
-            </el-row>
-            <el-row>
               <el-col :span="12">
                 <el-form-item label="实际付款金额" prop="actualPrice">
-                  <el-input
-                    v-model="form.actualPrice"
-                    placeholder="请输入实际付款金额"
-                  />
+                  <el-input v-model="form.actualPrice" placeholder="请输入实际付款金额" />
                 </el-form-item>
               </el-col>
             </el-row>
@@ -957,43 +541,24 @@
             <el-row>
               <el-col :span="12">
                 <el-form-item label="预付总额(元)" prop="totalPrice">
-                  <el-input
-                    @change="jspay1"
-                    v-model="form.totalPrice"
-                    placeholder="请输入预计总额"
-                  />
+                  <el-input @change="jspay1" v-model="form.totalPrice" placeholder="请输入预计总额" />
                 </el-form-item>
               </el-col>
-            </el-row>
-            <el-row>
               <el-col :span="12">
                 <el-form-item label="运费金额" prop="yfPrice">
-                  <el-input
-                    @change="jspay1"
-                    v-model="form.yfPrice"
-                    placeholder="请输入运费金额"
-                  />
+                  <el-input @change="jspay1" v-model="form.yfPrice" placeholder="请输入运费金额" />
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="12">
                 <el-form-item label="垫付保证金" prop="dfPrice">
-                  <el-input
-                    @change="jspay1"
-                    v-model="form.dfPrice"
-                    placeholder="请输入垫付保证金"
-                  />
+                  <el-input @change="jspay1" v-model="form.dfPrice" placeholder="请输入垫付保证金" />
                 </el-form-item>
               </el-col>
-            </el-row>
-            <el-row>
               <el-col :span="12">
                 <el-form-item label="实际付款金额" prop="actualPrice">
-                  <el-input
-                    v-model="form.actualPrice"
-                    placeholder="请输入实际付款金额"
-                  />
+                  <el-input v-model="form.actualPrice" placeholder="请输入实际付款金额" />
                 </el-form-item>
               </el-col>
             </el-row>
@@ -1001,23 +566,10 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="附件" prop="file">
-                <el-upload
-                  class="upload-demo"
-                  :action="url"
-                  :headers="headers"
-                  :on-preview="handlePreview"
-                  :on-remove="handleRemove"
-                  :on-success="uploadSuccess"
-                  :on-error="uploadError"
-                  :before-remove="beforeRemove"
-                  multiple
-                  :limit="10"
-                  :on-exceed="handleExceed"
-                  :file-list="fileList"
-                >
-                  <el-button size="small" type="primary" v-if="isLook != 3"
-                    >点击上传</el-button
-                  >
+                <el-upload class="upload-demo" :action="url" :headers="headers" :on-preview="handlePreview"
+                  :on-remove="handleRemove" :on-success="uploadSuccess" :on-error="uploadError"
+                  :before-remove="beforeRemove" multiple :limit="10" :on-exceed="handleExceed" :file-list="fileList">
+                  <el-button size="small" type="primary" v-if="isLook != 3">点击上传</el-button>
                   <!--                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
                 </el-upload>
               </el-form-item>
@@ -1029,54 +581,36 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="应付金额：">
-                <span
-                  v-text="$options.filters.moneyFilter(form.actualPrice)"
-                ></span>
+                <span v-text="$options.filters.moneyFilter(form.actualPrice)"></span>
               </el-form-item>
             </el-col>
-          </el-row>
-          <el-row>
             <el-col :span="12">
               <el-form-item label="已付金额：">
-                <span
-                  v-text="$options.filters.moneyFilter(form.ypayPrice)"
-                ></span>
+                <span v-text="$options.filters.moneyFilter(form.ypayPrice)"></span>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
               <el-form-item label="剩余应付：">
-                <span
-                  v-text="
+                <span v-text="
                     $options.filters.moneyFilter(
                       form.actualPrice - form.ypayPrice
                     )
-                  "
-                ></span>
+                  "></span>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
               <el-form-item label="付款金额(元)" prop="payPrice">
-                <el-input
-                  v-model="form.payPrice"
-                  placeholder="请输入付款金额"
-                />
+                <el-input v-model="form.payPrice" placeholder="请输入付款金额" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="付款日期" prop="payTime">
-                <el-date-picker
-                  clearable
-                  size="small"
-                  style="width: 100%"
-                  v-model="form.payTime"
-                  type="date"
-                  value-format="yyyy-MM-dd"
-                  placeholder="选择付款日期"
-                >
+                <el-date-picker clearable size="small" style="width: 100%" v-model="form.payTime" type="date"
+                  value-format="yyyy-MM-dd" placeholder="选择付款日期">
                 </el-date-picker>
               </el-form-item>
             </el-col>
@@ -1084,64 +618,38 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="年息服务费率(%)" prop="rateYear">
-                <el-input
-                  v-model="form.rateYear"
-                  placeholder="请输入年息服务费率"
-                />
+                <el-input v-model="form.rateYear" placeholder="请输入年息服务费率" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="保底服务费期限(天)" prop="mfsp">
-                <el-input
-                  v-model="form.mfsp"
-                  placeholder="请输入保底服务费期限"
-                />
+                <el-input v-model="form.mfsp" placeholder="请输入保底服务费期限" />
               </el-form-item>
             </el-col>
           </el-row>
         </div>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button
-          type="primary"
-          @click="submitForm"
-          :disabled="isDisabled"
-          v-if="isLook != 3"
-          >确 定</el-button
-        >
+        <el-button type="primary" @click="submitForm" :disabled="isDisabled" v-if="isLook != 3">确 定</el-button>
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
     <!--打印页-->
-    <el-dialog
-      title="打印预览"
-      :visible.sync="printReviewVisible"
-      @close="onPrintReviewClose"
-      width="80%"
-    >
+    <el-dialog title="打印预览" :visible.sync="printReviewVisible" @close="onPrintReviewClose" width="80%">
       <div class="print-div" id="print_area">
         <div class="search-title-content">
           <div style="padding: 0 0 15px">
             <el-row type="flex" justify="space-between">
-              <el-col :span="4"
-                ><span
-                  style="font-weight: bold; font-size: 16px"
-                  v-text="printData.printType"
-                ></span
-              ></el-col>
-              <el-col :span="4"
-                ><span
-                  style="
+              <el-col :span="4"><span style="font-weight: bold; font-size: 16px" v-text="printData.printType"></span>
+              </el-col>
+              <el-col :span="4"><span style="
                     color: red;
                     width: 100%;
                     display: inline-block;
                     text-align: end;
                     font-weight: bold;
                     font-size: 16px;
-                  "
-                  v-text="selectDictLabel(stateOptions, printData.state)"
-                ></span
-              ></el-col>
+                  " v-text="selectDictLabel(stateOptions, printData.state)"></span></el-col>
             </el-row>
           </div>
           <!--基本信息-->
@@ -1154,7 +662,7 @@
               <td class="table-td-content">
                 {{ printData.stName }}
               </td>
-              <td class="table-td-title detail">业务编号</td>
+              <td class="table-td-title detail">项目编号</td>
               <td class="table-td-content">
                 {{ printData.number }}
               </td>
@@ -1241,47 +749,23 @@
               <td class="table-td-content" style="text-align: center">
                 {{ $options.filters.moneyFilter(item.valueTprice) }}
               </td>
-              <td
-                class="table-td-content"
-                style="text-align: center"
-                v-if="printData.away == '首次'"
-              >
+              <td class="table-td-content" style="text-align: center" v-if="printData.away == '首次'">
                 {{ $options.filters.weightFilter(item.grnNumber) }}
               </td>
-              <td
-                class="table-td-content"
-                style="text-align: center"
-                v-if="printData.away == '首次'"
-              >
+              <td class="table-td-content" style="text-align: center" v-if="printData.away == '首次'">
                 {{ item.grnRz }}
               </td>
-              <td
-                class="table-td-content"
-                style="text-align: center"
-                v-if="printData.away == '首次'"
-              >
+              <td class="table-td-content" style="text-align: center" v-if="printData.away == '首次'">
                 {{ item.deliveryTime }}
               </td>
 
-              <td
-                class="table-td-content"
-                style="text-align: center"
-                v-if="printData.away == '二次'"
-              >
+              <td class="table-td-content" style="text-align: center" v-if="printData.away == '二次'">
                 {{ $options.filters.weightFilter(item.grnNumber) }}
               </td>
-              <td
-                class="table-td-content"
-                style="text-align: center"
-                v-if="printData.away == '二次'"
-              >
+              <td class="table-td-content" style="text-align: center" v-if="printData.away == '二次'">
                 {{ item.gryRz }}
               </td>
-              <td
-                class="table-td-content"
-                style="text-align: center"
-                v-if="printData.away == '二次'"
-              >
+              <td class="table-td-content" style="text-align: center" v-if="printData.away == '二次'">
                 {{ item.deliveryTime }}
               </td>
             </tr>
@@ -1492,19 +976,16 @@
               <td class="table-td-content" style="text-align: center">
                 {{ item.approveTime }}
               </td>
-              <td
-                class="table-td-content"
-                style="max-width: 150px; text-align: center"
-              >
+              <td class="table-td-content" style="max-width: 150px; text-align: center">
                 {{ item.processValue }}
               </td>
               <td class="table-td-content" style="text-align: center">
                 {{
-                  item.status == 0 || item.status == 1
-                    ? "已审批"
-                    : item.status == -1
-                    ? "待审批"
-                    : "未审批"
+                item.status == 0 || item.status == 1
+                ? "已审批"
+                : item.status == -1
+                ? "待审批"
+                : "未审批"
                 }}
               </td>
             </tr>
@@ -1531,21 +1012,18 @@
               <td class="table-td-content" style="text-align: center">
                 {{ item.approveTime }}
               </td>
-              <td
-                class="table-td-content"
-                style="max-width: 150px; text-align: center"
-              >
+              <td class="table-td-content" style="max-width: 150px; text-align: center">
                 {{ item.processValue }}
               </td>
               <td class="table-td-content" style="text-align: center">
                 {{
-                  item.status == 0
-                    ? "驳回"
-                    : item.status == 1
-                    ? "通过"
-                    : item.status == 5
-                    ? "撤回"
-                    : ""
+                item.status == 0
+                ? "驳回"
+                : item.status == 1
+                ? "通过"
+                : item.status == 5
+                ? "撤回"
+                : ""
                 }}
               </td>
             </tr>
@@ -1672,7 +1150,6 @@ export default {
       // 审批状态字典
       stateOptions: [],
       //项目集合
-      stOptions: [],
       projectOptions: [],
       //预付方式
       awaysOptions: [
@@ -1712,7 +1189,7 @@ export default {
       // 表单校验
       rules: {
         stId: [{ required: true, message: "请选择项目名称", trigger: "blur" }],
-         projectId: [
+        projectId: [
           { required: true, message: "请选择项目名称", trigger: "blur" },
         ],
         type: [{ required: true, message: "请选择预付方式", trigger: "blur" }],
@@ -1806,13 +1283,10 @@ export default {
           this.loading = false;
         }
       );
-      getStList().then((response) => {
-        this.stOptions = response.rows;
-      });
-        // 业务
+      // 业务
       listForBus().then((response) => {
         this.listForBusArr = response.data
-      }) 
+      })
       // 项目
       listForPro().then((response) => {
         this.listForProArr = response.data
@@ -2113,7 +1587,7 @@ export default {
 
     //业务开始
     //选择项目
-      changeProject(pro) {
+    changeProject(pro) {
       this.form.projectIdOld = pro.projectId;
       this.form.projectNo = pro.projectNo
     },
