@@ -1,32 +1,71 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="项目名称" prop="projectName">
-        <el-input v-model="queryParams.projectName" placeholder="请输入项目名称" clearable size="small"
-          @keyup.enter.native="handleQuery" />
+    <el-form
+      :model="queryParams"
+      ref="queryForm"
+      :inline="true"
+      v-show="showSearch"
+      label-width="68px"
+    >
+      <el-form-item label="项目" prop="stId">
+        <el-select
+          filterable
+          v-model="queryParams.stId"
+          placeholder="请选择项目"
+          clearable
+          size="small"
+        >
+          <el-option
+            v-for="dict in stOptions"
+            :key="dict.stId"
+            :label="dict.name"
+            :value="dict.stId"
+          />
+        </el-select>
       </el-form-item>
       <el-form-item label="公司名称" prop="kpName">
-        <el-input v-model="queryParams.kpName" placeholder="请输入公司名称" clearable size="small"
-          @keyup.enter.native="handleQuery" />
+        <el-input
+          v-model="queryParams.kpName"
+          placeholder="请输入公司名称"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
       </el-form-item>
-      <el-form-item label="业务名称" prop="stName">
-        <el-input v-model="queryParams.stName" placeholder="请输入业务名称" clearable size="small"
-          @keyup.enter.native="handleQuery" />
-      </el-form-item>
-      <el-form-item label="项目编号" prop="serialNo">
-        <el-input v-model="queryParams.serialNo" placeholder="请输入项目编号" clearable size="small"
-          @keyup.enter.native="handleQuery" />
+      <el-form-item label="项目编号" prop="stNo">
+        <el-input
+          v-model="queryParams.stNo"
+          placeholder="请输入项目编号"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        <el-button
+          type="primary"
+          icon="el-icon-search"
+          size="mini"
+          @click="handleQuery"
+          >搜索</el-button
+        >
+        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery"
+          >重置</el-button
+        >
       </el-form-item>
     </el-form>
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
-          v-hasPermi="['project:kp:add']">新增</el-button>
+        <el-button
+          type="primary"
+          plain
+          icon="el-icon-plus"
+          size="mini"
+          @click="handleAdd"
+          v-hasPermi="['project:kp:add']"
+          >新增</el-button
+        >
       </el-col>
       <!--      <el-col :span="1.5">-->
       <!--        <el-button-->
@@ -60,10 +99,17 @@
       <!--          v-hasPermi="['project:kp:export']"-->
       <!--        >导出</el-button>-->
       <!--      </el-col>-->
-      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+      <right-toolbar
+        :showSearch.sync="showSearch"
+        @queryTable="getList"
+      ></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="kpList" @selection-change="handleSelectionChange">
+    <el-table
+      v-loading="loading"
+      :data="kpList"
+      @selection-change="handleSelectionChange"
+    >
       <el-table-column label="项目名称" align="center" prop="projectName" />
       <el-table-column label="业务名称" align="center" prop="stName" />
       <el-table-column label="立项编号" align="center" prop="serialNo" />
@@ -72,35 +118,44 @@
       <el-table-column label="开票金额(元)" align="center" prop="kpPrice">
         <template slot-scope="scope">
           {{
-          Number(scope.row.kpPrice)
-          .toFixed(2)
-          .toString()
-          .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+            Number(scope.row.kpPrice)
+              .toFixed(2)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
       <el-table-column label="开票税额(元)" align="center" prop="kpTax">
         <template slot-scope="scope">
           {{
-          Number(scope.row.kpTax)
-          .toFixed(2)
-          .toString()
-          .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+            Number(scope.row.kpTax)
+              .toFixed(2)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
       <el-table-column label="价税合计(元)" align="center" prop="kpTotal">
         <template slot-scope="scope">
           {{
-          Number(scope.row.kpTotal)
-          .toFixed(2)
-          .toString()
-          .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+            Number(scope.row.kpTotal)
+              .toFixed(2)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
-      <el-table-column label="审核状态" align="center" prop="state" :formatter="stateFormat" />
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column
+        label="审核状态"
+        align="center"
+        prop="state"
+        :formatter="stateFormat"
+      />
+      <el-table-column
+        label="操作"
+        align="center"
+        class-name="small-padding fixed-width"
+      >
         <template slot-scope="scope">
           <!--          <el-button-->
           <!--            size="mini"-->
@@ -109,10 +164,22 @@
           <!--            @click="handleUpdate(scope.row)"-->
           <!--            v-hasPermi="['project:kp:edit']"-->
           <!--          >修改</el-button>-->
-          <el-button size="mini" type="text" icon="el-icon-edit" @click="handleLook(scope.row)"
-            v-hasPermi="['project:kp:edit']">查看</el-button>
-          <el-button v-if="scope.row.state === '3'" size="mini" type="text" icon="el-icon-printer"
-            @click="handlePrint(scope.row)">打印</el-button>
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-edit"
+            @click="handleLook(scope.row)"
+            v-hasPermi="['project:kp:edit']"
+            >查看</el-button
+          >
+          <el-button
+            v-if="scope.row.state === '3'"
+            size="mini"
+            type="text"
+            icon="el-icon-printer"
+            @click="handlePrint(scope.row)"
+            >打印</el-button
+          >
           <!--          <el-button-->
           <!--            size="mini"-->
           <!--            type="text"-->
@@ -124,12 +191,23 @@
       </el-table-column>
     </el-table>
 
-    <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
-      @pagination="getList" />
+    <pagination
+      v-show="total > 0"
+      :total="total"
+      :page.sync="queryParams.pageNum"
+      :limit.sync="queryParams.pageSize"
+      @pagination="getList"
+    />
 
     <!-- 添加或修改开票对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="773px" append-to-body @opened="handleOpen">
-      <el-form ref="form" :model="form" :rules="rules" label-width="120px">
+    <el-dialog
+      :title="title"
+      :visible.sync="open"
+      width="80%"
+      append-to-body
+      @opened="handleOpen"
+    >
+      <el-form ref="form" :model="form" :rules="rules" label-width="180px">
         <!--        <el-row>-->
         <!--          <el-col :span="24">-->
         <!--            <el-form-item >-->
@@ -140,28 +218,51 @@
         <!--          </el-col>-->
         <!--        </el-row>-->
         <el-row>
-          <el-col :span="12">
+          <el-row>
+              <el-col :span="12">
             <el-form-item label="项目名称" prop="projectId">
-              <el-select filterable value-key="projectId" @change="changeProject" v-model="form.projectId"
-                placeholder="请选择项目" style="width: 100%">
-                <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName" :value="pro">
-                </el-option>
+              <el-select
+                filterable
+                value-key="projectId"
+                @change="changeProject"
+                v-model="form.projectId"
+                placeholder="请选择项目"
+                style="width: 100%"
+              >
+                <el-option
+                  v-for="pro in listForProArr"
+                  :key="pro.projectId"
+                  :label="pro.projectName"
+                  :value="pro"
+                ></el-option>
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="12">
+           <el-col :span="12">
             <el-form-item label="业务名称" prop="stId">
-              <el-select filterable value-key="stId" @change="changeSt" v-model="form.stId" placeholder="请选择业务"
-                style="width: 100%">
-                <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj"></el-option>
+              <el-select
+                filterable
+                value-key="stId"
+                @change="changeSt"
+                v-model="form.stId"
+                placeholder="请选择业务"
+                style="width: 100%"
+              >
+                <el-option
+                  v-for="obj in listForBusArr"
+                  :key="obj.stId"
+                  :label="obj.stName"
+                  :value="obj"
+                ></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="项目编号">
+            <el-form-item label="立项编号" prop="serialNo">
               {{ form.serialNo }}
             </el-form-item>
           </el-col>
+            </el-row>
         </el-row>
         <el-row>
           <el-col :span="12">
@@ -178,7 +279,10 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="开票金额(元)" prop="kpPrice">
-              <el-input type="number" v-model="form.kpPrice" placeholder="请输入开票金额(元)" />
+              <el-input type="number"
+                v-model="form.kpPrice"
+                placeholder="请输入开票金额(元)"
+              />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -190,7 +294,11 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="价税合计(元)" prop="kpTotal">
-              <el-input type="number" @change="jsTax" v-model="form.kpTotal" placeholder="请输入价税合计(元)" />
+              <el-input type="number"
+                @change="jsTax"
+                v-model="form.kpTotal"
+                placeholder="请输入价税合计(元)"
+              />
             </el-form-item>
           </el-col>
         </el-row>
@@ -198,19 +306,28 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="电厂结算金额" prop="zzTprice">
-              <el-input type="number" v-model="form.zzTprice" placeholder="请输入电厂结算金额(元)" />
+              <el-input type="number"
+                v-model="form.zzTprice"
+                placeholder="请输入电厂结算金额(元)"
+              />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="合计重量" prop="zzWeight">
-              <el-input type="number" v-model="form.zzWeight" placeholder="请输入合计重量" />
+              <el-input type="number"
+                v-model="form.zzWeight"
+                placeholder="请输入合计重量"
+              />
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="货品单价" prop="zzPrice">
-              <el-input type="number" v-model="form.zzPrice" placeholder="请输入货品单价(元)" />
+              <el-input type="number"
+                v-model="form.zzPrice"
+                placeholder="请输入货品单价(元)"
+              />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -246,10 +363,23 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="附件" prop="file">
-              <el-upload class="upload-demo" :action="url" :headers="headers" :on-preview="handlePreview"
-                :on-remove="handleRemove" :on-success="uploadSuccess" :on-error="uploadError"
-                :before-remove="beforeRemove" multiple :limit="5" :on-exceed="handleExceed" :file-list="fileList">
-                <el-button size="small" type="primary" v-if="isLook != 3">点击上传</el-button>
+              <el-upload
+                class="upload-demo"
+                :action="url"
+                :headers="headers"
+                :on-preview="handlePreview"
+                :on-remove="handleRemove"
+                :on-success="uploadSuccess"
+                :on-error="uploadError"
+                :before-remove="beforeRemove"
+                multiple
+                :limit="5"
+                :on-exceed="handleExceed"
+                :file-list="fileList"
+              >
+                <el-button size="small" type="primary" v-if="isLook != 3"
+                  >点击上传</el-button
+                >
                 <!--                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
               </el-upload>
             </el-form-item>
@@ -257,26 +387,46 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm" :disabled="isDisabled" v-if="isLook != 3">确 定</el-button>
+        <el-button
+          type="primary"
+          @click="submitForm"
+          :disabled="isDisabled"
+          v-if="isLook != 3"
+          >确 定</el-button
+        >
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
     <!--打印页-->
-    <el-dialog title="打印预览" :visible.sync="printReviewVisible" @close="onPrintReviewClose" width="80%">
+    <el-dialog
+      title="打印预览"
+      :visible.sync="printReviewVisible"
+      @close="onPrintReviewClose"
+      width="80%"
+    >
       <div class="print-div" id="print_area">
         <div class="search-title-content">
           <div style="padding: 0 0 15px">
             <el-row type="flex" justify="space-between">
-              <el-col :span="4"><span style="font-weight: bold; font-size: 16px" v-text="printData.printType"></span>
-              </el-col>
-              <el-col :span="4"><span style="
+              <el-col :span="4"
+                ><span
+                  style="font-weight: bold; font-size: 16px"
+                  v-text="printData.printType"
+                ></span
+              ></el-col>
+              <el-col :span="4"
+                ><span
+                  style="
                     color: red;
                     width: 100%;
                     display: inline-block;
                     text-align: end;
                     font-weight: bold;
                     font-size: 16px;
-                  " v-text="selectDictLabel(stateOptions, printData.state)"></span></el-col>
+                  "
+                  v-text="selectDictLabel(stateOptions, printData.state)"
+                ></span
+              ></el-col>
             </el-row>
           </div>
           <!--基本信息-->
@@ -350,85 +500,7 @@
             </tr>
           </table>
           <!--审批流程-->
-          <table border="1" width="100%">
-            <tr>
-              <td class="title" colspan="6">审批流程</td>
-            </tr>
-            <tr>
-              <td class="table-td-title detail">发起人</td>
-              <td class="table-td-content" colspan="2">
-                <template>{{ printData.sponsor }}</template>
-              </td>
-              <td class="table-td-title detail">发起时间</td>
-              <td class="table-td-content" colspan="2">
-                <template>{{ printData.initiateTime }}</template>
-              </td>
-            </tr>
-            <tr>
-              <td class="table-td-title detail">部门</td>
-              <td class="table-td-title detail">应审批人</td>
-              <td class="table-td-title detail">审批人</td>
-              <td class="table-td-title detail">审批时间</td>
-              <td class="table-td-title detail">审批说明</td>
-              <td class="table-td-title detail">审批状态</td>
-            </tr>
-            <tr v-for="(item, idx) in printData.nodeStateList" :key="idx">
-              <td class="table-td-content" style="text-align: center">
-                {{ item.deptName }}
-              </td>
-              <td class="table-td-content" style="text-align: center">
-                {{ item.shouldApprovePerson }}
-              </td>
-              <td class="table-td-content" style="text-align: center">
-                {{ item.nickName }}
-              </td>
-              <td class="table-td-content" style="text-align: center">
-                {{ item.approveTime }}
-              </td>
-              <td class="table-td-content" style="max-width: 150px; text-align: center">
-                {{ item.processValue }}
-              </td>
-              <td class="table-td-content" style="text-align: center">
-                {{
-                item.status == 0 || item.status == 1
-                ? "已审批"
-                : item.status == -1
-                ? "待审批"
-                : "未审批"
-                }}
-              </td>
-            </tr>
-          </table>
-          <!--审批流程-->
-          <table border="1" width="100%">
-            <tr>
-              <td class="title" colspan="6">审批记录</td>
-            </tr>
-            <tr>
-              <td class="table-td-title detail">部门</td>
-              <td class="table-td-title detail">审批人</td>
-              <td class="table-td-title detail">审批时间</td>
-              <td class="table-td-title detail">审批说明</td>
-              <td class="table-td-title detail">审批状态</td>
-            </tr>
-            <tr v-for="(item, idx) in printData.approveHisList" :key="idx">
-              <td class="table-td-content" style="text-align: center">
-                {{ item.deptName }}
-              </td>
-              <td class="table-td-content" style="text-align: center">
-                {{ item.nickName }}
-              </td>
-              <td class="table-td-content" style="text-align: center">
-                {{ item.approveTime }}
-              </td>
-              <td class="table-td-content" style="max-width: 150px; text-align: center">
-                {{ item.processValue }}
-              </td>
-              <td class="table-td-content" style="text-align: center">
-                {{ item.status == 0 ? "驳回" : item.status == 1 ? "通过" : "" }}
-              </td>
-            </tr>
-          </table>
+          <approval-print :typeId="15" :stId="apyamentId" ></approval-print>
         </div>
       </div>
     </el-dialog>
@@ -491,6 +563,7 @@ export default {
       // 开票表格数据
       kpList: [],
       // 项目集合
+      stOptions: [],
       projectOptions: [],
       //审核状态集合
       stateOptions: [],
@@ -527,12 +600,16 @@ export default {
       isDisabled: false,
       listForBusArr: [],
       listForProArr: [],
+      apyamentId:'',//子组件id
     };
   },
   created() {
     this.getList();
     this.getDicts("project_approval_state").then((response) => {
       this.stateOptions = response.data;
+    });
+    getStList().then((response) => {
+      this.stOptions = response.rows;
     });
     if (
       this.$route.params.isEdit != null &&
@@ -558,10 +635,13 @@ export default {
         this.total = response.total;
         this.loading = false;
       });
+      getStList().then((response) => {
+        this.stOptions = response.rows;
+      });
       // 业务
       listForBus().then((response) => {
         this.listForBusArr = response.data
-      })
+      }) 
       // 项目
       listForPro().then((response) => {
         this.listForProArr = response.data
@@ -783,8 +863,8 @@ export default {
       this.form.uName = obj.userName;
       this.form.uId = obj.userId;
       this.form.sName = obj.supplierName;
-      this.form.sId = obj.supplierId;
       this.form.serialNo = obj.serialNo;
+      this.form.sId = obj.supplierId;
       this.$set(this.form, "number", obj.number);
     },
 
@@ -821,25 +901,12 @@ export default {
       });
     },
     async handlePrint(row) {
+      this.apyamentId = row.kpId
       this.printData = {};
       await getKp(row.kpId).then((response) => {
         this.printData = response.data;
         this.printData.fileList = response.data.fileList || [];
         this.printData.printType = "开票管理";
-      });
-      await getProcessDataByStId("15", row.kpId).then((res) => {
-        this.printData.approveHisList = res.data;
-      });
-      await getApprovalProcessList("15", row.kpId).then((res) => {
-        this.printData.nodeStateList = res.data;
-        if (
-          this.printData.nodeStateList &&
-          this.printData.nodeStateList.length > 0
-        ) {
-          this.printData.sponsor = this.printData.nodeStateList[0].sponsor;
-          this.printData.initiateTime =
-            this.printData.nodeStateList[0].initiateTime;
-        }
       });
       this.printReviewVisible = true;
       this.$nextTick(() => {
