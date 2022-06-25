@@ -275,7 +275,7 @@
       <approval-process :typeId="11" :stId="gryId"></approval-process>
 
       <!--      审批信息-->
-      <approval-record :typeId="11" :stId="grnId"></approval-record>
+      <approval-record :typeId="11" :stId="gryId"></approval-record>
 
     </el-form>
     <el-row>

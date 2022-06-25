@@ -161,9 +161,6 @@ export default {
         this.form = response.data;
         this.fileList = this.form.fileList || []
       });
-    getProcessDataByStId("18",bidId).then((res) => {
-      this.stateList = res.data;
-    });
   },
   methods: {
     cancel(){
