@@ -48,7 +48,7 @@
         <el-col :span="4">
           支出类型：<span v-text="form.type"></span>
         </el-col>
-        <el-col :span="4" >
+        <el-col :span="4">
           金额(元)：<span v-text="$options.filters.moneyFilter(form.price)"></span>
         </el-col>
       </el-row>
@@ -64,10 +64,11 @@
       <approval-process :typeId="16" :stId="dpId"></approval-process>
       <!--      审批信息-->
       <approval-record :typeId="16" :stId="dpId"></approval-record>
+
     </el-form>
     <el-row>
       <el-col :offset="1" :span="20">
-        <div slot=""  class="dialog-footer" style="text-align: right;margin-bottom: 50px;margin-right: 50px;">
+        <div slot="" class="dialog-footer" style="text-align: right;margin-bottom: 50px;margin-right: 50px;">
           <el-button type="info" @click="cancel">关 闭</el-button>
         </div>
       </el-col>

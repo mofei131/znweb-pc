@@ -159,8 +159,8 @@
     />
 
     <!-- 添加或修改期间费用对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="180px">
+    <el-dialog :title="title" :visible.sync="open" width="773px" append-to-body>
+      <el-form ref="form" :model="form" :rules="rules" label-width="100px">
         <el-row>
           <el-col :span="12">
             <el-form-item label="项目" prop="stId">
@@ -189,8 +189,6 @@
                 </el-select>
               </el-form-item>
             </el-col>
-          </el-row>
-          <el-row>
             <el-col :span="12">
               <el-form-item label="客户经理" prop="managerId">
                 <el-select filterable value-key="userId" @change="changeManager" v-model="form.managerId" placeholder="请选择客户经理" style="width: 100%;">
@@ -217,8 +215,6 @@
                 </el-select>
               </el-form-item>
             </el-col>
-          </el-row>
-          <el-row>
             <el-col :span="12">
               <el-form-item label="金额(元)" prop="price">
                 <el-input v-model="form.price" placeholder="请输入金额(元)" />

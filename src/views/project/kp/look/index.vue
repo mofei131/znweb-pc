@@ -1,4 +1,4 @@
-<style>
+<style scoped>
 .head-title {
   font-size: 16px;
   font-family: Microsoft YaHei;
@@ -13,7 +13,13 @@
   font-family: Microsoft YaHei;
   font-weight: 400;
   color: #333333;
-  line-height: 53px;
+  line-height: 30px;
+}
+.head-text span{
+  display: block;
+  width:220px;
+  line-height:30px;
+  margin-top:0px
 }
 
 .upload-hidden .el-upload--picture-card {
@@ -33,53 +39,48 @@
         </el-col>
       </el-row>
       <el-row class="head-text">
-        <el-col :span="4" :offset="1">
-          项目名称：<span v-text="form.stName"></span>
+        <el-col :span="7" :offset="1">
+          <div style="display:flex">
+            <div>项目名称：</div><span v-text="form.stName"></span>
+          </div>
+          <div style="display:flex">
+            <div>项目编号：</div><span v-text="form.number"></span>
+          </div>
+          <div style="display:flex">
+            <div>代办人：</div><span v-text="form.uName"></span>
+          </div>
+          <div style="display:flex">
+            <div>供应商：</div><span v-text="form.sName"></span>
+          </div>
+          <div style="display:flex">
+            <div>结算金额：</div><span v-text="$options.filters.moneyFilter(form.zzTprice)"></span>
+          </div>
+        </el-col>
+        <el-col :span="7" :offset="1">
+          <div style="display:flex">
+            <div>验收重量(吨)：</div><span v-text="$options.filters.weightFilter(form.zzWeight)"></span>
+          </div>
+          <div style="display:flex">
+            <div>开票金额(元)：</div><span v-text="$options.filters.moneyFilter(form.kpPrice)"></span>
+          </div>
+          <div style="display:flex">
+            <div>开票税额(元)：</div><span v-text="$options.filters.moneyFilter(form.kpTax)"></span>
+          </div>
+          <div style="display:flex">
+            <div>价税合计(元)：</div><span v-text="$options.filters.moneyFilter(form.kpTotal)"></span>
+          </div>
+          <div style="display:flex">
+            <div>货品单价(元)：</div><span v-text="$options.filters.moneyFilter(form.zzPrice)"></span>
+          </div>
         </el-col>
         <el-col :span="4" :offset="1">
-          项目编号：<span v-text="form.number"></span>
+          <div style="display:flex">
+            <div style="width:100px">货品名称：</div><span v-text="form.mc"></span>
+          </div>
+          <div style="display:flex">
+            <div style="width:100px">货品型号：</div><span v-text="form.xh"></span>
+          </div>
         </el-col>
-        <el-col :span="4"> 代办人：<span v-text="form.uName"></span> </el-col>
-        <el-col :span="4"> 供应商：<span v-text="form.sName"></span> </el-col>
-      </el-row>
-      <el-row class="head-text">
-        <el-col :span="4" :offset="1">
-          结算金额：<span
-            v-text="$options.filters.moneyFilter(form.zzTprice)"
-          ></span>
-        </el-col>
-        <el-col :span="4">
-          验收重量(吨)：<span
-            v-text="$options.filters.weightFilter(form.zzWeight)"
-          ></span>
-        </el-col>
-      </el-row>
-      <el-row class="head-text">
-        <el-col :span="4" :offset="1">
-          开票金额(元)：<span
-            v-text="$options.filters.moneyFilter(form.kpPrice)"
-          ></span>
-        </el-col>
-        <el-col :span="4">
-          开票税额(元)：<span
-            v-text="$options.filters.moneyFilter(form.kpTax)"
-          ></span>
-        </el-col>
-        <el-col :span="4">
-          价税合计(元)：<span
-            v-text="$options.filters.moneyFilter(form.kpTotal)"
-          ></span>
-        </el-col>
-      </el-row>
-
-      <el-row class="head-text">
-        <el-col :span="4" :offset="1">
-          货品单价(元)：<span
-            v-text="$options.filters.moneyFilter(form.zzPrice)"
-          ></span>
-        </el-col>
-        <el-col :span="4"> 货品名称：<span v-text="form.mc"></span> </el-col>
-        <el-col :span="4"> 货品型号：<span v-text="form.xh"></span> </el-col>
       </el-row>
       <el-row class="head-text">
         <el-col :span="18" :offset="1">
@@ -99,19 +100,15 @@
       </el-row>
 
       <!--      审批流程·-->
-            <approval-process :typeId="15" :stId="kpId"></approval-process>
+      <approval-process :typeId="15" :stId="kpId"></approval-process>
 
       <!--      审批信息-->
       <approval-record :typeId="15" :stId="kpId"></approval-record>
     </el-form>
     <el-row>
       <el-col :offset="1" :span="20">
-        <div
-          slot=""
-          class="dialog-footer"
-          style="text-align: right; margin-bottom: 50px; margin-right: 50px"
-        >
-          <el-button type="info" @click="cancel">关 闭</el-button>
+        <div slot="" class="dialog-footer" style="text-align: right; margin-bottom: 50px; margin-right: 50px">
+          <el-button size="small" type="info" @click="cancel">关 闭</el-button>
         </div>
       </el-col>
     </el-row>

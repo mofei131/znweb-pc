@@ -127,16 +127,14 @@
     />
 
     <!-- 添加或修改快递记录对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="180px">
+    <el-dialog :title="title" :visible.sync="open" width="773px" append-to-body>
+      <el-form ref="form" :model="form" :rules="rules" label-width="120px">
         <el-row>
           <el-col :span="12">
         <el-form-item label="名称" prop="name">
           <el-input v-model="form.name" placeholder="请输入名称" />
         </el-form-item>
           </el-col>
-        </el-row>
-        <el-row>
           <el-col :span="12">
         <el-form-item label="快递名称" prop="kdName">
           <el-input v-model="form.kdName" placeholder="请输入快递名称" />
@@ -149,8 +147,6 @@
           <el-input v-model="form.kdNumber" placeholder="请输入快递单号" />
         </el-form-item>
           </el-col>
-        </el-row>
-        <el-row>
           <el-col :span="12">
         <el-form-item label="快递物品" prop="kdWp">
           <el-input v-model="form.kdWp" placeholder="请输入快递物品" />
@@ -168,8 +164,6 @@
           </el-date-picker>
         </el-form-item>
           </el-col>
-        </el-row>
-        <el-row>
           <el-col :span="12">
         <el-form-item label="备注说明" prop="node">
           <el-input v-model="form.node" placeholder="请输入备注说明" />

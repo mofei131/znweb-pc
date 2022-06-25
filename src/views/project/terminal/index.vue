@@ -5,47 +5,21 @@
 </style>
 <template>
   <div class="app-container">
-    <el-form
-      :model="queryParams"
-      ref="queryForm"
-      :inline="true"
-      v-show="showSearch"
-      label-width="100px"
-    >
+    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="100px">
       <el-form-item label="终端客户名称" prop="name">
-        <el-input
-          v-model="queryParams.name"
-          placeholder="请输入终端客户名称"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+        <el-input v-model="queryParams.name" placeholder="请输入终端客户名称" clearable size="small"
+          @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item>
-        <el-button
-          type="primary"
-          icon="el-icon-search"
-          size="mini"
-          @click="handleQuery"
-          >搜索</el-button
-        >
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery"
-          >重置</el-button
-        >
+        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button
-          type="primary"
-          plain
-          icon="el-icon-plus"
-          size="mini"
-          @click="handleAdd"
-          v-hasPermi="['project:terminal:add']"
-          >新增</el-button
-        >
+        <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
+          v-hasPermi="['project:terminal:add']">新增</el-button>
       </el-col>
       <!--      <el-col :span="1.5">-->
       <!--        <el-button-->
@@ -79,26 +53,14 @@
       <!--          v-hasPermi="['project:terminal:export']"-->
       <!--        >导出</el-button>-->
       <!--      </el-col>-->
-      <right-toolbar
-        :showSearch.sync="showSearch"
-        @queryTable="getList"
-      ></right-toolbar>
+      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table
-      v-loading="loading"
-      :data="terminalList"
-      @selection-change="handleSelectionChange"
-    >
+    <el-table v-loading="loading" :data="terminalList" @selection-change="handleSelectionChange">
       <!--      <el-table-column type="selection" width="55" align="center" />-->
       <el-table-column label="终端客户名称" align="center" prop="name" />
       <el-table-column label="企业性质" align="center" prop="nature" />
-      <el-table-column
-        label="成立日期"
-        align="center"
-        prop="setupTime"
-        width="180"
-      >
+      <el-table-column label="成立日期" align="center" prop="setupTime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.setupTime, "{y}-{m}-{d}") }}</span>
         </template>
@@ -106,55 +68,34 @@
       <el-table-column label="年需求量(吨)" align="center" prop="demand">
         <template slot-scope="scope">
           {{
-            Number(scope.row.demand)
-              .toFixed(3)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          Number(scope.row.demand)
+          .toFixed(3)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
       <el-table-column label="注册资本(万元)" align="center" prop="capital">
         <template slot-scope="scope">
           {{
-            Number(scope.row.capital)
-              .toFixed(2)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          Number(scope.row.capital)
+          .toFixed(2)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
-      <el-table-column
-        label="创建时间"
-        align="center"
-        prop="createTime"
-        width="180"
-      >
+      <el-table-column label="创建时间" align="center" prop="createTime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.createTime, "{y}-{m}-{d}") }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        label="审核状态"
-        align="center"
-        prop="state"
-        :formatter="stateFormat"
-      />
+      <el-table-column label="审核状态" align="center" prop="state" :formatter="stateFormat" />
       <el-table-column label="评级" align="center" prop="rating" />
-      <el-table-column
-        label="操作"
-        width="160"
-        align="center"
-        class-name="small-padding fixed-width"
-      >
+      <el-table-column label="操作" width="160" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-edit"
-            @click="handleLook(scope.row)"
-            v-hasPermi="['project:terminal:edit']"
-            >查看</el-button
-          >
+          <el-button size="mini" type="text" icon="el-icon-edit" @click="handleLook(scope.row)"
+            v-hasPermi="['project:terminal:edit']">查看</el-button>
           <!--          <el-button-->
           <!--            size="mini"-->
           <!--            type="text"-->
@@ -162,23 +103,10 @@
           <!--            @click="handleUpdate(scope.row)"-->
           <!--            v-hasPermi="['project:terminal:edit']"-->
           <!--          >修改</el-button>-->
-          <el-button
-            v-if="scope.row.state == '3'"
-            size="mini"
-            type="text"
-            icon="el-icon-edit"
-            @click="handleUpdateRating(scope.row)"
-            v-hasPermi="['project:terminal:edit']"
-            >评级</el-button
-          >
-          <el-button
-            v-if="scope.row.state === '3'"
-            size="mini"
-            type="text"
-            icon="el-icon-printer"
-            @click="handlePrint(scope.row)"
-            >打印</el-button
-          >
+          <el-button v-if="scope.row.state == '3'" size="mini" type="text" icon="el-icon-edit"
+            @click="handleUpdateRating(scope.row)" v-hasPermi="['project:terminal:edit']">评级</el-button>
+          <el-button v-if="scope.row.state === '3'" size="mini" type="text" icon="el-icon-printer"
+            @click="handlePrint(scope.row)">打印</el-button>
           <!--          <el-button-->
           <!--            v-if="scope.row.state=='1' || scope.row.state=='4'"-->
           <!--            size="mini"-->
@@ -191,23 +119,12 @@
       </el-table-column>
     </el-table>
 
-    <pagination
-      v-show="total > 0"
-      :total="total"
-      :page.sync="queryParams.pageNum"
-      :limit.sync="queryParams.pageSize"
-      @pagination="getList"
-    />
+    <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
+      @pagination="getList" />
 
     <!-- 添加或修改终端用户对话框 -->
-    <el-dialog
-      :title="title"
-      :visible.sync="open"
-      width="80%"
-      append-to-body
-      @opened="handleOpen"
-    >
-      <el-form ref="form" :model="form" :rules="rules" label-width="180px">
+    <el-dialog :title="title" :visible.sync="open" width="773px" append-to-body @opened="handleOpen">
+      <el-form ref="form" :model="form" :rules="rules" label-width="130px">
         <div v-if="isLook != 4">
           <el-row v-if="editForm">
             <el-col :span="12">
@@ -219,26 +136,14 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="终端客户名称:" prop="name">
-                <el-input
-                  v-model="form.name"
-                  v-if="!editForm"
-                  placeholder="请输入终端客户名称"
-                />
+                <el-input v-model="form.name" v-if="!editForm" placeholder="请输入终端客户名称" />
                 <span v-if="editForm" v-text="form.name"></span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="成立日期:" prop="setupTime">
-                <el-date-picker
-                  clearable
-                  size="small"
-                  v-if="!editForm"
-                  style="width: 100%"
-                  v-model="form.setupTime"
-                  type="date"
-                  value-format="yyyy-MM-dd"
-                  placeholder="选择成立日期"
-                >
+                <el-date-picker clearable size="small" v-if="!editForm" style="width: 100%" v-model="form.setupTime"
+                  type="date" value-format="yyyy-MM-dd" placeholder="选择成立日期">
                 </el-date-picker>
                 <span v-if="editForm" v-text="form.setupTime"></span>
               </el-form-item>
@@ -247,12 +152,7 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="企业性质:" prop="nature">
-                <el-select
-                  v-model="form.nature"
-                  placeholder="请选择企业性质"
-                  v-if="!editForm"
-                  style="width: 100%"
-                >
+                <el-select v-model="form.nature" placeholder="请选择企业性质" v-if="!editForm" style="width: 100%">
                   <el-option label="国有企业" value="国有企业" />
                   <el-option label="私有企业" value="私有企业" />
                   <el-option label="上市企业" value="上市企业" />
@@ -262,11 +162,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item label="年需求量(万吨):" prop="demand">
-                <el-input
-                  v-model="form.demand"
-                  placeholder="请输入年需求量"
-                  v-if="!editForm"
-                />
+                <el-input v-model="form.demand" placeholder="请输入年需求量" v-if="!editForm" />
                 <span v-if="editForm" v-text="form.demand"></span>
               </el-form-item>
             </el-col>
@@ -274,22 +170,13 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="注册资本(万元):" prop="capital">
-                <el-input
-                  v-model="form.capital"
-                  placeholder="请输入注册资本"
-                  v-if="!editForm"
-                />
+                <el-input v-model="form.capital" placeholder="请输入注册资本" v-if="!editForm" />
                 <span v-if="editForm" v-text="form.capital"></span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="评级:" prop="rating">
-                <el-select
-                  v-model="form.rating"
-                  placeholder="请选择评级"
-                  v-if="!editForm"
-                  style="width: 100%"
-                >
+                <el-select v-model="form.rating" placeholder="请选择评级" v-if="!editForm" style="width: 100%">
                   <el-option label="A" value="A" />
                   <el-option label="B" value="B" />
                   <el-option label="C" value="C" />
@@ -303,12 +190,7 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="开票结算方式:" prop="settlementType">
-                <el-select
-                  v-model="form.settlementType"
-                  placeholder="请选择开票结算方式"
-                  v-if="!editForm"
-                  style="width: 100%"
-                >
+                <el-select v-model="form.settlementType" placeholder="请选择开票结算方式" v-if="!editForm" style="width: 100%">
                   <el-option label="增值税一票" value="增值税一票" />
                   <el-option label="两票结算" value="两票结算" />
                 </el-select>
@@ -317,12 +199,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item label="结算规则:" prop="settlementGz">
-                <el-select
-                  v-model="form.settlementGz"
-                  placeholder="请选择结算规则"
-                  v-if="!editForm"
-                  style="width: 100%"
-                >
+                <el-select v-model="form.settlementGz" placeholder="请选择结算规则" v-if="!editForm" style="width: 100%">
                   <el-option label="按列" value="按列" />
                   <el-option label="全月加权" value="全月加权" />
                 </el-select>
@@ -333,22 +210,13 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="回款账期:" prop="paymentdays">
-                <el-input
-                  v-model="form.paymentdays"
-                  placeholder="请输入回款账期"
-                  v-if="!editForm"
-                />
+                <el-input v-model="form.paymentdays" placeholder="请输入回款账期" v-if="!editForm" />
                 <span v-if="editForm" v-text="form.paymentdays"></span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="付款方式:" prop="paymentType">
-                <el-select
-                  v-model="form.paymentType"
-                  placeholder="请选择付款方式"
-                  v-if="!editForm"
-                  style="width: 100%"
-                >
+                <el-select v-model="form.paymentType" placeholder="请选择付款方式" v-if="!editForm" style="width: 100%">
                   <el-option label="现汇" value="现汇" />
                   <el-option label="承兑" value="承兑" />
                   <el-option label="现汇+承兑" value="现汇+承兑" />
@@ -362,11 +230,7 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="评级" prop="rating">
-                <el-select
-                  v-model="form.rating"
-                  placeholder="请选择评级"
-                  style="width: 100%"
-                >
+                <el-select v-model="form.rating" placeholder="请选择评级" style="width: 100%">
                   <el-option label="A" value="A" />
                   <el-option label="B" value="B" />
                   <el-option label="C" value="C" />
@@ -377,46 +241,27 @@
             </el-col>
           </el-row>
           <el-row>
-            <el-col :span="24">.
+            <el-col :span="24">
               <el-form-item label="评级说明：" prop="node">
-                <el-input
-                  type="textarea"
-                  :rows="5"
-                  v-model="form.ratingDe"
-                  placeholder="请输入评级说明"
-                />
+                <el-input type="textarea" :rows="5" v-model="form.ratingDe" placeholder="请输入评级说明" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item label="客户代码:" prop="customerCode">
+                <el-input oninput="value=value.replace(/[^0-9a-zA-Z]/g, '')" v-model="form.customerCode"
+                  placeholder="请输入客户代码" />
               </el-form-item>
             </el-col>
           </el-row>
         </div>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="客户代码:" prop="customerCode">
-              <el-input
-                oninput="value=value.replace(/[^0-9a-zA-Z]/g, '')"
-                v-model="form.customerCode"
-                placeholder="请输入客户代码"
-              />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
             <el-form-item label="附件" prop="file">
-              <el-upload
-                class="upload-demo"
-                :action="url"
-                :headers="headers"
-                :on-preview="handlePreview"
-                :on-remove="handleRemove"
-                :on-success="uploadSuccess"
-                :on-error="uploadError"
-                :before-remove="beforeRemove"
-                multiple
-                :limit="5"
-                :on-exceed="handleExceed"
-                :file-list="fileList"
-              >
+              <el-upload class="upload-demo" :action="url" :headers="headers" :on-preview="handlePreview"
+                :on-remove="handleRemove" :on-success="uploadSuccess" :on-error="uploadError"
+                :before-remove="beforeRemove" multiple :limit="5" :on-exceed="handleExceed" :file-list="fileList">
                 <el-button size="small" type="primary">点击上传</el-button>
                 <!--                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
               </el-upload>
@@ -425,47 +270,27 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button
-          type="primary"
-          @click="submitForm"
-          :disabled="isDisabled"
-          v-if="isLook != 3"
-          >确 定</el-button
-        >
+        <el-button type="primary" @click="submitForm" :disabled="isDisabled" v-if="isLook != 3">确 定</el-button>
         <el-button @click="cancel" v-if="isLook != 3">取 消</el-button>
         <el-button @click="cancel" v-if="isLook == 3">关 闭</el-button>
       </div>
     </el-dialog>
     <!--打印页-->
-    <el-dialog
-      title="打印预览"
-      :visible.sync="printReviewVisible"
-      @close="onPrintReviewClose"
-      width="80%"
-    >
+    <el-dialog title="打印预览" :visible.sync="printReviewVisible" @close="onPrintReviewClose" width="80%">
       <div class="print-div" id="print_area">
         <div class="search-title-content">
           <div style="padding: 0 0 15px">
             <el-row type="flex" justify="space-between">
-              <el-col :span="4"
-                ><span
-                  style="font-weight: bold; font-size: 16px"
-                  v-text="printData.printType"
-                ></span
-              ></el-col>
-              <el-col :span="4"
-                ><span
-                  style="
+              <el-col :span="4"><span style="font-weight: bold; font-size: 16px" v-text="printData.printType"></span>
+              </el-col>
+              <el-col :span="4"><span style="
                     color: red;
                     width: 100%;
                     display: inline-block;
                     text-align: end;
                     font-weight: bold;
                     font-size: 16px;
-                  "
-                  v-text="selectDictLabel(stateOptions, printData.state)"
-                ></span
-              ></el-col>
+                  " v-text="selectDictLabel(stateOptions, printData.state)"></span></el-col>
             </el-row>
           </div>
           <!--基本信息-->
@@ -570,19 +395,16 @@
               <td class="table-td-content" style="text-align: center">
                 {{ item.approveTime }}
               </td>
-              <td
-                class="table-td-content"
-                style="max-width: 150px; text-align: center"
-              >
+              <td class="table-td-content" style="max-width: 150px; text-align: center">
                 {{ item.processValue }}
               </td>
               <td class="table-td-content" style="text-align: center">
                 {{
-                  item.status == 0 || item.status == 1
-                    ? "已审批"
-                    : item.status == -1
-                    ? "待审批"
-                    : "未审批"
+                item.status == 0 || item.status == 1
+                ? "已审批"
+                : item.status == -1
+                ? "待审批"
+                : "未审批"
                 }}
               </td>
             </tr>
@@ -609,10 +431,7 @@
               <td class="table-td-content" style="text-align: center">
                 {{ item.approveTime }}
               </td>
-              <td
-                class="table-td-content"
-                style="max-width: 150px; text-align: center"
-              >
+              <td class="table-td-content" style="max-width: 150px; text-align: center">
                 {{ item.processValue }}
               </td>
               <td class="table-td-content" style="text-align: center">
@@ -705,7 +524,7 @@ export default {
         nature: [
           { required: true, message: "请选择企业性质", trigger: "blur" },
         ],
-        customerCode:[
+        customerCode: [
           { required: true, message: "请输入客户代码", trigger: "blur" },
         ],
         demand: [{ required: true, validator: validatePrice, trigger: "blur" }],

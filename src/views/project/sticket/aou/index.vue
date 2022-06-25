@@ -4,12 +4,11 @@
       ref="form"
       :model="form"
       :rules="rules"
-      label-width="180px"
-      label-position="left"
+      label-width="100px"
     >
       <el-row>
         <el-col :span="12">
-          <el-form-item label="项目名称:" prop="stId">
+          <el-form-item label="项目名称" prop="stId">
             <el-select
               filterable
               value-key="stId"
@@ -27,31 +26,27 @@
             </el-select>
           </el-form-item>
         </el-col>
-      </el-row>
-      <el-row>
         <el-col :span="12">
-          <el-form-item label="项目编号" prop="projectNumber">
+          <el-form-item style="margin-left:20px" label="项目编号" prop="projectNumber">
             {{ form.projectNumber }}
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="12">
-          <el-form-item label="代办人:" prop="proportion">
+          <el-form-item label="代办人" prop="proportion">
             <span>{{ form.uName }}</span>
           </el-form-item>
         </el-col>
-      </el-row>
-      <el-row>
         <el-col :span="12">
-          <el-form-item label="终端用户:" prop="proportion">
+          <el-form-item style="margin-left:20px" label="终端用户" prop="proportion">
             <span>{{ form.tName }}</span>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="12">
-          <el-form-item label="收票比例:" prop="proportion">
+          <el-form-item label="收票比例" prop="proportion">
             <el-radio-group
               v-model="form.proportion"
               @change="updateProportion"
@@ -61,11 +56,8 @@
             </el-radio-group>
           </el-form-item>
         </el-col>
-      </el-row>
-
-      <el-row>
         <el-col :span="12">
-          <el-form-item label="数量(吨)" prop="number">
+          <el-form-item style="margin-left:20px" label="数量(吨)" prop="number">
             <el-input v-model="form.number" placeholder="请输入数量(吨)" />
           </el-form-item>
         </el-col>
@@ -76,10 +68,8 @@
             <el-input v-model="form.price" placeholder="请输入开票金额" />
           </el-form-item>
         </el-col>
-      </el-row>
-      <el-row>
         <el-col :span="12">
-          <el-form-item label="开票税额(元)" prop="tax">
+          <el-form-item style="margin-left:20px" label="开票税额(元)" prop="tax">
             <el-input v-model="form.tax" placeholder="请输入开票税额" />
           </el-form-item>
         </el-col>
@@ -94,10 +84,8 @@
             />
           </el-form-item>
         </el-col>
-      </el-row>
-      <el-row>
         <el-col :span="12">
-          <el-form-item label="收票日期" prop="sticketTime">
+          <el-form-item style="margin-left:20px" label="收票日期" prop="sticketTime">
             <el-date-picker
               clearable
               size="small"
@@ -240,7 +228,7 @@
       <!--      </el-col>-->
       <!--    </el-row>-->
     </el-form>
-    <div slot="footer" class="dialog-footer" style="text-align: right">
+    <div slot="footer" class="dialog-footer" style="text-align: center">
       <el-button type="primary" @click="submitForm" :disabled="isDisabled"
         >确 定</el-button
       >

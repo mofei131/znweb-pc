@@ -1,88 +1,41 @@
 <template>
   <div class="app-container">
-    <el-form
-      :model="queryParams"
-      ref="queryForm"
-      :inline="true"
-      v-show="showSearch"
-      label-width="68px"
-    >
+    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="项目名称" prop="projectName">
-        <el-input
-          v-model="queryParams.projectName"
-          placeholder="请输入项目名称"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+        <el-input v-model="queryParams.projectName" placeholder="请输入项目名称" clearable size="small"
+          @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item label="项目编号" prop="serialNo">
-        <el-input
-          v-model="queryParams.serialNo"
-          placeholder="请输入项目编号"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+        <el-input v-model="queryParams.serialNo" placeholder="请输入项目编号" clearable size="small"
+          @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item label="标准名称" prop="name">
-        <el-input
-          v-model="queryParams.name"
-          placeholder="请输入标准名称"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+        <el-input v-model="queryParams.name" placeholder="请输入标准名称" clearable size="small"
+          @keyup.enter.native="handleQuery" />
       </el-form-item>
 
       <el-form-item>
-        <el-button
-          type="primary"
-          icon="el-icon-search"
-          size="mini"
-          @click="handleQuery"
-          >搜索</el-button
-        >
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery"
-          >重置</el-button
-        >
+        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button
-          type="primary"
-          plain
-          icon="el-icon-plus"
-          size="mini"
-          @click="handleAdd"
-          v-hasPermi="['project:rewardsp:add']"
-          >新增</el-button
-        >
+        <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
+          v-hasPermi="['project:rewardsp:add']">新增</el-button>
       </el-col>
 
-      <right-toolbar
-        :showSearch.sync="showSearch"
-        @queryTable="getList"
-      ></right-toolbar>
+      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table
-      v-loading="loading"
-      :data="rewardspList"
-      @selection-change="handleSelectionChange"
-    >
+    <el-table v-loading="loading" :data="rewardspList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="项目名称" align="center" prop="projectName" />
       <el-table-column label="业务名称" align="center" prop="stName" />
       <el-table-column label="项目编号" align="center" prop="serialNo" />
       <el-table-column label="标准名称" align="center" prop="name" />
-      <el-table-column
-        label="操作"
-        align="center"
-        class-name="small-padding fixed-width"
-      >
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <!--          <el-button-->
           <!--            size="mini"-->
@@ -91,79 +44,35 @@
           <!--            @click="handleLook(scope.row)"-->
           <!--            v-hasPermi="['project:rewardsp:edit']"-->
           <!--          >查看</el-button>-->
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-edit"
-            @click="handleUpdate(scope.row)"
-            v-hasPermi="['project:rewardsp:edit']"
-            >修改</el-button
-          >
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-delete"
-            @click="handleDelete(scope.row)"
-            v-hasPermi="['project:rewardsp:remove']"
-            >删除</el-button
-          >
+          <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
+            v-hasPermi="['project:rewardsp:edit']">修改</el-button>
+          <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
+            v-hasPermi="['project:rewardsp:remove']">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
 
-    <pagination
-      v-show="total > 0"
-      :total="total"
-      :page.sync="queryParams.pageNum"
-      :limit.sync="queryParams.pageSize"
-      @pagination="getList"
-    />
+    <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
+      @pagination="getList" />
 
     <!-- 添加或修改奖惩对话框 -->
-    <el-dialog
-      :title="title"
-      :visible.sync="open"
-      width="80%"
-      append-to-body
-      @opened="handleOpen"
-    >
-      <el-form ref="form" :model="form" :rules="rules" label-width="180px">
+    <el-dialog :title="title" :visible.sync="open" width="773px" append-to-body @opened="handleOpen">
+      <el-form ref="form" :model="form" :rules="rules" label-width="120px">
         <el-row>
-              <el-col :span="12">
+          <el-col :span="12">
             <el-form-item label="项目名称" prop="projectId">
-              <el-select
-                filterable
-                value-key="projectId"
-                @change="changeProject"
-                v-model="form.projectId"
-                placeholder="请选择项目"
-                style="width: 100%"
-              >
-                <el-option
-                  v-for="pro in listForProArr"
-                  :key="pro.projectId"
-                  :label="pro.projectName"
-                  :value="pro"
-                ></el-option>
+              <el-select filterable value-key="projectId" @change="changeProject" v-model="form.projectId"
+                placeholder="请选择项目" style="width: 100%">
+                <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName" :value="pro">
+                </el-option>
               </el-select>
             </el-form-item>
           </el-col>
-           <el-col :span="12">
+          <el-col :span="12">
             <el-form-item label="业务名称" prop="stId">
-              <el-select
-                filterable
-                value-key="stId"
-                @change="changeSt"
-                v-model="form.stId"
-                placeholder="请选择业务"
-                style="width: 100%"
-              >
-                <el-option
-                  v-for="obj in listForBusArr"
-                  :key="obj.stId"
-                  :label="obj.stName"
-                  :value="obj"
-                ></el-option>
+              <el-select filterable value-key="stId" @change="changeSt" v-model="form.stId" placeholder="请选择业务"
+                style="width: 100%">
+                <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -172,7 +81,7 @@
               {{ form.serialNo }}
             </el-form-item>
           </el-col>
-            </el-row>
+        </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="标准名称" prop="name">
@@ -183,26 +92,17 @@
 
         <!--        热值MJ/Kg-->
         <el-row style="margin-top: 30px">
-          <el-col :span="3">
+          <el-col :span="4">
             <span style="font-size: 20px; color: black">热值MJ/Kg</span>
           </el-col>
           <el-col :span="2" v-if="isLook != 3">
-            <el-button
-              type="primary"
-              @click="addTableData(1)"
-              style="margin-bottom: 30px; font-size: 30px; padding: 0 10px"
-              >+</el-button
-            >
+            <el-button type="primary" @click="addTableData(1)"
+              style="margin-bottom: 30px; font-size: 30px; padding: 0 10px">+</el-button>
           </el-col>
         </el-row>
         <!--奖惩计划-->
         <div style="margin-bottom: 30px">
-          <el-table
-            :show-header="false"
-            ref="singleTable"
-            :data="form.tableData1"
-            style="width: 100%"
-          >
+          <el-table :show-header="false" ref="singleTable" :data="form.tableData1" style="width: 100%">
             <el-table-column align="right">
               <template>
                 <el-form-item label-width="0">
@@ -210,13 +110,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="类别">
+            <el-table-column width="150px" label="类别">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData1.' + scope.$index + '.a1'"
-                  :rules="rules.a1"
-                >
+                <el-form-item label-width="0" :prop="'tableData1.' + scope.$index + '.a1'" :rules="rules.a1">
                   <el-select v-model="scope.row.a1">
                     <el-option label="Qgr,ad" value="Qgr,ad" />
                     <el-option label="Qnt,ar" value="Qnt,ar" />
@@ -226,11 +122,7 @@
             </el-table-column>
             <el-table-column label="符号">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData1.' + scope.$index + '.s1'"
-                  :rules="rules.s1"
-                >
+                <el-form-item label-width="0" :prop="'tableData1.' + scope.$index + '.s1'" :rules="rules.s1">
                   <el-select v-model="scope.row.s1">
                     <el-option label=">" value=">" />
                     <el-option label="<" value="<" />
@@ -241,13 +133,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="热值">
+            <el-table-column width="150px" label="热值">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData1.' + scope.$index + '.a2'"
-                  :rules="rules.a2"
-                >
+                <el-form-item label-width="0" :prop="'tableData1.' + scope.$index + '.a2'" :rules="rules.a2">
                   <el-input v-model="scope.row.a2" placeholder="请输入" />
                 </el-form-item>
               </template>
@@ -259,13 +147,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="上升/下降">
+            <el-table-column width="150px" label="上升/下降">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData1.' + scope.$index + '.s2'"
-                  :rules="rules.s2"
-                >
+                <el-form-item label-width="0" :prop="'tableData1.' + scope.$index + '.s2'" :rules="rules.s2">
                   <el-select v-model="scope.row.s2">
                     <el-option label="上升" value="上升" />
                     <el-option label="下降" value="下降" />
@@ -273,13 +157,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="热值">
+            <el-table-column width="150px" label="热值">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData1.' + scope.$index + '.b1'"
-                  :rules="rules.b1"
-                >
+                <el-form-item label-width="0" :prop="'tableData1.' + scope.$index + '.b1'" :rules="rules.b1">
                   <el-input v-model="scope.row.b1" placeholder="请输入" />
                 </el-form-item>
               </template>
@@ -291,13 +171,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="上升/下降">
+            <el-table-column width="150px" label="上升/下降">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData1.' + scope.$index + '.s3'"
-                  :rules="rules.s3"
-                >
+                <el-form-item label-width="0" :prop="'tableData1.' + scope.$index + '.s3'" :rules="rules.s3">
                   <el-select v-model="scope.row.s3">
                     <el-option label="上升" value="上升" />
                     <el-option label="下降" value="下降" />
@@ -305,13 +181,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="价格">
+            <el-table-column width="150px" label="价格">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData1.' + scope.$index + '.c1'"
-                  :rules="rules.c1"
-                >
+                <el-form-item label-width="0" :prop="'tableData1.' + scope.$index + '.c1'" :rules="rules.c1">
                   <el-input v-model="scope.row.c1" placeholder="价格" />
                 </el-form-item>
               </template>
@@ -319,13 +191,9 @@
             <el-table-column v-if="isLook != 3" label="操作">
               <template slot-scope="scope">
                 <el-form-item label-width="0">
-                  <el-button
-                    @click.native.prevent="
+                  <el-button @click.native.prevent="
                       deleteRow(scope.$index, tableData1, 1)
-                    "
-                    type="text"
-                    size="small"
-                  >
+                    " type="text" size="small">
                     移除
                   </el-button>
                 </el-form-item>
@@ -336,26 +204,17 @@
 
         <!--        热值Kcal/Kg-->
         <el-row>
-          <el-col :span="3">
+          <el-col :span="4">
             <span style="font-size: 20px; color: black">热值Kcal/Kg</span>
           </el-col>
           <el-col :span="2" v-if="isLook != 3">
-            <el-button
-              type="primary"
-              @click="addTableData(2)"
-              style="margin-bottom: 30px; font-size: 30px; padding: 0 10px"
-              >+</el-button
-            >
+            <el-button type="primary" @click="addTableData(2)"
+              style="margin-bottom: 30px; font-size: 30px; padding: 0 10px">+</el-button>
           </el-col>
         </el-row>
         <!--奖惩计划-->
         <div style="margin-bottom: 30px">
-          <el-table
-            :show-header="false"
-            ref="singleTable"
-            :data="form.tableData2"
-            style="width: 100%"
-          >
+          <el-table :show-header="false" ref="singleTable" :data="form.tableData2" style="width: 100%">
             <el-table-column align="right">
               <template>
                 <el-form-item label-width="0">
@@ -363,13 +222,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="类别">
+            <el-table-column label="类别" width="150px">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData2.' + scope.$index + '.a1'"
-                  :rules="rules.a1"
-                >
+                <el-form-item label-width="0" :prop="'tableData2.' + scope.$index + '.a1'" :rules="rules.a1">
                   <el-select v-model="scope.row.a1">
                     <el-option label="Kcal" value="Kcal" />
                   </el-select>
@@ -378,11 +233,7 @@
             </el-table-column>
             <el-table-column label="符号">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData2.' + scope.$index + '.s1'"
-                  :rules="rules.s1"
-                >
+                <el-form-item label-width="0" :prop="'tableData2.' + scope.$index + '.s1'" :rules="rules.s1">
                   <el-select v-model="scope.row.s1">
                     <el-option label=">" value=">" />
                     <el-option label="<" value="<" />
@@ -393,13 +244,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="热值">
+            <el-table-column label="热值" width="150px">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData2.' + scope.$index + '.a2'"
-                  :rules="rules.a2"
-                >
+                <el-form-item label-width="0" :prop="'tableData2.' + scope.$index + '.a2'" :rules="rules.a2">
                   <el-input v-model="scope.row.a2" placeholder="请输入" />
                 </el-form-item>
               </template>
@@ -411,13 +258,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="上升/下降">
+            <el-table-column width="150px" label="上升/下降">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData2.' + scope.$index + '.s2'"
-                  :rules="rules.s2"
-                >
+                <el-form-item label-width="0" :prop="'tableData2.' + scope.$index + '.s2'" :rules="rules.s2">
                   <el-select v-model="scope.row.s2">
                     <el-option label="上升" value="上升" />
                     <el-option label="下降" value="下降" />
@@ -425,31 +268,23 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="热值">
+            <el-table-column width="150px" label="热值">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData2.' + scope.$index + '.b1'"
-                  :rules="rules.b1"
-                >
+                <el-form-item label-width="0" :prop="'tableData2.' + scope.$index + '.b1'" :rules="rules.b1">
                   <el-input v-model="scope.row.b1" placeholder="请输入" />
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="价格" width="70">
+            <el-table-column label="价格">
               <template slot-scope="scope">
                 <el-form-item label-width="0" style="text-align: right">
                   <span>价格：</span>
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="上升/下降">
+            <el-table-column width="150px" label="上升/下降">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData2.' + scope.$index + '.s3'"
-                  :rules="rules.s3"
-                >
+                <el-form-item label-width="0" :prop="'tableData2.' + scope.$index + '.s3'" :rules="rules.s3">
                   <el-select v-model="scope.row.s3">
                     <el-option label="上升" value="上升" />
                     <el-option label="下降" value="下降" />
@@ -457,13 +292,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="价格">
+            <el-table-column width="150px" label="价格">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData2.' + scope.$index + '.c1'"
-                  :rules="rules.c1"
-                >
+                <el-form-item label-width="0" :prop="'tableData2.' + scope.$index + '.c1'" :rules="rules.c1">
                   <el-input v-model="scope.row.c1" placeholder="价格" />
                 </el-form-item>
               </template>
@@ -471,13 +302,9 @@
             <el-table-column v-if="isLook != 3" label="操作">
               <template slot-scope="scope">
                 <el-form-item label-width="0">
-                  <el-button
-                    @click.native.prevent="
+                  <el-button @click.native.prevent="
                       deleteRow(scope.$index, tableData2, 2)
-                    "
-                    type="text"
-                    size="small"
-                  >
+                    " type="text" size="small">
                     移除
                   </el-button>
                 </el-form-item>
@@ -492,22 +319,13 @@
             <span style="font-size: 20px; color: black">含硫量</span>
           </el-col>
           <el-col :span="2" v-if="isLook != 3">
-            <el-button
-              type="primary"
-              @click="addTableData(3)"
-              style="margin-bottom: 30px; font-size: 30px; padding: 0 10px"
-              >+</el-button
-            >
+            <el-button type="primary" @click="addTableData(3)"
+              style="margin-bottom: 30px; font-size: 30px; padding: 0 10px">+</el-button>
           </el-col>
         </el-row>
         <!--奖惩计划-->
         <div style="margin-bottom: 30px">
-          <el-table
-            :show-header="false"
-            ref="singleTable"
-            :data="form.tableData3"
-            style="width: 100%"
-          >
+          <el-table :show-header="false" ref="singleTable" :data="form.tableData3" style="width: 100%">
             <el-table-column align="right">
               <template>
                 <el-form-item label-width="0">
@@ -515,13 +333,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="类别">
+            <el-table-column width="150px" label="类别">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData3.' + scope.$index + '.a1'"
-                  :rules="rules.a1"
-                >
+                <el-form-item label-width="0" :prop="'tableData3.' + scope.$index + '.a1'" :rules="rules.a1">
                   <el-select v-model="scope.row.a1">
                     <el-option label="含硫量" value="含硫量" />
                   </el-select>
@@ -530,11 +344,7 @@
             </el-table-column>
             <el-table-column label="符号">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData3.' + scope.$index + '.s1'"
-                  :rules="rules.s1"
-                >
+                <el-form-item label-width="0" :prop="'tableData3.' + scope.$index + '.s1'" :rules="rules.s1">
                   <el-select v-model="scope.row.s1">
                     <el-option label=">" value=">" />
                     <el-option label="<" value="<" />
@@ -545,13 +355,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="热值">
+            <el-table-column width="150px" label="热值">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData3.' + scope.$index + '.a2'"
-                  :rules="rules.a2"
-                >
+                <el-form-item label-width="0" :prop="'tableData3.' + scope.$index + '.a2'" :rules="rules.a2">
                   <el-input v-model="scope.row.a2" placeholder="请输入" />
                 </el-form-item>
               </template>
@@ -563,13 +369,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="上升/下降">
+            <el-table-column width="150px" label="上升/下降">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData3.' + scope.$index + '.s2'"
-                  :rules="rules.s2"
-                >
+                <el-form-item label-width="0" :prop="'tableData3.' + scope.$index + '.s2'" :rules="rules.s2">
                   <el-select v-model="scope.row.s2">
                     <el-option label="上升" value="上升" />
                     <el-option label="下降" value="下降" />
@@ -577,13 +379,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="热值">
+            <el-table-column width="150px" label="热值">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData3.' + scope.$index + '.b1'"
-                  :rules="rules.b1"
-                >
+                <el-form-item label-width="0" :prop="'tableData3.' + scope.$index + '.b1'" :rules="rules.b1">
                   <el-input v-model="scope.row.b1" placeholder="请输入" />
                 </el-form-item>
               </template>
@@ -595,13 +393,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="上升/下降">
+            <el-table-column width="150px" label="上升/下降">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData3.' + scope.$index + '.s3'"
-                  :rules="rules.s3"
-                >
+                <el-form-item label-width="0" :prop="'tableData3.' + scope.$index + '.s3'" :rules="rules.s3">
                   <el-select v-model="scope.row.s3">
                     <el-option label="上升" value="上升" />
                     <el-option label="下降" value="下降" />
@@ -609,13 +403,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="价格">
+            <el-table-column width="150px" label="价格">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData3.' + scope.$index + '.c1'"
-                  :rules="rules.c1"
-                >
+                <el-form-item label-width="0" :prop="'tableData3.' + scope.$index + '.c1'" :rules="rules.c1">
                   <el-input v-model="scope.row.c1" placeholder="价格" />
                 </el-form-item>
               </template>
@@ -623,13 +413,9 @@
             <el-table-column v-if="isLook != 3" label="操作">
               <template slot-scope="scope">
                 <el-form-item label-width="0">
-                  <el-button
-                    @click.native.prevent="
+                  <el-button @click.native.prevent="
                       deleteRow(scope.$index, tableData3, 3)
-                    "
-                    type="text"
-                    size="small"
-                  >
+                    " type="text" size="small">
                     移除
                   </el-button>
                 </el-form-item>
@@ -644,22 +430,13 @@
             <span style="font-size: 20px; color: black">挥发分</span>
           </el-col>
           <el-col :span="2" v-if="isLook != 3">
-            <el-button
-              type="primary"
-              @click="addTableData(4)"
-              style="margin-bottom: 30px; font-size: 30px; padding: 0 10px"
-              >+</el-button
-            >
+            <el-button type="primary" @click="addTableData(4)"
+              style="margin-bottom: 30px; font-size: 30px; padding: 0 10px">+</el-button>
           </el-col>
         </el-row>
         <!--奖惩计划-->
         <div style="margin-bottom: 30px">
-          <el-table
-            :show-header="false"
-            ref="singleTable"
-            :data="form.tableData4"
-            style="width: 100%"
-          >
+          <el-table :show-header="false" ref="singleTable" :data="form.tableData4" style="width: 100%">
             <el-table-column align="right">
               <template>
                 <el-form-item label-width="0">
@@ -667,13 +444,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="类别">
+            <el-table-column width="150px" label="类别">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData4.' + scope.$index + '.a1'"
-                  :rules="rules.a1"
-                >
+                <el-form-item label-width="0" :prop="'tableData4.' + scope.$index + '.a1'" :rules="rules.a1">
                   <el-select v-model="scope.row.a1">
                     <el-option label="Vda" value="Vda" />
                     <el-option label="Vdaf" value="Vdae" />
@@ -683,11 +456,7 @@
             </el-table-column>
             <el-table-column label="符号">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData4.' + scope.$index + '.s1'"
-                  :rules="rules.s1"
-                >
+                <el-form-item label-width="0" :prop="'tableData4.' + scope.$index + '.s1'" :rules="rules.s1">
                   <el-select v-model="scope.row.s1">
                     <el-option label=">" value=">" />
                     <el-option label="<" value="<" />
@@ -698,13 +467,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="热值">
+            <el-table-column width="150px" label="热值">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData4.' + scope.$index + '.a2'"
-                  :rules="rules.a2"
-                >
+                <el-form-item label-width="0" :prop="'tableData4.' + scope.$index + '.a2'" :rules="rules.a2">
                   <el-input v-model="scope.row.a2" placeholder="请输入" />
                 </el-form-item>
               </template>
@@ -716,13 +481,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="上升/下降">
+            <el-table-column width="150px" label="上升/下降">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData4.' + scope.$index + '.s2'"
-                  :rules="rules.s2"
-                >
+                <el-form-item label-width="0" :prop="'tableData4.' + scope.$index + '.s2'" :rules="rules.s2">
                   <el-select v-model="scope.row.s2">
                     <el-option label="上升" value="上升" />
                     <el-option label="下降" value="下降" />
@@ -730,13 +491,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="热值">
+            <el-table-column width="150px" label="热值">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData4.' + scope.$index + '.b1'"
-                  :rules="rules.b1"
-                >
+                <el-form-item label-width="0" :prop="'tableData4.' + scope.$index + '.b1'" :rules="rules.b1">
                   <el-input v-model="scope.row.b1" placeholder="请输入" />
                 </el-form-item>
               </template>
@@ -748,13 +505,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="上升/下降">
+            <el-table-column width="150px" label="上升/下降">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData4.' + scope.$index + '.s3'"
-                  :rules="rules.s3"
-                >
+                <el-form-item label-width="0" :prop="'tableData4.' + scope.$index + '.s3'" :rules="rules.s3">
                   <el-select v-model="scope.row.s3">
                     <el-option label="上升" value="上升" />
                     <el-option label="下降" value="下降" />
@@ -762,13 +515,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="价格">
+            <el-table-column width="150px" label="价格">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData4.' + scope.$index + '.c1'"
-                  :rules="rules.c1"
-                >
+                <el-form-item label-width="0" :prop="'tableData4.' + scope.$index + '.c1'" :rules="rules.c1">
                   <el-input v-model="scope.row.c1" placeholder="价格" />
                 </el-form-item>
               </template>
@@ -776,13 +525,9 @@
             <el-table-column v-if="isLook != 3" label="操作">
               <template slot-scope="scope">
                 <el-form-item label-width="0">
-                  <el-button
-                    @click.native.prevent="
+                  <el-button @click.native.prevent="
                       deleteRow(scope.$index, tableData4, 4)
-                    "
-                    type="text"
-                    size="small"
-                  >
+                    " type="text" size="small">
                     移除
                   </el-button>
                 </el-form-item>
@@ -793,26 +538,17 @@
 
         <!--        灰分-->
         <el-row>
-          <el-col :span="3">
+          <el-col :span="2">
             <span style="font-size: 20px; color: black">灰分</span>
           </el-col>
           <el-col :span="2" v-if="isLook != 3">
-            <el-button
-              type="primary"
-              @click="addTableData(5)"
-              style="margin-bottom: 30px; font-size: 30px; padding: 0 10px"
-              >+</el-button
-            >
+            <el-button type="primary" @click="addTableData(5)"
+              style="margin-bottom: 30px; font-size: 30px; padding: 0 10px">+</el-button>
           </el-col>
         </el-row>
         <!--奖惩计划-->
         <div style="margin-bottom: 30px">
-          <el-table
-            :show-header="false"
-            ref="singleTable"
-            :data="form.tableData5"
-            style="width: 100%"
-          >
+          <el-table :show-header="false" ref="singleTable" :data="form.tableData5" style="width: 100%">
             <el-table-column align="right">
               <template>
                 <el-form-item label-width="0">
@@ -820,13 +556,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="类别">
+            <el-table-column width="150px" label="类别">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData5.' + scope.$index + '.a1'"
-                  :rules="rules.a1"
-                >
+                <el-form-item label-width="0" :prop="'tableData5.' + scope.$index + '.a1'" :rules="rules.a1">
                   <el-select v-model="scope.row.a1">
                     <el-option label="Aad" value="Aad" />
                     <el-option label="ad" value="ad" />
@@ -836,11 +568,7 @@
             </el-table-column>
             <el-table-column label="符号">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData5.' + scope.$index + '.s1'"
-                  :rules="rules.s1"
-                >
+                <el-form-item label-width="0" :prop="'tableData5.' + scope.$index + '.s1'" :rules="rules.s1">
                   <el-select v-model="scope.row.s1">
                     <el-option label=">" value=">" />
                     <el-option label="<" value="<" />
@@ -851,13 +579,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="热值">
+            <el-table-column width="150px" label="热值">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData5.' + scope.$index + '.a2'"
-                  :rules="rules.a2"
-                >
+                <el-form-item label-width="0" :prop="'tableData5.' + scope.$index + '.a2'" :rules="rules.a2">
                   <el-input v-model="scope.row.a2" placeholder="请输入" />
                 </el-form-item>
               </template>
@@ -869,13 +593,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="上升/下降">
+            <el-table-column width="150px" label="上升/下降">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData5.' + scope.$index + '.s2'"
-                  :rules="rules.s2"
-                >
+                <el-form-item label-width="0" :prop="'tableData5.' + scope.$index + '.s2'" :rules="rules.s2">
                   <el-select v-model="scope.row.s2">
                     <el-option label="上升" value="上升" />
                     <el-option label="下降" value="下降" />
@@ -883,13 +603,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="热值">
+            <el-table-column width="150px" label="热值">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData5.' + scope.$index + '.b1'"
-                  :rules="rules.b1"
-                >
+                <el-form-item label-width="0" :prop="'tableData5.' + scope.$index + '.b1'" :rules="rules.b1">
                   <el-input v-model="scope.row.b1" placeholder="请输入" />
                 </el-form-item>
               </template>
@@ -901,13 +617,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="上升/下降">
+            <el-table-column width="150px" label="上升/下降">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData5.' + scope.$index + '.s3'"
-                  :rules="rules.s3"
-                >
+                <el-form-item label-width="0" :prop="'tableData5.' + scope.$index + '.s3'" :rules="rules.s3">
                   <el-select v-model="scope.row.s3">
                     <el-option label="上升" value="上升" />
                     <el-option label="下降" value="下降" />
@@ -915,13 +627,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="价格">
+            <el-table-column width="150px" label="价格">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData5.' + scope.$index + '.c1'"
-                  :rules="rules.c1"
-                >
+                <el-form-item label-width="0" :prop="'tableData5.' + scope.$index + '.c1'" :rules="rules.c1">
                   <el-input v-model="scope.row.c1" placeholder="价格" />
                 </el-form-item>
               </template>
@@ -929,13 +637,9 @@
             <el-table-column v-if="isLook != 3" label="操作">
               <template slot-scope="scope">
                 <el-form-item label-width="0">
-                  <el-button
-                    @click.native.prevent="
+                  <el-button @click.native.prevent="
                       deleteRow(scope.$index, tableData5, 5)
-                    "
-                    type="text"
-                    size="small"
-                  >
+                    " type="text" size="small">
                     移除
                   </el-button>
                 </el-form-item>
@@ -946,26 +650,17 @@
 
         <!--        水分-->
         <el-row>
-          <el-col :span="3">
+          <el-col :span="2">
             <span style="font-size: 20px; color: black">水分</span>
           </el-col>
           <el-col :span="2" v-if="isLook != 3">
-            <el-button
-              type="primary"
-              @click="addTableData(6)"
-              style="margin-bottom: 30px; font-size: 30px; padding: 0 10px"
-              >+</el-button
-            >
+            <el-button type="primary" @click="addTableData(6)"
+              style="margin-bottom: 30px; font-size: 30px; padding: 0 10px">+</el-button>
           </el-col>
         </el-row>
         <!--奖惩计划-->
         <div style="margin-bottom: 30px">
-          <el-table
-            :show-header="false"
-            ref="singleTable"
-            :data="form.tableData6"
-            style="width: 100%"
-          >
+          <el-table :show-header="false" ref="singleTable" :data="form.tableData6" style="width: 100%">
             <el-table-column align="right">
               <template>
                 <el-form-item label-width="0">
@@ -973,13 +668,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="类别">
+            <el-table-column width="150px" label="类别">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData6.' + scope.$index + '.a1'"
-                  :rules="rules.a1"
-                >
+                <el-form-item label-width="0" :prop="'tableData6.' + scope.$index + '.a1'" :rules="rules.a1">
                   <el-select v-model="scope.row.a1">
                     <el-option label="水分" value="水分" />
                   </el-select>
@@ -988,11 +679,7 @@
             </el-table-column>
             <el-table-column label="符号">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData6.' + scope.$index + '.s1'"
-                  :rules="rules.s1"
-                >
+                <el-form-item label-width="0" :prop="'tableData6.' + scope.$index + '.s1'" :rules="rules.s1">
                   <el-select v-model="scope.row.s1">
                     <el-option label=">" value=">" />
                     <el-option label="<" value="<" />
@@ -1003,13 +690,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="热值">
+            <el-table-column width="150px" label="热值">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData6.' + scope.$index + '.a2'"
-                  :rules="rules.a2"
-                >
+                <el-form-item label-width="0" :prop="'tableData6.' + scope.$index + '.a2'" :rules="rules.a2">
                   <el-input v-model="scope.row.a2" placeholder="请输入" />
                 </el-form-item>
               </template>
@@ -1021,13 +704,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="上升/下降">
+            <el-table-column width="150px" label="上升/下降">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData6.' + scope.$index + '.s2'"
-                  :rules="rules.s2"
-                >
+                <el-form-item label-width="0" :prop="'tableData6.' + scope.$index + '.s2'" :rules="rules.s2">
                   <el-select v-model="scope.row.s2">
                     <el-option label="上升" value="上升" />
                     <el-option label="下降" value="下降" />
@@ -1035,13 +714,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="热值">
+            <el-table-column width="150px" label="热值">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData6.' + scope.$index + '.b1'"
-                  :rules="rules.b1"
-                >
+                <el-form-item label-width="0" :prop="'tableData6.' + scope.$index + '.b1'" :rules="rules.b1">
                   <el-input v-model="scope.row.b1" placeholder="请输入" />
                 </el-form-item>
               </template>
@@ -1053,13 +728,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="上升/下降">
+            <el-table-column width="150px" label="上升/下降">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData6.' + scope.$index + '.s3'"
-                  :rules="rules.s3"
-                >
+                <el-form-item label-width="0" :prop="'tableData6.' + scope.$index + '.s3'" :rules="rules.s3">
                   <el-select v-model="scope.row.s3">
                     <el-option label="上升" value="上升" />
                     <el-option label="下降" value="下降" />
@@ -1067,13 +738,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="价格">
+            <el-table-column width="150px" label="价格">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData6.' + scope.$index + '.c1'"
-                  :rules="rules.c1"
-                >
+                <el-form-item label-width="0" :prop="'tableData6.' + scope.$index + '.c1'" :rules="rules.c1">
                   <el-input v-model="scope.row.c1" placeholder="价格" />
                 </el-form-item>
               </template>
@@ -1081,13 +748,9 @@
             <el-table-column v-if="isLook != 3" label="操作">
               <template slot-scope="scope">
                 <el-form-item label-width="0">
-                  <el-button
-                    @click.native.prevent="
+                  <el-button @click.native.prevent="
                       deleteRow(scope.$index, tableData6, 6)
-                    "
-                    type="text"
-                    size="small"
-                  >
+                    " type="text" size="small">
                     移除
                   </el-button>
                 </el-form-item>
@@ -1098,26 +761,17 @@
 
         <!--        内水-->
         <el-row>
-          <el-col :span="3">
+          <el-col :span="2">
             <span style="font-size: 20px; color: black">内水</span>
           </el-col>
           <el-col :span="2" v-if="isLook != 3">
-            <el-button
-              type="primary"
-              @click="addTableData(7)"
-              style="margin-bottom: 30px; font-size: 30px; padding: 0 10px"
-              >+</el-button
-            >
+            <el-button type="primary" @click="addTableData(7)"
+              style="margin-bottom: 30px; font-size: 30px; padding: 0 10px">+</el-button>
           </el-col>
         </el-row>
         <!--奖惩计划-->
         <div style="margin-bottom: 30px">
-          <el-table
-            :show-header="false"
-            ref="singleTable"
-            :data="form.tableData7"
-            style="width: 100%"
-          >
+          <el-table :show-header="false" ref="singleTable" :data="form.tableData7" style="width: 100%">
             <el-table-column align="right">
               <template>
                 <el-form-item label-width="0">
@@ -1125,13 +779,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="类别">
+            <el-table-column width="150px" label="类别">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData7.' + scope.$index + '.a1'"
-                  :rules="rules.a1"
-                >
+                <el-form-item label-width="0" :prop="'tableData7.' + scope.$index + '.a1'" :rules="rules.a1">
                   <el-select v-model="scope.row.a1">
                     <el-option label="内水" value="内水" />
                   </el-select>
@@ -1140,11 +790,7 @@
             </el-table-column>
             <el-table-column label="符号">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData7.' + scope.$index + '.s1'"
-                  :rules="rules.s1"
-                >
+                <el-form-item label-width="0" :prop="'tableData7.' + scope.$index + '.s1'" :rules="rules.s1">
                   <el-select v-model="scope.row.s1">
                     <el-option label=">" value=">" />
                     <el-option label="<" value="<" />
@@ -1155,31 +801,23 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="热值">
+            <el-table-column width="150px" label="热值">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData7.' + scope.$index + '.a2'"
-                  :rules="rules.a2"
-                >
+                <el-form-item label-width="0" :prop="'tableData7.' + scope.$index + '.a2'" :rules="rules.a2">
                   <el-input v-model="scope.row.a2" placeholder="请输入" />
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="热值" width="90">
+            <el-table-column label="热值" width="150">
               <template slot-scope="scope">
                 <el-form-item label-width="0" style="text-align: right">
                   <span>该值每：</span>
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="上升/下降">
+            <el-table-column width="150px" label="上升/下降">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData7.' + scope.$index + '.s2'"
-                  :rules="rules.s2"
-                >
+                <el-form-item label-width="0" :prop="'tableData7.' + scope.$index + '.s2'" :rules="rules.s2">
                   <el-select v-model="scope.row.s2">
                     <el-option label="上升" value="上升" />
                     <el-option label="下降" value="下降" />
@@ -1187,13 +825,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="热值">
+            <el-table-column width="150px" label="热值">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData7.' + scope.$index + '.b1'"
-                  :rules="rules.b1"
-                >
+                <el-form-item label-width="0" :prop="'tableData7.' + scope.$index + '.b1'" :rules="rules.b1">
                   <el-input v-model="scope.row.b1" placeholder="请输入" />
                 </el-form-item>
               </template>
@@ -1205,13 +839,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="上升/下降">
+            <el-table-column width="150px" label="上升/下降">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData7.' + scope.$index + '.s3'"
-                  :rules="rules.s3"
-                >
+                <el-form-item label-width="0" :prop="'tableData7.' + scope.$index + '.s3'" :rules="rules.s3">
                   <el-select v-model="scope.row.s3">
                     <el-option label="上升" value="上升" />
                     <el-option label="下降" value="下降" />
@@ -1219,13 +849,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="价格">
+            <el-table-column width="150px" label="价格">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData7.' + scope.$index + '.c1'"
-                  :rules="rules.c1"
-                >
+                <el-form-item label-width="0" :prop="'tableData7.' + scope.$index + '.c1'" :rules="rules.c1">
                   <el-input v-model="scope.row.c1" placeholder="价格" />
                 </el-form-item>
               </template>
@@ -1233,13 +859,9 @@
             <el-table-column v-if="isLook != 3" label="操作">
               <template slot-scope="scope">
                 <el-form-item label-width="0">
-                  <el-button
-                    @click.native.prevent="
+                  <el-button @click.native.prevent="
                       deleteRow(scope.$index, tableData7, 7)
-                    "
-                    type="text"
-                    size="small"
-                  >
+                    " type="text" size="small">
                     移除
                   </el-button>
                 </el-form-item>
@@ -1254,22 +876,13 @@
             <span style="font-size: 20px; color: black">固定碳</span>
           </el-col>
           <el-col :span="2" v-if="isLook != 3">
-            <el-button
-              type="primary"
-              @click="addTableData(8)"
-              style="margin-bottom: 30px; font-size: 30px; padding: 0 10px"
-              >+</el-button
-            >
+            <el-button type="primary" @click="addTableData(8)"
+              style="margin-bottom: 30px; font-size: 30px; padding: 0 10px">+</el-button>
           </el-col>
         </el-row>
         <!--奖惩计划-->
         <div style="margin-bottom: 30px">
-          <el-table
-            :show-header="false"
-            ref="singleTable"
-            :data="form.tableData8"
-            style="width: 100%"
-          >
+          <el-table :show-header="false" ref="singleTable" :data="form.tableData8" style="width: 100%">
             <el-table-column align="right">
               <template>
                 <el-form-item label-width="0">
@@ -1277,13 +890,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="类别">
+            <el-table-column width="150px" label="类别">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData8.' + scope.$index + '.a1'"
-                  :rules="rules.a1"
-                >
+                <el-form-item label-width="0" :prop="'tableData8.' + scope.$index + '.a1'" :rules="rules.a1">
                   <el-select v-model="scope.row.a1">
                     <el-option label="固定碳" value="固定碳" />
                   </el-select>
@@ -1292,11 +901,7 @@
             </el-table-column>
             <el-table-column label="符号">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData8.' + scope.$index + '.s1'"
-                  :rules="rules.s1"
-                >
+                <el-form-item label-width="0" :prop="'tableData8.' + scope.$index + '.s1'" :rules="rules.s1">
                   <el-select v-model="scope.row.s1">
                     <el-option label=">" value=">" />
                     <el-option label="<" value="<" />
@@ -1307,31 +912,23 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="热值">
+            <el-table-column width="150px" label="热值">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData8.' + scope.$index + '.a2'"
-                  :rules="rules.a2"
-                >
+                <el-form-item label-width="0" :prop="'tableData8.' + scope.$index + '.a2'" :rules="rules.a2">
                   <el-input v-model="scope.row.a2" placeholder="请输入" />
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="热值" width="90">
+            <el-table-column label="热值" width="150">
               <template slot-scope="scope">
                 <el-form-item label-width="0" style="text-align: right">
                   <span>该值每：</span>
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="上升/下降">
+            <el-table-column width="150px" label="上升/下降">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData8.' + scope.$index + '.s2'"
-                  :rules="rules.s2"
-                >
+                <el-form-item label-width="0" :prop="'tableData8.' + scope.$index + '.s2'" :rules="rules.s2">
                   <el-select v-model="scope.row.s2">
                     <el-option label="上升" value="上升" />
                     <el-option label="下降" value="下降" />
@@ -1339,13 +936,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="热值">
+            <el-table-column width="150px" label="热值">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData8.' + scope.$index + '.b1'"
-                  :rules="rules.b1"
-                >
+                <el-form-item label-width="0" :prop="'tableData8.' + scope.$index + '.b1'" :rules="rules.b1">
                   <el-input v-model="scope.row.b1" placeholder="请输入" />
                 </el-form-item>
               </template>
@@ -1357,13 +950,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="上升/下降">
+            <el-table-column width="150px" label="上升/下降">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData8.' + scope.$index + '.s3'"
-                  :rules="rules.s3"
-                >
+                <el-form-item label-width="0" :prop="'tableData8.' + scope.$index + '.s3'" :rules="rules.s3">
                   <el-select v-model="scope.row.s3">
                     <el-option label="上升" value="上升" />
                     <el-option label="下降" value="下降" />
@@ -1371,13 +960,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="价格">
+            <el-table-column width="150px" label="价格">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData8.' + scope.$index + '.c1'"
-                  :rules="rules.c1"
-                >
+                <el-form-item label-width="0" :prop="'tableData8.' + scope.$index + '.c1'" :rules="rules.c1">
                   <el-input v-model="scope.row.c1" placeholder="价格" />
                 </el-form-item>
               </template>
@@ -1385,13 +970,9 @@
             <el-table-column v-if="isLook != 3" label="操作">
               <template slot-scope="scope">
                 <el-form-item label-width="0">
-                  <el-button
-                    @click.native.prevent="
+                  <el-button @click.native.prevent="
                       deleteRow(scope.$index, tableData8, 8)
-                    "
-                    type="text"
-                    size="small"
-                  >
+                    " type="text" size="small">
                     移除
                   </el-button>
                 </el-form-item>
@@ -1406,22 +987,13 @@
             <span style="font-size: 20px; color: black">灰熔点</span>
           </el-col>
           <el-col :span="2" v-if="isLook != 3">
-            <el-button
-              type="primary"
-              @click="addTableData(9)"
-              style="margin-bottom: 30px; font-size: 30px; padding: 0 10px"
-              >+</el-button
-            >
+            <el-button type="primary" @click="addTableData(9)"
+              style="margin-bottom: 30px; font-size: 30px; padding: 0 10px">+</el-button>
           </el-col>
         </el-row>
         <!--奖惩计划-->
         <div style="margin-bottom: 30px">
-          <el-table
-            :show-header="false"
-            ref="singleTable"
-            :data="form.tableData9"
-            style="width: 100%"
-          >
+          <el-table :show-header="false" ref="singleTable" :data="form.tableData9" style="width: 100%">
             <el-table-column align="right">
               <template>
                 <el-form-item label-width="0">
@@ -1429,13 +1001,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="类别">
+            <el-table-column width="150px" label="类别">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData9.' + scope.$index + '.a1'"
-                  :rules="rules.a1"
-                >
+                <el-form-item label-width="0" :prop="'tableData9.' + scope.$index + '.a1'" :rules="rules.a1">
                   <el-select v-model="scope.row.a1">
                     <el-option label="灰熔点" value="灰熔点" />
                   </el-select>
@@ -1444,11 +1012,7 @@
             </el-table-column>
             <el-table-column label="符号">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData9.' + scope.$index + '.s1'"
-                  :rules="rules.s1"
-                >
+                <el-form-item label-width="0" :prop="'tableData9.' + scope.$index + '.s1'" :rules="rules.s1">
                   <el-select v-model="scope.row.s1">
                     <el-option label=">" value=">" />
                     <el-option label="<" value="<" />
@@ -1459,13 +1023,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="热值">
+            <el-table-column width="150px" label="热值">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData9.' + scope.$index + '.a2'"
-                  :rules="rules.a2"
-                >
+                <el-form-item label-width="0" :prop="'tableData9.' + scope.$index + '.a2'" :rules="rules.a2">
                   <el-input v-model="scope.row.a2" placeholder="请输入" />
                 </el-form-item>
               </template>
@@ -1477,13 +1037,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="上升/下降">
+            <el-table-column width="150px" label="上升/下降">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData9.' + scope.$index + '.s2'"
-                  :rules="rules.s2"
-                >
+                <el-form-item label-width="0" :prop="'tableData9.' + scope.$index + '.s2'" :rules="rules.s2">
                   <el-select v-model="scope.row.s2">
                     <el-option label="上升" value="上升" />
                     <el-option label="下降" value="下降" />
@@ -1491,13 +1047,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="热值">
+            <el-table-column width="150px" label="热值">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData9.' + scope.$index + '.b1'"
-                  :rules="rules.b1"
-                >
+                <el-form-item label-width="0" :prop="'tableData9.' + scope.$index + '.b1'" :rules="rules.b1">
                   <el-input v-model="scope.row.b1" placeholder="请输入" />
                 </el-form-item>
               </template>
@@ -1509,13 +1061,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="上升/下降">
+            <el-table-column width="150px" label="上升/下降">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData9.' + scope.$index + '.s3'"
-                  :rules="rules.s3"
-                >
+                <el-form-item label-width="0" :prop="'tableData9.' + scope.$index + '.s3'" :rules="rules.s3">
                   <el-select v-model="scope.row.s3">
                     <el-option label="上升" value="上升" />
                     <el-option label="下降" value="下降" />
@@ -1523,13 +1071,9 @@
                 </el-form-item>
               </template>
             </el-table-column>
-            <el-table-column label="价格">
+            <el-table-column width="150px" label="价格">
               <template slot-scope="scope">
-                <el-form-item
-                  label-width="0"
-                  :prop="'tableData9.' + scope.$index + '.c1'"
-                  :rules="rules.c1"
-                >
+                <el-form-item label-width="0" :prop="'tableData9.' + scope.$index + '.c1'" :rules="rules.c1">
                   <el-input v-model="scope.row.c1" placeholder="价格" />
                 </el-form-item>
               </template>
@@ -1537,13 +1081,9 @@
             <el-table-column v-if="isLook != 3" label="操作">
               <template slot-scope="scope">
                 <el-form-item label-width="0">
-                  <el-button
-                    @click.native.prevent="
+                  <el-button @click.native.prevent="
                       deleteRow(scope.$index, tableData9, 9)
-                    "
-                    type="text"
-                    size="small"
-                  >
+                    " type="text" size="small">
                     移除
                   </el-button>
                 </el-form-item>
@@ -1553,9 +1093,7 @@
         </div>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm" v-if="isLook != 3"
-          >确 定</el-button
-        >
+        <el-button type="primary" @click="submitForm" v-if="isLook != 3">确 定</el-button>
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
@@ -1634,7 +1172,7 @@ export default {
       form: {},
       // 表单校验
       rules: {
-        stId: [{ required: true, message: "请选择项目", trigger: "blur" }],
+        stId: [{ required: true, message: "请选择业务", trigger: "blur" }],
         projectId: [{ required: true, message: "请选择项目名称", trigger: "blur" }],
         name: [{ required: true, message: "请输入标准", trigger: "blur" }],
         a1: [{ required: true, message: "请选择", trigger: "blur" }],
@@ -1671,7 +1209,7 @@ export default {
       // 业务
       listForBus().then((response) => {
         this.listForBusArr = response.data
-      }) 
+      })
       // 项目
       listForPro().then((response) => {
         this.listForProArr = response.data

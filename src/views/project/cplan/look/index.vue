@@ -51,7 +51,7 @@
         <el-col :span="4">
           数量(吨)：<span v-text="$options.filters.weightFilter(form.number)"></span>
         </el-col>
-        <el-col :span="4" >
+        <el-col :span="4">
           预计付款时间：<span>{{parseTime(form.fkTime, '{y}-{m}-{d}') }}</span>
         </el-col>
       </el-row>
@@ -69,7 +69,7 @@
       </el-row>
 
 
-       <!--      审批流程·-->
+      <!--      审批流程·-->
       <approval-process :typeId="8" :stId="cplanId"></approval-process>
 
       <!--      审批信息-->
@@ -78,7 +78,7 @@
     </el-form>
     <el-row>
       <el-col :offset="1" :span="20">
-        <div slot=""  class="dialog-footer" style="text-align: right;margin-bottom: 50px;margin-right: 50px;">
+        <div slot="" class="dialog-footer" style="text-align: right;margin-bottom: 50px;margin-right: 50px;">
           <el-button type="info" @click="cancel">关 闭</el-button>
         </div>
       </el-col>

@@ -206,11 +206,11 @@
     <el-dialog
       :title="title"
       :visible.sync="open"
-      width="80%"
+      width="773px"
       append-to-body
       @opened="handleOpen"
     >
-      <el-form ref="form" :model="form" :rules="rules" label-width="180px">
+      <el-form ref="form" :model="form" :rules="rules" label-width="130px">
         <div v-if="isLook != 4">
           <el-row>
             <el-col :span="12">

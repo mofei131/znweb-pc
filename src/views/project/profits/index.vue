@@ -3,35 +3,17 @@
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="项目" prop="stId">
         <el-select filterable v-model="queryParams.stId" placeholder="请选择项目" clearable size="small">
-          <el-option
-            v-for="dict in stOptions"
-            :key="dict.stId"
-            :label="dict.name"
-            :value="dict.stId"
-          />
+          <el-option v-for="dict in stOptions" :key="dict.stId" :label="dict.name" :value="dict.stId" />
         </el-select>
       </el-form-item>
       <el-form-item label="代办人" prop="userId">
         <el-select filterable v-model="queryParams.userId" placeholder="请选择代办人" clearable size="small">
-          <el-option
-            v-for="dict in userOptions"
-            :key="dict.userId"
-            :label="dict.nickName"
-            :value="dict.userId"
-          />
+          <el-option v-for="dict in userOptions" :key="dict.userId" :label="dict.nickName" :value="dict.userId" />
         </el-select>
       </el-form-item>
       <el-form-item label="统计时间">
-        <el-date-picker
-          v-model="dateRange"
-          size="small"
-          style="width: 240px"
-          value-format="yyyy-MM-dd"
-          type="daterange"
-          range-separator="-"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-        ></el-date-picker>
+        <el-date-picker v-model="dateRange" size="small" style="width: 240px" value-format="yyyy-MM-dd" type="daterange"
+          range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -40,47 +22,41 @@
     </el-form>
 
     <el-row :gutter="10" class="mb8">
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="primary"-->
-<!--          plain-->
-<!--          icon="el-icon-plus"-->
-<!--          size="mini"-->
-<!--          @click="handleAdd"-->
-<!--          v-hasPermi="['project:profits:add']"-->
-<!--        >新增</el-button>-->
-<!--      </el-col>-->
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="success"-->
-<!--          plain-->
-<!--          icon="el-icon-edit"-->
-<!--          size="mini"-->
-<!--          :disabled="single"-->
-<!--          @click="handleUpdate"-->
-<!--          v-hasPermi="['project:profits:edit']"-->
-<!--        >修改</el-button>-->
-<!--      </el-col>-->
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="danger"-->
-<!--          plain-->
-<!--          icon="el-icon-delete"-->
-<!--          size="mini"-->
-<!--          :disabled="multiple"-->
-<!--          @click="handleDelete"-->
-<!--          v-hasPermi="['project:profits:remove']"-->
-<!--        >删除</el-button>-->
-<!--      </el-col>-->
+      <!--      <el-col :span="1.5">-->
+      <!--        <el-button-->
+      <!--          type="primary"-->
+      <!--          plain-->
+      <!--          icon="el-icon-plus"-->
+      <!--          size="mini"-->
+      <!--          @click="handleAdd"-->
+      <!--          v-hasPermi="['project:profits:add']"-->
+      <!--        >新增</el-button>-->
+      <!--      </el-col>-->
+      <!--      <el-col :span="1.5">-->
+      <!--        <el-button-->
+      <!--          type="success"-->
+      <!--          plain-->
+      <!--          icon="el-icon-edit"-->
+      <!--          size="mini"-->
+      <!--          :disabled="single"-->
+      <!--          @click="handleUpdate"-->
+      <!--          v-hasPermi="['project:profits:edit']"-->
+      <!--        >修改</el-button>-->
+      <!--      </el-col>-->
+      <!--      <el-col :span="1.5">-->
+      <!--        <el-button-->
+      <!--          type="danger"-->
+      <!--          plain-->
+      <!--          icon="el-icon-delete"-->
+      <!--          size="mini"-->
+      <!--          :disabled="multiple"-->
+      <!--          @click="handleDelete"-->
+      <!--          v-hasPermi="['project:profits:remove']"-->
+      <!--        >删除</el-button>-->
+      <!--      </el-col>-->
       <el-col :span="1.5">
-        <el-button
-          type="warning"
-          plain
-          icon="el-icon-download"
-          size="mini"
-          @click="handleExport"
-          v-hasPermi="['project:profits:export']"
-        >导出</el-button>
+        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"
+          v-hasPermi="['project:profits:export']">导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
@@ -89,93 +65,93 @@
       <el-table-column label="项目编号" align="center" prop="stNumber" />
       <el-table-column label="项目名称" align="center" prop="stName" />
       <el-table-column label="代办人" align="center" prop="userName" />
-      <el-table-column label="营业利润" align="center" prop="businessProfits" >
+      <el-table-column label="营业利润" align="center" prop="businessProfits">
         <template slot-scope="scope">
           {{
-            Number(scope.row.businessProfits)
-              .toFixed(2)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          Number(scope.row.businessProfits)
+          .toFixed(2)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
-      <el-table-column label="成本服务费" align="center" prop="cbPrice" >
+      <el-table-column label="成本服务费" align="center" prop="cbPrice">
         <template slot-scope="scope">
           {{
-            Number(scope.row.cbPrice)
-              .toFixed(2)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          Number(scope.row.cbPrice)
+          .toFixed(2)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
-      <el-table-column label="印花税" align="center" prop="printingTax" >
-        <template slot-scope="scope">
-            {{
-              Number(scope.row.printingTax)
-                .toFixed(2)
-                .toString()
-                .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-            }}
-        </template>
-      </el-table-column>
-      <el-table-column label="增值税" align="center" prop="zzTax" >
+      <el-table-column label="印花税" align="center" prop="printingTax">
         <template slot-scope="scope">
           {{
-            Number(scope.row.zzTax)
-              .toFixed(2)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+  Number(scope.row.printingTax)
+          .toFixed(2)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
-      <el-table-column label="附加税" align="center" prop="additionalTax" >
+      <el-table-column label="增值税" align="center" prop="zzTax">
         <template slot-scope="scope">
           {{
-            Number(scope.row.additionalTax)
-              .toFixed(2)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          Number(scope.row.zzTax)
+          .toFixed(2)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
-      <el-table-column label="期间费用总额" align="center" prop="dpTotal" >
+      <el-table-column label="附加税" align="center" prop="additionalTax">
         <template slot-scope="scope">
           {{
-            Number(scope.row.dpTotal)
-              .toFixed(2)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          Number(scope.row.additionalTax)
+          .toFixed(2)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
-      <el-table-column label="不含税利润总额" align="center" prop="notaxTotal" >
+      <el-table-column label="期间费用总额" align="center" prop="dpTotal">
         <template slot-scope="scope">
           {{
-            Number(scope.row.notaxTotal)
-              .toFixed(2)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          Number(scope.row.dpTotal)
+          .toFixed(2)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
-      <el-table-column label="所得税" align="center" prop="sdTax" >
+      <el-table-column label="不含税利润总额" align="center" prop="notaxTotal">
         <template slot-scope="scope">
           {{
-            Number(scope.row.sdTax)
-              .toFixed(2)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          Number(scope.row.notaxTotal)
+          .toFixed(2)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
-      <el-table-column label="净利润" align="center" prop="profitsPrice" >
+      <el-table-column label="所得税" align="center" prop="sdTax">
         <template slot-scope="scope">
           {{
-            Number(scope.row.profitsPrice)
-              .toFixed(2)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          Number(scope.row.sdTax)
+          .toFixed(2)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
+        </template>
+      </el-table-column>
+      <el-table-column label="净利润" align="center" prop="profitsPrice">
+        <template slot-scope="scope">
+          {{
+          Number(scope.row.profitsPrice)
+          .toFixed(2)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
@@ -184,16 +160,11 @@
           <span>{{ parseTime(scope.row.okTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="项目状态" align="center" prop="stState" :formatter="stateFormat"/>
+      <el-table-column label="项目状态" align="center" prop="stState" :formatter="stateFormat" />
     </el-table>
 
-    <pagination
-      v-show="total>0"
-      :total="total"
-      :page.sync="queryParams.pageNum"
-      :limit.sync="queryParams.pageSize"
-      @pagination="getList"
-    />
+    <pagination v-show="total>0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
+      @pagination="getList" />
 
     <!-- 添加或修改统计利润对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
@@ -229,10 +200,7 @@
           <el-input v-model="form.profitsPrice" placeholder="请输入净利润" />
         </el-form-item>
         <el-form-item label="完成时间" prop="okTime">
-          <el-date-picker clearable size="small"
-            v-model="form.okTime"
-            type="date"
-            value-format="yyyy-MM-dd"
+          <el-date-picker clearable size="small" v-model="form.okTime" type="date" value-format="yyyy-MM-dd"
             placeholder="选择完成时间">
           </el-date-picker>
         </el-form-item>

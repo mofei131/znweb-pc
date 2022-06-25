@@ -48,20 +48,20 @@
       </el-form-item>
     </el-form>
 
-    <el-row :gutter="10" class="mb8">
-      <el-col :span="3" style="margin-left:12px;">
+    <el-row :gutter="10" class="mb8" style="font-size: 14px;">
+      <el-col :span="4" style="margin-left:12px;">
         <span>期初占用(万元)：</span> <span v-text="$options.filters.moneyFilter(tqc)">0.00</span>
       </el-col>
-      <el-col :span="3" >
+      <el-col :span="4" >
         <span>期末占用(万元)：</span><span v-text="$options.filters.moneyFilter(tqm)">0.00</span>
       </el-col>
-      <el-col :span="3" >
+      <el-col :span="4" >
         <span>平均占用(万元)：</span><span v-text="$options.filters.moneyFilter(tpj)">0.00</span>
       </el-col>
-      <el-col :span="3" >
+      <el-col :span="4" >
         <span>收入金额(万元)：</span><span v-text="$options.filters.moneyFilter(tsr)">0.00</span>
       </el-col>
-      <el-col :span="3" >
+      <el-col :span="4" >
         <span>资金周转率：</span><span v-text="$options.filters.moneyFilter(tzz)">0.00</span>
       </el-col>
 <!--      <el-col :span="1.5">-->

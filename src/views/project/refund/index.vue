@@ -1,100 +1,42 @@
 <template>
   <div class="app-container">
-    <el-form
-      :model="queryParams"
-      ref="queryForm"
-      :inline="true"
-      v-show="showSearch"
-      label-width="68px"
-    >
-          <el-form-item label="创建时间">
-        <el-date-picker
-          v-model="dateRange"
-          size="small"
-          style="width: 240px"
-          value-format="yyyy-MM-dd"
-          type="daterange"
-          range-separator="-"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-        ></el-date-picker>
+    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
+      <el-form-item label="创建时间">
+        <el-date-picker v-model="dateRange" size="small" style="width: 240px" value-format="yyyy-MM-dd" type="daterange"
+          range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
       </el-form-item>
-     
+
       <el-form-item label="项目名称" prop="projectName">
-        <el-input
-          v-model="queryParams.projectName"
-          placeholder="请输入项目名称"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+        <el-input v-model="queryParams.projectName" placeholder="请输入项目名称" clearable size="small"
+          @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item label="业务名称" prop="stName">
-        <el-input
-          v-model="queryParams.stName"
-          placeholder="请输入业务名称"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+        <el-input v-model="queryParams.stName" placeholder="请输入业务名称" clearable size="small"
+          @keyup.enter.native="handleQuery" />
       </el-form-item>
- <el-form-item label="项目编号" prop="serialNo">
-        <el-input
-          v-model="queryParams.serialNo"
-          placeholder="请输入项目编号"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+      <el-form-item label="项目编号" prop="serialNo">
+        <el-input v-model="queryParams.serialNo" placeholder="请输入项目编号" clearable size="small"
+          @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item>
-        <el-button
-          type="primary"
-          icon="el-icon-search"
-          size="mini"
-          @click="handleQuery"
-          >搜索</el-button
-        >
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery"
-          >重置</el-button
-        >
+        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button
-          type="primary"
-          plain
-          icon="el-icon-plus"
-          size="mini"
-          @click="handleAdd"
-          v-hasPermi="['project:refund:add']"
-          >新增</el-button
-        >
+        <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
+          v-hasPermi="['project:refund:add']">新增</el-button>
       </el-col>
       <el-col :span="1.5">
-        <el-button
-          type="warning"
-          plain
-          icon="el-icon-download"
-          size="mini"
-          @click="handleExport"
-          v-hasPermi="['project:refund:export']"
-          >导出</el-button
-        >
+        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"
+          v-hasPermi="['project:refund:export']">导出</el-button>
       </el-col>
-      <right-toolbar
-        :showSearch.sync="showSearch"
-        @queryTable="getList"
-      ></right-toolbar>
+      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table
-      v-loading="loading"
-      :data="refundList"
-      @selection-change="handleSelectionChange"
-    >
+    <el-table v-loading="loading" :data="refundList" @selection-change="handleSelectionChange">
       <!-- <el-table-column type="selection" width="55" align="center" /> -->
       <!-- <el-table-column label="主键" align="center" prop="refundId" /> -->
       <!-- <el-table-column label="项目编号" align="center" prop="stId" /> -->
@@ -108,63 +50,26 @@
       <el-table-column label="退款金额" align="center" prop="moneyAmount">
         <template slot-scope="scope">
           {{
-            Number(scope.row.moneyAmount)
-              .toFixed(2)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          Number(scope.row.moneyAmount)
+          .toFixed(2)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
       <el-table-column label="创建时间" align="center" prop="createTime" />
       <!-- <el-table-column label="备注" align="center" prop="remark" /> -->
-      <el-table-column
-        label="审核状态"
-        align="center"
-        prop="state"
-        :formatter="stateFormat"
-      />
-      <el-table-column
-        label="操作"
-        align="center"
-        class-name="small-padding fixed-width"
-        width="220"
-      >
+      <el-table-column label="审核状态" align="center" prop="state" :formatter="stateFormat" />
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width" width="220">
         <template slot-scope="scope">
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-edit"
-            @click="handleLook(scope.row)"
-            v-hasPermi="['project:refund:edit']"
-            >查看</el-button
-          >
-          <el-button
-            v-if="scope.row.state == '3'"
-            size="mini"
-            type="text"
-            icon="el-icon-edit"
-            @click="handleAddDetail(scope.row)"
-            v-hasPermi="['project:refund:edit']"
-            >退款</el-button
-          >
-          <el-button
-            v-if="scope.row.state == '3'"
-            size="mini"
-            type="text"
-            icon="el-icon-edit"
-            @click="handleRefund(scope.row)"
-            v-hasPermi="['project:refund:query']"
-            >退款明细</el-button
-          >
-          <el-button
-            v-if="scope.row.state == '3'"
-            size="mini"
-            type="text"
-            icon="el-icon-printer"
-            @click="handlePrint(scope.row)"
-            v-hasPermi="['project:refund:remove']"
-            >打印</el-button
-          >
+          <el-button size="mini" type="text" icon="el-icon-edit" @click="handleLook(scope.row)"
+            v-hasPermi="['project:refund:edit']">查看</el-button>
+          <el-button v-if="scope.row.state == '3'" size="mini" type="text" icon="el-icon-edit"
+            @click="handleAddDetail(scope.row)" v-hasPermi="['project:refund:edit']">退款</el-button>
+          <el-button v-if="scope.row.state == '3'" size="mini" type="text" icon="el-icon-edit"
+            @click="handleRefund(scope.row)" v-hasPermi="['project:refund:query']">退款明细</el-button>
+          <el-button v-if="scope.row.state == '3'" size="mini" type="text" icon="el-icon-printer"
+            @click="handlePrint(scope.row)" v-hasPermi="['project:refund:remove']">打印</el-button>
           <!-- <el-button v-if="scope.row.state=='4' "
             size="mini"
             type="text"
@@ -190,61 +95,27 @@
       </el-table-column>
     </el-table>
 
-    <pagination
-      v-show="total > 0"
-      :total="total"
-      :page.sync="queryParams.pageNum"
-      :limit.sync="queryParams.pageSize"
-      @pagination="getList"
-    />
+    <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
+      @pagination="getList" />
 
     <!-- 添加或修改退款金额对话框 -->
-    <el-dialog
-      :title="title"
-      :visible.sync="open"
-      width="60%"
-      append-to-body
-      @opened="handleOpen"
-    >
-      <el-form ref="form" :model="form" :rules="rules" label-width="180px">
+    <el-dialog :title="title" :visible.sync="open" width="773px" append-to-body @opened="handleOpen">
+      <el-form ref="form" :model="form" :rules="rules" label-width="120px">
         <el-row>
           <el-col :span="12">
             <el-form-item label="项目名称" prop="projectId">
-              <el-select
-                filterable
-                value-key="projectId"
-                @change="changeProject"
-                v-model="form.projectId"
-                placeholder="请选择项目"
-                style="width: 100%"
-              >
-                <el-option
-                  v-for="pro in listForProArr"
-                  :key="pro.projectId"
-                  :label="pro.projectName"
-                  :value="pro"
-                ></el-option>
+              <el-select filterable value-key="projectId" @change="changeProject" v-model="form.projectId"
+                placeholder="请选择项目" style="width: 100%">
+                <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName" :value="pro">
+                </el-option>
               </el-select>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row>
           <el-col :span="12">
             <el-form-item label="业务名称" prop="stId">
-              <el-select
-                filterable
-                value-key="stId"
-                @change="changeSt"
-                v-model="form.stId"
-                placeholder="请选择业务"
-                style="width: 100%"
-              >
-                <el-option
-                  v-for="obj in listForBusArr"
-                  :key="obj.stId"
-                  :label="obj.stName"
-                  :value="obj"
-                ></el-option>
+              <el-select filterable value-key="stId" @change="changeSt" v-model="form.stId" placeholder="请选择业务"
+                style="width: 100%">
+                <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -257,20 +128,10 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="终端用户" prop="terminalId">
-              <el-select
-                filterable
-                value-key="terminalId"
-                style="width: 100%"
-                @change="changeTerinal"
-                v-model="form.terminalId"
-                placeholder="请选择终端用户"
-              >
-                <el-option
-                  v-for="te in terminalOptions"
-                  :key="te.terminalId"
-                  :label="te.name"
-                  :value="te.terminalId"
-                ></el-option>
+              <el-select filterable value-key="terminalId" style="width: 100%" @change="changeTerinal"
+                v-model="form.terminalId" placeholder="请选择终端用户">
+                <el-option v-for="te in terminalOptions" :key="te.terminalId" :label="te.name" :value="te.terminalId">
+                </el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -288,40 +149,23 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="退款金额" prop="moneyAmount">
-              <el-input
-                v-model="form.moneyAmount"
-                placeholder="请输入退款金额"
-              />
+              <el-input v-model="form.moneyAmount" placeholder="请输入退款金额" />
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="备注" prop="remark">
-              <el-input
-                v-model="form.remark"
-                type="textarea"
-                placeholder="请输入备注"
-              />
+              <el-input v-model="form.remark" type="textarea" placeholder="请输入备注" />
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="24">
             <el-form-item label="附件">
-              <el-upload
-                :action="url"
-                :headers="headers"
-                :on-preview="handlePreview"
-                :on-remove="handleRemove"
-                :on-success="uploadSuccess"
-                :on-error="uploadError"
-                :before-remove="beforeRemove"
-                multiple
-                :limit="5"
-                :on-exceed="handleExceed"
-                :file-list="fileList"
-              >
+              <el-upload :action="url" :headers="headers" :on-preview="handlePreview" :on-remove="handleRemove"
+                :on-success="uploadSuccess" :on-error="uploadError" :before-remove="beforeRemove" multiple :limit="5"
+                :on-exceed="handleExceed" :file-list="fileList">
                 <el-button size="small" type="primary">点击上传</el-button>
                 <div slot="tip" class="el-upload__tip">
                   支持扩展名：.rar .zip .doc .docx .pdf .jpg...
@@ -332,26 +176,14 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm" :disabled="isDisabled"
-          >确 定</el-button
-        >
+        <el-button type="primary" @click="submitForm" :disabled="isDisabled">确 定</el-button>
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
 
     <!-- 退款对话框 -->
-    <el-dialog
-      :title="refundTitle"
-      :visible.sync="refundOpen"
-      width="600px"
-      append-to-body
-    >
-      <el-form
-        ref="refundForm"
-        :model="refundForm"
-        :rules="rules"
-        label-width="120px"
-      >
+    <el-dialog :title="refundTitle" :visible.sync="refundOpen" width="600px" append-to-body>
+      <el-form ref="refundForm" :model="refundForm" :rules="rules" label-width="120px">
         <el-form-item label="应退款金额">
           {{ $options.filters.moneyFilter(refundForm.moneyAmount) }}
         </el-form-item>
@@ -374,15 +206,8 @@
           <el-input v-model="refundForm.tkPrice" placeholder="请输入退款金额" />
         </el-form-item>
         <el-form-item label="退款日期" prop="tkTime">
-          <el-date-picker
-            clearable
-            size="small"
-            style="width: 100%"
-            v-model="refundForm.tkTime"
-            type="date"
-            value-format="yyyy-MM-dd"
-            placeholder="选择退款日期"
-          >
+          <el-date-picker clearable size="small" style="width: 100%" v-model="refundForm.tkTime" type="date"
+            value-format="yyyy-MM-dd" placeholder="选择退款日期">
           </el-date-picker>
         </el-form-item>
       </el-form>
@@ -393,35 +218,19 @@
     </el-dialog>
 
     <!-- 退款修改对话框 -->
-    <el-dialog
-      :title="refundEditTitle"
-      :visible.sync="refundEditOpen"
-      width="600px"
-      append-to-body
-    >
-      <el-form
-        ref="refundEditForm"
-        :model="refundEditForm"
-        :rules="rules"
-        label-width="120px"
-      >
+    <el-dialog :title="refundEditTitle" :visible.sync="refundEditOpen" width="600px" append-to-body>
+      <el-form ref="refundEditForm" :model="refundEditForm" :rules="rules" label-width="120px">
         <el-form-item label="应退款金额:">
           <!-- <el-input v-model="refundEditForm.money_amount" readonly /> -->
-          <span
-            v-text="$options.filters.moneyFilter(refundEditForm.money_amount)"
-          ></span>
+          <span v-text="$options.filters.moneyFilter(refundEditForm.money_amount)"></span>
         </el-form-item>
         <el-form-item label="已退款金额:">
           <!-- <el-input v-model="refunded" readonly /> -->
-          <span
-            v-text="$options.filters.moneyFilter(refundEditForm.ytPrice)"
-          ></span>
+          <span v-text="$options.filters.moneyFilter(refundEditForm.ytPrice)"></span>
         </el-form-item>
         <el-form-item label="剩余应退款金额:">
           <!-- <el-input v-model="refunding" readonly /> -->
-          <span
-            v-text="$options.filters.moneyFilter(refundEditForm.refunding)"
-          ></span>
+          <span v-text="$options.filters.moneyFilter(refundEditForm.refunding)"></span>
         </el-form-item>
         <el-form-item label="终端用户:">
           <!-- <el-input v-model="refundEditForm.t_name" readonly /> -->
@@ -436,22 +245,13 @@
           <span v-text="refundEditForm.account"></span>
         </el-form-item>
         <el-form-item label="*退款金额" prop="detailAmount">
-          <el-input
-            v-model="refundEditForm.tkPrice"
-            type="number"
-            placeholder="请输入退款金额"
-            :max="refunding"
+          <el-input v-model="refundEditForm.tkPrice" type="number" placeholder="请输入退款金额" :max="refunding"
             @input="numberChange(arguments[0], refundEditForm.refunding)"
-            @change="numberChange(arguments[0], refundEditForm.refunding)"
-          />
+            @change="numberChange(arguments[0], refundEditForm.refunding)" />
         </el-form-item>
         <el-form-item label="*退款日期" prop="detailTime">
-          <el-date-picker
-            v-model="refundEditForm.create_time"
-            value-format="yyyy-MM-dd"
-            type="date"
-            placeholder="选择退款日期"
-          >
+          <el-date-picker v-model="refundEditForm.create_time" value-format="yyyy-MM-dd" type="date"
+            placeholder="选择退款日期">
           </el-date-picker>
         </el-form-item>
       </el-form>
@@ -462,110 +262,53 @@
     </el-dialog>
 
     <!-- 退款明细 -->
-    <el-dialog
-      :title="detailTitle"
-      :visible.sync="detailOpen"
-      width="960px"
-      append-to-body
-    >
+    <el-dialog :title="detailTitle" :visible.sync="detailOpen" width="960px" append-to-body>
       <el-row>
-        <el-col :span="4"
-          >应退款金额：<span
-            v-text="$options.filters.moneyFilter(totalRefund)"
-          ></span
-        ></el-col>
-        <el-col :span="4"
-          >已退款金额：<span
-            v-text="$options.filters.moneyFilter(unrefundDetail)"
-          ></span
-        ></el-col>
-        <el-col :span="4"
-          >剩余退款金额：<span
-            v-text="$options.filters.moneyFilter(refundDetailing)"
-          ></span
-        ></el-col>
+        <el-col :span="4">应退款金额：<span v-text="$options.filters.moneyFilter(totalRefund)"></span></el-col>
+        <el-col :span="4">已退款金额：<span v-text="$options.filters.moneyFilter(unrefundDetail)"></span></el-col>
+        <el-col :span="4">剩余退款金额：<span v-text="$options.filters.moneyFilter(refundDetailing)"></span></el-col>
       </el-row>
 
       <el-table v-loading="detailLoading" :data="detailList">
-        <el-table-column
-          label="付款人"
-          align="center"
-          prop="refundPersonName"
-        />
-        <el-table-column
-          label="财务退款金额"
-          align="center"
-          prop="detailAmount"
-        >
+        <el-table-column label="付款人" align="center" prop="refundPersonName" />
+        <el-table-column label="财务退款金额" align="center" prop="detailAmount">
           <template slot-scope="scope">
             {{
-              Number(scope.row.detailAmount)
-                .toFixed(2)
-                .toString()
-                .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+            Number(scope.row.detailAmount)
+            .toFixed(2)
+            .toString()
+            .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
             }}
           </template>
         </el-table-column>
         <el-table-column label="退款时间" align="center" prop="createTime" />
-        <el-table-column
-          label="操作"
-          align="center"
-          class-name="small-padding fixed-width"
-        >
+        <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
           <template slot-scope="scope">
-            <el-button
-              v-if="scope.row.state == '0'"
-              size="mini"
-              type="text"
-              @click="getUpdateDetail(scope.row)"
-              v-hasPermi="['project:refund:edit']"
-              >修改</el-button
-            >
-            <el-button
-              v-if="scope.row.state == '0'"
-              size="mini"
-              type="text"
-              @click="updateFinish(scope.row)"
-              v-hasPermi="['project:refund:query']"
-              >完成</el-button
-            >
-            <el-button v-if="scope.row.state == '1'" size="mini" type="text"
-              >已完成</el-button
-            >
+            <el-button v-if="scope.row.state == '0'" size="mini" type="text" @click="getUpdateDetail(scope.row)"
+              v-hasPermi="['project:refund:edit']">修改</el-button>
+            <el-button v-if="scope.row.state == '0'" size="mini" type="text" @click="updateFinish(scope.row)"
+              v-hasPermi="['project:refund:query']">完成</el-button>
+            <el-button v-if="scope.row.state == '1'" size="mini" type="text">已完成</el-button>
           </template>
         </el-table-column>
       </el-table>
     </el-dialog>
     <!--打印页-->
-    <el-dialog
-      title="打印预览"
-      :visible.sync="printReviewVisible"
-      @close="onPrintReviewClose"
-      width="80%"
-    >
+    <el-dialog title="打印预览" :visible.sync="printReviewVisible" @close="onPrintReviewClose" width="80%">
       <div class="print-div" id="print_area">
         <div class="search-title-content">
           <div style="padding: 0 0 15px">
             <el-row type="flex" justify="space-between">
-              <el-col :span="4"
-                ><span
-                  style="font-weight: bold; font-size: 16px"
-                  v-text="printData.printType"
-                ></span
-              ></el-col>
-              <el-col :span="4"
-                ><span
-                  style="
+              <el-col :span="4"><span style="font-weight: bold; font-size: 16px" v-text="printData.printType"></span>
+              </el-col>
+              <el-col :span="4"><span style="
                     color: red;
                     width: 100%;
                     display: inline-block;
                     text-align: end;
                     font-weight: bold;
                     font-size: 16px;
-                  "
-                  v-text="selectDictLabel(stateOptions, printData.state)"
-                ></span
-              ></el-col>
+                  " v-text="selectDictLabel(stateOptions, printData.state)"></span></el-col>
             </el-row>
           </div>
           <!--基本信息-->
@@ -658,19 +401,16 @@
               <td class="table-td-content" style="text-align: center">
                 {{ item.approveTime }}
               </td>
-              <td
-                class="table-td-content"
-                style="max-width: 150px; text-align: center"
-              >
+              <td class="table-td-content" style="max-width: 150px; text-align: center">
                 {{ item.processValue }}
               </td>
               <td class="table-td-content" style="text-align: center">
                 {{
-                  item.status == 0 || item.status == 1
-                    ? "已审批"
-                    : item.status == -1
-                    ? "待审批"
-                    : "未审批"
+                item.status == 0 || item.status == 1
+                ? "已审批"
+                : item.status == -1
+                ? "待审批"
+                : "未审批"
                 }}
               </td>
             </tr>
@@ -697,10 +437,7 @@
               <td class="table-td-content" style="text-align: center">
                 {{ item.approveTime }}
               </td>
-              <td
-                class="table-td-content"
-                style="max-width: 150px; text-align: center"
-              >
+              <td class="table-td-content" style="max-width: 150px; text-align: center">
                 {{ item.processValue }}
               </td>
               <td class="table-td-content" style="text-align: center">
@@ -795,7 +532,7 @@ export default {
       refundDetailing: 0,
       // 表单校验
       rules: {
-        stId: [{ required: true, message: "请选择项目名称", trigger: "blur" }],
+        stId: [{ required: true, message: "请选择业务名称", trigger: "blur" }],
         projectId: [{ required: true, message: "请选择项目名称", trigger: "blur" }],
         terminalId: [
           { required: true, message: "请选择终端用户", trigger: "blur" },
@@ -811,7 +548,6 @@ export default {
         ],
       },
       // 项目集合
-      stOptions: [],
       projectOptions: [],
       // 终端客户集合
       terminalOptions: [],
@@ -849,16 +585,13 @@ export default {
           this.loading = false;
         }
       );
-      getStList().then((response) => {
-        this.stOptions = response.rows;
-      });
       getTerminalList().then((response) => {
         this.terminalOptions = response.rows;
       });
-               // 业务
+      // 业务
       listForBus().then((response) => {
         this.listForBusArr = response.data
-      }) 
+      })
       // 项目
       listForPro().then((response) => {
         this.listForProArr = response.data
@@ -887,8 +620,8 @@ export default {
       this.form = {
         refundId: null,
         stId: null,
-        name: null,
         stName: null,
+        name: null,
         terminalId: null,
         tName: null,
         account: null,
@@ -1118,7 +851,7 @@ export default {
       const refundId = row.refundId || this.ids;
       this.$router.push("/refund/look/" + refundId);
     },
-      changeProject(pro) {
+    changeProject(pro) {
       this.form.projectIdOld = pro.projectId;
     },
     changeSt(obj) {
@@ -1127,7 +860,6 @@ export default {
       this.form.stNumber = obj.number;
       this.form.terminalId = obj.terminalId;
       this.form.serialNo = obj.serialNo;
-
       let terminalFind = this.terminalOptions.filter(
         (x) => x.terminalId == obj.terminalId
       );

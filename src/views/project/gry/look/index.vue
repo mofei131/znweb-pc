@@ -1,4 +1,4 @@
-<style>
+<style scoped>
 .head-title{
   font-size: 16px;
   font-family: Microsoft YaHei;
@@ -13,7 +13,20 @@
   font-family: Microsoft YaHei;
   font-weight: 400;
   color: #333333;
+  line-height: 30px;
+}
+.head-text1{
+  font-size: 14px;
+  font-family: Microsoft YaHei;
+  font-weight: 400;
+  color: #333333;
   line-height: 53px;
+}
+.head-text span{
+  display: block;
+  width:220px;
+  line-height:30px;
+  margin-top:0px
 }
 
 .upload-hidden .el-upload--picture-card{
@@ -35,32 +48,33 @@
         </el-col>
       </el-row>
       <el-row class="head-text">
-        <el-col :span="4" :offset="1">
-          项目名称：<span v-text="form.projectName"></span>
+        <el-col :span="7" :offset="1">
+          <div style="display:flex">
+            <div>项目名称：</div><span v-text="form.projectName"></span>
+          </div>
+          <div style="display:flex">
+            <div>业务名称：</div><span v-text="form.stName"></span>
+          </div>
+          <div style="display:flex">
+            <div>项目编号：</div><span v-text="form.serialNo"></span>
+          </div>
+          <div style="display:flex">
+            <div>出库重量：</div><span v-text="$options.filters.weightFilter(form.grnNumber)"></span>
+          </div>
+          <div style="display:flex">
+            <div>到货日期：</div><span>{{ parseTime(form.okTime, '{y}-{m}-{d}') }}</span>
+          </div>
+          <div style="display:flex">
+            <div>出库热值：</div><span v-text="form.gryRz"></span>
+          </div>
         </el-col>
-        <el-col :span="4" :offset="1">
-          业务名称：<span v-text="form.stName"></span>
-        </el-col>
-        <el-col :span="4" :offset="1">
-          项目编号：<span v-text="form.serialNo"></span>
-        </el-col>
-        <el-col :span="4">
-          出库重量：<span v-text="$options.filters.weightFilter(form.grnNumber)"></span>
-        </el-col>
-        <el-col :span="4">
-          到货日期：<span>{{ parseTime(form.okTime, '{y}-{m}-{d}') }}</span>
-        </el-col>
-        <el-col :span="4">
-          出库热值：<span v-text="form.gryRz"></span>
-        </el-col>
-      </el-row>
-
-      <el-row class="head-text">
-        <el-col :span="5" :offset="1">
-          货值单价：<span v-text="$options.filters.moneyFilter(form.valuePrice)"></span>
-        </el-col>
-        <el-col :span="5">
-          货值总额：<span v-text="$options.filters.moneyFilter(form.valueTprice)"></span>
+        <el-col :span="7" :offset="1">
+          <div style="display:flex">
+            <div>货值单价：</div><span v-text="$options.filters.moneyFilter(form.valuePrice)"></span>
+          </div>
+          <div style="display:flex">
+            <div>货值总额：</div><span v-text="$options.filters.moneyFilter(form.valueTprice)"></span>
+          </div>
         </el-col>
       </el-row>
 
@@ -68,64 +82,64 @@
       <el-row style="margin-top: 30px;">
         <el-col :span="20" :offset="1">
           <el-table :data="zlList" fit style="margin-bottom: 22px;">
-            <el-table-column  label="水分(%)">
-              <template slot-scope="scope" >
+            <el-table-column label="水分(%)">
+              <template slot-scope="scope">
                 <span v-text="form.coalSf"></span>
               </template>
             </el-table-column>
-            <el-table-column  label="内水(%)">
-              <template >
-                <span v-text="form.coalNs"  />
+            <el-table-column label="内水(%)">
+              <template>
+                <span v-text="form.coalNs" />
               </template>
             </el-table-column>
-            <el-table-column  label="灰份(%)">
-              <el-table-column  label="Aad">
-                <template   prop="coalAad">
-                  <span v-text="form.coalAad"  />
+            <el-table-column label="灰份(%)">
+              <el-table-column label="Aad">
+                <template prop="coalAad">
+                  <span v-text="form.coalAad" />
                 </template>
               </el-table-column>
-              <el-table-column  label="ad">
-                <template   prop="coalAd">
-                  <span v-text="form.coalAd"  />
+              <el-table-column label="ad">
+                <template prop="coalAd">
+                  <span v-text="form.coalAd" />
                 </template>
               </el-table-column>
             </el-table-column>
             <el-table-column label="挥发份(%)">
-              <el-table-column  label="Vda">
-                <template   prop="coalVda">
-                  <span v-text="form.coalVda"  />
+              <el-table-column label="Vda">
+                <template prop="coalVda">
+                  <span v-text="form.coalVda" />
                 </template>
               </el-table-column>
-              <el-table-column  label="Vdae">
-                <template   prop="coalVdae">
-                  <span v-text="form.coalVdae"  />
+              <el-table-column label="Vdae">
+                <template prop="coalVdae">
+                  <span v-text="form.coalVdae" />
                 </template>
               </el-table-column>
             </el-table-column>
-            <el-table-column  label="灰熔点(℃)">
-              <template   prop="coalHrd">
-                <span v-text="form.coalHrd"  />
+            <el-table-column label="灰熔点(℃)">
+              <template prop="coalHrd">
+                <span v-text="form.coalHrd" />
               </template>
             </el-table-column>
-            <el-table-column   label="固定碳(%)">
-              <template   prop="coalGdt">
-                <span v-text="form.coalGdt"  />
+            <el-table-column label="固定碳(%)">
+              <template prop="coalGdt">
+                <span v-text="form.coalGdt" />
               </template>
             </el-table-column>
-            <el-table-column  label="含硫量(%)">
-              <template   prop="coalHll">
-                <span v-text="form.coalHll"  />
+            <el-table-column label="含硫量(%)">
+              <template prop="coalHll">
+                <span v-text="form.coalHll" />
               </template>
             </el-table-column>
             <el-table-column label="热值(%)">
-              <el-table-column  label="Qgr,ad">
-                <template    prop="coalQgrad">
-                  <span v-text="form.coalQgrad"  />
+              <el-table-column label="Qgr,ad">
+                <template prop="coalQgrad">
+                  <span v-text="form.coalQgrad" />
                 </template>
               </el-table-column>
-              <el-table-column  label="Qnt,ar">
-                <template   prop="coalQntar">
-                  <span v-text="form.coalQntar"  />
+              <el-table-column label="Qnt,ar">
+                <template prop="coalQntar">
+                  <span v-text="form.coalQntar" />
                 </template>
               </el-table-column>
             </el-table-column>
@@ -133,11 +147,11 @@
         </el-col>
       </el-row>
       <el-row class="head-title" style="margin-left: 0px;">
-        <el-col :span="12" :offset="1" >
+        <el-col :span="12" :offset="1">
           <el-form-item label="奖惩"></el-form-item>
         </el-col>
       </el-row>
-      <el-row class="head-text">
+      <el-row class="head-text1">
         <el-col :span="20" :offset="1">
           <el-form-item label="">
             <span>水分：<span style="color: red" v-text="form.jc1">0.00</span></span>
@@ -149,10 +163,10 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row class="head-text">
+      <el-row class="head-text1">
         <el-col :span="20" :offset="1">
           <el-form-item label="">
-            <span >灰熔点：<span style="color: red" v-text="form.jc5">0.00</span></span>
+            <span>灰熔点：<span style="color: red" v-text="form.jc5">0.00</span></span>
             <span style="margin-left: 20px;">固定碳：<span style="color: red" v-text="form.jc6">0.00</span></span>
             <span style="margin-left: 20px;">含硫量：<span style="color: red" v-text="form.jc7">0.00</span></span>
             <span style="margin-left: 20px;">热值Qgr,ad：<span style="color: red" v-text="form.jc8">0.00</span></span>
@@ -169,105 +183,80 @@
       </el-row>
       <el-row style="margin-top: 30px;">
         <el-col :span="20" :offset="1">
-          <el-table
-            ref="singleTable"
-            :data="grnList"
-            fit
-            style="margin-bottom: 30px;">
-            <el-table-column
-              property="name"
-              label="已选货品名称"
-            >
+          <el-table ref="singleTable" :data="grnList" fit style="margin-bottom: 30px;">
+            <el-table-column property="name" label="已选货品名称">
             </el-table-column>
-            <el-table-column
-              property="grnNumber"
-              label="入库重量（吨）">
+            <el-table-column property="grnNumber" label="入库重量（吨）">
               <template slot-scope="scope">
-                    {{
-                      Number(scope.row.grnNumber)
-                        .toFixed(3)
-                        .toString()
-                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                    }}
-                  </template>
+                {{
+                Number(scope.row.grnNumber)
+                .toFixed(3)
+                .toString()
+                .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                }}
+              </template>
             </el-table-column>
-            <el-table-column
-              property="grnRz"
-              label="热值（kcal）">
+            <el-table-column property="grnRz" label="热值（kcal）">
             </el-table-column>
-            <el-table-column
-              property="transportType"
-              label="运输方式">
+            <el-table-column property="transportType" label="运输方式">
             </el-table-column>
-            <el-table-column
-              property="wlCompany"
-              label="物流公司">
+            <el-table-column property="wlCompany" label="物流公司">
             </el-table-column>
-            <el-table-column
-              property="carNumber"
-              label="车数">
+            <el-table-column property="carNumber" label="车数">
             </el-table-column>
-            <el-table-column
-              property="batch"
-              label="批次">
+            <el-table-column property="batch" label="批次">
             </el-table-column>
-            <el-table-column
-              property="deliveryTime"
-              label="发货日期">
+            <el-table-column property="deliveryTime" label="发货日期">
             </el-table-column>
-            <el-table-column
-              property="valuePrice"
-              label="货值单价（元）">
+            <el-table-column property="valuePrice" label="货值单价（元）">
               <template slot-scope="scope">
-                  {{
-                    Number(scope.row.valuePrice)
-                      .toFixed(2)
-                      .toString()
-                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
+                {{
+                Number(scope.row.valuePrice)
+                .toFixed(2)
+                .toString()
+                .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                }}
+              </template>
             </el-table-column>
-            <el-table-column
-              property="valueTprice"
-              label="货值总额（元）">
+            <el-table-column property="valueTprice" label="货值总额（元）">
               <template slot-scope="scope">
-                  {{
-                    Number(scope.row.valueTprice)
-                      .toFixed(2)
-                      .toString()
-                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
+                {{
+                Number(scope.row.valueTprice)
+                .toFixed(2)
+                .toString()
+                .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                }}
+              </template>
             </el-table-column>
           </el-table>
         </el-col>
       </el-row>
-      <el-row class="head-text">
+      <el-row class="head-text1">
         <el-col :span="4" :offset="1">
-          <el-form-item label="重量差" >
-            <span  style="color: red" v-text="$options.filters.weightFilter(zlc)"></span>
+          <el-form-item label="重量差">
+            <span style="color: red" v-text="$options.filters.weightFilter(zlc)"></span>
           </el-form-item>
         </el-col>
         <el-col :span="4">
           <el-form-item label="热值差" prop="averageRz">
-            <span  style="color: red" v-text="rzc"></span>
+            <span style="color: red" v-text="rzc"></span>
           </el-form-item>
         </el-col>
         <el-col :span="4">
           <el-form-item label="单价差" prop="averageRz">
-            <span  style="color: red" v-text="$options.filters.moneyFilter(djc)"></span>
+            <span style="color: red" v-text="$options.filters.moneyFilter(djc)"></span>
           </el-form-item>
         </el-col>
         <el-col :span="4">
           <el-form-item label="总额差" prop="averageRz">
-            <span  style="color: red" v-text="$options.filters.moneyFilter(zec)"></span>
+            <span style="color: red" v-text="$options.filters.moneyFilter(zec)"></span>
           </el-form-item>
         </el-col>
       </el-row>
 
-      <el-row class="head-text">
+      <el-row class="head-text1">
         <el-col :span="12" :offset="1">
-          <el-form-item class="head-text" label="附件：" prop="file">
+          <el-form-item class="head-text1" label="附件：" prop="file">
             <!-- <el-upload
               disabled
               :action="url"
@@ -287,11 +276,12 @@
 
       <!--      审批信息-->
       <approval-record :typeId="11" :stId="grnId"></approval-record>
+
     </el-form>
     <el-row>
       <el-col :offset="1" :span="20">
-        <div slot=""  class="dialog-footer" style="text-align: right;margin-bottom: 50px;margin-right: 50px;">
-          <el-button type="info" @click="cancel">关 闭</el-button>
+        <div slot="" class="dialog-footer" style="text-align: right;margin-bottom: 50px;margin-right: 50px;">
+          <el-button size="small" type="info" @click="cancel">关 闭</el-button>
         </div>
       </el-col>
     </el-row>
