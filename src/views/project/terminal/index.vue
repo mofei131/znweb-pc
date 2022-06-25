@@ -541,6 +541,7 @@ export default {
         createBy: null,
         createTime: null,
         fileList: [],
+        customerCode:''
       };
       this.resetForm("form");
     },
