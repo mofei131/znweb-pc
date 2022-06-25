@@ -825,7 +825,7 @@ import {
 } from "@/api/project/gry";
 import { getToken } from "@/utils/auth";
 import print from "print-js";
-import { getProcessDataByStId, getApprovalProcessList } from "@/api/approve";
+import { getProcessDataByStId, getApprovalProcessList, getApprovalType } from "@/api/approve";
 
 export default {
   name: "Gry",
@@ -1106,7 +1106,11 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      this.reset();
+      getApprovalType((approvalType) => {
+        if(approvalType.code == 500) {
+          this.$message.error('没有提交权限，请联系管理员')
+        }else{
+          this.reset();
       this.form.totalWeight = 0;
       this.form.averageRz = 0;
       this.form.valuePrice = 0;
@@ -1130,6 +1134,8 @@ export default {
       this.isLook = 1;
       this.open = true;
       this.title = "添加出库单";
+        }
+      })
     },
     /** 修改按钮操作 */
     handleUpdate(row) {

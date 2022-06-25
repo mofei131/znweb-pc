@@ -102,7 +102,7 @@
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="项目名字" align="center" prop="stName" />
+      <el-table-column label="项目名称" align="center" prop="stName" />
       <el-table-column label="项目编号" align="center" prop="stNo" />
       <el-table-column label="收票比例" align="center" prop="proportion" />
       <!--      <el-table-column label="应收票金额" align="center" prop="ysPrice" >-->
@@ -638,7 +638,7 @@ import { getStList } from "@/api/project/cplan";
 import { getToken } from "@/utils/auth";
 import aou from "@/views/project/sticket/aou/index";
 import print from "print-js";
-import { getProcessDataByStId, getApprovalProcessList } from "@/api/approve";
+import { getProcessDataByStId, getApprovalProcessList, getApprovalType } from "@/api/approve";
 import { getContractList } from "@/api/project/all";
 export default {
   name: "Sticket",
@@ -783,12 +783,18 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      this.reset();
+      getApprovalType((approvalType) => {
+        if(approvalType.code == 500) {
+          this.$message.error('没有提交权限，请联系管理员')
+        }else {
+          this.reset();
       this.open = true;
       setTimeout(() => {
         this.$refs.aou.init();
       }, 0);
       this.title = "添加收票管理";
+        }
+      })
     },
     /** 修改按钮操作 */
     handleUpdate(row) {

@@ -301,7 +301,7 @@ import {
 import { getToken } from "@/utils/auth";
 import { getStList, getTpcList } from "@/api/project/lpayment";
 import { getContract, getGrnList } from "@/api/project/apayment";
-
+import { getApprovalType } from '@/api/approve'
 export default {
   name: "Wldetails",
   data() {
@@ -460,10 +460,17 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      this.reset();
+      getApprovalType((approvalType) => {
+        if(approvalType.code == 500) {
+          this.$message.error('没有提交权限，请联系管理员')
+        }else{
+          this.reset();
       this.form.type = "汽运";
       this.open = true;
       this.title = "添加物流收票";
+        }
+      })
+      
     },
     /** 查看按钮操作 */
     handleLook(row) {

@@ -1178,7 +1178,7 @@ import {
 } from "@/api/project/contract";
 import { getToken } from "@/utils/auth";
 import print from "print-js";
-import { getProcessDataByStId, getApprovalProcessList } from "@/api/approve";
+import { getProcessDataByStId, getApprovalProcessList, getApprovalType } from "@/api/approve";
 
 export default {
   name: "Contract",
@@ -1489,12 +1489,18 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      this.reset();
-      this.form.type = "1";
-      this.fileList = [];
-      this.bc = 3;
-      this.open = true;
-      this.title = "添加项目合同";
+      getApprovalType((approvalType) => {
+        if(approvalType.code == 500) {
+          return this.$message.error('没有提交权限，请联系管理员')
+        }else {
+          this.reset();
+          this.form.type = "1";
+          this.fileList = [];
+          this.bc = 3;
+          this.open = true;
+          this.title = "添加项目合同";
+        }
+      })
     },
     /** 补充修改按钮操作 */
     handleUpdatebc(row) {

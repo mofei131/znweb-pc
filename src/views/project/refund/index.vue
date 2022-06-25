@@ -470,7 +470,7 @@ import {
 import { getTerminalList } from "@/api/project/st";
 import { getToken } from "@/utils/auth";
 import print from "print-js";
-import { getProcessDataByStId, getApprovalProcessList } from "@/api/approve";
+import { getProcessDataByStId, getApprovalProcessList, getApprovalType } from "@/api/approve";
 import request from "@/utils/request";
 import Moment from "moment";
 // Vue.prototype.moment = Moment
@@ -706,10 +706,16 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
+      getApprovalType((approvalType) => {
+        if(approvalType.code == 500) {
+          this.$message.error('没有提交权限，请联系管理员')
+        }else{
       this.reset();
       this.fileList = [];
       this.open = true;
       this.title = "添加退款申请";
+        }
+      })
     },
     /** 修改按钮操作 */
     handleUpdate(row) {

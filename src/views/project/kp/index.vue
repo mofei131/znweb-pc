@@ -449,7 +449,7 @@ import {
 import { getToken } from "@/utils/auth";
 import { findInit } from "@/api/project/realsk";
 import print from "print-js";
-import { getProcessDataByStId, getApprovalProcessList } from "@/api/approve";
+import { getProcessDataByStId, getApprovalProcessList, getApprovalType } from "@/api/approve";
 
 export default {
   name: "Kp",
@@ -510,7 +510,8 @@ export default {
       form: {},
       // 表单校验
       rules: {
-        stId: [{ required: true, message: "请选择项目名称", trigger: "blur" }],
+        stId: [{ required: true, message: "请选择业务名称", trigger: "blur" }],
+        projectId: [{ required: true, message: "请选择项目名称", trigger: "blur" }],
         uName: [{ required: true, message: "请输入代办人", trigger: "blur" }],
         sName: [{ required: true, message: "请输入供应商", trigger: "blur" }],
         kpPrice: [{ required: true, message: "请输入开票金额", trigger: "blur" },{ validator: validatePrice3, trigger: "blur" }],
@@ -628,13 +629,20 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      this.reset();
+      getApprovalType((approvalType) => {
+        if(approvalType.code == 500) {
+          this.$message.error('没有提交权限，请联系管理员')
+        }else{
+           this.reset();
       // this.form.zzTprice=0;
       // this.form.zzWeight=0;
       // this.form.zzPrice=0;
       this.isLook = 1;
       this.open = true;
       this.title = "添加开票";
+        }
+      })
+      
     },
     /** 修改按钮操作 */
     handleUpdate(row) {

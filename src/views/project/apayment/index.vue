@@ -1052,7 +1052,7 @@ import {
 } from "@/api/project/apayment";
 import { getToken } from "@/utils/auth";
 import print from "print-js";
-import { getProcessDataByStId, getApprovalProcessList } from "@/api/approve";
+import { getProcessDataByStId, getApprovalProcessList, getApprovalType } from "@/api/approve";
 import { getContractList } from "@/api/project/all";
 
 export default {
@@ -1377,7 +1377,11 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      this.reset();
+      getApprovalType((approvalType) => {
+        if(approvalType.code == 500) {
+          return this.$message.error('没有提交权限，请联系管理员')
+        }else {
+          this.reset();
       this.form.type = "吨";
       this.form.away = "首次";
       this.form.totalWeight = 0;
@@ -1390,6 +1394,9 @@ export default {
       this.isLook = 1;
       this.open = true;
       this.title = "添加预付款";
+        }
+      })
+      
     },
     /** 修改按钮操作 */
     handleUpdate(row) {

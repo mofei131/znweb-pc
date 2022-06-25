@@ -623,7 +623,7 @@ import { getStList } from "@/api/project/cplan";
 import { getToken } from "@/utils/auth";
 import { getContract } from "@/api/project/apayment";
 import print from "print-js";
-import { getProcessDataByStId, getApprovalProcessList } from "@/api/approve";
+import { getProcessDataByStId, getApprovalProcessList, getApprovalType } from "@/api/approve";
 
 export default {
   name: "Realsk",
@@ -821,12 +821,19 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      this.reset();
+      getApprovalType((approvalType) => {
+        if(approvalType.code == 500) {
+          this.$message.error('没有提交权限，请联系管理员')
+        }else{
+          this.reset();
       this.fileList = [];
       this.form.fileList = [];
       this.isLook = 1;
       this.open = true;
       this.title = "添加实际收款";
+        }
+      })
+      
     },
     /** 修改按钮操作 */
     handleUpdate(row) {

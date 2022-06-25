@@ -564,7 +564,7 @@ export default {
     /** 新增按钮操作 */
     handleAdd() {
        getApprovalType((approvalType) => {
-        if(res.code == 500) {
+        if(approvalType.code == 500) {
           return this.$message.error('没有提交权限，请联系管理员')
         }else{
       this.reset();
