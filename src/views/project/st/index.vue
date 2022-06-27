@@ -82,7 +82,13 @@
           <el-button size="mini" type="text" v-hasPermi="['project:st:edit']"
             v-if="scope.row.hType == '项目' && scope.row.state == 3" @click="openBusinessBox(scope.row)">添加业务
           </el-button>
-          <el-button size="mini" type="text" v-if="scope.row.hType == '业务'" v-hasPermi="['project:st:edit']"
+          <el-button size="mini" type="text" v-if="scope.row.hType == '业务'&&(scope.row.businessState == 0||scope.row.businessState == null)" v-hasPermi="['project:st:edit']"
+            @click="jumpBusinessAdd(scope.row)">查看业务</el-button>
+          <el-button size="mini" type="text" v-if="
+            scope.row.hType == '业务' &&
+            scope.row.state == 3 &&
+            (scope.row.businessState == 1 || scope.row.businessState == 2|| scope.row.businessState == 3|| scope.row.businessState == 4)
+          " v-hasPermi="['project:st:edit']"
             @click="jumpBusiness(scope.row)">业务明细</el-button>
           <!-- <el-button size="mini" type="text" v-if="scope.row.hType == '业务'" @click="openChangeBusiness(scope.row)"
             v-hasPermi="['project:st:edit']">修改业务</el-button> -->
@@ -1394,6 +1400,9 @@ export default {
     },
     jumpBusiness(row) {
       this.$router.push("/st/lookAdd/" + row.stId);
+    },
+    jumpBusinessAdd(row){
+      this.$router.push("/st/lookAddB/" + row.stId);
     },
     openBusinessBox(row) {
       checkProcessConfig({ approvalType: 20 }).then((res) => {
