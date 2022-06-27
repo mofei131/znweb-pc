@@ -484,17 +484,12 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      getApprovalType((approvalType) => {
-        if(approvalType.code == 500) {
-          this.$message.error('没有提交权限，请联系管理员')
-        }else{
-      this.reset();
-      this.isLook = 1;
-      this.open = true;
-      this.title = "添加资金计划";
-        }
-      })
-      
+      getApprovalType({ approvalType: '8' }).then((response) => {
+        this.reset();
+        this.isLook = 1;
+        this.open = true;
+        this.title = "添加资金计划";
+      });      
     },
     /** 修改按钮操作 */
     handleUpdate(row) {

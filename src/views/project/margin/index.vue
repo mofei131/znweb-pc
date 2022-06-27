@@ -909,20 +909,15 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      getApprovalType((approvalType) => {
-        if(approvalType.code == 500) {
-          this.$message.error('没有提交权限，请联系管理员')
-        }else{
-          this.reset();
-      this.fileList = [];
-      this.form.type = "上游";
-      this.form.serType = "是";
-      this.form.hkState = 1;
-      (this.isLook = 1), (this.open = true);
-      this.title = "添加保证金";
-        }
-      })
-      
+      getApprovalType({ approvalType: '7' }).then((response) => {
+        this.reset();
+        this.fileList = [];
+        this.form.type = "上游";
+        this.form.serType = "是";
+        this.form.hkState = 1;
+        (this.isLook = 1), (this.open = true);
+        this.title = "添加保证金";
+      });
     },
     /** 修改按钮操作 */
     handleUpdate(row) {

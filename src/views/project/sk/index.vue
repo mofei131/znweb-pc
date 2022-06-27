@@ -933,30 +933,25 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      getApprovalType((approvalType)=> {
-        if(approvalType.code == 500) {
-          this.$message.error('没有提交权限，请联系管理员')
-        }else{
-      this.reset();
-      (this.tablegryData = []),
-        (this.tableselData = []),
-        (this.tableybData = []),
-        (this.fileList = []);
-      this.form.skType = "收款";
-      this.form.skWay = "吨";
-      this.form.skTprice = 0;
-      this.form.yftotalPrice = 0;
-      this.form.tax = 0;
-      this.form.tweight = 0;
-      this.form.prz = 0;
-      this.form.skPrice = 0;
-      this.form.yfPrice = 0;
-      this.isLook = 1;
-      this.open = true;
-      this.title = "添加收款";
-        }
-      })
-     
+      getApprovalType({ approvalType: '6' }).then((response) => {
+        this.reset();
+        (this.tablegryData = []),
+          (this.tableselData = []),
+          (this.tableybData = []),
+          (this.fileList = []);
+        this.form.skType = "收款";
+        this.form.skWay = "吨";
+        this.form.skTprice = 0;
+        this.form.yftotalPrice = 0;
+        this.form.tax = 0;
+        this.form.tweight = 0;
+        this.form.prz = 0;
+        this.form.skPrice = 0;
+        this.form.yfPrice = 0;
+        this.isLook = 1;
+        this.open = true;
+        this.title = "添加收款";
+      });
     },
     /** 修改按钮操作 */
     handleUpdate(row) {

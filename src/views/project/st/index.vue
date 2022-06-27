@@ -69,12 +69,12 @@
       </el-table-column>
       <el-table-column label="操作" width="160" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button v-if="
+          <!-- <el-button v-if="
             scope.row.hType == '项目' && scope.row.businessList.length != 0
-          " size="mini" type="text" @click="toggleRowExpansion1(scope.row)">展开业务</el-button>
-          <el-button v-if="
+          " size="mini" type="text" @click="toggleRowExpansion1(scope.row)">展开业务</el-button> -->
+          <!-- <el-button v-if="
             scope.row.hType == '项目' && scope.row.businessList.length != 0
-          " size="mini" type="text" @click="toggleRowExpansion2(scope.row)">关闭业务</el-button>
+          " size="mini" type="text" @click="toggleRowExpansion2(scope.row)">关闭业务</el-button> -->
           <el-button v-if="scope.row.hType == '项目'" size="mini" type="text" v-hasPermi="['project:st:edit']"
             @click="openCheckProject(scope.row)">查看项目</el-button>
           <!-- <el-button size="mini" type="text" v-if="scope.row.hType == '项目'"
@@ -1753,7 +1753,4 @@ export default {
 };
 </script>
 <style scoped>
-.projectlist>>>.el-icon-arrow-right {
-  display: none;
-}
 </style>

@@ -903,11 +903,13 @@ export default {
         });
         getStList().then((response) => {
             this.stOptions = response.rows;
+            if(response.total!=0){
             this.stOptions.forEach(e=>{
                     if(e.stId==this.projectIdd){
                         this.changeSt(e)
                     }
                 })
+            }
         });
         if (
             this.$route.params.isEdit != null &&
@@ -937,11 +939,13 @@ export default {
             );
             getStList().then((response) => {
                 this.stOptions = response.rows;
+                if(response.total!=0){
                 this.stOptions.forEach(e=>{
                     if(e.stId==this.projectIdd){
                         this.changeSt(e)
                     }
                 })
+                }
             });
         },
         // 取消按钮

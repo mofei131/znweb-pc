@@ -709,20 +709,15 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      getApprovalType((approvalType) => {
-        if(approvalType.code == 500) {
-          this.$message.error('没有提交权限，请联系管理员')
-        }else{
-           this.reset();
-      // this.form.zzTprice=0;
-      // this.form.zzWeight=0;
-      // this.form.zzPrice=0;
-      this.isLook = 1;
-      this.open = true;
-      this.title = "添加开票";
-        }
-      })
-      
+      getApprovalType({ approvalType: '15' }).then((response) => {
+        this.reset();
+        // this.form.zzTprice=0;
+        // this.form.zzWeight=0;
+        // this.form.zzPrice=0;
+        this.isLook = 1;
+        this.open = true;
+        this.title = "添加开票";
+      });
     },
     /** 修改按钮操作 */
     handleUpdate(row) {

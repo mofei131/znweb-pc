@@ -1115,11 +1115,13 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-          this.reset();
-      this.fileList = [];
-      this.isLook = 1;
-      this.open = true;
-      this.title = "添加入库单"; 
+      getApprovalType({ approvalType: '10' }).then((response) => {
+        this.reset();
+        this.fileList = [];
+        this.isLook = 1;
+        this.open = true;
+        this.title = "添加入库单";
+      });      
     },
     /** 修改按钮操作 */
     handleUpdate(row) {

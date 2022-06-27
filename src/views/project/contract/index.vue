@@ -1412,18 +1412,14 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      getApprovalType((approvalType) => {
-        if(approvalType.code == 500) {
-          return this.$message.error('没有提交权限，请联系管理员')
-        }else {
-          this.reset();
-          this.form.type = "1";
-          this.fileList = [];
-          this.bc = 3;
-          this.open = true;
-          this.title = "添加项目合同";
-        }
-      })
+      getApprovalType({ approvalType: '3' }).then((response) => {
+        this.reset();
+        this.form.type = "1";
+        this.fileList = [];
+        this.bc = 3;
+        this.open = true;
+        this.title = "添加项目合同";
+      });
     },
     /** 补充修改按钮操作 */
     handleUpdatebc(row) {

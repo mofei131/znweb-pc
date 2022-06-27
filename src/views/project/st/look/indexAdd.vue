@@ -1,5 +1,5 @@
 <template>
-  <div style="display:flex;background-color: #F6F7FB;padding:10px;">
+  <div @scroll="a" style="display:flex;background-color: #F6F7FB;padding:10px;">
     <div style="width:85%;background-color: #ffffff;border-radius: 10px;margin-right:10px">
       <!-- <div style="display:flex;justify-content:end;margin-top:20px;margin-right:20px">
       <el-button @click="exportInfo" type="primary" size="small">导出</el-button>
@@ -213,8 +213,7 @@
         </div>
       </div>
     </div>
-    <div
-      style="width:15%;background-color: #ffffff;border-radius: 10px;text-align: center;line-height:30px;font-size: 13px;padding-top:10px;cursor:pointer">
+      <div class="maodian" style="position: fixed;top:94px;right:0;width:12.8%;height:588px;background-color: #ffffff;border-radius: 10px;text-align: center;line-height:30px;font-size: 13px">
       <div ref="bid" @click="jump('bid')">投标申请</div>
       <div ref="contract" @click="jump('contract')">合同管理</div>
       <div ref="rewardsp" v-if="projectInfo.businessType != 'cu' && projectInfo.businessType != 'cud'"
@@ -302,10 +301,86 @@ export default {
         this.projectInfo = res.data
       })
     })
+    window.addEventListener("scroll", this.handleScroll,true);
   },
   methods: {
+    a(e){
+      console.log(e)
+    },
+    handleScroll(){
+      let top=document.documentElement.scrollTop-83
+      if(top>document.querySelector("#bid").offsetTop&&top<document.querySelector("#contract").offsetTop){
+        this.changeColor('bid')
+      }else if(top>document.querySelector("#contract").offsetTop&&top<document.querySelector("#rewardsp").offsetTop){
+        this.changeColor('contract')
+      }else if(top>document.querySelector("#rewardsp").offsetTop&&top<document.querySelector("#grn").offsetTop){
+        this.changeColor('rewardsp')
+      }
+      else if(top>document.querySelector("#grn").offsetTop&&top<document.querySelector("#gry").offsetTop){
+        this.changeColor('grn')
+      }
+      else if(top>document.querySelector("#gry").offsetTop&&top<document.querySelector("#margin").offsetTop){
+        this.changeColor('gry')
+      }
+      else if(top>document.querySelector("#margin").offsetTop&&top<document.querySelector("#lpayment").offsetTop){
+        this.changeColor('margin')
+      }
+      else if(top>document.querySelector("#lpayment").offsetTop&&top<document.querySelector("#wldetails").offsetTop){
+        this.changeColor('lpayment')
+      }
+      else if(top>document.querySelector("#wldetails").offsetTop&&top<document.querySelector("#apayment").offsetTop){
+        this.changeColor('wldetails')
+      }
+      else if(top>document.querySelector("#apayment").offsetTop&&top<document.querySelector("#fpayment").offsetTop){
+        this.changeColor('apayment')
+      }
+      else if(top>document.querySelector("#fpayment").offsetTop&&top<document.querySelector("#estimated").offsetTop){
+        this.changeColor('fpayment')
+      }
+      else if(top>document.querySelector("#estimated").offsetTop&&top<document.querySelector("#realsk").offsetTop){
+        this.changeColor('estimated')
+      }
+      else if(top>document.querySelector("#realsk").offsetTop&&top<document.querySelector("#refund").offsetTop){
+        this.changeColor('realsk')
+      }
+      else if(top>document.querySelector("#refund").offsetTop&&top<document.querySelector("#sp").offsetTop){
+        this.changeColor('refund')
+      }
+      else if(top>document.querySelector("#sp").offsetTop&&top<document.querySelector("#kp").offsetTop){
+        this.changeColor('sp')
+      }
+      else if(top>document.querySelector("#kp").offsetTop&&top<document.querySelector("#sfdetails").offsetTop){
+        this.changeColor('kp')
+      }
+      else if(top>document.querySelector("#sfdetails").offsetTop&&top>document.querySelector("#service").offsetTop){
+        this.changeColor('sfdetails')
+      }
+      else if(top>document.querySelector("#service").offsetTop){
+        this.changeColor('service')
+      }
+    },
     jump(e) {
       document.querySelector("#" + e).scrollIntoView(true)
+      this.$refs.bid.style.color = "#333333";
+      this.$refs.contract.style.color = "#333333";
+      this.$refs.rewardsp.style.color = "#333333";
+      this.$refs.margin.style.color = "#333333";
+      this.$refs.lpayment.style.color = "#333333";
+      this.$refs.wldetails.style.color = "#333333";
+      this.$refs.apayment.style.color = "#333333";
+      this.$refs.fpayment.style.color = "#333333";
+      this.$refs.estimated.style.color = "#333333";
+      this.$refs.realsk.style.color = "#333333";
+      this.$refs.refund.style.color = "#333333";
+      this.$refs.sfdetails.style.color = "#333333";
+      this.$refs.service.style.color = "#333333";
+      this.$refs.grn.style.color = "#333333";
+      this.$refs.gry.style.color = "#333333";
+      this.$refs.kp.style.color = "#333333";
+      this.$refs.sp.style.color = "#333333";
+      this.$refs[e].style.color = "#406BFF";
+    },
+    changeColor(e){
       this.$refs.bid.style.color = "#333333";
       this.$refs.contract.style.color = "#333333";
       this.$refs.rewardsp.style.color = "#333333";

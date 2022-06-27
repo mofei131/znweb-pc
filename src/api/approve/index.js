@@ -212,14 +212,14 @@ export function getApprovalProcessList(typeId, stId) {
     });
 }
 // 审批类型
-export function getApprovalType(approvalType) {
+export function getApprovalType(query) {
     return request({
-      url: "/approve/approve/checkProcessConfig",
-      method: "get",
-      params: approvalType
+        url: "/approve/approve/checkProcessConfig",
+        method: "get",
+        params: query
     })
-  }
-  
+}
+
 // 撤回
 export function withdraw(query, id) {
     return request({
