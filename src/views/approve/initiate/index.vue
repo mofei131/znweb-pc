@@ -200,7 +200,7 @@ export default {
     },
     async reInitiate(row) {
       let typeId = row.approvalType;
-      let stId = row.stId;
+      let stId = row.businessKey;
       let isOk = true;
       if (typeId == "4") {
         // 验证出入库单状态是否可用
@@ -281,7 +281,7 @@ export default {
     },
     handleUpdate(row) {
       let typeId = row.approvalType;
-      let stId = row.stId;
+      let stId = row.businessKey;
       if (typeId == "1") {
         this.$router.push({
           name: "stEdit",
@@ -375,7 +375,7 @@ export default {
     },
     handleDelete(row) {
       let typeId = row.approvalType;
-      let stId = row.stId;
+      let stId = row.businessKey;
 
       if (typeId == "1") {
         this.$confirm("是否确认删除项目信息?", "警告", {
@@ -667,7 +667,7 @@ export default {
     withdraw(row) {
       let _this = this;
       let typeId = row.approvalType;
-      let stId = row.stId;
+      let stId = row.businessKey;
       this.$confirm("确认撤回提单吗?", "提示", {
         confirmButtonText: "确认",
         cancelButtonText: "取消",
