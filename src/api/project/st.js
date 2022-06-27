@@ -56,7 +56,7 @@ export function updateBStatus(data) {
 // 查询业务信息
 export function getStInfo(stId) {
     return request({
-        url: "project/business/info/"+stId,
+        url: "project/business/info/" + stId,
         method: "get"
     });
 }
@@ -86,7 +86,7 @@ export function addBusiness(data) {
 // 查询项目信息
 export function projectInfo(id) {
     return request({
-        url: "/project/project/"+id,
+        url: "/project/project/" + id,
         method: "get"
     });
 }
@@ -232,6 +232,22 @@ export function approveNode(query) {
 export function approveHistory(query) {
     return request({
         url: "/approve/approve/approveHistory",
+        method: "get",
+        params: query,
+    });
+}
+// 项目下拉列表
+export function listProjectForCombobox(query) {
+    return request({
+        url: "/project/project/listForCombobox",
+        method: "get",
+        params: query,
+    });
+}
+// 业务下拉列表
+export function listBusinessForCombobox(query) {
+    return request({
+        url: "/project/business/listForCombobox",
         method: "get",
         params: query,
     });

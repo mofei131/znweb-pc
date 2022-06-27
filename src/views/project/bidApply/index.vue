@@ -105,7 +105,8 @@
             <el-form-item label="项目名称" prop="projectId">
               <el-select filterable value-key="projectId" @change="changeProject" v-model="form.projectId"
                 placeholder="请选择项目" style="width: 100%">
-                <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName" :value="pro">
+                <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName"
+                  :value="pro.projectId">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -114,13 +115,14 @@
             <el-form-item label="业务名称" prop="stId">
               <el-select filterable value-key="stId" @change="changeSt" v-model="form.stId" placeholder="请选择业务"
                 style="width: 100%">
-                <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj"></el-option>
+                <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj.stId">
+                </el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="项目编号" prop="serialNo">
-              {{ form.stNumber }}
+              {{ form.serialNo }}
             </el-form-item>
           </el-col>
         </el-row>
@@ -279,7 +281,7 @@
             </tr>
           </table>
           <!--审批流程-->
-          <approval-print :typeId="18" :stId="apyamentId" ></approval-print>
+          <approval-print :typeId="18" :stId="apyamentId"></approval-print>
         </div>
       </div>
     </el-dialog>
@@ -296,11 +298,11 @@ import {
   getStList,
   listForBus,
   listForPro,
-  
 } from "@/api/project/bidApply";
 import { getToken } from "@/utils/auth";
 import print from "print-js";
 import { getProcessDataByStId, getApprovalProcessList, getApprovalType } from "@/api/approve";
+import { listProjectForCombobox, listBusinessForCombobox } from "@/api/project/st";
 export default {
   name: "BidApply",
   data() {
@@ -422,22 +424,21 @@ export default {
           this.loading = false;
         }
       );
-      // 业务
-      listForBus().then((response) => {
-        this.listForBusArr = response.data
-      })
-      // 项目
-      listForPro().then((response) => {
+      // 项目下拉
+      this.loadProjectForCombobox();
+    },
+    loadProjectForCombobox() {
+      this.listForProArr = []
+      listProjectForCombobox().then((response) => {
         this.listForProArr = response.data
       })
     },
-      //  async approvalType() {
-      //   const { data: res } = await this.$http.get('/approve/approve/checkProcessConfig')
-      //   console.log(res);
-      //   if(res.code == 500) {
-      // return this.$msg.error('没有提交权限，请联系管理员')
-      //   }
-      // },
+    loadBusinessForCombobox(projectId){
+      this.listForBusArr = []
+      listBusinessForCombobox({ projectId }).then((response) => {
+        this.listForBusArr = response.data
+      })
+    },
     // 取消按钮
     cancel() {
       this.open = false;
@@ -459,10 +460,8 @@ export default {
         arriveStation: null,
         remark: null,
         state: null,
-        stIdOld: null,
         fileList: [],
         projectId: null,
-        projectIdOld: null,
         projectName: null,
         serialNo: null
       };
@@ -510,12 +509,6 @@ export default {
       this.isDisabled = true;
       this.$refs["form"].validate((valid) => {
         if (valid) {
-          if (this.form.stIdOld) {
-            this.form.stId = this.form.stIdOld;
-          }
-          if (this.form.projectIdOld) {
-            this.form.projectId = this.form.projectIdOld
-          }
           if (this.form.bidId != null) {
             updateBidApply(this.form).then((response) => {
               this.msgSuccess("修改成功");
@@ -569,13 +562,21 @@ export default {
     statusFormat(row, column) {
       return this.selectDictLabel(this.statusOptions, row.state);
     },
-    changeSt(obj) {
-      this.form.stIdOld = obj.stId;
-      this.form.stName = obj.stName;
-      this.form.serialNo = obj.serialNo;
+    changeSt(stId) {
+      let businessFind = this.listForBusArr.filter(x => x.stId == stId);
+      if (businessFind && businessFind.length > 0) {
+        this.form.stName = businessFind[0].stName;
+        this.form.serialNo = businessFind[0].serialNo;
+      }
     },
-    changeProject(pro) {
-      this.form.projectIdOld = pro.projectId;
+    changeProject(projectId) {
+      this.listForBusArr = []
+      this.form.stId = ''
+      this.form.stName = ''
+      this.form.serialNo = ''
+      if (projectId){
+        this.loadBusinessForCombobox(projectId);
+      }
     },
     //点击触发
     handlePreview(file) {
@@ -636,7 +637,6 @@ export default {
         let index = filelist.indexOf(file);
         filelist.splice(index, 1);
       }
-      console.log("看这里", this.form);
     },
     uploadError(err, file, filelist) {
       this.$message.error("上传失败");
@@ -663,7 +663,6 @@ export default {
       });
     },
     async handlePrint(row) {
-      console.log(row)
       this.apyamentId = row.bidId
       this.printData = {};
       await getBidApply(row.bidId).then((response) => {
