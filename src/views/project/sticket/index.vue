@@ -700,18 +700,14 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      getApprovalType((approvalType) => {
-        if(approvalType.code == 500) {
-          this.$message.error('没有提交权限，请联系管理员')
-        }else {
-          this.reset();
-      this.open = true;
-      setTimeout(() => {
-        this.$refs.aou.init();
-      }, 0);
-      this.title = "添加收票管理";
-        }
-      })
+      getApprovalType({ approvalType: '14' }).then((response) => {
+        this.reset();
+        this.open = true;
+        setTimeout(() => {
+          this.$refs.aou.init();
+        }, 0);
+        this.title = "添加收票管理";
+      });
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
