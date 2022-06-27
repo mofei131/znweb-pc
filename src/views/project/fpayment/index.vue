@@ -753,7 +753,7 @@ import {
 import { getToken } from "@/utils/auth";
 import { getSticketList, getContractList } from "@/api/project/all";
 import print from "print-js";
-import { getProcessDataByStId, getApprovalProcessList } from "@/api/approve";
+import { getProcessDataByStId, getApprovalProcessList, getApprovalType } from "@/api/approve";
 
 export default {
   name: "Fpayment",
@@ -1072,18 +1072,20 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      this.reset();
-      this.form.payType = "吨";
-      this.tableData = [];
-      this.tableselData = [];
-      this.fileList = [];
-      this.form.tweight = 0;
-      this.form.prz = 0;
-      this.gdType = 1;
-      this.form.isKp = 1;
-      this.isLook = 1;
-      this.open = true;
-      this.title = "添加最终付款";
+      getApprovalType({ approvalType: '5' }).then((response) => {
+        this.reset();
+        this.form.payType = "吨";
+        this.tableData = [];
+        this.tableselData = [];
+        this.fileList = [];
+        this.form.tweight = 0;
+        this.form.prz = 0;
+        this.gdType = 1;
+        this.form.isKp = 1;
+        this.isLook = 1;
+        this.open = true;
+        this.title = "添加最终付款";
+      });
     },
     /** 修改按钮操作 */
     handleUpdate(row) {

@@ -296,7 +296,7 @@ import {
   listForBus,
   listForPro,
 } from "@/api/project/cplan";
-
+import { getApprovalType } from "@/api/approve"
 export default {
   name: "Cplan",
   data() {
@@ -484,10 +484,12 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      this.reset();
-      this.isLook = 1;
-      this.open = true;
-      this.title = "添加资金计划";
+      getApprovalType({ approvalType: '8' }).then((response) => {
+        this.reset();
+        this.isLook = 1;
+        this.open = true;
+        this.title = "添加资金计划";
+      });      
     },
     /** 修改按钮操作 */
     handleUpdate(row) {

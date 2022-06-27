@@ -1,37 +1,20 @@
 <template>
   <div class="app-container">
     <div class="top">
-      <el-form
-        :model="queryParams"
-        ref="ruleForm"
-        :inline="true"
-        label-width="80px"
-      >
+      <el-form :model="queryParams" ref="ruleForm" :inline="true" label-width="80px">
         <el-form-item label="流程名称">
-          <el-input
-            v-model="queryParams.processName"
-            placeholder="请输入流程名称"
-          ></el-input>
+          <el-input v-model="queryParams.processName" placeholder="请输入流程名称"></el-input>
         </el-form-item>
         <el-form-item label="流程类型">
           <el-select v-model="queryParams.approvalType" placeholder="请选择分类">
-            <el-option
-              v-for="dict in processTypeList"
-              :key="dict.dictValue"
-              :label="dict.dictLabel"
-              :value="dict.dictValue"
-            ></el-option>
+            <el-option v-for="dict in processTypeList" :key="dict.dictValue" :label="dict.dictLabel"
+              :value="dict.dictValue"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="发起人">
-          <el-input
-            v-model="queryParams.initiatorUserName"
-            placeholder="请输入发起人"
-          ></el-input>
+          <el-input v-model="queryParams.initiatorUserName" placeholder="请输入发起人"></el-input>
         </el-form-item>
-        <el-button type="primary" icon="el-icon-search" @click="getList"
-          >搜索</el-button
-        >
+        <el-button type="primary" icon="el-icon-search" @click="getList">搜索</el-button>
       </el-form>
     </div>
     <div>
@@ -85,36 +68,34 @@
           </template> -->
         </el-table-column>
         <el-table-column label="发起时间" align="center" prop="initiatorTime" />
-<!--        <el-table-column label="审批人" align="center" prop="nickName" />-->
-        <el-table-column label="状态" align="center" prop="status">
+        <!--        <el-table-column label="审批人" align="center" prop="nickName" />-->
+        <el-table-column label="状态" align="center" prop="state">
           <template slot-scope="scope">
-            <el-tag
-              :type="
-                scope.row.state == '0'
-                  ? 'info'
-                  : scope.row.state == '1'
-                  ? 'warning'
-                  : scope.row.state == '2'
-                  ? 'success'
-                  : scope.row.state == '3'
-                  ? 'danger'
-                  : scope.row.state == '5'
-                  ? 'warning'
-                  : ''
-              "
-            >
+            <el-tag :type="
+              scope.row.state == '0'
+                ? 'info'
+                : scope.row.state == '1'
+                ? 'warning'
+                : scope.row.state == '2'
+                ? 'success'
+                : scope.row.state == '3'
+                ? 'danger'
+                : scope.row.state == '5'
+                ? 'warning'
+                : ''
+            ">
               {{
-                scope.row.state == "0"
-                  ? "未审批"
-                  : scope.row.state == "1"
-                  ? "审批中"
-                  : scope.row.state == "2"
-                  ? "已完成"
-                  : scope.row.state == "3"
-                  ? "驳回"
-                  : scope.row.state == "5"
-                  ? "已撤回"
-                  : ""
+              scope.row.state == "0"
+              ? "未审批"
+              : scope.row.state == "1"
+              ? "审批中"
+              : scope.row.state == "2"
+              ? "已完成"
+              : scope.row.state == "3"
+              ? "驳回"
+              : scope.row.state == "5"
+              ? "已撤回"
+              : ""
               }}
             </el-tag>
           </template>
@@ -122,76 +103,31 @@
         <el-table-column label="操作" align="center" width="250">
           <template slot-scope="scope">
             <!-- <el-tooltip content="查看详情" id="view" placement="bottom"> -->
-            <el-button
-              size="mini"
-              type="text"
-              @click="handleSelect(scope.row)"
-              circle
-            >
+            <el-button size="mini" type="text" @click="handleSelect(scope.row)" circle>
               查看
             </el-button>
-            <el-button
-              size="mini"
-              v-if="
-                (scope.row.status == '0' ||
-                  scope.row.status == '3' ||
-                  scope.row.status == '5') &&
-                scope.row.approvalType != '2'
-              "
-              type="text"
-              @click="handleUpdate(scope.row)"
-              circle
-            >
+            <el-button size="mini" v-if="
+              (scope.row.state == '0' || scope.row.state == '3' || scope.row.state == '5') &&
+              scope.row.approvalType != '2'
+            " type="text" @click="handleUpdate(scope.row)" circle>
               修改
             </el-button>
-            <el-button
-              size="mini"
-              v-if="
-                scope.row.status != '2' &&
-                scope.row.status != '3' &&
-                scope.row.status != '5' &&
-                (scope.row.approvalType == '4' || scope.row.approvalType == '5')
-              "
-              type="text"
-              @click="withdraw(scope.row)"
-              circle
-              >撤回</el-button
-            >
-            <el-button
-              size="mini"
-              v-if="
-                scope.row.status == '0' ||
-                scope.row.status == '3' ||
-                scope.row.status == '5'
-              "
-              type="text"
-              @click="handleDelete(scope.row)"
-              circle
-            >
+            <el-button size="mini" v-if="scope.row.state != '2' && scope.row.state != '3' && scope.row.state != '5' &&
+              (scope.row.approvalType == '4' || scope.row.approvalType == '5')
+            " type="text" @click="withdraw(scope.row)" circle>撤回</el-button>
+            <el-button size="mini" v-if="scope.row.state == '0' || scope.row.state == '3' || scope.row.state == '5'
+            " type="text" @click="handleDelete(scope.row)" circle>
               删除
             </el-button>
-            <el-button
-              size="mini"
-              v-if="
-                (scope.row.status == '3' || scope.row.status == '5') &&
-                scope.row.approvalType != '2'
-              "
-              type="text"
-              @click="reInitiate(scope.row)"
-              circle
-              >重新发起</el-button
-            >
+            <el-button size="mini" v-if="(scope.row.state == '3' || scope.row.state == '5') &&
+              scope.row.approvalType != '2'
+            " type="text" @click="reInitiate(scope.row)" circle>重新发起</el-button>
             <!-- </el-tooltip> -->
           </template>
         </el-table-column>
       </el-table>
-      <pagination
-        v-show="total > 0"
-        :total="total"
-        :page.sync="queryParams.page"
-        :limit.sync="queryParams.limit"
-        @pagination="getList"
-      />
+      <pagination v-show="total > 0" :total="total" :page.sync="queryParams.page" :limit.sync="queryParams.limit"
+        @pagination="getList" />
     </div>
   </div>
 </template>
@@ -295,7 +231,10 @@ export default {
       // console.log(row)
       let typeId = row.approvalType;
       let stId = row.businessKey;
-      if (typeId == "1") {
+      if (typeId == "20") {
+        this.$router.push("/st/lookAddP/" + stId);
+      }
+      else if (typeId == "1") {
         this.$router.push("/st/lookAdd/" + stId);
       } else if (typeId == "2") {
         getStupdate(stId).then((response) => {

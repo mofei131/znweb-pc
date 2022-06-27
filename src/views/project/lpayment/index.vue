@@ -961,7 +961,7 @@ import {
 import { getContract, getGrnList } from "@/api/project/apayment";
 import { getToken } from "@/utils/auth";
 import print from "print-js";
-import { getProcessDataByStId, getApprovalProcessList } from "@/api/approve";
+import { getProcessDataByStId, getApprovalProcessList, getApprovalType } from "@/api/approve";
 import { getContractList } from "@/api/project/all";
 
 export default {
@@ -1274,22 +1274,24 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      this.reset();
-      this.wldetailsList = [];
-      this.fileList = [];
-      this.tableData = [];
-      this.form.type = "汽运";
-      this.form.ztType = "有";
-      this.form.otherType = "有";
-      this.form.serType = "是";
-      this.tableData = [];
-      this.tablegryData = [];
-      this.tableselData = [];
-      this.noedit = 1;
-      this.isLook = 1;
-      this.form.hkState = 1;
-      this.open = true;
-      this.title = "添加物流付款";
+      getApprovalType({ approvalType: '9' }).then((response) => {
+        this.reset();
+        this.wldetailsList = [];
+        this.fileList = [];
+        this.tableData = [];
+        this.form.type = "汽运";
+        this.form.ztType = "有";
+        this.form.otherType = "有";
+        this.form.serType = "是";
+        this.tableData = [];
+        this.tablegryData = [];
+        this.tableselData = [];
+        this.noedit = 1;
+        this.isLook = 1;
+        this.form.hkState = 1;
+        this.open = true;
+        this.title = "添加物流付款";
+      });
     },
     /** 修改按钮操作 */
     handleUpdate(row) {

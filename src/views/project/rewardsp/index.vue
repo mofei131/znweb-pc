@@ -1111,7 +1111,6 @@ import {
   listForBus,
   listForPro,
 } from "@/api/project/rewardsp";
-
 export default {
   name: "Rewardsp",
   data() {

@@ -965,7 +965,7 @@ import {
 } from "@/api/project/apayment";
 import { getToken } from "@/utils/auth";
 import print from "print-js";
-import { getProcessDataByStId, getApprovalProcessList } from "@/api/approve";
+import { getProcessDataByStId, getApprovalProcessList, getApprovalType } from "@/api/approve";
 import { getContractList } from "@/api/project/all";
 export default {
   name: "Apayment",
@@ -1290,19 +1290,20 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      this.reset();
-      this.form.type = "吨";
-      this.form.away = "首次";
-      this.form.totalWeight = 0;
-      this.form.averageRz = 0;
-      this.fileList = [];
-      this.tableData = [];
-      this.tablegryData = [];
-      this.tableselData = [];
-
-      this.isLook = 1;
-      this.open = true;
-      this.title = "添加预付款";
+      getApprovalType({ approvalType:'4'}).then((response) => {
+        this.reset();
+        this.form.type = "吨";
+        this.form.away = "首次";
+        this.form.totalWeight = 0;
+        this.form.averageRz = 0;
+        this.fileList = [];
+        this.tableData = [];
+        this.tablegryData = [];
+        this.tableselData = [];
+        this.isLook = 1;
+        this.open = true;
+        this.title = "添加预付款";
+      });
     },
     /** 修改按钮操作 */
     handleUpdate(row) {

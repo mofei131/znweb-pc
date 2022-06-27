@@ -301,7 +301,6 @@ import {
 import { getToken } from "@/utils/auth";
 import { getStList, getTpcList } from "@/api/project/lpayment";
 import { getContract, getGrnList } from "@/api/project/apayment";
-
 export default {
   name: "Wldetails",
   data() {

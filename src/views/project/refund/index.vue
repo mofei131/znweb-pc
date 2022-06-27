@@ -392,7 +392,7 @@ import {
 import { getTerminalList } from "@/api/project/st";
 import { getToken } from "@/utils/auth";
 import print from "print-js";
-import { getProcessDataByStId, getApprovalProcessList } from "@/api/approve";
+import { getProcessDataByStId, getApprovalProcessList, getApprovalType } from "@/api/approve";
 import request from "@/utils/request";
 import Moment from "moment";
 // Vue.prototype.moment = Moment
@@ -629,10 +629,12 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      this.reset();
-      this.fileList = [];
-      this.open = true;
-      this.title = "添加退款申请";
+      getApprovalType({ approvalType: '19' }).then((response) => {
+        this.reset();
+        this.fileList = [];
+        this.open = true;
+        this.title = "添加退款申请";
+      });
     },
     /** 修改按钮操作 */
     handleUpdate(row) {

@@ -163,8 +163,16 @@ export const constantRoutes = [{
             component: (resolve) =>
                 require(["@/views/project/st/look/indexAdd"], resolve),
             name: "lookAdd",
+            meta: { title: "查看新增业务" },
+        },
+        {
+            path: "lookAddP/:stId(\\d+)",
+            component: (resolve) =>
+                require(["@/views/project/st/lookindexAdd"], resolve),
+            name: "lookindexAdd",
             meta: { title: "查看新增项目" },
-        }, ],
+        },
+     ],
     },
     {
         path: "/st",

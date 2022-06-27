@@ -14,7 +14,7 @@
               placeholder="请输入流程名称"
             ></el-input>
           </el-form-item>
-          <el-form-item label="流程类型" >
+          <el-form-item label="流程类型">
             <el-select
               v-model="doneListFrom.approvalType"
               placeholder="请选择分类"
@@ -88,7 +88,11 @@
           </template>
         </el-table-column>
         <el-table-column label="发起时间" align="center" prop="initiatorTime" />
-        <el-table-column label="发起人" align="center" prop="initiatorUserName" />
+        <el-table-column
+          label="发起人"
+          align="center"
+          prop="initiatorUserName"
+        />
         <el-table-column label="操作" align="center">
           <template slot-scope="scope">
             <!-- <el-tooltip content="查看详情" id="view" placement="bottom"> -->
@@ -141,7 +145,9 @@ export default {
     handleSelectYiban(row) {
       let typeId = row.approvalType;
       let stId = row.businessKey;
-      if (typeId == "1") {
+      if (typeId == "20") {
+        this.$router.push("/st/lookAddP/" + stId);
+      } else if (typeId == "1") {
         this.$router.push("/st/lookAdd/" + stId);
       } else if (typeId == "2") {
         getStupdate(stId).then((response) => {

@@ -296,10 +296,11 @@ import {
   getStList,
   listForBus,
   listForPro,
+  
 } from "@/api/project/bidApply";
 import { getToken } from "@/utils/auth";
 import print from "print-js";
-import { getProcessDataByStId, getApprovalProcessList } from "@/api/approve";
+import { getProcessDataByStId, getApprovalProcessList, getApprovalType } from "@/api/approve";
 export default {
   name: "BidApply",
   data() {
@@ -430,6 +431,13 @@ export default {
         this.listForProArr = response.data
       })
     },
+      //  async approvalType() {
+      //   const { data: res } = await this.$http.get('/approve/approve/checkProcessConfig')
+      //   console.log(res);
+      //   if(res.code == 500) {
+      // return this.$msg.error('没有提交权限，请联系管理员')
+      //   }
+      // },
     // 取消按钮
     cancel() {
       this.open = false;
@@ -478,11 +486,13 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      this.reset();
-      this.fileList = [];
-      this.form.unitPriceMode = "吨";
-      this.open = true;
-      this.title = "添加投标申请";
+      getApprovalType({ approvalType: '18' }).then((response) => {
+        this.reset();
+        this.fileList = [];
+        this.form.unitPriceMode = "吨";
+        this.open = true;
+        this.title = "添加投标申请";
+      });
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
@@ -600,6 +610,7 @@ export default {
     beforeRemove(file, fileList) {
       return this.$confirm(`确定移除 ${file.name}？`);
     },
+
     // res 表示请求响应体
     uploadSuccess(res, file, filelist) {
       if (res.code == "200") {

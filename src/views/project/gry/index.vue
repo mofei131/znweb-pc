@@ -747,7 +747,7 @@ import {
 } from "@/api/project/gry";
 import { getToken } from "@/utils/auth";
 import print from "print-js";
-import { getProcessDataByStId, getApprovalProcessList } from "@/api/approve";
+import { getProcessDataByStId, getApprovalProcessList, getApprovalType } from "@/api/approve";
 
 export default {
   name: "Gry",
@@ -1029,30 +1029,30 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      this.reset();
-      this.form.totalWeight = 0;
-      this.form.averageRz = 0;
-      this.form.valuePrice = 0;
-      this.form.coalSf = 0;
-      this.form.coalNs = 0;
-      this.form.coalAad = 0;
-      this.form.coalAd = 0;
-      this.form.coalVda = 0;
-      this.form.coalVdae = 0;
-      this.form.coalHrd = 0;
-      this.form.coalGdt = 0;
-      this.form.coalHll = 0;
-      this.form.coalQgrad = 0;
-      this.form.coalQntar = 0;
-      this.form.rewardp = 0;
-
-      this.tableData = [];
-      this.tableselData = [];
-      this.fileList = [];
-
-      this.isLook = 1;
-      this.open = true;
-      this.title = "添加出库单";
+      getApprovalType({ approvalType: '11' }).then((response) => {
+        this.reset();
+        this.form.totalWeight = 0;
+        this.form.averageRz = 0;
+        this.form.valuePrice = 0;
+        this.form.coalSf = 0;
+        this.form.coalNs = 0;
+        this.form.coalAad = 0;
+        this.form.coalAd = 0;
+        this.form.coalVda = 0;
+        this.form.coalVdae = 0;
+        this.form.coalHrd = 0;
+        this.form.coalGdt = 0;
+        this.form.coalHll = 0;
+        this.form.coalQgrad = 0;
+        this.form.coalQntar = 0;
+        this.form.rewardp = 0;
+        this.tableData = [];
+        this.tableselData = [];
+        this.fileList = [];
+        this.isLook = 1;
+        this.open = true;
+        this.title = "添加出库单";
+      });
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
