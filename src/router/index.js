@@ -172,6 +172,13 @@ export const constantRoutes = [{
             name: "lookindexAdd",
             meta: { title: "查看新增项目" },
         },
+        {
+            path: "lookAddB/:stId(\\d+)",
+            component: (resolve) =>
+                require(["@/views/project/st/lookbissnessAdd"], resolve),
+            name: "lookbissnessAdd",
+            meta: { title: "查看新增业务" },
+        },
      ],
     },
     {

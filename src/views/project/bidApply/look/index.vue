@@ -43,9 +43,9 @@
         </el-col>
       </el-row>
       <el-row class="head-text">
-        <el-col>
+        <el-col class="newTable">
           <table width="90%" cellpadding="0" cellspacing="0">
-            <tr class="newTable">
+            <tr>
               <td class="tdTitle">项目名称</td>
               <td class="tdCoent">{{form.projectName}}</td>
               <td class="tdTitle">业务名称</td>
@@ -56,29 +56,75 @@
               <td class="tdCoent">{{form.bidPlatform}}</td>
               <td class="tdTitle">单价模式</td>
               <td class="tdCoent">{{form.unitPriceMode}}</td>
-            </tr> 
-            <tr class="newTable">
               <td class="tdTitle">单价（元/{{priceLabel }}）</td>
               <td class="tdCoent">{{$options.filters.moneyFilter(form.bidPrice)}}</td>
+            </tr>
+            <tr>
               <td class="tdTitle">投标数量（吨）</td>
               <td class="tdCoent">{{$options.filters.weightFilter(form.bidNumber)}}</td>
-              <td class="tdTitle">投标保证金（元）：</td>
+              <td class="tdTitle">投标保证金（元）</td>
               <td class="tdCoent">{{$options.filters.moneyFilter(form.bidBond)}}</td>
-              <td class="tdTitle">履约保证金（元）：</td>
+              <td class="tdTitle">履约保证金（元）</td>
               <td class="tdCoent">{{$options.filters.moneyFilter(form.performanceBond)}}</td>
-              <td class="tdTitle">发站：</td>
-              <td class="tdCoent">{{form.sendStation}}</td>
             </tr>
-            <tr class="newTable">
-              <td class="tdTitle">到站：</td>
+            <tr>
+              <td class="tdTitle">发站</td>
+              <td class="tdCoent">{{form.sendStation}}</td>
+              <td class="tdTitle">到站</td>
               <td class="tdCoent">{{form.arriveStation}}</td>
             </tr>
           </table>
         </el-col>
       </el-row>
+     <!-- <el-row class="head-text">
+        <el-col :span="7" :offset="1">
+          <div style="display:flex">
+            <div>项目名称：</div><span v-text="form.projectName"></span>
+          </div>
+          <div style="display:flex">
+            <div>业务名称：</div><span v-text="form.stName"></span>
+          </div>
+          <div style="display:flex">
+            <div>项目编号：</div><span v-text="form.serialNo"></span>
+          </div>
+          <div style="display:flex">
+            <div>投标平台：</div><span v-text="form.bidPlatform"></span>
+          </div>
+          <div style="display:flex">
+            <div>单价模式：</div><span v-text="form.unitPriceMode"></span>
+          </div>
+          <div style="display:flex">
+            <div>项目名称：</div><span v-text="form.stName"></span>
+          </div>
+        </el-col>
+        <el-col :span="7" :offset="1">
+          <div style="display:flex">
+            <div>单价（元/{{priceLabel }}）：</div><span v-text="$options.filters.moneyFilter(form.bidPrice)"></span>
+          </div>
+          <div style="display:flex">
+            <div>投标数量（吨）：</div><span v-text="$options.filters.weightFilter(form.bidNumber)"></span>
+          </div>
+          <div style="display:flex">
+            <div>投标保证金（元）：</div><span v-text="$options.filters.moneyFilter(form.bidBond)"></span>
+          </div>
+          <div style="display:flex">
+            <div>履约保证金（元）：</div><span v-text="$options.filters.moneyFilter(form.performanceBond)"></span>
+          </div>
+          <div style="display:flex">
+            <div>发站：</div><span v-text="form.sendStation"></span>
+          </div>
+        </el-col>
+        <el-col :span="7" :offset="1">
+          <div style="display:flex">
+            <div>到站：</div><span v-text="form.arriveStation"></span>
+          </div>
+>>>>>>> c670abe7e576ba35f7575a369551b4e237a3eb13
+        </el-col>
+      </el-row> -->
 
-      <el-row class="head-text" style="padding-top: 20px">
-        <el-col :span="18" :offset="1">
+
+      <el-row class="head-text">
+        <el-col :span="22" :offset="1">
           备注：
           <el-input disabled type="textarea" :rows="3" v-model="form.remark" placeholder="" />
         </el-col>

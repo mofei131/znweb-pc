@@ -38,6 +38,15 @@
 .upload-hidden .el-upload--picture-card {
   display: none; /* 上传按钮隐藏 */
 }
+.newproColor{
+  color: red;
+  width: 80px;
+  min-width: 80px;
+}
+.dtdTitle{
+  width: 80px;
+  min-width: 80px;
+}
 </style>
 <template>
   <div>
@@ -52,6 +61,36 @@
         </el-col>
       </el-row>
       <el-row class="head-text">
+        <el-col class="newTable">
+          <table width="90%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td class="tdTitle">项目名称</td>
+              <td class="tdCoent">{{form.projectName}}</td>
+              <td class="tdTitle">项目编号</td>
+              <td class="tdCoent">{{form.serialNo}}</td>
+              <td class="tdTitle">付款批次</td>
+              <td class="tdCoent">{{form.away}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">预付方式</td>
+              <td class="tdCoent">{{form.type}}</td>
+              <td class="tdTitle">结算方式</td>
+              <td class="tdCoent">{{form.settlementWay}}</td>
+              <td class="tdTitle">供应商</td>
+              <td class="tdCoent">{{form.supplierName}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">供应商账号</td>
+              <td class="tdCoent">{{form.account}}</td>
+              <td class="tdTitle">供应商开户行</td>
+              <td class="tdCoent">{{form.openbank}}</td>
+              <td class="tdTitle"></td>
+              <td class="tdCoent"></td>
+            </tr>
+          </table>
+        </el-col>
+      </el-row>
+      <!-- <el-row class="head-text">
         <el-col :span="8" :offset="1">
           <table width="90%" cellpadding="0" cellspacing="0">
             <tr class="newTable">
@@ -76,7 +115,7 @@
             </tr>
           </table>
         </el-col>
-      </el-row>
+      </el-row> -->
 
       <el-row class="head-title">
         <el-col :span="19">
@@ -84,8 +123,8 @@
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="20" :offset="1">
-          <el-table ref="singleTable" :data="dataList" fit style="margin-bottom: 30px">
+        <el-col :span="22" :offset="1">
+          <el-table ref="singleTable" :data="dataList" fit style="margin-bottom: 30px;width:90%;" >
             <el-table-column property="name" label="货品名称" width="90">
             </el-table-column>
             <el-table-column v-if="form.away == '首次'" property="grnNumber" label="入库重量（吨）" width="120">
@@ -165,7 +204,41 @@
           <el-form-item label="奖惩"></el-form-item>
         </el-col>
       </el-row>
-      <el-row class="head-text1">
+      <el-row class="head-text">
+        <el-col class="newTable">
+          <table width="90%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td class="tdTitle dtdTitle">水分</td>
+              <td class="tdCoent newproColor">{{form.jc1}}</td>
+              <td class="tdTitle dtdTitle">内水</td>
+              <td class="tdCoent newproColor">{{form.jc2}}</td>
+              <td class="tdTitle dtdTitle">灰份Aad</td>
+              <td class="tdCoent newproColor">{{form.jc3}}</td>
+              <td class="tdTitle dtdTitle">灰份ad</td>
+              <td class="tdCoent newproColor">{{form.jc10}}</td>
+              <td class="tdTitle dtdTitle">挥发份Vda</td>
+              <td class="tdCoent newproColor">{{form.jc4}}</td>
+              <td class="tdTitle dtdTitle">挥发份Vdaf</td>
+              <td class="tdCoent newproColor">{{form.jc11}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle dtdTitle">灰熔点</td>
+              <td class="tdCoent newproColor">{{form.jc5}}</td>
+              <td class="tdTitle dtdTitle">固定碳</td>
+              <td class="tdCoent newproColor">{{form.jc6}}</td>
+              <td class="tdTitle dtdTitle">含硫量</td>
+              <td class="tdCoent newproColor">{{form.jc7}}</td>
+              <td class="tdTitle dtdTitle">热值Qgr,ad</td>
+              <td class="tdCoent newproColor">{{form.jc8}}</td>
+              <td class="tdTitle dtdTitle">热值Qnt,ar</td>
+              <td class="tdCoent newproColor">{{form.jc9}}</td>
+              <td class="tdTitle dtdTitle">热值Kcal</td>
+              <td class="tdCoent newproColor">{{form.jc12}}</td>
+            </tr>
+          </table>
+        </el-col>
+      </el-row>
+      <!-- <el-row class="head-text1">
         <el-col :span="20" :offset="1">
           <el-form-item label="">
             <span>水分：<span style="color: red" v-text="form.jc1">0.00</span></span>
@@ -188,9 +261,46 @@
             <span style="margin-left: 20px">热值Kcal：<span style="color: red" v-text="form.jc12">0.00</span></span>
           </el-form-item>
         </el-col>
+      </el-row> -->
+      <el-row class="head-text" style="margin-top: 30px">
+        <el-col class="newTable">
+          <table width="90%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td class="tdTitle">预付总额(元)</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.totalPrice)}}</td>
+              <td class="tdTitle">固定差价</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.dPrice)}}</td>
+              <td class="tdTitle">预付至</td>
+              <td class="tdCoent">{{form.ato}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">税款(元)</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.tax)}}</td>
+              <td class="tdTitle">预付单价(元)</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.expectPrice)}}</td>
+              <td class="tdTitle">扣款金额</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.kkPrice)}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">扣款备注</td>
+              <td class="tdCoent">{{form.kkNode}}</td>
+              <td class="tdTitle">运费金额</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.yfPrice)}}</td>
+              <td class="tdTitle">付款总额</td>
+              <td class="tdCoent newproColor">{{$options.filters.moneyFilter(form.payTprice)}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">已付金额</td>
+              <td class="tdCoent newproColor">{{$options.filters.moneyFilter(form.prepaidPrice)}}</td>
+              <td class="tdTitle">垫付保证金</td>
+              <td class="tdCoent newproColor">{{$options.filters.moneyFilter(form.dfPrice)}}</td>
+              <td class="tdTitle">实际付款金额</td>
+              <td class="tdCoent newproColor">{{$options.filters.moneyFilter(form.actualPrice)}}</td>
+            </tr>
+          </table>
+        </el-col>
       </el-row>
-
-      <el-row class="head-text1" style="margin-top: 30px">
+      <!-- <el-row class="head-text1" style="margin-top: 30px">
         <el-col :span="4" :offset="1">
           预付总额(元)：<span v-text="$options.filters.moneyFilter(form.totalPrice)"></span>
         </el-col>
@@ -202,7 +312,7 @@
         <el-col :span="4">
           预付单价(元)：<span v-text="$options.filters.moneyFilter(form.expectPrice)"></span>
         </el-col>
-      </el-row>
+      </el-row> -->
 
       <!--      <el-row class="head-text">-->
       <!--        <el-col :span="4" :offset="1">-->
@@ -215,7 +325,7 @@
       <!--          保底服务费期限(天)：<span v-text="form.mfsp"></span>-->
       <!--        </el-col>-->
       <!--      </el-row>-->
-      <el-row class="head-text1">
+      <!-- <el-row class="head-text1">
         <el-col :span="4" :offset="1">
           扣款金额：<span v-text="$options.filters.moneyFilter(form.kkPrice)"></span>
         </el-col>
@@ -248,7 +358,7 @@
             <span style="color: red">{{ $options.filters.moneyFilter(form.actualPrice) }}</span>
           </el-form-item>
         </el-col>
-      </el-row>
+      </el-row> -->
 
       <!--      合同信息-->
       <el-row class="head-title1">
@@ -258,7 +368,7 @@
       </el-row>
       <el-row class="head-text1">
         <el-col :offset="1">
-          <el-table ref="singleTable" :data="contract" style="width: 80%; margin-bottom: 30px">
+          <el-table ref="singleTable" :data="contract" style="width: 90%; margin-bottom: 30px">
             <el-table-column property="name" label="合同名称">
             </el-table-column>
             <el-table-column property="type" label="合同类型" :formatter="contractTypeFormat">
