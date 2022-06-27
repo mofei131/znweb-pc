@@ -623,13 +623,13 @@ export default {
               this.msgSuccess("修改成功");
               this.open = false;
               this.getList();
-            });
+            }).catch(() => { this.isDisabled = false});
           } else {
             addTerminal(this.form).then((response) => {
               this.msgSuccess("新增成功");
               this.open = false;
               this.getList();
-            });
+            }).catch(() => { this.isDisabled = false });
           }
         } else {
           this.isDisabled = false;
