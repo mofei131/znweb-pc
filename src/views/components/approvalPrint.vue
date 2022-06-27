@@ -17,7 +17,6 @@
          </td>
        </tr>
        </table>
-       <!-- <div v-for="item in nodeStateList.rows" style="width: 100%;"> -->
         <table v-for="item in nodeStateList.rows" border="1" width="100%" >
        <tr>
          <td class="title" colspan="6" style="text-align: start;padding-left: 40px;">
