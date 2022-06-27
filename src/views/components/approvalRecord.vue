@@ -5,12 +5,12 @@
         <el-form-item label="审批记录"></el-form-item>
       </el-col>
     </el-row>
-    <el-row class="head-text">
+    <el-row class="head-text" style="width: 100%;">
       <el-col :offset="1">
         <el-table
           ref="singleTable"
           :data="stateList"
-          style="width: 80%; margin-bottom: 30px"
+          style="width: 90%; margin-bottom: 30px"
           :header-cell-style="{'text-align':'center'}"
           :cell-style="{'text-align':'center'}"
         >

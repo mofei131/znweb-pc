@@ -1,4 +1,4 @@
-<style scoped>
+<style scoped lang="scss">
 .head-title {
   font-size: 16px;
   font-family: Microsoft YaHei;
@@ -42,7 +42,89 @@
         </el-col>
       </el-row>
       <el-row class="head-text">
-        <el-col :span="7" :offset="1">
+        <el-col class="newTable">
+          <table width="90%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td class="tdTitle">项目名称</td>
+              <td class="tdCoent">{{form.stName}}</td>
+              <td class="tdTitle">合同名称</td>
+              <td class="tdCoent">{{form.name}}</td>
+              <td class="tdTitle">合同类型</td>
+              <td class="tdCoent">{{form.type}}</td>
+            </tr>
+            <tr>
+              <!-- <td class="tdTitle" colspan="1">测试</td>
+              <td class="tdCoent" colspan="5">123</td> -->
+              <td class="tdTitle">和同编号</td>
+              <td class="tdCoent">{{form.number}}</td>
+              <td class="tdTitle">签约日期</td>
+              <td class="tdCoent">{{parseTime(form.signingTime, "{y}-{m}-{d}")}}</td>
+              <td class="tdTitle"></td>
+              <td class="tdCoent"></td>
+            </tr>
+            <tr v-if="form.type == '上游合同'">
+              <td class="tdTitle">供应商</td>
+              <td class="tdCoent">{{form.supplierName}}</td>
+              <td class="tdTitle">终端客户</td>
+              <td class="tdCoent">{{form.terminalName}}</td>
+              <td class="tdTitle">客户名称</td>
+              <td class="tdCoent">{{form.khName}}</td>
+            </tr>
+            <tr v-if="form.type == '上游合同'">
+              <td class="tdTitle">立项编号</td>
+              <td class="tdCoent">{{form.productNo}}</td>
+              <td class="tdTitle">项目编号</td>
+              <td class="tdCoent">{{form.projectNumber}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">货品名称</td>
+              <td class="tdCoent">{{form.goodsName}}</td>
+              <td class="tdTitle">{{form.type == '下游合同'?"预计吨数":""}}</td>
+               <td class="tdCoent">{{form.type == '下游合同'?$options.filters.weightFilter(form.expectNumber):''}}</td>
+               <td class="tdTitle">{{form.type == '下游合同'?"基准单价":''}}</td>
+               <td class="tdCoent">{{form.type == '下游合同'?$options.filters.moneyFilter(form.price):''}}</td>
+            </tr>
+            <tr v-if="form.type == '上游合同'">
+              <td class="tdTitle">保底服务费期限</td>
+              <td class="tdCoent">{{form.mfsp}}</td>
+              <td class="tdTitle">超时服务费期限</td>
+               <td class="tdCoent">{{form.csmfsp}}</td>
+               <td class="tdTitle">超时服务费费率</td>
+               <td class="tdCoent">{{form.csrate}}</td>
+            </tr>
+            <tr v-if="form.type == '上游合同'">
+              <td class="tdTitle">违约服务费期限</td>
+              <td class="tdCoent">{{form.vymfsp}}</td>
+              <td class="tdTitle">违约服务费费率</td>
+               <td class="tdCoent">{{form.vyrate}}</td>
+               <td class="tdTitle"></td>
+               <td class="tdCoent"></td>
+            </tr>
+            <tr v-if="form.type == '物流运输合同' || form.type == '物流服务合同'">
+              <td class="tdTitle">运输单位</td>
+              <td class="tdCoent">{{form.transportUnit}}</td>
+              <td class="tdTitle">运输方式</td>
+               <td class="tdCoent">{{form.transportType}}</td>
+               <td class="tdTitle">起运地</td>
+               <td class="tdCoent">{{form.transportStart}}</td>
+            </tr>
+            <tr v-if="form.type == '物流运输合同' || form.type == '物流服务合同'">
+              <td class="tdTitle">目的地</td>
+              <td class="tdCoent">{{form.transportEnd}}</td>
+              <td class="tdTitle">运费单价(吨/元)</td>
+               <td class="tdCoent">{{form.transportPrice}}</td>
+               <td class="tdTitle">损耗率</td>
+               <td class="tdCoent">{{form.transportLoss}}</td>
+            </tr>
+            <tr v-if="(form.type == '物流运输合同' || form.type == '物流服务合同') && form.type == '其他合同' ">
+              <td class="tdTitle">备注</td>
+              <td class="tdCoent">{{form.node}}</td>
+            </tr>
+          </table>
+        </el-col>
+      </el-row>
+      <el-row class="head-text">
+        <!-- <el-col :span="7" :offset="1">
           <div style="display:flex">
             <div>项目名称：</div><span v-text="form.stName"></span>
           </div>
@@ -60,8 +142,8 @@
               parseTime(form.signingTime, "{y}-{m}-{d}")
               }}</span>
           </div>
-        </el-col>
-        <el-col :span="7" :offset="1" v-if="form.type == '上游合同'">
+        </el-col> -->
+        <!-- <el-col :span="7" :offset="1" v-if="form.type == '上游合同'">
           <div style="display:flex">
             <div>供应商：</div><span v-text="form.supplierName"></span>
           </div>
@@ -77,9 +159,9 @@
           <div style="display:flex">
             <div>项目编号：</div><span v-text="form.projectNumber"></span>
           </div>
-        </el-col>
+        </el-col> -->
         <el-col :span="7" :offset="1">
-          <div style="display:flex">
+         <!-- <div style="display:flex">
             <div>货品名称：</div><span v-text="form.goodsName"></span>
           </div>
           <div style="display:flex" v-if="form.type == '下游合同'">
@@ -87,8 +169,8 @@
           </div>
           <div style="display:flex" v-if="form.type == '下游合同'">
             <div>基准单价：</div><span v-text="$options.filters.moneyFilter(form.price)"></span>
-          </div>
-          <div v-if="form.type == '上游合同'" style="display:flex">
+          </div> -->
+          <!-- <div v-if="form.type == '上游合同'" style="display:flex">
             <div>保底服务费期限：</div><span v-text="form.mfsp"></span>
           </div>
           <div v-if="form.type == '上游合同'" style="display:flex">
@@ -96,14 +178,14 @@
           </div>
           <div v-if="form.type == '上游合同'" style="display:flex">
             <div>超时服务费费率：</div><span v-text="form.csrate"></span>
-          </div>
-          <div v-if="form.type == '上游合同'" style="display:flex">
+          </div> -->
+          <!-- <div v-if="form.type == '上游合同'" style="display:flex">
             <div>违约服务费期限：</div><span v-text="form.vymfsp"></span>
           </div>
           <div v-if="form.type == '上游合同'" style="display:flex">
             <div>违约服务费费率：</div><span v-text="form.vyrate"></span>
-          </div>
-          <div style="display:flex" v-if="form.type == '物流运输合同' || form.type == '物流服务合同'">
+          </div> -->
+          <!-- <div style="display:flex" v-if="form.type == '物流运输合同' || form.type == '物流服务合同'">
             <div>运输单位：</div><span v-text="form.transportUnit"></span>
           </div>
           <div style="display:flex" v-if="form.type == '物流运输合同' || form.type == '物流服务合同'">
@@ -111,7 +193,7 @@
           </div>
           <div style="display:flex" v-if="form.type == '物流运输合同' || form.type == '物流服务合同'">
             <div>起运地：</div><span v-text="form.transportStart"></span>
-          </div>
+          </div> -->
           <div style="display:flex" v-if="form.type == '物流运输合同' || form.type == '物流服务合同'">
             <div>目的地：</div><span v-text="form.transportEnd"></span>
           </div>
@@ -160,8 +242,16 @@
         </el-col>
       </el-row>
       <el-row class="head-text">
-        <el-col :span="6" :offset="1">
-          补充说明：<span v-text="form.content"></span>
+        <el-col class="newTable">
+          <table width="90%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td class="tdTitle">测试</td>
+              <td class="tdCoent">123</td>
+             <!-- <td class="tdTitle">补充说明</td>
+              <td class="tdCoent">{{form.content}}</td> -->
+            </tr>
+          </table>
+          <!-- 补充说明：<span v-text="form.content"></span> -->
         </el-col>
       </el-row>
       <el-row class="head-text">
