@@ -1,5 +1,7 @@
 <style scoped>
-
+.newTable td{
+  min-width: 110px;
+}
 .head-title {
   font-size: 16px;
   font-family: Microsoft YaHei;
@@ -51,32 +53,28 @@
       </el-row>
       <el-row class="head-text">
         <el-col :span="8" :offset="1">
-          <div style="display:flex">
-            <div>项目名称：</div><span v-text="form.projectName"></span>
-          </div>
-          <div style="display:flex">
-            <div>项目编号：</div><span v-text="form.serialNo"></span>
-          </div>
-          <div style="display:flex">
-            <div>付款批次：</div><span v-text="form.away"></span>
-          </div>
-          <div style="display:flex">
-            <div>预付方式：</div><span v-text="form.type"></span>
-          </div>
-          <div style="display:flex">
-            <div>结算方式：</div><span v-text="form.settlementWay"></span>
-          </div>
-        </el-col>
-        <el-col :span="8" :offset="1">
-          <div style="display:flex">
-            <div>供应商：</div><span v-text="form.supplierName"></span>
-          </div>
-          <div style="display:flex">
-            <div>供应商账号：</div><span v-text="form.account"></span>
-          </div>
-          <div style="display:flex">
-            <div>供应商开户行：</div><span v-text="form.openbank"></span>
-          </div>
+          <table width="90%" cellpadding="0" cellspacing="0">
+            <tr class="newTable">
+              <td class="tdTitle">项目名称</td>
+              <td class="tdCoent">{{form.projectName}}</td>
+              <td class="tdTitle">项目编号</td>
+              <td class="tdCoent">{{form.serialNo}}</td>
+              <td class="tdTitle">付款批次</td>
+              <td class="tdCoent">{{form.away}}</td>
+              <td class="tdTitle">预付方式</td>
+              <td class="tdCoent">{{form.type}}</td>
+              <td class="tdTitle">结算方式</td>
+              <td class="tdCoent">{{form.settlementWay}}</td>
+            </tr>
+            <tr class="newTable">
+              <td class="tdTitle">供应商</td>
+              <td class="tdCoent">{{form.supplierName}}</td>
+              <td class="tdTitle">供应商账号</td>
+              <td class="tdCoent">{{form.account}}</td>
+              <td class="tdTitle">供应商开户行</td>
+              <td class="tdCoent">{{form.openbank}}</td>
+            </tr>
+          </table>
         </el-col>
       </el-row>
 
