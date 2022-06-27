@@ -41,6 +41,36 @@
         </el-col>
       </el-row>
       <el-row class="head-text">
+        <el-col class="newTable">
+          <table width="90%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td class="tdTitle">创建时间</td>
+              <td class="tdCoent">{{form.createTime}}</td>
+              <td class="tdTitle">业务名称</td>
+              <td class="tdCoent">{{form.projectName}}</td>
+              <td class="tdTitle">项目名称</td>
+              <td class="tdCoent">{{form.stName}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">项目编号</td>
+              <td class="tdCoent">{{form.serialNo}}</td>
+              <td class="tdTitle">终端用户</td>
+              <td class="tdCoent">{{form.tName}}</td>
+              <td class="tdTitle">账号</td>
+              <td class="tdCoent">{{form.account}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">退款金额(元)</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.moneyAmount)}}</td>
+              <td class="tdTitle">备注</td>
+              <td class="tdCoent">{{form.remark}}</td>
+              <td class="tdTitle"></td>
+              <td class="tdCoent"></td>
+            </tr>
+          </table>
+        </el-col>
+      </el-row>
+      <!-- <el-row class="head-text">
         <el-col :span="7" :offset="1">
           <div style="display:flex">
             <div>创建时间：</div><span v-text="form.createTime"></span>
@@ -69,7 +99,7 @@
             <div>备注：</div><span v-text="form.remark"></span>
           </div>
         </el-col>
-      </el-row>
+      </el-row> -->
       <el-row class="head-text">
         <el-col :span="20" :offset="1">
           <el-form-item class="head-text" label="附件：" prop="file">

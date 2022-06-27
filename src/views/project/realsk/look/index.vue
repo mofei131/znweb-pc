@@ -44,6 +44,44 @@
         </el-col>
       </el-row>
       <el-row class="head-text">
+        <el-col class="newTable">
+          <table width="90%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td class="tdTitle">项目名称</td>
+              <td class="tdCoent">{{form.projectName}}</td>
+              <td class="tdTitle">业务名称</td>
+              <td class="tdCoent">{{form.stName}}</td>
+              <td class="tdTitle">项目编号</td>
+              <td class="tdCoent">{{form.serialNo}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">开票金额（价税合计）</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.kpPrice)}}</td>
+              <td class="tdTitle">开票吨数</td>
+              <td class="tdCoent">{{$options.filters.weightFilter(form.kpNumber)}}</td>
+              <td class="tdTitle">结算单总金额</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.jstPrice)}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">终端客户</td>
+              <td class="tdCoent">{{form.tName}}</td>
+              <td class="tdTitle">热值(Kcal/吨)</td>
+              <td class="tdCoent">{{form.rz}}</td>
+              <td class="tdTitle">结算单价</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.jsDj)}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">结算煤量</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.jsMl)}}</td>
+              <td class="tdTitle">结算煤款</td>
+              <td class="tdCoent">{{$options.filters.weightFilter(form.jsMk)}}</td>
+              <td class="tdTitle">结算税款(元)</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.jsTax)}}</td>
+            </tr>
+          </table>
+        </el-col>
+      </el-row>
+  <!--    <el-row class="head-text">
         <el-col :span="7" :offset="1">
           <div style="display:flex">
             <div>项目名称：</div><span v-text="form.projectName"></span>
@@ -86,10 +124,10 @@
             <div>结算税款(元)：</div><span v-text="$options.filters.moneyFilter(form.jsTax)"></span>
           </div>
         </el-col>
-      </el-row>
+      </el-row> -->
 
       <el-row style="margin-top: 30px;">
-        <el-col :span="20" :offset="1">
+        <el-col :span="22" :offset="1">
           <el-table :data="tabledatas" fit style="margin-bottom: 22px;">
             <el-table-column label="水分(%)">
               <template slot-scope="scope">
