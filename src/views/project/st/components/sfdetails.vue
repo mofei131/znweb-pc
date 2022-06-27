@@ -163,11 +163,13 @@ export default {
         this.getList();
         getStList().then(response => {
             this.stOptions = response.rows;
+            if(response.total!=0){
             this.stOptions.forEach(e=>{
                     if(e.stId==this.projectIdd){
                         this.changeSt(e)
                     }
                 })
+            }
         });
     },
     methods: {
@@ -181,11 +183,13 @@ export default {
             });
             getStList().then(response => {
                 this.stOptions = response.rows;
+                if(response.total!=0){
                 this.stOptions.forEach(e=>{
                     if(e.stId==this.projectIdd){
                         this.changeSt(e)
                     }
                 })
+                }
             });
             findInit(this.queryParams).then(response => {
                 this.zPrice = parseFloat(response.data.zPrice).toFixed(2);

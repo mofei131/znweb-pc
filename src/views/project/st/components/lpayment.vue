@@ -844,11 +844,13 @@ export default {
         });
         getStList().then((response) => {
             this.stOptions = response.rows;
+            if(response.total!=0){
             this.stOptions.forEach(e=>{
                     if(e.stId==this.projectIdd){
                         this.changeSt(e)
                     }
                 })
+            }
         });
         getTpcList().then((response) => {
             this.tpcOptions = response.rows;
@@ -906,11 +908,13 @@ export default {
             });
             getStList().then((response) => {
                 this.stOptions = response.rows;
+                if(response.total!=0){
                 this.stOptions.forEach(e=>{
                     if(e.stId==this.projectIdd){
                         this.changeSt(e)
                     }
                 })
+                }
             });
             getTpcList().then((response) => {
                 this.tpcOptions = response.rows;

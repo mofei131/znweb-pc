@@ -571,11 +571,13 @@ export default {
             );
             getStList().then((response) => {
                 this.stOptions = response.rows;
+                if(response.total!=0){
                 this.stOptions.forEach(e=>{
                     if(e.stId==this.projectIdd){
                         this.changeSt(e)
                     }
                 })
+                }
             });
             getTerminalList().then((response) => {
                 this.terminalOptions = response.rows;
