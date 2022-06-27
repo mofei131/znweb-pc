@@ -816,6 +816,7 @@ export default {
       listForBusArr: [],
       listForProArr: [],
       apyamentId:'',//子组件id
+      approvalType: {}
     };
   },
   created() {

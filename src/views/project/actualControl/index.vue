@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <div class="text" style="display: flex">
+    <div class="text">
       <el-form
         :model="queryParams"
         ref="queryForm"
@@ -392,9 +392,3 @@ export default {
   },
 };
 </script>
-<style>
-.text {
-  display: flex;
-  justify-content: space-between;
-}
-</style>

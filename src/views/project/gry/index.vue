@@ -73,7 +73,7 @@
       <el-table-column label="业务名称" align="center" prop="stName" />
       <el-table-column label="项目编号" align="center" prop="serialNo" />
       <el-table-column label="货品名称" align="center" prop="name" />
-      <el-table-column label="出库重量(吨)" align="center" prop="grnNumber">
+      <el-table-column label="重量(吨)" align="center" prop="grnNumber">
         <template slot-scope="scope">
           {{
           Number(scope.row.grnNumber)
@@ -83,7 +83,7 @@
           }}
         </template>
       </el-table-column>
-      <el-table-column label="出库热值(Kcal)" align="center" prop="gryRz" />
+      <el-table-column label="热值(Kcal)" align="center" prop="gryRz" />
       <el-table-column label="运输方式" align="center" prop="transportType" />
       <el-table-column label="物流公司" align="center" prop="wlCompany" />
       <el-table-column label="车数" align="center" prop="carNumber" />
@@ -893,6 +893,7 @@ export default {
       listForBusArr: [],
       listForProArr: [],
       apyamentId:'',//子组件id
+      approvalType: {}
     };
   },
   created() {

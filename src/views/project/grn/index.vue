@@ -133,7 +133,7 @@
       <el-table-column label="业务名称" align="center" prop="stName" />
       <el-table-column label="项目编号" align="center" prop="serialNo" />
       <el-table-column label="货品名称" align="center" prop="name" />
-      <el-table-column label="入库重量(吨)" align="center" prop="grnNumber">
+      <el-table-column label="重量(吨)" align="center" prop="grnNumber">
         <template slot-scope="scope">
           {{
             Number(scope.row.grnNumber)
@@ -143,7 +143,7 @@
           }}
         </template>
       </el-table-column>
-      <el-table-column label="入库热值(Kcal)" align="center" prop="grnRz" />
+      <el-table-column label="热值(Kcal)" align="center" prop="grnRz" />
       <el-table-column label="运输方式" align="center" prop="transportType" />
       <el-table-column label="物流公司" align="center" prop="wlCompany" />
       <el-table-column label="车数" align="center" prop="carNumber" />
@@ -188,12 +188,12 @@
           <span>{{ parseTime(scope.row.createTime, "{y}-{m}-{d}") }}</span>
         </template>
       </el-table-column>
-      <el-table-column
+      <!-- <el-table-column
         label="出库状态"
         align="center"
         prop="ckState"
         :formatter="ckStateFormat"
-      />
+      /> -->
       <el-table-column
         label="审核状态"
         align="center"
@@ -1115,18 +1115,11 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      getApprovalType((approvalType) => {
-        if(approvalType.code == 500) {
-          this.$message.error('没有提交权限，请联系管理员')
-        }else{
           this.reset();
       this.fileList = [];
       this.isLook = 1;
       this.open = true;
-      this.title = "添加入库单";
-        }
-      })
-      
+      this.title = "添加入库单"; 
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
