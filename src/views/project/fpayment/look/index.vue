@@ -39,6 +39,36 @@
         </el-col>
       </el-row>
       <el-row class="head-text">
+        <el-col class="newTable">
+          <table width="90%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td class="tdTitle">项目名称</td>
+              <td class="tdCoent">{{form.projectName}}</td>
+              <td class="tdTitle">业务名称</td>
+              <td class="tdCoent">{{form.stName}}</td>
+              <td class="tdTitle">项目编号</td>
+              <td class="tdCoent">{{form.serialNo}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">结算方式</td>
+              <td class="tdCoent">{{form.settlementWay}}</td>
+              <td class="tdTitle">供应商</td>
+              <td class="tdCoent">{{form.supplierName}}</td>
+              <td class="tdTitle">供应商账号</td>
+              <td class="tdCoent">{{form.account}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">供应商开户行</td>
+              <td class="tdCoent">{{form.openbank}}</td>
+              <td class="tdTitle"></td>
+              <td class="tdCoent"></td>
+              <td class="tdTitle"></td>
+              <td class="tdCoent"></td>
+            </tr>
+          </table>
+        </el-col>
+      </el-row>
+      <!-- <el-row class="head-text">
         <el-col :span="7" :offset="1">
           <div style="display:flex">
             <div>项目名称：</div><span v-text="form.projectName"></span>
@@ -63,11 +93,11 @@
           <div style="display:flex">
             <div>供应商开户行：</div><span v-text="form.openbank"></span>
           </div>
-        </el-col>
+        </el-col> -->
         <!--        <el-col :span="5">-->
         <!--          预付方式：<span v-text="form.payType"></span>-->
         <!--        </el-col>-->
-      </el-row>
+      <!-- </el-row> -->
 
       <el-row class="head-title">
         <el-col :span="19">
@@ -75,7 +105,7 @@
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="20" :offset="1">
+        <el-col :span="22" :offset="1">
           <el-table ref="singleTable" :data="gryList" fit style="margin-bottom: 30px">
             <el-table-column property="name" label="货品名称">
             </el-table-column>
@@ -143,6 +173,60 @@
         </el-col>
       </el-row>
       <el-row class="head-text">
+        <el-col class="newTable">
+          <table width="90%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td class="tdTitle">电厂结算金额(元)</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.jst)}}</td>
+              <td class="tdTitle">税款</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.jstax)}}</td>
+              <td class="tdTitle">货品单价(元)</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.price)}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">运费(元)</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.ttPrice)}}</td>
+              <td class="tdTitle">保证金(元)</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.bzPrice)}}</td>
+              <td class="tdTitle">固定差价总额(元)</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.gdxPrice)}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">服务费</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.servicePrice)}}</td>
+              <td class="tdTitle">承兑贴息</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.cdtx)}}</td>
+              <td class="tdTitle">补税金额</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.bsPrice)}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">其他扣款</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.otherPrice)}}</td>
+              <td class="tdTitle">贴息</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.tx)}}</td>
+              <td class="tdTitle">其他费用</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.qt)}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">最终应付款金额</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.yftotalPrice)}}</td>
+              <td class="tdTitle">已付金额</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.yfPrice)}}</td>
+              <td class="tdTitle">调整金额</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.je)}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">最终实际付款(元)</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.sjPrice)}}</td>
+              <td class="tdTitle"></td>
+              <td class="tdCoent"></td>
+              <td class="tdTitle"></td>
+              <td class="tdCoent"></td>
+            </tr>
+          </table>
+        </el-col>
+      </el-row>
+      <!-- <el-row class="head-text">
         <el-col :span="7" :offset="1">
           <div style="display:flex">
             <div>电厂结算金额(元)：</div><span v-text="$options.filters.moneyFilter(form.jst)"></span>
@@ -199,7 +283,7 @@
             <div>最终实际付款(元)：</div><span v-text="$options.filters.moneyFilter(form.sjPrice)"></span>
           </div>
         </el-col>
-      </el-row>
+      </el-row> -->
 
       <!--      合同信息-->
       <el-row class="head-title">

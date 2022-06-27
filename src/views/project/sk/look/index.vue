@@ -40,6 +40,28 @@
         </el-col>
       </el-row>
       <el-row class="head-text">
+        <el-col class="newTable">
+          <table width="90%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td class="tdTitle">项目名称</td>
+              <td class="tdCoent">{{form.projectName}}</td>
+              <td class="tdTitle">业务名称</td>
+              <td class="tdCoent">{{form.stName}}</td>
+              <td class="tdTitle">项目编号</td>
+              <td class="tdCoent">{{form.serialNo}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">收款类型</td>
+              <td class="tdCoent">{{form.skType}}</td>
+              <td class="tdTitle">收款方式</td>
+              <td class="tdCoent">{{form.skWay}}</td>
+              <td class="tdTitle">终端客户</td>
+              <td class="tdCoent">{{form.tName}}</td>
+            </tr>
+          </table>
+        </el-col>
+      </el-row>
+      <!-- <el-row class="head-text">
         <el-col :span="7" :offset="1">
           <div style="display:flex">
             <div>项目名称：</div><span v-text="form.projectName"></span>
@@ -60,7 +82,7 @@
             <div>终端客户：</div><span v-text="form.tName"></span>
           </div>
         </el-col>
-      </el-row>
+      </el-row> -->
 
       <el-row class="head-title">
         <el-col :span="19">
@@ -129,8 +151,37 @@
           </el-form-item>
         </el-col>
       </el-row>
-
       <el-row class="head-text" style="margin-top: 30px;">
+        <el-col class="newTable">
+          <table width="90%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td class="tdTitle">收款总额(元)</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.skTprice)}}</td>
+              <td class="tdTitle">税款(元)</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.tax)}}</td>
+              <td class="tdTitle">收款单价</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.skPrice)}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">收款日期</td>
+              <td class="tdCoent">{{parseTime(form.skTime, '{y}-{m}-{d}')}}</td>
+              <td class="tdTitle">承兑</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.accept)}}</td>
+              <td class="tdTitle">扣罚</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.punish)}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">其他扣罚</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.otherP)}}</td>
+              <td class="tdTitle">其他扣罚说明</td>
+              <td class="tdCoent">{{form.otherN}}</td>
+              <td class="tdTitle"></td>
+              <td class="tdCoent"></td>
+            </tr>
+          </table>
+        </el-col>
+      </el-row>
+      <!-- <el-row class="head-text" style="margin-top: 30px;">
         <el-col :span="7" :offset="1">
           <div style="display:flex">
             <div>收款总额(元)：</div><span v-text="$options.filters.moneyFilter(form.skTprice)"></span>
@@ -159,7 +210,7 @@
             <div>其他扣罚说明：</div><span v-text="form.otherN"></span>
           </div>
         </el-col>
-      </el-row>
+      </el-row> -->
 
       <el-row class="head-text" style="margin-top:30px">
         <el-col :span="4" :offset="1">

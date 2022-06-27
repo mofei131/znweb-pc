@@ -36,6 +36,36 @@
         </el-col>
       </el-row>
       <el-row class="head-text">
+        <el-col class="newTable">
+          <table width="90%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td class="tdTitle">项目名称</td>
+              <td class="tdCoent">{{form.stName}}</td>
+              <td class="tdTitle">项目编号</td>
+              <td class="tdCoent">{{form.number}}</td>
+              <td class="tdTitle">代办人</td>
+              <td class="tdCoent">{{form.userName}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">月份</td>
+              <td class="tdCoent">{{form.month}}</td>
+              <td class="tdTitle">数量(吨)</td>
+              <td class="tdCoent">{{$options.filters.weightFilter(form.number)}}</td>
+              <td class="tdTitle">预计付款时间</td>
+              <td class="tdCoent">{{parseTime(form.fkTime, '{y}-{m}-{d}')}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">预计付款总额(元)</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.fkPrice)}}</td>
+              <td class="tdTitle">预计收款时间</td>
+              <td class="tdCoent">{{parseTime(form.skTime, '{y}-{m}-{d}')}}</td>
+              <td class="tdTitle">预计收款总额(元)</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.skPrice)}}</td>
+            </tr>
+          </table>
+        </el-col>
+      </el-row>
+      <!-- <el-row class="head-text">
         <el-col :span="4" :offset="1">
           项目名称：<span v-text="form.stName"></span>
         </el-col>
@@ -66,7 +96,7 @@
         <el-col :span="4">
           预计收款总额(元)：<span v-text="$options.filters.moneyFilter(form.skPrice)"></span>
         </el-col>
-      </el-row>
+      </el-row> -->
 
 
       <!--      审批流程·-->
