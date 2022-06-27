@@ -1111,7 +1111,6 @@ import {
   listForBus,
   listForPro,
 } from "@/api/project/rewardsp";
-import { getApprovalType } from "@/api/approve"
 export default {
   name: "Rewardsp",
   data() {
@@ -1271,11 +1270,7 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      getApprovalType((approvalType) => {
-        if(approvalType.code == 500) {
-          this.$message.error('没有提交权限，请联系管理员')
-        }else {
-          this.reset();
+      this.reset();
       this.form.tableData1 = [];
       this.form.tableData2 = [];
       this.form.tableData3 = [];
@@ -1297,9 +1292,6 @@ export default {
       this.isLook = 1;
       this.open = true;
       this.title = "添加奖惩";
-        }
-      })
-      
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
