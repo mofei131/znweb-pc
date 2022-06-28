@@ -41,7 +41,7 @@
 .newproColor{
   color: red;
   width: 80px;
-  min-width: 80px;
+  min-width: 80px!important;
 }
 .dtdTitle{
   width: 80px;

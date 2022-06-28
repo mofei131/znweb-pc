@@ -32,7 +32,15 @@
 .upload-hidden .el-upload--picture-card{
   display:none;   /* 上传按钮隐藏 */
 }
-
+.newproColor{
+  color: red;
+  width: 80px;
+  min-width: 80px!important;
+}
+.dtdTitle{
+  width: 80px;
+  min-width: 80px;
+}
 
 </style>
 <template>
@@ -48,6 +56,52 @@
         </el-col>
       </el-row>
       <el-row class="head-text">
+        <el-col class="newTable">
+          <table width="90%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td class="tdTitle">项目名称</td>
+              <td class="tdCoent">{{form.projectName}}</td>
+              <td class="tdTitle">业务名称</td>
+              <td class="tdCoent">{{form.stName}}</td>
+              <td class="tdTitle">项目编号</td>
+              <td class="tdCoent">{{form.serialNo}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">物流公司</td>
+              <td class="tdCoent">{{form.wlCompany}}</td>
+              <td class="tdTitle">货品名称</td>
+              <td class="tdCoent">{{form.name}}</td>
+              <td class="tdTitle">入库重量(吨)</td>
+              <td class="tdCoent">{{$options.filters.weightFilter(form.grnNumber)}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">发货日期</td>
+              <td class="tdCoent">{{parseTime(form.deliveryTime, '{y}-{m}-{d}')}}</td>
+              <td class="tdTitle">入库热值</td>
+              <td class="tdCoent">{{form.grnRz}}</td>
+              <td class="tdTitle">运输方式</td>
+              <td class="tdCoent">{{form.transportType}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">发货日期</td>
+              <td class="tdCoent">{{parseTime(form.deliveryTime, '{y}-{m}-{d}')}}</td>
+              <td class="tdTitle">入库热值</td>
+              <td class="tdCoent">{{form.grnRz}}</td>
+              <td class="tdTitle">运输方式</td>
+              <td class="tdCoent">{{form.transportType}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">车数</td>
+              <td class="tdCoent">{{form.carNumber}}</td>
+              <td class="tdTitle">批次</td>
+              <td class="tdCoent">{{form.batch}}</td>
+              <td class="tdTitle">基准单价(元)</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.basePrice)}}</td>
+            </tr>
+          </table>
+        </el-col>
+        </el-row>
+      <!-- <el-row class="head-text">
         <el-col :span="7" :offset="1">
           <div style="display:flex">
             <div>项目名称：</div><span v-text="form.projectName"></span>
@@ -90,10 +144,9 @@
             <div>基准单价(元)：</div><span v-text="$options.filters.moneyFilter(form.basePrice)"></span>
           </div>
         </el-col>
-      </el-row>
-
+      </el-row> -->
       <el-row style="margin-top: 30px;">
-        <el-col :span="20" :offset="1">
+        <el-col :span="22" :offset="1">
           <el-table :data="tabledatas" fit style="margin-bottom: 22px;">
             <el-table-column label="水分(%)">
               <template slot-scope="scope">
@@ -164,7 +217,41 @@
           <el-form-item label="奖惩"></el-form-item>
         </el-col>
       </el-row>
-      <el-row class="head-text1">
+      <el-row class="head-text">
+        <el-col class="newTable">
+          <table width="90%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td class="tdTitle dtdTitle">水分</td>
+              <td class="tdCoent newproColor">{{form.jc1}}</td>
+              <td class="tdTitle dtdTitle">内水</td>
+              <td class="tdCoent newproColor">{{form.jc2}}</td>
+              <td class="tdTitle dtdTitle">灰份Aad</td>
+              <td class="tdCoent newproColor">{{form.jc3}}</td>
+              <td class="tdTitle dtdTitle">灰份ad</td>
+              <td class="tdCoent newproColor">{{form.jc10}}</td>
+              <td class="tdTitle dtdTitle">挥发份Vda</td>
+              <td class="tdCoent newproColor">{{form.jc4}}</td>
+              <td class="tdTitle dtdTitle">挥发份Vdaf</td>
+              <td class="tdCoent newproColor">{{form.jc11}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle dtdTitle">灰熔点</td>
+              <td class="tdCoent newproColor">{{form.jc5}}</td>
+              <td class="tdTitle dtdTitle">固定碳</td>
+              <td class="tdCoent newproColor">{{form.jc6}}</td>
+              <td class="tdTitle dtdTitle">含硫量</td>
+              <td class="tdCoent newproColor">{{form.jc7}}</td>
+              <td class="tdTitle dtdTitle">热值Qgr,ad</td>
+              <td class="tdCoent newproColor">{{form.jc8}}</td>
+              <td class="tdTitle dtdTitle">热值Qnt,ar</td>
+              <td class="tdCoent newproColor">{{form.jc9}}</td>
+              <td class="tdTitle dtdTitle">热值Kcal</td>
+              <td class="tdCoent newproColor">{{form.jc12}}</td>
+            </tr>
+          </table>
+        </el-col>
+      </el-row>
+      <!-- <el-row class="head-text1">
         <el-col :span="20" :offset="1">
           <el-form-item label="">
             <span>水分：<span style="color: red" v-text="form.jc1">0.00</span></span>
@@ -187,16 +274,29 @@
             <span style="margin-left: 20px;">热值Kcal：<span style="color: red" v-text="form.jc12">0.00</span></span>
           </el-form-item>
         </el-col>
-      </el-row>
-
-      <el-row class="head-text1">
+      </el-row> -->
+      <el-row class="head-text" style="margin-top: 30px;">
+        <el-col class="newTable">
+          <table width="90%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td class="tdTitle">货值单价(元)</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.valuePrice)}}</td>
+              <td class="tdTitle">货值总价(元)</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.valueTprice)}}</td>
+              <td class="tdTitle"></td>
+              <td class="tdCoent"></td>
+            </tr>
+          </table>
+        </el-col>
+        </el-row>
+     <!-- <el-row class="head-text1">
         <el-col :span="5" :offset="1">
           货值单价(元)：<span v-text="$options.filters.moneyFilter(form.valuePrice)"></span>
         </el-col>
         <el-col :span="5">
           货值总价(元)：<span v-text="$options.filters.moneyFilter(form.valueTprice)"></span>
         </el-col>
-      </el-row>
+      </el-row> -->
 
       <el-row class="head-text1">
         <el-col :span="12" :offset="1">
