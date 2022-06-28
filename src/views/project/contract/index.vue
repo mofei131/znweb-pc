@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch && !isQuote" label-width="68px">
       <el-form-item label="合同类型" prop="type">
         <el-select v-model="queryParams.type" placeholder="请选择合同类型" clearable size="small">
           <el-option v-for="dict in typeOptions" :key="dict.dictValue" :label="dict.dictLabel"
@@ -66,13 +66,13 @@
       <!--          v-hasPermi="['project:contract:export']"-->
       <!--        >导出</el-button>-->
       <!--      </el-col>-->
-      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList" v-show="!isQuote"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="contractList" @selection-change="handleSelectionChange">
-      <el-table-column label="项目名称" align="center" prop="projectName" />
-      <el-table-column label="业务名称" align="center" prop="stName" />
-      <el-table-column label="项目编号" align="center" prop="serialNo" />
+      <el-table-column label="项目名称" align="center" prop="projectName" v-if="!isQuote" />
+      <el-table-column label="业务名称" align="center" prop="stName" v-if="!isQuote" />
+      <el-table-column label="项目编号" align="center" prop="serialNo" v-if="!isQuote" />
       <el-table-column label="合同立项编号" align="center" prop="productNo" />
       <el-table-column label="合同名称" align="center" prop="name" />
       <el-table-column label="合同编号" align="center" prop="number" />
@@ -92,8 +92,8 @@
       <el-table-column label="创建时间" align="center" prop="createTime" width="180">
         <template slot-scope="scope">
           <span>{{
-            parseTime(scope.row.createTime, "{y}-{m}-{d} {h}:{i}:{s}")
-            }}</span>
+          parseTime(scope.row.createTime, "{y}-{m}-{d} {h}:{i}:{s}")
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column label="合同模板" width="160" align="center" class-name="small-padding fixed-width">
@@ -137,7 +137,7 @@
             <el-col :span="12">
               <el-form-item label="项目名称" prop="projectId">
                 <el-select filterable value-key="projectId" @change="changeProject" v-model="form.projectId"
-                  placeholder="请选择项目" style="width: 100%">
+                  placeholder="请选择项目" style="width: 100%" :disabled="isQuote">
                   <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName"
                     :value="pro.projectId">
                   </el-option>
@@ -150,7 +150,7 @@
             <el-col :span="12">
               <el-form-item label="业务名称" prop="stId">
                 <el-select filterable value-key="stId" @change="changeSt" v-model="form.stId" placeholder="请选择"
-                  style="width: 100%">
+                  style="width: 100%" :disabled="isQuote">
                   <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj.stId">
                   </el-option>
                 </el-select>
@@ -496,7 +496,7 @@
             <el-col :span="12">
               <el-form-item label="项目名称" prop="projectId">
                 <el-select filterable value-key="projectId" @change="changeProject" v-model="form.projectId"
-                  placeholder="请选择项目" style="width: 100%">
+                  placeholder="请选择项目" style="width: 100%" :disabled="isQuote">
                   <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName"
                     :value="pro.projectId">
                   </el-option>
@@ -506,7 +506,7 @@
             <el-col :span="12">
               <el-form-item label="业务名称" prop="stId">
                 <el-select filterable value-key="stId" @change="changeSt" v-model="form.stId" placeholder="请选择"
-                  style="width: 100%">
+                  style="width: 100%" :disabled="isQuote">
                   <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj.stId">
                   </el-option>
                 </el-select>
@@ -1122,6 +1122,18 @@ import { listProjectForCombobox, listBusinessForCombobox } from "@/api/project/s
 
 export default {
   name: "Contract",
+  props: {
+    "stIdd": {
+      type: String
+    },
+    "projectIdd": {
+      type: String
+    },
+    "isQuote": {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     const validatePrice = (rule, value, callback) => {
       let reg = /^(\-|\+)?(([1-9]{1}\d*)|(0{1}))(\.\d{1,2})?$/;
@@ -1284,6 +1296,10 @@ export default {
     };
   },
   created() {
+    if (this.isQuote) {
+      this.queryParams.stId = parseInt(this.stIdd)
+      this.queryParams.projectId = parseInt(this.projectIdd)
+    }
     this.getList();
     this.getDicts("project_contract_type").then((response) => {
       this.typeOptions = response.data;
@@ -1293,6 +1309,7 @@ export default {
     });
     getSupplierList().then((response) => {
       this.supplierOptions = response.rows;
+      console.log('供应商', this.supplierOptions)
     });
     getTerminalList().then((response) => {
       this.terminalOptions = response.rows;
@@ -1335,6 +1352,9 @@ export default {
       this.listForBusArr = []
       listBusinessForCombobox({ projectId }).then((response) => {
         this.listForBusArr = response.data
+        if (this.isQuote) {
+          this.changeSt(this.queryParams.stId)
+        }
       })
     },
     // 合同类型字典翻译
@@ -1427,6 +1447,11 @@ export default {
     handleAdd() {
       getApprovalType({ approvalType: '3' }).then((response) => {
         this.reset();
+        if (this.isQuote) {
+          this.form.projectId = this.queryParams.projectId
+          this.changeProject(this.queryParams.projectId)
+          this.form.stId = this.queryParams.stId
+        }
         this.form.type = "1";
         this.fileList = [];
         this.bc = 3;
@@ -1565,6 +1590,7 @@ export default {
         this.form.stName = businessFind[0].stName;
         this.form.serialNo = businessFind[0].serialNo;
         let projectFind = this.listForProArr.filter(x => x.projectId == businessFind[0].projectId);
+        console.log('过滤', projectFind)
         if (projectFind && projectFind.length > 0) {
           this.form.supplierId = projectFind[0].supplierId;
           this.form.terminalId = projectFind[0].terminalId;
