@@ -177,7 +177,7 @@
 
     <!-- 添加或修改实控人管理对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+      <el-form ref="form" :model="form" :rules="rules" label-width="100px">
         <el-form-item label="实控人姓名" prop="actualControlPerson">
           <el-input
             v-model="form.actualControlPerson"
@@ -258,15 +258,24 @@ export default {
       form: {},
       // 表单校验
       rules: {
-        delFlg: [
-          { required: true, message: "删除标志不能为空", trigger: "blur" },
+        actualControlPerson: [
+          { required: true, message: "实控人姓名不能为空", trigger: "blur" },
         ],
-        createBy: [
-          { required: true, message: "创建人不能为空", trigger: "blur" },
+        org: [
+          { required: true, message: "所在单位不能为空", trigger: "blur" },
         ],
-        createTime: [
-          { required: true, message: "创建时间不能为空", trigger: "blur" },
+        contactMobile: [
+          { required: true, message: "联系手机不能为空", trigger: "blur" },
         ],
+        idMumber: [
+          { required: true, message: "身份证号不能为空", trigger: "blur" },
+        ],
+        post: [
+          { required: true, message: "职务不能为空", trigger: "blur" },
+        ],
+        officeTelephone: [
+          { required: true, message: "办公电话不能为空", trigger: "blur" },
+        ]
       },
     };
   },
