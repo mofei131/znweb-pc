@@ -5,7 +5,7 @@
 </style>
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch && !isQuote" label-width="68px">
       <el-form-item label="创建时间">
         <el-date-picker v-model="dateRange" size="small" style="width: 240px" value-format="yyyy-MM-dd" type="daterange"
           range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
@@ -66,13 +66,13 @@
       <!--          >导出</el-button-->
       <!--        >-->
       <!--      </el-col>-->
-      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList" v-show="!isQuote"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="apaymentList" @selection-change="handleSelectionChange">
-      <el-table-column label="项目名称" align="center" prop="projectName" />
-      <el-table-column label="业务名称" align="center" prop="stName" />
-      <el-table-column label="项目编号" align="center" prop="serialNo" />
+      <el-table-column label="项目名称" align="center" prop="projectName" v-if="!isQuote" />
+      <el-table-column label="业务名称" align="center" prop="stName" v-if="!isQuote" />
+      <el-table-column label="项目编号" align="center" prop="serialNo" v-if="!isQuote" />
       <el-table-column label="付款批次" align="center" prop="away" />
       <el-table-column label="货品名称" align="center" prop="name" />
       <el-table-column label="入库总量(吨)" align="center" prop="grns">
@@ -169,7 +169,7 @@
               <!-- 项目 -->
               <el-form-item label="项目名称" prop="projectId">
                 <el-select filterable value-key="projectId" @change="changeProject" v-model="form.projectId"
-                  placeholder="请选择项目" style="width: 100%">
+                  placeholder="请选择项目" style="width: 100%" :disabled="isQuote">
                   <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName"
                     :value="pro.projectId">
                   </el-option>
@@ -180,7 +180,7 @@
               <!-- 业务 -->
               <el-form-item label="业务名称" prop="stId">
                 <el-select filterable value-key="stId" @change="changeSt" v-model="form.stId" placeholder="请选择业务"
-                  style="width: 100%">
+                  style="width: 100%" :disabled="isQuote">
                   <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj.stId">
                   </el-option>
                 </el-select>
@@ -972,6 +972,18 @@ import { getContractList } from "@/api/project/all";
 import { listProjectForCombobox, listBusinessForCombobox } from "@/api/project/st";
 export default {
   name: "Apayment",
+  props: {
+    "stIdd": {
+      type: String
+    },
+    "projectIdd": {
+      type: String
+    },
+    "isQuote": {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     // 两位小数点验证
     const validatePrice = (rule, value, callback) => {
@@ -1150,6 +1162,10 @@ export default {
     };
   },
   created() {
+    if (this.isQuote) {
+      this.queryParams.stId = parseInt(this.stIdd)
+      this.queryParams.projectId = parseInt(this.projectIdd)
+    }
     this.getList();
     this.getDicts("project_approval_state").then((response) => {
       this.stateOptions = response.data;
@@ -1212,6 +1228,9 @@ export default {
       this.listForBusArr = []
       listBusinessForCombobox({ projectId }).then((response) => {
         this.listForBusArr = response.data
+        if (this.isQuote) {
+          this.changeSt(this.queryParams.stId)
+        }
       })
     },
     // 审批状态字典翻译
@@ -1300,6 +1319,11 @@ export default {
     handleAdd() {
       getApprovalType({ approvalType:'4'}).then((response) => {
         this.reset();
+        if (this.isQuote) {
+          this.form.projectId = this.queryParams.projectId
+          this.changeProject(this.queryParams.projectId)
+          this.form.stId = this.queryParams.stId
+        }
         this.form.type = "吨";
         this.form.away = "首次";
         this.form.totalWeight = 0;

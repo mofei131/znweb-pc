@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch && !isQuote" label-width="68px">
       <el-form-item label="创建时间" prop="createTime">
         <el-date-picker clearable size="small" v-model="queryParams.createTime" type="date" value-format="yyyy-MM-dd"
           placeholder="选择创建时间">
@@ -62,13 +62,13 @@
       <!--          >导出</el-button-->
       <!--        >-->
       <!--      </el-col>-->
-      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList" v-show="!isQuote"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="fpaymentList" @selection-change="handleSelectionChange">
-      <el-table-column label="项目名称" align="center" prop="projectName" />
-      <el-table-column label="业务名称" align="center" prop="stName" />
-      <el-table-column label="项目编号" align="center" prop="serialNo" />
+      <el-table-column label="项目名称" align="center" prop="projectName" v-if="!isQuote" />
+      <el-table-column label="业务名称" align="center" prop="stName" v-if="!isQuote" />
+      <el-table-column label="项目编号" align="center" prop="serialNo" v-if="!isQuote" />
       <el-table-column label="货品名称" align="center" prop="hpName" />
       <el-table-column label="合计重量(吨)" align="center" prop="tweight">
         <template slot-scope="scope">
@@ -171,8 +171,9 @@
             <el-col :span="12">
               <el-form-item label="项目名称" prop="projectId">
                 <el-select filterable value-key="projectId" @change="changeProject" v-model="form.projectId"
-                  placeholder="请选择项目" style="width: 100%">
-                  <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName" :value="pro.projectId">
+                  placeholder="请选择项目" style="width: 100%" :disabled="isQuote">
+                  <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName"
+                    :value="pro.projectId">
                   </el-option>
                 </el-select>
               </el-form-item>
@@ -180,8 +181,9 @@
             <el-col :span="12">
               <el-form-item label="业务名称" prop="stId">
                 <el-select filterable value-key="stId" @change="changeSt" v-model="form.stId" placeholder="请选择业务"
-                  style="width: 100%">
-                  <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj.stId"></el-option>
+                  style="width: 100%" :disabled="isQuote">
+                  <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj.stId">
+                  </el-option>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -729,7 +731,7 @@
               </td>
             </tr>
           </table>
-          <approval-print :typeId="5" :stId="apyamentId" ></approval-print>
+          <approval-print :typeId="5" :stId="apyamentId"></approval-print>
         </div>
       </div>
     </el-dialog>
@@ -757,6 +759,18 @@ import { getProcessDataByStId, getApprovalProcessList, getApprovalType } from "@
 import { listProjectForCombobox, listBusinessForCombobox } from "@/api/project/st";
 export default {
   name: "Fpayment",
+  props: {
+    "stIdd": {
+      type: String
+    },
+    "projectIdd": {
+      type: String
+    },
+    "isQuote": {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     // 两位小数点验证
     const validatePrice = (rule, value, callback) => {
@@ -905,6 +919,10 @@ export default {
     };
   },
   created() {
+    if (this.isQuote) {
+      this.queryParams.stId = parseInt(this.stIdd)
+      this.queryParams.projectId = parseInt(this.projectIdd)
+    }
     this.getList();
     this.getDicts("project_approval_state").then((response) => {
       this.stateOptions = response.data;
@@ -973,6 +991,9 @@ export default {
       this.listForBusArr = []
       listBusinessForCombobox({ projectId }).then((response) => {
         this.listForBusArr = response.data
+        if (this.isQuote) {
+          this.changeSt(this.queryParams.stId)
+        }
       })
     },
     // 审核状态字典翻译
@@ -1054,7 +1075,6 @@ export default {
         account: null,
         openbank: null,
         projectId: null,
-        projectIdOld: null,
         serialNo: null,
         projectName: null,
       };
@@ -1080,6 +1100,11 @@ export default {
     handleAdd() {
       getApprovalType({ approvalType: '5' }).then((response) => {
         this.reset();
+        if (this.isQuote) {
+          this.form.projectId = this.queryParams.projectId
+          this.changeProject(this.queryParams.projectId)
+          this.form.stId = this.queryParams.stId
+        }
         this.form.payType = "吨";
         this.tableData = [];
         this.tableselData = [];
@@ -1100,8 +1125,6 @@ export default {
       const fpaymentId = row.fpaymentId || this.ids;
       getFpayment(fpaymentId).then((response) => {
         this.form = response.data;
-        this.form.stId2 = this.form.stId;
-        this.form.stId = this.form.stName;
         this.fileList = this.form.fileList;
         this.tableselData = response.data.selnyList;
         this.form.isKp = 1;
@@ -1148,9 +1171,7 @@ export default {
               this.msgError("请选择出库单");
               return;
             }
-            this.form.stId = this.form.stId2;
             this.form.gryList = this.tableselData;
-            this.form.projectId = this.form.projectIdOld
           }
 
           if (this.form.fpaymentId != null) {
@@ -1267,117 +1288,116 @@ export default {
       this.form.stId = ''
       this.form.stName = ''
       this.form.serialNo = ''
-      // this.form.projectIdOld = pro.projectId;
       if (projectId) {
         this.loadBusinessForCombobox(projectId)
       }
     },
     changeSt(stId) {
       let businessFind = this.listForBusArr.filter(x => x.stId == stId);
-        if (businessFind && businessFind.length > 0) {
+      if (businessFind && businessFind.length > 0) {
         let obj = businessFind[0];
-      this.form.supplierId = null;
-      this.form.supplierName = null;
-      this.form.account = null;
-      this.form.openbank = null;
-      this.form.serialNo = obj.serialNo;
-      this.tableselData = [];
-      this.form.stName = obj.stName;
-      this.$set(this.form, "number", obj.number);
-      this.$set(this.form, "settlementWay", obj.settlementWay);
-      //固定差价
-      if (obj.chargemType == "2" || obj.chargemType == "3") {
-        this.gd = obj.chargemGd;
-        this.gdType = 2;
-      } else {
-        this.gd = 0;
-        this.gdType = 1;
-      }
-      //成本年服务费率
-      if (obj.chargemType == "1" || obj.chargemType == "3") {
-        this.form.rateYear = obj.chargemNx;
-      } else {
-        this.form.rateYear = 0;
-      }
-      //查询委托销售合同
-      let c1 = { stId: obj.stId, type: "1" };
-      getContract(c1).then((response) => {
-        if (response.data != null) {
-          //保底服务费期限
-          this.form.mfsp = response.data.mfsp;
+        this.form.supplierId = null;
+        this.form.supplierName = null;
+        this.form.account = null;
+        this.form.openbank = null;
+        this.form.serialNo = obj.serialNo;
+        this.tableselData = [];
+        this.form.stName = obj.stName;
+        this.$set(this.form, "number", obj.number);
+        this.$set(this.form, "settlementWay", obj.settlementWay);
+        //固定差价
+        if (obj.chargemType == "2" || obj.chargemType == "3") {
+          this.gd = obj.chargemGd;
+          this.gdType = 2;
         } else {
-          this.form.mfsp = 0;
+          this.gd = 0;
+          this.gdType = 1;
         }
-      });
-
-      let gry = { stId: obj.stId, zzpayState: 1 };
-      getGryList(gry).then((response) => {
-        this.tableselData = response.rows;
-        let tt = 0;
-        if (this.gdType == 2) {
-          for (let i = 0; i < response.rows.length; i++) {
-            tt =
-              parseFloat(tt) + parseFloat(response.rows[i].grnNumber * this.gd);
-          }
-          this.form.gdxPrice = tt.toFixed(2);
-        }
-        this.toggleSelection();
-      });
-      let stData = { stId: obj.stId };
-      getHkState(stData).then((response) => {
-        this.form.ttPrice = parseFloat(response.data.ttPrice).toFixed(2);
-        this.form.bzPrice = parseFloat(response.data.bzPrice).toFixed(2);
-        this.form.servicePrice = parseFloat(response.data.servicePrice).toFixed(
-          2
-        );
-        this.form.bsPrice = parseFloat(response.data.bsPrice).toFixed(2);
-        this.form.yfPrice = parseFloat(response.data.yfPrice).toFixed(2);
-        this.form.jst = parseFloat(response.data.jst).toFixed(2);
-        this.form.jstax = parseFloat(response.data.jstax).toFixed(2);
-        this.form.price = parseFloat(response.data.price).toFixed(2);
-        this.bs = parseFloat(response.data.bsPrice).toFixed(2);
-        this.price = parseFloat(response.data.price).toFixed(2);
-        this.form.zzPrice = parseFloat(response.data.jst).toFixed(2);
-        this.form.tax = ((parseFloat(response.data.jst) / 1.13) * 0.13).toFixed(
-          2
-        );
-        this.form.sjzf = parseFloat(response.data.sjzf).toFixed(2);
-        this.form.supplierId = response.data.supplierId;
-        this.form.supplierName = response.data.supplierName;
-        this.form.account = response.data.account;
-        this.form.openbank = response.data.openbank;
-        this.toggleSelection();
-      });
-
-      let sticketData = { stId: obj.stId };
-      getSticketList(sticketData).then((response) => {
-        let sticketList = response.rows;
-        let a1 = false;
-        let a2 = false;
-        for (let i = 0; i < sticketList.length; i++) {
-          if (
-            sticketList[i].proportion != null &&
-            sticketList[i].proportion != ""
-          ) {
-            if (sticketList[i].proportion == "5%") {
-              a1 = true;
-            }
-            if (sticketList[i].proportion == "95%") {
-              a2 = true;
-            }
-          }
-        }
-        if (!a1 && !a2) {
-          this.$message.error("该项目没有5%和95%收票记录");
+        //成本年服务费率
+        if (obj.chargemType == "1" || obj.chargemType == "3") {
+          this.form.rateYear = obj.chargemNx;
         } else {
-          if (!a1) {
-            this.$message.error("该项目没有5%收票记录");
-          }
-          if (!a2) {
-            this.$message.error("该项目没有95%收票记录");
-          }
+          this.form.rateYear = 0;
         }
-      });
+        //查询委托销售合同
+        let c1 = { stId: obj.stId, type: "1" };
+        getContract(c1).then((response) => {
+          if (response.data != null) {
+            //保底服务费期限
+            this.form.mfsp = response.data.mfsp;
+          } else {
+            this.form.mfsp = 0;
+          }
+        });
+
+        let gry = { stId: obj.stId, zzpayState: 1 };
+        getGryList(gry).then((response) => {
+          this.tableselData = response.rows;
+          let tt = 0;
+          if (this.gdType == 2) {
+            for (let i = 0; i < response.rows.length; i++) {
+              tt =
+                parseFloat(tt) + parseFloat(response.rows[i].grnNumber * this.gd);
+            }
+            this.form.gdxPrice = tt.toFixed(2);
+          }
+          this.toggleSelection();
+        });
+        let stData = { stId: obj.stId };
+        getHkState(stData).then((response) => {
+          this.form.ttPrice = parseFloat(response.data.ttPrice).toFixed(2);
+          this.form.bzPrice = parseFloat(response.data.bzPrice).toFixed(2);
+          this.form.servicePrice = parseFloat(response.data.servicePrice).toFixed(
+            2
+          );
+          this.form.bsPrice = parseFloat(response.data.bsPrice).toFixed(2);
+          this.form.yfPrice = parseFloat(response.data.yfPrice).toFixed(2);
+          this.form.jst = parseFloat(response.data.jst).toFixed(2);
+          this.form.jstax = parseFloat(response.data.jstax).toFixed(2);
+          this.form.price = parseFloat(response.data.price).toFixed(2);
+          this.bs = parseFloat(response.data.bsPrice).toFixed(2);
+          this.price = parseFloat(response.data.price).toFixed(2);
+          this.form.zzPrice = parseFloat(response.data.jst).toFixed(2);
+          this.form.tax = ((parseFloat(response.data.jst) / 1.13) * 0.13).toFixed(
+            2
+          );
+          this.form.sjzf = parseFloat(response.data.sjzf).toFixed(2);
+          this.form.supplierId = response.data.supplierId;
+          this.form.supplierName = response.data.supplierName;
+          this.form.account = response.data.account;
+          this.form.openbank = response.data.openbank;
+          this.toggleSelection();
+        });
+
+        let sticketData = { stId: obj.stId };
+        getSticketList(sticketData).then((response) => {
+          let sticketList = response.rows;
+          let a1 = false;
+          let a2 = false;
+          for (let i = 0; i < sticketList.length; i++) {
+            if (
+              sticketList[i].proportion != null &&
+              sticketList[i].proportion != ""
+            ) {
+              if (sticketList[i].proportion == "5%") {
+                a1 = true;
+              }
+              if (sticketList[i].proportion == "95%") {
+                a2 = true;
+              }
+            }
+          }
+          if (!a1 && !a2) {
+            this.$message.error("该项目没有5%和95%收票记录");
+          } else {
+            if (!a1) {
+              this.$message.error("该项目没有5%收票记录");
+            }
+            if (!a2) {
+              this.$message.error("该项目没有95%收票记录");
+            }
+          }
+        });
       }
     },
 

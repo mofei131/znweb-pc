@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch && !isQuote" label-width="68px">
       <el-form-item label="创建时间">
         <el-date-picker v-model="dateRange" size="small" style="width: 240px" value-format="yyyy-MM-dd" type="daterange"
           range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
@@ -60,13 +60,13 @@
       <!--          v-hasPermi="['project:wldetails:export']"-->
       <!--        >导出</el-button>-->
       <!--      </el-col>-->
-      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList" v-show="!isQuote"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="wldetailsList" @selection-change="handleSelectionChange">
-      <el-table-column label="项目名称" align="center" prop="projectName" />
-      <el-table-column label="业务名称" align="center" prop="stName" />
-      <el-table-column label="项目编号" align="center" prop="serialNo" />
+      <el-table-column label="项目名称" align="center" prop="projectName" v-if="!isQuote" />
+      <el-table-column label="业务名称" align="center" prop="stName" v-if="!isQuote" />
+      <el-table-column label="项目编号" align="center" prop="serialNo" v-if="!isQuote" />
       <el-table-column label="不含税金额合计" align="center" prop="tntPrice">
         <template slot-scope="scope">
           {{
@@ -124,8 +124,9 @@
           <el-col :span="12">
             <el-form-item label="项目名称" prop="projectId">
               <el-select filterable value-key="projectId" @change="changeProject" v-model="form.projectId"
-                placeholder="请选择项目" style="width: 100%">
-                <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName" :value="pro.projectId">
+                placeholder="请选择项目" style="width: 100%" :disabled="isQuote">
+                <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName"
+                  :value="pro.projectId">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -133,8 +134,9 @@
           <el-col :span="12">
             <el-form-item label="业务名称" prop="stId">
               <el-select filterable value-key="stId" @change="changeSt" v-model="form.stId" placeholder="请选择业务"
-                style="width: 100%">
-                <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj.stId"></el-option>
+                style="width: 100%" :disabled="isQuote">
+                <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj.stId">
+                </el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -304,6 +306,18 @@ import { getContract, getGrnList } from "@/api/project/apayment";
 import { listProjectForCombobox, listBusinessForCombobox } from "@/api/project/st";
 export default {
   name: "Wldetails",
+  props: {
+    "stIdd": {
+      type: String
+    },
+    "projectIdd": {
+      type: String
+    },
+    "isQuote": {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {
       // 遮罩层
@@ -364,7 +378,6 @@ export default {
       //文件集合
       fileList: [],
       // 项目集合
-      stOptions: [],
       projectOptions: [],
       // 第三方公司集合
       tpcOptions: [],
@@ -374,10 +387,11 @@ export default {
     };
   },
   created() {
+    if (this.isQuote) {
+      this.queryParams.stId = parseInt(this.stIdd)
+      this.queryParams.projectId = parseInt(this.projectIdd)
+    }
     this.getList();
-    listWldetails(this.addDateRange(this.queryParams, this.dateRange)).then((response) => {
-      this.stOptions = response.rows;
-    });
     getTpcList().then((response) => {
       this.tpcOptions = response.rows;
     });
@@ -390,9 +404,6 @@ export default {
         this.wldetailsList = response.rows;
         this.total = response.total;
         this.loading = false;
-      });
-      getStList().then((response) => {
-        this.stOptions = response.rows;
       });
       getTpcList().then((response) => {
         this.tpcOptions = response.rows;
@@ -409,6 +420,9 @@ export default {
       this.listForBusArr = []
       listBusinessForCombobox({ projectId }).then((response) => {
         this.listForBusArr = response.data
+        if (this.isQuote) {
+          this.changeSt(this.queryParams.stId)
+        }
       })
     },
     // 取消按钮
@@ -466,6 +480,11 @@ export default {
     /** 新增按钮操作 */
     handleAdd() {
       this.reset();
+      if (this.isQuote) {
+        this.form.projectId = this.queryParams.projectId
+        this.changeProject(this.queryParams.projectId)
+        this.form.stId = this.queryParams.stId
+      }
       this.form.type = "汽运";
       this.open = true;
       this.title = "添加物流收票";
@@ -576,10 +595,10 @@ export default {
       let businessFind = this.listForBusArr.filter(x => x.stId == stId);
       if (businessFind && businessFind.length > 0) {
         let obj = businessFind[0];
-      this.form.stName = obj.stName;
-      this.form.serialNo = obj.serialNo;
-      this.$set(this.form, "number", obj.number);
-    }
+        this.form.stName = obj.stName;
+        this.form.serialNo = obj.serialNo;
+        this.$set(this.form, "number", obj.number);
+      }
     },
     changeProject(projectId) {
       this.listForBusArr = []
@@ -589,7 +608,6 @@ export default {
       if (projectId) {
         this.loadBusinessForCombobox(projectId);
       }
-      this.form.projectName = pro.projectName
     },
 
     //选择第三方公司

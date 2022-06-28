@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch && !isQuote" label-width="68px">
       <el-form-item label="创建时间">
         <el-date-picker v-model="dateRange" size="small" style="width: 240px" value-format="yyyy-MM-dd" type="daterange"
           range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
@@ -33,16 +33,16 @@
         <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"
           v-hasPermi="['project:refund:export']">导出</el-button>
       </el-col>
-      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList" v-show="!isQuote"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="refundList" @selection-change="handleSelectionChange">
       <!-- <el-table-column type="selection" width="55" align="center" /> -->
       <!-- <el-table-column label="主键" align="center" prop="refundId" /> -->
       <!-- <el-table-column label="项目编号" align="center" prop="stId" /> -->
-      <el-table-column label="项目名称" align="center" prop="projectName" />
-      <el-table-column label="业务名称" align="center" prop="stName" />
-      <el-table-column label="项目编号" align="center" prop="serialNo" />
+      <el-table-column label="项目名称" align="center" prop="projectName" v-if="!isQuote" />
+      <el-table-column label="业务名称" align="center" prop="stName" v-if="!isQuote" />
+      <el-table-column label="项目编号" align="center" prop="serialNo" v-if="!isQuote" />
       <!-- <el-table-column label="终端客户id" align="center" prop="terminalId" /> -->
       <el-table-column label="终端客户" align="center" prop="tName" />
       <!-- <el-table-column label="账号" align="center" prop="account" /> -->
@@ -105,8 +105,9 @@
           <el-col :span="12">
             <el-form-item label="项目名称" prop="projectId">
               <el-select filterable value-key="projectId" @change="changeProject" v-model="form.projectId"
-                placeholder="请选择项目" style="width: 100%">
-                <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName" :value="pro.projectId">
+                placeholder="请选择项目" style="width: 100%" :disabled="isQuote">
+                <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName"
+                  :value="pro.projectId">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -114,8 +115,9 @@
           <el-col :span="12">
             <el-form-item label="业务名称" prop="stId">
               <el-select filterable value-key="stId" @change="changeSt" v-model="form.stId" placeholder="请选择业务"
-                style="width: 100%">
-                <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj.stId"></el-option>
+                style="width: 100%" :disabled="isQuote">
+                <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj.stId">
+                </el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -366,7 +368,7 @@
             </tr>
           </table>
           <!--审批流程-->
-          <approval-print :typeId="19" :stId="apyamentId" ></approval-print>
+          <approval-print :typeId="19" :stId="apyamentId"></approval-print>
         </div>
       </div>
     </el-dialog>
@@ -399,6 +401,18 @@ import Moment from "moment";
 import { listProjectForCombobox, listBusinessForCombobox } from "@/api/project/st";
 export default {
   name: "Refund",
+  props: {
+    "stIdd": {
+      type: String
+    },
+    "projectIdd": {
+      type: String
+    },
+    "isQuote": {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {
       // 遮罩层
@@ -492,6 +506,10 @@ export default {
     };
   },
   created() {
+    if (this.isQuote) {
+      this.queryParams.stId = parseInt(this.stIdd)
+      this.queryParams.projectId = parseInt(this.projectIdd)
+    }
     this.getList();
     this.getDicts("project_approval_state").then((response) => {
       this.stateOptions = response.data;
@@ -524,6 +542,9 @@ export default {
       this.listForBusArr = []
       listBusinessForCombobox({ projectId }).then((response) => {
         this.listForBusArr = response.data
+        if (this.isQuote) {
+          this.changeSt(this.queryParams.stId)
+        }
       })
     },
     stateFormat(row, column) {
@@ -564,7 +585,6 @@ export default {
         updateTime: null,
         fileList: [],
         projectId: null,
-        projectIdOld: null,
         projectName: null,
         serialNo: null
       };
@@ -637,6 +657,11 @@ export default {
     handleAdd() {
       getApprovalType({ approvalType: '19' }).then((response) => {
         this.reset();
+        if (this.isQuote) {
+          this.form.projectId = this.queryParams.projectId
+          this.changeProject(this.queryParams.projectId)
+          this.form.stId = this.queryParams.stId
+        }
         this.fileList = [];
         this.open = true;
         this.title = "添加退款申请";
@@ -713,10 +738,6 @@ export default {
       this.isDisabled = true;
       this.$refs["form"].validate((valid) => {
         if (valid) {
-          if (this.form.stIdOld) {
-            this.form.stId = this.form.stIdOld;
-            this.form.projectId = this.form.projectIdOld
-          }
           if (this.form.refundId != null) {
             updateRefund(this.form).then((response) => {
               this.msgSuccess("修改成功");
@@ -792,21 +813,20 @@ export default {
       }
     },
     changeSt(stId) {
-       let businessFind = this.listForBusArr.filter(x => x.stId == stId);
+      let businessFind = this.listForBusArr.filter(x => x.stId == stId);
       if (businessFind && businessFind.length > 0) {
         let obj = businessFind[0];
-      this.form.stIdOld = obj.stId;
-      this.form.stName = obj.stName;
-      this.form.stNumber = obj.number;
-      this.form.terminalId = obj.terminalId;
-      this.form.serialNo = obj.serialNo;
-      let terminalFind = this.terminalOptions.filter(
-        (x) => x.terminalId == obj.terminalId
-      );
-      if (terminalFind) {
-        this.form.tName = terminalFind[0].name;
+        this.form.stName = obj.stName;
+        this.form.stNumber = obj.number;
+        this.form.terminalId = obj.terminalId;
+        this.form.serialNo = obj.serialNo;
+        let terminalFind = this.terminalOptions.filter(
+          (x) => x.terminalId == obj.terminalId
+        );
+        if (terminalFind) {
+          this.form.tName = terminalFind[0].name;
+        }
       }
-    }
     },
     changeTerinal(terminalId) {
       let terminalFind = this.terminalOptions.filter(

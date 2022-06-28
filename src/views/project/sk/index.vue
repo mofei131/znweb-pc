@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch && !isQuote" label-width="68px">
       <el-form-item label="创建时间">
         <el-date-picker v-model="dateRange" size="small" style="width: 240px" value-format="yyyy-MM-dd" type="daterange"
           range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
@@ -60,13 +60,13 @@
       <!--          v-hasPermi="['project:sk:export']"-->
       <!--        >导出</el-button>-->
       <!--      </el-col>-->
-      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList" v-show="!isQuote"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="skList" @selection-change="handleSelectionChange">
-      <el-table-column label="项目名称" align="center" prop="projectName" />
-      <el-table-column label="业务名称" align="center" prop="stName" />
-      <el-table-column label="项目编号" align="center" prop="serialNo" />
+      <el-table-column label="项目名称" align="center" prop="projectName" v-if="!isQuote" />
+      <el-table-column label="业务名称" align="center" prop="stName" v-if="!isQuote" />
+      <el-table-column label="项目编号" align="center" prop="serialNo" v-if="!isQuote" />
       <el-table-column label="收款类型" align="center" prop="skType" />
       <el-table-column label="合计重量(吨)" align="center" prop="tweight">
         <template slot-scope="scope">
@@ -164,8 +164,9 @@
             <el-col :span="12">
               <el-form-item label="项目名称" prop="projectId">
                 <el-select filterable value-key="projectId" @change="changeProject" v-model="form.projectId"
-                  placeholder="请选择项目" style="width: 100%">
-                  <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName" :value="pro.projectId">
+                  placeholder="请选择项目" style="width: 100%" :disabled="isQuote">
+                  <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName"
+                    :value="pro.projectId">
                   </el-option>
                 </el-select>
               </el-form-item>
@@ -173,8 +174,9 @@
             <el-col :span="12">
               <el-form-item label="业务名称" prop="stId">
                 <el-select filterable value-key="stId" @change="changeSt" v-model="form.stId" placeholder="请选择业务"
-                  style="width: 100%">
-                  <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj.stId"></el-option>
+                  style="width: 100%" :disabled="isQuote">
+                  <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj.stId">
+                  </el-option>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -310,8 +312,8 @@
                 <el-table-column v-if="isLook != 3" label="操作" width="120">
                   <template slot-scope="scope">
                     <el-button @click.native.prevent="
-                        deleteRow(scope.$index, tableselData, scope)
-                      " type="text" size="small">
+                      deleteRow(scope.$index, tableselData, scope)
+                    " type="text" size="small">
                       移除
                     </el-button>
                   </template>
@@ -634,7 +636,7 @@
             </tr>
           </table>
           <!--审批流程-->
-          <approval-print :typeId="6" :stId="apyamentId" ></approval-print>
+          <approval-print :typeId="6" :stId="apyamentId"></approval-print>
         </div>
       </div>
     </el-dialog>
@@ -660,6 +662,18 @@ import { getProcessDataByStId, getApprovalProcessList, getApprovalType } from "@
 import { listProjectForCombobox, listBusinessForCombobox } from "@/api/project/st";
 export default {
   name: "Sk",
+  props: {
+    "stIdd": {
+      type: String
+    },
+    "projectIdd": {
+      type: String
+    },
+    "isQuote": {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     // 两位小数点验证
     const validatePrice = (rule, value, callback) => {
@@ -820,6 +834,10 @@ export default {
     };
   },
   created() {
+    if (this.isQuote) {
+      this.queryParams.stId = parseInt(this.stIdd)
+      this.queryParams.projectId = parseInt(this.projectIdd)
+    }
     this.getList();
     this.getDicts("project_approval_state").then((response) => {
       this.stateOptions = response.data;
@@ -862,6 +880,9 @@ export default {
       this.listForBusArr = []
       listBusinessForCombobox({ projectId }).then((response) => {
         this.listForBusArr = response.data
+        if (this.isQuote) {
+          this.changeSt(this.queryParams.stId)
+        }
       })
     },
     // 取消按钮
@@ -910,7 +931,6 @@ export default {
         gryList: [],
         fileList: [],
         projectId: null,
-        projectIdOld: null,
         projectName: null,
         serialNo: null
       };
@@ -940,6 +960,11 @@ export default {
     handleAdd() {
       getApprovalType({ approvalType: '6' }).then((response) => {
         this.reset();
+        if (this.isQuote) {
+          this.form.projectId = this.queryParams.projectId
+          this.changeProject(this.queryParams.projectId)
+          this.form.stId = this.queryParams.stId
+        }
         (this.tablegryData = []),
           (this.tableselData = []),
           (this.tableybData = []),
@@ -964,8 +989,6 @@ export default {
       const skId = row.skId || this.ids;
       getSk(skId).then((response) => {
         this.form = response.data;
-        this.form.stId2 = this.form.stId;
-        this.form.stId = this.form.stName;
         this.tableselData = response.data.selnyList;
         this.fileList = this.form.fileList;
         this.isLook = 1;
@@ -1024,8 +1047,6 @@ export default {
       this.$refs["form"].validate((valid) => {
         if (valid) {
           if (this.isLook != 4) {
-            this.form.stId = this.form.stId2;
-            this.form.projectId = this.form.projectIdOld
             if (this.form.skType == "收款") {
               if (this.tableselData.length < 1) {
                 this.msgError("请选择出库单");
@@ -1160,50 +1181,49 @@ export default {
       let businessFind = this.listForBusArr.filter(x => x.stId == stId);
       if (businessFind && businessFind.length > 0) {
         let obj = businessFind[0];
-      this.form.jc1 = 0;
-      this.form.jc2 = 0;
-      this.form.jc3 = 0;
-      this.form.jc4 = 0;
-      this.form.jc5 = 0;
-      this.form.jc6 = 0;
-      this.form.jc7 = 0;
-      this.form.jc8 = 0;
-      this.form.jc9 = 0;
-      this.form.jc10 = 0;
-      this.form.jc11 = 0;
-      this.form.jc12 = 0;
-      this.form.rewardp = 0;
-      this.tableybData = [];
-      this.form.stId2 = obj.stId;
-      this.form.stName = obj.stName;
-      this.form.serialNo = obj.serialNo;
-      this.form.tId = null;
-      this.form.tName = null;
-      this.$set(this.form, "number", obj.number);
-      //查询煤炭销售合同
-      let c2 = { stId: this.form.stId2, type: "2" };
-      getContract(c2).then((response) => {
-        if (response.data != null) {
-          //预付单价 吨的预付单价
-          this.form.skPrice = parseFloat(response.data.price).toFixed(2);
+        this.form.jc1 = 0;
+        this.form.jc2 = 0;
+        this.form.jc3 = 0;
+        this.form.jc4 = 0;
+        this.form.jc5 = 0;
+        this.form.jc6 = 0;
+        this.form.jc7 = 0;
+        this.form.jc8 = 0;
+        this.form.jc9 = 0;
+        this.form.jc10 = 0;
+        this.form.jc11 = 0;
+        this.form.jc12 = 0;
+        this.form.rewardp = 0;
+        this.tableybData = [];
+        this.form.stName = obj.stName;
+        this.form.serialNo = obj.serialNo;
+        this.form.tId = null;
+        this.form.tName = null;
+        this.$set(this.form, "number", obj.number);
+        //查询煤炭销售合同
+        let c2 = { stId: this.form.stId, type: "2" };
+        getContract(c2).then((response) => {
+          if (response.data != null) {
+            //预付单价 吨的预付单价
+            this.form.skPrice = parseFloat(response.data.price).toFixed(2);
+          }
+        });
+
+        this.form.tId = obj.terminalId;
+        this.form.tName = obj.tName;
+
+        //获取预收款
+        if (this.form.skType == "收款") {
+          this.form.yfPrice = obj.tqsk;
         }
-      });
+        this.tableselData = [];
+        let data = { stId: obj.stId, skState: "1" };
+        getGryList(data).then((response) => {
+          this.tablegryData = response.rows;
+        });
 
-      this.form.tId = obj.terminalId;
-      this.form.tName = obj.tName;
-
-      //获取预收款
-      if (this.form.skType == "收款") {
-        this.form.yfPrice = obj.tqsk;
+        this.toggleSelection();
       }
-      this.tableselData = [];
-      let data = { stId: obj.stId, skState: "1" };
-      getGryList(data).then((response) => {
-        this.tablegryData = response.rows;
-      });
-
-      this.toggleSelection();
-    }
     },
     //选中数据
     grnSelectionChange(selection) {
