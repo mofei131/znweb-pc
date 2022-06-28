@@ -1,7 +1,7 @@
 <template>
   <div>
     <!--审批流程-->
-    <table border="1" width="100%" v-if="printData.nodeStateList != null" >
+    <table border="1" width="100%" >
        <tr>
          <td class="title" colspan="6">审批流程</td>
        </tr>
@@ -162,7 +162,7 @@
           //                         approvalTime: "2022-06-22 15:37:49",
           //                         extra: {
           //                             opt: "pass",
-          //                             opinion: "没问题"
+          //                             opinion: "没问题没问题没问题没问题没问题没问题没问题没问题没问题没问题没问题没问题没问题没问题没问题没问题没问题没问题没问题没问题没问题没问题没问题没问题"
           //                         }
           //                     },
           //                     {
@@ -241,7 +241,7 @@
         businessKey:this.stId,
         approvalType:this.typeId
       }).then((res) => {
-        JSON.stringify(res.data) == "{}"?this.nodeStateList = null:this.nodeStateList = res.data;
+        // JSON.stringify(res.data) == "{}"?this.nodeStateList = null:this.nodeStateList = res.data;
       });
       approveHistory({
         businessKey:this.stId,
