@@ -106,7 +106,7 @@
             <el-form-item label="项目名称" prop="projectId">
               <el-select filterable value-key="projectId" @change="changeProject" v-model="form.projectId"
                 placeholder="请选择项目" style="width: 100%">
-                <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName" :value="pro">
+                <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName" :value="pro.projectId">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -115,7 +115,7 @@
             <el-form-item label="业务名称" prop="stId">
               <el-select filterable value-key="stId" @change="changeSt" v-model="form.stId" placeholder="请选择业务"
                 style="width: 100%">
-                <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj"></el-option>
+                <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj.stId"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -396,7 +396,7 @@ import { getProcessDataByStId, getApprovalProcessList, getApprovalType } from "@
 import request from "@/utils/request";
 import Moment from "moment";
 // Vue.prototype.moment = Moment
-
+import { listProjectForCombobox, listBusinessForCombobox } from "@/api/project/st";
 export default {
   name: "Refund",
   data() {
@@ -511,13 +511,19 @@ export default {
       getTerminalList().then((response) => {
         this.terminalOptions = response.rows;
       });
-      // 业务
-      listForBus().then((response) => {
-        this.listForBusArr = response.data
-      })
-      // 项目
-      listForPro().then((response) => {
+      // 项目下拉
+      this.loadProjectForCombobox();
+    },
+    loadProjectForCombobox() {
+      this.listForProArr = []
+      listProjectForCombobox().then((response) => {
         this.listForProArr = response.data
+      })
+    },
+    loadBusinessForCombobox(projectId) {
+      this.listForBusArr = []
+      listBusinessForCombobox({ projectId }).then((response) => {
+        this.listForBusArr = response.data
       })
     },
     stateFormat(row, column) {
@@ -776,10 +782,19 @@ export default {
       const refundId = row.refundId || this.ids;
       this.$router.push("/refund/look/" + refundId);
     },
-    changeProject(pro) {
-      this.form.projectIdOld = pro.projectId;
+    changeProject(projectId) {
+      this.listForBusArr = []
+      this.form.stId = ''
+      this.form.stName = ''
+      this.form.serialNo = ''
+      if (projectId) {
+        this.loadBusinessForCombobox(projectId);
+      }
     },
-    changeSt(obj) {
+    changeSt(stId) {
+       let businessFind = this.listForBusArr.filter(x => x.stId == stId);
+      if (businessFind && businessFind.length > 0) {
+        let obj = businessFind[0];
       this.form.stIdOld = obj.stId;
       this.form.stName = obj.stName;
       this.form.stNumber = obj.number;
@@ -791,6 +806,7 @@ export default {
       if (terminalFind) {
         this.form.tName = terminalFind[0].name;
       }
+    }
     },
     changeTerinal(terminalId) {
       let terminalFind = this.terminalOptions.filter(

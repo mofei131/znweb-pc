@@ -10,7 +10,7 @@
         <el-date-picker v-model="dateRange" size="small" style="width: 240px" value-format="yyyy-MM-dd" type="daterange"
           range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
       </el-form-item>
-      <el-form-item label="项目" prop="stId">
+      <el-form-item label="项目" prop="projectName">
         <el-input v-model="queryParams.projectName" placeholder="项目名称" clearable size="small"
           @keyup.enter.native="handleQuery" />
       </el-form-item>
