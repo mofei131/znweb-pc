@@ -39,6 +39,44 @@
         </el-col>
       </el-row>
       <el-row class="head-text">
+        <el-col class="newTable">
+          <table width="90%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td class="tdTitle">终端客户名称</td>
+              <td class="tdCoent">{{form.name}}</td>
+              <td class="tdTitle">成立日期</td>
+              <td class="tdCoent">{{form.setupTime}}</td>
+              <td class="tdTitle">企业性质</td>
+              <td class="tdCoent">{{form.nature}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">年需求量(万吨)</td>
+              <td class="tdCoent">{{$options.filters.weightFilter(form.demand)}}</td>
+              <td class="tdTitle">注册资本(万元)</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.capital)}}</td>
+              <td class="tdTitle">开票结算方式</td>
+              <td class="tdCoent">{{form.settlementType}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">结算规则</td>
+              <td class="tdCoent">{{form.settlementGz}}</td>
+              <td class="tdTitle">回款账期</td>
+              <td class="tdCoent">{{form.paymentdays}}</td>
+              <td class="tdTitle">付款方式</td>
+              <td class="tdCoent">{{form.paymentType}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">评级</td>
+              <td class="tdCoent">{{form.rating}}</td>
+              <td class="tdTitle">评级说明</td>
+              <td class="tdCoent">{{form.ratingDe}}</td>
+              <td class="tdTitle">客户代码</td>
+              <td class="tdCoent">{{form.customerCode}}</td>
+            </tr>
+          </table>
+        </el-col>
+      </el-row>
+      <!-- <el-row class="head-text">
         <el-col :span="7" :offset="1">
           <div style="display:flex">
             <div>终端客户名称：</div><span v-text="form.name"></span>
@@ -81,7 +119,7 @@
         <el-col :span="5">
           客户代码：<span v-text="form.customerCode"></span>
         </el-col>
-      </el-row>
+      </el-row> -->
 
       <el-row class="head-text">
         <el-col :span="18" :offset="1">

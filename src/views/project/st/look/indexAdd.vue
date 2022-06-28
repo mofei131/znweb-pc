@@ -37,7 +37,7 @@
             <template slot="label">业务实控人</template>{{ projectInfo.actualControlName }}
           </el-descriptions-item>
           <el-descriptions-item>
-            <template slot="label">收费模式</template>{{ projectInfo.chargemType }}
+            <template slot="label">收费模式</template>{{ changeChargemType(projectInfo.chargemType) }}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">货运方式</template>{{ changeTransType(projectInfo.freightMode) }}
@@ -65,8 +65,8 @@
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">结算比例</template>{{ stInfo.settlementPA1 ? stInfo.settlementPA1 + '-' +
-                stInfo.settlementPA2 + '-' +
-                stInfo.settlementPA3 : ''
+            stInfo.settlementPA2 + '-' +
+            stInfo.settlementPA3 : ''
             }}
           </el-descriptions-item>
           <el-descriptions-item>
@@ -112,8 +112,8 @@
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">结算比例</template>{{ stInfo.shSettlementA1 ? stInfo.shSettlementA1 + '-' +
-                stInfo.shSettlementA2 + '-' +
-                stInfo.shSettlementA3 : ''
+            stInfo.shSettlementA2 + '-' +
+            stInfo.shSettlementA3 : ''
             }}
           </el-descriptions-item>
           <el-descriptions-item>
@@ -142,7 +142,7 @@
       <div v-if="stId && projectId">
         <div style="padding:20px">
           <div id="bid">投标申请</div>
-          <bid-apply :stIdd="stId" :projectIdd="projectId"></bid-apply>
+          <bid-apply :stIdd="stId" :projectIdd="projectId" :isQuote="true"></bid-apply>
         </div>
         <div style="padding:20px">
           <div id="contract">合同信息</div>
@@ -213,7 +213,8 @@
         </div>
       </div>
     </div>
-      <div class="maodian" style="position: fixed;top:94px;right:0;width:12.8%;height:588px;background-color: #ffffff;border-radius: 10px;text-align: center;line-height:30px;font-size: 13px">
+    <div class="maodian"
+      style="position: fixed;top:94px;right:0;width:12.8%;height:588px;background-color: #ffffff;border-radius: 10px;text-align: center;line-height:30px;font-size: 13px">
       <div ref="bid" @click="jump('bid')">投标申请</div>
       <div ref="contract" @click="jump('contract')">合同管理</div>
       <div ref="rewardsp" v-if="projectInfo.businessType != 'cu' && projectInfo.businessType != 'cud'"
@@ -246,7 +247,7 @@
 </template>
 
 <script>
-import bidApply from '@/views/project/st/components/bidApply'
+import bidApply from '@/views/project/bidApply'
 import contract from '@/views/project/st/components/contract'
 import rewardsp from '@/views/project/st/components/rewardsp'
 import margin from '@/views/project/st/components/margin'
@@ -422,6 +423,15 @@ export default {
         return '火运'
       } else if (e = 'dcd') {
         return '公铁联运'
+      }
+    },
+    changeChargemType(e) {
+      if (e == '1') {
+        return '年息'
+      } else if (e = '2') {
+        return '固定差价'
+      } else if (e = '3') {
+        return '年息+固定差价'
       }
     },
     exportInfo() {

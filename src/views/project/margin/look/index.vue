@@ -41,6 +41,52 @@
         </el-col>
       </el-row>
       <el-row class="head-text">
+        <el-col class="newTable">
+          <table width="90%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td class="tdTitle">项目名称</td>
+              <td class="tdCoent">{{form.projectName}}</td>
+              <td class="tdTitle">业务名称</td>
+              <td class="tdCoent">{{form.stName}}</td>
+              <td class="tdTitle">项目编号</td>
+              <td class="tdCoent">{{form.serialNo}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">保证金对象</td>
+              <td class="tdCoent">{{form.type}}</td>
+              <td class="tdTitle"></td>
+              <td class="tdCoent"></td>
+              <td class="tdTitle"></td>
+              <td class="tdCoent"></td>
+            </tr>
+            <tr v-if="form.type == '上游'">
+              <td class="tdTitle">合同名称</td>
+              <td class="tdCoent">{{form.stName}}</td>
+              <td class="tdTitle">供应商名称</td>
+              <td class="tdCoent">{{form.terminalName}}</td>
+              <td class="tdTitle">保证金金额(元)</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.putPrice)}}</td>
+            </tr>
+            <tr v-if="form.type == '下游'">
+              <td class="tdTitle">合同名称</td>
+              <td class="tdCoent">{{form.contractName}}</td>
+              <td class="tdTitle">客户名称</td>
+              <td class="tdCoent">{{form.terminalName}}</td>
+              <td class="tdTitle">保证金金额(元)</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.putPrice)}}</td>
+            </tr>
+            <tr v-if="form.type == '下游'">
+              <td class="tdTitle">年服务费率%</td>
+              <td class="tdCoent">{{form.stRate}}</td>
+              <td class="tdTitle">保底服务费期限(天)</td>
+              <td class="tdCoent">{{form.mfsp}}</td>
+              <td class="tdTitle">支付日期</td>
+              <td class="tdCoent">{{parseTime(form.putTime, "{y}-{m}-{d}")}}</td>
+            </tr>
+          </table>
+        </el-col>
+        </el-row>
+     <!-- <el-row class="head-text">
         <el-col :span="7" :offset="1">
           <div style="display:flex">
             <div>项目名称：</div><span v-text="form.projectName"></span>
@@ -94,7 +140,7 @@
             <div>支付日期：</div><span>{{ parseTime(form.putTime, "{y}-{m}-{d}") }}</span>
           </div>
         </el-col>
-      </el-row>
+      </el-row> -->
 
       <!--      合同信息-->
       <el-row class="head-title">
@@ -104,7 +150,7 @@
       </el-row>
       <el-row class="head-text">
         <el-col :offset="1">
-          <el-table ref="singleTable" :data="contract" style="width: 80%; margin-bottom: 30px">
+          <el-table ref="singleTable" :data="contract" style="width: 90%; margin-bottom: 30px">
             <el-table-column property="name" label="合同名称">
             </el-table-column>
             <el-table-column property="type" label="合同类型" :formatter="contractTypeFormat">

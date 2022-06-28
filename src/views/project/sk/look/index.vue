@@ -90,7 +90,7 @@
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="20" :offset="1">
+        <el-col :span="22" :offset="1">
           <el-table ref="singleTable" :data="gryList" fit style="margin-bottom: 30px;">
             <el-table-column property="name" label="货品名称">
             </el-table-column>

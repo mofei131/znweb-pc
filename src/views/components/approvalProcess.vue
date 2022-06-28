@@ -122,7 +122,7 @@ export default {
               //                         approvalTime: "2022-06-22 15:37:49",
               //                         extra: {
               //                             opt: "pass",
-              //                             opinion: "没问题"
+              //                             opinion: "没问题没问题"
               //                         }
               //                     },
               //                     {
@@ -260,7 +260,7 @@ export default {
   td{
     border: 1px solid #dfe6ec;
     text-align: center;
-    height: 40px;
+    padding: 10px 0;
   }
   .signature{
     background-color: #f8f8f9;

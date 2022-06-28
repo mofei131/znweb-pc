@@ -37,6 +37,28 @@
         </el-col>
       </el-row>
       <el-row class="head-text">
+        <el-col class="newTable">
+          <table width="90%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td class="tdTitle">名称</td>
+              <td class="tdCoent">{{form.name}}</td>
+              <td class="tdTitle">快递名称</td>
+              <td class="tdCoent">{{form.kdName}}</td>
+              <td class="tdTitle">快递单号</td>
+              <td class="tdCoent">{{form.kdNumber}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">快递物品</td>
+              <td class="tdCoent">{{form.kdWp}}</td>
+              <td class="tdTitle">发出时间</td>
+              <td class="tdCoent">{{parseTime(form.kdTime, '{y}-{m}-{d}')}}</td>
+              <td class="tdTitle">备注说明</td>
+              <td class="tdCoent">{{form.node}}</td>
+            </tr>
+          </table>
+        </el-col>
+        </el-row>
+     <!-- <el-row class="head-text">
         <el-col :span="7" :offset="1">
           <div style="display:flex"><div>名称：</div><span v-text="form.name"></span></div>
           <div style="display:flex"><div>快递名称：</div><span v-text="form.kdName"></span></div>
@@ -47,10 +69,10 @@
         <el-col :span="7" :offset="1">
           <div style="display:flex"><div>备注说明：</div><span v-text="form.node"></span></div>
         </el-col>
-      </el-row>
+      </el-row> -->
 
     </el-form>
-    <el-row>
+    <el-row style="margin-top: 20px;">
       <el-col :offset="1" :span="20">
         <div slot=""  class="dialog-footer" style="text-align: right;margin-bottom: 50px;margin-right: 50px;">
           <el-button size="small" type="info" @click="cancel">关 闭</el-button>

@@ -38,7 +38,7 @@
           <span style="color: #ff0000">{{ stateF(form.state) }}</span>
         </el-col>
       </el-row>
-      <el-row class="head-text">
+     <!-- <el-row class="head-text">
         <el-col :span="7" :offset="1">
           <div style="display:flex">
             <div>供应商名称：</div><span v-text="form.name"></span>
@@ -73,6 +73,40 @@
             <div>评级说明：</div><span v-text="form.ratingDe"></span>
           </div>
         </el-col>
+      </el-row> -->
+      <el-row class="head-text">
+        <el-col class="newTable">
+          <table width="90%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td class="tdTitle">供应商名称</td>
+              <td class="tdCoent">{{form.name}}</td>
+              <td class="tdTitle">成立日期</td>
+              <td class="tdCoent">{{form.clTime}}</td>
+              <td class="tdTitle">年发运量(万吨)</td>
+              <td class="tdCoent">{{$options.filters.weightFilter(form.traffic)}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">注册资本(万元)</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.capital)}}</td>
+              <td class="tdTitle">供应商账号</td>
+              <td class="tdCoent">{{form.account}}</td>
+              <td class="tdTitle">开户行</td>
+              <td class="tdCoent">{{form.openbank}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">发票面额</td>
+              <td class="tdCoent">{{form.invoiceType}}</td>
+              <td class="tdTitle">企业性质</td>
+              <td class="tdCoent">{{form.nature}}</td>
+              <td class="tdTitle">评级</td>
+              <td class="tdCoent">{{form.rating}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">评级说明</td>
+              <td class="tdCoent" colspan="5">{{form.ratingDe}}</td>
+            </tr>
+          </table>
+        </el-col>
       </el-row>
       <el-row class="head-title">
         <el-col :span="19">
@@ -80,6 +114,28 @@
         </el-col>
       </el-row>
       <el-row class="head-text">
+        <el-col class="newTable">
+          <table width="90%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td class="tdTitle">原资方名称</td>
+              <td class="tdCoent">{{form.sourcemName}}</td>
+              <td class="tdTitle">原资方放款节点</td>
+              <td class="tdCoent">{{form.sourcemLn}}</td>
+              <td class="tdTitle">原资方费率</td>
+              <td class="tdCoent">{{form.sourcemRate}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">原资方放款比例</td>
+              <td class="tdCoent">{{form.sourcemLr}}</td>
+              <td class="tdTitle"></td>
+              <td class="tdCoent"></td>
+              <td class="tdTitle"></td>
+              <td class="tdCoent"></td>
+            </tr>
+          </table>
+        </el-col>
+      </el-row>
+      <!-- <el-row class="head-text">
         <el-col :span="7" :offset="1">
           <div style="display:flex">
             <div>原资方名称：</div><span v-text="form.sourcemName"></span>
@@ -94,7 +150,7 @@
             <div>原资方放款比例：</div><span v-text="form.sourcemLr"></span>
           </div>
         </el-col>
-      </el-row>
+      </el-row> -->
 
       <el-row class="head-text">
         <el-col :span="18" :offset="1">
