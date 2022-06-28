@@ -93,7 +93,7 @@
         </el-row>
 
         <!--        热值MJ/Kg-->
-        <el-row style="margin-top: 30px">
+        <el-row style="margin-top: 30px;">
           <el-col :span="4">
             <span style="font-size: 20px; color: black">热值MJ/Kg</span>
           </el-col>
@@ -104,104 +104,40 @@
         </el-row>
         <!--奖惩计划-->
         <div style="margin-bottom: 30px">
-          <el-table :show-header="false" ref="singleTable" :data="form.tableData1" style="width: 100%">
-            <el-table-column align="right">
-              <template>
-                <el-form-item label-width="0">
-                  <span>当</span>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="类别">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData1.' + scope.$index + '.a1'" :rules="rules.a1">
-                  <el-select v-model="scope.row.a1">
-                    <el-option label="Qgr,ad" value="Qgr,ad" />
-                    <el-option label="Qnt,ar" value="Qnt,ar" />
-                  </el-select>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column label="符号">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData1.' + scope.$index + '.s1'" :rules="rules.s1">
-                  <el-select v-model="scope.row.s1">
-                    <el-option label=">" value=">" />
-                    <el-option label="<" value="<" />
-                    <!--                  <el-option label="=" value="=" />-->
-                    <!--                  <el-option label=">=" value=">=" />-->
-                    <!--                  <el-option label="<=" value="<=" />-->
-                  </el-select>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="热值">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData1.' + scope.$index + '.a2'" :rules="rules.a2">
-                  <el-input v-model="scope.row.a2" placeholder="请输入" />
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column label="热值" width="90">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" style="text-align: right">
-                  <span>该值每：</span>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="上升/下降">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData1.' + scope.$index + '.s2'" :rules="rules.s2">
-                  <el-select v-model="scope.row.s2">
-                    <el-option label="上升" value="上升" />
-                    <el-option label="下降" value="下降" />
-                  </el-select>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="热值">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData1.' + scope.$index + '.b1'" :rules="rules.b1">
-                  <el-input v-model="scope.row.b1" placeholder="请输入" />
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column label="价格" width="70">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" style="text-align: right">
-                  <span>价格：</span>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="上升/下降">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData1.' + scope.$index + '.s3'" :rules="rules.s3">
-                  <el-select v-model="scope.row.s3">
-                    <el-option label="上升" value="上升" />
-                    <el-option label="下降" value="下降" />
-                  </el-select>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="价格">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData1.' + scope.$index + '.c1'" :rules="rules.c1">
-                  <el-input v-model="scope.row.c1" placeholder="价格" />
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column v-if="isLook != 3" label="操作">
-              <template slot-scope="scope">
-                <el-form-item label-width="0">
-                  <el-button @click.native.prevent="
-                    deleteRow(scope.$index, tableData1, 1)
-                  " type="text" size="small">
-                    移除
-                  </el-button>
-                </el-form-item>
-              </template>
-            </el-table-column>
-          </el-table>
+          <div v-for="(item,index) in form.tableData1" :key="index">
+            <el-form :model="item" class="demo-form-inline" label-width="100px">
+              <el-form-item label="当">
+                <el-select v-model="item.a1" class="lineflex">
+                  <el-option label="Qgr,ad" value="Qgr,ad" />
+                  <el-option label="Qnt,ar" value="Qnt,ar" />
+                </el-select>
+                <el-select v-model="item.s1" class="lineflex">
+                  <el-option label=">" value=">" />
+                  <el-option label="<" value="<" />
+                </el-select>
+                <el-input v-model="item.a2" placeholder="请输入" class="lineflex" />
+              </el-form-item>
+              <el-form-item label="该值每:">
+                <el-select v-model="item.s2" class="lineflex">
+                  <el-option label="上升" value="上升" />
+                  <el-option label="下降" value="下降" />
+                </el-select>
+                <el-input v-model="item.b1" placeholder="请输入" class="lineflex" />
+              </el-form-item>
+              <el-form-item label="价格:">
+                <el-select v-model="item.s3" class="lineflex">
+                  <el-option label="上升" value="上升" />
+                  <el-option label="下降" value="下降" />
+                </el-select>
+                <el-input v-model="item.c1" placeholder="价格" class="lineflex" />
+                <el-button @click.native.prevent="
+                  deleteRow(index, tableData1, 1)
+                " type="text" size="small">
+                  移除
+                </el-button>
+              </el-form-item>
+            </el-form>
+          </div>
         </div>
 
         <!--        热值Kcal/Kg-->
@@ -216,103 +152,40 @@
         </el-row>
         <!--奖惩计划-->
         <div style="margin-bottom: 30px">
-          <el-table :show-header="false" ref="singleTable" :data="form.tableData2" style="width: 100%">
-            <el-table-column align="right">
-              <template>
-                <el-form-item label-width="0">
-                  <span>当</span>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column label="类别" width="150px">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData2.' + scope.$index + '.a1'" :rules="rules.a1">
-                  <el-select v-model="scope.row.a1">
-                    <el-option label="Kcal" value="Kcal" />
-                  </el-select>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column label="符号">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData2.' + scope.$index + '.s1'" :rules="rules.s1">
-                  <el-select v-model="scope.row.s1">
-                    <el-option label=">" value=">" />
-                    <el-option label="<" value="<" />
-                    <!--                    <el-option label="=" value="=" />-->
-                    <!--                    <el-option label=">=" value=">=" />-->
-                    <!--                    <el-option label="<=" value="<=" />-->
-                  </el-select>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column label="热值" width="150px">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData2.' + scope.$index + '.a2'" :rules="rules.a2">
-                  <el-input v-model="scope.row.a2" placeholder="请输入" />
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column label="热值" width="90">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" style="text-align: right">
-                  <span>该值每：</span>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="上升/下降">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData2.' + scope.$index + '.s2'" :rules="rules.s2">
-                  <el-select v-model="scope.row.s2">
-                    <el-option label="上升" value="上升" />
-                    <el-option label="下降" value="下降" />
-                  </el-select>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="热值">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData2.' + scope.$index + '.b1'" :rules="rules.b1">
-                  <el-input v-model="scope.row.b1" placeholder="请输入" />
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column label="价格">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" style="text-align: right">
-                  <span>价格：</span>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="上升/下降">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData2.' + scope.$index + '.s3'" :rules="rules.s3">
-                  <el-select v-model="scope.row.s3">
-                    <el-option label="上升" value="上升" />
-                    <el-option label="下降" value="下降" />
-                  </el-select>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="价格">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData2.' + scope.$index + '.c1'" :rules="rules.c1">
-                  <el-input v-model="scope.row.c1" placeholder="价格" />
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column v-if="isLook != 3" label="操作">
-              <template slot-scope="scope">
-                <el-form-item label-width="0">
-                  <el-button @click.native.prevent="
-                    deleteRow(scope.$index, tableData2, 2)
-                  " type="text" size="small">
-                    移除
-                  </el-button>
-                </el-form-item>
-              </template>
-            </el-table-column>
-          </el-table>
+          <div v-for="(item,index) in form.tableData2" :key="index">
+            <el-form :model="item" class="demo-form-inline" label-width="100px">
+              <el-form-item label="当">
+                <el-select v-model="item.a1" class="lineflex">
+                  <el-option label="Qgr,ad" value="Qgr,ad" />
+                  <el-option label="Qnt,ar" value="Qnt,ar" />
+                </el-select>
+                <el-select v-model="item.s1" class="lineflex">
+                  <el-option label=">" value=">" />
+                  <el-option label="<" value="<" />
+                </el-select>
+                <el-input v-model="item.a2" placeholder="请输入" class="lineflex" />
+              </el-form-item>
+              <el-form-item label="该值每:">
+                <el-select v-model="item.s2" class="lineflex">
+                  <el-option label="上升" value="上升" />
+                  <el-option label="下降" value="下降" />
+                </el-select>
+                <el-input v-model="item.b1" placeholder="请输入" class="lineflex" />
+              </el-form-item>
+              <el-form-item label="价格:">
+                <el-select v-model="item.s3" class="lineflex">
+                  <el-option label="上升" value="上升" />
+                  <el-option label="下降" value="下降" />
+                </el-select>
+                <el-input v-model="item.c1" placeholder="价格" class="lineflex" />
+                <el-button @click.native.prevent="
+                  deleteRow(index, tableData2, 2)
+                " type="text" size="small">
+                  移除
+                </el-button>
+              </el-form-item>
+            </el-form>
+          </div>
         </div>
 
         <!--        含硫量-->
@@ -327,103 +200,40 @@
         </el-row>
         <!--奖惩计划-->
         <div style="margin-bottom: 30px">
-          <el-table :show-header="false" ref="singleTable" :data="form.tableData3" style="width: 100%">
-            <el-table-column align="right">
-              <template>
-                <el-form-item label-width="0">
-                  <span>当</span>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="类别">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData3.' + scope.$index + '.a1'" :rules="rules.a1">
-                  <el-select v-model="scope.row.a1">
-                    <el-option label="含硫量" value="含硫量" />
-                  </el-select>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column label="符号">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData3.' + scope.$index + '.s1'" :rules="rules.s1">
-                  <el-select v-model="scope.row.s1">
-                    <el-option label=">" value=">" />
-                    <el-option label="<" value="<" />
-                    <!--                    <el-option label="=" value="=" />-->
-                    <!--                    <el-option label=">=" value=">=" />-->
-                    <!--                    <el-option label="<=" value="<=" />-->
-                  </el-select>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="热值">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData3.' + scope.$index + '.a2'" :rules="rules.a2">
-                  <el-input v-model="scope.row.a2" placeholder="请输入" />
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column label="热值" width="90">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" style="text-align: right">
-                  <span>该值每：</span>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="上升/下降">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData3.' + scope.$index + '.s2'" :rules="rules.s2">
-                  <el-select v-model="scope.row.s2">
-                    <el-option label="上升" value="上升" />
-                    <el-option label="下降" value="下降" />
-                  </el-select>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="热值">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData3.' + scope.$index + '.b1'" :rules="rules.b1">
-                  <el-input v-model="scope.row.b1" placeholder="请输入" />
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column label="价格" width="70">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" style="text-align: right">
-                  <span>价格：</span>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="上升/下降">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData3.' + scope.$index + '.s3'" :rules="rules.s3">
-                  <el-select v-model="scope.row.s3">
-                    <el-option label="上升" value="上升" />
-                    <el-option label="下降" value="下降" />
-                  </el-select>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="价格">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData3.' + scope.$index + '.c1'" :rules="rules.c1">
-                  <el-input v-model="scope.row.c1" placeholder="价格" />
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column v-if="isLook != 3" label="操作">
-              <template slot-scope="scope">
-                <el-form-item label-width="0">
-                  <el-button @click.native.prevent="
-                    deleteRow(scope.$index, tableData3, 3)
-                  " type="text" size="small">
-                    移除
-                  </el-button>
-                </el-form-item>
-              </template>
-            </el-table-column>
-          </el-table>
+          <div v-for="(item,index) in form.tableData3" :key="index">
+            <el-form :model="item" class="demo-form-inline" label-width="100px">
+              <el-form-item label="当">
+                <el-select v-model="item.a1" class="lineflex">
+                  <el-option label="Qgr,ad" value="Qgr,ad" />
+                  <el-option label="Qnt,ar" value="Qnt,ar" />
+                </el-select>
+                <el-select v-model="item.s1" class="lineflex">
+                  <el-option label=">" value=">" />
+                  <el-option label="<" value="<" />
+                </el-select>
+                <el-input v-model="item.a2" placeholder="请输入" class="lineflex" />
+              </el-form-item>
+              <el-form-item label="该值每">
+                <el-select v-model="item.s2" class="lineflex">
+                  <el-option label="上升" value="上升" />
+                  <el-option label="下降" value="下降" />
+                </el-select>
+                <el-input v-model="item.b1" placeholder="请输入" class="lineflex" />
+              </el-form-item>
+              <el-form-item label="价格">
+                <el-select v-model="item.s3" class="lineflex">
+                  <el-option label="上升" value="上升" />
+                  <el-option label="下降" value="下降" />
+                </el-select>
+                <el-input v-model="item.c1" placeholder="价格" class="lineflex" />
+                <el-button @click.native.prevent="
+                  deleteRow(index, tableData3, 3)
+                " type="text" size="small">
+                  移除
+                </el-button>
+              </el-form-item>
+            </el-form>
+          </div>
         </div>
 
         <!--        挥发分-->
@@ -438,104 +248,40 @@
         </el-row>
         <!--奖惩计划-->
         <div style="margin-bottom: 30px">
-          <el-table :show-header="false" ref="singleTable" :data="form.tableData4" style="width: 100%">
-            <el-table-column align="right">
-              <template>
-                <el-form-item label-width="0">
-                  <span>当</span>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="类别">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData4.' + scope.$index + '.a1'" :rules="rules.a1">
-                  <el-select v-model="scope.row.a1">
-                    <el-option label="Vda" value="Vda" />
-                    <el-option label="Vdaf" value="Vdae" />
-                  </el-select>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column label="符号">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData4.' + scope.$index + '.s1'" :rules="rules.s1">
-                  <el-select v-model="scope.row.s1">
-                    <el-option label=">" value=">" />
-                    <el-option label="<" value="<" />
-                    <!--                    <el-option label="=" value="=" />-->
-                    <!--                    <el-option label=">=" value=">=" />-->
-                    <!--                    <el-option label="<=" value="<=" />-->
-                  </el-select>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="热值">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData4.' + scope.$index + '.a2'" :rules="rules.a2">
-                  <el-input v-model="scope.row.a2" placeholder="请输入" />
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column label="热值" width="90">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" style="text-align: right">
-                  <span>该值每：</span>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="上升/下降">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData4.' + scope.$index + '.s2'" :rules="rules.s2">
-                  <el-select v-model="scope.row.s2">
-                    <el-option label="上升" value="上升" />
-                    <el-option label="下降" value="下降" />
-                  </el-select>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="热值">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData4.' + scope.$index + '.b1'" :rules="rules.b1">
-                  <el-input v-model="scope.row.b1" placeholder="请输入" />
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column label="价格" width="70">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" style="text-align: right">
-                  <span>价格：</span>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="上升/下降">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData4.' + scope.$index + '.s3'" :rules="rules.s3">
-                  <el-select v-model="scope.row.s3">
-                    <el-option label="上升" value="上升" />
-                    <el-option label="下降" value="下降" />
-                  </el-select>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="价格">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData4.' + scope.$index + '.c1'" :rules="rules.c1">
-                  <el-input v-model="scope.row.c1" placeholder="价格" />
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column v-if="isLook != 3" label="操作">
-              <template slot-scope="scope">
-                <el-form-item label-width="0">
-                  <el-button @click.native.prevent="
-                    deleteRow(scope.$index, tableData4, 4)
-                  " type="text" size="small">
-                    移除
-                  </el-button>
-                </el-form-item>
-              </template>
-            </el-table-column>
-          </el-table>
+          <div v-for="(item,index) in form.tableData4" :key="index">
+            <el-form :model="item" class="demo-form-inline" label-width="100px">
+              <el-form-item label="当">
+                <el-select v-model="item.a1" class="lineflex">
+                  <el-option label="Qgr,ad" value="Qgr,ad" />
+                  <el-option label="Qnt,ar" value="Qnt,ar" />
+                </el-select>
+                <el-select v-model="item.s1" class="lineflex">
+                  <el-option label=">" value=">" />
+                  <el-option label="<" value="<" />
+                </el-select>
+                <el-input v-model="item.a2" placeholder="请输入" class="lineflex" />
+              </el-form-item>
+              <el-form-item label="该值每">
+                <el-select v-model="item.s2" class="lineflex">
+                  <el-option label="上升" value="上升" />
+                  <el-option label="下降" value="下降" />
+                </el-select>
+                <el-input v-model="item.b1" placeholder="请输入" class="lineflex" />
+              </el-form-item>
+              <el-form-item label="价格">
+                <el-select v-model="item.s3" class="lineflex">
+                  <el-option label="上升" value="上升" />
+                  <el-option label="下降" value="下降" />
+                </el-select>
+                <el-input v-model="item.c1" placeholder="价格" class="lineflex" />
+                <el-button @click.native.prevent="
+                  deleteRow(index, tableData4, 4)
+                " type="text" size="small">
+                  移除
+                </el-button>
+              </el-form-item>
+            </el-form>
+          </div>
         </div>
 
         <!--        灰分-->
@@ -550,104 +296,40 @@
         </el-row>
         <!--奖惩计划-->
         <div style="margin-bottom: 30px">
-          <el-table :show-header="false" ref="singleTable" :data="form.tableData5" style="width: 100%">
-            <el-table-column align="right">
-              <template>
-                <el-form-item label-width="0">
-                  <span>当</span>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="类别">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData5.' + scope.$index + '.a1'" :rules="rules.a1">
-                  <el-select v-model="scope.row.a1">
-                    <el-option label="Aad" value="Aad" />
-                    <el-option label="ad" value="ad" />
-                  </el-select>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column label="符号">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData5.' + scope.$index + '.s1'" :rules="rules.s1">
-                  <el-select v-model="scope.row.s1">
-                    <el-option label=">" value=">" />
-                    <el-option label="<" value="<" />
-                    <!--                    <el-option label="=" value="=" />-->
-                    <!--                    <el-option label=">=" value=">=" />-->
-                    <!--                    <el-option label="<=" value="<=" />-->
-                  </el-select>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="热值">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData5.' + scope.$index + '.a2'" :rules="rules.a2">
-                  <el-input v-model="scope.row.a2" placeholder="请输入" />
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column label="热值" width="90">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" style="text-align: right">
-                  <span>该值每：</span>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="上升/下降">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData5.' + scope.$index + '.s2'" :rules="rules.s2">
-                  <el-select v-model="scope.row.s2">
-                    <el-option label="上升" value="上升" />
-                    <el-option label="下降" value="下降" />
-                  </el-select>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="热值">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData5.' + scope.$index + '.b1'" :rules="rules.b1">
-                  <el-input v-model="scope.row.b1" placeholder="请输入" />
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column label="价格" width="70">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" style="text-align: right">
-                  <span>价格：</span>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="上升/下降">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData5.' + scope.$index + '.s3'" :rules="rules.s3">
-                  <el-select v-model="scope.row.s3">
-                    <el-option label="上升" value="上升" />
-                    <el-option label="下降" value="下降" />
-                  </el-select>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="价格">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData5.' + scope.$index + '.c1'" :rules="rules.c1">
-                  <el-input v-model="scope.row.c1" placeholder="价格" />
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column v-if="isLook != 3" label="操作">
-              <template slot-scope="scope">
-                <el-form-item label-width="0">
-                  <el-button @click.native.prevent="
-                    deleteRow(scope.$index, tableData5, 5)
-                  " type="text" size="small">
-                    移除
-                  </el-button>
-                </el-form-item>
-              </template>
-            </el-table-column>
-          </el-table>
+          <div v-for="(item,index) in form.tableData5" :key="index">
+            <el-form :model="item" class="demo-form-inline" label-width="100px">
+              <el-form-item label="当">
+                <el-select v-model="item.a1" class="lineflex">
+                  <el-option label="Qgr,ad" value="Qgr,ad" />
+                  <el-option label="Qnt,ar" value="Qnt,ar" />
+                </el-select>
+                <el-select v-model="item.s1" class="lineflex">
+                  <el-option label=">" value=">" />
+                  <el-option label="<" value="<" />
+                </el-select>
+                <el-input v-model="item.a2" placeholder="请输入" class="lineflex" />
+              </el-form-item>
+              <el-form-item label="该值每">
+                <el-select v-model="item.s2" class="lineflex">
+                  <el-option label="上升" value="上升" />
+                  <el-option label="下降" value="下降" />
+                </el-select>
+                <el-input v-model="item.b1" placeholder="请输入" class="lineflex" />
+              </el-form-item>
+              <el-form-item label="价格">
+                <el-select v-model="item.s3" class="lineflex">
+                  <el-option label="上升" value="上升" />
+                  <el-option label="下降" value="下降" />
+                </el-select>
+                <el-input v-model="item.c1" placeholder="价格" class="lineflex" />
+                <el-button @click.native.prevent="
+                  deleteRow(index, tableData5, 5)
+                " type="text" size="small">
+                  移除
+                </el-button>
+              </el-form-item>
+            </el-form>
+          </div>
         </div>
 
         <!--        水分-->
@@ -662,103 +344,40 @@
         </el-row>
         <!--奖惩计划-->
         <div style="margin-bottom: 30px">
-          <el-table :show-header="false" ref="singleTable" :data="form.tableData6" style="width: 100%">
-            <el-table-column align="right">
-              <template>
-                <el-form-item label-width="0">
-                  <span>当</span>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="类别">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData6.' + scope.$index + '.a1'" :rules="rules.a1">
-                  <el-select v-model="scope.row.a1">
-                    <el-option label="水分" value="水分" />
-                  </el-select>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column label="符号">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData6.' + scope.$index + '.s1'" :rules="rules.s1">
-                  <el-select v-model="scope.row.s1">
-                    <el-option label=">" value=">" />
-                    <el-option label="<" value="<" />
-                    <!--                    <el-option label="=" value="=" />-->
-                    <!--                    <el-option label=">=" value=">=" />-->
-                    <!--                    <el-option label="<=" value="<=" />-->
-                  </el-select>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="热值">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData6.' + scope.$index + '.a2'" :rules="rules.a2">
-                  <el-input v-model="scope.row.a2" placeholder="请输入" />
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column label="热值" width="90">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" style="text-align: right">
-                  <span>该值每：</span>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="上升/下降">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData6.' + scope.$index + '.s2'" :rules="rules.s2">
-                  <el-select v-model="scope.row.s2">
-                    <el-option label="上升" value="上升" />
-                    <el-option label="下降" value="下降" />
-                  </el-select>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="热值">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData6.' + scope.$index + '.b1'" :rules="rules.b1">
-                  <el-input v-model="scope.row.b1" placeholder="请输入" />
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column label="价格" width="70">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" style="text-align: right">
-                  <span>价格：</span>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="上升/下降">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData6.' + scope.$index + '.s3'" :rules="rules.s3">
-                  <el-select v-model="scope.row.s3">
-                    <el-option label="上升" value="上升" />
-                    <el-option label="下降" value="下降" />
-                  </el-select>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="价格">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData6.' + scope.$index + '.c1'" :rules="rules.c1">
-                  <el-input v-model="scope.row.c1" placeholder="价格" />
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column v-if="isLook != 3" label="操作">
-              <template slot-scope="scope">
-                <el-form-item label-width="0">
-                  <el-button @click.native.prevent="
-                    deleteRow(scope.$index, tableData6, 6)
-                  " type="text" size="small">
-                    移除
-                  </el-button>
-                </el-form-item>
-              </template>
-            </el-table-column>
-          </el-table>
+          <div v-for="(item,index) in form.tableData6" :key="index">
+            <el-form :model="item" class="demo-form-inline" label-width="100px">
+              <el-form-item label="当">
+                <el-select v-model="item.a1" class="lineflex">
+                  <el-option label="Qgr,ad" value="Qgr,ad" />
+                  <el-option label="Qnt,ar" value="Qnt,ar" />
+                </el-select>
+                <el-select v-model="item.s1" class="lineflex">
+                  <el-option label=">" value=">" />
+                  <el-option label="<" value="<" />
+                </el-select>
+                <el-input v-model="item.a2" placeholder="请输入" class="lineflex" />
+              </el-form-item>
+              <el-form-item label="该值每">
+                <el-select v-model="item.s2" class="lineflex">
+                  <el-option label="上升" value="上升" />
+                  <el-option label="下降" value="下降" />
+                </el-select>
+                <el-input v-model="item.b1" placeholder="请输入" class="lineflex" />
+              </el-form-item>
+              <el-form-item label="价格">
+                <el-select v-model="item.s3" class="lineflex">
+                  <el-option label="上升" value="上升" />
+                  <el-option label="下降" value="下降" />
+                </el-select>
+                <el-input v-model="item.c1" placeholder="价格" class="lineflex" />
+                <el-button @click.native.prevent="
+                  deleteRow(index, tableData6, 6)
+                " type="text" size="small">
+                  移除
+                </el-button>
+              </el-form-item>
+            </el-form>
+          </div>
         </div>
 
         <!--        内水-->
@@ -773,103 +392,40 @@
         </el-row>
         <!--奖惩计划-->
         <div style="margin-bottom: 30px">
-          <el-table :show-header="false" ref="singleTable" :data="form.tableData7" style="width: 100%">
-            <el-table-column align="right">
-              <template>
-                <el-form-item label-width="0">
-                  <span>当</span>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="类别">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData7.' + scope.$index + '.a1'" :rules="rules.a1">
-                  <el-select v-model="scope.row.a1">
-                    <el-option label="内水" value="内水" />
-                  </el-select>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column label="符号">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData7.' + scope.$index + '.s1'" :rules="rules.s1">
-                  <el-select v-model="scope.row.s1">
-                    <el-option label=">" value=">" />
-                    <el-option label="<" value="<" />
-                    <!--                    <el-option label="=" value="=" />-->
-                    <!--                    <el-option label=">=" value=">=" />-->
-                    <!--                    <el-option label="<=" value="<=" />-->
-                  </el-select>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="热值">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData7.' + scope.$index + '.a2'" :rules="rules.a2">
-                  <el-input v-model="scope.row.a2" placeholder="请输入" />
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column label="热值" width="150">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" style="text-align: right">
-                  <span>该值每：</span>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="上升/下降">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData7.' + scope.$index + '.s2'" :rules="rules.s2">
-                  <el-select v-model="scope.row.s2">
-                    <el-option label="上升" value="上升" />
-                    <el-option label="下降" value="下降" />
-                  </el-select>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="热值">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData7.' + scope.$index + '.b1'" :rules="rules.b1">
-                  <el-input v-model="scope.row.b1" placeholder="请输入" />
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column label="价格" width="70">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" style="text-align: right">
-                  <span>价格：</span>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="上升/下降">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData7.' + scope.$index + '.s3'" :rules="rules.s3">
-                  <el-select v-model="scope.row.s3">
-                    <el-option label="上升" value="上升" />
-                    <el-option label="下降" value="下降" />
-                  </el-select>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="价格">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData7.' + scope.$index + '.c1'" :rules="rules.c1">
-                  <el-input v-model="scope.row.c1" placeholder="价格" />
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column v-if="isLook != 3" label="操作">
-              <template slot-scope="scope">
-                <el-form-item label-width="0">
-                  <el-button @click.native.prevent="
-                    deleteRow(scope.$index, tableData7, 7)
-                  " type="text" size="small">
-                    移除
-                  </el-button>
-                </el-form-item>
-              </template>
-            </el-table-column>
-          </el-table>
+          <div v-for="(item,index) in form.tableData7" :key="index">
+            <el-form :model="item" class="demo-form-inline" label-width="100px">
+              <el-form-item label="当">
+                <el-select v-model="item.a1" class="lineflex">
+                  <el-option label="Qgr,ad" value="Qgr,ad" />
+                  <el-option label="Qnt,ar" value="Qnt,ar" />
+                </el-select>
+                <el-select v-model="item.s1" class="lineflex">
+                  <el-option label=">" value=">" />
+                  <el-option label="<" value="<" />
+                </el-select>
+                <el-input v-model="item.a2" placeholder="请输入" class="lineflex" />
+              </el-form-item>
+              <el-form-item label="该值每">
+                <el-select v-model="item.s2" class="lineflex">
+                  <el-option label="上升" value="上升" />
+                  <el-option label="下降" value="下降" />
+                </el-select>
+                <el-input v-model="item.b1" placeholder="请输入" class="lineflex" />
+              </el-form-item>
+              <el-form-item label="价格">
+                <el-select v-model="item.s3" class="lineflex">
+                  <el-option label="上升" value="上升" />
+                  <el-option label="下降" value="下降" />
+                </el-select>
+                <el-input v-model="item.c1" placeholder="价格" class="lineflex" />
+                <el-button @click.native.prevent="
+                  deleteRow(index, tableData7, 7)
+                " type="text" size="small">
+                  移除
+                </el-button>
+              </el-form-item>
+            </el-form>
+          </div>
         </div>
 
         <!--        固定碳-->
@@ -884,103 +440,40 @@
         </el-row>
         <!--奖惩计划-->
         <div style="margin-bottom: 30px">
-          <el-table :show-header="false" ref="singleTable" :data="form.tableData8" style="width: 100%">
-            <el-table-column align="right">
-              <template>
-                <el-form-item label-width="0">
-                  <span>当</span>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="类别">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData8.' + scope.$index + '.a1'" :rules="rules.a1">
-                  <el-select v-model="scope.row.a1">
-                    <el-option label="固定碳" value="固定碳" />
-                  </el-select>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column label="符号">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData8.' + scope.$index + '.s1'" :rules="rules.s1">
-                  <el-select v-model="scope.row.s1">
-                    <el-option label=">" value=">" />
-                    <el-option label="<" value="<" />
-                    <!--                    <el-option label="=" value="=" />-->
-                    <!--                    <el-option label=">=" value=">=" />-->
-                    <!--                    <el-option label="<=" value="<=" />-->
-                  </el-select>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="热值">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData8.' + scope.$index + '.a2'" :rules="rules.a2">
-                  <el-input v-model="scope.row.a2" placeholder="请输入" />
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column label="热值" width="150">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" style="text-align: right">
-                  <span>该值每：</span>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="上升/下降">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData8.' + scope.$index + '.s2'" :rules="rules.s2">
-                  <el-select v-model="scope.row.s2">
-                    <el-option label="上升" value="上升" />
-                    <el-option label="下降" value="下降" />
-                  </el-select>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="热值">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData8.' + scope.$index + '.b1'" :rules="rules.b1">
-                  <el-input v-model="scope.row.b1" placeholder="请输入" />
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column label="价格" width="70">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" style="text-align: right">
-                  <span>价格：</span>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="上升/下降">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData8.' + scope.$index + '.s3'" :rules="rules.s3">
-                  <el-select v-model="scope.row.s3">
-                    <el-option label="上升" value="上升" />
-                    <el-option label="下降" value="下降" />
-                  </el-select>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="价格">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData8.' + scope.$index + '.c1'" :rules="rules.c1">
-                  <el-input v-model="scope.row.c1" placeholder="价格" />
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column v-if="isLook != 3" label="操作">
-              <template slot-scope="scope">
-                <el-form-item label-width="0">
-                  <el-button @click.native.prevent="
-                    deleteRow(scope.$index, tableData8, 8)
-                  " type="text" size="small">
-                    移除
-                  </el-button>
-                </el-form-item>
-              </template>
-            </el-table-column>
-          </el-table>
+          <div v-for="(item,index) in form.tableData8" :key="index">
+            <el-form :model="item" class="demo-form-inline" label-width="100px">
+              <el-form-item label="当">
+                <el-select v-model="item.a1" class="lineflex">
+                  <el-option label="Qgr,ad" value="Qgr,ad" />
+                  <el-option label="Qnt,ar" value="Qnt,ar" />
+                </el-select>
+                <el-select v-model="item.s1" class="lineflex">
+                  <el-option label=">" value=">" />
+                  <el-option label="<" value="<" />
+                </el-select>
+                <el-input v-model="item.a2" placeholder="请输入" class="lineflex" />
+              </el-form-item>
+              <el-form-item label="该值每">
+                <el-select v-model="item.s2" class="lineflex">
+                  <el-option label="上升" value="上升" />
+                  <el-option label="下降" value="下降" />
+                </el-select>
+                <el-input v-model="item.b1" placeholder="请输入" class="lineflex" />
+              </el-form-item>
+              <el-form-item label="价格">
+                <el-select v-model="item.s3" class="lineflex">
+                  <el-option label="上升" value="上升" />
+                  <el-option label="下降" value="下降" />
+                </el-select>
+                <el-input v-model="item.c1" placeholder="价格" class="lineflex" />
+                <el-button @click.native.prevent="
+                  deleteRow(index, tableData8, 8)
+                " type="text" size="small">
+                  移除
+                </el-button>
+              </el-form-item>
+            </el-form>
+          </div>
         </div>
 
         <!--        灰熔点-->
@@ -995,103 +488,40 @@
         </el-row>
         <!--奖惩计划-->
         <div style="margin-bottom: 30px">
-          <el-table :show-header="false" ref="singleTable" :data="form.tableData9" style="width: 100%">
-            <el-table-column align="right">
-              <template>
-                <el-form-item label-width="0">
-                  <span>当</span>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="类别">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData9.' + scope.$index + '.a1'" :rules="rules.a1">
-                  <el-select v-model="scope.row.a1">
-                    <el-option label="灰熔点" value="灰熔点" />
-                  </el-select>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column label="符号">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData9.' + scope.$index + '.s1'" :rules="rules.s1">
-                  <el-select v-model="scope.row.s1">
-                    <el-option label=">" value=">" />
-                    <el-option label="<" value="<" />
-                    <!--                    <el-option label="=" value="=" />-->
-                    <!--                    <el-option label=">=" value=">=" />-->
-                    <!--                    <el-option label="<=" value="<=" />-->
-                  </el-select>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="热值">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData9.' + scope.$index + '.a2'" :rules="rules.a2">
-                  <el-input v-model="scope.row.a2" placeholder="请输入" />
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column label="热值" width="90">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" style="text-align: right">
-                  <span>该值每：</span>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="上升/下降">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData9.' + scope.$index + '.s2'" :rules="rules.s2">
-                  <el-select v-model="scope.row.s2">
-                    <el-option label="上升" value="上升" />
-                    <el-option label="下降" value="下降" />
-                  </el-select>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="热值">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData9.' + scope.$index + '.b1'" :rules="rules.b1">
-                  <el-input v-model="scope.row.b1" placeholder="请输入" />
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column label="价格" width="70">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" style="text-align: right">
-                  <span>价格：</span>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="上升/下降">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData9.' + scope.$index + '.s3'" :rules="rules.s3">
-                  <el-select v-model="scope.row.s3">
-                    <el-option label="上升" value="上升" />
-                    <el-option label="下降" value="下降" />
-                  </el-select>
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column width="150px" label="价格">
-              <template slot-scope="scope">
-                <el-form-item label-width="0" :prop="'tableData9.' + scope.$index + '.c1'" :rules="rules.c1">
-                  <el-input v-model="scope.row.c1" placeholder="价格" />
-                </el-form-item>
-              </template>
-            </el-table-column>
-            <el-table-column v-if="isLook != 3" label="操作">
-              <template slot-scope="scope">
-                <el-form-item label-width="0">
-                  <el-button @click.native.prevent="
-                    deleteRow(scope.$index, tableData9, 9)
-                  " type="text" size="small">
-                    移除
-                  </el-button>
-                </el-form-item>
-              </template>
-            </el-table-column>
-          </el-table>
+          <div v-for="(item,index) in form.tableData9" :key="index">
+            <el-form :model="item" class="demo-form-inline" label-width="100px">
+              <el-form-item label="当">
+                <el-select v-model="item.a1" class="lineflex">
+                  <el-option label="Qgr,ad" value="Qgr,ad" />
+                  <el-option label="Qnt,ar" value="Qnt,ar" />
+                </el-select>
+                <el-select v-model="item.s1" class="lineflex">
+                  <el-option label=">" value=">" />
+                  <el-option label="<" value="<" />
+                </el-select>
+                <el-input v-model="item.a2" placeholder="请输入" class="lineflex" />
+              </el-form-item>
+              <el-form-item label="该值每">
+                <el-select v-model="item.s2" class="lineflex">
+                  <el-option label="上升" value="上升" />
+                  <el-option label="下降" value="下降" />
+                </el-select>
+                <el-input v-model="item.b1" placeholder="请输入" class="lineflex" />
+              </el-form-item>
+              <el-form-item label="价格">
+                <el-select v-model="item.s3" class="lineflex">
+                  <el-option label="上升" value="上升" />
+                  <el-option label="下降" value="下降" />
+                </el-select>
+                <el-input v-model="item.c1" placeholder="价格" class="lineflex" />
+                <el-button @click.native.prevent="
+                  deleteRow(index, tableData9, 9)
+                " type="text" size="small">
+                  移除
+                </el-button>
+              </el-form-item>
+            </el-form>
+          </div>
         </div>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -1580,3 +1010,9 @@ export default {
   },
 };
 </script>
+<style lang="scss">
+  .lineflex{
+    width: 120px;
+    margin-right: 10px;
+  }
+</style>
