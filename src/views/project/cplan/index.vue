@@ -156,7 +156,7 @@
       @pagination="getList" />
 
     <!-- 添加或修改资金计划对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="773px" append-to-body @opened="handleOpen">
+    <el-dialog :title="title" :visible.sync="open" width="900px" append-to-body @opened="handleOpen">
       <el-form ref="form" :model="form" :rules="rules" label-width="120px">
         <el-row>
           <el-col :span="12">
@@ -276,7 +276,7 @@
           </el-row>
         </div>
       </el-form>
-      <div slot="footer" class="dialog-footer">
+      <div slot="footer" class="dialog-footer" style="margin-left: 100px;">
         <el-button type="primary" @click="submitForm" :disabled="isDisabled" v-if="isLook != 3">确 定</el-button>
         <el-button @click="cancel">取 消</el-button>
       </div>
@@ -496,7 +496,7 @@ export default {
         this.isLook = 1;
         this.open = true;
         this.title = "添加资金计划";
-      });      
+      });
     },
     /** 修改按钮操作 */
     handleUpdate(row) {

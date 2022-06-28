@@ -2,6 +2,15 @@
 .ic .el-input__inner {
   color: red;
 }
+.newproColor{
+  color: red;
+  width: 80px;
+  min-width: 80px!important;
+}
+.dtdTitle{
+  width: 80px;
+  min-width: 80px!important;
+}
 </style>
 <template>
   <div class="app-container">
@@ -161,7 +170,7 @@
       @pagination="getList" />
 
     <!-- 添加或修改预付款对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="773px" append-to-body @opened="handleOpen">
+    <el-dialog :title="title" :visible.sync="open" width="1200px" append-to-body @opened="handleOpen">
       <el-form ref="form" :model="form" :rules="rules" label-width="140px">
         <div v-if="isLook != 4">
           <el-row>
@@ -419,27 +428,42 @@
               </el-col>
             </el-row>
             <!--          奖惩-->
-            <el-row style="margin-bottom:20px">
-              <el-col :span="24">
-                <span style="font-weight:600">奖惩(元){{"\xa0\xa0"}}</span>
-                <span>水分：<span style="color: red" v-text="form.jc1">0.00</span></span>
-                <span style="margin-left: 20px">内水：<span style="color: red" v-text="form.jc2">0.00</span></span>
-                <span style="margin-left: 20px">灰份Aad：<span style="color: red" v-text="form.jc3">0.00</span></span>
-                <span style="margin-left: 20px">灰份ad：<span style="color: red" v-text="form.jc10">0.00</span></span>
-                <span style="margin-left: 20px">挥发份Vda：<span style="color: red" v-text="form.jc4">0.00</span></span>
-                <span style="margin-left: 20px">挥发份Vdaf：<span style="color: red" v-text="form.jc11">0.00</span></span>
-              </el-col>
-              <el-col :span="24" style="margin-top:10px;margin-left:60px">
-                <span>灰熔点：<span style="color: red" v-text="form.jc5">0.00</span></span>
-                <span style="margin-left: 20px">固定碳：<span style="color: red" v-text="form.jc6">0.00</span></span>
-                <span style="margin-left: 20px">含硫量：<span style="color: red" v-text="form.jc7">0.00</span></span>
-                <span style="margin-left: 20px">热值Qgr,ad：<span style="color: red" v-text="form.jc8">0.00</span></span>
-                <span style="margin-left: 20px">热值Qnt,ar：<span style="color: red" v-text="form.jc9">0.00</span></span>
-                <span style="margin-left: 20px">热值Kcal：<span style="color: red" v-text="form.jc12">0.00</span></span>
-                <el-button size="small" style="margin-left: 10px" type="primary" @click="jsjc" v-if="isLook != 3">奖惩计算
-                </el-button>
+            <el-row class="head-text" style="margin-top: 20px;">
+              <el-col class="newTable">
+                <table width="90%" cellpadding="0" cellspacing="0">
+                  <tr>
+                    <td class="tdTitle dtdTitle">水分</td>
+                    <td class="tdCoent newproColor">{{form.jc1}}</td>
+                    <td class="tdTitle dtdTitle">内水</td>
+                    <td class="tdCoent newproColor">{{form.jc2}}</td>
+                    <td class="tdTitle dtdTitle">灰份Aad</td>
+                    <td class="tdCoent newproColor">{{form.jc3}}</td>
+                    <td class="tdTitle dtdTitle">灰份ad</td>
+                    <td class="tdCoent newproColor">{{form.jc10}}</td>
+                    <td class="tdTitle dtdTitle">挥发份Vda</td>
+                    <td class="tdCoent newproColor">{{form.jc4}}</td>
+                    <td class="tdTitle dtdTitle">挥发份Vdaf</td>
+                    <td class="tdCoent newproColor">{{form.jc11}}</td>
+                  </tr>
+                  <tr>
+                    <td class="tdTitle dtdTitle">灰熔点</td>
+                    <td class="tdCoent newproColor">{{form.jc5}}</td>
+                    <td class="tdTitle dtdTitle">固定碳</td>
+                    <td class="tdCoent newproColor">{{form.jc6}}</td>
+                    <td class="tdTitle dtdTitle">含硫量</td>
+                    <td class="tdCoent newproColor">{{form.jc7}}</td>
+                    <td class="tdTitle dtdTitle">热值Qgr,ad</td>
+                    <td class="tdCoent newproColor">{{form.jc8}}</td>
+                    <td class="tdTitle dtdTitle">热值Qnt,ar</td>
+                    <td class="tdCoent newproColor">{{form.jc9}}</td>
+                    <td class="tdTitle dtdTitle">热值Kcal</td>
+                    <td class="tdCoent newproColor">{{form.jc12}}</td>
+                  </tr>
+                </table>
               </el-col>
             </el-row>
+            <el-button size="small" style="margin: 20px 0 0 40px" type="primary" @click="jsjc" v-if="isLook != 3">奖惩计算
+                            </el-button>
 
             <el-row style="margin-top:33px">
               <el-col :span="12">

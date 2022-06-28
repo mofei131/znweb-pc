@@ -145,7 +145,7 @@
       @pagination="getList" />
 
     <!-- 添加或修改实际收款对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="773px" append-to-body @opened="handleOpen">
+    <el-dialog :title="title" :visible.sync="open" width="1000px" append-to-body @opened="handleOpen">
       <el-form ref="form" :model="form" :rules="rules" label-width="160px">
         <div v-if="isLook != '4'">
           <el-row>
