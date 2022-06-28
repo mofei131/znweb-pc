@@ -63,7 +63,8 @@
             <el-form-item label="项目名称" prop="projectId">
               <el-select filterable value-key="projectId" @change="changeProject" v-model="form.projectId"
                 placeholder="请选择项目" style="width: 100%">
-                <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName" :value="pro">
+                <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName"
+                  :value="pro.projectId">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -72,7 +73,8 @@
             <el-form-item label="业务名称" prop="stId">
               <el-select filterable value-key="stId" @change="changeSt" v-model="form.stId" placeholder="请选择业务"
                 style="width: 100%">
-                <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj"></el-option>
+                <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj.stId">
+                </el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -192,8 +194,8 @@
               <template slot-scope="scope">
                 <el-form-item label-width="0">
                   <el-button @click.native.prevent="
-                      deleteRow(scope.$index, tableData1, 1)
-                    " type="text" size="small">
+                    deleteRow(scope.$index, tableData1, 1)
+                  " type="text" size="small">
                     移除
                   </el-button>
                 </el-form-item>
@@ -303,8 +305,8 @@
               <template slot-scope="scope">
                 <el-form-item label-width="0">
                   <el-button @click.native.prevent="
-                      deleteRow(scope.$index, tableData2, 2)
-                    " type="text" size="small">
+                    deleteRow(scope.$index, tableData2, 2)
+                  " type="text" size="small">
                     移除
                   </el-button>
                 </el-form-item>
@@ -414,8 +416,8 @@
               <template slot-scope="scope">
                 <el-form-item label-width="0">
                   <el-button @click.native.prevent="
-                      deleteRow(scope.$index, tableData3, 3)
-                    " type="text" size="small">
+                    deleteRow(scope.$index, tableData3, 3)
+                  " type="text" size="small">
                     移除
                   </el-button>
                 </el-form-item>
@@ -526,8 +528,8 @@
               <template slot-scope="scope">
                 <el-form-item label-width="0">
                   <el-button @click.native.prevent="
-                      deleteRow(scope.$index, tableData4, 4)
-                    " type="text" size="small">
+                    deleteRow(scope.$index, tableData4, 4)
+                  " type="text" size="small">
                     移除
                   </el-button>
                 </el-form-item>
@@ -638,8 +640,8 @@
               <template slot-scope="scope">
                 <el-form-item label-width="0">
                   <el-button @click.native.prevent="
-                      deleteRow(scope.$index, tableData5, 5)
-                    " type="text" size="small">
+                    deleteRow(scope.$index, tableData5, 5)
+                  " type="text" size="small">
                     移除
                   </el-button>
                 </el-form-item>
@@ -749,8 +751,8 @@
               <template slot-scope="scope">
                 <el-form-item label-width="0">
                   <el-button @click.native.prevent="
-                      deleteRow(scope.$index, tableData6, 6)
-                    " type="text" size="small">
+                    deleteRow(scope.$index, tableData6, 6)
+                  " type="text" size="small">
                     移除
                   </el-button>
                 </el-form-item>
@@ -860,8 +862,8 @@
               <template slot-scope="scope">
                 <el-form-item label-width="0">
                   <el-button @click.native.prevent="
-                      deleteRow(scope.$index, tableData7, 7)
-                    " type="text" size="small">
+                    deleteRow(scope.$index, tableData7, 7)
+                  " type="text" size="small">
                     移除
                   </el-button>
                 </el-form-item>
@@ -971,8 +973,8 @@
               <template slot-scope="scope">
                 <el-form-item label-width="0">
                   <el-button @click.native.prevent="
-                      deleteRow(scope.$index, tableData8, 8)
-                    " type="text" size="small">
+                    deleteRow(scope.$index, tableData8, 8)
+                  " type="text" size="small">
                     移除
                   </el-button>
                 </el-form-item>
@@ -1082,8 +1084,8 @@
               <template slot-scope="scope">
                 <el-form-item label-width="0">
                   <el-button @click.native.prevent="
-                      deleteRow(scope.$index, tableData9, 9)
-                    " type="text" size="small">
+                    deleteRow(scope.$index, tableData9, 9)
+                  " type="text" size="small">
                     移除
                   </el-button>
                 </el-form-item>
@@ -1111,6 +1113,7 @@ import {
   listForBus,
   listForPro,
 } from "@/api/project/rewardsp";
+import { listProjectForCombobox, listBusinessForCombobox } from "@/api/project/st";
 export default {
   name: "Rewardsp",
   data() {
@@ -1205,13 +1208,19 @@ export default {
       getStList().then((response) => {
         this.stOptions = response.rows;
       });
-      // 业务
-      listForBus().then((response) => {
-        this.listForBusArr = response.data
-      })
-      // 项目
-      listForPro().then((response) => {
+      // 项目下拉
+      this.loadProjectForCombobox();
+    },
+    loadProjectForCombobox() {
+      this.listForProArr = []
+      listProjectForCombobox().then((response) => {
         this.listForProArr = response.data
+      })
+    },
+    loadBusinessForCombobox(projectId) {
+      this.listForBusArr = []
+      listBusinessForCombobox({ projectId }).then((response) => {
+        this.listForBusArr = response.data
       })
     },
     // 取消按钮
@@ -1361,8 +1370,6 @@ export default {
       this.isDisabled = true;
       this.$refs["form"].validate((valid) => {
         if (valid) {
-          this.form.stId = this.form.stId2;
-          this.form.projectId = this.form.projectIdOld
           if (this.form.rewardspId != null) {
             updateRewardsp(this.form).then((response) => {
               this.msgSuccess("修改成功");
@@ -1411,15 +1418,21 @@ export default {
 
     //业务开始
     //选择项目
-    changeProject(pro) {
-      this.form.projectIdOld = pro.projectId;
-      this.form.projectName = pro.projectName
+    changeProject(projectId) {
+      this.listForBusArr = []
+      this.form.stId = ''
+      this.form.stName = ''
+      this.form.serialNo = ''
+      if (projectId) {
+        this.loadBusinessForCombobox(projectId);
+      }
     },
-    changeSt(obj) {
-      this.form.stId2 = obj.stId;
-      this.form.stName = obj.stName;
-      this.form.serialNo = obj.serialNo;
-      this.$set(this.form, "number", obj.number);
+    changeSt(stId) {
+      let businessFind = this.listForBusArr.filter(x => x.stId == stId);
+      if (businessFind && businessFind.length > 0) {
+        this.form.stName = businessFind[0].stName;
+        this.form.serialNo = businessFind[0].serialNo;
+      }
     },
     //溢出选中数据
     deleteRow(index, rows, ts) {
