@@ -1105,7 +1105,7 @@ export default {
       rules: {
         stId: [{ required: true, message: "请选择项目名称", trigger: "blur" }],
         projectId: [
-          { required: true, message: "请选择项目名称", trigger: "blur" },
+          { required: true, message: "请选择业务名称", trigger: "blur" },
         ],
         type: [{ required: true, message: "请选择预付方式", trigger: "blur" }],
         away: [{ required: true, message: "请选择预付批次", trigger: "blur" }],
