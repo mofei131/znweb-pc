@@ -125,7 +125,7 @@
             <el-form-item label="项目名称" prop="projectId">
               <el-select filterable value-key="projectId" @change="changeProject" v-model="form.projectId"
                 placeholder="请选择项目" style="width: 100%">
-                <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName" :value="pro">
+                <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName" :value="pro.projectId">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -134,7 +134,7 @@
             <el-form-item label="业务名称" prop="stId">
               <el-select filterable value-key="stId" @change="changeSt" v-model="form.stId" placeholder="请选择业务"
                 style="width: 100%">
-                <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj"></el-option>
+                <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj.stId"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -301,6 +301,7 @@ import {
 import { getToken } from "@/utils/auth";
 import { getStList, getTpcList } from "@/api/project/lpayment";
 import { getContract, getGrnList } from "@/api/project/apayment";
+import { listProjectForCombobox, listBusinessForCombobox } from "@/api/project/st";
 export default {
   name: "Wldetails",
   data() {
@@ -380,14 +381,6 @@ export default {
     getTpcList().then((response) => {
       this.tpcOptions = response.rows;
     });
-    // 业务
-    listForBus().then((response) => {
-      this.listForBusArr = response.data
-    })
-    // 项目
-    listForPro().then((response) => {
-      this.listForProArr = response.data
-    })
   },
   methods: {
     /** 查询物流收票列表 */
@@ -404,6 +397,19 @@ export default {
       getTpcList().then((response) => {
         this.tpcOptions = response.rows;
       });
+      this.loadProjectForCombobox();
+    },
+    loadProjectForCombobox() {
+      this.listForProArr = []
+      listProjectForCombobox().then((response) => {
+        this.listForProArr = response.data
+      })
+    },
+    loadBusinessForCombobox(projectId) {
+      this.listForBusArr = []
+      listBusinessForCombobox({ projectId }).then((response) => {
+        this.listForBusArr = response.data
+      })
     },
     // 取消按钮
     cancel() {
@@ -566,14 +572,23 @@ export default {
     },
     //业务开始
     //选择项目
-    changeSt(obj) {
-      this.form.stId2 = obj.stId;
+    changeSt(stId) {
+      let businessFind = this.listForBusArr.filter(x => x.stId == stId);
+      if (businessFind && businessFind.length > 0) {
+        let obj = businessFind[0];
       this.form.stName = obj.stName;
       this.form.serialNo = obj.serialNo;
       this.$set(this.form, "number", obj.number);
+    }
     },
-    changeProject(pro) {
-      this.form.projectIdOld = pro.projectId;
+    changeProject(projectId) {
+      this.listForBusArr = []
+      this.form.stId = ''
+      this.form.stName = ''
+      this.form.serialNo = ''
+      if (projectId) {
+        this.loadBusinessForCombobox(projectId);
+      }
       this.form.projectName = pro.projectName
     },
 
