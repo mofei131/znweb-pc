@@ -39,6 +39,44 @@
         </el-col>
       </el-row>
       <el-row class="head-text">
+        <el-col class="newTable">
+          <table width="90%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td class="tdTitle">项目名称</td>
+              <td class="tdCoent">{{form.stName}}</td>
+              <td class="tdTitle">项目编号</td>
+              <td class="tdCoent">{{form.number}}</td>
+              <td class="tdTitle">代办人</td>
+              <td class="tdCoent">{{form.uName}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">供应商</td>
+              <td class="tdCoent">{{form.sName}}</td>
+              <td class="tdTitle">结算金额</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.zzTprice)}}</td>
+              <td class="tdTitle">验收重量(吨)</td>
+              <td class="tdCoent">{{$options.filters.weightFilter(form.zzWeight)}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">开票金额(元)</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.kpPrice)}}</td>
+              <td class="tdTitle">开票税额(元)</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.kpTax)}}</td>
+              <td class="tdTitle">价税合计(元)</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.kpTotal)}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">货品单价(元)</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.zzPrice)}}</td>
+              <td class="tdTitle">货品名称</td>
+              <td class="tdCoent">{{form.mc}}</td>
+              <td class="tdTitle">货品型号</td>
+              <td class="tdCoent">{{form.xh}}</td>
+            </tr>
+          </table>
+        </el-col>
+        </el-row>
+      <!-- <el-row class="head-text">
         <el-col :span="7" :offset="1">
           <div style="display:flex">
             <div>项目名称：</div><span v-text="form.stName"></span>
@@ -81,7 +119,7 @@
             <div style="width:100px">货品型号：</div><span v-text="form.xh"></span>
           </div>
         </el-col>
-      </el-row>
+      </el-row> -->
       <el-row class="head-text">
         <el-col :span="18" :offset="1">
           <el-form-item label="附件：" prop="file">

@@ -41,6 +41,36 @@
         </el-col>
       </el-row>
       <el-row class="head-text">
+        <el-col class="newTable">
+          <table width="90%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td class="tdTitle">项目名称</td>
+              <td class="tdCoent">{{form.stName}}</td>
+              <td class="tdTitle">收票类型</td>
+              <td class="tdCoent">{{form.proportion}}</td>
+              <td class="tdTitle">项目编号</td>
+              <td class="tdCoent">{{form.projectNumber}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">数量（吨）</td>
+              <td class="tdCoent">{{$options.filters.weightFilter(form.number)}}</td>
+              <td class="tdTitle">代办人</td>
+              <td class="tdCoent">{{form.uName}}</td>
+              <td class="tdTitle">终端用户</td>
+              <td class="tdCoent">{{form.tName}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">开票金额(元)</td>
+              <td class="tdCoent">{{$options.filters.weightFilter(form.tax)}}</td>
+              <td class="tdTitle">开票税额(元)</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.tax)}}</td>
+              <td class="tdTitle">价税合计(元)</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.totalPrice)}}</td>
+            </tr>
+          </table>
+        </el-col>
+      </el-row>
+     <!-- <el-row class="head-text">
         <el-col :span="7" :offset="1">
           <div style="display:flex">
             <div>项目名称：</div><span v-text="form.stName"></span>
@@ -75,64 +105,7 @@
             <div>价税合计(元)：</div><span v-text="$options.filters.moneyFilter(form.totalPrice)"></span>
           </div>
         </el-col>
-      </el-row>
-      <!--      <el-row class="head-text">-->
-      <!--        <el-col :span="5" :offset="1">-->
-      <!--          最终结算总额(元)：<span v-text="form.ysPrice"></span>-->
-      <!--        </el-col>-->
-      <!--        <el-col :span="5">-->
-      <!--          已收票金额：<span v-text="form.totalPrice"></span>-->
-      <!--        </el-col>-->
-      <!--        <el-col :span="5">-->
-      <!--          剩余收票金额：<span v-text="form.sy"></span>-->
-      <!--        </el-col>-->
-      <!--      </el-row>-->
-      <!--      <el-row class="head-title">-->
-      <!--        <el-col :span="19">-->
-      <!--          <el-form-item label="发票信息"></el-form-item>-->
-      <!--        </el-col>-->
-      <!--      </el-row>-->
-      <!--      <el-row>-->
-      <!--        <el-col :span="20" :offset="1">-->
-      <!--          <el-table-->
-      <!--            ref="singleTable"-->
-      <!--            :data="ocrList"-->
-      <!--            fit-->
-      <!--            style="margin-bottom: 30px;">-->
-      <!--            <el-table-column-->
-      <!--              property="number"-->
-      <!--              label="发票号码">-->
-      <!--            </el-table-column>-->
-      <!--            <el-table-column-->
-      <!--              property="date"-->
-      <!--              label="开票日期">-->
-      <!--            </el-table-column>-->
-      <!--            <el-table-column-->
-      <!--              property="price"-->
-      <!--              label="开票金额(元)">-->
-      <!--            </el-table-column>-->
-      <!--            <el-table-column-->
-      <!--              property="tax"-->
-      <!--              label="开票税额(元)">-->
-      <!--            </el-table-column>-->
-      <!--            <el-table-column-->
-      <!--              property="total"-->
-      <!--              label="价税合计(元)">-->
-      <!--            </el-table-column>-->
-      <!--          </el-table>-->
-      <!--        </el-col>-->
-      <!--      </el-row>-->
-
-      <!--      <el-row class="head-text">-->
-      <!--        <el-col :span="24">-->
-      <!--          <el-form-item label="合计："  >-->
-      <!--            <span>数量(吨)：<span style="color: red" v-text="form.number">0.00</span></span>-->
-      <!--            <span style="margin-left: 20px;">开票金额(元)：<span style="color: red" v-text="form.price">0.00</span></span>-->
-      <!--            <span style="margin-left: 20px;">开票税额(元)：<span style="color: red" v-text="form.tax">0.00</span></span>-->
-      <!--            <span style="margin-left: 20px;">价税合计(元)：<span style="color: red" v-text="form.totalPrice">0.00</span></span>-->
-      <!--          </el-form-item>-->
-      <!--        </el-col>-->
-      <!--      </el-row>-->
+      </el-row> -->
 
       <!--      合同信息-->
       <el-row class="head-title">
@@ -142,7 +115,7 @@
       </el-row>
       <el-row class="head-text">
         <el-col :offset="1">
-          <el-table ref="singleTable" :data="contract" style="width: 80%;margin-bottom: 30px;">
+          <el-table ref="singleTable" :data="contract" style="width: 90%;margin-bottom: 30px;">
             <el-table-column property="name" label="合同名称">
             </el-table-column>
             <el-table-column property="type" label="合同类型" :formatter="contractTypeFormat">
