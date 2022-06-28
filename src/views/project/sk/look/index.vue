@@ -94,7 +94,7 @@
           <el-table ref="singleTable" :data="gryList" fit style="margin-bottom: 30px;">
             <el-table-column property="name" label="货品名称">
             </el-table-column>
-            <el-table-column property="grnNumber" label="出库重量（吨）">
+            <el-table-column property="grnNumber" label="重量（吨）">
               <template slot-scope="scope">
                 {{
                 Number(scope.row.grnNumber)
@@ -104,7 +104,7 @@
                 }}
               </template>
             </el-table-column>
-            <el-table-column property="gryRz" label="出库热值（kcal）">
+            <el-table-column property="gryRz" label="热值（kcal）">
             </el-table-column>
             <el-table-column property="transportType" label="运输方式">
             </el-table-column>

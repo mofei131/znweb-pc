@@ -50,7 +50,7 @@
               <td class="tdCoent">{{form.serialNo}}</td>
             </tr>
             <tr>
-              <td class="tdTitle">结算方式</td>
+              <td class="tdTitle">业务模式</td>
               <td class="tdCoent">{{form.settlementWay}}</td>
               <td class="tdTitle">供应商</td>
               <td class="tdCoent">{{form.supplierName}}</td>
@@ -99,7 +99,7 @@
         <!--        </el-col>-->
       <!-- </el-row> -->
 
-      <el-row class="head-title">
+      <!-- <el-row class="head-title">
         <el-col :span="19">
           <el-form-item label="出库信息"></el-form-item>
         </el-col>
@@ -165,7 +165,7 @@
             <span style="color: red">{{ form.prz }}</span>
           </el-form-item>
         </el-col>
-      </el-row>
+      </el-row> -->
 
       <el-row class="head-title">
         <el-col :span="19">

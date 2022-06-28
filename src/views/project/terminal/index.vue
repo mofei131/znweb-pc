@@ -58,6 +58,7 @@
 
     <el-table v-loading="loading" :data="terminalList" @selection-change="handleSelectionChange">
       <!--      <el-table-column type="selection" width="55" align="center" />-->
+      <el-table-column label="客户代码" align="center" prop="customerCode" />
       <el-table-column label="终端客户名称" align="center" prop="name" />
       <el-table-column label="企业性质" align="center" prop="nature" />
       <el-table-column label="成立日期" align="center" prop="setupTime" width="180">

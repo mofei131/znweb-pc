@@ -42,9 +42,11 @@
             <table width="90%" cellpadding="0" cellspacing="0">
               <tr>
                 <td class="tdTitle">项目名称</td>
+                <td class="tdCoent">{{form.projectName}}</td>
+                <td class="tdTitle">业务名称</td>
                 <td class="tdCoent">{{form.stName}}</td>
                 <td class="tdTitle">项目编号</td>
-                <td class="tdCoent">{{form.number}}</td>
+                <td class="tdCoent">{{form.serialNo}}</td>
                 <td class="tdTitle">第三方公司</td>
                 <td class="tdCoent">{{form.tpcName}}</td>
               </tr>
@@ -93,19 +95,10 @@
             <tr>
               <td class="tdTitle">实付金额</td>
               <td class="tdCoent">{{$options.filters.moneyFilter(form.tntPrice)}}</td>
-              <td class="tdTitle">项目编号</td>
-              <td class="tdCoent">{{form.number}}</td>
-              <td class="tdTitle">第三方公司</td>
-              <td class="tdCoent">{{form.tpcName}}</td>
-            </tr>
-            <tr>
-              <td class="tdTitle">公司账号</td>
-              <td class="tdCoent">{{form.account}}</td>
-              <td class="tdTitle">公司开户行</td>
-              <td class="tdCoent">{{form.openbank}}</td>
               <td class="tdTitle">备注</td>
               <td class="tdCoent">{{form.bz}}</td>
             </tr>
+            
           </table>
         </el-col>
       </el-row>

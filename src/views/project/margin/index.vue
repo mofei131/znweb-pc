@@ -742,7 +742,6 @@ export default {
       // 保证金表格数据
       marginList: [],
       // 项目集合
-      projectOptions: [],
       //合同集合
       contractNameOptions: [],
       //客户集合

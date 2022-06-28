@@ -84,7 +84,7 @@
       <el-table-column label="项目编号" align="center" prop="serialNo" v-if="!isQuote" />
       <el-table-column label="付款批次" align="center" prop="away" />
       <el-table-column label="货品名称" align="center" prop="name" />
-      <el-table-column label="入库总量(吨)" align="center" prop="grns">
+      <el-table-column label="随车总量(吨)" align="center" prop="grns">
         <template slot-scope="scope">
           {{
           Number(scope.row.grns)
@@ -94,7 +94,7 @@
           }}
         </template>
       </el-table-column>
-      <el-table-column label="出库总量(吨)" align="center" prop="grys">
+      <el-table-column label="到厂总量(吨)" align="center" prop="grys">
         <template slot-scope="scope">
           {{
           Number(scope.row.grys)
@@ -208,7 +208,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="结算方式" prop="settlementWay">
+              <el-form-item label="业务类型" prop="settlementWay">
                 <span v-text="form.settlementWay"></span>
               </el-form-item>
             </el-col>
@@ -259,7 +259,7 @@
             <!--          选择入库单-->
             <el-popover placement="bottom-start" width="100%" @selection-change="grnSelectionChange" v-model="visible"
               popper-class="area_popper">
-              <el-button size="small" type="primary" slot="reference" style="margin-bottom: 30px;margin-left:50px">选择入库单
+              <el-button size="small" type="primary" slot="reference" style="margin-bottom: 30px;margin-left:50px">选择随车数质量
               </el-button>
               <el-table ref="singleTable1" :data="tableData" @selection-change="grnSelectionChange"
                 style="width: 632px">
@@ -342,7 +342,7 @@
               <el-table ref="singleTable" :data="tableselData" style="width: 100%">
                 <el-table-column property="name" label="货品名称" width="90">
                 </el-table-column>
-                <el-table-column v-if="form.away == '首次'" property="grnNumber" label="入库重量（吨）" width="120">
+                <el-table-column v-if="form.away == '首次'" property="grnNumber" label="重量（吨）" width="120">
                   <template slot-scope="scope">
                     {{
                     Number(scope.row.grnNumber)
@@ -362,7 +362,7 @@
                     }}
                   </template>
                 </el-table-column>
-                <el-table-column v-if="form.away == '首次'" property="grnRz" label="入库热值（kcal）" width="120">
+                <el-table-column v-if="form.away == '首次'" property="grnRz" label="热值（kcal）" width="120">
                 </el-table-column>
                 <el-table-column v-if="form.away == '二次'" property="gryRz" label="出库热值（kcal）" width="120">
                 </el-table-column>

@@ -629,7 +629,6 @@ export default {
         jsTax: [{ validator: validatePrice3, trigger: "blur" }],
       },
       // 项目集合
-      projectOptions: [],
       dateRange: [],
       //审批
       stateOptions: [],

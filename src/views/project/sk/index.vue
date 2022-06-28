@@ -227,7 +227,7 @@
               <el-popover placement="bottom-start" width="100%" @selection-change="grnSelectionChange" v-model="visible"
                 popper-class="area_popper">
                 <el-button size="small" type="primary" slot="reference" style="margin-bottom: 30px" v-if="isLook != 3">
-                  选择出库单</el-button>
+                  选择到厂数质量</el-button>
                 <el-table ref="singleTable1" :data="tablegryData" @selection-change="grnSelectionChange"
                   style="width: 100%">
                   <el-table-column type="selection" width="55">
@@ -267,7 +267,7 @@
               <el-table ref="singleTable" :data="tableselData" style="width: 100%">
                 <el-table-column property="name" label="货品名称" width="90">
                 </el-table-column>
-                <el-table-column property="grnNumber" label="出库重量（吨）" width="120">
+                <el-table-column property="grnNumber" label="重量（吨）" width="120">
                   <template slot-scope="scope">
                     {{
                     Number(scope.row.grnNumber)
@@ -277,7 +277,7 @@
                     }}
                   </template>
                 </el-table-column>
-                <el-table-column property="gryRz" label="出库热值（kcal）" width="120">
+                <el-table-column property="gryRz" label="热值（kcal）" width="120">
                 </el-table-column>
                 <el-table-column property="transportType" label="运输方式" width="90">
                 </el-table-column>

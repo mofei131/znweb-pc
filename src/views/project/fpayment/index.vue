@@ -200,7 +200,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="结算方式" prop="settlementWay">
+              <el-form-item label="业务模式" prop="settlementWay">
                 <span v-text="form.settlementWay"></span>
               </el-form-item>
             </el-col>
@@ -287,7 +287,7 @@
             </el-table>
           </div>-->
 
-          <el-row>
+          <!-- <el-row>
             <el-col :span="6">
               <el-form-item label="合计重量" prop="totalWeight">
                 <span style="color: red">{{
@@ -300,7 +300,7 @@
                 <span style="color: red">{{ form.prz }}</span>
               </el-form-item>
             </el-col>
-          </el-row>
+          </el-row> -->
 
           <el-row>
             <el-col :span="12">
