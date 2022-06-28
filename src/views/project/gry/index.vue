@@ -142,7 +142,7 @@
     <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
       @pagination="getList" />
 
-    <!-- 添加或修改出库单对话框 -->
+    <!-- 添加或修改到厂数质量对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="773px" append-to-body @opened="handleOpen">
       <el-form ref="form" :model="form" :rules="rules" label-width="120px">
         <el-row>
@@ -173,8 +173,8 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="出库重量(吨)" prop="grnNumber">
-              <el-input v-model="form.grnNumber" placeholder="请输入出库重量" @change="calculate" />
+            <el-form-item label="重量(吨)" prop="grnNumber">
+              <el-input v-model="form.grnNumber" placeholder="请输入重量" @change="calculate" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -187,8 +187,8 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="出库热值(Kcal/吨)" prop="gryRz">
-              <el-input v-model="form.gryRz" placeholder="请输入出库热值" />
+            <el-form-item label="热值(Kcal/吨)" prop="gryRz">
+              <el-input v-model="form.gryRz" placeholder="请输入热值" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -204,12 +204,12 @@
         <!--        选择入库单-->
         <div v-if="isLook != 3">
           <el-popover placement="bottom-start" width="100%" fit v-model="visible" popper-class="area_popper">
-            <el-button size="small" type="primary" slot="reference" style="margin-bottom: 30px">选择入库单</el-button>
+            <el-button size="small" type="primary" slot="reference" style="margin-bottom: 30px">选择随车数质量</el-button>
             <el-table ref="singleTable" :data="tableData" highlight-current-row @current-change="handleCurrentChange"
               style="width: 100%">
               <el-table-column property="name" label="货品名称">
               </el-table-column>
-              <el-table-column property="grnNumber" label="入库重量（吨）">
+              <el-table-column property="grnNumber" label="随车重量（吨）">
                 <template slot-scope="scope">
                   {{
                   Number(scope.row.grnNumber)
@@ -259,7 +259,7 @@
             <el-table ref="singleTable" :data="tableselData" fit style="margin-bottom: 30px">
               <el-table-column property="name" label="已选货品名称">
               </el-table-column>
-              <el-table-column property="grnNumber" label="入库重量（吨）">
+              <el-table-column property="grnNumber" label="随车重量（吨）">
                 <template slot-scope="scope">
                   {{
                   Number(scope.row.grnNumber)
@@ -495,7 +495,7 @@
           <!--基本信息-->
           <table border="1" width="100%">
             <tr>
-              <td class="title" colspan="6">出库信息</td>
+              <td class="title" colspan="6">到厂数质量信息</td>
             </tr>
             <tr>
               <td class="table-td-title detail">项目名称</td>
@@ -506,7 +506,7 @@
               <td class="table-td-content">
                 {{ printData.number }}
               </td>
-              <td class="table-td-title detail">出库重量</td>
+              <td class="table-td-title detail">重量</td>
               <td class="table-td-content">
                 {{ $options.filters.weightFilter(printData.grnNumber) }}
               </td>
@@ -516,7 +516,7 @@
               <td class="table-td-content">
                 {{ parseTime(printData.okTime, "{y}-{m}-{d}") }}
               </td>
-              <td class="table-td-title detail">出库热值</td>
+              <td class="table-td-title detail">热值</td>
               <td class="table-td-content">
                 {{ printData.gryRz }}
               </td>
@@ -658,11 +658,11 @@
           </table>
           <table border="1" width="100%">
             <tr>
-              <td class="title" colspan="10">入库单信息</td>
+              <td class="title" colspan="10">随车数质量信息</td>
             </tr>
             <tr>
               <td class="table-td-title detail">已选货品名称</td>
-              <td class="table-td-title detail">入库重量(吨)</td>
+              <td class="table-td-title detail">随车重量(吨)</td>
               <td class="table-td-title detail">热值(Kcal)</td>
               <td class="table-td-title detail">运输方式</td>
               <td class="table-td-title detail">物流公司</td>
@@ -819,7 +819,7 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 出库单表格数据
+      // 到厂数质量表格数据
       gryList: [],
       // 弹出层标题
       title: "",
@@ -936,7 +936,7 @@ export default {
     }
   },
   methods: {
-    /** 查询出库单列表 */
+    /** 查询到厂数质量列表 */
     getList() {
       this.loading = true;
       listGry(this.addDateRange(this.queryParams, this.dateRange)).then(
@@ -1083,7 +1083,7 @@ export default {
         this.fileList = [];
         this.isLook = 1;
         this.open = true;
-        this.title = "添加出库单";
+        this.title = "添加到厂数质量";
       });
     },
     /** 修改按钮操作 */
@@ -1105,7 +1105,7 @@ export default {
 
         this.isLook = 1;
         this.open = true;
-        this.title = "修改出库单";
+        this.title = "修改到厂数质量";
       });
     },
     /** 查看按钮操作 */
@@ -1123,7 +1123,7 @@ export default {
       this.$refs["form"].validate((valid) => {
         if (valid) {
           if (this.tableselData.length < 1) {
-            this.msgError("请选择入库单");
+            this.msgError("请选择随车数质量");
             this.isDisabled = false;
             return;
           }
@@ -1149,7 +1149,7 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const gryIds = row.gryId || this.ids;
-      this.$confirm("是否确认删除出库单?", "警告", {
+      this.$confirm("是否确认删除到厂数质量?", "警告", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
@@ -1560,7 +1560,7 @@ export default {
           response.data.valuePrice - response.data.grnList[0].valuePrice;
         this.printData.zec =
           response.data.valueTprice - response.data.grnList[0].valueTprice;
-        this.printData.printType = "出库管理";
+        this.printData.printType = "到厂数质量";
       });
       this.printReviewVisible = true;
       this.$nextTick(() => {

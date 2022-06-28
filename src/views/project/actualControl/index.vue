@@ -1,13 +1,7 @@
 <template>
   <div class="app-container">
     <div class="text">
-      <el-form
-        :model="queryParams"
-        ref="queryForm"
-        :inline="true"
-        v-show="showSearch"
-        label-width="68px"
-      >
+      <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
         <!-- <el-form-item label="实控人姓名" prop="actualControlPerson">
         <el-input
           v-model="queryParams.actualControlPerson"
@@ -54,37 +48,19 @@
         />
       </el-form-item> -->
         <el-form-item prop="org">
-          <el-input
-            v-model="queryParams.org"
-            placeholder="公司名称"
-            clearable
-            size="small"
-            @keyup.enter.native="handleQuery"
-          />
+          <el-input v-model="queryParams.org" placeholder="公司名称" clearable size="small"
+            @keyup.enter.native="handleQuery" />
         </el-form-item>
         <el-form-item>
-          <el-button
-            type="primary"
-            icon="el-icon-search"
-            size="mini"
-            @click="handleQuery"
-            >查询</el-button
-          >
+          <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">查询</el-button>
           <!-- <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button> -->
         </el-form-item>
       </el-form>
 
       <el-row :gutter="10" class="mb8">
         <el-col :span="1.5">
-          <el-button
-            type="primary"
-            plain
-            icon="el-icon-plus"
-            size="mini"
-            @click="handleAdd"
-            v-hasPermi="['project:actualControl:add']"
-            >新增</el-button
-          >
+          <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
+            v-hasPermi="['project:actualControl:add']">新增</el-button>
         </el-col>
         <!-- <el-col :span="1.5">
         <el-button
@@ -122,67 +98,34 @@
       </el-row>
     </div>
 
-    <el-table
-      v-loading="loading"
-      :data="actualControlList"
-      @selection-change="handleSelectionChange"
-      stripe
-    >
+    <el-table v-loading="loading" :data="actualControlList" @selection-change="handleSelectionChange" stripe>
       <el-table-column type="selection" width="55" align="center" />
       <!-- <el-table-column label="ID" align="center" prop="id" /> -->
-      <el-table-column
-        label="客户姓名"
-        align="center"
-        prop="actualControlPerson"
-      />
+      <el-table-column label="客户姓名" align="center" prop="actualControlPerson" />
       <el-table-column label="所在单位" align="center" prop="org" />
       <el-table-column label="职务" align="center" prop="post" />
       <el-table-column label="联系手机" align="center" prop="contactMobile" />
       <el-table-column label="身份证号" align="center" prop="idMumber" />
       <!-- <el-table-column label="办公电话" align="center" prop="officeTelephone" />
       <el-table-column label="删除标志" align="center" prop="delFlg" /> -->
-      <el-table-column
-        label="操作"
-        align="center"
-        class-name="small-padding fixed-width"
-      >
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-edit"
-            @click="handleUpdate(scope.row)"
-            v-hasPermi="['project:actualControl:edit']"
-            >编辑</el-button
-          >
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-delete"
-            @click="handleDelete(scope.row)"
-            v-hasPermi="['project:actualControl:remove']"
-            >删除</el-button
-          >
+          <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
+            v-hasPermi="['project:actualControl:edit']">编辑</el-button>
+          <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
+            v-hasPermi="['project:actualControl:remove']">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
 
-    <pagination
-      v-show="total > 0"
-      :total="total"
-      :page.sync="queryParams.pageNum"
-      :limit.sync="queryParams.pageSize"
-      @pagination="getList"
-    />
+    <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
+      @pagination="getList" />
 
     <!-- 添加或修改实控人管理对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+      <el-form ref="form" :model="form" :rules="rules" label-width="100px">
         <el-form-item label="实控人姓名" prop="actualControlPerson">
-          <el-input
-            v-model="form.actualControlPerson"
-            placeholder="请输入实控人姓名"
-          />
+          <el-input v-model="form.actualControlPerson" placeholder="请输入实控人姓名" :disabled="!isAdd" />
         </el-form-item>
         <el-form-item label="所在单位" prop="org">
           <el-input v-model="form.org" placeholder="请输入所在单位" />
@@ -197,10 +140,7 @@
           <el-input v-model="form.post" placeholder="请输入职务" />
         </el-form-item>
         <el-form-item label="办公电话" prop="officeTelephone">
-          <el-input
-            v-model="form.officeTelephone"
-            placeholder="请输入办公电话"
-          />
+          <el-input v-model="form.officeTelephone" placeholder="请输入办公电话" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -258,16 +198,26 @@ export default {
       form: {},
       // 表单校验
       rules: {
-        delFlg: [
-          { required: true, message: "删除标志不能为空", trigger: "blur" },
+        actualControlPerson: [
+          { required: true, message: "实控人姓名不能为空", trigger: "blur" },
         ],
-        createBy: [
-          { required: true, message: "创建人不能为空", trigger: "blur" },
+        org: [
+          { required: true, message: "所在单位不能为空", trigger: "blur" },
         ],
-        createTime: [
-          { required: true, message: "创建时间不能为空", trigger: "blur" },
+        contactMobile: [
+          { required: true, message: "联系手机不能为空", trigger: "blur" },
         ],
+        idMumber: [
+          { required: true, message: "身份证号不能为空", trigger: "blur" },
+        ],
+        post: [
+          { required: true, message: "职务不能为空", trigger: "blur" },
+        ],
+        officeTelephone: [
+          { required: true, message: "办公电话不能为空", trigger: "blur" },
+        ]
       },
+      isAdd: false
     };
   },
   created() {
@@ -325,12 +275,14 @@ export default {
     /** 新增按钮操作 */
     handleAdd() {
       this.reset();
+      this.isAdd = true
       this.open = true;
       this.title = "添加实控人管理";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
+      this.isAdd = false
       const id = row.id || this.ids;
       getActualControl(id).then((response) => {
         this.form = response.data;

@@ -98,6 +98,8 @@ export default {
     /** 查询项目信息列表 */
     getList() {
       this.loading = true;
+      // 只展示审批通过的
+      this.queryParams.state = '3'
       businessList(this.queryParams).then(response => {
         this.stList = response.rows;
         this.total = response.total;

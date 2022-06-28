@@ -62,7 +62,7 @@
     <el-table v-loading="loading" :data="kpList" @selection-change="handleSelectionChange">
       <el-table-column label="项目名称" align="center" prop="projectName" v-if="!isQuote" />
       <el-table-column label="业务名称" align="center" prop="stName" v-if="!isQuote" />
-      <el-table-column label="立项编号" align="center" prop="serialNo" v-if="!isQuote" />
+      <el-table-column label="项目编号" align="center" prop="serialNo" v-if="!isQuote" />
       <el-table-column label="代办人" align="center" prop="uName" />
       <el-table-column label="供应商" align="center" prop="sName" />
       <el-table-column label="开票金额(元)" align="center" prop="kpPrice">
@@ -156,7 +156,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="立项编号" prop="serialNo">
+              <el-form-item label="项目编号" prop="serialNo">
                 {{ form.serialNo }}
               </el-form-item>
             </el-col>
@@ -750,12 +750,12 @@ export default {
       if (businessFind && businessFind.length > 0) {
         let obj = businessFind[0];
         this.form.stName = obj.stName;
+        this.form.serialNo = obj.serialNo;
         let projectFind = this.listForProArr.filter(x => x.projectId == obj.projectId);
         if (projectFind && projectFind.length > 0) {
           this.form.uName = projectFind[0].userName;
           this.form.uId = projectFind[0].userId;
           this.form.sName = projectFind[0].supplierName;
-          this.form.serialNo = projectFind[0].serialNo;
           this.form.sId = projectFind[0].supplierId;
         }
       }
