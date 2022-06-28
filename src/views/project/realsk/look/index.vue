@@ -78,6 +78,10 @@
               <td class="tdTitle">结算税款(元)</td>
               <td class="tdCoent">{{$options.filters.moneyFilter(form.jsTax)}}</td>
             </tr>
+            <tr>
+              <td class="tdTitle">预估应收(元)</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.ygPrice)}}</td>
+            </tr>
           </table>
         </el-col>
       </el-row>

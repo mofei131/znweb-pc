@@ -156,7 +156,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="立项编号" prop="serialNo">
+              <el-form-item label="项目编号" prop="serialNo">
                 {{ form.serialNo }}
               </el-form-item>
             </el-col>

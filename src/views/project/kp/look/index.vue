@@ -43,9 +43,11 @@
           <table width="90%" cellpadding="0" cellspacing="0">
             <tr>
               <td class="tdTitle">项目名称</td>
+              <td class="tdCoent">{{form.projectName}}</td>
+              <td class="tdTitle">业务名称</td>
               <td class="tdCoent">{{form.stName}}</td>
               <td class="tdTitle">项目编号</td>
-              <td class="tdCoent">{{form.number}}</td>
+              <td class="tdCoent">{{form.serialNo}}</td>
               <td class="tdTitle">代办人</td>
               <td class="tdCoent">{{form.uName}}</td>
             </tr>

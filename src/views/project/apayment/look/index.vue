@@ -66,6 +66,8 @@
             <tr>
               <td class="tdTitle">项目名称</td>
               <td class="tdCoent">{{form.projectName}}</td>
+              <td class="tdTitle">业务名称</td>
+              <td class="tdCoent">{{form.stName}}</td>
               <td class="tdTitle">项目编号</td>
               <td class="tdCoent">{{form.serialNo}}</td>
               <td class="tdTitle">付款批次</td>
@@ -127,7 +129,7 @@
           <el-table ref="singleTable" :data="dataList" fit style="margin-bottom: 30px;width:90%;" >
             <el-table-column property="name" label="货品名称" width="90">
             </el-table-column>
-            <el-table-column v-if="form.away == '首次'" property="grnNumber" label="入库重量（吨）" width="120">
+            <el-table-column v-if="form.away == '首次'" property="grnNumber" label="重量（吨）" width="120">
               <template slot-scope="scope">
                 {{
                 Number(scope.row.grnNumber)
@@ -137,7 +139,7 @@
                 }}
               </template>
             </el-table-column>
-            <el-table-column v-if="form.away == '二次'" property="grnNumber" label="出库重量（吨）" width="120">
+            <el-table-column v-if="form.away == '二次'" property="grnNumber" label="重量（吨）" width="120">
               <template slot-scope="scope">
                 {{
                 Number(scope.row.grnNumber)
@@ -147,9 +149,9 @@
                 }}
               </template>
             </el-table-column>
-            <el-table-column v-if="form.away == '首次'" property="grnRz" label="入库热值（kcal）" width="120">
+            <el-table-column v-if="form.away == '首次'" property="grnRz" label="热值（kcal）" width="120">
             </el-table-column>
-            <el-table-column v-if="form.away == '二次'" property="gryRz" label="出库热值（kcal）" width="120">
+            <el-table-column v-if="form.away == '二次'" property="gryRz" label="热值（kcal）" width="120">
             </el-table-column>
             <el-table-column property="transportType" label="运输方式" width="90">
             </el-table-column>

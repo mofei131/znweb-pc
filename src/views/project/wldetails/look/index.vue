@@ -43,11 +43,17 @@
           <table width="90%" cellpadding="0" cellspacing="0">
             <tr>
               <td class="tdTitle">项目名称</td>
+              <td class="tdCoent">{{form.projectName}}</td>
+              <td class="tdTitle">业务名称</td>
               <td class="tdCoent">{{form.stName}}</td>
               <td class="tdTitle">项目编号</td>
-              <td class="tdCoent">{{form.projectNumber}}</td>
-              <td class="tdTitle"></td>
-              <td class="tdCoent"></td>
+              <td class="tdCoent">{{form.serialNo}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">第三方公司</td>
+              <td class="tdCoent">{{form.tpcName}}</td>
+              <td class="tdTitle">收票日期</td>
+              <td class="tdCoent">{{form.sticketTime}}</td>
             </tr>
           </table>
         </el-col>

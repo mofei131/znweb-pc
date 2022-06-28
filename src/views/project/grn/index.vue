@@ -191,8 +191,8 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="入库重量(吨)" prop="grnNumber">
-              <el-input v-model="form.grnNumber" placeholder="请输入入库重量" @change="calculate" />
+            <el-form-item label="重量(吨)" prop="grnNumber">
+              <el-input v-model="form.grnNumber" placeholder="请输入重量" @change="calculate" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -206,8 +206,8 @@
         <el-row>
           <el-col :span="12">
             <!-- <el-form-item label="入库热值(Kcal/吨)" prop="grnRz"> -->
-            <el-form-item label="入库热值(Kcal/吨)">
-              <el-input v-model="form.grnRz" placeholder="请输入入库热值" />
+            <el-form-item label="热值(Kcal/吨)">
+              <el-input v-model="form.grnRz" placeholder="请输入热值" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -903,7 +903,7 @@ export default {
         this.fileList = [];
         this.isLook = 1;
         this.open = true;
-        this.title = "添加入库单";
+        this.title = "添加随车数质量";
       });      
     },
     /** 修改按钮操作 */
