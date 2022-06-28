@@ -142,7 +142,7 @@
     <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
       @pagination="getList" />
 
-    <!-- 添加或修改入库单对话框 -->
+    <!-- 添加或修改随车数质量对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body @opened="handleOpen">
       <el-form ref="form" :model="form" :rules="rules" label-width="180px">
         <el-row>
@@ -385,7 +385,7 @@
           <!--基本信息-->
           <table border="1" width="100%">
             <tr>
-              <td class="title" colspan="6">入库信息</td>
+              <td class="title" colspan="6">随车数质量信息</td>
             </tr>
             <tr>
               <td class="table-td-title detail">项目名称</td>
@@ -406,7 +406,7 @@
               <td class="table-td-content">
                 {{ printData.name }}
               </td>
-              <td class="table-td-title detail">入库重量(吨)</td>
+              <td class="table-td-title detail">重量(吨)</td>
               <td class="table-td-content">
                 {{ $options.filters.weightFilter(printData.grnNumber) }}
               </td>
@@ -416,7 +416,7 @@
               </td>
             </tr>
             <tr>
-              <td class="table-td-title detail">入库热值</td>
+              <td class="table-td-title detail">热值</td>
               <td class="table-td-content">
                 {{ printData.grnRz }}
               </td>
@@ -657,7 +657,7 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 入库单表格数据
+      // 随车数质量表格数据
       grnList: [],
       // 弹出层标题
       title: "",
@@ -782,7 +782,7 @@ export default {
     }
   },
   methods: {
-    /** 查询入库单列表 */
+    /** 查询随车数质量列表 */
     getList() {
       this.loading = true;
       listGrn(this.addDateRange(this.queryParams, this.dateRange)).then(
@@ -916,7 +916,7 @@ export default {
         this.fileList = this.form.fileList;
         this.isLook = 1;
         this.open = true;
-        this.title = "修改入库单";
+        this.title = "修改随车数质量";
       });
     },
     /** 修改按钮操作 */
@@ -952,7 +952,7 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const grnIds = row.grnId || this.ids;
-      this.$confirm("是否确认删除入库单?", "警告", {
+      this.$confirm("是否确认删除随车数质量?", "警告", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
@@ -1266,7 +1266,7 @@ export default {
       this.printData = {};
       await getGrn(row.grnId).then((response) => {
         this.printData = response.data;
-        this.printData.printType = "入库管理";
+        this.printData.printType = "随车数质量";
       });
 
       this.printReviewVisible = true;
