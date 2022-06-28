@@ -142,7 +142,7 @@
       <div v-if="stId && projectId">
         <div style="padding:20px">
           <div id="bid">投标申请</div>
-          <bid-apply :stIdd="stId" :projectIdd="projectId"></bid-apply>
+          <bid-apply :stIdd="stId" :projectIdd="projectId" :isQuote="true"></bid-apply>
         </div>
         <div style="padding:20px">
           <div id="contract">合同信息</div>
@@ -247,7 +247,7 @@
 </template>
 
 <script>
-import bidApply from '@/views/project/st/components/bidApply'
+import bidApply from '@/views/project/bidApply'
 import contract from '@/views/project/st/components/contract'
 import rewardsp from '@/views/project/st/components/rewardsp'
 import margin from '@/views/project/st/components/margin'
@@ -426,7 +426,6 @@ export default {
       }
     },
     changeChargemType(e) {
-      console.log('看这里',e)
       if (e == '1') {
         return '年息'
       } else if (e = '2') {
