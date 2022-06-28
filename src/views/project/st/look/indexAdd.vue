@@ -154,11 +154,11 @@
         </div>
         <div v-if="projectInfo.businessType != 'cu' && projectInfo.businessType != 'cud'" style="padding:20px">
           <div id="grn">随车数质量</div>
-          <grn :stIdd="stId" :projectIdd="projectId"></grn>
+          <grn :stIdd="stId" :projectIdd="projectId" :isQuote="true"></grn>
         </div>
         <div v-if="projectInfo.businessType != 'cu' && projectInfo.businessType != 'cud'" style="padding:20px">
           <div id="gry">到厂数质量</div>
-          <gry :stIdd="stId" :projectIdd="projectId"></gry>
+          <gry :stIdd="stId" :projectIdd="projectId" :isQuote="true"></gry>
         </div>
         <div v-if="projectInfo.businessType != 'cu' && projectInfo.businessType != 'cud'" style="padding:20px">
           <div id="margin">保证金管理</div>
@@ -194,11 +194,11 @@
         </div>
         <div style="padding:20px">
           <div id="sp">收票管理</div>
-          <sp :stIdd="stId" :projectIdd="projectId"></sp>
+          <sticket :stIdd="stId" :projectIdd="projectId" :isQuote="true"></sticket>
         </div>
         <div style="padding:20px">
           <div id="kp">开票管理</div>
-          <kp :stIdd="stId" :projectIdd="projectId"></kp>
+          <kp :stIdd="stId" :projectIdd="projectId" :isQuote="true"></kp>
         </div>
         <div style="padding:20px">
           <div id="sfdetails">财务收付款明细</div>
@@ -260,10 +260,10 @@ import realsk from '@/views/project/realsk'
 import refund from '@/views/project/refund'
 import sfdetails from '@/views/project/st/components/sfdetails'
 import serviceDetails from '@/views/project/st/components/serviceDetails'
-import grn from '@/views/project/st/components/grn'
-import gry from '@/views/project/st/components/gry'
-import sp from '@/views/project/st/components/sp'
-import kp from '@/views/project/st/components/kp'
+import grn from '@/views/project/grn'
+import gry from '@/views/project/gry'
+import sticket from '@/views/project/sticket'
+import kp from '@/views/project/kp'
 import { exportBusiness, getStInfo, projectInfo } from "@/api/project/st";
 export default {
   name: "look",
@@ -291,7 +291,7 @@ export default {
     grn,
     gry,
     kp,
-    sp
+    sticket
   },
   mounted() {
     this.stId = this.$route.fullPath.match(/\d+/)[0]

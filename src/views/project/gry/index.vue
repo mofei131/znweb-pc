@@ -5,7 +5,7 @@
 </style>
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch && !isQuote" label-width="68px">
       <el-form-item label="创建时间">
         <el-date-picker v-model="dateRange" size="small" style="width: 240px" value-format="yyyy-MM-dd" type="daterange"
           range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
@@ -64,14 +64,14 @@
         <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"
           v-hasPermi="['project:gry:export']">导出</el-button>
       </el-col>
-      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList" v-show="!isQuote"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="gryList" @selection-change="handleSelectionChange">
       <!--      <el-table-column type="selection" width="55" align="center" />-->
-      <el-table-column label="项目名称" align="center" prop="projectName" />
-      <el-table-column label="业务名称" align="center" prop="stName" />
-      <el-table-column label="项目编号" align="center" prop="serialNo" />
+      <el-table-column label="项目名称" align="center" prop="projectName" v-if="!isQuote" />
+      <el-table-column label="业务名称" align="center" prop="stName" v-if="!isQuote" />
+      <el-table-column label="项目编号" align="center" prop="serialNo" v-if="!isQuote" />
       <el-table-column label="货品名称" align="center" prop="name" />
       <el-table-column label="重量(吨)" align="center" prop="grnNumber">
         <template slot-scope="scope">
@@ -149,8 +149,9 @@
           <el-col :span="12">
             <el-form-item label="项目名称" prop="projectId">
               <el-select filterable value-key="projectId" @change="changeProject" v-model="form.projectId"
-                placeholder="请选择项目名称" style="width: 100%">
-                <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName" :value="pro.projectId">
+                placeholder="请选择项目名称" style="width: 100%" :disabled="isQuote">
+                <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName"
+                  :value="pro.projectId">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -158,8 +159,9 @@
           <el-col :span="12">
             <el-form-item label="业务名称" prop="stId">
               <el-select filterable value-key="stId" @change="changeSt" v-model="form.stId" placeholder="请选择业务名称"
-                style="width: 100%">
-                <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj.stId"></el-option>
+                style="width: 100%" :disabled="isQuote">
+                <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj.stId">
+                </el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -307,8 +309,8 @@
             <el-col :span="6">
               <el-form-item label="合计重量" prop="totalWeight">
                 <span style="color: red">{{
-                $options.filters.moneyFilter(form.totalWeight)
-                }}</span>
+                  $options.filters.moneyFilter(form.totalWeight)
+                  }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="6">
@@ -324,8 +326,8 @@
             <el-col :span="5">
               <el-form-item label="重量差">
                 <span style="color: red">{{
-                $options.filters.weightFilter(zlc)
-                }}</span>
+                  $options.filters.weightFilter(zlc)
+                  }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="5">
@@ -336,15 +338,15 @@
             <el-col :span="5">
               <el-form-item label="单价差" prop="averageRz">
                 <span style="color: red">{{
-                $options.filters.moneyFilter(djc)
-                }}</span>
+                  $options.filters.moneyFilter(djc)
+                  }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="5">
               <el-form-item label="总额差" prop="averageRz">
                 <span style="color: red">{{
-                $options.filters.moneyFilter(zec)
-                }}</span>
+                  $options.filters.moneyFilter(zec)
+                  }}</span>
               </el-form-item>
             </el-col>
           </el-row>
@@ -724,7 +726,7 @@
             </tr>
           </table>
           <!--审批流程-->
-          <approval-print :typeId="11" :stId="apyamentId" ></approval-print>
+          <approval-print :typeId="11" :stId="apyamentId"></approval-print>
         </div>
       </div>
     </el-dialog>
@@ -752,6 +754,18 @@ import { listProjectForCombobox, listBusinessForCombobox } from "@/api/project/s
 
 export default {
   name: "Gry",
+  props: {
+    "stIdd": {
+      type: String
+    },
+    "projectIdd": {
+      type: String
+    },
+    "isQuote": {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     const validatePrice = (rule, value, callback) => {
       let reg = /^(\-|\+)?(([1-9]{1}\d*)|(0{1}))(\.\d{1,2})?$/;
@@ -898,6 +912,10 @@ export default {
     };
   },
   created() {
+    if (this.isQuote) {
+      this.queryParams.stId = parseInt(this.stIdd)
+      this.queryParams.projectId = parseInt(this.projectIdd)
+    }
     this.getList();
     this.getDicts("project_approval_state").then((response) => {
       this.stateOptions = response.data;
@@ -941,6 +959,9 @@ export default {
       this.listForBusArr = []
       listBusinessForCombobox({ projectId }).then((response) => {
         this.listForBusArr = response.data
+        if (this.isQuote) {
+          this.changeSt(this.queryParams.stId)
+        }
       })
     },
     // 审核状态字典翻译
@@ -968,7 +989,6 @@ export default {
       this.form = {
         gryId: null,
         stId: null,
-        stId2: null,
         projectId: null,
         stName: null,
         wlCompany: null,
@@ -1013,7 +1033,6 @@ export default {
         grnList: [],
         fileList: [],
         projectId: null,
-        projectIdOld: null,
         projectName: null,
         serialNo: null
       };
@@ -1039,6 +1058,11 @@ export default {
     handleAdd() {
       getApprovalType({ approvalType: '11' }).then((response) => {
         this.reset();
+        if (this.isQuote) {
+          this.form.projectId = this.queryParams.projectId
+          this.changeProject(this.queryParams.projectId)
+          this.form.stId = this.queryParams.stId
+        }
         this.form.totalWeight = 0;
         this.form.averageRz = 0;
         this.form.valuePrice = 0;
@@ -1071,8 +1095,6 @@ export default {
       const gryId = row.gryId || this.ids;
       getGry(gryId).then((response) => {
         this.form = response.data;
-        this.form.stId2 = this.form.stId;
-        this.form.stId = this.form.stName;
         this.fileList = this.form.fileList;
         this.tableselData = response.data.grnList;
 
@@ -1105,8 +1127,6 @@ export default {
             this.isDisabled = false;
             return;
           }
-          this.form.stId = this.form.stId2;
-          this.form.projectId = this.form.projectIdOld
           this.form.grnList = this.tableselData;
           if (this.form.gryId != null) {
             updateGry(this.form).then((response) => {
@@ -1227,68 +1247,66 @@ export default {
       if (projectId) {
         this.loadBusinessForCombobox(projectId);
       }
-      this.form.stName = pro.stName
     },
     changeSt(stId) {
       let businessFind = this.listForBusArr.filter(x => x.stId == stId);
       if (businessFind && businessFind.length > 0) {
         let obj = businessFind[0];
-      this.form.jc1 = 0;
-      this.form.jc2 = 0;
-      this.form.jc3 = 0;
-      this.form.jc4 = 0;
-      this.form.jc5 = 0;
-      this.form.jc6 = 0;
-      this.form.jc7 = 0;
-      this.form.jc8 = 0;
-      this.form.jc9 = 0;
-      this.form.jc10 = 0;
-      this.form.jc11 = 0;
-      this.form.jc12 = 0;
-      this.form.rewardp = 0;
-      this.form.stId2 = obj.stId;
-      this.form.stName = obj.stName;
-      this.form.serialNo = obj.serialNo
-      this.$set(this.form, "number", obj.number);
-      //赋值固定差价
-      if (obj.chargemType == "2" || obj.chargemType == "3") {
-        this.chargemType = 2;
-        this.form.chargemGd = obj.chargemGd;
-      } else {
-        this.chargemType = 1;
-      }
-      //赋值入库单集合
-      this.selectGrn();
-      //赋值基准单价
-      getContract(obj.stId).then((response) => {
-        if (response.data != null) {
-          //基准单价
-          this.form.basePrice = response.data.price;
-          //货值单价  没有计算奖惩
-          this.form.valuePrice = response.data.price;
-
-          let vp = 0;
-          if (this.form.valuePrice != null && this.form.valuePrice != "") {
-            vp = this.form.valuePrice;
-          }
-          let gn = 0;
-          if (this.form.totalWeight != null && this.form.totalWeight != "") {
-            gn = this.form.totalWeight;
-          }
-          this.form.valueTprice = (gn * vp).toFixed(2);
+        this.form.jc1 = 0;
+        this.form.jc2 = 0;
+        this.form.jc3 = 0;
+        this.form.jc4 = 0;
+        this.form.jc5 = 0;
+        this.form.jc6 = 0;
+        this.form.jc7 = 0;
+        this.form.jc8 = 0;
+        this.form.jc9 = 0;
+        this.form.jc10 = 0;
+        this.form.jc11 = 0;
+        this.form.jc12 = 0;
+        this.form.rewardp = 0;
+        this.form.stName = obj.stName;
+        this.form.serialNo = obj.serialNo
+        this.$set(this.form, "number", obj.number);
+        //赋值固定差价
+        if (obj.chargemType == "2" || obj.chargemType == "3") {
+          this.chargemType = 2;
+          this.form.chargemGd = obj.chargemGd;
         } else {
-          this.form.basePrice = 0;
-          this.form.valuePrice = 0;
-          this.form.valueTprice = 0;
+          this.chargemType = 1;
         }
-      });
-    }
+        //赋值入库单集合
+        this.selectGrn();
+        //赋值基准单价
+        getContract(obj.stId).then((response) => {
+          if (response.data != null) {
+            //基准单价
+            this.form.basePrice = response.data.price;
+            //货值单价  没有计算奖惩
+            this.form.valuePrice = response.data.price;
+
+            let vp = 0;
+            if (this.form.valuePrice != null && this.form.valuePrice != "") {
+              vp = this.form.valuePrice;
+            }
+            let gn = 0;
+            if (this.form.totalWeight != null && this.form.totalWeight != "") {
+              gn = this.form.totalWeight;
+            }
+            this.form.valueTprice = (gn * vp).toFixed(2);
+          } else {
+            this.form.basePrice = 0;
+            this.form.valuePrice = 0;
+            this.form.valueTprice = 0;
+          }
+        });
+      }
     },
     //加载入库单
     selectGrn() {
       this.tableData = [];
-      if (this.form.stId2 != null) {
-        const stid = this.form.stId2;
+      if (this.form.stId != null) {
+        const stid = this.form.stId;
         getGrnList(stid).then((response) => {
           this.tableselData = [];
           this.form.totalWeight = 0;
@@ -1347,13 +1365,13 @@ export default {
 
     // 计算奖惩
     jsjc() {
-      if (this.form.stId2 == null || this.form.stId2 == "") {
+      if (this.form.stId == null || this.form.stId == "") {
         this.msgError("请选择项目");
         this.form.prepaidPrice = 0;
         return;
       }
       let data = {};
-      data.stId = this.form.stId2;
+      data.stId = this.form.stId;
       if (
         (this.form.gryRz != null && this.form.gryRz != "") ||
         this.form.gryRz == 0

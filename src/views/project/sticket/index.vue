@@ -1,62 +1,28 @@
 <template>
   <div class="app-container">
-    <el-form
-      :model="queryParams"
-      ref="queryForm"
-      :inline="true"
-      v-show="showSearch"
-      label-width="68px"
-    >
-      <el-form-item label="项目" prop="stId">
-        <el-select
-          filterable
-          v-model="queryParams.stId"
-          placeholder="请选择项目"
-          clearable
-          size="small"
-        >
-          <el-option
-            v-for="dict in stOptions"
-            :key="dict.stId"
-            :label="dict.name"
-            :value="dict.stId"
-          />
-        </el-select>
+    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch && !isQuote" label-width="68px">
+      <el-form-item label="项目名称" prop="projectName">
+        <el-input v-model="queryParams.projectName" placeholder="项目名称" clearable size="small"
+          @keyup.enter.native="handleQuery" />
       </el-form-item>
-      <el-form-item label="项目编号" prop="stNo">
-        <el-input
-          v-model="queryParams.stNo"
-          placeholder="请输入项目编号"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+      <el-form-item label="业务名称" prop="stName">
+        <el-input v-model="queryParams.stName" placeholder="业务名称" clearable size="small"
+          @keyup.enter.native="handleQuery" />
+      </el-form-item>
+      <el-form-item label="项目编号" prop="serialNo">
+        <el-input v-model="queryParams.serialNo" placeholder="请输入项目编号" clearable size="small"
+          @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item>
-        <el-button
-          type="primary"
-          icon="el-icon-search"
-          size="mini"
-          @click="handleQuery"
-          >搜索</el-button
-        >
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery"
-          >重置</el-button
-        >
+        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button
-          type="primary"
-          plain
-          icon="el-icon-plus"
-          size="mini"
-          @click="handleAdd"
-          v-hasPermi="['project:sticket:add']"
-          >新增</el-button
-        >
+        <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
+          v-hasPermi="['project:sticket:add']">新增</el-button>
       </el-col>
       <!--      <el-col :span="1.5">-->
       <!--        <el-button-->
@@ -90,20 +56,14 @@
       <!--          v-hasPermi="['project:sticket:export']"-->
       <!--        >导出</el-button>-->
       <!--      </el-col>-->
-      <right-toolbar
-        :showSearch.sync="showSearch"
-        @queryTable="getList"
-      ></right-toolbar>
+      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList" v-show="!isQuote"></right-toolbar>
     </el-row>
 
-    <el-table
-      v-loading="loading"
-      :data="sticketList"
-      @selection-change="handleSelectionChange"
-    >
+    <el-table v-loading="loading" :data="sticketList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="项目名称" align="center" prop="stName" />
-      <el-table-column label="项目编号" align="center" prop="stNo" />
+      <el-table-column label="项目名称" align="center" prop="projectName" v-if="!isQuote" />
+      <el-table-column label="业务名称" align="center" prop="stName" v-if="!isQuote" />
+      <el-table-column label="项目编号" align="center" prop="serialNo" v-if="!isQuote" />
       <el-table-column label="收票比例" align="center" prop="proportion" />
       <!--      <el-table-column label="应收票金额" align="center" prop="ysPrice" >-->
       <!--        <template slot-scope="scope">-->
@@ -118,71 +78,50 @@
       <el-table-column label="数量(吨)" align="center" prop="number">
         <template slot-scope="scope">
           {{
-            Number(scope.row.number)
-              .toFixed(3)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+          Number(scope.row.number)
+          .toFixed(3)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
       <el-table-column label="开票金额(元)" align="center" prop="price">
         <template slot-scope="scope">
           {{
-            Number(scope.row.price)
-              .toFixed(2)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+          Number(scope.row.price)
+          .toFixed(2)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
       <el-table-column label="开票税额(元)" align="center" prop="tax">
         <template slot-scope="scope">
           {{
-            Number(scope.row.tax)
-              .toFixed(2)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+          Number(scope.row.tax)
+          .toFixed(2)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
       <el-table-column label="价税合计(元)" align="center" prop="totalPrice">
         <template slot-scope="scope">
           {{
-            Number(scope.row.totalPrice)
-              .toFixed(2)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+          Number(scope.row.totalPrice)
+          .toFixed(2)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
-      <el-table-column
-        label="审核状态"
-        align="center"
-        prop="state"
-        :formatter="stateFormat"
-      />
-      <el-table-column
-        label="操作"
-        align="center"
-        class-name="small-padding fixed-width"
-      >
+      <el-table-column label="审核状态" align="center" prop="state" :formatter="stateFormat" />
+      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-edit"
-            @click="handleLook(scope.row)"
-            v-hasPermi="['project:sticket:edit']"
-            >查看</el-button
-          >
-          <el-button
-            v-if="scope.row.state === '3'"
-            size="mini"
-            type="text"
-            icon="el-icon-printer"
-            @click="handlePrint(scope.row)"
-            >打印</el-button
-          >
+          <el-button size="mini" type="text" icon="el-icon-edit" @click="handleLook(scope.row)"
+            v-hasPermi="['project:sticket:edit']">查看</el-button>
+          <el-button v-if="scope.row.state === '3'" size="mini" type="text" icon="el-icon-printer"
+            @click="handlePrint(scope.row)">打印</el-button>
           <!--          <el-button-->
           <!--            size="mini"-->
           <!--            type="text"-->
@@ -201,22 +140,13 @@
       </el-table-column>
     </el-table>
 
-    <pagination
-      v-show="total > 0"
-      :total="total"
-      :page.sync="queryParams.pageNum"
-      :limit.sync="queryParams.pageSize"
-      @pagination="getList"
-    />
+    <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
+      @pagination="getList" />
 
     <el-dialog :title="title" :visible.sync="open" width="773px" append-to-body>
-      <aou
-        ref="aou"
-        :aouform="form"
-        :aoustOptions="stOptions"
-        @cancel="cancel"
-        @getList="getList"
-      ></aou>
+      <aou ref="aou" :aouform="form" :stIdd="stIdd" :projectIdd="projectIdd" :isQuote="isQuote" @cancel="cancel"
+        @getList="getList">
+      </aou>
     </el-dialog>
 
     <!-- 添加或修改收票管理对话框 -->
@@ -415,35 +345,21 @@
     <!--      </div>-->
     <!--    </el-dialog>-->
     <!--打印页-->
-    <el-dialog
-      title="打印预览"
-      :visible.sync="printReviewVisible"
-      @close="onPrintReviewClose"
-      width="80%"
-    >
+    <el-dialog title="打印预览" :visible.sync="printReviewVisible" @close="onPrintReviewClose" width="80%">
       <div class="print-div" id="print_area">
         <div class="search-title-content">
           <div style="padding: 0 0 15px">
             <el-row type="flex" justify="space-between">
-              <el-col :span="4"
-                ><span
-                  style="font-weight: bold; font-size: 16px"
-                  v-text="printData.printType"
-                ></span
-              ></el-col>
-              <el-col :span="4"
-                ><span
-                  style="
+              <el-col :span="4"><span style="font-weight: bold; font-size: 16px" v-text="printData.printType"></span>
+              </el-col>
+              <el-col :span="4"><span style="
                     color: red;
                     width: 100%;
                     display: inline-block;
                     text-align: end;
                     font-weight: bold;
                     font-size: 16px;
-                  "
-                  v-text="selectDictLabel(stateOptions, printData.state)"
-                ></span
-              ></el-col>
+                  " v-text="selectDictLabel(stateOptions, printData.state)"></span></el-col>
             </el-row>
           </div>
           <!--基本信息-->
@@ -521,10 +437,10 @@
               </td>
               <td class="table-td-content" style="text-align: center">
                 {{
-                  Number(item.expectNumber)
-                    .toFixed(3)
-                    .toString()
-                    .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+                Number(item.expectNumber)
+                .toFixed(3)
+                .toString()
+                .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
                 }}
               </td>
             </tr>
@@ -535,7 +451,7 @@
             </tr>
           </table>
           <!--审批流程-->
-          <approval-print :typeId="14" :stId="apyamentId" ></approval-print>
+          <approval-print :typeId="14" :stId="apyamentId"></approval-print>
         </div>
       </div>
     </el-dialog>
@@ -558,6 +474,18 @@ import { getProcessDataByStId, getApprovalProcessList, getApprovalType } from "@
 import { getContractList } from "@/api/project/all";
 export default {
   name: "Sticket",
+  props: {
+    "stIdd": {
+      type: String
+    },
+    "projectIdd": {
+      type: String
+    },
+    "isQuote": {
+      type: Boolean,
+      default: false
+    }
+  },
   components: { aou },
   data() {
     return {
@@ -584,8 +512,6 @@ export default {
       total: 0,
       // 收票管理表格数据
       sticketList: [],
-      // 项目集合
-      stOptions: [],
       //入库单集合
       tableData: [],
       //选中入库单集合
@@ -617,12 +543,13 @@ export default {
     };
   },
   created() {
+    if (this.isQuote) {
+      this.queryParams.stId = parseInt(this.stIdd)
+      this.queryParams.projectId = parseInt(this.projectIdd)
+    }
     this.getList();
     this.getDicts("project_approval_state").then((response) => {
       this.stateOptions = response.data;
-    });
-    getStList().then((response) => {
-      this.stOptions = response.rows;
     });
     if (
       this.$route.params.isEdit != null &&
@@ -647,9 +574,6 @@ export default {
         this.sticketList = response.rows;
         this.total = response.total;
         this.loading = false;
-      });
-      getStList().then((response) => {
-        this.stOptions = response.rows;
       });
     },
     // 审核状态字典翻译
