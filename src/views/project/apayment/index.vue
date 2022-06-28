@@ -130,8 +130,8 @@
       <el-table-column label="创建时间" align="center" prop="createTime" width="180">
         <template slot-scope="scope">
           <span>{{
-            parseTime(scope.row.createTime, "{y}-{m}-{d} {h}:{i}:{s}")
-            }}</span>
+          parseTime(scope.row.createTime, "{y}-{m}-{d} {h}:{i}:{s}")
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column label="审批状态" align="center" prop="state" :formatter="stateFormat" />
@@ -170,7 +170,8 @@
               <el-form-item label="项目名称" prop="projectId">
                 <el-select filterable value-key="projectId" @change="changeProject" v-model="form.projectId"
                   placeholder="请选择项目" style="width: 100%">
-                  <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName" :value="pro">
+                  <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName"
+                    :value="pro.projectId">
                   </el-option>
                 </el-select>
               </el-form-item>
@@ -180,7 +181,8 @@
               <el-form-item label="业务名称" prop="stId">
                 <el-select filterable value-key="stId" @change="changeSt" v-model="form.stId" placeholder="请选择业务"
                   style="width: 100%">
-                  <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj"></el-option>
+                  <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj.stId">
+                  </el-option>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -241,10 +243,10 @@
             </div>
           </el-row>
           <div v-if="
-              (form.type == '吨' || form.type == '热值') &&
-              form.away == '首次' &&
-              isLook != 3
-            ">
+            (form.type == '吨' || form.type == '热值') &&
+            form.away == '首次' &&
+            isLook != 3
+          ">
             <!--          选择入库单-->
             <el-popover placement="bottom-start" width="100%" @selection-change="grnSelectionChange" v-model="visible"
               popper-class="area_popper">
@@ -284,10 +286,10 @@
             </el-popover>
           </div>
           <div v-if="
-              (form.type == '吨' || form.type == '热值') &&
-              form.away == '二次' &&
-              isLook != 3
-            ">
+            (form.type == '吨' || form.type == '热值') &&
+            form.away == '二次' &&
+            isLook != 3
+          ">
             <!--          选择出库单-->
             <el-popover placement="bottom-start" width="100%" @selection-change="grnSelectionChange" v-model="visible"
               popper-class="area_popper">
@@ -393,8 +395,8 @@
                 <el-table-column v-if="isLook != 3" label="操作" width="120">
                   <template slot-scope="scope">
                     <el-button @click.native.prevent="
-                        deleteRow(scope.$index, tableselData, scope)
-                      " type="text" size="small">
+                      deleteRow(scope.$index, tableselData, scope)
+                    " type="text" size="small">
                       移除
                     </el-button>
                   </template>
@@ -406,8 +408,8 @@
               <el-col :span="6">
                 <span style="font-weight:600">合计重量{{"\xa0\xa0"}}</span>
                 <span style="color: red">{{
-                  $options.filters.weightFilter(form.totalWeight)
-                  }}</span>
+                $options.filters.weightFilter(form.totalWeight)
+                }}</span>
               </el-col>
             </el-row>
             <el-row style="margin-bottom:10px">
@@ -594,10 +596,10 @@
             <el-col :span="12">
               <el-form-item label="剩余应付：">
                 <span v-text="
-                    $options.filters.moneyFilter(
-                      form.actualPrice - form.ypayPrice
-                    )
-                  "></span>
+                  $options.filters.moneyFilter(
+                    form.actualPrice - form.ypayPrice
+                  )
+                "></span>
               </el-form-item>
             </el-col>
           </el-row>
@@ -940,7 +942,7 @@
               </td>
             </tr>
           </table>
-          <approval-print :typeId="4" :stId="apyamentId" ></approval-print>
+          <approval-print :typeId="4" :stId="apyamentId"></approval-print>
         </div>
       </div>
     </el-dialog>
@@ -967,6 +969,7 @@ import { getToken } from "@/utils/auth";
 import print from "print-js";
 import { getProcessDataByStId, getApprovalProcessList, getApprovalType } from "@/api/approve";
 import { getContractList } from "@/api/project/all";
+import { listProjectForCombobox, listBusinessForCombobox } from "@/api/project/st";
 export default {
   name: "Apayment",
   data() {
@@ -1196,13 +1199,19 @@ export default {
           this.loading = false;
         }
       );
-      // 业务
-      listForBus().then((response) => {
-        this.listForBusArr = response.data
-      })
-      // 项目
-      listForPro().then((response) => {
+      // 项目下拉
+      this.loadProjectForCombobox();
+    },
+    loadProjectForCombobox() {
+      this.listForProArr = []
+      listProjectForCombobox().then((response) => {
         this.listForProArr = response.data
+      })
+    },
+    loadBusinessForCombobox(projectId) {
+      this.listForBusArr = []
+      listBusinessForCombobox({ projectId }).then((response) => {
+        this.listForBusArr = response.data
       })
     },
     // 审批状态字典翻译
@@ -1268,7 +1277,6 @@ export default {
         account: null,
         openbank: null,
         projectId: null,
-        projectIdOld: null
       };
       this.resetForm("form");
     },
@@ -1315,15 +1323,13 @@ export default {
       const apyamentId = row.apyamentId || this.ids;
       getApayment(apyamentId).then((response) => {
         this.form = response.data;
-        this.form.stId2 = this.form.stId;
-        this.form.stId = this.form.stName;
         this.tableselData = response.data.selnyList;
         this.fileList = this.form.fileList;
 
-        getGrnList({ stId: this.form.stId2, yfState: "1" }).then((response) => {
+        getGrnList({ stId: this.form.stId, yfState: "1" }).then((response) => {
           this.tableData = response.rows;
         });
-        getGryList({ stId: this.form.stId2, yfState: "1" }).then((response) => {
+        getGryList({ stId: this.form.stId, yfState: "1" }).then((response) => {
           this.tablegryData = response.rows;
         });
 
@@ -1387,8 +1393,6 @@ export default {
               }
               this.form.gryList = this.tableselData;
             }
-            this.form.stId = this.form.stId2;
-            this.form.projectId = this.form.projectIdOld
           } else {
             this.form.type = null;
           }
@@ -1501,139 +1505,142 @@ export default {
 
     //业务开始
     //选择项目
-    changeProject(pro) {
-      this.form.projectIdOld = pro.projectId;
-      this.form.projectNo = pro.projectNo
+    changeProject(projectId) {
+      this.listForBusArr = []
+      this.form.stId = ''
+      this.form.stName = ''
+      this.form.serialNo = ''
+      if (projectId) {
+        this.loadBusinessForCombobox(projectId);
+      }
     },
-    changeSt(obj) {
-      this.form.jc1 = 0;
-      this.form.jc2 = 0;
-      this.form.jc3 = 0;
-      this.form.jc4 = 0;
-      this.form.jc5 = 0;
-      this.form.jc6 = 0;
-      this.form.jc7 = 0;
-      this.form.jc8 = 0;
-      this.form.jc9 = 0;
-      this.form.jc10 = 0;
-      this.form.jc11 = 0;
-      this.form.jc12 = 0;
-      this.form.rewardp = 0;
-      this.form.stId2 = obj.stId;
-      this.form.stName = obj.stName;
-      this.tableybData = [];
-      this.form.supplierId = null;
-      this.form.supplierName = null;
-      this.form.account = null;
-      this.form.openbank = null;
-      this.form.serialNo = obj.serialNo;
-      this.$set(this.form, "number", obj.number);
-      this.$set(this.form, "settlementWay", obj.settlementWay);
-
-      let dataInit = { stId: obj.stId };
-      findInit(dataInit).then((response) => {
-        this.form.yfPrice = response.data.yfPrice;
-        this.form.dfPrice = response.data.dfPrice;
-        this.form.supplierId = response.data.supplierId;
-        this.form.supplierName = response.data.supplierName;
-        this.form.account = response.data.account;
-        this.form.openbank = response.data.openbank;
-      });
-
-      if (this.form.type == "提前付款") {
-        //成本年服务费率
-        if (obj.chargemType == "1" || obj.chargemType == "3") {
-          this.form.rateYear = obj.chargemNx;
-        } else {
-          this.form.rateYear = 0;
-        }
-
-        //查询委托销售合同
-        let c1 = { stId: obj.stId, type: "1" };
-        getContract(c1).then((response) => {
-          if (response.data != null) {
-            //保底服务费期限
-            this.form.mfsp = response.data.mfsp;
-          } else {
-            this.form.mfsp = 0;
-          }
+    changeSt(stId) {
+      let businessFind = this.listForBusArr.filter(x => x.stId == stId);
+      if (businessFind && businessFind.length > 0) {
+        let obj = businessFind[0];
+        this.form.stName = obj.stName;
+        this.form.serialNo = obj.serialNo;
+        this.form.jc1 = 0;
+        this.form.jc2 = 0;
+        this.form.jc3 = 0;
+        this.form.jc4 = 0;
+        this.form.jc5 = 0;
+        this.form.jc6 = 0;
+        this.form.jc7 = 0;
+        this.form.jc8 = 0;
+        this.form.jc9 = 0;
+        this.form.jc10 = 0;
+        this.form.jc11 = 0;
+        this.form.jc12 = 0;
+        this.form.rewardp = 0;
+        this.tableybData = [];
+        this.form.supplierId = null;
+        this.form.supplierName = null;
+        this.form.account = null;
+        this.form.openbank = null;
+        this.$set(this.form, "number", obj.number);
+        this.$set(this.form, "settlementWay", obj.settlementWay);
+        let dataInit = { stId: obj.stId };
+        findInit(dataInit).then((response) => {
+          this.form.yfPrice = response.data.yfPrice;
+          this.form.dfPrice = response.data.dfPrice;
+          this.form.supplierId = response.data.supplierId;
+          this.form.supplierName = response.data.supplierName;
+          this.form.account = response.data.account;
+          this.form.openbank = response.data.openbank;
         });
-        this.jspay1();
-      } else {
-        //获取提前付款+首付款
-        if (this.form.away == "首次") {
-          let data2 = { stId: obj.stId, away: "二次", state: "3" };
-          getApaymentbydata(data2).then((response) => {
-            if (response.rows.length > 0) {
-              this.form.prepaidPrice = 0.0;
-              this.tqpay = 0;
+        if (this.form.type == "提前付款") {
+          //成本年服务费率
+          if (obj.chargemType == "1" || obj.chargemType == "3") {
+            this.form.rateYear = obj.chargemNx;
+          } else {
+            this.form.rateYear = 0;
+          }
+          //查询委托销售合同
+          let c1 = { stId: obj.stId, type: "1" };
+          getContract(c1).then((response) => {
+            if (response.data != null) {
+              //保底服务费期限
+              this.form.mfsp = response.data.mfsp;
             } else {
-              this.form.prepaidPrice = obj.tqpay.toFixed(2);
-              this.tqpay = obj.tqpay;
+              this.form.mfsp = 0;
             }
           });
+          this.jspay1();
         } else {
-          let data = { stId: obj.stId, away: "首次", ist: "1", state: "3" };
-          getApaymentbydata(data).then((response) => {
-            console.log(response);
-            let ap = 0;
-            for (let i = 0; i < response.rows.length; i++) {
-              ap += response.rows[i].payTprice;
-            }
-            let data2 = { stId: obj.stId, away: "二次" };
+          //获取提前付款+首付款
+          if (this.form.away == "首次") {
+            let data2 = { stId: obj.stId, away: "二次", state: "3" };
             getApaymentbydata(data2).then((response) => {
               if (response.rows.length > 0) {
-                this.form.prepaidPrice = ap.toFixed(2);
-                this.tqpay = 0.0;
+                this.form.prepaidPrice = 0.0;
+                this.tqpay = 0;
               } else {
-                this.form.prepaidPrice = (
-                  parseFloat(obj.tqpay) + parseFloat(ap)
-                ).toFixed(2);
+                this.form.prepaidPrice = obj.tqpay.toFixed(2);
                 this.tqpay = obj.tqpay;
               }
             });
-          });
-        }
-        this.tableselData = [];
-
-        let data = { stId: obj.stId, yfState: "1" };
-        getGrnList(data).then((response) => {
-          this.tableData = response.rows;
-        });
-        getGryList(data).then((response) => {
-          this.tablegryData = response.rows;
-        });
-        //固定差价
-        if (obj.chargemType == "2" || obj.chargemType == "3") {
-          this.form.dPrice = obj.chargemGd;
-        } else {
-          this.form.dPrice = 0;
-        }
-        //年服务费率
-        if (obj.chargemType == "1" || obj.chargemType == "3") {
-          this.form.rateYear = obj.chargemNx;
-        } else {
-          this.form.rateYear = 0;
-        }
-
-        //查询委托销售合同
-        let c1 = { stId: obj.stId, type: "1" };
-        getContract(c1).then((response) => {
-          if (response.data != null) {
-            //保底服务费期限
-            this.form.mfsp = response.data.mfsp;
           } else {
-            this.form.mfsp = 0;
+            let data = { stId: obj.stId, away: "首次", ist: "1", state: "3" };
+            getApaymentbydata(data).then((response) => {
+              console.log(response);
+              let ap = 0;
+              for (let i = 0; i < response.rows.length; i++) {
+                ap += response.rows[i].payTprice;
+              }
+              let data2 = { stId: obj.stId, away: "二次" };
+              getApaymentbydata(data2).then((response) => {
+                if (response.rows.length > 0) {
+                  this.form.prepaidPrice = ap.toFixed(2);
+                  this.tqpay = 0.0;
+                } else {
+                  this.form.prepaidPrice = (
+                    parseFloat(obj.tqpay) + parseFloat(ap)
+                  ).toFixed(2);
+                  this.tqpay = obj.tqpay;
+                }
+              });
+            });
           }
-        });
-        this.jsdj();
-        this.atochange();
+          this.tableselData = [];
+          let data = { stId: obj.stId, yfState: "1" };
+          getGrnList(data).then((response) => {
+            this.tableData = response.rows;
+          });
+          getGryList(data).then((response) => {
+            this.tablegryData = response.rows;
+          });
+          //固定差价
+          if (obj.chargemType == "2" || obj.chargemType == "3") {
+            this.form.dPrice = obj.chargemGd;
+          } else {
+            this.form.dPrice = 0;
+          }
+          //年服务费率
+          if (obj.chargemType == "1" || obj.chargemType == "3") {
+            this.form.rateYear = obj.chargemNx;
+          } else {
+            this.form.rateYear = 0;
+          }
+          //查询委托销售合同
+          let c1 = { stId: obj.stId, type: "1" };
+          getContract(c1).then((response) => {
+            if (response.data != null) {
+              //保底服务费期限
+              this.form.mfsp = response.data.mfsp;
+            } else {
+              this.form.mfsp = 0;
+            }
+          });
+          this.jsdj();
+          this.atochange();
+        }
       }
     },
     //选择批次
     changeAway() {
       if (this.form.type == "提前付款") {
-        if (this.form.stId2 == null || this.form.stId2 == "") {
+        if (this.form.stId == null || this.form.stId == "") {
           this.msgError("请选择项目");
           this.form.prepaidPrice = 0.0;
           return;
@@ -1655,14 +1662,14 @@ export default {
         this.form.rewardp = 0;
         this.jsdj();
         this.tableybData = [];
-        if (this.form.stId2 == null || this.form.stId2 == "") {
+        if (this.form.stId == null || this.form.stId == "") {
           this.msgError("请选择项目");
           this.form.prepaidPrice = 0.0;
           return;
         }
         //获取提前付款+首付款
         if (this.form.away == "首次") {
-          let data2 = { stId: this.form.stId2, away: "二次" };
+          let data2 = { stId: this.form.stId, away: "二次" };
           getApaymentbydata(data2).then((response) => {
             if (response.rows.length > 0) {
               this.form.prepaidPrice = 0.0;
@@ -1671,13 +1678,13 @@ export default {
             }
           });
         } else {
-          let data = { stId: this.form.stId2, away: "首次", ist: "1" };
+          let data = { stId: this.form.stId, away: "首次", ist: "1" };
           getApaymentbydata(data).then((response) => {
             let ap = 0;
             for (let i = 0; i < response.rows.length; i++) {
               ap += response.rows[i].payTprice;
             }
-            let data2 = { stId: this.form.stId2, away: "二次" };
+            let data2 = { stId: this.form.stId, away: "二次" };
             getApaymentbydata(data2).then((response) => {
               if (response.rows.length > 0) {
                 this.form.prepaidPrice = ap.toFixed(2);
@@ -1796,7 +1803,7 @@ export default {
         re = this.form.rewardp;
       }
       if (this.form.type == "吨") {
-        if (this.form.stId2 == null || this.form.stId2 == "") {
+        if (this.form.stId == null || this.form.stId == "") {
           this.msgError("请选择项目");
           return;
         }
@@ -1808,7 +1815,7 @@ export default {
           this.jste();
         } else {
           //查询煤炭销售合同
-          let c2 = { stId: this.form.stId2, type: "2" };
+          let c2 = { stId: this.form.stId, type: "2" };
           getContract(c2).then((response) => {
             if (response.data != null) {
               //预付单价 吨的预付单价

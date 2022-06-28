@@ -138,7 +138,8 @@
               <el-form-item label="项目名称" prop="projectId">
                 <el-select filterable value-key="projectId" @change="changeProject" v-model="form.projectId"
                   placeholder="请选择项目" style="width: 100%">
-                  <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName" :value="pro">
+                  <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName"
+                    :value="pro.projectId">
                   </el-option>
                 </el-select>
               </el-form-item>
@@ -150,7 +151,8 @@
               <el-form-item label="业务名称" prop="stId">
                 <el-select filterable value-key="stId" @change="changeSt" v-model="form.stId" placeholder="请选择"
                   style="width: 100%">
-                  <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj"></el-option>
+                  <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj.stId">
+                  </el-option>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -179,7 +181,8 @@
                 <el-form-item label="供应商" prop="supplierId">
                   <el-select filterable value-key="supplierId" @change="changeSupplier" v-model="form.supplierId"
                     placeholder="请选择供应商" style="width: 100%">
-                    <el-option v-for="obj in supplierOptions" :key="obj.supplierId" :label="obj.name" :value="obj">
+                    <el-option v-for="obj in supplierOptions" :key="obj.supplierId" :label="obj.name"
+                      :value="obj.supplierId">
                     </el-option>
                   </el-select>
                 </el-form-item>
@@ -242,7 +245,8 @@
                 <el-form-item label="终端客户" prop="terminalId">
                   <el-select filterable value-key="terminalId" @change="changeTerinal" v-model="form.terminalId"
                     placeholder="请选择终端客户" style="width: 100%">
-                    <el-option v-for="te in terminalOptions" :key="te.terminalId" :label="te.name" :value="te">
+                    <el-option v-for="te in terminalOptions" :key="te.terminalId" :label="te.name"
+                      :value="te.terminalId">
                     </el-option>
                   </el-select>
                 </el-form-item>
@@ -490,16 +494,27 @@
         <div v-if="bc == 1 || bc == 3">
           <el-row>
             <el-col :span="12">
-              <el-form-item label="项目" prop="stId">
-                <el-select filterable value-key="stId" @change="changeSt" v-model="form.stId" placeholder="请选择项目"
-                  style="width: 100%">
-                  <el-option v-for="obj in stOptions" :key="obj.stId" :label="obj.name" :value="obj"></el-option>
+              <el-form-item label="项目名称" prop="projectId">
+                <el-select filterable value-key="projectId" @change="changeProject" v-model="form.projectId"
+                  placeholder="请选择项目" style="width: 100%">
+                  <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName"
+                    :value="pro.projectId">
+                  </el-option>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="项目编号" prop="projectNumber">
-                {{ form.projectNumber }}
+              <el-form-item label="业务名称" prop="stId">
+                <el-select filterable value-key="stId" @change="changeSt" v-model="form.stId" placeholder="请选择"
+                  style="width: 100%">
+                  <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj.stId">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="项目编号: " prop="serialNo">
+                {{ form.serialNo }}
               </el-form-item>
             </el-col>
           </el-row>
@@ -510,8 +525,8 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="立项编号" prop="productNo">
-                <el-input v-model="form.productNo" placeholder="请输入立项编号" />
+              <el-form-item label="合同立项编号" prop="productNo">
+                <el-input v-model="form.productNo" placeholder="请输入合同立项编号" />
               </el-form-item>
             </el-col>
           </el-row>
@@ -536,7 +551,8 @@
                 <el-form-item label="供应商" prop="supplierId">
                   <el-select filterable value-key="supplierId" @change="changeSupplier" v-model="form.supplierId"
                     placeholder="请选择供应商" style="width: 100%">
-                    <el-option v-for="obj in supplierOptions" :key="obj.supplierId" :label="obj.name" :value="obj">
+                    <el-option v-for="obj in supplierOptions" :key="obj.supplierId" :label="obj.name"
+                      :value="obj.supplierId">
                     </el-option>
                   </el-select>
                 </el-form-item>
@@ -599,7 +615,8 @@
                 <el-form-item label="终端客户" prop="terminalId">
                   <el-select filterable value-key="terminalId" @change="changeTerinal" v-model="form.terminalId"
                     placeholder="请选择终端客户" style="width: 100%">
-                    <el-option v-for="te in terminalOptions" :key="te.terminalId" :label="te.name" :value="te">
+                    <el-option v-for="te in terminalOptions" :key="te.terminalId" :label="te.name"
+                      :value="te.terminalId">
                     </el-option>
                   </el-select>
                 </el-form-item>
@@ -876,7 +893,7 @@
               </td>
               <td class="table-td-title detail">项目编号</td>
               <td class="table-td-content">
-                {{ printData.projectNumber }}
+                {{ printData.serialNo }}
               </td>
             </tr>
             <tr>
@@ -1078,7 +1095,7 @@
             </tr>
           </table>
           <!--审批流程-->
-         <approval-print :typeId="3" :stId="apyamentId" ></approval-print>
+          <approval-print :typeId="3" :stId="apyamentId"></approval-print>
         </div>
       </div>
     </el-dialog>
@@ -1101,6 +1118,7 @@ import {
 import { getToken } from "@/utils/auth";
 import print from "print-js";
 import { getProcessDataByStId, getApprovalProcessList, getApprovalType } from "@/api/approve";
+import { listProjectForCombobox, listBusinessForCombobox } from "@/api/project/st";
 
 export default {
   name: "Contract",
@@ -1183,7 +1201,6 @@ export default {
       // 审批状态字典
       stateOptions: [],
       // 项目集合
-      stOptions: [],
       projectOptions: [],
       // 供应商集合
       supplierOptions: [],
@@ -1274,9 +1291,6 @@ export default {
     this.getDicts("project_approval_state").then((response) => {
       this.stateOptions = response.data;
     });
-    getStList().then((response) => {
-      this.stOptions = response.rows;
-    });
     getSupplierList().then((response) => {
       this.supplierOptions = response.rows;
     });
@@ -1308,16 +1322,19 @@ export default {
         this.total = response.total;
         this.loading = false;
       });
-      getStList().then((response) => {
-        this.stOptions = response.rows;
-      });
-      // 业务
-      listForBus().then((response) => {
-        this.listForBusArr = response.data
-      })
-      // 项目
-      listForPro().then((response) => {
+      // 项目下拉
+      this.loadProjectForCombobox();
+    },
+    loadProjectForCombobox() {
+      this.listForProArr = []
+      listProjectForCombobox().then((response) => {
         this.listForProArr = response.data
+      })
+    },
+    loadBusinessForCombobox(projectId) {
+      this.listForBusArr = []
+      listBusinessForCombobox({ projectId }).then((response) => {
+        this.listForBusArr = response.data
       })
     },
     // 合同类型字典翻译
@@ -1352,15 +1369,12 @@ export default {
       this.form = {
         contractId: null,
         stId: null,
-        stId2: null,
         stName: null,
         name: null,
         type: null,
         supplierId: null,
-        supplierId2: null,
         supplierName: null,
         terminalId: null,
-        terminalId2: null,
         terminalName: null,
         signingTime: null,
         goodsName: null,
@@ -1389,7 +1403,6 @@ export default {
         number: null,
         productNo: null,
         projectId: null,
-        projectId2: null
       };
       this.resetForm("form");
     },
@@ -1432,16 +1445,9 @@ export default {
         this.fileList = response.data.filebcList;
         //备份本身合同
         this.fileListbf = response.data.fileList;
-
-        this.form.stId2 = response.data.stId;
-        this.form.stId = response.data.stName;
-
-        this.form.terminalId2 = response.data.terminalId;
-        this.form.terminalId = response.data.terminalName;
-
-        this.form.supplierId2 = response.data.supplierId;
-        this.form.supplierId = response.data.supplierName;
-
+        this.form.stId = response.data.stId;
+        this.form.terminalId = response.data.terminalId;
+        this.form.supplierId = response.data.supplierId;
         this.bc = 2;
         this.open = true;
         this.title = "补充项目合同";
@@ -1458,13 +1464,8 @@ export default {
         this.filebcList = response.data.filebcList;
         this.form.stId2 = response.data.stId;
         this.form.stId = response.data.stName;
-
-        this.form.terminalId2 = response.data.terminalId;
-        this.form.terminalId = response.data.terminalName;
-
-        this.form.supplierId2 = response.data.supplierId;
-        this.form.supplierId = response.data.supplierName;
-
+        this.form.terminalId = response.data.terminalId;
+        this.form.supplierId = response.data.supplierId;
         this.bc = 4;
         this.open = true;
         this.title = "补充合同模板";
@@ -1480,13 +1481,8 @@ export default {
         this.filebcList = response.data.filebcList;
         this.form.stId2 = response.data.stId;
         this.form.stId = response.data.stName;
-
-        this.form.terminalId2 = response.data.terminalId;
-        this.form.terminalId = response.data.terminalName;
-
-        this.form.supplierId2 = response.data.supplierId;
-        this.form.supplierId = response.data.supplierName;
-
+        this.form.terminalId = response.data.terminalId;
+        this.form.supplierId = response.data.supplierId;
         this.bc = 1;
         this.open = true;
         this.title = "修改项目合同";
@@ -1503,10 +1499,6 @@ export default {
       this.isDisabled = true;
       this.$refs["form"].validate((valid) => {
         if (valid) {
-          this.form.stId = this.form.stId2;
-          this.form.projectId = this.form.projectId2
-          this.form.supplierId = this.form.supplierId2;
-          this.form.terminalId = this.form.terminalId2;
           if (this.bc == 2) {
             //图片数据存在补充集合中
             this.form.filebcList = this.form.fileList;
@@ -1567,30 +1559,38 @@ export default {
         `project_contract.xlsx`
       );
     },
-    changeSt(obj) {
-      this.form.stId2 = obj.stId;
-      this.form.stName = obj.stName;
-      this.form.projectNumber = obj.number;
-
-      this.form.supplierId = obj.supplierName;
-      this.form.supplierId2 = obj.supplierId;
-      this.form.supplierName = obj.supplierName;
-
-      this.form.terminalId = obj.tName;
-      this.form.terminalId2 = obj.terminalId;
-      this.form.terminalName = obj.tName;
-      this.form.serialNo = obj.serialNo;
+    changeSt(stId) {
+      let businessFind = this.listForBusArr.filter(x => x.stId == stId);
+      if (businessFind && businessFind.length > 0) {
+        this.form.stName = businessFind[0].stName;
+        this.form.serialNo = businessFind[0].serialNo;
+        let projectFind = this.listForProArr.filter(x => x.projectId == businessFind[0].projectId);
+        if (projectFind && projectFind.length > 0) {
+          this.form.supplierId = projectFind[0].supplierId;
+          this.form.terminalId = projectFind[0].terminalId;
+        }
+      }
     },
-    changeProject(pro) {
-      this.form.projectId2 = pro.projectId;
+    changeProject(projectId) {
+      this.listForBusArr = []
+      this.form.stId = ''
+      this.form.stName = ''
+      this.form.serialNo = ''
+      if (projectId) {
+        this.loadBusinessForCombobox(projectId);
+      }
     },
-    changeSupplier(obj) {
-      this.form.supplierId2 = obj.supplierId;
-      this.form.supplierName = obj.name;
+    changeSupplier(supplierId) {
+      let supplierFind = this.supplierOptions.filter(x => x.supplierId == supplierId);
+      if (supplierFind && supplierFind.length > 0) {
+        this.form.supplierName = supplierFind[0].name;
+      }
     },
-    changeTerinal(obj) {
-      this.form.terminalId2 = obj.terminalId;
-      this.form.terminalName = obj.name;
+    changeTerinal(terminalId) {
+      let terminalFind = this.terminalOptions.filter(x => x.terminalId == terminalId);
+      if (terminalFind && terminalFind.length > 0) {
+        this.form.terminalName = terminalFind[0].name;
+      }
     },
     //点击触发
     handlePreview(file) {
