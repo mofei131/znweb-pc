@@ -52,6 +52,8 @@
               <td class="tdCoent">{{form.stName}}</td>
               <td class="tdTitle">项目编号</td>
               <td class="tdCoent">{{form.serialNo}}</td>
+            </tr>
+            <tr>
               <td class="tdTitle">投标平台</td>
               <td class="tdCoent">{{form.bidPlatform}}</td>
               <td class="tdTitle">单价模式</td>
@@ -72,6 +74,8 @@
               <td class="tdCoent">{{form.sendStation}}</td>
               <td class="tdTitle">到站</td>
               <td class="tdCoent">{{form.arriveStation}}</td>
+              <td class="tdTitle"></td>
+              <td class="tdCoent"></td>
             </tr>
           </table>
         </el-col>

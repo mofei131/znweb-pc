@@ -31,11 +31,34 @@
   <div>
     <el-form label-width="20px;" label-position="left">
       <!--    基础信息-->
+
       <el-row class="head-title">
         <el-col :span="19">
           <el-form-item label="项目信息"></el-form-item>
         </el-col>
-        <el-col :span="4">
+        </el-row>
+        <el-row class="head-text">
+          <el-col class="newTable">
+            <table width="90%" cellpadding="0" cellspacing="0">
+              <tr>
+                <td class="tdTitle">项目名称</td>
+                <td class="tdCoent">{{form.stName}}</td>
+                <td class="tdTitle">项目编号</td>
+                <td class="tdCoent">{{form.number}}</td>
+                <td class="tdTitle">第三方公司</td>
+                <td class="tdCoent">{{form.tpcName}}</td>
+              </tr>
+              <tr>
+                <td class="tdTitle">公司账号</td>
+                <td class="tdCoent">{{form.account}}</td>
+                <td class="tdTitle">公司开户行</td>
+                <td class="tdCoent">{{form.openbank}}</td>
+                <td class="tdTitle"></td>
+                <td class="tdCoent"></td>
+              </tr>
+            </table>
+          </el-col>
+       <!-- <el-col :span="4">
           <span style="color: #FF0000;">{{stateF(form.state)}}</span>
         </el-col>
       </el-row>
@@ -56,7 +79,7 @@
           <div style="display:flex">
             <div>公司开户行：</div><span v-text="form.openbank"></span>
           </div>
-        </el-col>
+        </el-col> -->
       </el-row>
 
       <el-row class="head-title">
@@ -64,8 +87,29 @@
           <el-form-item label="基本信息"></el-form-item>
         </el-col>
       </el-row>
-
       <el-row class="head-text">
+        <el-col class="newTable">
+          <table width="90%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td class="tdTitle">实付金额</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.tntPrice)}}</td>
+              <td class="tdTitle">项目编号</td>
+              <td class="tdCoent">{{form.number}}</td>
+              <td class="tdTitle">第三方公司</td>
+              <td class="tdCoent">{{form.tpcName}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">公司账号</td>
+              <td class="tdCoent">{{form.account}}</td>
+              <td class="tdTitle">公司开户行</td>
+              <td class="tdCoent">{{form.openbank}}</td>
+              <td class="tdTitle">备注</td>
+              <td class="tdCoent">{{form.bz}}</td>
+            </tr>
+          </table>
+        </el-col>
+      </el-row>
+      <!-- <el-row class="head-text">
         <el-col :span="7" :offset="1">
           <div style="display:flex">
             <div>实付金额：</div><span v-text="$options.filters.moneyFilter(form.tntPrice)"></span>
@@ -88,15 +132,36 @@
             <div>备注：</div><span v-text="form.bz"></span>
           </div>
         </el-col>
-      </el-row>
+      </el-row> -->
 
       <el-row class="head-title">
         <el-col :span="19">
           <el-form-item label="服务费信息"></el-form-item>
         </el-col>
       </el-row>
-
       <el-row class="head-text">
+        <el-col class="newTable">
+          <table width="90%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td class="tdTitle">是否产生服务费</td>
+              <td class="tdCoent">{{form.serType}}</td>
+              <td class="tdTitle">支付日期</td>
+              <td class="tdCoent">{{parseTime(form.putTime, '{y}-{m}-{d}')}}</td>
+              <td class="tdTitle">年服务费费率(%)</td>
+              <td class="tdCoent">{{form.stRate}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">保底服务费期限(天)</td>
+              <td class="tdCoent">{{form.mfsp}}</td>
+              <td class="tdTitle"></td>
+              <td class="tdCoent"></td>
+              <td class="tdTitle"></td>
+              <td class="tdCoent"></td>
+            </tr>
+          </table>
+        </el-col>
+        </el-row>
+      <!-- <el-row class="head-text">
         <el-col :span="7" :offset="1">
           <div style="display:flex">
             <div>是否产生服务费：</div><span v-text="form.serType"></span>
@@ -111,7 +176,7 @@
             <div>保底服务费期限(天)：</div><span v-text="form.mfsp"></span>
           </div>
         </el-col>
-      </el-row>
+      </el-row> -->
 
 
 
@@ -215,7 +280,7 @@
       </el-row>
       <el-row class="head-text">
         <el-col :offset="1">
-          <el-table ref="singleTable" :data="contract" style="width: 80%;margin-bottom: 30px;">
+          <el-table ref="singleTable" :data="contract" style="width: 90%;margin-bottom: 30px;">
             <el-table-column property="name" label="合同名称">
             </el-table-column>
             <el-table-column property="type" label="合同类型" :formatter="contractTypeFormat">

@@ -39,19 +39,54 @@
         <!--        </el-col>-->
       </el-row>
       <el-row class="head-text">
+        <el-col class="newTable">
+          <table width="90%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td class="tdTitle">项目名称</td>
+              <td class="tdCoent">{{form.stName}}</td>
+              <td class="tdTitle">项目编号</td>
+              <td class="tdCoent">{{form.projectNumber}}</td>
+              <td class="tdTitle"></td>
+              <td class="tdCoent"></td>
+            </tr>
+          </table>
+        </el-col>
+        </el-row>
+      <!-- <el-row class="head-text">
         <el-col :span="7" :offset="1">
           <div style="display:flex"><div>项目名称：</div><span v-text="form.stName"></span></div>
           <div style="display:flex"><div>项目编号：</div><span v-text="form.projectNumber"></span></div>
         </el-col>
-      </el-row>
+      </el-row> -->
 
       <el-row class="head-title">
         <el-col :span="19">
           <el-form-item label="基本信息"></el-form-item>
         </el-col>
       </el-row>
-
       <el-row class="head-text">
+        <el-col class="newTable">
+          <table width="90%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td class="tdTitle">不含税金额合计</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.tntPrice)}}</td>
+              <td class="tdTitle">补税金额</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.bsPrice)}}</td>
+              <td class="tdTitle">价税合计</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.jstPrice)}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">收票状态</td>
+              <td class="tdCoent">{{form.spState}}</td>
+              <td class="tdTitle"></td>
+              <td class="tdCoent"></td>
+              <td class="tdTitle"></td>
+              <td class="tdCoent"></td>
+            </tr>
+          </table>
+        </el-col>
+        </el-row>
+      <!-- <el-row class="head-text">
         <el-col :span="7" :offset="1">
           <div style="display:flex"><div>不含税金额合计：</div><span
             v-text="$options.filters.moneyFilter(form.tntPrice)"
@@ -64,7 +99,7 @@
           ></span></div>
           <div style="display:flex"><div>收票状态：</div><span v-text="form.spState"></span></div>
         </el-col>
-      </el-row>
+      </el-row> -->
 
       <el-row class="head-title">
         <el-col :span="19">
@@ -76,7 +111,7 @@
           <el-table
             ref="wlsingleTable"
             :data="form.wldetailsList"
-            style="width: 80%; margin-bottom: 30px"
+            style="width: 90%; margin-bottom: 30px"
           >
             <el-table-column property="number" label="发票号">
             </el-table-column>
@@ -118,7 +153,7 @@
           <el-table
             ref="singleTable"
             :data="contract"
-            style="width: 80%; margin-bottom: 30px"
+            style="width: 90%; margin-bottom: 30px"
           >
             <el-table-column property="name" label="合同名称">
             </el-table-column>
