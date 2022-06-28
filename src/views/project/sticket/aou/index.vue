@@ -1,39 +1,34 @@
 <template>
   <div>
-    <el-form
-      ref="form"
-      :model="form"
-      :rules="rules"
-      label-width="100px"
-    >
+    <el-form ref="form" :model="form" :rules="rules" label-width="100px">
       <el-row>
-            <el-col :span="12">
-              <!-- 项目 -->
-              <el-form-item label="项目名称" prop="projectId">
-                <el-select filterable value-key="projectId" @change="changeProject" v-model="form.projectId"
-                  placeholder="请选择项目" style="width: 100%">
-                  <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName"
-                    :value="pro.projectId">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <!-- 业务 -->
-              <el-form-item label="业务名称" prop="stId">
-                <el-select filterable value-key="stId" @change="changeSt" v-model="form.stId" placeholder="请选择业务"
-                  style="width: 100%">
-                  <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj.stId">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item label="项目编号" prop="serialNo">
-                {{ form.serialNo }}
-              </el-form-item>
-            </el-col>
-          </el-row>
+        <el-col :span="12">
+          <!-- 项目 -->
+          <el-form-item label="项目名称" prop="projectId">
+            <el-select filterable value-key="projectId" @change="changeProject" v-model="form.projectId"
+              placeholder="请选择项目" style="width: 100%" :disabled="isQuote">
+              <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName"
+                :value="pro.projectId">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <!-- 业务 -->
+          <el-form-item label="业务名称" prop="stId">
+            <el-select filterable value-key="stId" @change="changeSt" v-model="form.stId" placeholder="请选择业务"
+              style="width: 100%" :disabled="isQuote">
+              <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj.stId">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="12">
+          <el-form-item label="项目编号" prop="serialNo">
+            {{ form.serialNo }}
+          </el-form-item>
+        </el-col>
+      </el-row>
       <el-row>
         <el-col :span="12">
           <el-form-item label="代办人" prop="proportion">
@@ -49,10 +44,7 @@
       <el-row>
         <el-col :span="12">
           <el-form-item label="收票比例" prop="proportion">
-            <el-radio-group
-              v-model="form.proportion"
-              @change="updateProportion"
-            >
+            <el-radio-group v-model="form.proportion" @change="updateProportion">
               <el-radio label="95%">95%</el-radio>
               <el-radio label="5%">5%</el-radio>
             </el-radio-group>
@@ -79,24 +71,13 @@
       <el-row>
         <el-col :span="12">
           <el-form-item label="价税合计(元)" prop="totalPrice">
-            <el-input
-              @change="jsTax"
-              v-model="form.totalPrice"
-              placeholder="请输入价税合计"
-            />
+            <el-input @change="jsTax" v-model="form.totalPrice" placeholder="请输入价税合计" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item style="margin-left:20px" label="收票日期" prop="sticketTime">
-            <el-date-picker
-              clearable
-              size="small"
-              style="width: 100%"
-              v-model="form.sticketTime"
-              type="date"
-              value-format="yyyy-MM-dd"
-              placeholder="选择收票日期"
-            >
+            <el-date-picker clearable size="small" style="width: 100%" v-model="form.sticketTime" type="date"
+              value-format="yyyy-MM-dd" placeholder="选择收票日期">
             </el-date-picker>
           </el-form-item>
         </el-col>
@@ -104,23 +85,10 @@
       <el-row>
         <el-col :span="12">
           <el-form-item label="附件" prop="file">
-            <el-upload
-              class="upload-demo"
-              :action="url"
-              :headers="headers"
-              :on-preview="handlePreview"
-              :on-remove="handleRemove"
-              :on-success="uploadSuccess"
-              :on-error="uploadError"
-              :before-remove="beforeRemove"
-              multiple
-              :limit="5"
-              :on-exceed="handleExceed"
-              :file-list="fileList"
-            >
-              <el-button size="small" type="primary" v-if="isLook != 3"
-                >点击上传</el-button
-              >
+            <el-upload class="upload-demo" :action="url" :headers="headers" :on-preview="handlePreview"
+              :on-remove="handleRemove" :on-success="uploadSuccess" :on-error="uploadError"
+              :before-remove="beforeRemove" multiple :limit="5" :on-exceed="handleExceed" :file-list="fileList">
+              <el-button size="small" type="primary" v-if="isLook != 3">点击上传</el-button>
               <!--                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
             </el-upload>
           </el-form-item>
@@ -231,9 +199,7 @@
       <!--    </el-row>-->
     </el-form>
     <div slot="footer" class="dialog-footer" style="text-align: center">
-      <el-button type="primary" @click="submitForm" :disabled="isDisabled"
-        >确 定</el-button
-      >
+      <el-button type="primary" @click="submitForm" :disabled="isDisabled">确 定</el-button>
       <el-button @click="cancel">取 消</el-button>
     </div>
   </div>
@@ -244,7 +210,21 @@ import { getToken } from "@/utils/auth";
 import { listProjectForCombobox, listBusinessForCombobox } from "@/api/project/st";
 export default {
   name: "aou",
-  props: ["aouform", "aoustOptions"],
+  props: {
+    "aouform":{
+      type: Object
+    },
+    "stIdd": {
+      type: String
+    },
+    "projectIdd": {
+      type: String
+    },
+    "isQuote": {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     // 可空无两位小数点
     const validatePrice3 = (rule, value, callback) => {
@@ -271,7 +251,6 @@ export default {
       // 收票管理表格数据
       sticketList: [],
       // 项目集合
-      stOptions: [],
       projectOptions: [],
       //选择框状态
       visible: false,
@@ -308,22 +287,25 @@ export default {
       apyamentId:'',//子组件id
     };
   },
-  created() {},
+  created() {
+    this.loadProjectForCombobox();
+  },
   methods: {
     init() {
       this.reset();
       this.form = this.aouform;
-      this.form.stId2 = this.aouform.style;
-      this.form.stId = this.aouform.stName;
       if (this.aouform.proportion == "95%") {
         this.tableselData = this.aouform.apaymentList;
       } else {
         this.tableselData = this.aouform.fpaymentList;
       }
       this.ocrData = this.aouform.ocrList;
-      this.stOptions = this.aoustOptions;
       this.isDisabled = false;
-      this.loadProjectForCombobox();
+      if (this.isQuote) {
+        this.form.projectId = this.projectIdd
+        this.changeProject(this.projectIdd)
+        this.form.stId = this.stIdd
+      }
     },
     loadProjectForCombobox() {
       this.listForProArr = []
@@ -335,6 +317,9 @@ export default {
       this.listForBusArr = []
       listBusinessForCombobox({ projectId }).then((response) => {
         this.listForBusArr = response.data
+        if (this.isQuote) {
+          this.changeSt(this.queryParams.stId)
+        }
       })
     },
     // 取消按钮
@@ -347,7 +332,6 @@ export default {
       this.isDisabled = true;
       this.$refs["form"].validate((valid) => {
         if (valid) {
-          this.form.stId = this.form.stId2;
           if (this.form.sticketId != null) {
             updateSticket(this.form).then((response) => {
               this.msgSuccess("修改成功");
@@ -492,23 +476,24 @@ export default {
     },
     //选择项目
     changeSt(stId) {
-       let businessFind = this.listForBusArr.filter(x => x.stId == stId);
+      let businessFind = this.listForBusArr.filter(x => x.stId == stId);
       if (businessFind && businessFind.length > 0) {
+        this.reset();
         let obj = businessFind[0];
-      this.form.stId2 = obj.stId;
-      this.form.stName = obj.name;
-      this.form.uName = obj.userName;
+        this.form.stName = obj.stName;
         this.form.serialNo = obj.serialNo;
-      this.form.tName = obj.tName;
-      this.$set(this.form, "projectNumber", obj.number);
-      this.reset();
-      let data = { stId: obj.stId, proportion: this.form.proportion };
-      findInit(data).then((response) => {
-        this.form.totalPrice = parseFloat(response.data.price).toFixed(2);
-        this.form.number = parseFloat(response.data.number).toFixed(2);
-        this.jsTax();
-      });
-    }
+        let projectFind = this.listForProArr.filter(x => x.projectId == obj.projectId);
+        if (projectFind && projectFind.length > 0) {
+          this.form.uName = projectFind[0].userName;
+          this.form.tName = projectFind[0].terminalName;
+        }
+        let data = { stId: obj.stId, proportion: this.form.proportion };
+        findInit(data).then((response) => {
+          this.form.totalPrice = parseFloat(response.data.price).toFixed(2);
+          this.form.number = parseFloat(response.data.number).toFixed(2);
+          this.jsTax();
+        });
+      }
     },
 
     //计算ocr列表
@@ -544,12 +529,12 @@ export default {
 
     //更改比例
     updateProportion() {
-      if (this.form.stId2 == null || this.form.stId2 == "") {
+      if (this.form.stId == null || this.form.stId == "") {
         this.msgError("请选择项目");
         return;
       }
       this.reset();
-      let data = { stId: this.form.stId2, proportion: this.form.proportion };
+      let data = { stId: this.form.stId, proportion: this.form.proportion };
       findInit(data).then((response) => {
         this.form.totalPrice = parseFloat(response.data.price).toFixed(2);
         this.form.number = parseFloat(response.data.number).toFixed(2);
