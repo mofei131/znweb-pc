@@ -142,15 +142,15 @@
       <div v-if="stId && projectId">
         <div style="padding:20px">
           <div id="bid">投标申请</div>
-          <bid-apply :stIdd="stId" :projectIdd="projectId"></bid-apply>
+          <bid-apply :stIdd="stId" :projectIdd="projectId" :isQuote="true"></bid-apply>
         </div>
         <div style="padding:20px">
           <div id="contract">合同信息</div>
-          <contract :stIdd="stId" :projectIdd="projectId"></contract>
+          <contract :stIdd="stId" :projectIdd="projectId" :isQuote="true"></contract>
         </div>
         <div v-if="projectInfo.businessType != 'cu' && projectInfo.businessType != 'cud'" style="padding:20px">
           <div id="rewardsp">奖惩设置</div>
-          <rewardsp :stIdd="stId" :projectIdd="projectId"></rewardsp>
+          <rewardsp :stIdd="stId" :projectIdd="projectId" :isQuote="true"></rewardsp>
         </div>
         <div v-if="projectInfo.businessType != 'cu' && projectInfo.businessType != 'cud'" style="padding:20px">
           <div id="grn">随车数质量</div>
@@ -162,35 +162,35 @@
         </div>
         <div v-if="projectInfo.businessType != 'cu' && projectInfo.businessType != 'cud'" style="padding:20px">
           <div id="margin">保证金管理</div>
-          <margin :stIdd="stId" :projectId="projectId"></margin>
+          <margin :stIdd="stId" :projectIdd="projectId" :isQuote="true"></margin>
         </div>
         <div v-if="projectInfo.businessType != 'cu' && projectInfo.businessType != 'cud'" style="padding:20px">
           <div id="lpayment">物流付款</div>
-          <lpayment :stId="stId" :projectIdd="projectId"></lpayment>
+          <lpayment :stIdd="stId" :projectIdd="projectId" :isQuote="true"></lpayment>
         </div>
         <div v-if="projectInfo.businessType != 'cu' && projectInfo.businessType != 'cud'" style="padding:20px">
           <div id="wldetails">物流收票</div>
-          <wldetails :stIdd="stId" :projectIdd="projectId"></wldetails>
+          <wldetails :stIdd="stId" :projectIdd="projectId" :isQuote="true"></wldetails>
         </div>
         <div v-if="projectInfo.businessType != 'cu' && projectInfo.businessType != 'cud'" style="padding:20px">
           <div id="apayment">预付款信息</div>
-          <apayment :stIdd="stId" :projectIdd="projectId"></apayment>
+          <apayment :stIdd="stId" :projectIdd="projectId" :isQuote="true"></apayment>
         </div>
         <div style="padding:20px">
           <div id="fpayment">最终付款</div>
-          <fpayment :stIdd="stId" :projectIdd="projectId"></fpayment>
+          <fpayment :stIdd="stId" :projectIdd="projectId" :isQuote="true"></fpayment>
         </div>
         <div v-if="projectInfo.businessType != 'cu' && projectInfo.businessType != 'cud'" style="padding:20px">
           <div id="estimated">预估收款</div>
-          <estimated-receipts :stIdd="stId" :projectIdd="projectId"></estimated-receipts>
+          <sk :stIdd="stId" :projectIdd="projectId" :isQuote="true"></sk>
         </div>
         <div style="padding:20px">
           <div id="realsk">实际收款</div>
-          <realsk :stIdd="stId" :projectIdd="projectId"></realsk>
+          <realsk :stIdd="stId" :projectIdd="projectId" :isQuote="true"></realsk>
         </div>
         <div style="padding:20px">
           <div id="refund">退款管理</div>
-          <refund :stIdd="stId" :projectIdd="projectId"></refund>
+          <refund :stIdd="stId" :projectIdd="projectId" :isQuote="true"></refund>
         </div>
         <div style="padding:20px">
           <div id="sp">收票管理</div>
@@ -247,17 +247,17 @@
 </template>
 
 <script>
-import bidApply from '@/views/project/st/components/bidApply'
-import contract from '@/views/project/st/components/contract'
-import rewardsp from '@/views/project/st/components/rewardsp'
-import margin from '@/views/project/st/components/margin'
-import lpayment from '@/views/project/st/components/lpayment'
-import wldetails from '@/views/project/st/components/wldetails'
-import apayment from '@/views/project/st/components/apayment'
-import fpayment from '@/views/project/st/components/fpayment'
-import estimatedReceipts from '@/views/project/st/components/estimatedReceipts'
-import realsk from '@/views/project/st/components/realsk'
-import refund from '@/views/project/st/components/refund'
+import bidApply from '@/views/project/bidApply'
+import contract from '@/views/project/contract'
+import rewardsp from '@/views/project/rewardsp'
+import margin from '@/views/project/margin'
+import lpayment from '@/views/project/lpayment'
+import wldetails from '@/views/project/wldetails'
+import apayment from '@/views/project/apayment'
+import fpayment from '@/views/project/fpayment'
+import sk from '@/views/project/sk'
+import realsk from '@/views/project/realsk'
+import refund from '@/views/project/refund'
 import sfdetails from '@/views/project/st/components/sfdetails'
 import serviceDetails from '@/views/project/st/components/serviceDetails'
 import grn from '@/views/project/st/components/grn'
@@ -283,7 +283,7 @@ export default {
     wldetails,
     apayment,
     fpayment,
-    estimatedReceipts,
+    sk,
     realsk,
     refund,
     sfdetails,
@@ -426,7 +426,6 @@ export default {
       }
     },
     changeChargemType(e) {
-      console.log('看这里',e)
       if (e == '1') {
         return '年息'
       } else if (e = '2') {

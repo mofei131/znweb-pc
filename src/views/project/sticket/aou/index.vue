@@ -7,31 +7,33 @@
       label-width="100px"
     >
       <el-row>
-        <el-col :span="12">
-          <el-form-item label="项目名称" prop="stId">
-            <el-select
-              filterable
-              value-key="stId"
-              @change="changeSt"
-              v-model="form.stId"
-              placeholder="请选择项目名称"
-              style="width: 100%"
-            >
-              <el-option
-                v-for="obj in stOptions"
-                :key="obj.stId"
-                :label="obj.name"
-                :value="obj"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item style="margin-left:20px" label="项目编号" prop="projectNumber">
-            {{ form.projectNumber }}
-          </el-form-item>
-        </el-col>
-      </el-row>
+            <el-col :span="12">
+              <!-- 项目 -->
+              <el-form-item label="项目名称" prop="projectId">
+                <el-select filterable value-key="projectId" @change="changeProject" v-model="form.projectId"
+                  placeholder="请选择项目" style="width: 100%">
+                  <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName"
+                    :value="pro.projectId">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <!-- 业务 -->
+              <el-form-item label="业务名称" prop="stId">
+                <el-select filterable value-key="stId" @change="changeSt" v-model="form.stId" placeholder="请选择业务"
+                  style="width: 100%">
+                  <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj.stId">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="项目编号" prop="serialNo">
+                {{ form.serialNo }}
+              </el-form-item>
+            </el-col>
+          </el-row>
       <el-row>
         <el-col :span="12">
           <el-form-item label="代办人" prop="proportion">
@@ -237,8 +239,9 @@
   </div>
 </template>
 <script>
-import { addSticket, updateSticket, findInit } from "@/api/project/sticket";
+import { addSticket, updateSticket, findInit, listForBus, listForPro, } from "@/api/project/sticket";
 import { getToken } from "@/utils/auth";
+import { listProjectForCombobox, listBusinessForCombobox } from "@/api/project/st";
 export default {
   name: "aou",
   props: ["aouform", "aoustOptions"],
@@ -269,6 +272,7 @@ export default {
       sticketList: [],
       // 项目集合
       stOptions: [],
+      projectOptions: [],
       //选择框状态
       visible: false,
       //选择框集合
@@ -288,6 +292,9 @@ export default {
       // 表单校验
       rules: {
         stId: [{ required: true, message: "请选择项目名称", trigger: "blur" }],
+        projectId: [
+          { required: true, message: "请选择业务名称", trigger: "blur" },
+        ],
         price: [{ validator: validatePrice3, trigger: "blur" }],
         tax: [{ validator: validatePrice3, trigger: "blur" }],
         total: [{ validator: validatePrice3, trigger: "blur" }],
@@ -296,6 +303,9 @@ export default {
         ],
       },
       isDisabled: false,
+      listForBusArr: [],
+      listForProArr: [],
+      apyamentId:'',//子组件id
     };
   },
   created() {},
@@ -313,8 +323,20 @@ export default {
       this.ocrData = this.aouform.ocrList;
       this.stOptions = this.aoustOptions;
       this.isDisabled = false;
+      this.loadProjectForCombobox();
     },
-
+    loadProjectForCombobox() {
+      this.listForProArr = []
+      listProjectForCombobox().then((response) => {
+        this.listForProArr = response.data
+      })
+    },
+    loadBusinessForCombobox(projectId) {
+      this.listForBusArr = []
+      listBusinessForCombobox({ projectId }).then((response) => {
+        this.listForBusArr = response.data
+      })
+    },
     // 取消按钮
     cancel() {
       this.$emit("cancel");
@@ -459,13 +481,24 @@ export default {
       this.form.ysPrice = price.toFixed(2);
       this.visible = false;
     },
-
+    changeProject(projectId) {
+      this.listForBusArr = []
+      this.form.stId = ''
+      this.form.stName = ''
+      this.form.serialNo = ''
+      if (projectId){
+        this.loadBusinessForCombobox(projectId);
+      }
+    },
     //选择项目
-    changeSt(obj) {
-      console.log(obj);
+    changeSt(stId) {
+       let businessFind = this.listForBusArr.filter(x => x.stId == stId);
+      if (businessFind && businessFind.length > 0) {
+        let obj = businessFind[0];
       this.form.stId2 = obj.stId;
       this.form.stName = obj.name;
       this.form.uName = obj.userName;
+        this.form.serialNo = obj.serialNo;
       this.form.tName = obj.tName;
       this.$set(this.form, "projectNumber", obj.number);
       this.reset();
@@ -475,6 +508,7 @@ export default {
         this.form.number = parseFloat(response.data.number).toFixed(2);
         this.jsTax();
       });
+    }
     },
 
     //计算ocr列表

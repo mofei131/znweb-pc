@@ -150,7 +150,7 @@
             <el-form-item label="项目名称" prop="projectId">
               <el-select filterable value-key="projectId" @change="changeProject" v-model="form.projectId"
                 placeholder="请选择项目名称" style="width: 100%">
-                <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName" :value="pro">
+                <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName" :value="pro.projectId">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -159,7 +159,7 @@
             <el-form-item label="业务名称" prop="stId">
               <el-select filterable value-key="stId" @change="changeSt" v-model="form.stId" placeholder="请选择业务名称"
                 style="width: 100%">
-                <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj"></el-option>
+                <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj.stId"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -748,6 +748,7 @@ import {
 import { getToken } from "@/utils/auth";
 import print from "print-js";
 import { getProcessDataByStId, getApprovalProcessList, getApprovalType } from "@/api/approve";
+import { listProjectForCombobox, listBusinessForCombobox } from "@/api/project/st";
 
 export default {
   name: "Gry",
@@ -927,13 +928,19 @@ export default {
           this.loading = false;
         }
       );
-      // 业务
-      listForBus().then((response) => {
-        this.listForBusArr = response.data
-      })
-      // 项目
-      listForPro().then((response) => {
+      // 项目下拉
+      this.loadProjectForCombobox();
+    },
+    loadProjectForCombobox() {
+      this.listForProArr = []
+      listProjectForCombobox().then((response) => {
         this.listForProArr = response.data
+      })
+    },
+    loadBusinessForCombobox(projectId) {
+      this.listForBusArr = []
+      listBusinessForCombobox({ projectId }).then((response) => {
+        this.listForBusArr = response.data
       })
     },
     // 审核状态字典翻译
@@ -1212,10 +1219,20 @@ export default {
 
     // 业务开始
     // 选择项目
-    changeProject(pro) {
+    changeProject(projectId) {
+      this.listForBusArr = []
+      this.form.stId = ''
+      this.form.stName = ''
+      this.form.serialNo = ''
+      if (projectId) {
+        this.loadBusinessForCombobox(projectId);
+      }
       this.form.stName = pro.stName
     },
-    changeSt(obj) {
+    changeSt(stId) {
+      let businessFind = this.listForBusArr.filter(x => x.stId == stId);
+      if (businessFind && businessFind.length > 0) {
+        let obj = businessFind[0];
       this.form.jc1 = 0;
       this.form.jc2 = 0;
       this.form.jc3 = 0;
@@ -1265,6 +1282,7 @@ export default {
           this.form.valueTprice = 0;
         }
       });
+    }
     },
     //加载入库单
     selectGrn() {

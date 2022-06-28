@@ -233,7 +233,7 @@
                   v-for="pro in listForProArr"
                   :key="pro.projectId"
                   :label="pro.projectName"
-                  :value="pro"
+                  :value="pro.projectId"
                 ></el-option>
               </el-select>
             </el-form-item>
@@ -252,7 +252,7 @@
                   v-for="obj in listForBusArr"
                   :key="obj.stId"
                   :label="obj.stName"
-                  :value="obj"
+                  :value="obj.stId"
                 ></el-option>
               </el-select>
             </el-form-item>
@@ -522,6 +522,7 @@ import { getToken } from "@/utils/auth";
 import { findInit } from "@/api/project/realsk";
 import print from "print-js";
 import { getProcessDataByStId, getApprovalProcessList, getApprovalType } from "@/api/approve";
+import { listProjectForCombobox, listBusinessForCombobox } from "@/api/project/st";
 
 export default {
   name: "Kp",
@@ -639,13 +640,18 @@ export default {
       getStList().then((response) => {
         this.stOptions = response.rows;
       });
-      // 业务
-      listForBus().then((response) => {
-        this.listForBusArr = response.data
-      }) 
-      // 项目
-      listForPro().then((response) => {
+      this.loadProjectForCombobox();
+    },
+    loadProjectForCombobox() {
+      this.listForProArr = []
+      listProjectForCombobox().then((response) => {
         this.listForProArr = response.data
+      })
+    },
+    loadBusinessForCombobox(projectId) {
+      this.listForBusArr = []
+      listBusinessForCombobox({ projectId }).then((response) => {
+        this.listForBusArr = response.data
       })
     },
     // 审核状态字典翻译
@@ -856,11 +862,20 @@ export default {
 
     //业务开始
     //选择项目
-    changeProject(pro) {
-      this.form.projectIdOld = pro.projectId;
+    changeProject(projectId) {
+      this.listForBusArr = []
+      this.form.stId = ''
+      this.form.stName = ''
+      this.form.serialNo = ''
+      if (projectId) {
+        this.loadBusinessForCombobox(projectId);
+      }
       this.form.projectName = pro.projectName
     },
-    changeSt(obj) {
+    changeSt(stId) {
+       let businessFind = this.listForBusArr.filter(x => x.stId == stId);
+      if (businessFind && businessFind.length > 0) {
+        let obj = businessFind[0];
       this.form.stId2 = obj.stId;
       this.form.stName = obj.stName;
       this.form.uName = obj.userName;
@@ -869,6 +884,7 @@ export default {
       this.form.serialNo = obj.serialNo;
       this.form.sId = obj.supplierId;
       this.$set(this.form, "number", obj.number);
+    }
     },
 
     jsTax() {
