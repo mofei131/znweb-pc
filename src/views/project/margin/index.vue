@@ -212,7 +212,7 @@
                 <el-form-item label="项目名称" prop="projectId">
                   <el-select filterable value-key="projectId" @change="changeProject" v-model="form.projectId"
                     placeholder="请选择项目" style="width: 100%">
-                    <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName" :value="pro">
+                    <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName" :value="pro.projectId">
                     </el-option>
                   </el-select>
                 </el-form-item>
@@ -221,7 +221,7 @@
                 <el-form-item label="业务名称" prop="stId">
                   <el-select filterable value-key="stId" @change="changeSt" v-model="form.stId" placeholder="请选择业务"
                     style="width: 100%">
-                    <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj">
+                    <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj.stId">
                     </el-option>
                   </el-select>
                 </el-form-item>
@@ -726,7 +726,6 @@ export default {
       // 保证金表格数据
       marginList: [],
       // 项目集合
-      projectOptions: [],
       //合同集合
       contractNameOptions: [],
       //客户集合
