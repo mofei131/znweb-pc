@@ -4,8 +4,8 @@
       style="
         width: 108px;
         padding-left: 17px;
-        background-color: #fffdd2;
-        color: #eaa841;
+        background-color: #EAF3FF;
+        color: #333333;
         display: flex;
         align-items: center;
       "
@@ -15,7 +15,7 @@
         src="../../../public/img/tongzhi.png"
         alt=""
       />
-      <span style="line-height: 22px">待办：</span>
+      <span style="line-height: 22px">通知：</span>
     </div>
     <div id="tips">
       <span class="span1">{{ tongzhi }}</span>
@@ -41,9 +41,9 @@ export default {
   width: 100%;
   line-height: 40px;
   height: 40px;
-  background: #fffdd2;
+  background: #EAF3FF;
   overflow: hidden;
-  color: #eaa841;
+  color: #333333;
 }
 #tips span {
   position: absolute;
