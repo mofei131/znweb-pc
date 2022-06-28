@@ -82,7 +82,7 @@
           <el-button size="mini" type="text" v-hasPermi="['project:st:edit']"
             v-if="scope.row.hType == '项目' && scope.row.state == 3" @click="openBusinessBox(scope.row)">添加业务
           </el-button>
-          <el-button size="mini" type="text" v-if="scope.row.hType == '业务'&&(scope.row.businessState == 0||scope.row.businessState == null)" v-hasPermi="['project:st:edit']"
+          <el-button size="mini" type="text" v-if="scope.row.hType == '业务'" v-hasPermi="['project:st:edit']"
             @click="jumpBusinessAdd(scope.row)">查看业务</el-button>
           <el-button size="mini" type="text" v-if="
             scope.row.hType == '业务' &&
