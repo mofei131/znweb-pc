@@ -242,22 +242,22 @@ export default {
     myEchartsB() {
       var pieData = [
         {
-          name: '500(万吨)以上\n25个终端客户',
+          name: '500(万吨)以上\n25个供应商',
           value: 25,
           label: {color: '#fec095'}
         },
         {
-          name: '100-500(万吨)\n15个终端客户',
+          name: '100-500(万吨)\n15个供应商',
           value: 15,
           label: {color: '#439eff'}
         },
         {
-          name: '50-100(万吨)\n10个终端客户',
+          name: '50-100(万吨)\n10个供应商',
           value: 10,
           label: {color: '#61e4af'}
         },
         {
-          name: '0-50(万吨)\n12个终端客户',
+          name: '0-50(万吨)\n12个供应商',
           value: 12,
           label: {color: '#e96f52'}
         }
@@ -273,7 +273,7 @@ export default {
               show: true,//显示文字
               //自定义显示文字
               formatter: function (arg) {
-                return arg.name + '平台\n' + arg.percent + '%\n'
+                return arg.name + '\n' + arg.percent + '%\n'
               }
             },
             itemStyle: {
