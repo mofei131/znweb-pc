@@ -200,8 +200,8 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="业务类型" prop="settlementWay">
-                <span v-text="form.settlementWay"></span>
+              <el-form-item label="业务类型" prop="businessType">
+                <span v-text="businessTypeFormat(form.businessType)"></span>
               </el-form-item>
             </el-col>
           </el-row>
@@ -531,7 +531,7 @@
               </td>
               <td class="table-td-title detail">结算方式</td>
               <td class="table-td-content">
-                {{ printData.settlementWay }}
+                {{ businessTypeFormat(printData.businessType) }}
               </td>
             </tr>
             <tr>
@@ -920,32 +920,6 @@ export default {
       listForBusArr: [],
       listForProArr: [],
       apyamentId:'',//子组件id
-      businessTypeList: [
-        {
-          label: "储备业务垫付运费",
-          value: "cud",
-        },
-        {
-          label: "储备业务不垫付运费",
-          value: "cu",
-        },
-        {
-          label: "到厂业务垫付运费",
-          value: "dcd",
-        },
-        {
-          label: "到厂业务不垫付运费",
-          value: "dc",
-        },
-        {
-          label: "车板业务垫付运费",
-          value: "cbd",
-        },
-        {
-          label: "车板业务不垫付运费",
-          value: "cb",
-        },
-      ],
     };
   },
   created() {
@@ -998,6 +972,21 @@ export default {
         return "物流服务合同";
       } else if (row.type == "5") {
         return "其他合同";
+      }
+    },
+    businessTypeFormat(businessType) {
+      if (businessType == "cud") {
+        return "储备业务垫付运费";
+      } else if (businessType == "cu") {
+        return "储备业务不垫付运费";
+      } else if (businessType == "dcd") {
+        return "到厂业务垫付运费";
+      } else if (businessType == "dc") {
+        return "到厂业务不垫付运费";
+      } else if (businessType == "cbd") {
+        return "车板业务垫付运费";
+      } else if (businessType == "cb") {
+        return "车板业务不垫付运费";
       }
     },
     /** 查询最终付款列表 */
@@ -1323,11 +1312,7 @@ export default {
         this.loadBusinessForCombobox(projectId)
       }
       let businessType = this.listForProArr[that.listForProArr.findIndex(x => x.projectId == projectId)].businessType
-      this.businessTypeList.forEach(function(item,index){
-        if(item.value == businessType){
-          that.form.settlementWay = item.label
-        }
-      })
+      this.form.businessType = businessType
     },
     changeSt(stId) {
       let businessFind = this.listForBusArr.filter(x => x.stId == stId);
@@ -1343,8 +1328,6 @@ export default {
         this.form.serialNo = obj.serialNo;
         this.tableselData = [];
         this.form.stName = obj.stName;
-        this.$set(this.form, "number", obj.number);
-        this.$set(this.form, "settlementWay", obj.settlementWay);
         //固定差价
         if (obj.chargemType == "2" || obj.chargemType == "3") {
           this.gd = obj.chargemGd;
