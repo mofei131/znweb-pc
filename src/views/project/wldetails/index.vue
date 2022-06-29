@@ -26,7 +26,7 @@
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
-          v-hasPermi="['project:wldetails:add']">新增</el-button>
+          v-hasPermi="['project:wldetails:add']" v-show="editable">新增</el-button>
       </el-col>
       <!--      <el-col :span="1.5">-->
       <!--        <el-button-->
@@ -106,9 +106,9 @@
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button size="mini" type="text" icon="el-icon-edit" @click="handleLook(scope.row)">查看</el-button>
-          <el-button v-if="scope.row.spState == '未收票'" size="mini" type="text" icon="el-icon-edit"
+          <el-button v-if="scope.row.spState == '未收票' && editable" size="mini" type="text" icon="el-icon-edit"
             @click="handleUpdate(scope.row)" v-hasPermi="['project:wldetails:edit']">修改</el-button>
-          <el-button v-if="scope.row.spState == '未收票'" size="mini" type="text" icon="el-icon-edit"
+          <el-button v-if="scope.row.spState == '未收票' && editable" size="mini" type="text" icon="el-icon-edit"
             @click="handleUpdateOk(scope.row)" v-hasPermi="['project:wldetails:edit']">完成</el-button>
         </template>
       </el-table-column>
@@ -316,6 +316,10 @@ export default {
     "isQuote": {
       type: Boolean,
       default: false
+    },
+    "editable": {
+      type: Boolean,
+      default: true
     }
   },
   data() {

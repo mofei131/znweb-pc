@@ -27,11 +27,11 @@
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
-          v-hasPermi="['project:refund:add']">新增</el-button>
+          v-hasPermi="['project:refund:add']" v-show="editable">新增</el-button>
       </el-col>
       <el-col :span="1.5">
         <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"
-          v-hasPermi="['project:refund:export']">导出</el-button>
+          v-hasPermi="['project:refund:export']" v-show="editable">导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList" v-show="!isQuote"></right-toolbar>
     </el-row>
@@ -64,9 +64,9 @@
         <template slot-scope="scope">
           <el-button size="mini" type="text" icon="el-icon-edit" @click="handleLook(scope.row)"
             v-hasPermi="['project:refund:edit']">查看</el-button>
-          <el-button v-if="scope.row.state == '3'" size="mini" type="text" icon="el-icon-edit"
+          <el-button v-if="scope.row.state == '3' && editable" size="mini" type="text" icon="el-icon-edit"
             @click="handleAddDetail(scope.row)" v-hasPermi="['project:refund:edit']">退款</el-button>
-          <el-button v-if="scope.row.state == '3'" size="mini" type="text" icon="el-icon-edit"
+          <el-button v-if="scope.row.state == '3' && editable" size="mini" type="text" icon="el-icon-edit"
             @click="handleRefund(scope.row)" v-hasPermi="['project:refund:query']">退款明细</el-button>
           <el-button v-if="scope.row.state == '3'" size="mini" type="text" icon="el-icon-printer"
             @click="handlePrint(scope.row)" v-hasPermi="['project:refund:remove']">打印</el-button>
@@ -411,6 +411,10 @@ export default {
     "isQuote": {
       type: Boolean,
       default: false
+    },
+    "editable": {
+      type: Boolean,
+      default: true
     }
   },
   data() {

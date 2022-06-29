@@ -79,8 +79,8 @@
                   <td class="tdCoent">{{stInfo.stAmount}}</td>
                   <td class="tdTitle">结算比例</td>
                   <td class="tdCoent">{{stInfo.settlementPA1 ? stInfo.settlementPA1 + '-' +
-            stInfo.settlementPA2 + '-' +
-            stInfo.settlementPA3 : ''}}</td>
+                    stInfo.settlementPA2 + '-' +
+                    stInfo.settlementPA3 : ''}}</td>
                 </tr>
                 <tr>
                   <td class="tdTitle">履约保证金</td>
@@ -109,7 +109,7 @@
               </table>
             </el-col>
           </el-row>
-        <!-- <el-descriptions title="项目信息" :column="3" border>
+          <!-- <el-descriptions title="项目信息" :column="3" border>
           <el-descriptions-item>
             <template slot="label">立项类型</template>{{ projectInfo.projectType }}
           </el-descriptions-item>
@@ -160,7 +160,7 @@
             <custom-upload :fileList="projectInfo.filesList"></custom-upload>
           </el-descriptions-item>
         </el-descriptions> -->
-        <!-- <el-descriptions style="margin-top:20px" title="业务基础信息" :column="3" border>
+          <!-- <el-descriptions style="margin-top:20px" title="业务基础信息" :column="3" border>
           <el-descriptions-item>
             <template slot="label">业务名称</template>{{ stInfo.stName }}
           </el-descriptions-item>
@@ -195,7 +195,7 @@
             <template slot="label">预计利润</template>{{ stInfo.expectProfits }}
           </el-descriptions-item>
         </el-descriptions> -->
-        <el-row class="head-title">
+          <el-row class="head-title">
             <el-col :span="12">
               <el-form-item label="自融资金方"></el-form-item>
             </el-col>
@@ -222,8 +222,8 @@
                 <tr>
                   <td class="tdTitle">结算比例</td>
                   <td class="tdCoent">{{stInfo.shSettlementA1 ? stInfo.shSettlementA1 + '-' +
-            stInfo.shSettlementA2 + '-' +
-            stInfo.shSettlementA3 : ''}}</td>
+                    stInfo.shSettlementA2 + '-' +
+                    stInfo.shSettlementA3 : ''}}</td>
                   <td class="tdTitle">履约保证金</td>
                   <td class="tdCoent">{{stInfo.shMargintype == 1 ? '有' : '无'}}</td>
                   <td class="tdTitle">保证金金额</td>
@@ -242,24 +242,24 @@
           </el-row>
           <div v-for="(item, index) in stInfo.ztList" :key="index" style="margin-top:20px">
             <el-row class="head-title">
-                <el-col :span="12">
-                  <el-form-item :label="'站台' + (index + 1)"></el-form-item>
-                </el-col>
-              </el-row>
-              <el-row class="head-text">
-                <el-col class="newTable">
-                  <table width="80%" cellpadding="0" cellspacing="0">
-                    <tr>
-                      <td class="tdTitle">站台名称</td>
-                      <td class="tdCoent">{{item.ztName}}</td>
-                      <td class="tdTitle">站台费用</td>
-                      <td class="tdCoent">{{item.ztFee}}</td>
-                      <td class="tdTitle">运费</td>
-                      <td class="tdCoent">{{item.freight}}</td>
-                    </tr>
-                  </table>
-                </el-col>
-              </el-row>
+              <el-col :span="12">
+                <el-form-item :label="'站台' + (index + 1)"></el-form-item>
+              </el-col>
+            </el-row>
+            <el-row class="head-text">
+              <el-col class="newTable">
+                <table width="80%" cellpadding="0" cellspacing="0">
+                  <tr>
+                    <td class="tdTitle">站台名称</td>
+                    <td class="tdCoent">{{item.ztName}}</td>
+                    <td class="tdTitle">站台费用</td>
+                    <td class="tdCoent">{{item.ztFee}}</td>
+                    <td class="tdTitle">运费</td>
+                    <td class="tdCoent">{{item.freight}}</td>
+                  </tr>
+                </table>
+              </el-col>
+            </el-row>
           </div>
         </el-form>
         <!-- <el-descriptions style="margin-top:20px" title="自融资金方" :column="3" border>
@@ -313,63 +313,63 @@
       <div v-if="stId && projectId" class="chilSty">
         <div style="padding:20px">
           <div id="bid">投标申请</div>
-          <bid-apply :stIdd="stId" :projectIdd="projectId" :isQuote="true"></bid-apply>
+          <bid-apply :stIdd="stId" :projectIdd="projectId" :isQuote="true" :editable="false"></bid-apply>
         </div>
         <div style="padding:20px">
           <div id="contract">合同信息</div>
-          <contract :stIdd="stId" :projectIdd="projectId" :isQuote="true"></contract>
+          <contract :stIdd="stId" :projectIdd="projectId" :isQuote="true" :editable="false"></contract>
         </div>
         <div v-if="projectInfo.businessType != 'cu' && projectInfo.businessType != 'cud'" style="padding:20px">
           <div id="rewardsp">奖惩设置</div>
-          <rewardsp :stIdd="stId" :projectIdd="projectId" :isQuote="true"></rewardsp>
+          <rewardsp :stIdd="stId" :projectIdd="projectId" :isQuote="true" :editable="false"></rewardsp>
         </div>
         <div v-if="projectInfo.businessType != 'cu' && projectInfo.businessType != 'cud'" style="padding:20px">
           <div id="grn">随车数质量</div>
-          <grn :stIdd="stId" :projectIdd="projectId" :isQuote="true"></grn>
+          <grn :stIdd="stId" :projectIdd="projectId" :isQuote="true" :editable="false"></grn>
         </div>
         <div v-if="projectInfo.businessType != 'cu' && projectInfo.businessType != 'cud'" style="padding:20px">
           <div id="gry">到厂数质量</div>
-          <gry :stIdd="stId" :projectIdd="projectId" :isQuote="true"></gry>
+          <gry :stIdd="stId" :projectIdd="projectId" :isQuote="true" :editable="false"></gry>
         </div>
         <div v-if="projectInfo.businessType != 'cu' && projectInfo.businessType != 'cud'" style="padding:20px">
           <div id="margin">保证金管理</div>
-          <margin :stIdd="stId" :projectIdd="projectId" :isQuote="true"></margin>
+          <margin :stIdd="stId" :projectIdd="projectId" :isQuote="true" :editable="false"></margin>
         </div>
         <div v-if="projectInfo.businessType != 'cu' && projectInfo.businessType != 'cud'" style="padding:20px">
           <div id="lpayment">物流付款</div>
-          <lpayment :stIdd="stId" :projectIdd="projectId" :isQuote="true"></lpayment>
+          <lpayment :stIdd="stId" :projectIdd="projectId" :isQuote="true" :editable="false"></lpayment>
         </div>
         <div v-if="projectInfo.businessType != 'cu' && projectInfo.businessType != 'cud'" style="padding:20px">
           <div id="wldetails">物流收票</div>
-          <wldetails :stIdd="stId" :projectIdd="projectId" :isQuote="true"></wldetails>
+          <wldetails :stIdd="stId" :projectIdd="projectId" :isQuote="true" :editable="false"></wldetails>
         </div>
         <div v-if="projectInfo.businessType != 'cu' && projectInfo.businessType != 'cud'" style="padding:20px">
           <div id="apayment">预付款信息</div>
-          <apayment :stIdd="stId" :projectIdd="projectId" :isQuote="true"></apayment>
+          <apayment :stIdd="stId" :projectIdd="projectId" :isQuote="true" :editable="false"></apayment>
         </div>
         <div style="padding:20px">
           <div id="fpayment">最终付款</div>
-          <fpayment :stIdd="stId" :projectIdd="projectId" :isQuote="true"></fpayment>
+          <fpayment :stIdd="stId" :projectIdd="projectId" :isQuote="true" :editable="false"></fpayment>
         </div>
         <div v-if="projectInfo.businessType != 'cu' && projectInfo.businessType != 'cud'" style="padding:20px">
           <div id="estimated">预估收款</div>
-          <sk :stIdd="stId" :projectIdd="projectId" :isQuote="true"></sk>
+          <sk :stIdd="stId" :projectIdd="projectId" :isQuote="true" :editable="false"></sk>
         </div>
         <div style="padding:20px">
           <div id="realsk">实际收款</div>
-          <realsk :stIdd="stId" :projectIdd="projectId" :isQuote="true"></realsk>
+          <realsk :stIdd="stId" :projectIdd="projectId" :isQuote="true" :editable="false"></realsk>
         </div>
         <div style="padding:20px">
           <div id="refund">退款管理</div>
-          <refund :stIdd="stId" :projectIdd="projectId" :isQuote="true"></refund>
+          <refund :stIdd="stId" :projectIdd="projectId" :isQuote="true" :editable="false"></refund>
         </div>
         <div style="padding:20px">
           <div id="sp">收票管理</div>
-          <sticket :stIdd="stId" :projectIdd="projectId" :isQuote="true"></sticket>
+          <sticket :stIdd="stId" :projectIdd="projectId" :isQuote="true" :editable="false"></sticket>
         </div>
         <div style="padding:20px">
           <div id="kp">开票管理</div>
-          <kp :stIdd="stId" :projectIdd="projectId" :isQuote="true"></kp>
+          <kp :stIdd="stId" :projectIdd="projectId" :isQuote="true" :editable="false"></kp>
         </div>
         <div style="padding:20px">
           <div id="sfdetails">财务收付款明细</div>

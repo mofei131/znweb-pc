@@ -126,7 +126,7 @@ export default {
 
     /** 查看按钮操作 */
     handleLook(row) {
-      this.$router.push('/st/lookAdd/' + row.stId)
+      this.$router.push('/st/businessDetailView/' + row.stId)
     },
     businessStateChange(e) {
       if (e.businessState == 0) {

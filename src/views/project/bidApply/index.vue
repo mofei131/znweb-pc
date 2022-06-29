@@ -33,7 +33,7 @@
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
-          v-hasPermi="['project:bidApply:add']">新增</el-button>
+          v-hasPermi="['project:bidApply:add']" v-show="editable">新增</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList" v-show="!isQuote"></right-toolbar>
     </el-row>
@@ -77,8 +77,8 @@
       <el-table-column label="创建时间" align="center" prop="createTime" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button v-if="!scope.row.state || scope.row.state == '4'" size="mini" type="text" icon="el-icon-edit"
-            @click="handleUpdate(scope.row)" v-hasPermi="['project:bidApply:edit']">修改</el-button>
+          <el-button v-if="(!scope.row.state || scope.row.state == '4') && editable" size="mini" type="text"
+            icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['project:bidApply:edit']">修改</el-button>
           <!-- <el-button v-if="scope.row.state == '4'"
             size="mini"
             type="text"
@@ -315,6 +315,10 @@ export default {
     "isQuote": {
       type: Boolean,
       default: false
+    },
+    "editable":{
+      type: Boolean,
+      default: true
     }
   },
   data() {
