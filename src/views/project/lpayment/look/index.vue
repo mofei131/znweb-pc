@@ -47,14 +47,20 @@
                 <td class="tdCoent">{{form.stName}}</td>
                 <td class="tdTitle">项目编号</td>
                 <td class="tdCoent">{{form.serialNo}}</td>
-                <td class="tdTitle">第三方公司</td>
-                <td class="tdCoent">{{form.tpcName}}</td>
               </tr>
               <tr>
+                <td class="tdTitle">第三方公司</td>
+                <td class="tdCoent">{{form.tpcName}}</td>
                 <td class="tdTitle">公司账号</td>
                 <td class="tdCoent">{{form.account}}</td>
                 <td class="tdTitle">公司开户行</td>
                 <td class="tdCoent">{{form.openbank}}</td>
+              </tr>
+              <tr>
+                <td class="tdTitle">运输类型</td>
+                <td class="tdCoent">{{form.type}}</td>
+                <td class="tdTitle"></td>
+                <td class="tdCoent"></td>
                 <td class="tdTitle"></td>
                 <td class="tdCoent"></td>
               </tr>
@@ -98,7 +104,7 @@
               <td class="tdTitle">备注</td>
               <td class="tdCoent">{{form.bz}}</td>
             </tr>
-            
+
           </table>
         </el-col>
       </el-row>
