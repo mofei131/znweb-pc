@@ -40,7 +40,7 @@
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
-          v-hasPermi="['project:apayment:add']">新增</el-button>
+          v-hasPermi="['project:apayment:add']" v-show="editable">新增</el-button>
       </el-col>
       <!--      <el-col :span="1.5">-->
       <!--        <el-button-->
@@ -148,9 +148,9 @@
       <el-table-column label="操作" width="160" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button size="mini" type="text" icon="el-icon-edit" @click="handleLook(scope.row)">查看</el-button>
-          <el-button v-if="scope.row.state == '3' && scope.row.fkState == '未付款'" size="mini" type="text"
+          <el-button v-if="scope.row.state == '3' && scope.row.fkState == '未付款' && editable" size="mini" type="text"
             icon="el-icon-edit" @click="handleUpdatePayTime(scope.row)">付款</el-button>
-          <el-button v-if="scope.row.state == '3'" size="mini" type="text" icon="el-icon-edit"
+          <el-button v-if="scope.row.state == '3' && editable" size="mini" type="text" icon="el-icon-edit"
             @click="openPayDetailss(scope.row)">付款明细</el-button>
           <el-button v-if="scope.row.state === '3'" size="mini" type="text" icon="el-icon-printer"
             @click="handlePrint(scope.row)">打印</el-button>
@@ -259,7 +259,8 @@
             <!--          选择入库单-->
             <el-popover placement="bottom-start" width="100%" @selection-change="grnSelectionChange" v-model="visible"
               popper-class="area_popper">
-              <el-button size="small" type="primary" slot="reference" style="margin-bottom: 30px;margin-left:50px">选择到厂数质量
+              <el-button size="small" type="primary" slot="reference" style="margin-bottom: 30px;margin-left:50px">
+                选择到厂数质量
               </el-button>
               <el-table ref="singleTable1" :data="tableData" @selection-change="grnSelectionChange"
                 style="width: 632px">
@@ -463,7 +464,7 @@
               </el-col>
             </el-row>
             <el-button size="small" style="margin: 20px 0 0 40px" type="primary" @click="jsjc" v-if="isLook != 3">奖惩计算
-                            </el-button>
+            </el-button>
 
             <el-row style="margin-top:33px">
               <el-col :span="12">
@@ -1006,6 +1007,10 @@ export default {
     "isQuote": {
       type: Boolean,
       default: false
+    },
+    "editable": {
+      type: Boolean,
+      default: true
     }
   },
   data() {

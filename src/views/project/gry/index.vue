@@ -36,7 +36,7 @@
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
-          v-hasPermi="['project:gry:add']">新增</el-button>
+          v-hasPermi="['project:gry:add']" v-show="editable">新增</el-button>
       </el-col>
       <!--      <el-col :span="1.5">-->
       <!--        <el-button-->
@@ -62,7 +62,7 @@
       <!--      </el-col>-->
       <el-col :span="1.5">
         <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"
-          v-hasPermi="['project:gry:export']">导出</el-button>
+          v-hasPermi="['project:gry:export']" v-show="editable">导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList" v-show="!isQuote"></right-toolbar>
     </el-row>
@@ -124,7 +124,7 @@
         <template slot-scope="scope">
           <el-button size="mini" type="text" icon="el-icon-edit" @click="handleLook(scope.row)"
             v-hasPermi="['project:gry:edit']">查看</el-button>
-          <el-button v-if="scope.row.state == '4' && scope.row.yfState == '1'" size="mini" type="text"
+          <el-button v-if="scope.row.state == '4' && scope.row.yfState == '1' && editable" size="mini" type="text"
             icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['project:gry:edit']">编辑</el-button>
           <el-button v-if="scope.row.state === '3'" size="mini" type="text" icon="el-icon-printer"
             @click="handlePrint(scope.row)">打印</el-button>
@@ -309,8 +309,8 @@
             <el-col :span="6">
               <el-form-item label="合计重量" prop="totalWeight">
                 <span style="color: red">{{
-                  $options.filters.moneyFilter(form.totalWeight)
-                  }}</span>
+                $options.filters.moneyFilter(form.totalWeight)
+                }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="6">
@@ -326,8 +326,8 @@
             <el-col :span="5">
               <el-form-item label="重量差">
                 <span style="color: red">{{
-                  $options.filters.weightFilter(zlc)
-                  }}</span>
+                $options.filters.weightFilter(zlc)
+                }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="5">
@@ -338,15 +338,15 @@
             <el-col :span="5">
               <el-form-item label="单价差" prop="averageRz">
                 <span style="color: red">{{
-                  $options.filters.moneyFilter(djc)
-                  }}</span>
+                $options.filters.moneyFilter(djc)
+                }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="5">
               <el-form-item label="总额差" prop="averageRz">
                 <span style="color: red">{{
-                  $options.filters.moneyFilter(zec)
-                  }}</span>
+                $options.filters.moneyFilter(zec)
+                }}</span>
               </el-form-item>
             </el-col>
           </el-row>
@@ -764,6 +764,10 @@ export default {
     "isQuote": {
       type: Boolean,
       default: false
+    },
+    "editable": {
+      type: Boolean,
+      default: true
     }
   },
   data() {

@@ -3,64 +3,34 @@
     <div class="report_top">
       <el-form :inline="true" :model="formInline" class="demo-form-inline">
         <el-form-item label="请选择代办人">
-          <el-select
-            size="mini"
-            v-model="formInline.agentId"
-            placeholder="代办人"
-            @change="chengeUser"
-            filterable
-            clearable
-          >
-            <el-option
-              v-for="(item, index) in userList"
-              :key="index"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
+          <el-select size="mini" v-model="formInline.agentId" placeholder="代办人" @change="chengeUser" filterable
+            clearable>
+            <el-option v-for="(item, index) in userList" :key="index" :label="item.label" :value="item.value">
+            </el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="请选择项目">
-          <el-select
-            size="mini"
-            v-model="formInline.stId"
-            placeholder="活动区域"
-            filterable
-            clearable
-          >
-            <el-option
-              v-for="(item, index) in stList"
-              :key="index"
-              :label="item.label"
-              :value="item.value"
-            ></el-option>
+          <el-select size="mini" v-model="formInline.stId" placeholder="活动区域" filterable clearable>
+            <el-option v-for="(item, index) in stList" :key="index" :label="item.label" :value="item.value"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button size="mini" type="primary" @click="onSubmit"
-            >搜索</el-button
-          >
+          <el-button size="mini" type="primary" @click="onSubmit">搜索</el-button>
         </el-form-item>
       </el-form>
     </div>
     <div class="report_bottom">
       <el-row :gutter="10">
         <el-col :span="14">
-          <div
-            style="
+          <div style="
               background: #ffffff;
               box-shadow: 0px 0px 6px 0px rgba(146, 153, 161, 0.28);
               padding: 20px;
-            "
-          >
+            ">
             <div style="display: flex; justify-content: space-between">
               <div style="font-size: 16px">项目简报</div>
               <div>
-                <el-select
-                  size="mini"
-                  v-model="sift1"
-                  placeholder="月份"
-                  @change="getProjectBriefing"
-                >
+                <el-select size="mini" v-model="sift1" placeholder="月份" @change="getProjectBriefing">
                   <el-option label="本月" value="本月"></el-option>
                   <el-option label="上月" value="上月"></el-option>
                   <el-option label="本季度" value="本季度"></el-option>
@@ -69,18 +39,9 @@
                   <el-option label="去年" value="去年"></el-option>
                   <el-option label="自定义" value="自定义"></el-option>
                 </el-select>
-                <el-date-picker
-                  v-if="sift1 == '自定义'"
-                  style="margin-left: 10px"
-                  size="mini"
-                  v-model="time1"
-                  value-format="yyyy-MM-dd"
-                  type="daterange"
-                  range-separator="至"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期"
-                  @change="getProjectBriefing"
-                >
+                <el-date-picker v-if="sift1 == '自定义'" style="margin-left: 10px" size="mini" v-model="time1"
+                  value-format="yyyy-MM-dd" type="daterange" range-separator="至" start-placeholder="开始日期"
+                  end-placeholder="结束日期" @change="getProjectBriefing">
                 </el-date-picker>
               </div>
             </div>
@@ -88,11 +49,8 @@
               <div class="briefing_items">
                 <div class="briefing_items_top">
                   <div class="bottom_left">
-                    <img
-                      src="@/../public/img/kaipiaozonge.png"
-                      style="width: 13px; height: 13px; margin-left: 2.5px"
-                      alt=""
-                    />
+                    <img src="@/../public/img/kaipiaozonge.png" style="width: 13px; height: 13px; margin-left: 2.5px"
+                      alt="" />
                   </div>
                   <div class="bottom_right">开票总额(元)</div>
                 </div>
@@ -103,11 +61,8 @@
               <div class="briefing_items">
                 <div class="briefing_items_top">
                   <div class="bottom_left">
-                    <img
-                      src="@/../public/img/kaipiaozongshuliang.png"
-                      style="width: 11px; height: 11px; margin-left: 3.5px"
-                      alt=""
-                    />
+                    <img src="@/../public/img/kaipiaozongshuliang.png"
+                      style="width: 11px; height: 11px; margin-left: 3.5px" alt="" />
                   </div>
                   <div class="bottom_right">开票总数量(吨)</div>
                 </div>
@@ -118,11 +73,8 @@
               <div class="briefing_items">
                 <div class="briefing_items_top">
                   <div class="bottom_left">
-                    <img
-                      src="@/../public/img/shoupiaozonge.png"
-                      style="width: 13px; height: 13px; margin-left: 2.5px"
-                      alt=""
-                    />
+                    <img src="@/../public/img/shoupiaozonge.png" style="width: 13px; height: 13px; margin-left: 2.5px"
+                      alt="" />
                   </div>
                   <div class="bottom_right">收票总额(元)</div>
                 </div>
@@ -133,11 +85,8 @@
               <div class="briefing_items">
                 <div class="briefing_items_top">
                   <div class="bottom_left">
-                    <img
-                      src="@/../public/img/shoupiaozongshuliang.png"
-                      style="width: 13px; height: 13px; margin-left: 2.5px"
-                      alt=""
-                    />
+                    <img src="@/../public/img/shoupiaozongshuliang.png"
+                      style="width: 13px; height: 13px; margin-left: 2.5px" alt="" />
                   </div>
                   <div class="bottom_right">收票总数量(吨)</div>
                 </div>
@@ -148,11 +97,8 @@
               <div class="briefing_items">
                 <div class="briefing_items_top">
                   <div class="bottom_left">
-                    <img
-                      src="@/../public/img/yingyelirun.png"
-                      style="width: 13px; height: 13px; margin-left: 3px"
-                      alt=""
-                    />
+                    <img src="@/../public/img/yingyelirun.png" style="width: 13px; height: 13px; margin-left: 3px"
+                      alt="" />
                   </div>
                   <div class="bottom_right">营业利润</div>
                 </div>
@@ -163,11 +109,8 @@
               <div class="briefing_items">
                 <div class="briefing_items_top">
                   <div class="bottom_left">
-                    <img
-                      src="@/../public/img/jinglirun.png"
-                      style="width: 12px; height: 12px; margin-left: 2.5px"
-                      alt=""
-                    />
+                    <img src="@/../public/img/jinglirun.png" style="width: 12px; height: 12px; margin-left: 2.5px"
+                      alt="" />
                   </div>
                   <div class="bottom_right">净利润</div>
                 </div>
@@ -179,27 +122,17 @@
           </div>
         </el-col>
         <el-col :span="10">
-          <div
-            style="
+          <div style="
               background: #ffffff;
               box-shadow: 0px 0px 6px 0px rgba(146, 153, 161, 0.28);
               padding: 20px;
-            "
-          >
+            ">
             <div style="display: flex; justify-content: space-between">
               <div style="font-size: 16px">资金占用</div>
               <div>
-                <el-date-picker
-                  style="margin-left: 10px"
-                  size="mini"
-                  v-model="time2"
-                  value-format="yyyy-MM-dd"
-                  type="daterange"
-                  range-separator="至"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期"
-                  @change="getFundOccupation"
-                >
+                <el-date-picker style="margin-left: 10px" size="mini" v-model="time2" value-format="yyyy-MM-dd"
+                  type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"
+                  @change="getFundOccupation">
                 </el-date-picker>
               </div>
             </div>
@@ -207,11 +140,8 @@
               <div class="briefing_items2">
                 <div class="briefing_items_top">
                   <div class="bottom_left">
-                    <img
-                      src="@/../public/img/kaipiaozonge.png"
-                      style="width: 13px; height: 13px; margin-left: 2.5px"
-                      alt=""
-                    />
+                    <img src="@/../public/img/kaipiaozonge.png" style="width: 13px; height: 13px; margin-left: 2.5px"
+                      alt="" />
                   </div>
                   <div class="bottom_right">期初资金占用(元)</div>
                 </div>
@@ -222,11 +152,8 @@
               <div class="briefing_items2">
                 <div class="briefing_items_top">
                   <div class="bottom_left">
-                    <img
-                      src="@/../public/img/kaipiaozongshuliang.png"
-                      style="width: 11px; height: 11px; margin-left: 3.5px"
-                      alt=""
-                    />
+                    <img src="@/../public/img/kaipiaozongshuliang.png"
+                      style="width: 11px; height: 11px; margin-left: 3.5px" alt="" />
                   </div>
                   <div class="bottom_right">期末资金占用(元)</div>
                 </div>
@@ -274,12 +201,7 @@
             <div style="display: flex; justify-content: space-between">
               <div style="font-size: 16px">计划收款情况</div>
               <div>
-                <el-select
-                  size="mini"
-                  v-model="sift3"
-                  placeholder="月份"
-                  @change="getPlanSk"
-                >
+                <el-select size="mini" v-model="sift3" placeholder="月份" @change="getPlanSk">
                   <el-option label="本月" value="本月"></el-option>
                   <el-option label="上月" value="上月"></el-option>
                   <el-option label="本季度" value="本季度"></el-option>
@@ -288,98 +210,68 @@
                   <el-option label="去年" value="去年"></el-option>
                   <el-option label="自定义" value="自定义"></el-option>
                 </el-select>
-                <el-date-picker
-                  @change="getPlanSk"
-                  v-if="sift3 == '自定义'"
-                  style="margin-left: 10px"
-                  size="mini"
-                  v-model="time3"
-                  value-format="yyyy-MM-dd"
-                  type="daterange"
-                  range-separator="至"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期"
-                >
+                <el-date-picker @change="getPlanSk" v-if="sift3 == '自定义'" style="margin-left: 10px;width:210px"
+                  size="mini" v-model="time3" value-format="yyyy-MM-dd" type="daterange" range-separator="至"
+                  start-placeholder="开始日期" end-placeholder="结束日期">
                 </el-date-picker>
               </div>
             </div>
-            <div
-              style="display: flex; justify-content: center; margin-top: 40px"
-            >
+            <div style="display: flex; justify-content: center; margin-top: 40px">
               <div style="width: 591px; height: 61px">
                 <div style="display: flex">
                   <div :class="rate > 20 ? 'jindu1b' : 'jindu1'">
-                    <div
-                      v-if="rate > 0 && rate <= 20"
-                      :style="
-                        'background-color:#FF576E;height:100%;width:' +
-                        (rate / 20) * 100 +
-                        '%'
-                      "
-                    ></div>
+                    <div v-if="rate > 0 && rate <= 20" :style="
+                      'background-color:#FF576E;height:100%;width:' +
+                      (rate / 20) * 100 +
+                      '%'
+                    "></div>
                   </div>
                   <div :class="rate > 40 ? 'jindu2b' : 'jindu2'">
-                    <div
-                      v-if="rate > 20 && rate <= 40"
-                      :style="
-                        'background-color:#FF576E;height:100%;width:' +
-                        ((rate - 20) / 20) * 100 +
-                        '%'
-                      "
-                    ></div>
+                    <div v-if="rate > 20 && rate <= 40" :style="
+                      'background-color:#FF576E;height:100%;width:' +
+                      ((rate - 20) / 20) * 100 +
+                      '%'
+                    "></div>
                   </div>
                   <div :class="rate > 60 ? 'jindu3b' : 'jindu3'">
-                    <div
-                      v-if="rate > 40 && rate <= 60"
-                      :style="
-                        'background-color:#FF576E;height:100%;width:' +
-                        ((rate - 40) / 20) * 100 +
-                        '%'
-                      "
-                    ></div>
+                    <div v-if="rate > 40 && rate <= 60" :style="
+                      'background-color:#FF576E;height:100%;width:' +
+                      ((rate - 40) / 20) * 100 +
+                      '%'
+                    "></div>
                   </div>
                   <div :class="rate > 80 ? 'jindu4b' : 'jindu4'">
-                    <div
-                      v-if="rate > 60 && rate <= 80"
-                      :style="
-                        'background-color:#FF576E;height:100%;width:' +
-                        ((rate - 60) / 20) * 100 +
-                        '%'
-                      "
-                    ></div>
+                    <div v-if="rate > 60 && rate <= 80" :style="
+                      'background-color:#FF576E;height:100%;width:' +
+                      ((rate - 60) / 20) * 100 +
+                      '%'
+                    "></div>
                   </div>
                   <div :class="rate > 100 ? 'jindu5b' : 'jindu5'">
-                    <div
-                      v-if="rate > 80 && rate <= 100"
-                      :style="
-                        'background-color:#FF576E;height:100%;width:' +
-                        ((rate - 80) / 20) * 100 +
-                        '%'
-                      "
-                    ></div>
+                    <div v-if="rate > 80 && rate <= 100" :style="
+                      'background-color:#FF576E;height:100%;width:' +
+                      ((rate - 80) / 20) * 100 +
+                      '%'
+                    "></div>
                   </div>
                 </div>
-                <div
-                  style="
+                <div style="
                     margin-top: 15px;
                     height: 1px;
                     width: 582px;
                     background-color: #e8e9ed;
-                  "
-                ></div>
-                                <div v-if="rate<=100" :style="'margin-top:10px;margin-left:' + (rate-2) + '%'">
-                    {{ rate + "%" }}
-                  </div>
-                  <div v-if="rate>100" style="margin-top:10px;margin-left:95%">
-                      {{ rate + "%" }}
-                    </div>
-                <div
-                  style="
+                  "></div>
+                <div v-if="rate <= 100" :style="'margin-top:10px;margin-left:' + (rate - 2) + '%'">
+                  {{ rate + "%" }}
+                </div>
+                <div v-if="rate > 100" style="margin-top:10px;margin-left:95%">
+                  {{ rate + "%" }}
+                </div>
+                <div style="
                     display: flex;
                     position: relative;
                     font-size: 13px;
-                  "
-                >
+                  ">
                   <div style="margin-top: 10px">0%(收款进度)</div>
                   <div style="margin-top: 10px; position: absolute; right: 0">
                     100%
@@ -390,44 +282,34 @@
             <div style="height: 92px; margin-top: 40px; display: flex">
               <div style="display: flex; justify-content: center; width: 33%">
                 <div style="height: 53px">
-                  <div
-                    style="
+                  <div style="
                       font-size: 13px;
                       font-weight: bold;
                       color: #a4b3c4;
                       line-height: 22px;
-                    "
-                  >
+                    ">
                     计划金额(元)
                   </div>
-                  <div
-                    style="
+                  <div style="
                       display: flex;
                       font-size: 22px;
                       font-weight: 400;
                       color: #2d2e3a;
                       line-height: 22px;
                       margin-top: 5px;
-                    "
-                  >
-                    <div
-                      style="
+                    ">
+                    <div style="
                         width: 29px;
                         height: 29px;
                         background: #d6e3f8;
                         border-radius: 50%;
-                      "
-                    >
-                      <img
-                        src="@/../public/img/jihuajine.png"
-                        style="
+                      ">
+                      <img src="@/../public/img/jihuajine.png" style="
                           width: 18px;
                           height: 18px;
                           margin-left: 5px;
                           margin-top: 5px;
-                        "
-                        alt=""
-                      />
+                        " alt="" />
                     </div>
                     <div style="margin-top: 3px; margin-left: 3px">
                       {{ $options.filters.moneyFilter(data3.planAmount) }}
@@ -435,49 +317,37 @@
                   </div>
                 </div>
               </div>
-              <div
-                style="width: 1px; height: 50px; background-color: #eef0f4"
-              ></div>
+              <div style="width: 1px; height: 50px; background-color: #eef0f4"></div>
               <div style="display: flex; justify-content: center; width: 33%">
                 <div style="height: 53px">
-                  <div
-                    style="
+                  <div style="
                       font-size: 13px;
                       font-weight: bold;
                       color: #a4b3c4;
                       line-height: 22px;
-                    "
-                  >
+                    ">
                     收款金额(元)
                   </div>
-                  <div
-                    style="
+                  <div style="
                       display: flex;
                       font-size: 22px;
                       font-weight: 400;
                       color: #2d2e3a;
                       line-height: 22px;
                       margin-top: 5px;
-                    "
-                  >
-                    <div
-                      style="
+                    ">
+                    <div style="
                         width: 29px;
                         height: 29px;
                         background: #f8d6d6;
                         border-radius: 50%;
-                      "
-                    >
-                      <img
-                        src="@/../public/img/shoukuanjine.png"
-                        style="
+                      ">
+                      <img src="@/../public/img/shoukuanjine.png" style="
                           width: 18px;
                           height: 18px;
                           margin-left: 5px;
                           margin-top: 5px;
-                        "
-                        alt=""
-                      />
+                        " alt="" />
                     </div>
                     <div style="margin-top: 3px; margin-left: 3px">
                       {{ $options.filters.moneyFilter(data3.actualAmount) }}
@@ -485,53 +355,41 @@
                   </div>
                 </div>
               </div>
-              <div
-                style="width: 1px; height: 50px; background-color: #eef0f4"
-              ></div>
+              <div style="width: 1px; height: 50px; background-color: #eef0f4"></div>
               <div style="display: flex; justify-content: center; width: 33%">
                 <div style="height: 53px">
-                  <div
-                    style="
+                  <div style="
                       font-size: 13px;
                       font-weight: bold;
                       color: #a4b3c4;
                       line-height: 22px;
-                    "
-                  >
+                    ">
                     计划余额(元)
                   </div>
-                  <div
-                    style="
+                  <div style="
                       display: flex;
                       font-size: 22px;
                       font-weight: 400;
                       color: #2d2e3a;
                       line-height: 22px;
                       margin-top: 5px;
-                    "
-                  >
-                    <div
-                      style="
+                    ">
+                    <div style="
                         width: 29px;
                         height: 29px;
                         background: #d6f8dd;
                         border-radius: 50%;
-                      "
-                    >
-                      <img
-                        src="@/../public/img/jihauyue.png"
-                        style="
+                      ">
+                      <img src="@/../public/img/jihauyue.png" style="
                           width: 22px;
                           height: 20px;
                           margin-left: 4px;
                           margin-top: 3px;
-                        "
-                        alt=""
-                      />
+                        " alt="" />
                     </div>
                     <div style="margin-top: 3px; margin-left: 3px">
                       {{
-                        $options.filters.moneyFilter(data3.planBalanceAmount)
+                          $options.filters.moneyFilter(data3.planBalanceAmount)
                       }}
                     </div>
                   </div>
@@ -545,12 +403,7 @@
             <div style="display: flex; justify-content: space-between">
               <div style="font-size: 16px">计划付款情况</div>
               <div>
-                <el-select
-                  size="mini"
-                  v-model="sift4"
-                  placeholder="月份"
-                  @change="getplanFk"
-                >
+                <el-select size="mini" v-model="sift4" placeholder="月份" @change="getplanFk">
                   <el-option label="本月" value="本月"></el-option>
                   <el-option label="上月" value="上月"></el-option>
                   <el-option label="本季度" value="本季度"></el-option>
@@ -559,99 +412,69 @@
                   <el-option label="去年" value="去年"></el-option>
                   <el-option label="自定义" value="自定义"></el-option>
                 </el-select>
-                <el-date-picker
-                  v-if="sift4 == '自定义'"
-                  style="margin-left: 10px"
-                  size="mini"
-                  v-model="time4"
-                  value-format="yyyy-MM-dd"
-                  type="daterange"
-                  range-separator="至"
-                  @change="getplanFk"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期"
-                >
+                <el-date-picker v-if="sift4 == '自定义'" style="margin-left: 10px;width:210px" size="mini" v-model="time4"
+                  value-format="yyyy-MM-dd" type="daterange" range-separator="至" @change="getplanFk"
+                  start-placeholder="开始日期" end-placeholder="结束日期">
                 </el-date-picker>
               </div>
             </div>
-            <div
-              style="display: flex; justify-content: center; margin-top: 40px"
-            >
+            <div style="display: flex; justify-content: center; margin-top: 40px">
               <div style="width: 591px; height: 61px">
                 <div style="width: 591px; height: 61px">
                   <div style="display: flex">
                     <div :class="rate1 > 20 ? 'jindu1c' : 'jindu1'">
-                      <div
-                        v-if="rate1 > 0 && rate1 <= 20"
-                        :style="
-                          'background-color:#FFCF27;height:100%;width:' +
-                          (rate1 / 20) * 100 +
-                          '%'
-                        "
-                      ></div>
+                      <div v-if="rate1 > 0 && rate1 <= 20" :style="
+                        'background-color:#FFCF27;height:100%;width:' +
+                        (rate1 / 20) * 100 +
+                        '%'
+                      "></div>
                     </div>
                     <div :class="rate1 > 40 ? 'jindu2c' : 'jindu2'">
-                      <div
-                        v-if="rate1 > 20 && rate1 <= 40"
-                        :style="
-                          'background-color:#FFCF27;height:100%;width:' +
-                          ((rate1 - 20) / 20) * 100 +
-                          '%'
-                        "
-                      ></div>
+                      <div v-if="rate1 > 20 && rate1 <= 40" :style="
+                        'background-color:#FFCF27;height:100%;width:' +
+                        ((rate1 - 20) / 20) * 100 +
+                        '%'
+                      "></div>
                     </div>
                     <div :class="rate1 > 60 ? 'jindu3c' : 'jindu3'">
-                      <div
-                        v-if="rate1 > 40 && rate1 <= 60"
-                        :style="
-                          'background-color:#FFCF27;height:100%;width:' +
-                          ((rate1 - 40) / 20) * 100 +
-                          '%'
-                        "
-                      ></div>
+                      <div v-if="rate1 > 40 && rate1 <= 60" :style="
+                        'background-color:#FFCF27;height:100%;width:' +
+                        ((rate1 - 40) / 20) * 100 +
+                        '%'
+                      "></div>
                     </div>
                     <div :class="rate1 > 80 ? 'jindu4c' : 'jindu4'">
-                      <div
-                        v-if="rate1 > 60 && rate1 <= 80"
-                        :style="
-                          'background-color:#FFCF27;height:100%;width:' +
-                          ((rate1 - 60) / 20) * 100 +
-                          '%'
-                        "
-                      ></div>
+                      <div v-if="rate1 > 60 && rate1 <= 80" :style="
+                        'background-color:#FFCF27;height:100%;width:' +
+                        ((rate1 - 60) / 20) * 100 +
+                        '%'
+                      "></div>
                     </div>
                     <div :class="rate1 > 100 ? 'jindu5c' : 'jindu5'">
-                      <div
-                        v-if="rate1 > 80 && rate1 <= 100"
-                        :style="
-                          'background-color:#FFCF27;height:100%;width:' +
-                          ((rate1 - 80) / 20) * 100 +
-                          '%'
-                        "
-                      ></div>
+                      <div v-if="rate1 > 80 && rate1 <= 100" :style="
+                        'background-color:#FFCF27;height:100%;width:' +
+                        ((rate1 - 80) / 20) * 100 +
+                        '%'
+                      "></div>
                     </div>
                   </div>
-                  <div
-                    style="
+                  <div style="
                       margin-top: 15px;
                       height: 1px;
                       width: 582px;
                       background-color: #e8e9ed;
-                    "
-                  ></div>
-                                    <div v-if="rate1<=100" :style="'margin-top:10px;margin-left:' + (rate1) + '%'">
-                      {{ rate1 + "%" }}
-                    </div>
-                    <div v-if="rate1>100" style="margin-top:10px;margin-left:95%">
-                      {{ rate1 + "%" }}
-                    </div>
-                  <div
-                    style="
+                    "></div>
+                  <div v-if="rate1 <= 100" :style="'margin-top:10px;margin-left:' + (rate1) + '%'">
+                    {{ rate1 + "%" }}
+                  </div>
+                  <div v-if="rate1 > 100" style="margin-top:10px;margin-left:95%">
+                    {{ rate1 + "%" }}
+                  </div>
+                  <div style="
                       display: flex;
                       position: relative;
                       font-size: 13px;
-                    "
-                  >
+                    ">
                     <div style="margin-top: 10px">0%(付款进度)</div>
                     <div style="margin-top: 10px; position: absolute; right: 0">
                       100%
@@ -663,44 +486,34 @@
             <div style="height: 92px; margin-top: 40px; display: flex">
               <div style="display: flex; justify-content: center; width: 33%">
                 <div style="height: 53px">
-                  <div
-                    style="
+                  <div style="
                       font-size: 13px;
                       font-weight: bold;
                       color: #a4b3c4;
                       line-height: 22px;
-                    "
-                  >
+                    ">
                     计划金额(元)
                   </div>
-                  <div
-                    style="
+                  <div style="
                       display: flex;
                       font-size: 22px;
                       font-weight: 400;
                       color: #2d2e3a;
                       line-height: 22px;
                       margin-top: 5px;
-                    "
-                  >
-                    <div
-                      style="
+                    ">
+                    <div style="
                         width: 29px;
                         height: 29px;
                         background: #d6e3f8;
                         border-radius: 50%;
-                      "
-                    >
-                      <img
-                        src="@/../public/img/jihuajine.png"
-                        style="
+                      ">
+                      <img src="@/../public/img/jihuajine.png" style="
                           width: 18px;
                           height: 18px;
                           margin-left: 5px;
                           margin-top: 5px;
-                        "
-                        alt=""
-                      />
+                        " alt="" />
                     </div>
                     <div style="margin-top: 3px; margin-left: 3px">
                       {{ $options.filters.moneyFilter(data4.planAmount) }}
@@ -708,49 +521,37 @@
                   </div>
                 </div>
               </div>
-              <div
-                style="width: 1px; height: 50px; background-color: #eef0f4"
-              ></div>
+              <div style="width: 1px; height: 50px; background-color: #eef0f4"></div>
               <div style="display: flex; justify-content: center; width: 33%">
                 <div style="height: 53px">
-                  <div
-                    style="
+                  <div style="
                       font-size: 13px;
                       font-weight: bold;
                       color: #a4b3c4;
                       line-height: 22px;
-                    "
-                  >
+                    ">
                     付款金额(元)
                   </div>
-                  <div
-                    style="
+                  <div style="
                       display: flex;
                       font-size: 22px;
                       font-weight: 400;
                       color: #2d2e3a;
                       line-height: 22px;
                       margin-top: 5px;
-                    "
-                  >
-                    <div
-                      style="
+                    ">
+                    <div style="
                         width: 29px;
                         height: 29px;
                         background: #f8d6d6;
                         border-radius: 50%;
-                      "
-                    >
-                      <img
-                        src="@/../public/img/shoukuanjine.png"
-                        style="
+                      ">
+                      <img src="@/../public/img/shoukuanjine.png" style="
                           width: 18px;
                           height: 18px;
                           margin-left: 5px;
                           margin-top: 5px;
-                        "
-                        alt=""
-                      />
+                        " alt="" />
                     </div>
                     <div style="margin-top: 3px; margin-left: 3px">
                       {{ $options.filters.moneyFilter(data4.actualAmount) }}
@@ -758,53 +559,41 @@
                   </div>
                 </div>
               </div>
-              <div
-                style="width: 1px; height: 50px; background-color: #eef0f4"
-              ></div>
+              <div style="width: 1px; height: 50px; background-color: #eef0f4"></div>
               <div style="display: flex; justify-content: center; width: 33%">
                 <div style="height: 53px">
-                  <div
-                    style="
+                  <div style="
                       font-size: 13px;
                       font-weight: bold;
                       color: #a4b3c4;
                       line-height: 22px;
-                    "
-                  >
+                    ">
                     计划余额(元)
                   </div>
-                  <div
-                    style="
+                  <div style="
                       display: flex;
                       font-size: 22px;
                       font-weight: 400;
                       color: #2d2e3a;
                       line-height: 22px;
                       margin-top: 5px;
-                    "
-                  >
-                    <div
-                      style="
+                    ">
+                    <div style="
                         width: 29px;
                         height: 29px;
                         background: #d6f8dd;
                         border-radius: 50%;
-                      "
-                    >
-                      <img
-                        src="@/../public/img/jihauyue.png"
-                        style="
+                      ">
+                      <img src="@/../public/img/jihauyue.png" style="
                           width: 22px;
                           height: 20px;
                           margin-left: 4px;
                           margin-top: 3px;
-                        "
-                        alt=""
-                      />
+                        " alt="" />
                     </div>
                     <div style="margin-top: 3px; margin-left: 3px">
                       {{
-                        $options.filters.moneyFilter(data4.planBalanceAmount)
+                          $options.filters.moneyFilter(data4.planBalanceAmount)
                       }}
                     </div>
                   </div>
@@ -820,12 +609,7 @@
             <div style="display: flex; justify-content: space-between">
               <div style="font-size: 16px">付款情况</div>
               <div>
-                <el-select
-                  size="mini"
-                  v-model="sift5"
-                  placeholder="月份"
-                  @change="getStatisticFk"
-                >
+                <el-select size="mini" v-model="sift5" placeholder="月份" @change="getStatisticFk">
                   <el-option label="本月" value="本月"></el-option>
                   <el-option label="上月" value="上月"></el-option>
                   <el-option label="本季度" value="本季度"></el-option>
@@ -834,23 +618,13 @@
                   <el-option label="去年" value="去年"></el-option>
                   <el-option label="自定义" value="自定义"></el-option>
                 </el-select>
-                <el-date-picker
-                  v-if="sift5 == '自定义'"
-                  style="margin-left: 10px"
-                  size="mini"
-                  v-model="time5"
-                  value-format="yyyy-MM-dd"
-                  type="daterange"
-                  range-separator="至"
-                  start-placeholder="开始日期"
-                  @change="getStatisticFk"
-                  end-placeholder="结束日期"
-                >
+                <el-date-picker v-if="sift5 == '自定义'" style="margin-left: 10px;width:210px" size="mini" v-model="time5"
+                  value-format="yyyy-MM-dd" type="daterange" range-separator="至" start-placeholder="开始日期"
+                  @change="getStatisticFk" end-placeholder="结束日期">
                 </el-date-picker>
               </div>
             </div>
-            <div
-              style="
+            <div style="
                 width: 100%;
                 height: 220px;
                 display: flex;
@@ -858,41 +632,33 @@
                 align-items: center;
                 margin-left: 50px;
                 overflow: hidden;
-              "
-            >
+              ">
               <div style="width: 325px; height: 80px">
-                <div
-                  style="
+                <div style="
                     height: 39px;
                     border-bottom: 1px solid #eef0f4;
                     display: flex;
                     justify-content: space-between;
-                  "
-                >
+                  ">
                   <div style="display: flex">
-                    <div
-                      style="
+                    <div style="
                         width: 8px;
                         height: 27px;
                         background-color: #5d7eeb;
-                      "
-                    ></div>
-                    <div
-                      style="
+                      "></div>
+                    <div style="
                         font-size: 13px;
                         font-weight: bold;
                         color: #b0bcca;
                         line-height: 25px;
                         margin-left: 10px;
                         width: 100px;
-                      "
-                    >
+                      ">
                       应付款
                     </div>
                   </div>
 
-                  <div
-                    style="
+                  <div style="
                       font-size: 22px;
                       font-weight: 400;
                       color: #333333;
@@ -900,55 +666,44 @@
                       width: 150px;
                       display: flex;
                       justify-content: flex-end;
-                    "
-                  >
+                    ">
                     {{ $options.filters.moneyFilter(data5.shouldFk) }}
-                    <span
-                      style="
+                    <span style="
                         font-size: 13px;
                         font-weight: bold;
                         color: #b0bcca;
                         line-height: 22px;
                         margin-left: 5px;
                         margin-top: 5px;
-                      "
-                      >元</span
-                    >
+                      ">元</span>
                   </div>
                 </div>
-                <div
-                  style="
+                <div style="
                     height: 50px;
                     border-bottom: 1px solid #eef0f4;
                     display: flex;
                     justify-content: space-between;
                     padding-top: 13px;
-                  "
-                >
+                  ">
                   <div style="display: flex">
-                    <div
-                      style="
+                    <div style="
                         width: 8px;
                         height: 27px;
                         background-color: #fdab3d;
-                      "
-                    ></div>
-                    <div
-                      style="
+                      "></div>
+                    <div style="
                         font-size: 13px;
                         font-weight: bold;
                         color: #b0bcca;
                         line-height: 25px;
                         margin-left: 10px;
                         width: 100px;
-                      "
-                    >
+                      ">
                       付款
                     </div>
                   </div>
 
-                  <div
-                    style="
+                  <div style="
                       font-size: 22px;
                       font-weight: 400;
                       color: #333333;
@@ -956,20 +711,16 @@
                       width: 150px;
                       display: flex;
                       justify-content: flex-end;
-                    "
-                  >
+                    ">
                     {{ $options.filters.moneyFilter(data5.actualFk) }}
-                    <span
-                      style="
+                    <span style="
                         font-size: 13px;
                         font-weight: bold;
                         color: #b0bcca;
                         line-height: 22px;
                         margin-left: 5px;
                         margin-top: 5px;
-                      "
-                      >元</span
-                    >
+                      ">元</span>
                   </div>
                 </div>
               </div>
@@ -982,12 +733,7 @@
             <div style="display: flex; justify-content: space-between">
               <div style="font-size: 16px">收款情况</div>
               <div>
-                <el-select
-                  size="mini"
-                  v-model="sift6"
-                  placeholder="月份"
-                  @change="getStatisticSk"
-                >
+                <el-select size="mini" v-model="sift6" placeholder="月份" @change="getStatisticSk">
                   <el-option label="本月" value="本月"></el-option>
                   <el-option label="上月" value="上月"></el-option>
                   <el-option label="本季度" value="本季度"></el-option>
@@ -996,23 +742,13 @@
                   <el-option label="去年" value="去年"></el-option>
                   <el-option label="自定义" value="自定义"></el-option>
                 </el-select>
-                <el-date-picker
-                  v-if="sift6 == '自定义'"
-                  style="margin-left: 10px"
-                  size="mini"
-                  v-model="time6"
-                  value-format="yyyy-MM-dd"
-                  type="daterange"
-                  range-separator="至"
-                  start-placeholder="开始日期"
-                  @change="getStatisticSk"
-                  end-placeholder="结束日期"
-                >
+                <el-date-picker v-if="sift6 == '自定义'" style="margin-left: 10px;width:210px" size="mini" v-model="time6"
+                  value-format="yyyy-MM-dd" type="daterange" range-separator="至" start-placeholder="开始日期"
+                  @change="getStatisticSk" end-placeholder="结束日期">
                 </el-date-picker>
               </div>
             </div>
-            <div
-              style="
+            <div style="
                 width: 100%;
                 height: 220px;
                 display: flex;
@@ -1020,41 +756,33 @@
                 align-items: center;
                 margin-left: 50px;
                 overflow: hidden;
-              "
-            >
+              ">
               <div style="width: 325px; height: 80px">
-                <div
-                  style="
+                <div style="
                     height: 39px;
                     border-bottom: 1px solid #eef0f4;
                     display: flex;
                     justify-content: space-between;
-                  "
-                >
+                  ">
                   <div style="display: flex">
-                    <div
-                      style="
+                    <div style="
                         width: 8px;
                         height: 27px;
                         background-color: #4cccd4;
-                      "
-                    ></div>
-                    <div
-                      style="
+                      "></div>
+                    <div style="
                         font-size: 13px;
                         font-weight: bold;
                         color: #b0bcca;
                         line-height: 25px;
                         margin-left: 10px;
                         width: 100px;
-                      "
-                    >
+                      ">
                       应收款
                     </div>
                   </div>
 
-                  <div
-                    style="
+                  <div style="
                       font-size: 22px;
                       font-weight: 400;
                       color: #333333;
@@ -1062,55 +790,44 @@
                       width: 150px;
                       display: flex;
                       justify-content: flex-end;
-                    "
-                  >
+                    ">
                     {{ $options.filters.moneyFilter(data6.shouldSk) }}
-                    <span
-                      style="
+                    <span style="
                         font-size: 13px;
                         font-weight: bold;
                         color: #b0bcca;
                         line-height: 22px;
                         margin-left: 5px;
                         margin-top: 5px;
-                      "
-                      >元</span
-                    >
+                      ">元</span>
                   </div>
                 </div>
-                <div
-                  style="
+                <div style="
                     height: 50px;
                     border-bottom: 1px solid #eef0f4;
                     display: flex;
                     justify-content: space-between;
                     padding-top: 13px;
-                  "
-                >
+                  ">
                   <div style="display: flex">
-                    <div
-                      style="
+                    <div style="
                         width: 8px;
                         height: 27px;
                         background-color: #fd733d;
-                      "
-                    ></div>
-                    <div
-                      style="
+                      "></div>
+                    <div style="
                         font-size: 13px;
                         font-weight: bold;
                         color: #b0bcca;
                         line-height: 25px;
                         margin-left: 10px;
                         width: 100px;
-                      "
-                    >
+                      ">
                       收款
                     </div>
                   </div>
 
-                  <div
-                    style="
+                  <div style="
                       font-size: 22px;
                       font-weight: 400;
                       color: #333333;
@@ -1118,20 +835,16 @@
                       width: 150px;
                       display: flex;
                       justify-content: flex-end;
-                    "
-                  >
+                    ">
                     {{ $options.filters.moneyFilter(data6.actualSk) }}
-                    <span
-                      style="
+                    <span style="
                         font-size: 13px;
                         font-weight: bold;
                         color: #b0bcca;
                         line-height: 22px;
                         margin-left: 5px;
                         margin-top: 5px;
-                      "
-                      >元</span
-                    >
+                      ">元</span>
                   </div>
                 </div>
               </div>
@@ -1657,123 +1370,146 @@ export default {
   margin-right: 2px;
   background: #e8e9ed;
 }
+
 .jindu2 {
   width: 115px;
   height: 22px;
   margin-right: 2px;
   background: #e8e9ed;
 }
+
 .jindu3 {
   width: 115px;
   height: 22px;
   margin-right: 2px;
   background: #e8e9ed;
 }
+
 .jindu4 {
   width: 115px;
   height: 22px;
   margin-right: 2px;
   background: #e8e9ed;
 }
+
 .jindu5 {
   width: 115px;
   height: 22px;
   margin-right: 2px;
   background: #e8e9ed;
 }
+
 .jindu1b {
   width: 115px;
   height: 22px;
   margin-right: 2px;
   background: #00c18a;
 }
+
 .jindu2b {
   width: 115px;
   height: 22px;
   margin-right: 2px;
   background: #00c18a;
 }
+
 .jindu3b {
   width: 115px;
   height: 22px;
   margin-right: 2px;
   background: #00c18a;
 }
+
 .jindu4b {
   width: 115px;
   height: 22px;
   margin-right: 2px;
   background: #00c18a;
 }
+
 .jindu5b {
   width: 115px;
   height: 22px;
   margin-right: 2px;
   background: #00c18a;
 }
+
 .jindu1c {
   width: 115px;
   height: 22px;
   margin-right: 2px;
   background: #0000f1;
 }
+
 .jindu2c {
   width: 115px;
   height: 22px;
   margin-right: 2px;
   background: #0000f1;
 }
+
 .jindu3c {
   width: 115px;
   height: 22px;
   margin-right: 2px;
   background: #0000f1;
 }
+
 .jindu4c {
   width: 115px;
   height: 22px;
   margin-right: 2px;
   background: #0000f1;
 }
+
 .jindu5c {
   width: 115px;
   height: 22px;
   margin-right: 2px;
   background: #0000f1;
 }
+
 .report {
   #chart1 {
     height: 750px;
     width: 750px;
     transform: scale(0.4);
   }
+
   #chart2 {
     height: 750px;
     width: 750px;
     transform: scale(0.4);
   }
+
   background-color: #fafafa;
+
   .report_top {
     height: 64px;
     width: 100%;
     background-color: #ffffff;
     box-shadow: 0px 0px 6px 0px rgba(146, 153, 161, 0.28);
+
     .demo-form-inline {
       display: flex;
       justify-content: flex-end;
       padding-top: 15px;
     }
   }
+
   .report_bottom {
     margin: 22px;
+
     .briefing {
       display: flex;
       margin-top: 10px;
+
       .briefing_items {
         width: 16%;
         margin-left: 1%;
         height: 97px;
         background: linear-gradient(266deg, #eaf2ff, #f0e9fb);
+
         .briefing_items_top {
           margin-top: 20px;
           display: flex;
@@ -1782,17 +1518,20 @@ export default {
           color: #333333;
           line-height: 22px;
           justify-content: center;
+
           .bottom_left {
             width: 18px;
             height: 18px;
             background: linear-gradient(266deg, #3b58f2, #5927d8);
             border-radius: 50%;
           }
+
           .bottom_right {
             margin-left: 5px;
             font-size: 10px;
           }
         }
+
         .briefing_items_bottom {
           font-size: 20px;
           font-weight: 400;
@@ -1803,11 +1542,13 @@ export default {
           justify-content: center;
         }
       }
+
       .briefing_items2 {
         width: 50%;
         margin-left: 1%;
         height: 97px;
         background: linear-gradient(266deg, #f6f7fb, #f3f7fa);
+
         .briefing_items_top {
           margin-top: 20px;
           display: flex;
@@ -1816,17 +1557,20 @@ export default {
           color: #333333;
           line-height: 22px;
           justify-content: center;
+
           .bottom_left {
             width: 18px;
             height: 18px;
             background: linear-gradient(266deg, #ceced0, #98979d);
             border-radius: 50%;
           }
+
           .bottom_right {
             margin-left: 5px;
             font-size: 10px;
           }
         }
+
         .briefing_items_bottom {
           font-size: 20px;
           font-weight: 400;
@@ -1838,6 +1582,7 @@ export default {
         }
       }
     }
+
     .bottom {
       height: 282px;
       background: #ffffff;

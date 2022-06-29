@@ -33,7 +33,7 @@
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
-          v-hasPermi="['project:grn:add']">新增</el-button>
+          v-hasPermi="['project:grn:add']" v-show="editable">新增</el-button>
       </el-col>
       <!--      <el-col :span="1.5">-->
       <!--        <el-button-->
@@ -59,7 +59,7 @@
       <!--      </el-col>-->
       <el-col :span="1.5">
         <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"
-          v-hasPermi="['project:grn:export']">导出</el-button>
+          v-hasPermi="['project:grn:export']" v-show="editable">导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList" v-show="!isQuote"></right-toolbar>
     </el-row>
@@ -616,6 +616,10 @@ export default {
     "isQuote": {
       type: Boolean,
       default: false
+    },
+    "editable": {
+      type: Boolean,
+      default: true
     }
   },
   data() {
