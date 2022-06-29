@@ -613,7 +613,7 @@ export default {
   }
 }
 </script>
-<style  lang="scss">
+<style lang="scss">
   .chilSty{
     .mb8{
       display: none;

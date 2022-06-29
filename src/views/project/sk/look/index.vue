@@ -52,7 +52,6 @@
             </tr>
             <tr>
               <td class="tdTitle">收款类型</td>
-              <td class="tdCoent">{{form.skType}}</td>
               <td class="tdTitle">收款方式</td>
               <td class="tdCoent">{{form.skWay}}</td>
               <td class="tdTitle">终端客户</td>
@@ -86,7 +85,7 @@
 
       <el-row class="head-title">
         <el-col :span="19">
-          <el-form-item label="出库信息"></el-form-item>
+          <el-form-item label="到厂数质量"></el-form-item>
         </el-col>
       </el-row>
       <el-row>

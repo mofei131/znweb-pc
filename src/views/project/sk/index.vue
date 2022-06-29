@@ -187,7 +187,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item label="终端客户" prop="tName">
-                <span v-text="form.tName"></span>
+                <span v-text="form.stName"></span>
               </el-form-item>
             </el-col>
           </el-row>
@@ -1195,6 +1195,7 @@ export default {
       let businessFind = this.listForBusArr.filter(x => x.stId == stId);
       if (businessFind && businessFind.length > 0) {
         let obj = businessFind[0];
+        console.log(obj)
         this.form.jc1 = 0;
         this.form.jc2 = 0;
         this.form.jc3 = 0;

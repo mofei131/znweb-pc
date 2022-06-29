@@ -259,7 +259,7 @@
             <!--          选择入库单-->
             <el-popover placement="bottom-start" width="100%" @selection-change="grnSelectionChange" v-model="visible"
               popper-class="area_popper">
-              <el-button size="small" type="primary" slot="reference" style="margin-bottom: 30px;margin-left:50px">选择随车数质量
+              <el-button size="small" type="primary" slot="reference" style="margin-bottom: 30px;margin-left:50px">选择到厂数质量
               </el-button>
               <el-table ref="singleTable1" :data="tableData" @selection-change="grnSelectionChange"
                 style="width: 632px">

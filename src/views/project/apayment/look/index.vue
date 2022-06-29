@@ -70,24 +70,24 @@
               <td class="tdCoent">{{form.stName}}</td>
               <td class="tdTitle">项目编号</td>
               <td class="tdCoent">{{form.serialNo}}</td>
-              <td class="tdTitle">付款批次</td>
-              <td class="tdCoent">{{form.away}}</td>
+              
             </tr>
             <tr>
+              <td class="tdTitle">付款批次</td>
+              <td class="tdCoent">{{form.away}}</td>
               <td class="tdTitle">预付方式</td>
               <td class="tdCoent">{{form.type}}</td>
               <td class="tdTitle">结算方式</td>
               <td class="tdCoent">{{form.settlementWay}}</td>
-              <td class="tdTitle">供应商</td>
-              <td class="tdCoent">{{form.supplierName}}</td>
+              
             </tr>
             <tr>
+              <td class="tdTitle">供应商</td>
+              <td class="tdCoent">{{form.supplierName}}</td>
               <td class="tdTitle">供应商账号</td>
               <td class="tdCoent">{{form.account}}</td>
               <td class="tdTitle">供应商开户行</td>
               <td class="tdCoent">{{form.openbank}}</td>
-              <td class="tdTitle"></td>
-              <td class="tdCoent"></td>
             </tr>
           </table>
         </el-col>
