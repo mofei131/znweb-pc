@@ -73,7 +73,7 @@ export default {
   name: "StDetails",
   data() {
     return {
-      dataValue:'',
+      dataValue:[],
       total: 0,
       stList: [],
       // 查询参数
@@ -90,9 +90,7 @@ export default {
   },
   created() {
     this.getList();
-    countTotal().then(res => {
-      this.countTotalInfo = res.data
-    })
+    this.loadStatistic()
   },
   methods: {
     /** 查询项目信息列表 */
@@ -106,16 +104,23 @@ export default {
         this.loading = false;
       });
     },
+    loadStatistic(){
+      countTotal(this.queryParams).then(res => {
+        this.countTotalInfo = res.data
+      })
+    },
     /** 搜索按钮操作 */
     handleQuery() {
       this.queryParams.beginTime=this.dataValue[0]
       this.queryParams.endTime=this.dataValue[1]
       this.queryParams.pageNum = 1;
       this.getList();
+      this.loadStatistic()
     },
     /** 重置按钮操作 */
     resetQuery() {
       this.queryParams = this.queryParamsback;
+      this.dataValue = []
       this.handleQuery();
     },
 
