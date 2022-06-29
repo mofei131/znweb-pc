@@ -1385,8 +1385,6 @@ export default {
             2
           );
           this.form.sjzf = parseFloat(response.data.sjzf).toFixed(2);
-          this.form.supplierId = response.data.supplierId;
-          this.form.supplierName = response.data.supplierName;
           this.form.account = response.data.account;
           this.form.openbank = response.data.openbank;
           this.toggleSelection();
