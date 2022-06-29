@@ -55,3 +55,10 @@ export default {
     }
 };
 </script>
+<style lang="scss">
+  .scrollbar-wrapper{
+    .el-submenu__title i{
+      color: #fff;
+    }
+  }
+</style>
