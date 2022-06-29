@@ -59,6 +59,8 @@ import filters from "@/utils/filters";
 Object.keys(filters).forEach((key) => {
     Vue.filter(key, filters[key]);
 });
+import dataV from '@jiaminghi/data-view'
+Vue.use(dataV)
 
 // 全局方法挂载
 Vue.prototype.getDicts = getDicts;

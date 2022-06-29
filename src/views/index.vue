@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="indexhome">
     <notice-bar :tongzhi="tongzhi"></notice-bar>
     <div style="display:flex;padding:20px;box-sizing: border-box;">
       <div style="width:40%;">
@@ -59,33 +59,7 @@
         </div>
         <div style="padding:20px;background-color:#ffffff;height:340px;margin-top:10px;border-radius: 6px;">
           <div style="font-size:14px;font-weight:600;margin-bottom:10px">业务明细</div>
-          <el-table :header-cell-style="{ background: '#4E9AFD' }" v-loading="loading" size="mini" :data="cplanList"
-            fit>
-            <el-table-column prop="stName" label="业务名称">
-            </el-table-column>
-            <el-table-column label="创建时间">
-              <template slot-scope="scope">
-                <span>{{ parseTime(scope.row.fkTime, "{y}-{m}-{d}") }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column label="业务经理">
-              <template>
-                <span>张路</span>
-              </template>
-            </el-table-column>
-            <el-table-column label="付款金额">
-              <template slot-scope="scope">
-                {{
-                    Number(scope.row.fkPrice)
-                      .toFixed(2)
-                      .toString()
-                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                }}
-              </template>
-            </el-table-column>
-          </el-table>
-          <pagination5 v-show="total > 0" :total="total" :page.sync="queryParams2.pageNum"
-            :limit.sync="queryParams2.pageSize" @pagination="getList" />
+          <dv-scroll-board :config="config" style="width:100%;height:280px" />
         </div>
       </div>
       <div style="width:60%;margin-left:10px">
@@ -115,6 +89,21 @@ import { listCplan } from "@/api/project/cplan";
 export default {
   data() {
     return {
+      config:{
+        header: ['业务名称', '业务经理', '创建日期','预计收入'],
+        data: [
+          ['山东测试测试1', '石成包', '2022-04-12 12:09:34','345,646.79'],
+          ['山东测试测试2', '张璐', '2022-04-12 12:09:34','345,646.79'],
+          ['山东测试测试3', '石成包', '2022-04-12 12:09:34','345,646.79'],
+          ['山东测试测试4', '张璐', '2022-04-12 12:09:34','345,646.79'],
+          ['山东测试测试5', '张璐', '2022-04-12 12:09:34','345,646.79'],
+          ['山东测试测试6', '张璐', '2022-04-12 12:09:34','345,646.79'],
+          ['山东测试测试7', '石成包', '2022-04-12 12:09:34','345,646.79'],
+          ['山东测试测试8', '石成包', '2022-04-12 12:09:34','345,646.79'],
+          ['山东测试测试9', '石成包', '2022-04-12 12:09:34','345,646.79'],
+          ['山东测试测试10', '石成包', '2022-04-12 12:09:34','345,646.79'],
+        ]
+      },
       total: 0,
       tongzhi: null,
       queryParams: {
@@ -254,22 +243,22 @@ export default {
       var pieData = [
         {
           name: '500(万吨)以上\n25个终端客户',
-          value: 11231,
+          value: 25,
           label: {color: '#fec095'}
         },
         {
           name: '100-500(万吨)\n15个终端客户',
-          value: 22673,
+          value: 15,
           label: {color: '#439eff'}
         },
         {
           name: '50-100(万吨)\n10个终端客户',
-          value: 11231,
+          value: 10,
           label: {color: '#61e4af'}
         },
         {
           name: '0-50(万吨)\n12个终端客户',
-          value: 6530,
+          value: 12,
           label: {color: '#e96f52'}
         }
       ]
@@ -284,7 +273,7 @@ export default {
               show: true,//显示文字
               //自定义显示文字
               formatter: function (arg) {
-                return arg.name + '平台\n' + arg.value + '元\n占比' + arg.percent + '%\n'
+                return arg.name + '平台\n' + arg.percent + '%\n'
               }
             },
             itemStyle: {
@@ -329,22 +318,22 @@ export default {
       var pieData = [
         {
           name: '500(万吨)以上\n25个终端客户',
-          value: 11231,
+          value: 25,
           label: {color: '#fec095'}
         },
         {
           name: '100-500(万吨)\n15个终端客户',
-          value: 22673,
+          value: 15,
           label: {color: '#439eff'}
         },
         {
           name: '50-100(万吨)\n10个终端客户',
-          value: 11231,
+          value: 10,
           label: {color: '#61e4af'}
         },
         {
           name: '0-50(万吨)\n12个终端客户',
-          value: 6530,
+          value: 12,
           label: {color: '#e96f52'}
         }
       ]
@@ -636,6 +625,8 @@ export default {
         },
         tooltip: {
           trigger: 'item',
+          backgroundColor: "#ffffff",
+          borderColor: "#ffffff",
           formatter: function (params) {
             if (typeof params.value[2] == 'undefined') {
               var toolTiphtml = '';
@@ -823,4 +814,5 @@ html {
   width: 100%;
   height: 446px;
 }
+
 </style>
