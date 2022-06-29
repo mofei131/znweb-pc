@@ -90,291 +90,152 @@
       </el-form>
     </div>
     <div v-if="initData.approvalType == '1'">
-      <el-form label-width="20px;" label-position="left">
-        <!--    基础信息-->
-        <el-row class="head-title">
-          <el-col :span="19">
-            <el-form-item label="基本信息"></el-form-item>
-          </el-col>
-          <el-col :span="4">
-            <span style="color: #ff0000">{{ stateF(form.state) }}</span>
-          </el-col>
-        </el-row>
-        <el-row class="head-text">
-          <el-col class="newTable">
-            <table width="90%" cellpadding="0" cellspacing="0">
-              <tr>
-                <td class="tdTitle">项目编号</td>
-                <td class="tdCoent">{{form.number}}</td>
-                <td class="tdTitle">立项编号</td>
-                <td class="tdCoent">{{form.productNo}}</td>
-                <td class="tdTitle">项目名称</td>
-                <td class="tdCoent">{{form.name}}</td>
-              </tr>
-              <tr>
-                <td class="tdTitle">项目金额(万元)</td>
-                <td class="tdCoent">{{$options.filters.moneyFilter(form.amount)}}</td>
-                <td class="tdTitle">代办人</td>
-                <td class="tdCoent">{{form.userName}}</td>
-                <td class="tdTitle">供应商</td>
-                <td class="tdCoent">{{form.supplierName}}</td>
-              </tr>
-              <tr>
-                <td class="tdTitle">结算比例</td>
-                <td class="tdCoent">{{form.settlementP}}</td>
-                <td class="tdTitle">客户经理</td>
-                <td class="tdCoent">{{form.managerName}}</td>
-                <td class="tdTitle">项目名称</td>
-                <td class="tdCoent">{{form.name}}</td>
-              </tr>
-            </table>
-          </el-col>
-        </el-row>
-        <el-row class="head-title">
-          <el-col :span="19">
-            <el-form-item label="履约保证金"></el-form-item>
-          </el-col>
-        </el-row>
-        <el-row class="head-text">
-          <el-col class="newTable">
-            <table width="90%" cellpadding="0" cellspacing="0">
-              <tr>
-                <td class="tdTitle">履约保证金金额(万元)</td>
-                <td class="tdCoent">{{$options.filters.moneyFilter(form.margin)}}</td>
-                <td class="tdTitle">结算方式</td>
-                <td class="tdCoent">{{form.settlementWay}}</td>
-                <td class="tdTitle">服务周期开始</td>
-                <td class="tdCoent">{{form.cycleStart}}</td>
-              </tr>
-              <tr>
-                <td class="tdTitle">服务周期结束</td>
-                <td class="tdCoent">{{form.cycleEnd}}</td>
-                <td class="tdTitle"></td>
-                <td class="tdCoent"></td>
-                <td class="tdTitle"></td>
-                <td class="tdCoent"></td>
-              </tr>
-            </table>
-          </el-col>
-        </el-row>
-
-        <el-row class="head-title">
-          <el-col :span="19">
-            <el-form-item label="服务费"></el-form-item>
-          </el-col>
-        </el-row>
-        <el-row class="head-text">
-          <el-col class="newTable">
-            <table width="90%" cellpadding="0" cellspacing="0">
-              <tr>
-                <td class="tdTitle">年费收取模式</td>
-                <td class="tdCoent">{{form.chargemType}}</td>
-                <td class="tdTitle">年费服务费费率(%)</td>
-                <td class="tdCoent">{{form.chargemNx}}</td>
-                <td class="tdTitle">固定差价</td>
-                <td class="tdCoent">{{$options.filters.moneyFilter(form.chargemGd)}}</td>
-              </tr>
-              <tr>
-                <td class="tdTitle">预计单价(元)</td>
-                <td class="tdCoent">{{$options.filters.moneyFilter(form.expectPrice)}}</td>
-                <td class="tdTitle">预计重量(吨)</td>
-                <td class="tdCoent">{{$options.filters.weightFilter(form.expectWeight)}}</td>
-                <td class="tdTitle">成本年服务费费率(%)</td>
-                <td class="tdCoent">{{form.rateYear}}</td>
-              </tr>
-              <tr>
-                <td class="tdTitle">预计利润</td>
-                <td class="tdCoent">{{$options.filters.moneyFilter(form.expectProfits)}}</td>
-                <td class="tdTitle"></td>
-                <td class="tdCoent"></td>
-                <td class="tdTitle"></td>
-                <td class="tdCoent"></td>
-              </tr>
-            </table>
-          </el-col>
-        </el-row>
-
-        <el-row class="head-title">
-          <el-col :span="19">
-            <el-form-item label="自助金融方"></el-form-item>
-          </el-col>
-        </el-row>
-        <el-row class="head-text">
-          <el-col class="newTable">
-            <table width="90%" cellpadding="0" cellspacing="0">
-              <tr>
-                <td class="tdTitle">公司名称</td>
-                <td class="tdCoent">{{form.shName}}</td>
-                <td class="tdTitle">性质</td>
-                <td class="tdCoent">{{form.shXz}}</td>
-                <td class="tdTitle">合作方式</td>
-                <td class="tdCoent">{{form.shHztype}}</td>
-              </tr>
-              <tr>
-                <td class="tdTitle">资金费率(%)</td>
-                <td class="tdCoent">{{form.shHzrate}}</td>
-                <td class="tdTitle">下游渠道年限</td>
-                <td class="tdCoent">{{form.shChannelyear}}</td>
-                <td class="tdTitle">结算比例</td>
-                <td class="tdCoent">{{form.shSettlement}}</td>
-              </tr>
-              <tr>
-                <td class="tdTitle">履约保证金(元)</td>
-                <td class="tdCoent">{{$options.filters.moneyFilter(form.shMargin)}}</td>
-                <td class="tdTitle">合同签署</td>
-                <td class="tdCoent">{{form.shContracttype}}</td>
-                <td class="tdTitle"></td>
-                <td class="tdCoent"></td>
-              </tr>
-            </table>
-          </el-col>
-        </el-row>
-
-        <el-row class="head-title">
-          <el-col :span="19">
-            <el-form-item label="终端客户"></el-form-item>
-          </el-col>
-        </el-row>
-        <el-row class="head-text">
-          <el-col class="newTable">
-            <table width="90%" cellpadding="0" cellspacing="0">
-              <tr>
-                <td class="tdTitle">终端客户名称</td>
-                <td class="tdCoent">{{form.tName}}</td>
-                <td class="tdTitle">性质</td>
-                <td class="tdCoent">{{form.tXz}}</td>
-                <td class="tdTitle">立户情况</td>
-                <td class="tdCoent">{{form.tAccount}}</td>
-              </tr>
-              <tr>
-                <td class="tdTitle">合作年限</td>
-                <td class="tdCoent">{{form.tCyear}}</td>
-                <td class="tdTitle">投标方式</td>
-                <td class="tdCoent">{{form.tTender}}</td>
-                <td class="tdTitle">投标保证金</td>
-                <td class="tdCoent">{{form.tMargintype}}</td>
-              </tr>
-              <tr>
-                <td class="tdTitle">投标保证金(万元)</td>
-                <td class="tdCoent">{{$options.filters.moneyFilter(form.tMargin)}}</td>
-                <td class="tdTitle">保证金缴纳时间</td>
-                <td class="tdCoent">{{form.tMargintime}}</td>
-                <td class="tdTitle">合同签署</td>
-                <td class="tdCoent">{{form.tContracttype}}</td>
-              </tr>
-              <tr>
-                <td class="tdTitle">合同后置时间</td>
-                <td class="tdCoent">{{form.tContracttime}}</td>
-                <td class="tdTitle">运输方式</td>
-                <td class="tdCoent">{{form.tTransporttype}}</td>
-                <td class="tdTitle">发站</td>
-                <td class="tdCoent">{{form.tTransportstart}}</td>
-              </tr>
-              <tr>
-                <td class="tdTitle">到站</td>
-                <td class="tdCoent">{{form.tTransportend}}</td>
-                <td class="tdTitle">到场数质确认时间</td>
-                <td class="tdCoent">{{form.tOktime}}</td>
-                <td class="tdTitle">到场数质确认方式</td>
-                <td class="tdCoent">{{form.tOktype}}</td>
-              </tr>
-              <tr>
-                <td class="tdTitle">开票结算方式</td>
-                <td class="tdCoent">{{form.tSettlementtype}}</td>
-                <td class="tdTitle">结算规则</td>
-                <td class="tdCoent">{{form.tSettlementgz}}</td>
-                <td class="tdTitle">回款账期</td>
-                <td class="tdCoent">{{form.tPaymentdays}}</td>
-              </tr>
-              <tr>
-                <td class="tdTitle">付款方式</td>
-                <td class="tdCoent">{{form.tPaymenttype}}</td>
-                <td class="tdTitle"></td>
-                <td class="tdCoent"></td>
-                <td class="tdTitle"></td>
-                <td class="tdCoent"></td>
-              </tr>
-            </table>
-          </el-col>
-        </el-row>
-
-        <el-row class="head-title">
-          <el-col :span="19">
-            <el-form-item label="站台情况"></el-form-item>
-          </el-col>
-        </el-row>
-        <el-row class="head-text">
-          <el-col class="newTable">
-            <table width="90%" cellpadding="0" cellspacing="0">
-              <tr>
-                <td class="tdTitle">站台名字</td>
-                <td class="tdCoent">{{form.pName}}</td>
-                <td class="tdTitle">站台经营方式</td>
-                <td class="tdCoent">{{form.pJymode}}</td>
-                <td class="tdTitle">站台规模</td>
-                <td class="tdCoent">{{form.pSize}}</td>
-              </tr>
-              <tr>
-                <td class="tdTitle">站台发运方式</td>
-                <td class="tdCoent">{{form.pFymode}}</td>
-                <td class="tdTitle">承运方发运名称</td>
-                <td class="tdCoent">{{form.pCname}}</td>
-                <td class="tdTitle">承运方性质</td>
-                <td class="tdCoent">{{form.pCxz}}</td>
-              </tr>
-              <tr>
-                <td class="tdTitle">程远方发运年限</td>
-                <td class="tdCoent">{{form.pCyear}}</td>
-                <td class="tdTitle">承运方发运规模(万吨/年)</td>
-                <td class="tdCoent">{{$options.filters.weightFilter(form.pCnumber)}}</td>
-                <td class="tdTitle"></td>
-                <td class="tdCoent"></td>
-              </tr>
-            </table>
-          </el-col>
-        </el-row>
-
-        <el-row class="head-title">
-          <el-col :span="19">
-            <el-form-item label="其他内容"></el-form-item>
-          </el-col>
-        </el-row>
-
-        <el-row class="head-text">
-          <el-col :span="10" :offset="1">
-            备注说明：
-            <el-input type="textarea" disabled :rows="5" v-model="form.node" placeholder="请输入备注说明" />
-          </el-col>
-        </el-row>
-
-        <el-row class="head-text" style="margin-bottom: 50px">
-          <el-col :span="18" :offset="1">
-            <el-form-item label="附件：" prop="file">
-              <!-- <el-upload
-                    disabled
-                    :action="url"
-                    :headers="headers"
-                    class="upload-hidden "
-                    :on-preview="handlePreview"
-                    list-type="text"
-                    :file-list="fileList">
-                  </el-upload> -->
-              <custom-upload :fileList="fileList"></custom-upload>
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </el-form>
+      <el-descriptions title="项目信息" :column="3" border>
+        <el-descriptions-item>
+          <template slot="label">立项类型</template>{{ projectInfo.projectType }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">项目编号</template>{{ projectInfo.serialNo }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">项目名称</template>{{ projectInfo.projectName }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">立项编号</template>{{ projectInfo.projectNo }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">供应商</template>{{ projectInfo.supplierName }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">代办人</template>{{ projectInfo.userName }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">终端客户</template>{{ projectInfo.terminalName }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">业务经理</template>{{ projectInfo.serviceManagerName }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">业务类型</template>{{ changeBusinessType(projectInfo.businessType) }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">业务实控人</template>{{ projectInfo.actualControlName }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">收费模式</template>{{ projectInfo.chargemType }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">货运方式</template>{{ changeTransType(projectInfo.freightMode) }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">年服务费率(%)</template>{{ projectInfo.chargemNx }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">固定差价(元)</template>{{ projectInfo.chargemGd }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">备注说明</template>{{ projectInfo.node }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">附件</template>
+          <custom-upload :fileList="projectInfo.filesList"></custom-upload>
+        </el-descriptions-item>
+      </el-descriptions>
+      <el-descriptions style="margin-top:20px" title="业务基础信息" :column="3" border>
+        <el-descriptions-item>
+          <template slot="label">业务名称</template>{{ stInfo.stName }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">业务金额(万元)</template>{{ stInfo.stAmount }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">结算比例</template>{{ stInfo.settlementPA1 ? stInfo.settlementPA1 + '-' +
+          stInfo.settlementPA2 + '-' +
+          stInfo.settlementPA3 : ''
+          }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">履约保证金</template>{{ stInfo.marginType == 1 ? '有' : '无' }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">履约保证金金额(万元)</template>{{ stInfo.margin }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">服务周期</template>{{ stInfo.cycleStart }}-{{ stInfo.cycleEnd }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">预计重量(吨)</template>{{ stInfo.expectWeight }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">预计单价(元)</template>{{ stInfo.expectPrice }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">成本年服务费率(%)</template>{{ stInfo.rateYear }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">预计利润</template>{{ stInfo.expectProfits }}
+        </el-descriptions-item>
+      </el-descriptions>
+      <el-descriptions style="margin-top:20px" title="自融资金方" :column="3" border>
+        <el-descriptions-item>
+          <template slot="label">公司名称</template>{{ stInfo.shName }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">性质</template>{{ stInfo.shXz }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">合作方式</template>{{ stInfo.shHztype }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">资金费率(%)</template>{{ stInfo.shHzrate }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">下游渠道</template>{{ stInfo.shChanneltype == 1 ? '有' : '无' }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">下游渠道年限</template>{{ stInfo.shChannelyear }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">结算比例</template>{{ stInfo.shSettlementA1 ? stInfo.shSettlementA1 + '-' +
+          stInfo.shSettlementA2 + '-' +
+          stInfo.shSettlementA3 : ''
+          }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">履约保证金</template>{{ stInfo.shMargintype == 1 ? '有' : '无' }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">保证金金额</template>{{ stInfo.shMargin }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">合同签署</template>{{ stInfo.shContracttype }}
+        </el-descriptions-item>
+      </el-descriptions>
+      <el-descriptions v-for="(item, index) in stInfo.ztList" :key="index" style="margin-top:20px"
+        :title="'站台' + (index + 1)" :column="3" border>
+        <el-descriptions-item>
+          <template slot="label">站台名称</template>{{ item.ztName }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">站台费用</template>{{ item.ztFee }}
+        </el-descriptions-item>
+        <el-descriptions-item>
+          <template slot="label">运费</template>{{ item.freight }}
+        </el-descriptions-item>
+      </el-descriptions>
     </div>
     <div v-if="initData.approvalType == '2'">
       <el-form label-width="20px;" label-position="left">
-        <el-row class="head-title">
-          <el-col :span="19">
-            <el-form-item label="说明"></el-form-item>
+        <el-row class="head-text">
+          <el-col :span="18" :offset="1">
+            <el-form-item label="操作：">
+              {{businessStateChange(form.xmState)}}
+            </el-form-item>
           </el-col>
         </el-row>
         <el-row class="head-text">
           <el-col :span="10" :offset="1">
-            备注说明：
+            说明：
             <el-input disabled type="textarea" :rows="5" v-model="xmNode" placeholder="" />
           </el-col>
         </el-row>
@@ -382,75 +243,94 @@
         <el-row class="head-text" style="margin-bottom: 50px">
           <el-col :span="18" :offset="1">
             <el-form-item label="附件：" prop="file">
-              <!-- <el-upload
-                  disabled
-                  :action="url"
-                  :headers="headers"
-                  class="upload-hidden "
-                  :on-preview="handlePreview"
-                  list-type="text"
-                  :file-list="fileList">
-                </el-upload> -->
               <custom-upload :fileList="fileList"></custom-upload>
             </el-form-item>
           </el-col>
         </el-row>
 
         <!--    基础信息-->
-        <el-row class="head-title">
-          <el-col :span="19">
-            <el-form-item label="基础信息"></el-form-item>
-          </el-col>
-          <el-col :span="4">
-            <span style="color: #ff0000">{{ stateF(form.state) }}</span>
-          </el-col>
-        </el-row>
-        <el-row class="head-text">
-          <el-col class="newTable">
-            <table width="90%" cellpadding="0" cellspacing="0">
-              <tr>
-                <td class="tdTitle">项目编号</td>
-                <td class="tdCoent">{{form.number}}</td>
-                <td class="tdTitle">项目名称</td>
-                <td class="tdCoent">{{form.name}}</td>
-                <td class="tdTitle">供应商</td>
-                <td class="tdCoent">{{form.supplierName}}</td>
-              </tr>
-              <tr>
-                <td class="tdTitle">用煤单位</td>
-                <td class="tdCoent">{{form.tName}}</td>
-                <td class="tdTitle">立项日期</td>
-                <td class="tdCoent">{{parseTime(form.createTime, "{y}-{m}-{d}")}}</td>
-                <td class="tdTitle">代办人</td>
-                <td class="tdCoent">{{form.userName}}</td>
-              </tr>
-              <tr>
-                <td class="tdTitle">服务周期</td>
-                <td class="tdCoent">{{form.cycleStart}}</td>
-                <td class="tdTitle">服务费收取模式</td>
-                <td class="tdCoent">{{form.chargemType}}</td>
-                <td class="tdTitle">服务费率(%)</td>
-                <td class="tdCoent">{{form.chargemNx}}</td>
-              </tr>
-              <tr>
-                <td class="tdTitle">固定差价(元)</td>
-                <td class="tdCoent">{{$options.filters.moneyFilter(form.chargemGd)}}</td>
-                <td class="tdTitle">预计吨数</td>
-                <td class="tdCoent">{{$options.filters.weightFilter(form.expectWeight)}}</td>
-                <td class="tdTitle">预计单价(元)</td>
-                <td class="tdCoent">{{$options.filters.weightFilter(form.expectWeight)}}</td>
-              </tr>
-              <tr>
-                <td class="tdTitle">成本年服务费率(%)</td>
-                <td class="tdCoent">{{form.rateYear}}</td>
-                <td class="tdTitle">预计利润(元)</td>
-                <td class="tdCoent">{{$options.filters.weightFilter(form.expectProfits)}}</td>
-                <td class="tdTitle"></td>
-                <td class="tdCoent"></td>
-              </tr>
-            </table>
-          </el-col>
-        </el-row>
+        <el-descriptions style="margin-top:20px" title="业务基础信息" :column="3" border>
+          <el-descriptions-item>
+            <template slot="label">业务名称</template>{{ stInfo.stName }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">业务金额(万元)</template>{{ stInfo.stAmount }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">结算比例</template>{{ stInfo.settlementPA1 ? stInfo.settlementPA1 + '-' +
+            stInfo.settlementPA2 + '-' +
+            stInfo.settlementPA3 : ''
+            }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">履约保证金</template>{{ stInfo.marginType == 1 ? '有' : '无' }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">履约保证金金额(万元)</template>{{ stInfo.margin }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">服务周期</template>{{ stInfo.cycleStart + '-' + stInfo.cycleEnd }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">预计重量(吨)</template>{{ stInfo.expectWeight }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">预计单价(元)</template>{{ stInfo.expectPrice }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">成本年服务费率(%)</template>{{ stInfo.rateYear }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">预计利润</template>{{ stInfo.expectProfits }}
+          </el-descriptions-item>
+        </el-descriptions>
+        <el-descriptions style="margin-top:20px" title="自融资金方" :column="3" border>
+          <el-descriptions-item>
+            <template slot="label">公司名称</template>{{ stInfo.shName }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">性质</template>{{ stInfo.shXz }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">合作方式</template>{{ stInfo.shHztype }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">资金费率(%)</template>{{ stInfo.shHzrate }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">下游渠道</template>{{ stInfo.shChanneltype == 1 ? '有' : '无' }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">下游渠道年限</template>{{ stInfo.shChannelyear }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">结算比例</template>{{ stInfo.shSettlementA1 ? stInfo.shSettlementA1 + '-' +
+            stInfo.shSettlementA2 + '-' +
+            stInfo.shSettlementA3 : ''
+            }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">履约保证金</template>{{ stInfo.shMargintype == 1 ? '有' : '无' }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">保证金金额</template>{{ stInfo.shMargin }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">合同签署</template>{{ stInfo.shContracttype }}
+          </el-descriptions-item>
+        </el-descriptions>
+        <el-descriptions v-for="(item, index) in stInfo.ztList" :key="index" style="margin-top:20px"
+          :title="'站台' + (index + 1)" :column="3" border>
+          <el-descriptions-item>
+            <template slot="label">站台名称</template>{{ item.ztName }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">站台费用</template>{{ item.ztFee }}
+          </el-descriptions-item>
+          <el-descriptions-item>
+            <template slot="label">运费</template>{{ item.freight }}
+          </el-descriptions-item>
+        </el-descriptions>
         <!--      合同信息-->
         <el-row class="head-title">
           <el-col :span="12">
@@ -1099,10 +979,14 @@
           <el-col class="newTable">
             <table width="90%" cellpadding="0" cellspacing="0">
               <tr>
-                <td class="tdTitle">项目编号</td>
-                <td class="tdCoent">{{form.projectNumber}}</td>
                 <td class="tdTitle">项目名称</td>
+                <td class="tdCoent">{{form.projectName}}</td>
+                <td class="tdTitle">业务名称</td>
                 <td class="tdCoent">{{form.stName}}</td>
+                <td class="tdTitle">项目编号</td>
+                <td class="tdCoent">{{ form.serialNo }}</td>
+              </tr>
+              <tr>
                 <td class="tdTitle">合同名称</td>
                 <td class="tdCoent">{{form.name}}</td>
               </tr>
@@ -1111,7 +995,7 @@
                 <td class="tdCoent">{{form.type}}</td>
                 <td class="tdTitle">合同编号</td>
                 <td class="tdCoent">{{form.number}}</td>
-                <td class="tdTitle">立项编号</td>
+                <td class="tdTitle">合同立项编号</td>
                 <td class="tdCoent">{{form.productNo}}</td>
               </tr>
               <tr>
@@ -1258,19 +1142,19 @@
             <table width="90%" cellpadding="0" cellspacing="0">
               <tr>
                 <td class="tdTitle">项目名称</td>
+                <td class="tdCoent">{{form.projectName}}</td>
+                <td class="tdTitle">业务名称</td>
                 <td class="tdCoent">{{form.stName}}</td>
                 <td class="tdTitle">项目编号</td>
-                <td class="tdCoent">{{form.number}}</td>
-                <td class="tdTitle">结算方式</td>
-                <td class="tdCoent">{{form.settlementWay}}</td>
+                <td class="tdCoent">{{ form.serialNo }}</td>
               </tr>
               <tr>
+                <td class="tdTitle">结算方式</td>
+                <td class="tdCoent">{{form.settlementWay}}</td>
                 <td class="tdTitle">付款批次</td>
                 <td class="tdCoent">{{form.away}}</td>
                 <td class="tdTitle">预付方式</td>
                 <td class="tdCoent">{{form.type}}</td>
-                <td class="tdTitle">供应商</td>
-                <td class="tdCoent">{{form.supplierName}}</td>
               </tr>
               <tr>
                 <td class="tdTitle">供应商账号</td>
@@ -1511,17 +1395,17 @@
             <table width="90%" cellpadding="0" cellspacing="0">
               <tr>
                 <td class="tdTitle">项目名称</td>
+                <td class="tdCoent">{{form.projectName}}</td>
+                <td class="tdTitle">业务名称</td>
                 <td class="tdCoent">{{form.stName}}</td>
                 <td class="tdTitle">项目编号</td>
-                <td class="tdCoent">{{form.number}}</td>
-                <td class="tdTitle">结算方式</td>
-                <td class="tdCoent">{{form.settlementWay}}</td>
+                <td class="tdCoent">{{ form.serialNo }}</td>
               </tr>
               <tr>
+                <td class="tdTitle">结算方式</td>
+                <td class="tdCoent">{{form.settlementWay}}</td>
                 <td class="tdTitle">预付方式</td>
                 <td class="tdCoent">{{form.payType}}</td>
-                <td class="tdTitle"></td>
-                <td class="tdCoent"></td>
                 <td class="tdTitle"></td>
                 <td class="tdCoent"></td>
               </tr>
@@ -1732,17 +1616,17 @@
             <table width="90%" cellpadding="0" cellspacing="0">
               <tr>
                 <td class="tdTitle">项目名称</td>
+                <td class="tdCoent">{{form.projectName}}</td>
+                <td class="tdTitle">业务名称</td>
                 <td class="tdCoent">{{form.stName}}</td>
                 <td class="tdTitle">项目编号</td>
-                <td class="tdCoent">{{form.number}}</td>
-                <td class="tdTitle">收款类型</td>
-                <td class="tdCoent">{{form.skType}}</td>
+                <td class="tdCoent">{{ form.serialNo }}</td>
               </tr>
               <tr>
+                <td class="tdTitle">收款类型</td>
+                <td class="tdCoent">{{form.skType}}</td>
                 <td class="tdTitle">收款方式</td>
                 <td class="tdCoent">{{form.skWay}}</td>
-                <td class="tdTitle"></td>
-                <td class="tdCoent"></td>
                 <td class="tdTitle"></td>
                 <td class="tdCoent"></td>
               </tr>
@@ -1947,28 +1831,28 @@
           <el-col class="newTable">
             <table width="90%" cellpadding="0" cellspacing="0">
               <tr>
+                <td class="tdTitle">项目名称</td>
+                <td class="tdCoent">{{form.projectName}}</td>
+                <td class="tdTitle">业务名称</td>
+                <td class="tdCoent">{{form.stName}}</td>
+                <td class="tdTitle">项目编号</td>
+                <td class="tdCoent">{{ form.serialNo }}</td>
+              </tr>
+              <tr>
                 <td class="tdTitle">保证金对象</td>
                 <td class="tdCoent">{{form.type}}</td>
                 <td class="tdTitle">保证金类型</td>
                 <td class="tdCoent">{{form.obj}}</td>
-                <td class="tdTitle"></td>
-                <td class="tdCoent"></td>
-              </tr>
-              <tr v-if="form.type == '上游'">
                 <td class="tdTitle">合同名称</td>
                 <td class="tdCoent">{{form.contractName}}</td>
+              </tr>
+              <tr v-if="form.type == '上游'">
                 <td class="tdTitle">供应商名称</td>
                 <td class="tdCoent">{{form.terminalName}}</td>
                 <td class="tdTitle">保证金金额(元)</td>
                 <td class="tdCoent">{{$options.filters.moneyFilter(form.putPrice)}}</td>
-              </tr>
-              <tr v-if="form.type == '下游'">
-                <td class="tdTitle">项目名称</td>
-                <td class="tdCoent">{{form.stName}}</td>
-                <td class="tdTitle">项目编号</td>
-                <td class="tdCoent">{{form.number}}</td>
-                <td class="tdTitle">合同名称</td>
-                <td class="tdCoent">{{form.contractName}}</td>
+                <td class="tdTitle"></td>
+                <td class="tdCoent"></td>
               </tr>
               <tr v-if="form.type == '下游'">
                 <td class="tdTitle">客户名称</td>
@@ -2076,9 +1960,13 @@
             <table width="90%" cellpadding="0" cellspacing="0">
               <tr>
                 <td class="tdTitle">项目名称</td>
+                <td class="tdCoent">{{form.projectName}}</td>
+                <td class="tdTitle">业务名称</td>
                 <td class="tdCoent">{{form.stName}}</td>
                 <td class="tdTitle">项目编号</td>
-                <td class="tdCoent">{{form.projectNumber}}</td>
+                <td class="tdCoent">{{ form.serialNo }}</td>
+              </tr>
+              <tr>
                 <td class="tdTitle">代办人</td>
                 <td class="tdCoent">{{form.userName}}</td>
               </tr>
@@ -2119,19 +2007,19 @@
             <table width="90%" cellpadding="0" cellspacing="0">
               <tr>
                 <td class="tdTitle">项目名称</td>
+                <td class="tdCoent">{{form.projectName}}</td>
+                <td class="tdTitle">业务名称</td>
                 <td class="tdCoent">{{form.stName}}</td>
                 <td class="tdTitle">项目编号</td>
-                <td class="tdCoent">{{form.number}}</td>
-                <td class="tdTitle">第三方公司</td>
-                <td class="tdCoent">{{form.tpcName}}</td>
+                <td class="tdCoent">{{ form.serialNo }}</td>
               </tr>
               <tr>
+                <td class="tdTitle">第三方公司</td>
+                <td class="tdCoent">{{form.tpcName}}</td>
                 <td class="tdTitle">公司账号</td>
                 <td class="tdCoent">{{form.account}}</td>
                 <td class="tdTitle">公司开户行</td>
                 <td class="tdCoent">{{form.openbank}}</td>
-                <td class="tdTitle"></td>
-                <td class="tdCoent"></td>
               </tr>
             </table>
           </el-col>
@@ -2259,11 +2147,11 @@
             <table width="90%" cellpadding="0" cellspacing="0">
               <tr>
                 <td class="tdTitle">项目名称</td>
+                <td class="tdCoent">{{form.projectName}}</td>
+                <td class="tdTitle">业务名称</td>
                 <td class="tdCoent">{{form.stName}}</td>
                 <td class="tdTitle">项目编号</td>
-                <td class="tdCoent">{{form.number}}</td>
-                <td class="tdTitle">物流公司</td>
-                <td class="tdCoent">{{form.wlCompany}}</td>
+                <td class="tdCoent">{{ form.serialNo }}</td>
               </tr>
               <tr>
                 <td class="tdTitle">货品名称</td>
@@ -2282,12 +2170,12 @@
                 <td class="tdCoent">{{form.carNumber}}</td>
               </tr>
               <tr>
+                <td class="tdTitle">物流公司</td>
+                <td class="tdCoent">{{form.wlCompany}}</td>
                 <td class="tdTitle">批次</td>
                 <td class="tdCoent">{{form.batch}}</td>
                 <td class="tdTitle">基准单价(元)</td>
                 <td class="tdCoent">{{$options.filters.moneyFilter(form.basePrice)}}</td>
-                <td class="tdTitle"></td>
-                <td class="tdCoent"></td>
               </tr>
             </table>
           </el-col>
@@ -2442,11 +2330,11 @@
             <table width="90%" cellpadding="0" cellspacing="0">
               <tr>
                 <td class="tdTitle">项目名称</td>
+                <td class="tdCoent">{{form.projectName}}</td>
+                <td class="tdTitle">业务名称</td>
                 <td class="tdCoent">{{form.stName}}</td>
                 <td class="tdTitle">项目编号</td>
-                <td class="tdCoent">{{form.number}}</td>
-                <td class="tdTitle">重量</td>
-                <td class="tdCoent">{{$options.filters.weightFilter(form.grnNumber)}}</td>
+                <td class="tdCoent">{{ form.serialNo }}</td>
               </tr>
               <tr>
                 <td class="tdTitle">到货日期</td>
@@ -2457,10 +2345,10 @@
                 <td class="tdCoent">{{$options.filters.weightFilter(form.valuePrice)}}</td>
               </tr>
               <tr>
+                <td class="tdTitle">重量</td>
+                <td class="tdCoent">{{$options.filters.weightFilter(form.grnNumber)}}</td>
                 <td class="tdTitle">货值总额</td>
                 <td class="tdCoent">{{$options.filters.moneyFilter(form.valueTprice)}}</td>
-                <td class="tdTitle"></td>
-                <td class="tdCoent"></td>
                 <td class="tdTitle"></td>
                 <td class="tdCoent"></td>
               </tr>
@@ -2975,7 +2863,13 @@
             <table width="90%" cellpadding="0" cellspacing="0">
               <tr>
                 <td class="tdTitle">项目名称</td>
+                <td class="tdCoent">{{form.projectName}}</td>
+                <td class="tdTitle">业务名称</td>
                 <td class="tdCoent">{{form.stName}}</td>
+                <td class="tdTitle">项目编号</td>
+                <td class="tdCoent">{{ form.serialNo }}</td>
+              </tr>
+              <tr>
                 <td class="tdTitle">申请人</td>
                 <td class="tdCoent">{{form.sqName}}</td>
                 <td class="tdTitle">客户经理</td>
@@ -3011,11 +2905,11 @@
             <table width="90%" cellpadding="0" cellspacing="0">
               <tr>
                 <td class="tdTitle">项目名称</td>
+                <td class="tdCoent">{{form.projectName}}</td>
+                <td class="tdTitle">业务名称</td>
                 <td class="tdCoent">{{form.stName}}</td>
                 <td class="tdTitle">项目编号</td>
-                <td class="tdCoent">{{form.number}}</td>
-                <td class="tdTitle">预估应收</td>
-                <td class="tdCoent">{{$options.filters.moneyFilter(form.ygPrice)}}</td>
+                <td class="tdCoent">{{ form.serialNo }}</td>
               </tr>
               <tr>
                 <td class="tdTitle">开票金额</td>
@@ -3026,12 +2920,12 @@
                 <td class="tdCoent">{{$options.filters.moneyFilter(form.jsMl)}}</td>
               </tr>
               <tr>
+                <td class="tdTitle">预估应收</td>
+                <td class="tdCoent">{{$options.filters.moneyFilter(form.ygPrice)}}</td>
                 <td class="tdTitle">结算煤款</td>
                 <td class="tdCoent">{{$options.filters.moneyFilter(form.jsMk)}}</td>
                 <td class="tdTitle">结算税款(元)</td>
                 <td class="tdCoent">{{$options.filters.moneyFilter(form.jsTax)}}</td>
-                <td class="tdTitle"></td>
-                <td class="tdCoent"></td>
               </tr>
             </table>
           </el-col>
@@ -3052,11 +2946,11 @@
             <table width="90%" cellpadding="0" cellspacing="0">
               <tr>
                 <td class="tdTitle">项目名称</td>
+                <td class="tdCoent">{{form.projectName}}</td>
+                <td class="tdTitle">业务名称</td>
                 <td class="tdCoent">{{form.stName}}</td>
                 <td class="tdTitle">项目编号</td>
-                <td class="tdCoent">{{form.stNumber}}</td>
-                <td class="tdTitle">投标平台</td>
-                <td class="tdCoent">{{form.bidPlatform}}</td>
+                <td class="tdCoent">{{ form.serialNo }}</td>
               </tr>
               <tr>
                 <td class="tdTitle">单价模式</td>
@@ -3077,8 +2971,8 @@
               <tr>
                 <td class="tdTitle">到站</td>
                 <td class="tdCoent">{{form.arriveStation}}</td>
-                <td class="tdTitle"></td>
-                <td class="tdCoent"></td>
+                <td class="tdTitle">投标平台</td>
+                <td class="tdCoent">{{form.bidPlatform}}</td>
                 <td class="tdTitle"></td>
                 <td class="tdCoent"></td>
               </tr>
@@ -3163,13 +3057,13 @@
           <el-col class="newTable">
             <table width="90%" cellpadding="0" cellspacing="0">
               <tr>
-                <td class="tdTitle">创建时间</td>
-                <td class="tdCoent">{{form.stName}}</td>
-                <td class="tdTitle">项目名称</td>
-                <td class="tdCoent">{{form.stName}}</td>
-                <td class="tdTitle">项目编号</td>
-                <td class="tdCoent">{{form.stNumber}}</td>
-              </tr>
+              <td class="tdTitle">项目名称</td>
+              <td class="tdCoent">{{form.projectName}}</td>
+              <td class="tdTitle">业务名称</td>
+              <td class="tdCoent">{{form.stName}}</td>
+              <td class="tdTitle">项目编号</td>
+              <td class="tdCoent">{{ form.serialNo }}</td>
+            </tr>
               <tr>
                 <td class="tdTitle">终端用户</td>
                 <td class="tdCoent">{{form.tName}}</td>
@@ -3183,8 +3077,8 @@
                 <td class="tdCoent">{{$options.filters.moneyFilter(form.moneyAmount)}}</td>
                 <td class="tdTitle">备注</td>
                 <td class="tdCoent">{{form.remark}}</td>
-                <td class="tdTitle"></td>
-                <td class="tdCoent"></td>
+                <td class="tdTitle">创建时间</td>
+                <td class="tdCoent">{{form.stName}}</td>
               </tr>
             </table>
           </el-col>
@@ -3273,32 +3167,6 @@ export default {
     return {
       queryParams: {},
       processData: [],
-
-      //审批集合
-      stateList: [
-        {
-          deptName: "风控部",
-          roleName: "风控部经理",
-          userName: "张三",
-          content: "没有问题，同意审批",
-          state: "已通过",
-        },
-        {
-          deptName: "风控部",
-          roleName: "风控部经理",
-          userName: "张三",
-          content: "没有问题，同意审批",
-          state: "已通过",
-        },
-        {
-          deptName: "风控部",
-          roleName: "风控部经理",
-          userName: "张三",
-          content: "",
-          state: "未审批",
-        },
-      ],
-
       //上传路径
       url: process.env.VUE_APP_BASE_API + "/file/upload",
       // 设置上传的请求头部
@@ -3358,6 +3226,7 @@ export default {
       htform: {},
       isDisabled: false,
       projectInfo: {},
+      stInfo: {}
     };
   },
   computed: {
@@ -3390,150 +3259,80 @@ export default {
           this.projectInfo = res.data;
         });
       } else if (typeId == "1") {
-        getStInfo(stId).then((response) => {
-          this.form = response.data;
-          this.fileList = response.data.filesList;
-          if (this.form.chargemType == "1") {
-            this.form.chargemType = "年息";
-          } else if (this.form.chargemType == "2") {
-            this.form.chargemType = "固定差价";
-          } else if (this.form.chargemType == "3") {
-            this.form.chargemType = "年息+固定差价";
-          }
-          if (this.form.tMargintype == "1") {
-            this.form.tMargintype = "有";
-          } else if (this.form.tMargintype == "2") {
-            this.form.tMargintype = "无";
-          }
-          if (this.form.settlementP == "其他") {
-            if (
-              this.form.settlementPA1 != null &&
-              this.form.settlementPA1 != ""
-            ) {
-              this.form.settlementP = this.form.settlementPA1 + "%";
-              if (
-                this.form.settlementPA2 != null &&
-                this.form.settlementPA2 != ""
-              ) {
-                this.form.settlementP =
-                  this.form.settlementPA1 +
-                  "%-" +
-                  this.form.settlementPA2 +
-                  "%";
-                if (
-                  this.form.settlementPA3 != null &&
-                  this.form.settlementPA3 != ""
-                ) {
-                  this.form.settlementP =
-                    this.form.settlementPA1 +
-                    "%-" +
-                    this.form.settlementPA2 +
-                    "%-" +
-                    this.form.settlementPA3 +
-                    "%";
-                }
-              }
-            }
-            // this.form.settlementP=this.form.settlementPA1+"%-"+this.form.settlementPA2+"%-"+this.form.settlementPA3+"%"
-          }
-          if (this.form.shSettlement == "其他") {
-            if (
-              this.form.shSettlementA1 != null &&
-              this.form.shSettlementA1 != ""
-            ) {
-              this.form.shSettlement = this.form.shSettlementA1 + "%";
-              if (
-                this.form.shSettlementA2 != null &&
-                this.form.shSettlementA2 != ""
-              ) {
-                this.form.shSettlement =
-                  this.form.shSettlementA1 +
-                  "%-" +
-                  this.form.shSettlementA2 +
-                  "%";
-                if (
-                  this.form.shSettlementA3 != null &&
-                  this.form.shSettlementA3 != ""
-                ) {
-                  this.form.shSettlement =
-                    this.form.shSettlementA1 +
-                    "%-" +
-                    this.form.shSettlementA2 +
-                    "%-" +
-                    this.form.shSettlementA3 +
-                    "%";
-                }
-              }
-            }
-            // this.form.shSettlement=this.form.shSettlementA1+"%-"+this.form.shSettlementA2+"%-"+this.form.shSettlementA3+"%"
-          }
-        });
+        getStInfo(stId).then(res => {
+          this.stInfo = res.data
+          projectInfo(res.data.projectId).then(res => {
+            this.projectId = res.data.projectId
+            this.projectInfo = res.data
+          })
+        })
       } else if (typeId == "2") {
         getStupdate(stId).then((response) => {
-          getStInfo(response.data.stId).then((response) => {
-            this.form = response.data;
-          });
+          getStInfo(response.data.stId).then(res => {
+            this.stInfo = res.data
+          })
           this.form.state = response.data.state;
+          this.form.xmState = response.data.xmState
           this.fileList = response.data.fileList;
           this.xmNode = response.data.xmNode;
-        });
-        let data = { stId: response.data.stId };
-        //合同
-        getContractList(data).then((response) => {
-          this.contract = response.rows;
-        });
-        // 入库
-        getGrnList(data).then((response) => {
-          this.grnList = response.rows;
-        });
-        // 出库
-        getGryList(data).then((response) => {
-          this.gryList = response.rows;
+          let data = { stId: response.data.stId };
+          //合同
+          getContractList(data).then((response) => {
+            this.contract = response.rows;
+          });
+          // 入库
+          getGrnList(data).then((response) => {
+            this.grnList = response.rows;
+          });
+          // 出库
+          getGryList(data).then((response) => {
+            this.gryList = response.rows;
 
-          let gryNumber = 0;
-          let gryLr = 0.0;
-          for (let i = 0; i < this.gryList.length; i++) {
-            let obj = this.gryList[i];
-            if (obj.chargemGd != null && obj.chargemGd != "") {
-              gryNumber = gryNumber + obj.grnNumber;
-              gryLr = (
-                parseFloat(gryLr) +
-                obj.grnNumber * obj.chargemGd
-              ).toFixed(2);
+            let gryNumber = 0;
+            let gryLr = 0.0;
+            for (let i = 0; i < this.gryList.length; i++) {
+              let obj = this.gryList[i];
+              if (obj.chargemGd != null && obj.chargemGd != "") {
+                gryNumber = gryNumber + obj.grnNumber;
+                gryLr = (
+                  parseFloat(gryLr) +
+                  obj.grnNumber * obj.chargemGd
+                ).toFixed(2);
+              }
             }
-          }
-          this.gryNumber = gryNumber;
-          this.gryLr = gryLr;
-        });
-        // 预付款
-        let apaymentData = { stId: stId, stLook: "1" };
-        getApaymentList(apaymentData).then((response) => {
-          this.apaymentList = response.rows;
-        });
-        // 收款
-        let skData = { stId: stId, stLook: "1" };
-        getSkList(skData).then((response) => {
-          this.skList = response.rows;
-        });
-        // 物流付款
-        getLpaymentList(data).then((response) => {
-          this.lpaymentList = response.rows;
-        });
-        // 最终付款
-        getFpaymentList(data).then((response) => {
-          this.fpaymentList = response.rows;
-        });
-        // 发票
-        getSticketList(data).then((response) => {
-          this.sticketList = response.rows;
-        });
-        // 发票
-        getKpList(data).then((response) => {
-          this.kpList = response.rows;
-        });
-        // 服务费
-        getSpList(data).then((response) => {
-          this.spList = response.rows;
+            this.gryNumber = gryNumber;
+            this.gryLr = gryLr;
+          });
+          // 预付款
+          let apaymentData = { stId: stId, stLook: "1" };
+          getApaymentList(apaymentData).then((response) => {
+            this.apaymentList = response.rows;
+          });
+          // 收款
+          let skData = { stId: stId, stLook: "1" };
+          getSkList(skData).then((response) => {
+            this.skList = response.rows;
+          });
+          // 物流付款
+          getLpaymentList(data).then((response) => {
+            this.lpaymentList = response.rows;
+          });
+          // 最终付款
+          getFpaymentList(data).then((response) => {
+            this.fpaymentList = response.rows;
+          });
+          // 发票
+          getSticketList(data).then((response) => {
+            this.sticketList = response.rows;
+          });
+          // 发票
+          getKpList(data).then((response) => {
+            this.kpList = response.rows;
+          });
+          // 服务费
+          getSpList(data).then((response) => {
+            this.spList = response.rows;
+          });
         });
       } else if (typeId == "3") {
         getContract(stId).then((response) => {
@@ -3822,6 +3621,26 @@ export default {
           return '年息+固定差价'
         }
       },
+    businessStateChange(xmState) {
+      if (xmState == '0') {
+        return "提交中";
+      } else if (xmState == '1') {
+        return "进行中";
+      } else if (xmState == '2') {
+        return "异常";
+      } else if (xmState == '3') {
+        return "结束";
+      } else if (xmState == '4') {
+        return "完成";
+      }
+    },
+    moFormat(row, column) {
+      if (row.moType == "1") {
+        return "未开票";
+      } else {
+        return "已开票";
+      }
+    },
   },
 };
 </script>
