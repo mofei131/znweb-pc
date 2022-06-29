@@ -1165,7 +1165,11 @@ export default {
           { required: true, message: "有无站台为必选", trigger: "blur" },
         ],
       },
-      rules3: {},
+      rules3: {
+        businessState: [
+          { required: true, message: "请选择操作业务", trigger: "blur" },
+        ]
+      },
     };
   },
   watch: {
