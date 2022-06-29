@@ -687,7 +687,6 @@ export default {
         rewardspId: null,
         name: null,
         stId: null,
-        stId2: null,
         stName: null,
         a1: null,
         s1: null,
@@ -708,7 +707,6 @@ export default {
         createBy: null,
         createTime: null,
         projectId: null,
-        projectIdOld: null,
         projectName: null,
         serialNo: null
       };
@@ -775,8 +773,6 @@ export default {
       const rewardspId = row.rewardspId || this.ids;
       getRewardsp(rewardspId).then((response) => {
         this.form = response.data;
-        this.form.stId2 = this.form.stId;
-        this.form.stId = this.form.stName;
         this.form.tableData1 = response.data.tableData1;
         this.form.tableData2 = response.data.tableData2;
         this.form.tableData3 = response.data.tableData3;
@@ -807,8 +803,6 @@ export default {
       getRewardsp(rewardspId).then((response) => {
         console.log(response);
         this.form = response.data;
-        this.form.stId2 = this.form.stId;
-        this.form.stId = this.form.stName;
         this.form.tableData1 = response.data.tableData1;
         this.form.tableData2 = response.data.tableData2;
         this.form.tableData3 = response.data.tableData3;
