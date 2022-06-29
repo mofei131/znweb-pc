@@ -125,7 +125,7 @@
             <el-descriptions v-for="(item, index) in stInfo.ztList" :key="index" style="margin-top:20px"
                 :title="'站台' + (index + 1)" :column="3" border>
                 <el-descriptions-item>
-                    <template slot="label">站台名称</template>{{ item.ztId }}
+                    <template slot="label">站台名称</template>{{ item.ztName }}
                 </el-descriptions-item>
                 <el-descriptions-item>
                     <template slot="label">站台费用</template>{{ item.ztFee }}
