@@ -200,7 +200,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="业务模式" prop="settlementWay">
+              <el-form-item label="业务类型" prop="settlementWay">
                 <span v-text="form.settlementWay"></span>
               </el-form-item>
             </el-col>
@@ -916,6 +916,32 @@ export default {
       listForBusArr: [],
       listForProArr: [],
       apyamentId:'',//子组件id
+      businessTypeList: [
+        {
+          label: "储备业务垫付运费",
+          value: "cud",
+        },
+        {
+          label: "储备业务不垫付运费",
+          value: "cu",
+        },
+        {
+          label: "到厂业务垫付运费",
+          value: "dcd",
+        },
+        {
+          label: "到厂业务不垫付运费",
+          value: "dc",
+        },
+        {
+          label: "车板业务垫付运费",
+          value: "cbd",
+        },
+        {
+          label: "车板业务不垫付运费",
+          value: "cb",
+        },
+      ],
     };
   },
   created() {
@@ -1284,6 +1310,7 @@ export default {
     //业务开始
     //选择项目 加载数据
     changeProject(projectId) {
+      let that = this
       this.listForBusArr = []
       this.form.stId = ''
       this.form.stName = ''
@@ -1291,13 +1318,22 @@ export default {
       if (projectId) {
         this.loadBusinessForCombobox(projectId)
       }
+      let businessType = this.listForProArr[that.listForProArr.findIndex(x => x.projectId == projectId)].businessType
+      this.businessTypeList.forEach(function(item,index){
+        if(item.value == businessType){
+          that.form.settlementWay = item.label
+        }
+      })
     },
     changeSt(stId) {
       let businessFind = this.listForBusArr.filter(x => x.stId == stId);
       if (businessFind && businessFind.length > 0) {
         let obj = businessFind[0];
+        console.log(obj)
+        console.log(this.listForProArr)
         this.form.supplierId = null;
-        this.form.supplierName = null;
+        // this.form.supplierName = null;
+        this.form.supplierName = obj.supplierName;
         this.form.account = null;
         this.form.openbank = null;
         this.form.serialNo = obj.serialNo;
