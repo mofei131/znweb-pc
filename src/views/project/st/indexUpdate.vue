@@ -174,18 +174,18 @@ export default {
       }
     },
     businessStateChange(e) {
-      if (e.businessState == 0) {
+      if (e.xmState == 0) {
         return '提交中'
-      } else if (e.businessState == 1) {
+      } else if (e.xmState == 1) {
         e.bcolor = '#09CC9D'
         return '进行中'
-      } else if (e.businessState == 2) {
+      } else if (e.xmState == 2) {
         e.bcolor = '#FFAC00'
         return '异常'
-      } else if (e.businessState == 3) {
+      } else if (e.xmState == 3) {
         e.bcolor = '#F12801'
         return '结束'
-      } else if (e.businessState == 4) {
+      } else if (e.xmState == 4) {
         e.bcolor = '#007AFF'
         return '完成'
       }
