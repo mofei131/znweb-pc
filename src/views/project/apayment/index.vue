@@ -1188,6 +1188,32 @@ export default {
       listForBusArr: [],
       listForProArr: [],
       apyamentId:'',//子组件id
+      businessTypeList: [
+        {
+          label: "储备业务垫付运费",
+          value: "cud",
+        },
+        {
+          label: "储备业务不垫付运费",
+          value: "cu",
+        },
+        {
+          label: "到厂业务垫付运费",
+          value: "dcd",
+        },
+        {
+          label: "到厂业务不垫付运费",
+          value: "dc",
+        },
+        {
+          label: "车板业务垫付运费",
+          value: "cbd",
+        },
+        {
+          label: "车板业务不垫付运费",
+          value: "cb",
+        },
+      ],
     };
   },
   created() {
@@ -1559,6 +1585,7 @@ export default {
     //业务开始
     //选择项目
     changeProject(projectId) {
+      let that = this
       this.listForBusArr = []
       this.form.stId = ''
       this.form.stName = ''
@@ -1566,6 +1593,12 @@ export default {
       if (projectId) {
         this.loadBusinessForCombobox(projectId);
       }
+      let businessType = this.listForProArr[that.listForProArr.findIndex(x => x.projectId == projectId)].businessType
+      this.businessTypeList.forEach(function(item,index){
+        if(item.value == businessType){
+          that.form.settlementWay = item.label
+        }
+      })
     },
     changeSt(stId) {
       let businessFind = this.listForBusArr.filter(x => x.stId == stId);
