@@ -148,7 +148,7 @@ export default {
       if (typeId == "20") {
         this.$router.push("/st/lookAddP/" + stId);
       } else if (typeId == "1") {
-        this.$router.push("/st/lookAdd/" + stId);
+        this.$router.push("/st/lookAddB/" + stId);
       } else if (typeId == "2") {
         getStupdate(stId).then((response) => {
           this.$router.push({
