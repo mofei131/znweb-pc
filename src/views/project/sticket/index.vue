@@ -22,7 +22,7 @@
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
-          v-hasPermi="['project:sticket:add']">新增</el-button>
+          v-hasPermi="['project:sticket:add']" v-show="editable">新增</el-button>
       </el-col>
       <!--      <el-col :span="1.5">-->
       <!--        <el-button-->
@@ -484,6 +484,10 @@ export default {
     "isQuote": {
       type: Boolean,
       default: false
+    },
+    "editable": {
+      type: Boolean,
+      default: true
     }
   },
   components: { aou },

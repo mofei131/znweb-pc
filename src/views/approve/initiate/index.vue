@@ -72,27 +72,27 @@
         <el-table-column label="状态" align="center" prop="state">
           <template slot-scope="scope">
             <el-tag :type="
-              scope.row.state == '0'
+              scope.row.state == '1'
                 ? 'info'
-                : scope.row.state == '1'
-                ? 'warning'
                 : scope.row.state == '2'
-                ? 'success'
+                ? 'warning'
                 : scope.row.state == '3'
+                ? 'success'
+                : scope.row.state == '4'
                 ? 'danger'
                 : scope.row.state == '5'
                 ? 'warning'
                 : ''
             ">
               {{
-              scope.row.state == "0"
+              scope.row.state == "1"
               ? "未审批"
-              : scope.row.state == "1"
-              ? "审批中"
               : scope.row.state == "2"
-              ? "已完成"
+              ? "审批中"
               : scope.row.state == "3"
-              ? "驳回"
+              ? "已通过"
+              : scope.row.state == "4"
+              ? "已打回"
               : scope.row.state == "5"
               ? "已撤回"
               : ""
@@ -107,19 +107,19 @@
               查看
             </el-button>
             <el-button size="mini" v-if="
-              (scope.row.state == '0' || scope.row.state == '3' || scope.row.state == '5') &&
+              (scope.row.state == '1' || scope.row.state == '4' || scope.row.state == '5') &&
               scope.row.approvalType != '2'
             " type="text" @click="handleUpdate(scope.row)" circle>
               修改
             </el-button>
-            <el-button size="mini" v-if="scope.row.state != '2' && scope.row.state != '3' && scope.row.state != '5' &&
+            <el-button size="mini" v-if="scope.row.state != '3' && scope.row.state != '4' && scope.row.state != '5' &&
               (scope.row.approvalType == '4' || scope.row.approvalType == '5')
             " type="text" @click="withdraw(scope.row)" circle>撤回</el-button>
-            <el-button size="mini" v-if="scope.row.state == '0' || scope.row.state == '3' || scope.row.state == '5'
+            <el-button size="mini" v-if="scope.row.state == '1' || scope.row.state == '4' || scope.row.state == '5'
             " type="text" @click="handleDelete(scope.row)" circle>
               删除
             </el-button>
-            <el-button size="mini" v-if="(scope.row.state == '3' || scope.row.state == '5') &&
+            <el-button size="mini" v-if="(scope.row.state == '4' || scope.row.state == '5') &&
               scope.row.approvalType != '2'
             " type="text" @click="reInitiate(scope.row)" circle>重新发起</el-button>
             <!-- </el-tooltip> -->
@@ -235,7 +235,7 @@ export default {
         this.$router.push("/st/lookAddP/" + stId);
       }
       else if (typeId == "1") {
-        this.$router.push("/st/lookAdd/" + stId);
+        this.$router.push("/st/lookAddB/" + stId);
       } else if (typeId == "2") {
         getStupdate(stId).then((response) => {
           this.$router.push({

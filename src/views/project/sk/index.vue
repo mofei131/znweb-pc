@@ -26,7 +26,7 @@
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
-          v-hasPermi="['project:sk:add']">新增</el-button>
+          v-hasPermi="['project:sk:add']" v-show="editable">新增</el-button>
       </el-col>
       <!--      <el-col :span="1.5">-->
       <!--        <el-button-->
@@ -325,8 +325,8 @@
               <el-col :span="6">
                 <span style="font-weight:600">合计重量{{"\xa0\xa0"}}</span>
                 <span style="color: red">{{
-                  $options.filters.weightFilter(form.tweight)
-                  }}</span>
+                $options.filters.weightFilter(form.tweight)
+                }}</span>
               </el-col>
             </el-row>
             <el-row style="margin-bottom:10px">
@@ -369,8 +369,9 @@
                 </table>
               </el-col>
             </el-row>
-            <el-button size="small" style="margin: 20px 0 20px 40px" type="primary" @click="jsjc" v-if="isLook != 3">奖惩计算
-                            </el-button>
+            <el-button size="small" style="margin: 20px 0 20px 40px" type="primary" @click="jsjc" v-if="isLook != 3">
+              奖惩计算
+            </el-button>
 
             <el-row>
               <el-col :span="12">
@@ -686,6 +687,10 @@ export default {
     "isQuote": {
       type: Boolean,
       default: false
+    },
+    "editable": {
+      type: Boolean,
+      default: true
     }
   },
   data() {

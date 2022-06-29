@@ -32,7 +32,7 @@
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
-          v-hasPermi="['project:contract:add']">新增</el-button>
+          v-hasPermi="['project:contract:add']" v-show="editable">新增</el-button>
       </el-col>
       <!--      <el-col :span="1.5">-->
       <!--        <el-button-->
@@ -106,7 +106,7 @@
       </el-table-column>
       <el-table-column label="操作" width="160" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button v-if="scope.row.state === '3'" size="mini" type="text" icon="el-icon-edit"
+          <el-button v-if="scope.row.state === '3' && editable" size="mini" type="text" icon="el-icon-edit"
             @click="handleUpdatebc(scope.row)" v-hasPermi="['project:contract:edit']">补充</el-button>
           <el-button size="mini" type="text" icon="el-icon-edit" @click="handleLook(scope.row)"
             v-hasPermi="['project:contract:edit']">查看</el-button>
@@ -1132,6 +1132,10 @@ export default {
     "isQuote": {
       type: Boolean,
       default: false
+    },
+    "editable": {
+      type: Boolean,
+      default: true
     }
   },
   data() {

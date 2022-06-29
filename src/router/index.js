@@ -160,42 +160,49 @@ export const constantRoutes = [{
             meta: { title: "查看明细" },
         }, ],
     },
-    {
-        path: "/st",
-        component: Layout,
-        hidden: true,
-        children: [{
-            path: "lookAdd/:stId(\\d+)",
-            component: (resolve) =>
-                require(["@/views/project/st/look/indexAdd"], resolve),
-            name: "lookAdd",
-            meta: {
-              title: "查看新增业务",
-              activeMenu: '/project/stdetails'
-              },
+     {
+            path: "/st",
+            component: Layout,
+            hidden: true,
+            children: [{
+                    path: "lookAdd/:stId(\\d+)",
+                    component: (resolve) =>
+                        require(["@/views/project/st/look/indexAdd"], resolve),
+                    name: "lookAdd",
+                    meta: { 
+                      title: "查看新增业务",
+                      activeMenu: '/project/stadd'
+                      },
+                },
+                {
+                    path: "lookAddP/:stId(\\d+)",
+                    component: (resolve) =>
+                        require(["@/views/project/st/lookindexAdd"], resolve),
+                    name: "lookindexAdd",
+                    meta: { 
+                      activeMenu: '/project/stadd',
+                      title: "查看新增项目"
+                       },
+                },
+                {
+                    path: "lookAddB/:stId(\\d+)",
+                    component: (resolve) =>
+                        require(["@/views/project/st/lookbissnessAdd"], resolve),
+                    name: "lookbissnessAdd",
+                    meta: { 
+                      title: "查看新增业务",
+                      activeMenu: '/project/stadd'
+                      },
+                },
+                {
+                    path: "businessDetailView/:stId(\\d+)",
+                    component: (resolve) =>
+                        require(["@/views/project/st/look/businessDetailView"], resolve),
+                    name: "businessDetailView",
+                    meta: { title: "业务明细查看" },
+                }
+            ],
         },
-        {
-            path: "lookAddP/:stId(\\d+)",
-            component: (resolve) =>
-                require(["@/views/project/st/lookindexAdd"], resolve),
-            name: "lookindexAdd",
-            meta: {
-              title: "查看新增项目",
-              activeMenu: '/project/stadd'
-              },
-        },
-        {
-            path: "lookAddB/:stId(\\d+)",
-            component: (resolve) =>
-                require(["@/views/project/st/lookbissnessAdd"], resolve),
-            name: "lookbissnessAdd",
-            meta: {
-              title: "查看新增业务",
-              activeMenu: '/project/stadd'
-              },
-        },
-     ],
-    },
     {
         path: "/st",
         component: Layout,
@@ -752,15 +759,13 @@ export const constantRoutes = [{
         path: "/platform",
         component: Layout,
         hidden: true,
-        children: [
-            {
-                path: "/platform",
-                component: (resolve) =>
-                    require(["@/views/project/platform/index"], resolve),
-                name: "platform",
-                meta: { title: "站台管理" },
-            },
-        ],
+        children: [{
+            path: "/platform",
+            component: (resolve) =>
+                require(["@/views/project/platform/index"], resolve),
+            name: "platform",
+            meta: { title: "站台管理" },
+        }, ],
     },
 ];
 

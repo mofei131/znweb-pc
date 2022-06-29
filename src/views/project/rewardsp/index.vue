@@ -23,7 +23,7 @@
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
         <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
-          v-hasPermi="['project:rewardsp:add']">新增</el-button>
+          v-hasPermi="['project:rewardsp:add']" v-show="editable">新增</el-button>
       </el-col>
 
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList" v-show="!isQuote"></right-toolbar>
@@ -45,9 +45,9 @@
           <!--            v-hasPermi="['project:rewardsp:edit']"-->
           <!--          >查看</el-button>-->
           <el-button size="mini" type="text" icon="el-icon-edit" @click="handleUpdate(scope.row)"
-            v-hasPermi="['project:rewardsp:edit']">修改</el-button>
+            v-hasPermi="['project:rewardsp:edit']" v-if="editable">修改</el-button>
           <el-button size="mini" type="text" icon="el-icon-delete" @click="handleDelete(scope.row)"
-            v-hasPermi="['project:rewardsp:remove']">删除</el-button>
+            v-hasPermi="['project:rewardsp:remove']" v-if="editable">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -556,6 +556,10 @@ export default {
     "isQuote": {
       type: Boolean,
       default: false
+    },
+    "editable": {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -683,7 +687,6 @@ export default {
         rewardspId: null,
         name: null,
         stId: null,
-        stId2: null,
         stName: null,
         a1: null,
         s1: null,
@@ -704,7 +707,6 @@ export default {
         createBy: null,
         createTime: null,
         projectId: null,
-        projectIdOld: null,
         projectName: null,
         serialNo: null
       };
@@ -771,8 +773,6 @@ export default {
       const rewardspId = row.rewardspId || this.ids;
       getRewardsp(rewardspId).then((response) => {
         this.form = response.data;
-        this.form.stId2 = this.form.stId;
-        this.form.stId = this.form.stName;
         this.form.tableData1 = response.data.tableData1;
         this.form.tableData2 = response.data.tableData2;
         this.form.tableData3 = response.data.tableData3;
@@ -803,8 +803,6 @@ export default {
       getRewardsp(rewardspId).then((response) => {
         console.log(response);
         this.form = response.data;
-        this.form.stId2 = this.form.stId;
-        this.form.stId = this.form.stName;
         this.form.tableData1 = response.data.tableData1;
         this.form.tableData2 = response.data.tableData2;
         this.form.tableData3 = response.data.tableData3;
