@@ -29,7 +29,7 @@
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
-    <el-table ref="topicTable" v-loading="loading" :data="stList" row-key="projectId"
+    <el-table ref="topicTable" v-loading="loading" :data="stList" row-key="rowId"
       :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
       <el-table-column label="立项编号" align="center" prop="projectNo" />
       <el-table-column label="项目名称" align="center" prop="projectName" />
@@ -49,8 +49,8 @@
       <el-table-column label="创建时间" align="center" prop="createTime" width="180">
         <template slot-scope="scope">
           <span>{{
-          parseTime(scope.row.createTime, "{y}-{m}-{d} {h}:{i}:{s}")
-          }}</span>
+            parseTime(scope.row.createTime, "{y}-{m}-{d} {h}:{i}:{s}")
+            }}</span>
         </template>
       </el-table-column>
       <el-table-column label="审批状态" align="center">
@@ -1564,12 +1564,15 @@ export default {
       this.loading = true;
       listSt(this.queryParams).then((response) => {
         this.stList = response.rows;
+        let idx = 0;
         this.stList.forEach((e) => {
           e.hType = "项目";
           e.children = e.businessList;
           e.children.forEach((e2) => {
             e2.hType = "业务";
+            e2.rowId = ++idx;
           });
+          e.rowId = ++idx;
         });
         this.total = response.total;
         this.loading = false;
