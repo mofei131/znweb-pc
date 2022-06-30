@@ -65,8 +65,6 @@
               <td class="tdCoent">{{form.number}}</td>
               <td class="tdTitle">签约日期</td>
               <td class="tdCoent">{{parseTime(form.signingTime, "{y}-{m}-{d}")}}</td>
-              <td class="tdTitle"></td>
-              <td class="tdCoent"></td>
             </tr>
             <tr v-if="form.type == '上游合同'">
               <td class="tdTitle">供应商</td>
@@ -79,8 +77,6 @@
             <tr v-if="form.type == '上游合同'">
               <td class="tdTitle">项目立项编号</td>
               <td class="tdCoent">{{form.productNo}}</td>
-              <td class="tdTitle">项目编号</td>
-              <td class="tdCoent">{{form.projectNumber}}</td>
             </tr>
             <tr>
               <td class="tdTitle">货品名称</td>
@@ -103,8 +99,6 @@
               <td class="tdCoent">{{form.vymfsp}}</td>
               <td class="tdTitle">违约服务费费率</td>
               <td class="tdCoent">{{form.vyrate}}</td>
-              <td class="tdTitle"></td>
-              <td class="tdCoent"></td>
             </tr>
             <tr v-if="form.type == '物流运输合同' || form.type == '物流服务合同'">
               <td class="tdTitle">运输单位</td>
