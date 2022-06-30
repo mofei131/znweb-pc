@@ -49,7 +49,7 @@
       <el-table-column label="创建时间" align="center" prop="createTime" width="180">
         <template slot-scope="scope">
           <span>{{
-              parseTime(scope.row.createTime, "{y}-{m}-{d} {h}:{i}:{s}")
+          parseTime(scope.row.createTime, "{y}-{m}-{d} {h}:{i}:{s}")
           }}</span>
         </template>
       </el-table-column>
@@ -88,8 +88,7 @@
             scope.row.hType == '业务' &&
             scope.row.state == 3 &&
             (scope.row.businessState == 1 || scope.row.businessState == 2|| scope.row.businessState == 3|| scope.row.businessState == 4)
-          " v-hasPermi="['project:st:edit']"
-            @click="jumpBusiness(scope.row)">业务明细</el-button>
+          " v-hasPermi="['project:st:edit']" @click="jumpBusiness(scope.row)">业务明细</el-button>
           <!-- <el-button size="mini" type="text" v-if="scope.row.hType == '业务'" @click="openChangeBusiness(scope.row)"
             v-hasPermi="['project:st:edit']">修改业务</el-button> -->
           <el-button size="mini" v-if="
@@ -373,14 +372,14 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="服务周期开始" prop="cycleStart">
-              <el-date-picker clearable style="width: 100%" v-model="form2.cycleStart" @change="jsprice" type="date"
+              <el-date-picker clearable style="width: 100%" v-model="form2.cycleStart" @change="calcPrice" type="date"
                 value-format="yyyy-MM-dd" placeholder="选择服务周期开始">
               </el-date-picker>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="服务周期结束" prop="cycleEnd">
-              <el-date-picker clearable style="width: 100%" v-model="form2.cycleEnd" @change="jsprice" type="date"
+              <el-date-picker clearable style="width: 100%" v-model="form2.cycleEnd" @change="calcPrice" type="date"
                 value-format="yyyy-MM-dd" placeholder="选择服务周期结束">
               </el-date-picker>
             </el-form-item>
@@ -389,19 +388,19 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="预计单价(元)" prop="expectPrice">
-              <el-input v-model="form2.expectPrice" placeholder="请输入预计单价" @change="jsprice" />
+              <el-input v-model="form2.expectPrice" placeholder="请输入预计单价" @change="calcPrice" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="预计重量(吨)" prop="expectWeight">
-              <el-input v-model="form2.expectWeight" placeholder="请输入预计重量" @change="jsprice" />
+              <el-input v-model="form2.expectWeight" placeholder="请输入预计重量" @change="calcPrice" />
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="成本年服务费费率(%)" prop="rateYear">
-              <el-input v-model="form2.rateYear" placeholder="请输入成本年服务费费率" @change="jsprice" />
+              <el-input v-model="form2.rateYear" placeholder="请输入成本年服务费费率" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -707,6 +706,7 @@ import {
   updateBStatus,
   getActualControl,
   checkProcessConfig,
+  calcEstimatedProfit
 } from "@/api/project/st";
 import { getToken } from "@/utils/auth";
 export default {
@@ -1762,6 +1762,20 @@ export default {
         } 个文件`
       );
     },
+    calcPrice(){
+      if (this.form2.expectPrice && this.form2.cycleStart && this.form2.cycleEnd && this.form2.expectWeight && this.form2.projectId){
+        calcEstimatedProfit({
+          expectPrice: this.form2.expectPrice,
+          cycleStart: this.form2.cycleStart,
+          cycleEnd: this.form2.cycleEnd,
+          expectWeight: this.form2.expectWeight,
+          projectId: this.form2.projectId
+        }).then((response) => {
+          console.log('计算返回', response)
+          this.form2.expectProfits = response.data
+        });
+      }
+    }
   },
 };
 </script>
