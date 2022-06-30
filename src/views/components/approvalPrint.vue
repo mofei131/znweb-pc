@@ -241,7 +241,7 @@
         businessKey:this.stId,
         approvalType:this.typeId
       }).then((res) => {
-        // JSON.stringify(res.data) == "{}"?this.nodeStateList = null:this.nodeStateList = res.data;
+        JSON.stringify(res.data) == "{}"?this.nodeStateList = null:this.nodeStateList = res.data;
       });
       approveHistory({
         businessKey:this.stId,
