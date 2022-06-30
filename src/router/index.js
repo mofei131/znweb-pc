@@ -93,7 +93,10 @@ export const constantRoutes = [{
             component: (resolve) =>
                 require(["@/views/system/user/authRole"], resolve),
             name: "AuthRole",
-            meta: { title: "分配角色" },
+            meta: {
+              title: "分配角色",
+              activeMenu: '/system/user'
+              },
         }, ],
     },
     {
@@ -105,7 +108,10 @@ export const constantRoutes = [{
             component: (resolve) =>
                 require(["@/views/system/role/authUser"], resolve),
             name: "AuthUser",
-            meta: { title: "分配用户" },
+            meta: {
+              title: "分配用户",
+              activeMenu: '/system/role'
+              },
         }, ],
     },
     {
@@ -154,40 +160,49 @@ export const constantRoutes = [{
             meta: { title: "查看明细" },
         }, ],
     },
-    {
-        path: "/st",
-        component: Layout,
-        hidden: true,
-        children: [{
-                path: "lookAdd/:stId(\\d+)",
-                component: (resolve) =>
-                    require(["@/views/project/st/look/indexAdd"], resolve),
-                name: "lookAdd",
-                meta: { title: "查看新增业务" },
-            },
-            {
-                path: "lookAddP/:stId(\\d+)",
-                component: (resolve) =>
-                    require(["@/views/project/st/lookindexAdd"], resolve),
-                name: "lookindexAdd",
-                meta: { title: "查看新增项目" },
-            },
-            {
-                path: "lookAddB/:stId(\\d+)",
-                component: (resolve) =>
-                    require(["@/views/project/st/lookbissnessAdd"], resolve),
-                name: "lookbissnessAdd",
-                meta: { title: "查看新增业务" },
-            },
-            {
-                path: "businessDetailView/:stId(\\d+)",
-                component: (resolve) =>
-                    require(["@/views/project/st/look/businessDetailView"], resolve),
-                name: "businessDetailView",
-                meta: { title: "业务明细查看" },
-            }
-        ],
-    },
+     {
+            path: "/st",
+            component: Layout,
+            hidden: true,
+            children: [{
+                    path: "lookAdd/:stId(\\d+)",
+                    component: (resolve) =>
+                        require(["@/views/project/st/look/indexAdd"], resolve),
+                    name: "lookAdd",
+                    meta: { 
+                      title: "查看新增业务",
+                      activeMenu: '/project/stadd'
+                      },
+                },
+                {
+                    path: "lookAddP/:stId(\\d+)",
+                    component: (resolve) =>
+                        require(["@/views/project/st/lookindexAdd"], resolve),
+                    name: "lookindexAdd",
+                    meta: { 
+                      activeMenu: '/project/stadd',
+                      title: "查看新增项目"
+                       },
+                },
+                {
+                    path: "lookAddB/:stId(\\d+)",
+                    component: (resolve) =>
+                        require(["@/views/project/st/lookbissnessAdd"], resolve),
+                    name: "lookbissnessAdd",
+                    meta: { 
+                      title: "查看新增业务",
+                      activeMenu: '/project/stadd'
+                      },
+                },
+                {
+                    path: "businessDetailView/:stId(\\d+)",
+                    component: (resolve) =>
+                        require(["@/views/project/st/look/businessDetailView"], resolve),
+                    name: "businessDetailView",
+                    meta: { title: "业务明细查看" },
+                }
+            ],
+        },
     {
         path: "/st",
         component: Layout,
@@ -222,7 +237,10 @@ export const constantRoutes = [{
                 component: (resolve) =>
                     require(["@/views/project/contract/look/index"], resolve),
                 name: "contractLook",
-                meta: { title: "查看合同" },
+                meta: {
+                  title: "查看合同",
+                  activeMenu: '/project/contract'
+                  },
             },
             {
                 path: "index",
@@ -249,7 +267,10 @@ export const constantRoutes = [{
                 component: (resolve) =>
                     require(["@/views/project/grn/look/index"], resolve),
                 name: "grnLook",
-                meta: { title: "查看入库" },
+                meta: {
+                  title: "查看入库",
+                  activeMenu: '/gryn/grn'
+                  },
             },
             {
                 path: "index",
@@ -274,7 +295,10 @@ export const constantRoutes = [{
                 component: (resolve) =>
                     require(["@/views/project/gry/look/index"], resolve),
                 name: "gryLook",
-                meta: { title: "查看出库" },
+                meta: {
+                  title: "查看出库",
+                  activeMenu: '/gryn/gry'
+                  },
             },
             {
                 path: "index",
@@ -311,7 +335,10 @@ export const constantRoutes = [{
                 component: (resolve) =>
                     require(["@/views/project/apayment/look/index"], resolve),
                 name: "apaymentLook",
-                meta: { title: "查看预付款" },
+                meta: {
+                  title: "查看预付款",
+                  activeMenu: '/sfk/apayment'
+                  },
             },
             {
                 path: "index",
@@ -338,7 +365,10 @@ export const constantRoutes = [{
                 component: (resolve) =>
                     require(["@/views/project/sk/look/index"], resolve),
                 name: "skLook",
-                meta: { title: "查看收款" },
+                meta: {
+                  title: "查看收款",
+                  activeMenu: '/sfk/sk'
+                  },
             },
             {
                 path: "index",
@@ -354,6 +384,12 @@ export const constantRoutes = [{
             },
         ],
     },
+    // {
+    //   path:'/wl',
+    //   component: Layout,
+    //   hidden: true,
+    //   children:[]
+    // },
     {
         path: "/lpayment",
         component: Layout,
@@ -363,7 +399,10 @@ export const constantRoutes = [{
                 component: (resolve) =>
                     require(["@/views/project/lpayment/look/index"], resolve),
                 name: "lpaymentLook",
-                meta: { title: "查看物流付款" },
+                meta: {
+                  title: "查看物流付款",
+                  activeMenu: '/wl/lpayment'
+                },
             },
             {
                 path: "index",
@@ -382,6 +421,21 @@ export const constantRoutes = [{
         ],
     },
     {
+        path: "/wldetails",
+        component: Layout,
+        hidden: true,
+        children: [{
+            path: "look/:wldetailsId(\\d+)",
+            component: (resolve) =>
+                require(["@/views/project/wldetails/look/index"], resolve),
+            name: "wldetailsLook",
+            meta: {
+              title: "查看物流收票",
+              activeMenu: '/wl/wldetails'
+              },
+        }, ],
+    },
+    {
         path: "/fpayment",
         component: Layout,
         hidden: true,
@@ -390,7 +444,10 @@ export const constantRoutes = [{
                 component: (resolve) =>
                     require(["@/views/project/fpayment/look/index"], resolve),
                 name: "fpaymentLook",
-                meta: { title: "查看最终付款" },
+                meta: {
+                  title: "查看最终付款",
+                  activeMenu: '/sfk/fpayment'
+                  },
             },
             {
                 path: "index",
@@ -417,7 +474,10 @@ export const constantRoutes = [{
                 component: (resolve) =>
                     require(["@/views/project/sticket/look/index"], resolve),
                 name: "sticketLook",
-                meta: { title: "查看收票" },
+                meta: {
+                  title: "查看收票",
+                  activeMenu: '/fp/sticke'
+                  },
             },
             {
                 path: "index",
@@ -444,7 +504,10 @@ export const constantRoutes = [{
                 component: (resolve) =>
                     require(["@/views/project/supplier/look/index"], resolve),
                 name: "supplierLook",
-                meta: { title: "查看供应商" },
+                meta: {
+                  title: "查看供应商",
+                  activeMenu: '/basic/supplier'
+                  },
             },
             {
                 path: "index",
@@ -464,7 +527,10 @@ export const constantRoutes = [{
                 component: (resolve) =>
                     require(["@/views/project/terminal/look/index"], resolve),
                 name: "terminalLook",
-                meta: { title: "查看终端客户" },
+                meta: {
+                  title: "查看终端客户",
+                  activeMenu: '/basic/terminal'
+                  },
             },
             {
                 path: "index",
@@ -484,7 +550,10 @@ export const constantRoutes = [{
                 component: (resolve) =>
                     require(["@/views/project/margin/look/index"], resolve),
                 name: "marginLook",
-                meta: { title: "查看保证金" },
+                meta: {
+                  title: "查看保证金",
+                  activeMenu: '/bzj/margin'
+                  },
             },
             {
                 path: "index",
@@ -511,7 +580,10 @@ export const constantRoutes = [{
                 component: (resolve) =>
                     require(["@/views/project/kp/look/index"], resolve),
                 name: "kpLook",
-                meta: { title: "查看开票" },
+                meta: {
+                  title: "查看开票",
+                  activeMenu: '/fp/kp'
+                  },
             },
             {
                 path: "index",
@@ -554,7 +626,10 @@ export const constantRoutes = [{
             component: (resolve) =>
                 require(["@/views/project/cplan/look/index"], resolve),
             name: "cplanLook",
-            meta: { title: "查看资金计划" },
+            meta: {
+              title: "查看资金计划",
+              activeMenu: '/sfk/cplan'
+              },
         }, ],
     },
     {
@@ -578,7 +653,10 @@ export const constantRoutes = [{
             component: (resolve) =>
                 require(["@/views/project/kd/look/index"], resolve),
             name: "kdLook",
-            meta: { title: "查看快递记录" },
+            meta: { 
+              title: "查看快递记录",
+              activeMenu: '/other/kd'
+              },
         }, ],
     },
     {
@@ -590,19 +668,10 @@ export const constantRoutes = [{
             component: (resolve) =>
                 require(["@/views/project/paydetails/index"], resolve),
             name: "paydetailsList",
-            meta: { title: "付款明细" },
-        }, ],
-    },
-    {
-        path: "/wldetails",
-        component: Layout,
-        hidden: true,
-        children: [{
-            path: "look/:wldetailsId(\\d+)",
-            component: (resolve) =>
-                require(["@/views/project/wldetails/look/index"], resolve),
-            name: "wldetailsLook",
-            meta: { title: "查看物流收票" },
+            meta: {
+              title: "付款明细",
+              activeMenu: '/sfk/apayment'
+              },
         }, ],
     },
     {
@@ -614,7 +683,10 @@ export const constantRoutes = [{
                 component: (resolve) =>
                     require(["@/views/project/realsk/look/index"], resolve),
                 name: "realskLook",
-                meta: { title: "查看实际收款" },
+                meta: {
+                  title: "查看实际收款",
+                  activeMenu: '/sfk/realsk'
+                  },
             },
             {
                 path: "edit",
@@ -634,7 +706,10 @@ export const constantRoutes = [{
                 component: (resolve) =>
                     require(["@/views/project/bidApply/look/index"], resolve),
                 name: "bidApplyLook",
-                meta: { title: "查看投标申请" },
+                meta: {
+                  title: "查看投标申请",
+                  activeMenu: '/project/bidApply'
+                  },
             },
             {
                 path: "index",
@@ -666,7 +741,10 @@ export const constantRoutes = [{
                 component: (resolve) =>
                     require(["@/views/project/refund/look/index"], resolve),
                 name: "refundLook",
-                meta: { title: "退款管理查看" },
+                meta: {
+                  title: "退款管理查看",
+                  activeMenu: '/sfk/refund'
+                  },
             },
             {
                 path: "index",
