@@ -278,6 +278,8 @@ export default {
             },
             itemStyle: {
               normal: {
+                shadowBlur: 30,
+                 shadowColor: 'rgba(0, 0, 0, 0.4)',
                 color: function (params) {
                   //自定义颜色
                   var colorList = [
@@ -354,6 +356,8 @@ export default {
             },
             itemStyle: {
               normal: {
+                shadowBlur: 30,
+                 shadowColor: 'rgba(0, 0, 0, 0.4)',
                 color: function (params) {
                   //自定义颜色
                   var colorList = [
