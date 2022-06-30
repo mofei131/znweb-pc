@@ -208,8 +208,8 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="业务类型" prop="settlementWay">
-                <span v-text="form.settlementWay"></span>
+              <el-form-item label="业务类型" prop="businessType">
+                <span v-text="businessTypeFormat(form.businessType)"></span>
               </el-form-item>
             </el-col>
           </el-row>
@@ -695,7 +695,7 @@
               </td>
               <td class="table-td-title detail">结算方式</td>
               <td class="table-td-content">
-                {{ printData.settlementWay }}
+                {{ businessTypeFormat(printData.businessType) }}
               </td>
             </tr>
             <tr>
@@ -1234,6 +1234,21 @@ export default {
         return "其他合同";
       }
     },
+    businessTypeFormat(businessType) {
+      if (businessType == "cud") {
+        return "储备业务垫付运费";
+      } else if (businessType == "cu") {
+        return "储备业务不垫付运费";
+      } else if (businessType == "dcd") {
+        return "到厂业务垫付运费";
+      } else if (businessType == "dc") {
+        return "到厂业务不垫付运费";
+      } else if (businessType == "cbd") {
+        return "车板业务垫付运费";
+      } else if (businessType == "cb") {
+        return "车板业务不垫付运费";
+      }
+    },
     /** 查询预付款列表 */
     getList() {
       this.loading = true;
@@ -1559,6 +1574,7 @@ export default {
     //业务开始
     //选择项目
     changeProject(projectId) {
+      let that = this
       this.listForBusArr = []
       this.form.stId = ''
       this.form.stName = ''
@@ -1566,6 +1582,8 @@ export default {
       if (projectId) {
         this.loadBusinessForCombobox(projectId);
       }
+      let businessType = this.listForProArr[that.listForProArr.findIndex(x => x.projectId == projectId)].businessType
+      this.form.businessType = businessType
     },
     changeSt(stId) {
       let businessFind = this.listForBusArr.filter(x => x.stId == stId);
@@ -1587,18 +1605,14 @@ export default {
         this.form.jc12 = 0;
         this.form.rewardp = 0;
         this.tableybData = [];
-        this.form.supplierId = null;
-        this.form.supplierName = null;
+        this.form.supplierId = obj.supplierId;
+        this.form.supplierName = obj.supplierName;
         this.form.account = null;
         this.form.openbank = null;
-        this.$set(this.form, "number", obj.number);
-        this.$set(this.form, "settlementWay", obj.settlementWay);
         let dataInit = { stId: obj.stId };
         findInit(dataInit).then((response) => {
           this.form.yfPrice = response.data.yfPrice;
           this.form.dfPrice = response.data.dfPrice;
-          this.form.supplierId = response.data.supplierId;
-          this.form.supplierName = response.data.supplierName;
           this.form.account = response.data.account;
           this.form.openbank = response.data.openbank;
         });

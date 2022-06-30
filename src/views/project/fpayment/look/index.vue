@@ -50,8 +50,8 @@
               <td class="tdCoent">{{form.serialNo}}</td>
             </tr>
             <tr>
-              <td class="tdTitle">业务模式</td>
-              <td class="tdCoent">{{form.settlementWay}}</td>
+              <td class="tdTitle">业务类型</td>
+              <td class="tdCoent">{{ businessTypeFormat(form.businessType) }}</td>
               <td class="tdTitle">供应商</td>
               <td class="tdCoent">{{form.supplierName}}</td>
               <td class="tdTitle">供应商账号</td>
@@ -94,9 +94,9 @@
             <div>供应商开户行：</div><span v-text="form.openbank"></span>
           </div>
         </el-col> -->
-        <!--        <el-col :span="5">-->
-        <!--          预付方式：<span v-text="form.payType"></span>-->
-        <!--        </el-col>-->
+      <!--        <el-col :span="5">-->
+      <!--          预付方式：<span v-text="form.payType"></span>-->
+      <!--        </el-col>-->
       <!-- </el-row> -->
 
       <!-- <el-row class="head-title">
@@ -438,6 +438,21 @@ export default {
         return "物流服务合同";
       } else if (row.type == "5") {
         return "其他合同";
+      }
+    },
+    businessTypeFormat(businessType) {
+      if (businessType == "cud") {
+        return "储备业务垫付运费";
+      } else if (businessType == "cu") {
+        return "储备业务不垫付运费";
+      } else if (businessType == "dcd") {
+        return "到厂业务垫付运费";
+      } else if (businessType == "dc") {
+        return "到厂业务不垫付运费";
+      } else if (businessType == "cbd") {
+        return "车板业务垫付运费";
+      } else if (businessType == "cb") {
+        return "车板业务不垫付运费";
       }
     },
     /** 导出按钮操作 */
