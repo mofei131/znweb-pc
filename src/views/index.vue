@@ -244,22 +244,22 @@ export default {
         {
           name: '500(万吨)以上\n25个供应商',
           value: 25,
-          label: {color: '#fec095'}
+          label: {color: '#15EFE6'}
         },
         {
           name: '100-500(万吨)\n15个供应商',
           value: 15,
-          label: {color: '#439eff'}
+          label: {color: '#4E93F9'}
         },
         {
           name: '50-100(万吨)\n10个供应商',
           value: 10,
-          label: {color: '#61e4af'}
+          label: {color: '#D23C92'}
         },
         {
           name: '0-50(万吨)\n12个供应商',
           value: 12,
-          label: {color: '#e96f52'}
+          label: {color: '#FFD04E'}
         }
       ]
       const chartDom = document.getElementById('chartB')
@@ -278,24 +278,26 @@ export default {
             },
             itemStyle: {
               normal: {
+                shadowBlur: 30,
+                 shadowColor: 'rgba(0, 0, 0, 0.4)',
                 color: function (params) {
                   //自定义颜色
                   var colorList = [
                     {
-                      c1: ' #fce5ca',  //管理
-                      c2: '#FF9D62'
+                      c1: ' #15EFE6',  //管理
+                      c2: '#60BBFF'
                     },
                     {
-                      c1: ' #508DFF',  //实践
-                      c2: '#26C5FE'
+                      c1: ' #4E93F9',  //实践
+                      c2: '#021FCA'
                     },
                     {
-                      c1: '#63E587',//操作
-                      c2: '#5FE2E4'
+                      c1: '#D23C92',//操作
+                      c2: '#FA971F'
                     },
                     {
-                      c1: '#FA971F',//操作
-                      c2: '#D23C92'
+                      c1: '#FFD04E',//操作
+                      c2: '#FFE256'
                     }]
                   return new echarts.graphic.LinearGradient(1, 0, 0, 0, [{ //颜色渐变函数 前四个参数分别表示四个位置依次为左、下、右、上
 
@@ -319,22 +321,22 @@ export default {
         {
           name: '500(万吨)以上\n25个终端客户',
           value: 25,
-          label: {color: '#fec095'}
+          label: {color: '#15EFE6'}
         },
         {
           name: '100-500(万吨)\n15个终端客户',
           value: 15,
-          label: {color: '#439eff'}
+          label: {color: '#4E93F9'}
         },
         {
           name: '50-100(万吨)\n10个终端客户',
           value: 10,
-          label: {color: '#61e4af'}
+          label: {color: '#D23C92'}
         },
         {
           name: '0-50(万吨)\n12个终端客户',
           value: 12,
-          label: {color: '#e96f52'}
+          label: {color: '#FFD04E'}
         }
       ]
       const chartDom = document.getElementById('chartC')
@@ -354,24 +356,26 @@ export default {
             },
             itemStyle: {
               normal: {
+                shadowBlur: 30,
+                 shadowColor: 'rgba(0, 0, 0, 0.4)',
                 color: function (params) {
                   //自定义颜色
                   var colorList = [
                     {
-                      c1: ' #fce5ca',  //管理
-                      c2: '#FF9D62'
+                      c1: ' #15EFE6',  //管理
+                      c2: '#60BBFF'
                     },
                     {
-                      c1: ' #508DFF',  //实践
-                      c2: '#26C5FE'
+                      c1: ' #4E93F9',  //实践
+                      c2: '#021FCA'
                     },
                     {
-                      c1: '#63E587',//操作
-                      c2: '#5FE2E4'
+                      c1: '#D23C92',//操作
+                      c2: '#FA971F'
                     },
                     {
-                      c1: '#FA971F',//操作
-                      c2: '#D23C92'
+                      c1: '#FFD04E',//操作
+                      c2: '#FFE256'
                     }]
                   return new echarts.graphic.LinearGradient(1, 0, 0, 0, [{ //颜色渐变函数 前四个参数分别表示四个位置依次为左、下、右、上
 

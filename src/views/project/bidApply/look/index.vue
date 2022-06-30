@@ -159,7 +159,7 @@
 
 import {getToken} from "@/utils/auth";
 import {getProcessDataByStId} from "@/api/approve";
-import { getBidApply, listForBus, listForPro } from "@/api/project/bidApply";
+import { getBidApply} from "@/api/project/bidApply";
 import CustomUpload from '@/views/components/customUpload'
 export default {
   name: "bidApplyLook",
@@ -180,9 +180,7 @@ export default {
       fileList:[],
       // 表单参数
       form: {},
-      bidId: "",
-      listForBusArr: [],
-      listForProArr: [],
+      bidId: ""
     };
   },
   computed:{
@@ -195,8 +193,6 @@ export default {
     }
   },
   created() {
-    this.listForBus();
-    this.listForPro();
     const bidId = this.$route.params && this.$route.params.bidId;
     this.bidId=bidId
     getBidApply(bidId).then(response => {
@@ -208,22 +204,6 @@ export default {
     cancel(){
       this.$store.dispatch("tagsView/delView", this.$route);
       this.$router.go(-1);
-    },
-    // 查询业务列表
-    async listForBus() {
-      const { data } = await listForBus();
-      this.listForBusArr = data;
-      // console.log(11, this.listForBusArr);
-      this.form = this.listForBusArr;
-      // console.log(33, this.form);
-    },
-    // 查询项目列表
-    async listForPro() {
-      const { data } = await listForPro();
-      this.listForProArr = data;
-      // console.log(22, this.listForProArr);
-      this.form = this.listForProArr;
-      // console.log(44, this.form);
     }
   }
 };
