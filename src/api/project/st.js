@@ -252,3 +252,11 @@ export function listBusinessForCombobox(query) {
         params: query,
     });
 }
+// 计算预计利润
+export function calcEstimatedProfit(data) {
+    return request({
+        url: "/project/business/calcEstimatedProfit",
+        method: "post",
+        data: data,
+    });
+}
