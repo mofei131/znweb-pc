@@ -85,7 +85,6 @@
 import * as echarts from "echarts";
 import { taskTodo, listByMonth } from "@/api/approve";
 import noticeBar from "@/components/NoticeBar/index";
-import { listCplan } from "@/api/project/cplan";
 export default {
   data() {
     return {
@@ -121,8 +120,6 @@ export default {
       value1: ["2022-01-01"],
       value2: ["2022-01-01"],
       mouthData: '',
-      cplanList: [],
-      loading: false
     }
   },
   components: {
@@ -136,7 +133,6 @@ export default {
         this.tongzhi = "暂无通知"
       }
     });
-    this.getList()
     this.getlistByYear2()
     this.myEchartsB()
     this.myEchartsC()
@@ -144,14 +140,6 @@ export default {
 
   },
   methods: {
-    getList() {
-      this.loading = true;
-      listCplan(this.queryParams2).then((response) => {
-        this.cplanList = response.rows;
-        this.total = response.total;
-        this.loading = false;
-      });
-    },
     changeYear1(date) {
       console.log(date)
     },
@@ -218,7 +206,7 @@ export default {
         series: {
           type: "bar", //bar是柱形图，line是折线图
           barWidth: "20",
-          data: this.mouthData.map(item => {
+          data: ['12212','232817','166172','216277','172626','128187','126652','181877','176266','177662','16661','17771'].map(item => {
             return {
               value: item,
               itemStyle: {
