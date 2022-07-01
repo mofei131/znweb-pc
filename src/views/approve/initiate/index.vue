@@ -134,12 +134,12 @@
 
 <script>
 import {
-  deleteByStId,
+  removeProcess,
   taskInitiator,
   restartProcess,
   withdrawProcess,
 } from "@/api/approve/index.js";
-import { delSt, delStupdate, getStupdate } from "@/api/project/st";
+import { delSt, delProject, delStupdate, getStupdate } from "@/api/project/st";
 import { delContract } from "@/api/project/contract";
 import {
   delApayment,
@@ -282,7 +282,12 @@ export default {
     handleUpdate(row) {
       let typeId = row.approvalType;
       let stId = row.businessKey;
-      if (typeId == "1") {
+      if (typeId == "20") {
+        this.$router.push({
+          name: "stEdit",
+          params: { isEdit: "true", projectId: stId },
+        });
+      } else if (typeId == "1") {
         this.$router.push({
           name: "stEdit",
           params: { isEdit: "true", stId: stId },
@@ -376,9 +381,24 @@ export default {
     handleDelete(row) {
       let typeId = row.approvalType;
       let stId = row.businessKey;
-
-      if (typeId == "1") {
+      if (typeId == "20") {
         this.$confirm("是否确认删除项目信息?", "警告", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        })
+          .then(function () {
+            return delProject(stId);
+          })
+          .then(() => {
+            removeProcess({ businessKey: stId, approvalType: typeId }).then(() => {
+              this.getList();
+              this.msgSuccess("删除成功");
+            })
+          })
+          .catch(() => { });
+      } else if (typeId == "1") {
+        this.$confirm("是否确认删除业务信息?", "警告", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning",
@@ -387,9 +407,10 @@ export default {
             return delSt(stId);
           })
           .then(() => {
-            deleteByStId(stId);
-            this.getList();
-            this.msgSuccess("删除成功");
+            removeProcess({ businessKey: stId, approvalType :typeId}).then(() => {
+              this.getList();
+              this.msgSuccess("删除成功");
+            })
           })
           .catch(() => {});
       } else if (typeId == "2") {
@@ -402,9 +423,10 @@ export default {
             return delStupdate(stId);
           })
           .then(() => {
-            deleteByStId(stId);
-            this.getList();
-            this.msgSuccess("删除成功");
+            removeProcess({ businessKey: stId, approvalType: typeId }).then(() => {
+              this.getList();
+              this.msgSuccess("删除成功");
+            })
           })
           .catch(() => {});
       } else if (typeId == "3") {
@@ -417,9 +439,10 @@ export default {
             return delContract(stId);
           })
           .then(() => {
-            deleteByStId(stId);
-            this.getList();
-            this.msgSuccess("删除成功");
+            removeProcess({ businessKey: stId, approvalType: typeId }).then(() => {
+              this.getList();
+              this.msgSuccess("删除成功");
+            })
           })
           .catch(() => {});
       } else if (typeId == "4") {
@@ -432,9 +455,10 @@ export default {
             return delApayment(stId);
           })
           .then(() => {
-            deleteByStId(stId);
-            this.getList();
-            this.msgSuccess("删除成功");
+            removeProcess({ businessKey: stId, approvalType: typeId }).then(() => {
+              this.getList();
+              this.msgSuccess("删除成功");
+            })
           })
           .catch(() => {});
       } else if (typeId == "5") {
@@ -447,7 +471,7 @@ export default {
             return delFpayment(stId);
           })
           .then(() => {
-            deleteByStId(stId);
+            removeProcess({ businessKey: stId, approvalType: typeId });
             this.getList();
             this.msgSuccess("删除成功");
           })
@@ -462,9 +486,10 @@ export default {
             return delSk(stId);
           })
           .then(() => {
-            deleteByStId(stId);
-            this.getList();
-            this.msgSuccess("删除成功");
+            removeProcess({ businessKey: stId, approvalType: typeId }).then(() => {
+              this.getList();
+              this.msgSuccess("删除成功");
+            })
           })
           .catch(() => {});
       } else if (typeId == "7") {
@@ -477,9 +502,10 @@ export default {
             return delMargin(stId);
           })
           .then(() => {
-            deleteByStId(stId);
-            this.getList();
-            this.msgSuccess("删除成功");
+            removeProcess({ businessKey: stId, approvalType: typeId }).then(() => {
+              this.getList();
+              this.msgSuccess("删除成功");
+            })
           })
           .catch(() => {});
       } else if (typeId == "8") {
@@ -492,9 +518,10 @@ export default {
             return delCplan(stId);
           })
           .then(() => {
-            deleteByStId(stId);
-            this.getList();
-            this.msgSuccess("删除成功");
+            removeProcess({ businessKey: stId, approvalType: typeId }).then(() => {
+              this.getList();
+              this.msgSuccess("删除成功");
+            })
           })
           .catch(() => {});
       } else if (typeId == "9") {
@@ -507,9 +534,10 @@ export default {
             return delLpayment(stId);
           })
           .then(() => {
-            deleteByStId(stId);
-            this.getList();
-            this.msgSuccess("删除成功");
+            removeProcess({ businessKey: stId, approvalType: typeId }).then(() => {
+              this.getList();
+              this.msgSuccess("删除成功");
+            })
           })
           .catch(() => {});
       } else if (typeId == "10") {
@@ -522,9 +550,10 @@ export default {
             return delGrn(stId);
           })
           .then(() => {
-            deleteByStId(stId);
-            this.getList();
-            this.msgSuccess("删除成功");
+            removeProcess({ businessKey: stId, approvalType: typeId }).then(() => {
+              this.getList();
+              this.msgSuccess("删除成功");
+            })
           })
           .catch(() => {});
       } else if (typeId == "11") {
@@ -537,9 +566,10 @@ export default {
             return delGry(stId);
           })
           .then(() => {
-            deleteByStId(stId);
-            this.getList();
-            this.msgSuccess("删除成功");
+            removeProcess({ businessKey: stId, approvalType: typeId }).then(() => {
+              this.getList();
+              this.msgSuccess("删除成功");
+            })
           })
           .catch(() => {});
       } else if (typeId == "12") {
@@ -552,9 +582,10 @@ export default {
             return delSupplier(stId);
           })
           .then(() => {
-            deleteByStId(stId);
-            this.getList();
-            this.msgSuccess("删除成功");
+            removeProcess({ businessKey: stId, approvalType: typeId }).then(() => {
+              this.getList();
+              this.msgSuccess("删除成功");
+            })
           })
           .catch(() => {});
       } else if (typeId == "13") {
@@ -567,9 +598,10 @@ export default {
             return delTerminal(stId);
           })
           .then(() => {
-            deleteByStId(stId);
-            this.getList();
-            this.msgSuccess("删除成功");
+            removeProcess({ businessKey: stId, approvalType: typeId }).then(() => {
+              this.getList();
+              this.msgSuccess("删除成功");
+            })
           })
           .catch(() => {});
       } else if (typeId == "14") {
@@ -582,9 +614,10 @@ export default {
             return delSticket(stId);
           })
           .then(() => {
-            deleteByStId(stId);
-            this.getList();
-            this.msgSuccess("删除成功");
+            removeProcess({ businessKey: stId, approvalType: typeId }).then(() => {
+              this.getList();
+              this.msgSuccess("删除成功");
+            })
           })
           .catch(() => {});
       } else if (typeId == "15") {
@@ -597,9 +630,10 @@ export default {
             return delKp(stId);
           })
           .then(() => {
-            deleteByStId(stId);
-            this.getList();
-            this.msgSuccess("删除成功");
+            removeProcess({ businessKey: stId, approvalType: typeId }).then(() => {
+              this.getList();
+              this.msgSuccess("删除成功");
+            })
           })
           .catch(() => {});
       } else if (typeId == "16") {
@@ -612,9 +646,10 @@ export default {
             return delDp(stId);
           })
           .then(() => {
-            deleteByStId(stId);
-            this.getList();
-            this.msgSuccess("删除成功");
+            removeProcess({ businessKey: stId, approvalType: typeId }).then(() => {
+              this.getList();
+              this.msgSuccess("删除成功");
+            })
           })
           .catch(() => {});
       } else if (typeId == "17") {
@@ -627,9 +662,10 @@ export default {
             return delRealsk(stId);
           })
           .then(() => {
-            deleteByStId(stId);
-            this.getList();
-            this.msgSuccess("删除成功");
+            removeProcess({ businessKey: stId, approvalType: typeId }).then(() => {
+              this.getList();
+              this.msgSuccess("删除成功");
+            })
           })
           .catch(() => {});
       } else if (typeId == "18") {
@@ -642,9 +678,10 @@ export default {
             return delBidApply(stId);
           })
           .then(() => {
-            deleteByStId(stId);
-            this.getList();
-            this.msgSuccess("删除成功");
+            removeProcess({ businessKey: stId, approvalType: typeId }).then(() => {
+              this.getList();
+              this.msgSuccess("删除成功");
+            })
           })
           .catch(() => {});
       } else if (typeId == "19") {
@@ -657,9 +694,10 @@ export default {
             return delRefund(stId);
           })
           .then(() => {
-            deleteByStId(stId);
-            this.getList();
-            this.msgSuccess("删除成功");
+            removeProcess({ businessKey: stId, approvalType: typeId }).then(() => {
+              this.getList();
+              this.msgSuccess("删除成功");
+            })
           })
           .catch(() => {});
       }
