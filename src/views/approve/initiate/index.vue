@@ -288,13 +288,25 @@ export default {
           params: { isEdit: "true", projectId: stId },
         });
       } else if (typeId == "1") {
+        //业务
         this.$router.push({
-          name: "stEdit",
-          params: { isEdit: "true", stId: stId },
+          name: "Stadd",
+          params: { isEdit: "true", stId: stId,st:1 },
         });
       } else if (typeId == "2") {
-        this.$message.error("请重新操作项目状态");
-      } else if (typeId == "3") {
+        //业务操作
+        this.$router.push({
+          name: "Stadd",
+          params: { isEdit: "true", stId: stId,st:2 },
+        });
+      }else if (typeId == "20") {
+        //项目
+        this.$router.push({
+          name: "Stadd",
+          params: { isEdit: "true", projectId: stId },
+        });
+      }
+      else if (typeId == "3") {
         this.$router.push({
           name: "contractEdit",
           params: { isEdit: "true", contractId: stId },

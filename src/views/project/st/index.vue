@@ -1212,6 +1212,13 @@ export default {
     getActualControl().then((res) => {
       this.actualControlOptions = res.data;
     });
+        if(this.$route.params.st==1){
+      this.openChangeBusiness(this.$route.params)
+    }else if(this.$route.params.st==2){
+      this.openOperateBusiness(this.$route.params)
+    }else if(this.$route.params.projectId){
+      this.openChangeProject(this.$route.params)
+    }
   },
   methods: {
     stateChange(e) {
@@ -1425,10 +1432,10 @@ export default {
       });
     },
     openChangeBusiness(row) {
-      projectInfo(row.projectId).then((res) => {
-        this.projectInfo = res.data;
-      });
       getStInfo(row.stId).then((res) => {
+                projectInfo(res.data.projectId).then((ress) => {
+          this.projectInfo = ress.data;
+        });
         this.form2 = res.data;
         this.form2.settlementP =
           res.data.settlementPA1 +
@@ -1475,7 +1482,7 @@ export default {
         this.form1.supplierId = parseInt(res.data.supplierId);
         this.form1.terminalId = parseInt(res.data.terminalId);
         this.form1.serviceManagerId = parseInt(res.data.serviceManagerId);
-        this.form1.actualControlId = parseInt(res.data.actualControlId);
+        this.form1.actualControlId = res.data.actualControlId;
       });
       this.openAddBox = true;
     },
