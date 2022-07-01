@@ -155,10 +155,10 @@ export function updateSt(data) {
     });
 }
 
-// 删除项目信息
+// 删除业务信息
 export function delSt(stId) {
     return request({
-        url: "/project/st/" + stId,
+        url: "/project/business/" + stId,
         method: "delete",
     });
 }
@@ -258,5 +258,13 @@ export function calcEstimatedProfit(data) {
         url: "/project/business/calcEstimatedProfit",
         method: "post",
         data: data,
+    });
+}
+
+// 删除项目信息
+export function delProject(projectId) {
+    return request({
+        url: "/project/project/" + projectId,
+        method: "delete",
     });
 }

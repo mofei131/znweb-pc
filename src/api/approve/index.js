@@ -321,3 +321,12 @@ export function withdrawProcess(query) {
         data: query,
     });
 }
+
+// 删除流程数据
+export function removeProcess(query) {
+    return request({
+        url: "/approve/approve/removeProcess",
+        method: "post",
+        data: query,
+    });
+}
