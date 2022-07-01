@@ -1598,6 +1598,8 @@ export default {
         if (projectFind && projectFind.length > 0) {
           this.form.supplierId = projectFind[0].supplierId;
           this.form.terminalId = projectFind[0].terminalId;
+          this.changeSupplier(this.form.supplierId);
+          this.changeTerinal(this.form.terminalId);
         }
       }
     },
