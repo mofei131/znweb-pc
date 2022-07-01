@@ -55,7 +55,7 @@
     </el-descriptions> -->
     <el-row class="head-title">
       <el-col :span="12">
-        <el-form-item label="合同信息"></el-form-item>
+        <el-form-item label="项目信息"></el-form-item>
       </el-col>
     </el-row>
     <el-row class="head-text">

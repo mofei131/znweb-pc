@@ -48,8 +48,6 @@
               <td class="tdCoent">{{form.stName}}</td>
               <td class="tdTitle">项目编号</td>
               <td class="tdCoent">{{form.serialNo}}</td>
-              <td class="tdTitle">代办人</td>
-              <td class="tdCoent">{{form.uName}}</td>
             </tr>
             <tr>
               <td class="tdTitle">供应商</td>
