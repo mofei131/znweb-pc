@@ -234,6 +234,16 @@ export default {
                 return '公铁联运'
             }
         },
+        changeChargemType(e) {
+            console.log('看这里', e)
+            if (e == '1') {
+                return '年息'
+            } else if (e = '2') {
+                return '固定差价'
+            } else if (e = '3') {
+                return '年息+固定差价'
+            }
+        },
     }
 }
 </script>

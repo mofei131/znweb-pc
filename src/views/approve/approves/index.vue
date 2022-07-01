@@ -3715,7 +3715,6 @@ export default {
       }
     },
       changeChargemType(e) {
-        console.log('看这里', e)
         if (e == '1') {
           return '年息'
         } else if (e = '2') {
