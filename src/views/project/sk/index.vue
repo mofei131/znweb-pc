@@ -187,7 +187,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item label="终端客户" prop="tName">
-                <span v-text="form.stName"></span>
+                <span v-text="form.tName"></span>
               </el-form-item>
             </el-col>
           </el-row>
@@ -1230,7 +1230,7 @@ export default {
         });
 
         this.form.tId = obj.terminalId;
-        this.form.tName = obj.tName;
+        this.form.tName = obj.terminalName;
 
         //获取预收款
         if (this.form.skType == "收款") {
