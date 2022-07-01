@@ -85,7 +85,7 @@
       </el-table-column>
       <el-table-column label="热值(Kcal)" align="center" prop="gryRz" />
       <el-table-column label="运输方式" align="center" prop="transportType" />
-      <el-table-column label="物流公司" align="center" prop="wlCompany" />
+      <el-table-column label="物流公司" align="center" prop="tpcName" />
       <el-table-column label="车数" align="center" prop="carNumber" />
       <el-table-column label="批次" align="center" prop="batch" />
       <el-table-column label="到货日期" align="center" prop="okTime" width="180">
@@ -223,7 +223,7 @@
               </el-table-column>
               <el-table-column property="transportType" label="运输方式">
               </el-table-column>
-              <el-table-column property="wlCompany" label="物流公司">
+              <el-table-column property="tpcName" label="物流公司">
               </el-table-column>
               <el-table-column property="carNumber" label="车数">
               </el-table-column>
@@ -273,7 +273,7 @@
               </el-table-column>
               <el-table-column property="transportType" label="运输方式">
               </el-table-column>
-              <el-table-column property="wlCompany" label="物流公司">
+              <el-table-column property="tpcName" label="物流公司">
               </el-table-column>
               <el-table-column property="carNumber" label="车数">
               </el-table-column>
@@ -686,7 +686,7 @@
                 {{ item.transportType }}
               </td>
               <td class="table-td-content" style="text-align: center">
-                {{ item.wlCompany }}
+                {{ item.tpcName }}
               </td>
               <td class="table-td-content" style="text-align: center">
                 {{ item.carNumber }}

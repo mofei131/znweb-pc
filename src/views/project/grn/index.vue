@@ -82,7 +82,7 @@
       </el-table-column>
       <el-table-column label="热值(Kcal)" align="center" prop="grnRz" />
       <el-table-column label="运输方式" align="center" prop="transportType" />
-      <el-table-column label="物流公司" align="center" prop="wlCompany" />
+      <el-table-column label="物流公司" align="center" prop="tpcName" />
       <el-table-column label="车数" align="center" prop="carNumber" />
       <el-table-column label="批次" align="center" prop="batch" />
       <el-table-column label="发货日期" align="center" prop="deliveryTime" width="180">
@@ -180,7 +180,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="物流公司" prop="tpcId">
-              <el-select filterable value-key="stId" @change="changeTpc" v-model="form.tpcId" placeholder="请选择物流公司"
+              <el-select filterable value-key="tpcId" @change="changeTpc" v-model="form.tpcId" placeholder="请选择物流公司"
                 style="width: 100%">
                 <el-option v-for="obj in tpcOptions" :key="obj.tpcId" :label="obj.name" :value="obj"></el-option>
               </el-select>
@@ -401,7 +401,7 @@
               </td>
               <td class="table-td-title detail">物流公司</td>
               <td class="table-td-content">
-                {{ printData.wlCompany }}
+                {{ printData.tpcName }}
               </td>
             </tr>
             <tr>
