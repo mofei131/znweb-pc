@@ -1130,6 +1130,16 @@ export default {
       this.form.stName = ''
       this.form.serialNo = ''
       if (projectId) {
+        let projectFind = this.listForProArr.filter(x => x.projectId == projectId);
+        if (projectFind && projectFind.length > 0) {
+          let obj = projectFind[0];
+          //成本年服务费率
+          if (obj.chargemType == "1" || obj.chargemType == "3") {
+            this.form.stRate = obj.chargemNx;
+          } else {
+            this.form.stRate = 0;
+          }
+        }
         this.loadBusinessForCombobox(projectId);
       }
     },
@@ -1149,14 +1159,6 @@ export default {
         // getContractListAll(data).then(response => {
         //   this.contractNameOptions = response.rows;
         // });
-
-        //成本年服务费率
-        if (obj.chargemType == "1" || obj.chargemType == "3") {
-          console.log(obj);
-          this.form.stRate = obj.chargemNx;
-        } else {
-          this.form.stRate = 0;
-        }
 
         //查询委托销售合同
         let c1 = { stId: obj.stId, type: "1" };
