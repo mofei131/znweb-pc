@@ -271,15 +271,22 @@ export default {
             data: pieData,
             label: {//饼图文字的显示
               show: true,//显示文字
+              padding: [0, -10, 0, -10],
               //自定义显示文字
               formatter: function (arg) {
                 return arg.name + '\n' + arg.percent + '%\n'
-              }
+              },
+            },
+            labelLine: {
+              normal: {
+                length: 5,
+                length2: 10,
+              },
             },
             itemStyle: {
               normal: {
                 shadowBlur: 30,
-                 shadowColor: 'rgba(0, 0, 0, 0.4)',
+                 shadowColor: 'rgba(0, 0, 0, 0.2)',
                 color: function (params) {
                   //自定义颜色
                   var colorList = [
@@ -348,16 +355,22 @@ export default {
             data: pieData,
             label: {//饼图文字的显示
               show: true,//显示文字
+              padding: [0, -10, 0, -10],
               //自定义显示文字
               formatter: function (arg) {
                 return arg.name + '\n' + arg.percent + '%\n'
               },
-              //padding:[0,-100,20,-100]
+            },
+            labelLine: {
+              normal: {
+                length: 5,
+                length2: 10,
+              },
             },
             itemStyle: {
               normal: {
                 shadowBlur: 30,
-                 shadowColor: 'rgba(0, 0, 0, 0.4)',
+                 shadowColor: 'rgba(0, 0, 0, 0.2)',
                 color: function (params) {
                   //自定义颜色
                   var colorList = [
