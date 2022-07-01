@@ -282,12 +282,7 @@ export default {
     handleUpdate(row) {
       let typeId = row.approvalType;
       let stId = row.businessKey;
-      if (typeId == "20") {
-        this.$router.push({
-          name: "stEdit",
-          params: { isEdit: "true", projectId: stId },
-        });
-      } else if (typeId == "1") {
+      if (typeId == "1") {
         //业务
         this.$router.push({
           name: "Stadd",
