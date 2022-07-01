@@ -597,7 +597,7 @@ import {
 import { getToken } from "@/utils/auth";
 import { getStList } from "@/api/project/gry";
 import print from "print-js";
-import { getProcessDataByStId, getApprovalProcessList,getApprovalType } from "@/api/approve";
+import { getProcessDataByStId, getApprovalProcessList, getApprovalType } from "@/api/approve";
 
 export default {
   name: "Supplier",

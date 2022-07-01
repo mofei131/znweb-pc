@@ -98,8 +98,8 @@
                             <td class="tdCoent">{{ stInfo.rateYear }}</td>
                             <td class="tdTitle">预计利润</td>
                             <td class="tdCoent">{{ stInfo.expectProfits }}</td>
-                            <td class="tdTitle"></td>
-                            <td class="tdCoent"></td>
+                            <td class="tdTitle">备注说明</td>
+                            <td class="tdCoent">{{ stInfo.node}}</td>
                         </tr>
                     </table>
                 </el-col>
@@ -235,7 +235,6 @@ export default {
             }
         },
         changeChargemType(e) {
-            console.log('看这里', e)
             if (e == '1') {
                 return '年息'
             } else if (e = '2') {

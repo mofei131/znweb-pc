@@ -74,241 +74,117 @@
               <table width="90%" cellpadding="0" cellspacing="0">
                 <tr>
                   <td class="tdTitle">业务名称</td>
-                  <td class="tdCoent">{{stInfo.stName}}</td>
+                  <td class="tdCoent">{{ stInfo.stName }}</td>
+                  <td class="tdTitle">项目编号</td>
+                  <td class="tdCoent">{{ stInfo.serialNo }}</td>
                   <td class="tdTitle">业务金额(万元)</td>
-                  <td class="tdCoent">{{stInfo.stAmount}}</td>
+                  <td class="tdCoent">{{ stInfo.stAmount }}</td>
+                </tr>
+                <tr>
                   <td class="tdTitle">结算比例</td>
-                  <td class="tdCoent">{{stInfo.settlementPA1 ? stInfo.settlementPA1 + '-' +
-            stInfo.settlementPA2 + '-' +
-            stInfo.settlementPA3 : ''}}</td>
-                </tr>
-                <tr>
+                  <td class="tdCoent">{{ stInfo.settlementPA1 ? stInfo.settlementPA1 + '-' +
+                    stInfo.settlementPA2 + '-' +
+                    stInfo.settlementPA3 : '' }}</td>
                   <td class="tdTitle">履约保证金</td>
-                  <td class="tdCoent">{{stInfo.marginType == 1 ? '有' : '无'}}</td>
+                  <td class="tdCoent">{{ stInfo.marginType == 1 ? '有' : '无' }}</td>
                   <td class="tdTitle">履约保证金金额(万元)</td>
-                  <td class="tdCoent">{{stInfo.margin}}</td>
+                  <td class="tdCoent">{{ stInfo.margin }}</td>
+                </tr>
+                <tr>
                   <td class="tdTitle">服务周期</td>
-                  <td class="tdCoent">{{stInfo.cycleStart + '-' + stInfo.cycleEnd}}</td>
-                </tr>
-                <tr>
+                  <td class="tdCoent">{{ stInfo.cycleStart + '-' + stInfo.cycleEnd }}</td>
                   <td class="tdTitle">预计重量(吨)</td>
-                  <td class="tdCoent">{{stInfo.expectWeight}}</td>
+                  <td class="tdCoent">{{ stInfo.expectWeight }}</td>
                   <td class="tdTitle">预计单价(元)</td>
-                  <td class="tdCoent">{{stInfo.expectPrice}}</td>
-                  <td class="tdTitle">成本年服务费率(%)</td>
-                  <td class="tdCoent">{{stInfo.rateYear}}</td>
+                  <td class="tdCoent">{{ stInfo.expectPrice }}</td>
                 </tr>
                 <tr>
+                  <td class="tdTitle">成本年服务费率(%)</td>
+                  <td class="tdCoent">{{ stInfo.rateYear }}</td>
                   <td class="tdTitle">预计利润</td>
-                  <td class="tdCoent">{{stInfo.expectProfits}}</td>
-                  <td class="tdTitle"></td>
-                  <td class="tdCoent"></td>
-                  <td class="tdTitle"></td>
-                  <td class="tdCoent"></td>
+                  <td class="tdCoent">{{ stInfo.expectProfits }}</td>
+                  <td class="tdTitle">备注说明</td>
+                  <td class="tdCoent">{{projectInfo.node}}</td>
                 </tr>
               </table>
-            </el-col>
-          </el-row>
-        <!-- <el-descriptions title="项目信息" :column="3" border>
-          <el-descriptions-item>
-            <template slot="label">立项类型</template>{{ projectInfo.projectType }}
-          </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">项目编号</template>{{ projectInfo.serialNo }}
-          </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">项目名称</template>{{ projectInfo.projectName }}
-          </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">立项编号</template>{{ projectInfo.projectNo }}
-          </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">供应商</template>{{ projectInfo.supplierName }}
-          </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">代办人</template>{{ projectInfo.userName }}
-          </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">终端客户</template>{{ projectInfo.terminalName }}
-          </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">业务经理</template>{{ projectInfo.serviceManagerName }}
-          </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">业务类型</template>{{ changeBusinessType(projectInfo.businessType) }}
-          </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">业务实控人</template>{{ projectInfo.actualControlName }}
-          </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">收费模式</template>{{ changeChargemType(projectInfo.chargemType) }}
-          </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">货运方式</template>{{ changeTransType(projectInfo.freightMode) }}
-          </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">年服务费率(%)</template>{{ projectInfo.chargemNx }}
-          </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">固定差价(元)</template>{{ projectInfo.chargemGd }}
-          </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">备注说明</template>{{ projectInfo.node }}
-          </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">附件</template>
-            <custom-upload :fileList="projectInfo.filesList"></custom-upload>
-          </el-descriptions-item>
-        </el-descriptions> -->
-        <!-- <el-descriptions style="margin-top:20px" title="业务基础信息" :column="3" border>
-          <el-descriptions-item>
-            <template slot="label">业务名称</template>{{ stInfo.stName }}
-          </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">业务金额(万元)</template>{{ stInfo.stAmount }}
-          </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">结算比例</template>{{ stInfo.settlementPA1 ? stInfo.settlementPA1 + '-' +
-            stInfo.settlementPA2 + '-' +
-            stInfo.settlementPA3 : ''
-            }}
-          </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">履约保证金</template>{{ stInfo.marginType == 1 ? '有' : '无' }}
-          </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">履约保证金金额(万元)</template>{{ stInfo.margin }}
-          </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">服务周期</template>{{ stInfo.cycleStart + '-' + stInfo.cycleEnd }}
-          </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">预计重量(吨)</template>{{ stInfo.expectWeight }}
-          </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">预计单价(元)</template>{{ stInfo.expectPrice }}
-          </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">成本年服务费率(%)</template>{{ stInfo.rateYear }}
-          </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">预计利润</template>{{ stInfo.expectProfits }}
-          </el-descriptions-item>
-        </el-descriptions> -->
-        <el-row class="head-title">
-            <el-col :span="12">
-              <el-form-item label="自融资金方"></el-form-item>
             </el-col>
           </el-row>
           <el-row class="head-text">
-            <el-col class="newTable">
-              <table width="90%" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td class="tdTitle">公司名称</td>
-                  <td class="tdCoent">{{stInfo.shName}}</td>
-                  <td class="tdTitle">性质</td>
-                  <td class="tdCoent">{{stInfo.shXz}}</td>
-                  <td class="tdTitle">合作方式</td>
-                  <td class="tdCoent">{{stInfo.shHztype}}</td>
-                </tr>
-                <tr>
-                  <td class="tdTitle">资金费率(%)</td>
-                  <td class="tdCoent">{{stInfo.shHzrate}}</td>
-                  <td class="tdTitle">下游渠道</td>
-                  <td class="tdCoent">{{stInfo.shChanneltype == 1 ? '有' : '无'}}</td>
-                  <td class="tdTitle">下游渠道年限</td>
-                  <td class="tdCoent">{{stInfo.shChannelyear}}</td>
-                </tr>
-                <tr>
-                  <td class="tdTitle">结算比例</td>
-                  <td class="tdCoent">{{stInfo.shSettlementA1 ? stInfo.shSettlementA1 + '-' +
-            stInfo.shSettlementA2 + '-' +
-            stInfo.shSettlementA3 : ''}}</td>
-                  <td class="tdTitle">履约保证金</td>
-                  <td class="tdCoent">{{stInfo.shMargintype == 1 ? '有' : '无'}}</td>
-                  <td class="tdTitle">保证金金额</td>
-                  <td class="tdCoent">{{stInfo.shMargin}}</td>
-                </tr>
-                <tr>
-                  <td class="tdTitle">合同签署</td>
-                  <td class="tdCoent">{{stInfo.shContracttype}}</td>
-                  <td class="tdTitle"></td>
-                  <td class="tdCoent"></td>
-                  <td class="tdTitle"></td>
-                  <td class="tdCoent"></td>
-                </tr>
-              </table>
+            <el-col :span="18" :offset="1">
+              <el-form-item label="附件：" prop="file">
+                <custom-upload :fileList="stInfo.filesList"></custom-upload>
+              </el-form-item>
             </el-col>
           </el-row>
-          <div v-for="(item, index) in stInfo.ztList" :key="index" style="margin-top:20px">
+          <template v-if="stInfo.shType == '1'">
             <el-row class="head-title">
-                <el-col :span="12">
-                  <el-form-item :label="'站台' + (index + 1)"></el-form-item>
-                </el-col>
-              </el-row>
-              <el-row class="head-text">
-                <el-col class="newTable">
-                  <table width="80%" cellpadding="0" cellspacing="0">
-                    <tr>
-                      <td class="tdTitle">站台名称</td>
-                      <td class="tdCoent">{{item.ztName}}</td>
-                      <td class="tdTitle">站台费用</td>
-                      <td class="tdCoent">{{item.ztFee}}</td>
-                      <td class="tdTitle">运费</td>
-                      <td class="tdCoent">{{item.freight}}</td>
-                    </tr>
-                  </table>
-                </el-col>
-              </el-row>
-          </div>
+              <el-col :span="12">
+                <el-form-item label="自融资金方"></el-form-item>
+              </el-col>
+            </el-row>
+            <el-row class="head-text">
+              <el-col class="newTable">
+                <table width="90%" cellpadding="0" cellspacing="0">
+                  <tr>
+                    <td class="tdTitle">公司名称</td>
+                    <td class="tdCoent">{{ stInfo.shName }}</td>
+                    <td class="tdTitle">性质</td>
+                    <td class="tdCoent">{{ stInfo.shXz }}</td>
+                    <td class="tdTitle">合作方式</td>
+                    <td class="tdCoent">{{ stInfo.shHztype }}</td>
+                  </tr>
+                  <tr>
+                    <td class="tdTitle">资金费率(%)</td>
+                    <td class="tdCoent">{{ stInfo.shHzrate }}</td>
+                    <td class="tdTitle">下游渠道</td>
+                    <td class="tdCoent">{{ stInfo.shChanneltype == 1 ? '有' : '无' }}</td>
+                    <td class="tdTitle">下游渠道年限</td>
+                    <td class="tdCoent">{{ stInfo.shChannelyear }}</td>
+                  </tr>
+                  <tr>
+                    <td class="tdTitle">结算比例</td>
+                    <td class="tdCoent">{{ stInfo.shSettlementA1 ? stInfo.shSettlementA1 + '-' +
+                      stInfo.shSettlementA2 + '-' +
+                      stInfo.shSettlementA3 : '' }}</td>
+                    <td class="tdTitle">履约保证金</td>
+                    <td class="tdCoent">{{ stInfo.shMargintype == 1 ? '有' : '无' }}</td>
+                    <td class="tdTitle">保证金金额</td>
+                    <td class="tdCoent">{{ stInfo.shMargin }}</td>
+                  </tr>
+                  <tr>
+                    <td class="tdTitle">合同签署</td>
+                    <td class="tdCoent">{{ stInfo.shContracttype }}</td>
+                    <td class="tdTitle"></td>
+                    <td class="tdCoent"></td>
+                    <td class="tdTitle"></td>
+                    <td class="tdCoent"></td>
+                  </tr>
+                </table>
+              </el-col>
+            </el-row>
+          </template>
+          <template v-if="stInfo.platformType == '1'">
+            <el-row class="head-title">
+              <el-col :span="12">
+                <el-form-item label="站台情况"></el-form-item>
+              </el-col>
+            </el-row>
+            <el-row class="head-text">
+              <el-col class="newTable">
+                <table width="90%" cellpadding="0" cellspacing="0">
+                  <tr v-for="(item, index) in stInfo.ztList" :key="index">
+                    <td class="tdTitle">站台名称</td>
+                    <td class="tdCoent">{{ item.ztName }}</td>
+                    <td class="tdTitle">站台费用</td>
+                    <td class="tdCoent">{{ item.ztFee }}</td>
+                    <td class="tdTitle">运费</td>
+                    <td class="tdCoent">{{ item.freight }}</td>
+                  </tr>
+                </table>
+              </el-col>
+            </el-row>
+          </template>
         </el-form>
-        <!-- <el-descriptions style="margin-top:20px" title="自融资金方" :column="3" border>
-          <el-descriptions-item>
-            <template slot="label">公司名称</template>{{ stInfo.shName }}
-          </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">性质</template>{{ stInfo.shXz }}
-          </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">合作方式</template>{{ stInfo.shHztype }}
-          </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">资金费率(%)</template>{{ stInfo.shHzrate }}
-          </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">下游渠道</template>{{ stInfo.shChanneltype == 1 ? '有' : '无' }}
-          </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">下游渠道年限</template>{{ stInfo.shChannelyear }}
-          </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">结算比例</template>{{ stInfo.shSettlementA1 ? stInfo.shSettlementA1 + '-' +
-            stInfo.shSettlementA2 + '-' +
-            stInfo.shSettlementA3 : ''
-            }}
-          </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">履约保证金</template>{{ stInfo.shMargintype == 1 ? '有' : '无' }}
-          </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">保证金金额</template>{{ stInfo.shMargin }}
-          </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">合同签署</template>{{ stInfo.shContracttype }}
-          </el-descriptions-item>
-        </el-descriptions> -->
-        <!-- <el-descriptions v-for="(item, index) in stInfo.ztList" :key="index" style="margin-top:20px"
-          :title="'站台' + (index + 1)" :column="3" border>
-          <el-descriptions-item>
-            <template slot="label">站台名称</template>{{ item.ztName }}
-          </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">站台费用</template>{{ item.ztFee }}
-          </el-descriptions-item>
-          <el-descriptions-item>
-            <template slot="label">运费</template>{{ item.freight }}
-          </el-descriptions-item>
-        </el-descriptions> -->
       </div>
       <div v-if="stId && projectId" class="chilSty">
         <div style="padding:20px">
