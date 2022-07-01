@@ -989,79 +989,97 @@
               <tr>
                 <td class="tdTitle">合同名称</td>
                 <td class="tdCoent">{{form.name}}</td>
-              </tr>
-              <tr>
                 <td class="tdTitle">合同类型</td>
                 <td class="tdCoent">{{form.type}}</td>
-                <td class="tdTitle">合同编号</td>
-                <td class="tdCoent">{{form.number}}</td>
-                <td class="tdTitle">合同立项编号</td>
+                <td class="tdTitle">项目立项编号</td>
                 <td class="tdCoent">{{form.productNo}}</td>
               </tr>
-              <tr>
-                <td class="tdTitle">签约日期</td>
-                <td class="tdCoent">{{parseTime(form.signingTime, "{y}-{m}-{d}")}}</td>
-                <td class="tdTitle">{{form.type == '上游合同'?'供应商':''}}</td>
-                <td class="tdCoent">{{form.type == '上游合同'?form.supplierName:''}}</td>
-                <td class="tdTitle">{{form.type == '下游合同'?'终端客户':''}}</td>
-                <td class="tdCoent">{{form.type == '下游合同'?form.terminalName:''}}</td>
-              </tr>
-              <tr>
-                <td class="tdTitle">{{form.type == '其他合同'?'客户名称':''}}</td>
-                <td class="tdCoent">{{form.type == '其他合同'?form.khName:''}}</td>
-                <td class="tdTitle">货品名称</td>
-                <td class="tdCoent">{{form.goodsName}}</td>
-                <td class="tdTitle">{{form.type == '下游合同'?'预计吨数':''}}</td>
-                <td class="tdCoent">{{form.type == '下游合同'?$options.filters.weightFilter(form.expectNumber):''}}</td>
-              </tr>
-              <tr>
-                <td class="tdTitle">{{form.type == '下游合同'?'基准单价':''}}</td>
-                <td class="tdCoent">{{form.type == '下游合同'?$options.filters.moneyFilter(form.price):''}}</td>
-                <td class="tdTitle">{{form.type == '上游合同'?'保底服务费期限':''}}</td>
-                <td class="tdCoent">{{form.type == '上游合同'?form.mfsp:''}}</td>
-                <td class="tdTitle">{{form.type == '上游合同'?'超时服务费期限':''}}</td>
-                <td class="tdCoent">{{form.type == '上游合同'?form.csmfsp:''}}</td>
-              </tr>
-              <tr>
-                <td class="tdTitle">超时服务费费率</td>
-                <td class="tdCoent">{{form.csrate}}</td>
-                <td class="tdTitle">违约服务费期限</td>
-                <td class="tdCoent">{{form.vymfsp}}</td>
-                <td class="tdTitle">违约服务费费率</td>
-                <td class="tdCoent">{{form.vyrate}}</td>
-              </tr>
-              <tr v-if="form.type == '物流运输合同' || form.type == '物流服务合同'">
-                <td class="tdTitle">运输单位</td>
-                <td class="tdCoent">{{form.transportUnit}}</td>
-                <td class="tdTitle">运输方式</td>
-                <td class="tdCoent">{{form.transportType}}</td>
-                <td class="tdTitle">起运地</td>
-                <td class="tdCoent">{{form.transportStart}}</td>
-              </tr>
-              <tr v-if="form.type == '物流运输合同' || form.type == '物流服务合同'">
-                <td class="tdTitle">目的地</td>
-                <td class="tdCoent">{{form.transportEnd}}</td>
-                <td class="tdTitle">运费单价(吨/元)</td>
-                <td class="tdCoent">{{$options.filters.weightFilter(form.transportPrice)}}</td>
-                <td class="tdTitle">损耗率</td>
-                <td class="tdCoent">{{form.transportLoss}}</td>
-              </tr>
-              <tr v-if="form.type == '物流运输合同' || form.type == '物流服务合同'">
-                <td class="tdTitle">目的地</td>
-                <td class="tdCoent">{{form.transportEnd}}</td>
-                <td class="tdTitle">运费单价(吨/元)</td>
-                <td class="tdCoent">{{$options.filters.weightFilter(form.transportPrice)}}</td>
-                <td class="tdTitle">损耗率</td>
-                <td class="tdCoent">{{form.transportLoss}}</td>
-              </tr>
-            </table>
-          </el-col>
-        </el-row>
+              <template v-if="form.type == '上游合同'">
+                <tr>
+                  <td class="tdTitle">合同编号</td>
+                  <td class="tdCoent">{{form.number}}</td>
+                  <td class="tdTitle">供应商</td>
+                  <td class="tdCoent">{{form.supplierName}}</td>
+                  <td class="tdTitle">签约日期</td>
+                  <td class="tdCoent">{{parseTime(form.signingTime, "{y}-{m}-{d}")}}</td>
+                </tr>
+                <tr>
+                  <td class="tdTitle">货品名称</td>
+                  <td class="tdCoent">{{form.goodsName}}</td>
+                  <td class="tdTitle">预计吨数</td>
+                  <td class="tdCoent">{{ $options.filters.weightFilter(form.expectNumber) }}</td>
+                  <td class="tdTitle">保底服务费期限</td>
+                  <td class="tdCoent">{{form.mfsp}}</td>
+                </tr>
+                <tr>
+                  <td class="tdTitle">超时服务费期限</td>
+                  <td class="tdCoent">{{form.csmfsp}}</td>
+                  <td class="tdTitle">超时服务费费率</td>
+                  <td class="tdCoent">{{form.csrate}}</td>
+                  <td class="tdTitle">违约服务费期限</td>
+                  <td class="tdCoent">{{form.vymfsp}}</td>
+                </tr>
+                <tr>
+                  <td class="tdTitle">违约服务费费率</td>
+                  <td class="tdCoent">{{form.vyrate}}</td>
+                  <td class="tdTitle">备注</td>
+                  <td class="tdCoent" colspan="3">{{form.node}}</td>
 
-        <el-row class="head-text" v-if="form.type == '其他合同'">
-          <el-col :span="4" :offset="1">
-            备注：
-            <el-input disabled type="textarea" :rows="5" v-model="form.node" placeholder="" />
+                </tr>
+              </template>
+              <template v-if="form.type == '下游合同'">
+                <tr>
+                  <td class="tdTitle">终端客户</td>
+                  <td class="tdCoent">{{form.terminalName}}</td>
+                  <td class="tdTitle">签约日期</td>
+                  <td class="tdCoent">{{parseTime(form.signingTime, "{y}-{m}-{d}")}}</td>
+                  <td class="tdTitle">货品名称</td>
+                  <td class="tdCoent">{{form.goodsName}}</td>
+                </tr>
+                <tr>
+                  <td class="tdTitle">基准单价(元)</td>
+                  <td class="tdCoent">{{ $options.filters.moneyFilter(form.price) }}</td>
+                  <td class="tdTitle">预计吨数</td>
+                  <td class="tdCoent">{{ $options.filters.weightFilter(form.expectNumber) }}</td>
+                  <td class="tdTitle">备注</td>
+                  <td class="tdCoent">{{form.node}}</td>
+                </tr>
+              </template>
+              <template v-if="form.type == '物流运输合同' || form.type == '物流服务合同'">
+                <tr>
+                  <td class="tdTitle">签约日期</td>
+                  <td class="tdCoent">{{parseTime(form.signingTime, "{y}-{m}-{d}")}}</td>
+                  <td class="tdTitle">运输单位</td>
+                  <td class="tdCoent">{{form.transportUnit}}</td>
+                  <td class="tdTitle">运输方式</td>
+                  <td class="tdCoent">{{form.transportType}}</td>
+                </tr>
+                <tr>
+                  <td class="tdTitle">运费单价(吨/元)</td>
+                  <td class="tdCoent">{{form.transportPrice}}</td>
+                  <td class="tdTitle">起运地</td>
+                  <td class="tdCoent">{{form.transportStart}}</td>
+                  <td class="tdTitle">目的地</td>
+                  <td class="tdCoent">{{form.transportEnd}}</td>
+                </tr>
+                <tr>
+                  <td class="tdTitle">损耗率</td>
+                  <td class="tdCoent">{{form.transportLoss}}</td>
+                  <td class="tdTitle">备注</td>
+                  <td class="tdCoent" colspan="3">{{form.node}}</td>
+                </tr>
+              </template>
+              <template v-if="form.type == '其他合同'">
+                <tr>
+                  <td class="tdTitle">客户名称</td>
+                  <td class="tdCoent">{{form.khName}}</td>
+                  <td class="tdTitle">签约日期</td>
+                  <td class="tdCoent">{{parseTime(form.signingTime, "{y}-{m}-{d}")}}</td>
+                  <td class="tdTitle">备注</td>
+                  <td class="tdCoent">{{form.node}}</td>
+                </tr>
+              </template>
+            </table>
           </el-col>
         </el-row>
 
