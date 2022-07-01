@@ -1,6 +1,12 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch && !isQuote" label-width="100px">
+    <el-form
+      :model="queryParams"
+      ref="queryForm"
+      :inline="true"
+      v-show="showSearch && !isQuote"
+      label-width="100px"
+    >
       <!-- <el-form-item label="保证金对象" prop="type">
         <el-select
           v-model="queryParams.type"
@@ -13,29 +19,57 @@
         </el-select>
       </el-form-item> -->
       <el-form-item label="保证金类型" prop="type">
-        <el-select v-model="queryParams.obj" placeholder="请选择保证金类型" clearable size="small">
+        <el-select
+          v-model="queryParams.obj"
+          placeholder="请选择保证金类型"
+          clearable
+          size="small"
+        >
           <el-option label="履约保证金" value="履约保证金" />
           <el-option label="投标保证金" value="投标保证金" />
         </el-select>
       </el-form-item>
       <el-form-item label="项目名称" prop="projectName">
-        <el-input v-model="queryParams.projectName" placeholder="请输入项目名称" clearable size="small"
-          @keyup.enter.native="handleQuery" />
+        <el-input
+          v-model="queryParams.projectName"
+          placeholder="请输入项目名称"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
       </el-form-item>
       <el-form-item label="业务名称" prop="stName">
-        <el-input v-model="queryParams.stName" placeholder="请输入业务名称" clearable size="small"
-          @keyup.enter.native="handleQuery" />
+        <el-input
+          v-model="queryParams.stName"
+          placeholder="请输入业务名称"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
       </el-form-item>
       <el-form-item label="项目编号" prop="serialNo">
-        <el-input v-model="queryParams.serialNo" placeholder="请输入项目编号" clearable size="small"
-          @keyup.enter.native="handleQuery" />
+        <el-input
+          v-model="queryParams.serialNo"
+          placeholder="请输入项目编号"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
       </el-form-item>
     </el-form>
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
-          v-hasPermi="['project:margin:add']" v-show="editable">新增</el-button>
+        <el-button
+          type="primary"
+          plain
+          icon="el-icon-plus"
+          size="mini"
+          @click="handleAdd"
+          v-hasPermi="['project:margin:add']"
+          v-show="editable"
+          >新增</el-button
+        >
       </el-col>
       <!--      <el-col :span="1.5">-->
       <!--        <el-button-->
@@ -60,56 +94,136 @@
       <!--        >删除</el-button>-->
       <!--      </el-col>-->
       <el-col :span="1.5">
-        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"
-          v-hasPermi="['project:margin:export']" v-show="editable">导出</el-button>
+        <el-button
+          type="warning"
+          plain
+          icon="el-icon-download"
+          size="mini"
+          @click="handleExport"
+          v-hasPermi="['project:margin:export']"
+          v-show="editable"
+          >导出</el-button
+        >
       </el-col>
-      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList" v-show="!isQuote"></right-toolbar>
+      <right-toolbar
+        :showSearch.sync="showSearch"
+        @queryTable="getList"
+        v-show="!isQuote"
+      ></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="marginList" @selection-change="handleSelectionChange">
-      <el-table-column label="项目名称" align="center" prop="projectName" v-if="!isQuote" />
-      <el-table-column label="业务名称" align="center" prop="stName" v-if="!isQuote" />
-      <el-table-column label="项目编号" align="center" prop="serialNo" v-if="!isQuote" />
+    <el-table
+      v-loading="loading"
+      :data="marginList"
+      @selection-change="handleSelectionChange"
+    >
+      <el-table-column
+        label="项目名称"
+        align="center"
+        prop="projectName"
+        v-if="!isQuote"
+      />
+      <el-table-column
+        label="业务名称"
+        align="center"
+        prop="stName"
+        v-if="!isQuote"
+      />
+      <el-table-column
+        label="项目编号"
+        align="center"
+        prop="serialNo"
+        v-if="!isQuote"
+      />
       <el-table-column label="保证金对象" align="center" prop="type" />
       <el-table-column label="保证金类型" align="center" prop="obj" />
       <el-table-column label="客户名称" align="center" prop="terminalName" />
       <el-table-column label="保证金金额" align="center" prop="putPrice">
         <template slot-scope="scope">
           {{
-          Number(scope.row.putPrice)
-          .toFixed(2)
-          .toString()
-          .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+            Number(scope.row.putPrice)
+              .toFixed(2)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
       <el-table-column label="退还/回收金额(元)" align="center" prop="outPrice">
         <template slot-scope="scope">
           {{
-          Number(scope.row.outPrice)
-          .toFixed(2)
-          .toString()
-          .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+            Number(scope.row.outPrice)
+              .toFixed(2)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
-      <el-table-column label="资金状态" align="center" prop="zjState" :formatter="zjStateFormat" />
-      <el-table-column label="创建时间" align="center" prop="createTime" width="180">
+      <el-table-column
+        label="资金状态"
+        align="center"
+        prop="zjState"
+        :formatter="zjStateFormat"
+      />
+      <el-table-column
+        label="创建时间"
+        align="center"
+        prop="createTime"
+        width="180"
+      >
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.createTime, "{y}-{m}-{d}") }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="审核状态" align="center" prop="state" :formatter="stateFormat" />
-      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
+      <el-table-column
+        label="审核状态"
+        align="center"
+        prop="state"
+        :formatter="stateFormat"
+      />
+      <el-table-column
+        label="操作"
+        align="center"
+        class-name="small-padding fixed-width"
+      >
         <template slot-scope="scope">
-          <el-button size="mini" type="text" icon="el-icon-edit" @click="handleLook(scope.row)"
-            v-hasPermi="['project:margin:edit']">查看</el-button>
-          <el-button v-if="scope.row.zjState == '1' && scope.row.type == '上游' && editable" size="mini" type="text"
-            icon="el-icon-edit" @click="handleBack(scope.row)" v-hasPermi="['project:margin:edit']">退还</el-button>
-          <el-button v-if="scope.row.zjState == '1' && scope.row.type == '下游' && editable" size="mini" type="text"
-            icon="el-icon-edit" @click="handleBack(scope.row)" v-hasPermi="['project:margin:edit']">回收</el-button>
-          <el-button v-if="scope.row.state === '3'" size="mini" type="text" icon="el-icon-printer"
-            @click="handlePrint(scope.row)">打印</el-button>
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-edit"
+            @click="handleLook(scope.row)"
+            v-hasPermi="['project:margin:edit']"
+            >查看</el-button
+          >
+          <el-button
+            v-if="
+              scope.row.zjState == '1' && scope.row.type == '上游' && editable
+            "
+            size="mini"
+            type="text"
+            icon="el-icon-edit"
+            @click="handleBack(scope.row)"
+            v-hasPermi="['project:margin:edit']"
+            >退还</el-button
+          >
+          <el-button
+            v-if="
+              scope.row.zjState == '1' && scope.row.type == '下游' && editable
+            "
+            size="mini"
+            type="text"
+            icon="el-icon-edit"
+            @click="handleBack(scope.row)"
+            v-hasPermi="['project:margin:edit']"
+            >回收</el-button
+          >
+          <el-button
+            v-if="scope.row.state === '3'"
+            size="mini"
+            type="text"
+            icon="el-icon-printer"
+            @click="handlePrint(scope.row)"
+            >打印</el-button
+          >
           <!--          <el-button-->
           <!--            size="mini"-->
           <!--            type="text"-->
@@ -128,12 +242,23 @@
       </el-table-column>
     </el-table>
 
-    <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
-      @pagination="getList" />
+    <pagination
+      v-show="total > 0"
+      :total="total"
+      :page.sync="queryParams.pageNum"
+      :limit.sync="queryParams.pageSize"
+      @pagination="getList"
+    />
 
     <!-- 添加或修改保证金对话框 -->
-    <el-dialog v-if="title=='退还/回收保证金'" :title="title" :visible.sync="open" width="500px" append-to-body
-      @opened="handleOpen">
+    <el-dialog
+      v-if="title == '退还/回收保证金'"
+      :title="title"
+      :visible.sync="open"
+      width="500px"
+      append-to-body
+      @opened="handleOpen"
+    >
       <el-form ref="form" :model="form" :rules="rules" label-width="180px">
         <div v-if="isLook != 4">
           <el-row>
@@ -147,7 +272,13 @@
             </el-col>
             <el-col :span="12">
               <el-form-item label="保证金类型" prop="obj">
-                <el-select filterable clearable v-model="form.obj" placeholder="请选择" style="width: 100%">
+                <el-select
+                  filterable
+                  clearable
+                  v-model="form.obj"
+                  placeholder="请选择"
+                  style="width: 100%"
+                >
                   <el-option label="履约保证金" value="履约保证金"></el-option>
                   <el-option label="投标保证金" value="投标保证金"></el-option>
                 </el-select>
@@ -158,19 +289,42 @@
             <el-row>
               <el-col :span="12">
                 <el-form-item label="项目名称" prop="projectId">
-                  <el-select filterable value-key="projectId" @change="changeProject" v-model="form.projectId"
-                    placeholder="请选择项目" style="width: 100%" :disabled="isQuote">
-                    <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName"
-                      :value="pro.projectId">
+                  <el-select
+                    filterable
+                    value-key="projectId"
+                    @change="changeProject"
+                    v-model="form.projectId"
+                    placeholder="请选择项目"
+                    style="width: 100%"
+                    :disabled="isQuote"
+                  >
+                    <el-option
+                      v-for="pro in listForProArr"
+                      :key="pro.projectId"
+                      :label="pro.projectName"
+                      :value="pro.projectId"
+                    >
                     </el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="业务名称" prop="stId">
-                  <el-select filterable value-key="stId" @change="changeSt" v-model="form.stId" placeholder="请选择业务"
-                    style="width: 100%" :disabled="isQuote">
-                    <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj.stId">
+                  <el-select
+                    filterable
+                    value-key="stId"
+                    @change="changeSt"
+                    v-model="form.stId"
+                    placeholder="请选择业务"
+                    style="width: 100%"
+                    :disabled="isQuote"
+                  >
+                    <el-option
+                      v-for="obj in listForBusArr"
+                      :key="obj.stId"
+                      :label="obj.stName"
+                      :value="obj.stId"
+                    >
                     </el-option>
                   </el-select>
                 </el-form-item>
@@ -184,16 +338,35 @@
             <el-row>
               <el-col :span="12">
                 <el-form-item label="合同名称" prop="contractName">
-                  <el-select filterable v-model="form.contractName" placeholder="请选择合同" style="width: 100%">
-                    <el-option v-for="obj in contractNameOptions" :key="obj.stName + obj.name"
-                      :label="obj.stName + obj.name" :value="obj.stName + obj.name"></el-option>
+                  <el-select
+                    filterable
+                    v-model="form.contractName"
+                    placeholder="请选择合同"
+                    style="width: 100%"
+                  >
+                    <el-option
+                      v-for="obj in contractNameOptions"
+                      :key="obj.stName + obj.name"
+                      :label="obj.stName + obj.name"
+                      :value="obj.stName + obj.name"
+                    ></el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="供应商名称" prop="terminalName">
-                  <el-select filterable v-model="form.terminalName" placeholder="请选择供应商" style="width: 100%">
-                    <el-option v-for="obj in supplierNameOptions" :key="obj.name" :label="obj.name" :value="obj.name">
+                  <el-select
+                    filterable
+                    v-model="form.terminalName"
+                    placeholder="请选择供应商"
+                    style="width: 100%"
+                  >
+                    <el-option
+                      v-for="obj in supplierNameOptions"
+                      :key="obj.name"
+                      :label="obj.name"
+                      :value="obj.name"
+                    >
                     </el-option>
                   </el-select>
                 </el-form-item>
@@ -202,7 +375,10 @@
             <el-row>
               <el-col :span="12">
                 <el-form-item label="保证金金额(元)" prop="putPrice">
-                  <el-input v-model="form.putPrice" placeholder="请输入保证金金额" />
+                  <el-input
+                    v-model="form.putPrice"
+                    placeholder="请输入保证金金额"
+                  />
                 </el-form-item>
               </el-col>
             </el-row>
@@ -211,19 +387,42 @@
             <el-row>
               <el-col :span="12">
                 <el-form-item label="项目名称" prop="projectId">
-                  <el-select filterable value-key="projectId" @change="changeProject" v-model="form.projectId"
-                    placeholder="请选择项目" style="width: 100%" :disabled="isQuote">
-                    <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName"
-                      :value="pro.projectId">
+                  <el-select
+                    filterable
+                    value-key="projectId"
+                    @change="changeProject"
+                    v-model="form.projectId"
+                    placeholder="请选择项目"
+                    style="width: 100%"
+                    :disabled="isQuote"
+                  >
+                    <el-option
+                      v-for="pro in listForProArr"
+                      :key="pro.projectId"
+                      :label="pro.projectName"
+                      :value="pro.projectId"
+                    >
                     </el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="业务名称" prop="stId">
-                  <el-select filterable value-key="stId" @change="changeSt" v-model="form.stId" placeholder="请选择业务"
-                    style="width: 100%" :disabled="isQuote">
-                    <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj.stId">
+                  <el-select
+                    filterable
+                    value-key="stId"
+                    @change="changeSt"
+                    v-model="form.stId"
+                    placeholder="请选择业务"
+                    style="width: 100%"
+                    :disabled="isQuote"
+                  >
+                    <el-option
+                      v-for="obj in listForBusArr"
+                      :key="obj.stId"
+                      :label="obj.stName"
+                      :value="obj.stId"
+                    >
                     </el-option>
                   </el-select>
                 </el-form-item>
@@ -237,9 +436,18 @@
             <el-row>
               <el-col :span="12">
                 <el-form-item label="合同名称" prop="contractName">
-                  <el-select filterable v-model="form.contractName" placeholder="请选择合同" style="width: 100%">
-                    <el-option v-for="obj in contractNameOptions" :key="obj.stName + obj.name"
-                      :label="obj.stName + obj.name" :value="obj.stName + obj.name"></el-option>
+                  <el-select
+                    filterable
+                    v-model="form.contractName"
+                    placeholder="请选择合同"
+                    style="width: 100%"
+                  >
+                    <el-option
+                      v-for="obj in contractNameOptions"
+                      :key="obj.stName + obj.name"
+                      :label="obj.stName + obj.name"
+                      :value="obj.stName + obj.name"
+                    ></el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
@@ -247,8 +455,18 @@
             <el-row>
               <el-col :span="12">
                 <el-form-item label="客户名称" prop="terminalName">
-                  <el-select filterable v-model="form.terminalName" placeholder="请选择客户" style="width: 100%">
-                    <el-option v-for="obj in terminalNameOptions" :key="obj.name" :label="obj.name" :value="obj.name">
+                  <el-select
+                    filterable
+                    v-model="form.terminalName"
+                    placeholder="请选择客户"
+                    style="width: 100%"
+                  >
+                    <el-option
+                      v-for="obj in terminalNameOptions"
+                      :key="obj.name"
+                      :label="obj.name"
+                      :value="obj.name"
+                    >
                     </el-option>
                   </el-select>
                 </el-form-item>
@@ -257,7 +475,10 @@
             <el-row>
               <el-col :span="12">
                 <el-form-item label="保证金金额(元)" prop="putPrice">
-                  <el-input v-model="form.putPrice" placeholder="请输入保证金金额" />
+                  <el-input
+                    v-model="form.putPrice"
+                    placeholder="请输入保证金金额"
+                  />
                 </el-form-item>
               </el-col>
             </el-row>
@@ -275,12 +496,18 @@
               <el-row>
                 <el-col :span="12">
                   <el-form-item label="保底服务费期限(天)" prop="mfsp">
-                    <el-input v-model="form.mfsp" placeholder="请输入保底服务费期限" />
+                    <el-input
+                      v-model="form.mfsp"
+                      placeholder="请输入保底服务费期限"
+                    />
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">
                   <el-form-item label="年服务费率(%)" prop="rateYear">
-                    <el-input v-model="form.stRate" placeholder="请输入年服务费率" />
+                    <el-input
+                      v-model="form.stRate"
+                      placeholder="请输入年服务费率"
+                    />
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -288,8 +515,15 @@
             <el-row>
               <el-col :span="12">
                 <el-form-item label="支付日期" prop="putTime">
-                  <el-date-picker clearable size="small" style="width: 100%" v-model="form.putTime" type="date"
-                    value-format="yyyy-MM-dd" placeholder="选择支付日期">
+                  <el-date-picker
+                    clearable
+                    size="small"
+                    style="width: 100%"
+                    v-model="form.putTime"
+                    type="date"
+                    value-format="yyyy-MM-dd"
+                    placeholder="选择支付日期"
+                  >
                   </el-date-picker>
                 </el-form-item>
               </el-col>
@@ -301,15 +535,26 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="退还/回收保证金金额" prop="outPrice">
-                <el-input style="width:250px" v-model="form.outPrice" placeholder="请输入退还/回收保证金金额" />
+                <el-input
+                  style="width: 250px"
+                  v-model="form.outPrice"
+                  placeholder="请输入退还/回收保证金金额"
+                />
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
               <el-form-item label="回收/退还日期" prop="outTime">
-                <el-date-picker clearable size="small" style="width: 250px" v-model="form.outTime" type="date"
-                  value-format="yyyy-MM-dd" placeholder="选择回收日期">
+                <el-date-picker
+                  clearable
+                  size="small"
+                  style="width: 250px"
+                  v-model="form.outTime"
+                  type="date"
+                  value-format="yyyy-MM-dd"
+                  placeholder="选择回收日期"
+                >
                 </el-date-picker>
               </el-form-item>
             </el-col>
@@ -319,10 +564,23 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="附件" prop="file">
-              <el-upload class="upload-demo" :action="url" :headers="headers" :on-preview="handlePreview"
-                :on-remove="handleRemove" :on-success="uploadSuccess" :on-error="uploadError"
-                :before-remove="beforeRemove" multiple :limit="5" :on-exceed="handleExceed" :file-list="fileList">
-                <el-button size="small" type="primary" v-if="isLook != 3">点击上传</el-button>
+              <el-upload
+                class="upload-demo"
+                :action="url"
+                :headers="headers"
+                :on-preview="handlePreview"
+                :on-remove="handleRemove"
+                :on-success="uploadSuccess"
+                :on-error="uploadError"
+                :before-remove="beforeRemove"
+                multiple
+                :limit="5"
+                :on-exceed="handleExceed"
+                :file-list="fileList"
+              >
+                <el-button size="small" type="primary" v-if="isLook != 3"
+                  >点击上传</el-button
+                >
                 <!--                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
               </el-upload>
             </el-form-item>
@@ -330,12 +588,24 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm" :disabled="isDisabled" v-if="isLook != 3">确 定</el-button>
+        <el-button
+          type="primary"
+          @click="submitForm"
+          :disabled="isDisabled"
+          v-if="isLook != 3"
+          >确 定</el-button
+        >
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
-    <el-dialog v-if="title!='退还/回收保证金'" :title="title" :visible.sync="open" width="773px" append-to-body
-      @opened="handleOpen">
+    <el-dialog
+      v-if="title != '退还/回收保证金'"
+      :title="title"
+      :visible.sync="open"
+      width="773px"
+      append-to-body
+      @opened="handleOpen"
+    >
       <el-form ref="form" :model="form" :rules="rules" label-width="120px">
         <div v-if="isLook != 4">
           <el-row>
@@ -349,7 +619,13 @@
             </el-col>
             <el-col :span="12">
               <el-form-item label="保证金类型" prop="obj">
-                <el-select filterable clearable v-model="form.obj" placeholder="请选择" style="width: 100%">
+                <el-select
+                  filterable
+                  clearable
+                  v-model="form.obj"
+                  placeholder="请选择"
+                  style="width: 100%"
+                >
                   <el-option label="履约保证金" value="履约保证金"></el-option>
                   <el-option label="投标保证金" value="投标保证金"></el-option>
                 </el-select>
@@ -360,19 +636,42 @@
             <el-row>
               <el-col :span="12">
                 <el-form-item label="项目名称" prop="projectId">
-                  <el-select filterable value-key="projectId" @change="changeProject" v-model="form.projectId"
-                    placeholder="请选择项目" style="width: 100%" :disabled="isQuote">
-                    <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName"
-                      :value="pro.projectId">
+                  <el-select
+                    filterable
+                    value-key="projectId"
+                    @change="changeProject"
+                    v-model="form.projectId"
+                    placeholder="请选择项目"
+                    style="width: 100%"
+                    :disabled="isQuote"
+                  >
+                    <el-option
+                      v-for="pro in listForProArr"
+                      :key="pro.projectId"
+                      :label="pro.projectName"
+                      :value="pro.projectId"
+                    >
                     </el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="业务名称" prop="stId">
-                  <el-select filterable value-key="stId" @change="changeSt" v-model="form.stId" placeholder="请选择业务"
-                    style="width: 100%" :disabled="isQuote">
-                    <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj.stId">
+                  <el-select
+                    filterable
+                    value-key="stId"
+                    @change="changeSt"
+                    v-model="form.stId"
+                    placeholder="请选择业务"
+                    style="width: 100%"
+                    :disabled="isQuote"
+                  >
+                    <el-option
+                      v-for="obj in listForBusArr"
+                      :key="obj.stId"
+                      :label="obj.stName"
+                      :value="obj.stId"
+                    >
                     </el-option>
                   </el-select>
                 </el-form-item>
@@ -386,16 +685,35 @@
             <el-row>
               <el-col :span="12">
                 <el-form-item label="合同名称" prop="contractName">
-                  <el-select filterable v-model="form.contractName" placeholder="请选择合同" style="width: 100%">
-                    <el-option v-for="obj in contractNameOptions" :key="obj.stName + obj.name"
-                      :label="obj.stName + obj.name" :value="obj.stName + obj.name"></el-option>
+                  <el-select
+                    filterable
+                    v-model="form.contractName"
+                    placeholder="请选择合同"
+                    style="width: 100%"
+                  >
+                    <el-option
+                      v-for="obj in contractNameOptions"
+                      :key="obj.stName + obj.name"
+                      :label="obj.stName + obj.name"
+                      :value="obj.stName + obj.name"
+                    ></el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="供应商名称" prop="terminalName">
-                  <el-select filterable v-model="form.terminalName" placeholder="请选择供应商" style="width: 100%">
-                    <el-option v-for="obj in supplierNameOptions" :key="obj.name" :label="obj.name" :value="obj.name">
+                  <el-select
+                    filterable
+                    v-model="form.terminalName"
+                    placeholder="请选择供应商"
+                    style="width: 100%"
+                  >
+                    <el-option
+                      v-for="obj in supplierNameOptions"
+                      :key="obj.name"
+                      :label="obj.name"
+                      :value="obj.name"
+                    >
                     </el-option>
                   </el-select>
                 </el-form-item>
@@ -404,7 +722,10 @@
             <el-row>
               <el-col :span="12">
                 <el-form-item label="保证金金额(元)" prop="putPrice">
-                  <el-input v-model="form.putPrice" placeholder="请输入保证金金额" />
+                  <el-input
+                    v-model="form.putPrice"
+                    placeholder="请输入保证金金额"
+                  />
                 </el-form-item>
               </el-col>
             </el-row>
@@ -413,19 +734,42 @@
             <el-row>
               <el-col :span="12">
                 <el-form-item label="项目名称" prop="projectId">
-                  <el-select filterable value-key="projectId" @change="changeProject" v-model="form.projectId"
-                    placeholder="请选择项目" style="width: 100%" :disabled="isQuote">
-                    <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName"
-                      :value="pro.projectId">
+                  <el-select
+                    filterable
+                    value-key="projectId"
+                    @change="changeProject"
+                    v-model="form.projectId"
+                    placeholder="请选择项目"
+                    style="width: 100%"
+                    :disabled="isQuote"
+                  >
+                    <el-option
+                      v-for="pro in listForProArr"
+                      :key="pro.projectId"
+                      :label="pro.projectName"
+                      :value="pro.projectId"
+                    >
                     </el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item label="业务名称" prop="stId">
-                  <el-select filterable value-key="stId" @change="changeSt" v-model="form.stId" placeholder="请选择业务"
-                    style="width: 100%" :disabled="isQuote">
-                    <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj.stId">
+                  <el-select
+                    filterable
+                    value-key="stId"
+                    @change="changeSt"
+                    v-model="form.stId"
+                    placeholder="请选择业务"
+                    style="width: 100%"
+                    :disabled="isQuote"
+                  >
+                    <el-option
+                      v-for="obj in listForBusArr"
+                      :key="obj.stId"
+                      :label="obj.stName"
+                      :value="obj.stId"
+                    >
                     </el-option>
                   </el-select>
                 </el-form-item>
@@ -439,8 +783,18 @@
             <el-row>
               <el-col :span="12">
                 <el-form-item label="客户名称" prop="terminalName">
-                  <el-select filterable v-model="form.terminalName" placeholder="请选择客户" style="width: 100%">
-                    <el-option v-for="obj in terminalNameOptions" :key="obj.name" :label="obj.name" :value="obj.name">
+                  <el-select
+                    filterable
+                    v-model="form.terminalName"
+                    placeholder="请选择客户"
+                    style="width: 100%"
+                  >
+                    <el-option
+                      v-for="obj in terminalNameOptions"
+                      :key="obj.name"
+                      :label="obj.name"
+                      :value="obj.name"
+                    >
                     </el-option>
                   </el-select>
                 </el-form-item>
@@ -449,7 +803,10 @@
             <el-row>
               <el-col :span="12">
                 <el-form-item label="保证金金额(元)" prop="putPrice">
-                  <el-input v-model="form.putPrice" placeholder="请输入保证金金额" />
+                  <el-input
+                    v-model="form.putPrice"
+                    placeholder="请输入保证金金额"
+                  />
                 </el-form-item>
               </el-col>
             </el-row>
@@ -467,12 +824,18 @@
               <el-row>
                 <el-col :span="12">
                   <el-form-item label="保底服务费期限(天)" prop="mfsp">
-                    <el-input v-model="form.mfsp" placeholder="请输入保底服务费期限" />
+                    <el-input
+                      v-model="form.mfsp"
+                      placeholder="请输入保底服务费期限"
+                    />
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">
                   <el-form-item label="年服务费率(%)" prop="rateYear">
-                    <el-input v-model="form.stRate" placeholder="请输入年服务费率" />
+                    <el-input
+                      v-model="form.stRate"
+                      placeholder="请输入年服务费率"
+                    />
                   </el-form-item>
                 </el-col>
               </el-row>
@@ -480,8 +843,15 @@
             <el-row>
               <el-col :span="12">
                 <el-form-item label="支付日期" prop="putTime">
-                  <el-date-picker clearable size="small" style="width: 100%" v-model="form.putTime" type="date"
-                    value-format="yyyy-MM-dd" placeholder="选择支付日期">
+                  <el-date-picker
+                    clearable
+                    size="small"
+                    style="width: 100%"
+                    v-model="form.putTime"
+                    type="date"
+                    value-format="yyyy-MM-dd"
+                    placeholder="选择支付日期"
+                  >
                   </el-date-picker>
                 </el-form-item>
               </el-col>
@@ -493,15 +863,25 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="退还/回收保证金金额" prop="outPrice">
-                <el-input v-model="form.outPrice" placeholder="请输入退还/回收保证金金额" />
+                <el-input
+                  v-model="form.outPrice"
+                  placeholder="请输入退还/回收保证金金额"
+                />
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
               <el-form-item label="回收/退还日期" prop="outTime">
-                <el-date-picker clearable size="small" style="width: 100%" v-model="form.outTime" type="date"
-                  value-format="yyyy-MM-dd" placeholder="选择回收日期">
+                <el-date-picker
+                  clearable
+                  size="small"
+                  style="width: 100%"
+                  v-model="form.outTime"
+                  type="date"
+                  value-format="yyyy-MM-dd"
+                  placeholder="选择回收日期"
+                >
                 </el-date-picker>
               </el-form-item>
             </el-col>
@@ -511,10 +891,23 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="附件" prop="file">
-              <el-upload class="upload-demo" :action="url" :headers="headers" :on-preview="handlePreview"
-                :on-remove="handleRemove" :on-success="uploadSuccess" :on-error="uploadError"
-                :before-remove="beforeRemove" multiple :limit="5" :on-exceed="handleExceed" :file-list="fileList">
-                <el-button size="small" type="primary" v-if="isLook != 3">点击上传</el-button>
+              <el-upload
+                class="upload-demo"
+                :action="url"
+                :headers="headers"
+                :on-preview="handlePreview"
+                :on-remove="handleRemove"
+                :on-success="uploadSuccess"
+                :on-error="uploadError"
+                :before-remove="beforeRemove"
+                multiple
+                :limit="5"
+                :on-exceed="handleExceed"
+                :file-list="fileList"
+              >
+                <el-button size="small" type="primary" v-if="isLook != 3"
+                  >点击上传</el-button
+                >
                 <!--                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
               </el-upload>
             </el-form-item>
@@ -522,26 +915,46 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm" :disabled="isDisabled" v-if="isLook != 3">确 定</el-button>
+        <el-button
+          type="primary"
+          @click="submitForm"
+          :disabled="isDisabled"
+          v-if="isLook != 3"
+          >确 定</el-button
+        >
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
     <!--打印页-->
-    <el-dialog title="打印预览" :visible.sync="printReviewVisible" @close="onPrintReviewClose" width="80%">
+    <el-dialog
+      title="打印预览"
+      :visible.sync="printReviewVisible"
+      @close="onPrintReviewClose"
+      width="80%"
+    >
       <div class="print-div" id="print_area">
         <div class="search-title-content">
           <div style="padding: 0 0 15px">
             <el-row type="flex" justify="space-between">
-              <el-col :span="4"><span style="font-weight: bold; font-size: 16px" v-text="printData.printType"></span>
+              <el-col :span="4"
+                ><span
+                  style="font-weight: bold; font-size: 16px"
+                  v-text="printData.printType"
+                ></span>
               </el-col>
-              <el-col :span="4"><span style="
+              <el-col :span="4"
+                ><span
+                  style="
                     color: red;
                     width: 100%;
                     display: inline-block;
                     text-align: end;
                     font-weight: bold;
                     font-size: 16px;
-                  " v-text="selectDictLabel(stateOptions, printData.state)"></span></el-col>
+                  "
+                  v-text="selectDictLabel(stateOptions, printData.state)"
+                ></span
+              ></el-col>
             </el-row>
           </div>
           <!--基本信息-->
@@ -661,26 +1074,33 @@ import {
 import { getToken } from "@/utils/auth";
 import { getContract } from "@/api/project/apayment";
 import print from "print-js";
-import { getProcessDataByStId, getApprovalProcessList, getApprovalType } from "@/api/approve";
+import {
+  getProcessDataByStId,
+  getApprovalProcessList,
+  getApprovalType,
+} from "@/api/approve";
 import { getContractList } from "@/api/project/all";
-import { listProjectForCombobox, listBusinessForCombobox } from "@/api/project/st";
+import {
+  listProjectForCombobox,
+  listBusinessForCombobox,
+} from "@/api/project/st";
 export default {
   name: "Margin",
   props: {
-    "stIdd": {
-      type: String
+    stIdd: {
+      type: String,
     },
-    "projectIdd": {
-      type: String
+    projectIdd: {
+      type: String,
     },
-    "isQuote": {
+    isQuote: {
       type: Boolean,
-      default: false
+      default: false,
     },
-    "editable": {
+    editable: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   data() {
     // 两位小数点验证
@@ -764,14 +1184,16 @@ export default {
         pageSize: 10,
         type: null,
         stId: null,
-        projectId: null
+        projectId: null,
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
         stId: [{ required: true, message: "请选择业务名称", trigger: "blur" }],
-        projectId: [{ required: true, message: "请选择项目名称", trigger: "blur" }],
+        projectId: [
+          { required: true, message: "请选择项目名称", trigger: "blur" },
+        ],
         contractName: [
           { required: true, message: "请选择合同", trigger: "blur" },
         ],
@@ -802,13 +1224,13 @@ export default {
       isDisabled: false,
       listForBusArr: [],
       listForProArr: [],
-      apyamentId:'',//子组件id
+      apyamentId: "", //子组件id
     };
   },
   created() {
     if (this.isQuote) {
-      this.queryParams.stId = parseInt(this.stIdd)
-      this.queryParams.projectId = parseInt(this.projectIdd)
+      this.queryParams.stId = parseInt(this.stIdd);
+      this.queryParams.projectId = parseInt(this.projectIdd);
     }
     this.getList();
     this.getDicts("project_approval_state").then((response) => {
@@ -853,19 +1275,19 @@ export default {
       this.loadProjectForCombobox();
     },
     loadProjectForCombobox() {
-      this.listForProArr = []
+      this.listForProArr = [];
       listProjectForCombobox().then((response) => {
-        this.listForProArr = response.data
-      })
+        this.listForProArr = response.data;
+      });
     },
     loadBusinessForCombobox(projectId) {
-      this.listForBusArr = []
+      this.listForBusArr = [];
       listBusinessForCombobox({ projectId }).then((response) => {
-        this.listForBusArr = response.data
+        this.listForBusArr = response.data;
         if (this.isQuote) {
-          this.changeSt(this.queryParams.stId)
+          this.changeSt(this.queryParams.stId);
         }
-      })
+      });
     },
     // 审核状态字典翻译
     stateFormat(row, column) {
@@ -917,7 +1339,7 @@ export default {
         fileList: [],
         projectId: null,
         projectName: null,
-        serialNo: null
+        serialNo: null,
       };
       this.resetForm("form");
     },
@@ -939,12 +1361,12 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      getApprovalType({ approvalType: '7' }).then((response) => {
+      getApprovalType({ approvalType: "7" }).then((response) => {
         this.reset();
         if (this.isQuote) {
-          this.form.projectId = this.queryParams.projectId
-          this.changeProject(this.queryParams.projectId)
-          this.form.stId = this.queryParams.stId
+          this.form.projectId = this.queryParams.projectId;
+          this.changeProject(this.queryParams.projectId);
+          this.form.stId = this.queryParams.stId;
         }
         this.fileList = [];
         this.form.type = "上游";
@@ -1105,22 +1527,21 @@ export default {
     //业务开始
     //选择项目
     changeProject(projectId) {
-      this.listForBusArr = []
-      this.form.stId = ''
-      this.form.stName = ''
-      this.form.serialNo = ''
+      this.listForBusArr = [];
+      this.form.stId = "";
+      this.form.stName = "";
+      this.form.serialNo = "";
       if (projectId) {
         this.loadBusinessForCombobox(projectId);
       }
     },
     changeSt(stId) {
-      let businessFind = this.listForBusArr.filter(x => x.stId == stId);
+      let businessFind = this.listForBusArr.filter((x) => x.stId == stId);
       if (businessFind && businessFind.length > 0) {
         let obj = businessFind[0];
         this.contractNameOptions = [];
         this.form.stName = obj.stName;
         this.form.serialNo = obj.serialNo;
-        this.$set(this.form, "number", obj.number);
         let data = { stId: obj.stId };
         getContractListAll(data).then((response) => {
           this.contractNameOptions = response.rows;
@@ -1143,7 +1564,7 @@ export default {
             this.form.mfsp = 0;
           }
         });
-    }
+      }
     },
     //选择类型
     typchange() {
@@ -1181,7 +1602,7 @@ export default {
       });
     },
     async handlePrint(row) {
-      this.apyamentId = row.marginId
+      this.apyamentId = row.marginId;
       this.printData = {};
       await getMargin(row.marginId).then((response) => {
         this.printData = response.data;

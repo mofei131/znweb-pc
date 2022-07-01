@@ -5,38 +5,88 @@
 </style>
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch && !isQuote" label-width="68px">
+    <el-form
+      :model="queryParams"
+      ref="queryForm"
+      :inline="true"
+      v-show="showSearch && !isQuote"
+      label-width="68px"
+    >
       <el-form-item label="创建时间">
-        <el-date-picker v-model="dateRange" size="small" style="width: 240px" value-format="yyyy-MM-dd" type="daterange"
-          range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
+        <el-date-picker
+          v-model="dateRange"
+          size="small"
+          style="width: 240px"
+          value-format="yyyy-MM-dd"
+          type="daterange"
+          range-separator="-"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+        ></el-date-picker>
       </el-form-item>
       <el-form-item label="项目名称" prop="projectId">
-        <el-input v-model="queryParams.projectName" placeholder="请输入项目名称" clearable size="small"
-          @keyup.enter.native="handleQuery" />
+        <el-input
+          v-model="queryParams.projectName"
+          placeholder="请输入项目名称"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
       </el-form-item>
 
       <el-form-item label="批次" prop="batch">
-        <el-input v-model="queryParams.batch" placeholder="请输入批次" clearable size="small"
-          @keyup.enter.native="handleQuery" />
+        <el-input
+          v-model="queryParams.batch"
+          placeholder="请输入批次"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
       </el-form-item>
       <el-form-item label="业务名称" prop="stId">
-        <el-input v-model="queryParams.stName" placeholder="请输入业务名称" clearable size="small"
-          @keyup.enter.native="handleQuery" />
+        <el-input
+          v-model="queryParams.stName"
+          placeholder="请输入业务名称"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
       </el-form-item>
       <el-form-item label="项目编号" prop="serialNo">
-        <el-input v-model="queryParams.serialNo" placeholder="请输入项目编号" clearable size="small"
-          @keyup.enter.native="handleQuery" />
+        <el-input
+          v-model="queryParams.serialNo"
+          placeholder="请输入项目编号"
+          clearable
+          size="small"
+          @keyup.enter.native="handleQuery"
+        />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        <el-button
+          type="primary"
+          icon="el-icon-search"
+          size="mini"
+          @click="handleQuery"
+          >搜索</el-button
+        >
+        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery"
+          >重置</el-button
+        >
       </el-form-item>
     </el-form>
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
-          v-hasPermi="['project:gry:add']" v-show="editable">新增</el-button>
+        <el-button
+          type="primary"
+          plain
+          icon="el-icon-plus"
+          size="mini"
+          @click="handleAdd"
+          v-hasPermi="['project:gry:add']"
+          v-show="editable"
+          >新增</el-button
+        >
       </el-col>
       <!--      <el-col :span="1.5">-->
       <!--        <el-button-->
@@ -61,25 +111,56 @@
       <!--        >删除</el-button>-->
       <!--      </el-col>-->
       <el-col :span="1.5">
-        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"
-          v-hasPermi="['project:gry:export']" v-show="editable">导出</el-button>
+        <el-button
+          type="warning"
+          plain
+          icon="el-icon-download"
+          size="mini"
+          @click="handleExport"
+          v-hasPermi="['project:gry:export']"
+          v-show="editable"
+          >导出</el-button
+        >
       </el-col>
-      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList" v-show="!isQuote"></right-toolbar>
+      <right-toolbar
+        :showSearch.sync="showSearch"
+        @queryTable="getList"
+        v-show="!isQuote"
+      ></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="gryList" @selection-change="handleSelectionChange">
+    <el-table
+      v-loading="loading"
+      :data="gryList"
+      @selection-change="handleSelectionChange"
+    >
       <!--      <el-table-column type="selection" width="55" align="center" />-->
-      <el-table-column label="项目名称" align="center" prop="projectName" v-if="!isQuote" />
-      <el-table-column label="业务名称" align="center" prop="stName" v-if="!isQuote" />
-      <el-table-column label="项目编号" align="center" prop="serialNo" v-if="!isQuote" />
+      <el-table-column
+        label="项目名称"
+        align="center"
+        prop="projectName"
+        v-if="!isQuote"
+      />
+      <el-table-column
+        label="业务名称"
+        align="center"
+        prop="stName"
+        v-if="!isQuote"
+      />
+      <el-table-column
+        label="项目编号"
+        align="center"
+        prop="serialNo"
+        v-if="!isQuote"
+      />
       <el-table-column label="货品名称" align="center" prop="name" />
       <el-table-column label="重量(吨)" align="center" prop="grnNumber">
         <template slot-scope="scope">
           {{
-          Number(scope.row.grnNumber)
-          .toFixed(3)
-          .toString()
-          .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+            Number(scope.row.grnNumber)
+              .toFixed(3)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
@@ -88,7 +169,12 @@
       <el-table-column label="物流公司" align="center" prop="tpcName" />
       <el-table-column label="车数" align="center" prop="carNumber" />
       <el-table-column label="批次" align="center" prop="batch" />
-      <el-table-column label="到货日期" align="center" prop="okTime" width="180">
+      <el-table-column
+        label="到货日期"
+        align="center"
+        prop="okTime"
+        width="180"
+      >
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.okTime, "{y}-{m}-{d}") }}</span>
         </template>
@@ -96,38 +182,79 @@
       <el-table-column label="货值单价(元)" align="center" prop="valuePrice">
         <template slot-scope="scope">
           {{
-          Number(scope.row.valuePrice)
-          .toFixed(2)
-          .toString()
-          .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+            Number(scope.row.valuePrice)
+              .toFixed(2)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
       <el-table-column label="货值总额(元)" align="center" prop="valueTprice">
         <template slot-scope="scope">
           {{
-          Number(scope.row.valueTprice)
-          .toFixed(2)
-          .toString()
-          .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+            Number(scope.row.valueTprice)
+              .toFixed(2)
+              .toString()
+              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
-      <el-table-column label="创建日期" align="center" prop="createTime" width="180">
+      <el-table-column
+        label="创建日期"
+        align="center"
+        prop="createTime"
+        width="180"
+      >
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.createTime, "{y}-{m}-{d}") }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="付款状态" align="center" prop="zzpayState" :formatter="aapaystateFormat" />
-      <el-table-column label="审核状态" align="center" prop="state" :formatter="stateFormat" />
-      <el-table-column label="操作" width="160" align="center" class-name="small-padding fixed-width">
+      <el-table-column
+        label="付款状态"
+        align="center"
+        prop="zzpayState"
+        :formatter="aapaystateFormat"
+      />
+      <el-table-column
+        label="审核状态"
+        align="center"
+        prop="state"
+        :formatter="stateFormat"
+      />
+      <el-table-column
+        label="操作"
+        width="160"
+        align="center"
+        class-name="small-padding fixed-width"
+      >
         <template slot-scope="scope">
-          <el-button size="mini" type="text" icon="el-icon-edit" @click="handleLook(scope.row)"
-            v-hasPermi="['project:gry:edit']">查看</el-button>
-          <el-button v-if="scope.row.state == '4' && scope.row.yfState == '1' && editable" size="mini" type="text"
-            icon="el-icon-edit" @click="handleUpdate(scope.row)" v-hasPermi="['project:gry:edit']">编辑</el-button>
-          <el-button v-if="scope.row.state === '3'" size="mini" type="text" icon="el-icon-printer"
-            @click="handlePrint(scope.row)">打印</el-button>
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-edit"
+            @click="handleLook(scope.row)"
+            v-hasPermi="['project:gry:edit']"
+            >查看</el-button
+          >
+          <el-button
+            v-if="
+              scope.row.state == '4' && scope.row.yfState == '1' && editable
+            "
+            size="mini"
+            type="text"
+            icon="el-icon-edit"
+            @click="handleUpdate(scope.row)"
+            v-hasPermi="['project:gry:edit']"
+            >编辑</el-button
+          >
+          <el-button
+            v-if="scope.row.state === '3'"
+            size="mini"
+            type="text"
+            icon="el-icon-printer"
+            @click="handlePrint(scope.row)"
+            >打印</el-button
+          >
           <!--          <el-button-->
           <!--            size="mini"-->
           <!--            type="text"-->
@@ -139,28 +266,62 @@
       </el-table-column>
     </el-table>
 
-    <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
-      @pagination="getList" />
+    <pagination
+      v-show="total > 0"
+      :total="total"
+      :page.sync="queryParams.pageNum"
+      :limit.sync="queryParams.pageSize"
+      @pagination="getList"
+    />
 
     <!-- 添加或修改到厂数质量对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="950px" append-to-body @opened="handleOpen">
+    <el-dialog
+      :title="title"
+      :visible.sync="open"
+      width="950px"
+      append-to-body
+      @opened="handleOpen"
+    >
       <el-form ref="form" :model="form" :rules="rules" label-width="120px">
         <el-row>
           <el-col :span="12">
             <el-form-item label="项目名称" prop="projectId">
-              <el-select filterable value-key="projectId" @change="changeProject" v-model="form.projectId"
-                placeholder="请选择项目名称" style="width: 100%" :disabled="isQuote">
-                <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName"
-                  :value="pro.projectId">
+              <el-select
+                filterable
+                value-key="projectId"
+                @change="changeProject"
+                v-model="form.projectId"
+                placeholder="请选择项目名称"
+                style="width: 100%"
+                :disabled="isQuote"
+              >
+                <el-option
+                  v-for="pro in listForProArr"
+                  :key="pro.projectId"
+                  :label="pro.projectName"
+                  :value="pro.projectId"
+                >
                 </el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="业务名称" prop="stId">
-              <el-select filterable value-key="stId" @change="changeSt" v-model="form.stId" placeholder="请选择业务名称"
-                style="width: 100%" :disabled="isQuote">
-                <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj.stId">
+              <el-select
+                filterable
+                value-key="stId"
+                @change="changeSt"
+                v-model="form.stId"
+                placeholder="请选择业务名称"
+                style="width: 100%"
+                :disabled="isQuote"
+              >
+                <el-option
+                  v-for="obj in listForBusArr"
+                  :key="obj.stId"
+                  :label="obj.stName"
+                  :value="obj.stId"
+                >
                 </el-option>
               </el-select>
             </el-form-item>
@@ -174,13 +335,24 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="重量(吨)" prop="grnNumber">
-              <el-input v-model="form.grnNumber" placeholder="请输入重量" @change="calculate" />
+              <el-input
+                v-model="form.grnNumber"
+                placeholder="请输入重量"
+                @change="calculate"
+              />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="到货日期" prop="okTime">
-              <el-date-picker clearable size="small" style="width: 100%" v-model="form.okTime" type="date"
-                value-format="yyyy-MM-dd" placeholder="选择到货日期">
+              <el-date-picker
+                clearable
+                size="small"
+                style="width: 100%"
+                v-model="form.okTime"
+                type="date"
+                value-format="yyyy-MM-dd"
+                placeholder="选择到货日期"
+              >
               </el-date-picker>
             </el-form-item>
           </el-col>
@@ -196,26 +368,46 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="固定差价/吨(元)" prop="chargemGd">
-                <el-input v-model="form.chargemGd" placeholder="请输入固定差价" />
+                <el-input
+                  v-model="form.chargemGd"
+                  placeholder="请输入固定差价"
+                />
               </el-form-item>
             </el-col>
           </el-row>
         </div>
         <!--        选择入库单-->
         <div v-if="isLook != 3">
-          <el-popover placement="bottom-start" width="100%" fit v-model="visible" popper-class="area_popper">
-            <el-button size="small" type="primary" slot="reference" style="margin-bottom: 30px">选择随车数质量</el-button>
-            <el-table ref="singleTable" :data="tableData" highlight-current-row @current-change="handleCurrentChange"
-              style="width: 100%">
+          <el-popover
+            placement="bottom-start"
+            width="100%"
+            fit
+            v-model="visible"
+            popper-class="area_popper"
+          >
+            <el-button
+              size="small"
+              type="primary"
+              slot="reference"
+              style="margin-bottom: 30px"
+              >选择随车数质量</el-button
+            >
+            <el-table
+              ref="singleTable"
+              :data="tableData"
+              highlight-current-row
+              @current-change="handleCurrentChange"
+              style="width: 100%"
+            >
               <el-table-column property="name" label="货品名称">
               </el-table-column>
               <el-table-column property="grnNumber" label="随车重量（吨）">
                 <template slot-scope="scope">
                   {{
-                  Number(scope.row.grnNumber)
-                  .toFixed(3)
-                  .toString()
-                  .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    Number(scope.row.grnNumber)
+                      .toFixed(3)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                   }}
                 </template>
               </el-table-column>
@@ -233,20 +425,20 @@
               <el-table-column property="valuePrice" label="货值单价（元）">
                 <template slot-scope="scope">
                   {{
-                  Number(scope.row.valuePrice)
-                  .toFixed(2)
-                  .toString()
-                  .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    Number(scope.row.valuePrice)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                   }}
                 </template>
               </el-table-column>
               <el-table-column property="valueTprice" label="货值总额（元）">
                 <template slot-scope="scope">
                   {{
-                  Number(scope.row.valueTprice)
-                  .toFixed(2)
-                  .toString()
-                  .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    Number(scope.row.valueTprice)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                   }}
                 </template>
               </el-table-column>
@@ -256,16 +448,21 @@
         <!--        已选择的入库单-->
         <el-row>
           <el-col :span="24">
-            <el-table ref="singleTable" :data="tableselData" fit style="margin-bottom: 30px">
+            <el-table
+              ref="singleTable"
+              :data="tableselData"
+              fit
+              style="margin-bottom: 30px"
+            >
               <el-table-column property="name" label="已选货品名称">
               </el-table-column>
               <el-table-column property="grnNumber" label="随车重量（吨）">
                 <template slot-scope="scope">
                   {{
-                  Number(scope.row.grnNumber)
-                  .toFixed(3)
-                  .toString()
-                  .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    Number(scope.row.grnNumber)
+                      .toFixed(3)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                   }}
                 </template>
               </el-table-column>
@@ -283,20 +480,20 @@
               <el-table-column property="valuePrice" label="货值单价（元）">
                 <template slot-scope="scope">
                   {{
-                  Number(scope.row.valuePrice)
-                  .toFixed(2)
-                  .toString()
-                  .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    Number(scope.row.valuePrice)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                   }}
                 </template>
               </el-table-column>
               <el-table-column property="valueTprice" label="货值总额（元）">
                 <template slot-scope="scope">
                   {{
-                  Number(scope.row.valueTprice)
-                  .toFixed(2)
-                  .toString()
-                  .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                    Number(scope.row.valueTprice)
+                      .toFixed(2)
+                      .toString()
+                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                   }}
                 </template>
               </el-table-column>
@@ -309,7 +506,7 @@
             <el-col :span="6">
               <el-form-item label="合计重量" prop="totalWeight">
                 <span style="color: red">{{
-                $options.filters.moneyFilter(form.totalWeight)
+                  $options.filters.moneyFilter(form.totalWeight)
                 }}</span>
               </el-form-item>
             </el-col>
@@ -326,7 +523,7 @@
             <el-col :span="5">
               <el-form-item label="重量差">
                 <span style="color: red">{{
-                $options.filters.weightFilter(zlc)
+                  $options.filters.weightFilter(zlc)
                 }}</span>
               </el-form-item>
             </el-col>
@@ -338,14 +535,14 @@
             <el-col :span="5">
               <el-form-item label="单价差" prop="averageRz">
                 <span style="color: red">{{
-                $options.filters.moneyFilter(djc)
+                  $options.filters.moneyFilter(djc)
                 }}</span>
               </el-form-item>
             </el-col>
             <el-col :span="5">
               <el-form-item label="总额差" prop="averageRz">
                 <span style="color: red">{{
-                $options.filters.moneyFilter(zec)
+                  $options.filters.moneyFilter(zec)
                 }}</span>
               </el-form-item>
             </el-col>
@@ -421,24 +618,78 @@
           </el-col>
         </el-row>
         <!--        奖惩-->
-        <el-row style="margin-bottom:20px">
+        <el-row style="margin-bottom: 20px">
           <el-col :span="24">
-            <span style="font-weight:600">奖惩(元){{"\xa0\xa0"}}</span>
-            <span>水分：<span style="color: red" v-text="form.jc1">0.00</span></span>
-            <span style="margin-left: 20px">内水：<span style="color: red" v-text="form.jc2">0.00</span></span>
-            <span style="margin-left: 20px">灰份Aad：<span style="color: red" v-text="form.jc3">0.00</span></span>
-            <span style="margin-left: 20px">灰份ad：<span style="color: red" v-text="form.jc10">0.00</span></span>
-            <span style="margin-left: 20px">挥发份Vda：<span style="color: red" v-text="form.jc4">0.00</span></span>
-            <span style="margin-left: 20px">挥发份Vdaf：<span style="color: red" v-text="form.jc11">0.00</span></span>
+            <span style="font-weight: 600">奖惩(元){{ "\xa0\xa0" }}</span>
+            <span
+              >水分：<span style="color: red" v-text="form.jc1"
+                >0.00</span
+              ></span
+            >
+            <span style="margin-left: 20px"
+              >内水：<span style="color: red" v-text="form.jc2"
+                >0.00</span
+              ></span
+            >
+            <span style="margin-left: 20px"
+              >灰份Aad：<span style="color: red" v-text="form.jc3"
+                >0.00</span
+              ></span
+            >
+            <span style="margin-left: 20px"
+              >灰份ad：<span style="color: red" v-text="form.jc10"
+                >0.00</span
+              ></span
+            >
+            <span style="margin-left: 20px"
+              >挥发份Vda：<span style="color: red" v-text="form.jc4"
+                >0.00</span
+              ></span
+            >
+            <span style="margin-left: 20px"
+              >挥发份Vdaf：<span style="color: red" v-text="form.jc11"
+                >0.00</span
+              ></span
+            >
           </el-col>
-          <el-col :span="24" style="margin-top:10px;margin-left:60px">
-            <span>灰熔点：<span style="color: red" v-text="form.jc5">0.00</span></span>
-            <span style="margin-left: 20px">固定碳：<span style="color: red" v-text="form.jc6">0.00</span></span>
-            <span style="margin-left: 20px">含硫量：<span style="color: red" v-text="form.jc7">0.00</span></span>
-            <span style="margin-left: 20px">热值Qgr,ad：<span style="color: red" v-text="form.jc8">0.00</span></span>
-            <span style="margin-left: 20px">热值Qnt,ar：<span style="color: red" v-text="form.jc9">0.00</span></span>
-            <span style="margin-left: 20px">热值Kcal：<span style="color: red" v-text="form.jc12">0.00</span></span>
-            <el-button size="small" style="margin-left: 20px" type="primary" @click="jsjc" v-if="isLook != 3">奖惩计算
+          <el-col :span="24" style="margin-top: 10px; margin-left: 60px">
+            <span
+              >灰熔点：<span style="color: red" v-text="form.jc5"
+                >0.00</span
+              ></span
+            >
+            <span style="margin-left: 20px"
+              >固定碳：<span style="color: red" v-text="form.jc6"
+                >0.00</span
+              ></span
+            >
+            <span style="margin-left: 20px"
+              >含硫量：<span style="color: red" v-text="form.jc7"
+                >0.00</span
+              ></span
+            >
+            <span style="margin-left: 20px"
+              >热值Qgr,ad：<span style="color: red" v-text="form.jc8"
+                >0.00</span
+              ></span
+            >
+            <span style="margin-left: 20px"
+              >热值Qnt,ar：<span style="color: red" v-text="form.jc9"
+                >0.00</span
+              ></span
+            >
+            <span style="margin-left: 20px"
+              >热值Kcal：<span style="color: red" v-text="form.jc12"
+                >0.00</span
+              ></span
+            >
+            <el-button
+              size="small"
+              style="margin-left: 20px"
+              type="primary"
+              @click="jsjc"
+              v-if="isLook != 3"
+              >奖惩计算
             </el-button>
           </el-col>
         </el-row>
@@ -446,12 +697,20 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="货值单价(元)" prop="valuePrice">
-              <el-input type="number" v-model="form.valuePrice" placeholder="请输入货值单价" />
+              <el-input
+                type="number"
+                v-model="form.valuePrice"
+                placeholder="请输入货值单价"
+              />
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="货值总价(元)" prop="valueTprice">
-              <el-input type="number" v-model="form.valueTprice" placeholder="请输入货值总价" />
+              <el-input
+                type="number"
+                v-model="form.valueTprice"
+                placeholder="请输入货值总价"
+              />
             </el-form-item>
           </el-col>
         </el-row>
@@ -459,10 +718,23 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="附件" prop="file">
-              <el-upload class="upload-demo" :action="url" :headers="headers" :on-preview="handlePreview"
-                :on-remove="handleRemove" :on-success="uploadSuccess" :on-error="uploadError"
-                :before-remove="beforeRemove" multiple :limit="5" :on-exceed="handleExceed" :file-list="fileList">
-                <el-button size="small" type="primary" v-if="isLook != 3">点击上传</el-button>
+              <el-upload
+                class="upload-demo"
+                :action="url"
+                :headers="headers"
+                :on-preview="handlePreview"
+                :on-remove="handleRemove"
+                :on-success="uploadSuccess"
+                :on-error="uploadError"
+                :before-remove="beforeRemove"
+                multiple
+                :limit="5"
+                :on-exceed="handleExceed"
+                :file-list="fileList"
+              >
+                <el-button size="small" type="primary" v-if="isLook != 3"
+                  >点击上传</el-button
+                >
                 <!--                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
               </el-upload>
             </el-form-item>
@@ -470,26 +742,42 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button v-if="isLook != 3" type="primary" @click="submitForm">确 定</el-button>
+        <el-button v-if="isLook != 3" type="primary" @click="submitForm"
+          >确 定</el-button
+        >
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
     <!--打印页-->
-    <el-dialog title="打印预览" :visible.sync="printReviewVisible" @close="onPrintReviewClose" width="80%">
+    <el-dialog
+      title="打印预览"
+      :visible.sync="printReviewVisible"
+      @close="onPrintReviewClose"
+      width="80%"
+    >
       <div class="print-div" id="print_area">
         <div class="search-title-content">
           <div style="padding: 0 0 15px">
             <el-row type="flex" justify="space-between">
-              <el-col :span="4"><span style="font-weight: bold; font-size: 16px" v-text="printData.printType"></span>
+              <el-col :span="4"
+                ><span
+                  style="font-weight: bold; font-size: 16px"
+                  v-text="printData.printType"
+                ></span>
               </el-col>
-              <el-col :span="4"><span style="
+              <el-col :span="4"
+                ><span
+                  style="
                     color: red;
                     width: 100%;
                     display: inline-block;
                     text-align: end;
                     font-weight: bold;
                     font-size: 16px;
-                  " v-text="selectDictLabel(stateOptions, printData.state)"></span></el-col>
+                  "
+                  v-text="selectDictLabel(stateOptions, printData.state)"
+                ></span
+              ></el-col>
             </el-row>
           </div>
           <!--基本信息-->
@@ -749,26 +1037,33 @@ import {
 } from "@/api/project/gry";
 import { getToken } from "@/utils/auth";
 import print from "print-js";
-import { getProcessDataByStId, getApprovalProcessList, getApprovalType } from "@/api/approve";
-import { listProjectForCombobox, listBusinessForCombobox } from "@/api/project/st";
+import {
+  getProcessDataByStId,
+  getApprovalProcessList,
+  getApprovalType,
+} from "@/api/approve";
+import {
+  listProjectForCombobox,
+  listBusinessForCombobox,
+} from "@/api/project/st";
 
 export default {
   name: "Gry",
   props: {
-    "stIdd": {
-      type: String
+    stIdd: {
+      type: String,
     },
-    "projectIdd": {
-      type: String
+    projectIdd: {
+      type: String,
     },
-    "isQuote": {
+    isQuote: {
       type: Boolean,
-      default: false
+      default: false,
     },
-    "editable": {
+    editable: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   data() {
     const validatePrice = (rule, value, callback) => {
@@ -849,14 +1144,16 @@ export default {
         pageNum: 1,
         pageSize: 10,
         stId: null,
-        projectId: null
+        projectId: null,
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
         stId: [{ required: true, message: "请选择业务名称", trigger: "blur" }],
-        projectId: [{ required: true, message: "请选择项目名称", trigger: "blur" }],
+        projectId: [
+          { required: true, message: "请选择项目名称", trigger: "blur" },
+        ],
         grnNumber: [
           { required: true, validator: validatePrice, trigger: "blur" },
         ],
@@ -911,14 +1208,14 @@ export default {
       isDisabled: false,
       listForBusArr: [],
       listForProArr: [],
-      apyamentId:'',//子组件id
-      approvalType: {}
+      apyamentId: "", //子组件id
+      approvalType: {},
     };
   },
   created() {
     if (this.isQuote) {
-      this.queryParams.stId = parseInt(this.stIdd)
-      this.queryParams.projectId = parseInt(this.projectIdd)
+      this.queryParams.stId = parseInt(this.stIdd);
+      this.queryParams.projectId = parseInt(this.projectIdd);
     }
     this.getList();
     this.getDicts("project_approval_state").then((response) => {
@@ -954,19 +1251,19 @@ export default {
       this.loadProjectForCombobox();
     },
     loadProjectForCombobox() {
-      this.listForProArr = []
+      this.listForProArr = [];
       listProjectForCombobox().then((response) => {
-        this.listForProArr = response.data
-      })
+        this.listForProArr = response.data;
+      });
     },
     loadBusinessForCombobox(projectId) {
-      this.listForBusArr = []
+      this.listForBusArr = [];
       listBusinessForCombobox({ projectId }).then((response) => {
-        this.listForBusArr = response.data
+        this.listForBusArr = response.data;
         if (this.isQuote) {
-          this.changeSt(this.queryParams.stId)
+          this.changeSt(this.queryParams.stId);
         }
-      })
+      });
     },
     // 审核状态字典翻译
     stateFormat(row, column) {
@@ -1038,7 +1335,7 @@ export default {
         fileList: [],
         projectId: null,
         projectName: null,
-        serialNo: null
+        serialNo: null,
       };
       this.resetForm("form");
     },
@@ -1060,12 +1357,12 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      getApprovalType({ approvalType: '11' }).then((response) => {
+      getApprovalType({ approvalType: "11" }).then((response) => {
         this.reset();
         if (this.isQuote) {
-          this.form.projectId = this.queryParams.projectId
-          this.changeProject(this.queryParams.projectId)
-          this.form.stId = this.queryParams.stId
+          this.form.projectId = this.queryParams.projectId;
+          this.changeProject(this.queryParams.projectId);
+          this.form.stId = this.queryParams.stId;
         }
         this.form.totalWeight = 0;
         this.form.averageRz = 0;
@@ -1244,16 +1541,16 @@ export default {
     // 业务开始
     // 选择项目
     changeProject(projectId) {
-      this.listForBusArr = []
-      this.form.stId = ''
-      this.form.stName = ''
-      this.form.serialNo = ''
+      this.listForBusArr = [];
+      this.form.stId = "";
+      this.form.stName = "";
+      this.form.serialNo = "";
       if (projectId) {
         this.loadBusinessForCombobox(projectId);
       }
     },
     changeSt(stId) {
-      let businessFind = this.listForBusArr.filter(x => x.stId == stId);
+      let businessFind = this.listForBusArr.filter((x) => x.stId == stId);
       if (businessFind && businessFind.length > 0) {
         let obj = businessFind[0];
         this.form.jc1 = 0;
@@ -1270,8 +1567,7 @@ export default {
         this.form.jc12 = 0;
         this.form.rewardp = 0;
         this.form.stName = obj.stName;
-        this.form.serialNo = obj.serialNo
-        this.$set(this.form, "number", obj.number);
+        this.form.serialNo = obj.serialNo;
         //赋值固定差价
         if (obj.chargemType == "2" || obj.chargemType == "3") {
           this.chargemType = 2;
@@ -1550,7 +1846,7 @@ export default {
       });
     },
     async handlePrint(row) {
-      this.apyamentId = row.gryId
+      this.apyamentId = row.gryId;
       let _this = this;
       this.printData = {};
       await getGry(row.gryId).then((response) => {
