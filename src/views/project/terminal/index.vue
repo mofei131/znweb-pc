@@ -379,7 +379,7 @@ import {
 import { getToken } from "@/utils/auth";
 import { getStList } from "@/api/project/gry";
 import print from "print-js";
-import { getProcessDataByStId, getApprovalProcessList } from "@/api/approve";
+import { getProcessDataByStId, getApprovalProcessList, getApprovalType } from "@/api/approve";
 
 export default {
   name: "Terminal",
@@ -564,12 +564,14 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
-      this.reset();
-      this.fileList = [];
-      this.isLook = 1;
-      this.editForm = false;
-      this.open = true;
-      this.title = "添加终端用户";
+      getApprovalType({ approvalType: '13' }).then((response) => {
+        this.reset();
+        this.fileList = [];
+        this.isLook = 1;
+        this.editForm = false;
+        this.open = true;
+        this.title = "添加终端用户";
+      });
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
