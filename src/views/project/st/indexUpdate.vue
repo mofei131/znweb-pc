@@ -1,33 +1,84 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form
+      :model="queryParams"
+      :inline="true"
+      v-show="showSearch"
+      label-width="68px"
+    >
       <el-form-item label="业务状态">
-        <el-select filterable v-model="queryParams.xmState" placeholder="请选择代办人" clearable>
-          <el-option v-for="item in businessStateOptions" :key="item.value" :label="item.label" :value="item.value" />
+        <el-select
+          filterable
+          v-model="queryParams.xmState"
+          placeholder="请选择代办人"
+          clearable
+        >
+          <el-option
+            v-for="item in businessStateOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
         </el-select>
       </el-form-item>
       <el-form-item label="审核状态">
-        <el-select filterable v-model="queryParams.state" placeholder="请选择代办人" clearable>
-          <el-option v-for="item in stateOptions" :key="item.value" :label="item.label" :value="item.value" />
+        <el-select
+          filterable
+          v-model="queryParams.state"
+          placeholder="请选择代办人"
+          clearable
+        >
+          <el-option
+            v-for="item in stateOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
         </el-select>
       </el-form-item>
       <el-form-item label="项目名称">
-        <el-input v-model="queryParams.projectName" placeholder="请输入项目名称" clearable size="small" />
+        <el-input
+          v-model="queryParams.projectName"
+          placeholder="请输入项目名称"
+          clearable
+          size="small"
+        />
       </el-form-item>
       <el-form-item label="业务名称">
-        <el-input v-model="queryParams.stName" placeholder="请输入业务名称" clearable size="small" />
+        <el-input
+          v-model="queryParams.stName"
+          placeholder="请输入业务名称"
+          clearable
+          size="small"
+        />
       </el-form-item>
       <el-form-item label="项目编号">
-        <el-input v-model="queryParams.serialNo" placeholder="请输入项目编号" clearable size="small" />
+        <el-input
+          v-model="queryParams.serialNo"
+          placeholder="请输入项目编号"
+          clearable
+          size="small"
+        />
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
+        <el-button
+          type="primary"
+          icon="el-icon-search"
+          size="mini"
+          @click="handleQuery"
+          >搜索</el-button
+        >
+        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery"
+          >重置</el-button
+        >
       </el-form-item>
     </el-form>
 
     <el-row :gutter="10" class="mb8">
-      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+      <right-toolbar
+        :showSearch.sync="showSearch"
+        @queryTable="getList"
+      ></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="stList">
@@ -40,80 +91,103 @@
       <el-table-column label="业务状态" align="center">
         <template slot-scope="scope">
           <div :style="'color:' + scope.row.bcolor">
-            {{ businessStateChange(scope.row) }}</div>
+            {{ businessStateChange(scope.row) }}
+          </div>
         </template>
       </el-table-column>
       <el-table-column label="说明" align="center" prop="xmNode" />
-      <el-table-column label="创建时间" align="center" prop="createTime" width="180">
+      <el-table-column
+        label="创建时间"
+        align="center"
+        prop="createTime"
+        width="180"
+      >
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d} {h}:{i}:{s}') }}</span>
+          <span>{{
+            parseTime(scope.row.createTime, "{y}-{m}-{d} {h}:{i}:{s}")
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column label="审核状态" align="center">
         <template slot-scope="scope">
           <div :style="'color:' + scope.row.scolor">
-            {{ stateChange(scope.row) }}</div>
+            {{ stateChange(scope.row) }}
+          </div>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="160" align="center" class-name="small-padding fixed-width">
+      <el-table-column
+        label="操作"
+        width="160"
+        align="center"
+        class-name="small-padding fixed-width"
+      >
         <template slot-scope="scope">
-          <el-button size="mini" type="text" icon="el-icon-edit" @click="handleLook(scope.row)"
-            v-hasPermi="['project:st:edit']">查看</el-button>
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-edit"
+            @click="handleLook(scope.row)"
+            v-hasPermi="['project:st:edit']"
+            >查看</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
 
-    <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
-      @pagination="getList" />
+    <pagination
+      v-show="total > 0"
+      :total="total"
+      :page.sync="queryParams.pageNum"
+      :limit.sync="queryParams.pageSize"
+      @pagination="getList"
+    />
   </div>
 </template>
 
 <script>
-import {
-  stupdateList
-} from "@/api/project/st";
+import { stupdateList } from "@/api/project/st";
 export default {
   name: "StUpdate",
   data() {
     return {
-      stateOptions:[
+      stateOptions: [
         {
-          value:1,
-          label:'未审批'
+          value: 1,
+          label: "未审批",
         },
         {
-          value:2,
-          label:'审批中'
+          value: 2,
+          label: "审批中",
         },
         {
-          value:3,
-          label:'已通过'
+          value: 3,
+          label: "已通过",
         },
         {
-          value:4,
-          label:'已打回'
-        }
+          value: 4,
+          label: "已打回",
+        },
       ],
-      businessStateOptions:[
+      businessStateOptions: [
         {
-          value:0,
-          label:'提交中'
+          value: 0,
+          label: "提交中",
         },
         {
-          value:1,
-          label:'进行中'
+          value: 1,
+          label: "进行中",
         },
         {
-          value:2,
-          label:'异常'
+          value: 2,
+          label: "异常",
         },
         {
-          value:3,
-          label:'结束'
+          value: 3,
+          label: "结束",
         },
         {
-          value:4,
-          label:'完成'
+          value: 4,
+          label: "完成",
         },
       ],
       // 显示搜索条件
@@ -129,7 +203,7 @@ export default {
       },
       queryParamsback: {
         pageNum: 1,
-        pageSize: 10
+        pageSize: 10,
       },
     };
   },
@@ -138,12 +212,12 @@ export default {
   },
   methods: {
     handleLook(row) {
-      this.$router.push('/st/lookAdd/' + row.stId)
+      this.$router.push("/st/businessDetailView/" + row.stId);
     },
     /** 查询项目信息列表 */
     getList() {
       this.loading = true;
-      stupdateList(this.queryParams).then(response => {
+      stupdateList(this.queryParams).then((response) => {
         this.stList = response.rows;
         this.total = response.total;
         this.loading = false;
@@ -156,40 +230,40 @@ export default {
     },
     /** 重置按钮操作 */
     resetQuery() {
-      this.queryParams = this.queryParamsback
+      this.queryParams = this.queryParamsback;
       this.handleQuery();
     },
     stateChange(e) {
       if (e.state == 1) {
-        return '未审批'
+        return "未审批";
       } else if (e.state == 2) {
-        e.scolor = '#09CC9D'
-        return '审批中'
+        e.scolor = "#09CC9D";
+        return "审批中";
       } else if (e.state == 3) {
-        e.scolor = '#007AFF'
-        return '已通过'
+        e.scolor = "#007AFF";
+        return "已通过";
       } else if (e.state == 4) {
-        e.scolor = '#F12801'
-        return '已打回'
+        e.scolor = "#F12801";
+        return "已打回";
       }
     },
     businessStateChange(e) {
       if (e.xmState == 0) {
-        return '提交中'
+        return "提交中";
       } else if (e.xmState == 1) {
-        e.bcolor = '#09CC9D'
-        return '进行中'
+        e.bcolor = "#09CC9D";
+        return "进行中";
       } else if (e.xmState == 2) {
-        e.bcolor = '#FFAC00'
-        return '异常'
+        e.bcolor = "#FFAC00";
+        return "异常";
       } else if (e.xmState == 3) {
-        e.bcolor = '#F12801'
-        return '结束'
+        e.bcolor = "#F12801";
+        return "结束";
       } else if (e.xmState == 4) {
-        e.bcolor = '#007AFF'
-        return '完成'
+        e.bcolor = "#007AFF";
+        return "完成";
       }
     },
-  }
+  },
 };
 </script>

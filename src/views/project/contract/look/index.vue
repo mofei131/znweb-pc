@@ -15,11 +15,11 @@
   color: #333333;
   line-height: 30px;
 }
-.head-text span{
+.head-text span {
   display: block;
-  width:220px;
-  line-height:30px;
-  margin-top:0px
+  width: 220px;
+  line-height: 30px;
+  margin-top: 0px;
 }
 
 .upload-hidden .el-upload--picture-card {
@@ -46,103 +46,118 @@
           <table width="90%" cellpadding="0" cellspacing="0">
             <tr>
               <td class="tdTitle">项目名称</td>
-              <td class="tdCoent">{{form.projectName}}</td>
+              <td class="tdCoent">{{ form.projectName }}</td>
               <td class="tdTitle">业务名称</td>
-              <td class="tdCoent">{{form.stName}}</td>
+              <td class="tdCoent">{{ form.stName }}</td>
               <td class="tdTitle">项目编号</td>
               <td class="tdCoent">{{ form.serialNo }}</td>
             </tr>
             <tr>
               <td class="tdTitle">合同名称</td>
-              <td class="tdCoent">{{form.name}}</td>
+              <td class="tdCoent">{{ form.name }}</td>
               <td class="tdTitle">合同类型</td>
-              <td class="tdCoent">{{form.type}}</td>
+              <td class="tdCoent">{{ form.type }}</td>
               <td class="tdTitle">项目立项编号</td>
-              <td class="tdCoent">{{form.productNo}}</td>
+              <td class="tdCoent">{{ form.productNo }}</td>
             </tr>
             <template v-if="form.type == '上游合同'">
               <tr>
                 <td class="tdTitle">合同编号</td>
-                <td class="tdCoent">{{form.number}}</td>
+                <td class="tdCoent">{{ form.number }}</td>
                 <td class="tdTitle">供应商</td>
-                <td class="tdCoent">{{form.supplierName}}</td>
+                <td class="tdCoent">{{ form.supplierName }}</td>
                 <td class="tdTitle">签约日期</td>
-                <td class="tdCoent">{{parseTime(form.signingTime, "{y}-{m}-{d}")}}</td>
+                <td class="tdCoent">
+                  {{ parseTime(form.signingTime, "{y}-{m}-{d}") }}
+                </td>
               </tr>
               <tr>
                 <td class="tdTitle">货品名称</td>
-                <td class="tdCoent">{{form.goodsName}}</td>
+                <td class="tdCoent">{{ form.goodsName }}</td>
                 <td class="tdTitle">预计吨数</td>
-                <td class="tdCoent">{{ $options.filters.weightFilter(form.expectNumber) }}</td>
+                <td class="tdCoent">
+                  {{ $options.filters.weightFilter(form.expectNumber) }}
+                </td>
                 <td class="tdTitle">保底服务费期限</td>
-                <td class="tdCoent">{{form.mfsp}}</td>
+                <td class="tdCoent">{{ form.mfsp }}</td>
               </tr>
               <tr>
                 <td class="tdTitle">超时服务费期限</td>
-                <td class="tdCoent">{{form.csmfsp}}</td>
+                <td class="tdCoent">{{ form.csmfsp }}</td>
                 <td class="tdTitle">超时服务费费率</td>
-                <td class="tdCoent">{{form.csrate}}</td>
+                <td class="tdCoent">{{ form.csrate }}</td>
                 <td class="tdTitle">违约服务费期限</td>
-                <td class="tdCoent">{{form.vymfsp}}</td>
+                <td class="tdCoent">{{ form.vymfsp }}</td>
               </tr>
               <tr>
                 <td class="tdTitle">违约服务费费率</td>
-                <td class="tdCoent">{{form.vyrate}}</td>
+                <td class="tdCoent">{{ form.vyrate }}</td>
                 <td class="tdTitle">备注</td>
-                <td class="tdCoent" colspan="3">{{form.node}}</td>
-
+                <td class="tdCoent" colspan="3">{{ form.node }}</td>
               </tr>
             </template>
             <template v-if="form.type == '下游合同'">
               <tr>
                 <td class="tdTitle">终端客户</td>
-                <td class="tdCoent">{{form.terminalName}}</td>
+                <td class="tdCoent">{{ form.terminalName }}</td>
                 <td class="tdTitle">签约日期</td>
-                <td class="tdCoent">{{parseTime(form.signingTime, "{y}-{m}-{d}")}}</td>
+                <td class="tdCoent">
+                  {{ parseTime(form.signingTime, "{y}-{m}-{d}") }}
+                </td>
                 <td class="tdTitle">货品名称</td>
-                <td class="tdCoent">{{form.goodsName}}</td>
+                <td class="tdCoent">{{ form.goodsName }}</td>
               </tr>
               <tr>
                 <td class="tdTitle">基准单价(元)</td>
-                <td class="tdCoent">{{ $options.filters.moneyFilter(form.price) }}</td>
+                <td class="tdCoent">
+                  {{ $options.filters.moneyFilter(form.price) }}
+                </td>
                 <td class="tdTitle">预计吨数</td>
-                <td class="tdCoent">{{ $options.filters.weightFilter(form.expectNumber) }}</td>
+                <td class="tdCoent">
+                  {{ $options.filters.weightFilter(form.expectNumber) }}
+                </td>
                 <td class="tdTitle">备注</td>
-                <td class="tdCoent">{{form.node}}</td>
+                <td class="tdCoent">{{ form.node }}</td>
               </tr>
             </template>
-            <template v-if="form.type == '物流运输合同' || form.type == '物流服务合同'">
+            <template
+              v-if="form.type == '物流运输合同' || form.type == '物流服务合同'"
+            >
               <tr>
                 <td class="tdTitle">签约日期</td>
-                <td class="tdCoent">{{parseTime(form.signingTime, "{y}-{m}-{d}")}}</td>
+                <td class="tdCoent">
+                  {{ parseTime(form.signingTime, "{y}-{m}-{d}") }}
+                </td>
                 <td class="tdTitle">运输单位</td>
-                <td class="tdCoent">{{form.transportUnit}}</td>
+                <td class="tdCoent">{{ form.transportUnit }}</td>
                 <td class="tdTitle">运输方式</td>
-                <td class="tdCoent">{{form.transportType}}</td>
+                <td class="tdCoent">{{ form.transportType }}</td>
               </tr>
               <tr>
                 <td class="tdTitle">运费单价(吨/元)</td>
-                <td class="tdCoent">{{form.transportPrice}}</td>
+                <td class="tdCoent">{{ form.transportPrice }}</td>
                 <td class="tdTitle">起运地</td>
-                <td class="tdCoent">{{form.transportStart}}</td>
+                <td class="tdCoent">{{ form.transportStart }}</td>
                 <td class="tdTitle">目的地</td>
-                <td class="tdCoent">{{form.transportEnd}}</td>
+                <td class="tdCoent">{{ form.transportEnd }}</td>
               </tr>
               <tr>
                 <td class="tdTitle">损耗率</td>
-                <td class="tdCoent">{{form.transportLoss}}</td>
+                <td class="tdCoent">{{ form.transportLoss }}</td>
                 <td class="tdTitle">备注</td>
-                <td class="tdCoent" colspan="3">{{form.node}}</td>
+                <td class="tdCoent" colspan="3">{{ form.node }}</td>
               </tr>
             </template>
             <template v-if="form.type == '其他合同'">
               <tr>
                 <td class="tdTitle">客户名称</td>
-                <td class="tdCoent">{{form.khName}}</td>
+                <td class="tdCoent">{{ form.khName }}</td>
                 <td class="tdTitle">签约日期</td>
-                <td class="tdCoent">{{parseTime(form.signingTime, "{y}-{m}-{d}")}}</td>
+                <td class="tdCoent">
+                  {{ parseTime(form.signingTime, "{y}-{m}-{d}") }}
+                </td>
                 <td class="tdTitle">备注</td>
-                <td class="tdCoent">{{form.node}}</td>
+                <td class="tdCoent">{{ form.node }}</td>
               </tr>
             </template>
           </table>
@@ -174,8 +189,8 @@
         <el-col class="newTable">
           <table width="90%" cellpadding="0" cellspacing="0">
             <tr>
-              <td class="tdTitle">测试</td>
-              <td class="tdCoent">123</td>
+              <td class="tdTitle">补充说明</td>
+              <td class="tdCoent">{{ form.content }}</td>
               <!-- <td class="tdTitle">补充说明</td>
               <td class="tdCoent">{{form.content}}</td> -->
             </tr>
@@ -224,7 +239,11 @@
     </el-form>
     <el-row>
       <el-col :offset="1" :span="20">
-        <div slot="" class="dialog-footer" style="text-align: right; margin-bottom: 50px; margin-right: 50px">
+        <div
+          slot=""
+          class="dialog-footer"
+          style="text-align: right; margin-bottom: 50px; margin-right: 50px"
+        >
           <el-button size="small" type="info" @click="cancel">关 闭</el-button>
         </div>
       </el-col>

@@ -151,7 +151,7 @@
         v-if="!isQuote"
       />
       <el-table-column label="付款批次" align="center" prop="away" />
-      <el-table-column label="货品名称" align="center" prop="name" />
+      <!-- <el-table-column label="货品名称" align="center" prop="name" /> -->
       <el-table-column label="随车总量(吨)" align="center" prop="grns">
         <template slot-scope="scope">
           {{
@@ -2082,6 +2082,7 @@ export default {
         this.form.account = "";
         this.form.openbank = "";
         let dataInit = { stId: obj.stId };
+        debugger;
         findInit(dataInit).then((response) => {
           this.form.yfPrice = response.data.yfPrice;
           this.form.dfPrice = response.data.dfPrice;
