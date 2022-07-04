@@ -363,7 +363,7 @@
       </el-row> -->
 
       <!--      合同信息-->
-      <el-row class="head-title1">
+      <el-row class="head-title">
         <el-col :span="12">
           <el-form-item label="合同信息"></el-form-item>
         </el-col>
