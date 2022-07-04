@@ -541,7 +541,6 @@ export default {
       this.form = {
         kpId: null,
         stId: null,
-        stId2: null,
         stName: null,
         zzTprice: null,
         zzWeight: null,
@@ -564,7 +563,6 @@ export default {
         sId: null,
         fileList: [],
         projectId: null,
-        projectIdOld: null,
         projectName: null,
         serialNo: null
       };
@@ -609,8 +607,6 @@ export default {
       const kpId = row.kpId || this.ids;
       getKp(kpId).then((response) => {
         this.form = response.data;
-        this.form.stId2 = this.form.stId;
-        this.form.stId = this.form.stName;
         this.fileList = response.data.fileList;
         this.isLook = 1;
         this.open = true;
@@ -628,8 +624,6 @@ export default {
       this.isDisabled = true;
       this.$refs["form"].validate((valid) => {
         if (valid) {
-          this.form.stId = this.form.stId2;
-          this.form.projectId = this.form.projectIdOld
           if (this.form.kpId != null) {
             updateKp(this.form).then((response) => {
               this.msgSuccess("修改成功");

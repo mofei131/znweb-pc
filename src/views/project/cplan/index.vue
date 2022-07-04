@@ -658,7 +658,6 @@ export default {
       this.form = {
         cplanId: null,
         stId: null,
-        stId2: null,
         stName: null,
         userId: null,
         userId2: null,
@@ -674,7 +673,6 @@ export default {
         createTime: null,
         tableData: [],
         projectId: null,
-        projectIdOld: null,
         projectName: null,
         serialNo: null,
       };
@@ -711,8 +709,6 @@ export default {
       const cplanId = row.cplanId || this.ids;
       getCplan(cplanId).then((response) => {
         this.form = response.data;
-        this.form.stId2 = this.form.stId;
-        this.form.stId = this.form.stName;
         this.form.userId2 = this.form.userId;
         this.form.userId = this.form.userName;
         this.isLook = 2;
@@ -726,8 +722,6 @@ export default {
       const cplanId = row.cplanId || this.ids;
       getCplan(cplanId).then((response) => {
         this.form = response.data;
-        this.form.stId2 = this.form.stId;
-        this.form.stId = this.form.stName;
         this.form.userId2 = this.form.userId;
         this.form.userId = this.form.userName;
         this.isLook = 3;
@@ -740,8 +734,6 @@ export default {
       this.isDisabled = true;
       this.$refs["form"].validate((valid) => {
         if (valid) {
-          this.form.stId = this.form.stId2;
-          this.form.projectId = this.form.projectIdOld;
           this.form.userId = this.form.userId2;
           if (this.form.cplanId != null) {
             updateCplan(this.form).then((response) => {
@@ -804,7 +796,6 @@ export default {
       let businessFind = this.listForBusArr.filter((x) => x.stId == stId);
       if (businessFind && businessFind.length > 0) {
         let obj = businessFind[0];
-        this.form.stId2 = obj.stId;
         this.form.stName = obj.stName;
         this.form.serialNo = obj.serialNo;
       }

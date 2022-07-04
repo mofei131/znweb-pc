@@ -651,7 +651,6 @@ export default {
       this.form = {
         wldetailsId: null,
         stId: null,
-        stId2: null,
         stName: null,
         tpcId: null,
         tpcName: null,
@@ -670,7 +669,6 @@ export default {
         sticketTime: null,
         fileList: [],
         projectId: null,
-        projectIdOld: null,
         projectName: null,
         serialNo: null,
       };
@@ -725,8 +723,6 @@ export default {
       getWldetails(wldetailsId).then((response) => {
         this.form = response.data;
         this.fileList = this.form.fileList;
-        this.form.stId2 = this.form.stId;
-        this.form.stId = this.form.stName;
         this.form.tpcId2 = this.form.tpcId;
         this.form.tpcId = this.form.tpcName;
         this.open = true;
@@ -753,9 +749,7 @@ export default {
       this.isDisabled = true;
       this.$refs["form"].validate((valid) => {
         if (valid) {
-          this.form.stId = this.form.stId2;
           this.form.tpcId = this.form.tpcId2;
-          this.form.projectId = this.form.projectIdOld;
           if (this.form.wldetailsId != null) {
             updateWldetails(this.form).then((response) => {
               this.msgSuccess("修改成功");
