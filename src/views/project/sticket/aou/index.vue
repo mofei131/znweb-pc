@@ -284,7 +284,7 @@ export default {
       isDisabled: false,
       listForBusArr: [],
       listForProArr: [],
-      apyamentId:'',//子组件id
+      apyamentId:'',//子组件id,
     };
   },
   created() {
@@ -302,9 +302,9 @@ export default {
       this.ocrData = this.aouform.ocrList;
       this.isDisabled = false;
       if (this.isQuote) {
-        this.form.projectId = this.projectIdd
-        this.changeProject(this.projectIdd)
-        this.form.stId = this.stIdd
+        this.form.projectId = parseInt(this.projectIdd)
+        this.changeProject(parseInt(this.projectIdd))
+        this.form.stId = parseInt(this.stIdd)
       }
     },
     loadProjectForCombobox() {
@@ -318,7 +318,7 @@ export default {
       listBusinessForCombobox({ projectId }).then((response) => {
         this.listForBusArr = response.data
         if (this.isQuote) {
-          this.changeSt(this.queryParams.stId)
+          this.changeSt(parseInt(this.stIdd))
         }
       })
     },
