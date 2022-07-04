@@ -3684,42 +3684,27 @@ export default {
     changeTransType(e) {
       if (e == "qy") {
         return "汽运";
-      } else if ((e = "hy")) {
+      } else if ((e == "hy")) {
         return "火运";
-      } else if ((e = "dcd")) {
+      } else if ((e == "dcd")) {
         return "公铁联运";
-      }
-    },
-    changeBusinessType(e) {
-      if (e == 'cud') {
-        return '储备业务垫付运费'
-      } else if (e == 'cu') {
-        return '储备业务不垫付运费'
-      } else if (e == 'dcd') {
-        return '到厂业务垫付运费'
-      } else if (e == 'dc') {
-        return '到厂业务不垫付运费'
-      } else if (e == 'cbd') {
-        return '车板业务垫付运费'
-      } else if (e == 'cb') {
-        return '车板业务不垫付运费'
       }
     },
     changeTransType(e) {
       if (e == 'qy') {
         return '汽运'
-      } else if (e = 'hy') {
+      } else if (e == 'hy') {
         return '火运'
-      } else if (e = 'dcd') {
+      } else if (e == 'dcd') {
         return '公铁联运'
       }
     },
       changeChargemType(e) {
         if (e == '1') {
           return '年息'
-        } else if (e = '2') {
+        } else if (e == '2') {
           return '固定差价'
-        } else if (e = '3') {
+        } else if (e == '3') {
           return '年息+固定差价'
         }
       },

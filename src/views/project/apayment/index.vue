@@ -1624,32 +1624,6 @@ export default {
       listForBusArr: [],
       listForProArr: [],
       apyamentId:'',//子组件id
-      businessTypeList: [
-        {
-          label: "储备业务垫付运费",
-          value: "cud",
-        },
-        {
-          label: "储备业务不垫付运费",
-          value: "cu",
-        },
-        {
-          label: "到厂业务垫付运费",
-          value: "dcd",
-        },
-        {
-          label: "到厂业务不垫付运费",
-          value: "dc",
-        },
-        {
-          label: "车板业务垫付运费",
-          value: "cbd",
-        },
-        {
-          label: "车板业务不垫付运费",
-          value: "cb",
-        },
-      ],
     };
   },
   created() {
