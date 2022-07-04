@@ -444,15 +444,15 @@ export default {
     changeBusinessType(e) {
       if (e == 'cud') {
         return '储备业务垫付运费'
-      } else if (e = 'cu') {
+      } else if (e == 'cu') {
         return '储备业务不垫付运费'
-      } else if (e = 'dcd') {
+      } else if (e == 'dcd') {
         return '到厂业务垫付运费'
-      } else if (e = 'dc') {
+      } else if (e == 'dc') {
         return '到厂业务不垫付运费'
-      } else if (e = 'cbd') {
+      } else if (e == 'cbd') {
         return '车板业务垫付运费'
-      } else if (e = 'cb') {
+      } else if (e == 'cb') {
         return '车板业务不垫付运费'
       }
     },
