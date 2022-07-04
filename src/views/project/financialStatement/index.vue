@@ -100,7 +100,7 @@
                     <img src="@/../public/img/yingyelirun.png" style="width: 13px; height: 13px; margin-left: 3px"
                       alt="" />
                   </div>
-                  <div class="bottom_right">营业利润</div>
+                  <div class="bottom_right">营业利润(元)</div>
                 </div>
                 <div class="briefing_items_bottom" style="font-size:14px">
                   {{ $options.filters.moneyFilter(data1.businessProfits) }}
@@ -112,7 +112,7 @@
                     <img src="@/../public/img/jinglirun.png" style="width: 12px; height: 12px; margin-left: 2.5px"
                       alt="" />
                   </div>
-                  <div class="bottom_right">净利润</div>
+                  <div class="bottom_right">净利润(元)</div>
                 </div>
                 <div class="briefing_items_bottom" style="font-size:14px">
                   {{ $options.filters.moneyFilter(data1.profitsPrice) }}

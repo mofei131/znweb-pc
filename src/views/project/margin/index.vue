@@ -73,7 +73,7 @@
       <el-table-column label="保证金对象" align="center" prop="type" />
       <el-table-column label="保证金类型" align="center" prop="obj" />
       <el-table-column label="客户名称" align="center" prop="terminalName" />
-      <el-table-column label="保证金金额" align="center" prop="putPrice">
+      <el-table-column label="保证金金额(元)" align="center" prop="putPrice">
         <template slot-scope="scope">
           {{
           Number(scope.row.putPrice)
@@ -300,7 +300,7 @@
         <div v-if="isLook == 4 || (isLook == 3 && this.form.zjState == '2')">
           <el-row>
             <el-col :span="12">
-              <el-form-item label="退还/回收保证金金额" prop="outPrice">
+              <el-form-item label="退还/回收保证金金额(元)" prop="outPrice">
                 <el-input style="width:250px" v-model="form.outPrice" placeholder="请输入退还/回收保证金金额" />
               </el-form-item>
             </el-col>

@@ -181,19 +181,19 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="预估应收" prop="ygPrice">
+              <el-form-item label="预估应收(元)" prop="ygPrice">
                 <span v-text="form.ygPrice"></span>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="开票金额（价税合计）" prop="kpPrice">
+              <el-form-item label="开票金额（价税合计）(元)" prop="kpPrice">
                 <span v-text="$options.filters.moneyFilter(form.kpPrice)"></span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="开票吨数" prop="kpNumber">
+              <el-form-item label="开票吨数(吨)" prop="kpNumber">
                 <span v-text="$options.filters.weightFilter(form.kpNumber)"></span>
               </el-form-item>
             </el-col>
@@ -303,24 +303,24 @@
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="结算单价" prop="jsDj">
+              <el-form-item label="结算单价(元)" prop="jsDj">
                 <el-input v-model="form.jsDj" placeholder="请输入结算单价" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="结算煤量" prop="jsMl">
+              <el-form-item label="结算煤量(吨)" prop="jsMl">
                 <el-input v-model="form.jsMl" placeholder="请输入结算煤量" />
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="结算煤款" prop="jsMk">
+              <el-form-item label="结算煤款(元)" prop="jsMk">
                 <el-input v-model="form.jsMk" placeholder="请输入结算煤款" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="结算税款" prop="jsTax">
+              <el-form-item label="结算税款(元)" prop="jsTax">
                 <el-input v-model="form.jsTax" placeholder="请输入结算税款" />
               </el-form-item>
             </el-col>
@@ -349,19 +349,19 @@
         <div v-if="isLook == '4'">
           <el-row>
             <el-col :span="12">
-              <el-form-item label="应收金额：">
+              <el-form-item label="应收金额(元)：">
                 <span v-text="form.jstPrice"></span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="已收金额：">
+              <el-form-item label="已收金额(元)：">
                 <span v-text="form.ysPrice"></span>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="剩余应收：">
+              <el-form-item label="剩余应收(元)：">
                 <span v-text="form.jstPrice - form.ysPrice"></span>
               </el-form-item>
             </el-col>

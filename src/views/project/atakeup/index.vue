@@ -43,7 +43,7 @@
         <span>收入金额(万元)：</span><span v-text="$options.filters.moneyFilter(tsr)">0.00</span>
       </el-col>
       <el-col :span="4" >
-        <span>资金周转率：</span><span v-text="tzz">0.00</span>
+        <span>资金周转率(%)：</span><span v-text="tzz">0.00</span>
       </el-col>
 <!--      <el-col :span="1.5">-->
 <!--        <el-button-->
@@ -133,7 +133,7 @@
           }}
         </template>
       </el-table-column>
-      <el-table-column label="资金周转率" align="center" prop="ct" />
+      <el-table-column label="资金周转率(%)" align="center" prop="ct" />
 <!--      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">-->
 <!--        <template slot-scope="scope">-->
 <!--          <el-button-->

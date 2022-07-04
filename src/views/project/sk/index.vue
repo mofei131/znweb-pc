@@ -323,7 +323,7 @@
 
             <el-row style="margin-bottom:10px">
               <el-col :span="6">
-                <span style="font-weight:600">合计重量{{"\xa0\xa0"}}</span>
+                <span style="font-weight:600">合计重量(吨){{"\xa0\xa0"}}</span>
                 <span style="color: red">{{
                 $options.filters.weightFilter(form.tweight)
                 }}</span>
@@ -331,7 +331,7 @@
             </el-row>
             <el-row style="margin-bottom:10px">
               <el-col :span="6">
-                <span style="font-weight:600">平均热值{{"\xa0\xa0"}}</span>
+                <span style="font-weight:600">平均热值(kcal){{"\xa0\xa0"}}</span>
                 <span style="color: red">{{ form.prz }}</span>
               </el-col>
             </el-row>

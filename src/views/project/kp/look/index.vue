@@ -52,7 +52,7 @@
             <tr>
               <td class="tdTitle">供应商</td>
               <td class="tdCoent">{{form.sName}}</td>
-              <td class="tdTitle">结算金额</td>
+              <td class="tdTitle">结算金额(元)</td>
               <td class="tdCoent">{{$options.filters.moneyFilter(form.zzTprice)}}</td>
               <td class="tdTitle">验收重量(吨)</td>
               <td class="tdCoent">{{$options.filters.weightFilter(form.zzWeight)}}</td>

@@ -75,7 +75,7 @@
     <el-table v-loading="loading" :data="ridList" @selection-change="handleSelectionChange">
       <el-table-column label="项目名" align="center" prop="stName" />
       <el-table-column label="业务经理" align="center" prop="userName" />
-      <el-table-column label="已开发票吨数" align="center" prop="kpNumber">
+      <el-table-column label="已开发票吨数(吨)" align="center" prop="kpNumber">
         <template slot-scope="scope">
                     {{
                       Number(scope.row.kpNumber)
@@ -85,7 +85,7 @@
                     }}
                   </template>
       </el-table-column>
-      <el-table-column label="已开发票金额" align="center" prop="kpPrice">
+      <el-table-column label="已开发票金额(元)" align="center" prop="kpPrice">
         <template slot-scope="scope">
                     {{
                       Number(scope.row.kpPrice)
@@ -95,7 +95,7 @@
                     }}
                   </template>
       </el-table-column>
-      <el-table-column label="已开发票税额" align="center" prop="kpTax" >
+      <el-table-column label="已开发票税额(元)" align="center" prop="kpTax" >
         <template slot-scope="scope">
                     {{
                       Number(scope.row.kpTax)
@@ -105,7 +105,7 @@
                     }}
                   </template>
       </el-table-column>
-      <el-table-column label="发票吨数差额" align="center" prop="cyNumber" >
+      <el-table-column label="发票吨数差额(元)" align="center" prop="cyNumber" >
         <template slot-scope="scope">
                     {{
                       Number(scope.row.cyNumber)
@@ -115,7 +115,7 @@
                     }}
                   </template>
       </el-table-column>
-      <el-table-column label="已开进项吨数" align="center" prop="sNumber">
+      <el-table-column label="已开进项吨数(吨)" align="center" prop="sNumber">
         <template slot-scope="scope">
                   {{
                     Number(scope.row.sNumber)
@@ -125,7 +125,7 @@
                   }}
                 </template>
       </el-table-column>
-      <el-table-column label="已开进项金额" align="center" prop="sPrice">
+      <el-table-column label="已开进项金额(元)" align="center" prop="sPrice">
         <template slot-scope="scope">
                   {{
                     Number(scope.row.sPrice)
@@ -135,7 +135,7 @@
                   }}
                 </template>
       </el-table-column>
-      <el-table-column label="已开进项税额" align="center" prop="sTax" >
+      <el-table-column label="已开进项税额(元)" align="center" prop="sTax" >
         <template slot-scope="scope">
                   {{
                     Number(scope.row.sTax)
@@ -145,7 +145,7 @@
                   }}
                 </template>
       </el-table-column>
-      <el-table-column label="运费金额" align="center" prop="yPrice" >
+      <el-table-column label="运费金额(元)" align="center" prop="yPrice" >
         <template slot-scope="scope">
                   {{
                     Number(scope.row.yPrice)
@@ -155,7 +155,7 @@
                   }}
                 </template>
       </el-table-column>
-      <el-table-column label="物流税款" align="center" prop="wPrice" >
+      <el-table-column label="物流税款(元)" align="center" prop="wPrice" >
         <template slot-scope="scope">
                   {{
                     Number(scope.row.wPrice)
@@ -165,7 +165,7 @@
                   }}
                 </template>
       </el-table-column>
-      <el-table-column label="运费印花税" align="center" prop="yhPrice">
+      <el-table-column label="运费印花税(元)" align="center" prop="yhPrice">
         <template slot-scope="scope">
                   {{
                     Number(scope.row.yhPrice)

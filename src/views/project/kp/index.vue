@@ -196,19 +196,19 @@
 
         <el-row>
           <el-col :span="12">
-            <el-form-item label="电厂结算金额" prop="zzTprice">
+            <el-form-item label="电厂结算金额(元)" prop="zzTprice">
               <el-input type="number" v-model="form.zzTprice" placeholder="请输入电厂结算金额(元)" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="合计重量" prop="zzWeight">
+            <el-form-item label="合计重量(吨)" prop="zzWeight">
               <el-input type="number" v-model="form.zzWeight" placeholder="请输入合计重量" />
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item label="货品单价" prop="zzPrice">
+            <el-form-item label="货品单价(元)" prop="zzPrice">
               <el-input type="number" v-model="form.zzPrice" placeholder="请输入货品单价(元)" />
             </el-form-item>
           </el-col>

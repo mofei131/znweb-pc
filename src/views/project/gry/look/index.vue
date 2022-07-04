@@ -69,17 +69,17 @@
               <td class="tdCoent">{{form.serialNo}}</td>
             </tr>
             <tr>
-              <td class="tdTitle">出库重量</td>
+              <td class="tdTitle">出库重量(吨)</td>
               <td class="tdCoent">{{$options.filters.weightFilter(form.grnNumber)}}</td>
               <td class="tdTitle">到货日期</td>
               <td class="tdCoent">{{parseTime(form.okTime, '{y}-{m}-{d}')}}</td>
-              <td class="tdTitle">出库热值</td>
+              <td class="tdTitle">出库热值（kcal）</td>
               <td class="tdCoent">{{form.gryRz}}</td>
             </tr>
             <tr>
-              <td class="tdTitle">货值单价</td>
+              <td class="tdTitle">货值单价(元)</td>
               <td class="tdCoent">{{$options.filters.moneyFilter(form.valuePrice)}}</td>
-              <td class="tdTitle">货值总额</td>
+              <td class="tdTitle">货值总额(元)</td>
               <td class="tdCoent">{{$options.filters.moneyFilter(form.valueTprice)}}</td>
               <td class="tdTitle"></td>
               <td class="tdCoent"></td>
@@ -309,13 +309,13 @@
         <el-col class="newTable">
           <table width="90%" cellpadding="0" cellspacing="0">
             <tr>
-              <td class="tdTitle mincha">重量差</td>
+              <td class="tdTitle mincha">重量差(吨)</td>
               <td class="tdCoent mincha" style="color: red">{{$options.filters.weightFilter(zlc)}}</td>
-              <td class="tdTitle mincha">热值差</td>
+              <td class="tdTitle mincha">热值差（kcal）</td>
               <td class="tdCoent mincha" style="color: red">{{rzc}}</td>
-              <td class="tdTitle mincha">单价差</td>
+              <td class="tdTitle mincha">单价差(元)</td>
               <td class="tdCoent mincha" style="color: red">{{$options.filters.moneyFilter(djc)}}</td>
-              <td class="tdTitle mincha">总额差</td>
+              <td class="tdTitle mincha">总额差(元)</td>
               <td class="tdCoent mincha" style="color: red">{{$options.filters.moneyFilter(zec)}}</td>
             </tr>
           </table>

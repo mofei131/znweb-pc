@@ -469,19 +469,19 @@
 
             <el-row style="margin-top:33px">
               <el-col :span="12">
-                <el-form-item label="预付总额" prop="totalPrice">
+                <el-form-item label="预付总额(元)" prop="totalPrice">
                   <el-input @change="atochange" v-model="form.totalPrice" placeholder="请输入预付总额" />
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="固定差价" prop="dPrice">
+                <el-form-item label="固定差价(元)" prop="dPrice">
                   <el-input v-model="form.dPrice" placeholder="请输入固定差价" />
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="12">
-                <el-form-item label="税款" prop="tax">
+                <el-form-item label="税款(元)" prop="tax">
                   <el-input v-model="form.tax" placeholder="请输入税款" />
                 </el-form-item>
               </el-col>
@@ -506,7 +506,7 @@
               <!--              </el-form-item>-->
               <!--            </el-col>-->
               <el-col :span="12">
-                <el-form-item label="预付单价" prop="expectPrice">
+                <el-form-item label="预付单价(元)" prop="expectPrice">
                   <el-input @change="jsdj" v-model="form.expectPrice" placeholder="请输入预计单价" />
                 </el-form-item>
               </el-col>
@@ -523,7 +523,7 @@
               <!--            </el-col>-->
               <!--          </el-row>-->
               <el-col :span="12">
-                <el-form-item label="扣款金额" prop="kkPrice">
+                <el-form-item label="扣款金额(元)" prop="kkPrice">
                   <el-input @change="atochange" v-model="form.kkPrice" placeholder="请输入扣款金额" />
                 </el-form-item>
               </el-col>
@@ -535,31 +535,31 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="付款总额" prop="payTprice">
+                <el-form-item label="付款总额(元)" prop="payTprice">
                   <el-input v-model="form.payTprice" placeholder="请输入付款总额" />
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="12">
-                <el-form-item label="运费金额" prop="yfPrice">
+                <el-form-item label="运费金额(元)" prop="yfPrice">
                   <el-input @change="atochange" v-model="form.yfPrice" placeholder="请输入运费金额" />
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="垫付保证金" prop="dfPrice">
+                <el-form-item label="垫付保证金(元)" prop="dfPrice">
                   <el-input @change="atochange" v-model="form.dfPrice" placeholder="请输入垫付保证金" />
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row class="ic">
               <el-col :span="12">
-                <el-form-item label="提单金额" prop="prepaidPrice">
+                <el-form-item label="提单金额(元)" prop="prepaidPrice">
                   <el-input disabled v-model="form.prepaidPrice" placeholder="请输入提单金额" />
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="实际付款金额" prop="actualPrice">
+                <el-form-item label="实际付款金额(元)" prop="actualPrice">
                   <el-input v-model="form.actualPrice" placeholder="请输入实际付款金额" />
                 </el-form-item>
               </el-col>

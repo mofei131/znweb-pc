@@ -99,7 +99,7 @@
         <el-col class="newTable">
           <table width="90%" cellpadding="0" cellspacing="0">
             <tr>
-              <td class="tdTitle">实付金额</td>
+              <td class="tdTitle">实付金额(元)</td>
               <td class="tdCoent">{{$options.filters.moneyFilter(form.tntPrice)}}</td>
               <td class="tdTitle">备注</td>
               <td class="tdCoent">{{form.bz}}</td>

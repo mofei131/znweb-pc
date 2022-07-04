@@ -65,7 +65,7 @@
       <el-table-column label="项目编号" align="center" prop="stNumber" />
       <el-table-column label="项目名称" align="center" prop="stName" />
       <el-table-column label="代办人" align="center" prop="userName" />
-      <el-table-column label="营业利润" align="center" prop="businessProfits">
+      <el-table-column label="营业利润(元)" align="center" prop="businessProfits">
         <template slot-scope="scope">
           {{
           Number(scope.row.businessProfits)
@@ -75,7 +75,7 @@
           }}
         </template>
       </el-table-column>
-      <el-table-column label="成本服务费" align="center" prop="cbPrice">
+      <el-table-column label="成本服务费(元)" align="center" prop="cbPrice">
         <template slot-scope="scope">
           {{
           Number(scope.row.cbPrice)
@@ -85,7 +85,7 @@
           }}
         </template>
       </el-table-column>
-      <el-table-column label="印花税" align="center" prop="printingTax">
+      <el-table-column label="印花税(元)" align="center" prop="printingTax">
         <template slot-scope="scope">
           {{
   Number(scope.row.printingTax)
@@ -95,7 +95,7 @@
           }}
         </template>
       </el-table-column>
-      <el-table-column label="增值税" align="center" prop="zzTax">
+      <el-table-column label="增值税(元)" align="center" prop="zzTax">
         <template slot-scope="scope">
           {{
           Number(scope.row.zzTax)
@@ -105,7 +105,7 @@
           }}
         </template>
       </el-table-column>
-      <el-table-column label="附加税" align="center" prop="additionalTax">
+      <el-table-column label="附加税(元)" align="center" prop="additionalTax">
         <template slot-scope="scope">
           {{
           Number(scope.row.additionalTax)
@@ -115,7 +115,7 @@
           }}
         </template>
       </el-table-column>
-      <el-table-column label="期间费用总额" align="center" prop="dpTotal">
+      <el-table-column label="期间费用总额(元)" align="center" prop="dpTotal">
         <template slot-scope="scope">
           {{
           Number(scope.row.dpTotal)
@@ -125,7 +125,7 @@
           }}
         </template>
       </el-table-column>
-      <el-table-column label="不含税利润总额" align="center" prop="notaxTotal">
+      <el-table-column label="不含税利润总额(元)" align="center" prop="notaxTotal">
         <template slot-scope="scope">
           {{
           Number(scope.row.notaxTotal)
@@ -135,7 +135,7 @@
           }}
         </template>
       </el-table-column>
-      <el-table-column label="所得税" align="center" prop="sdTax">
+      <el-table-column label="所得税(元)" align="center" prop="sdTax">
         <template slot-scope="scope">
           {{
           Number(scope.row.sdTax)
@@ -145,7 +145,7 @@
           }}
         </template>
       </el-table-column>
-      <el-table-column label="净利润" align="center" prop="profitsPrice">
+      <el-table-column label="净利润(元)" align="center" prop="profitsPrice">
         <template slot-scope="scope">
           {{
           Number(scope.row.profitsPrice)

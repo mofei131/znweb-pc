@@ -81,7 +81,7 @@
         </template>
       </el-table-column>
       <el-table-column label="回款状态" align="center" prop="outPrice" :formatter="outFormat" />
-      <el-table-column label="回款金额" align="center" prop="outPrice">
+      <el-table-column label="回款金额(元)" align="center" prop="outPrice">
         <template slot-scope="scope">
           {{
           Number(scope.row.outPrice)
@@ -201,7 +201,7 @@
 
           <el-row v-if="isLook == 1">
             <el-col :span="12">
-              <el-form-item label="实付金额" prop="tntPrice">
+              <el-form-item label="实付金额(元)" prop="tntPrice">
                 <el-input v-model="form.tntPrice" placeholder="请输入实付金额" />
               </el-form-item>
             </el-col>

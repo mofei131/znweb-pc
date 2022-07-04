@@ -239,7 +239,7 @@
         </el-row>
         <el-row :gutter="12">
           <el-col :span="12">
-            <el-form-item label="数量" prop="number">
+            <el-form-item label="数量(吨)" prop="number">
               <el-input v-model="form.number" placeholder="请输入数量" />
             </el-form-item>
           </el-col>
@@ -276,7 +276,7 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :span="12">
-            <el-form-item label="意向价格" prop="price">
+            <el-form-item label="意向价格(元)" prop="price">
               <el-input v-model="form.price" placeholder="请输入意向价格" />
             </el-form-item>
           </el-col>
@@ -321,7 +321,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="热值" prop="rz">
+            <el-form-item label="热值（kcal）" prop="rz">
               <el-input v-model="form.rz" placeholder="请输入热值" />
             </el-form-item>
           </el-col>

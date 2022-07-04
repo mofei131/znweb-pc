@@ -104,7 +104,7 @@
       <el-table-column label="业务id" align="center" prop="stId" />
       <el-table-column label="业务名称" align="center" prop="stName" /> -->
       <el-table-column label="出库重量(吨)" align="center" prop="exWarehouseWeight" />
-      <el-table-column label="固定差价" align="center" prop="fixedPriceDiff" />
+      <el-table-column label="固定差价(元)" align="center" prop="fixedPriceDiff" />
       <el-table-column label="差价利润(元)" align="center" prop="diffProfit" />
       <!-- <el-table-column label="删除标志" align="center" prop="delFlg" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">

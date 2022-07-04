@@ -74,7 +74,7 @@
                   <td class="tdCoent">{{stInfo.stName}}</td>
                   <td class="tdTitle">业务金额(万元)</td>
                   <td class="tdCoent">{{stInfo.stAmount}}</td>
-                  <td class="tdTitle">结算比例</td>
+                  <td class="tdTitle">结算比例(%)</td>
                   <td class="tdCoent">{{stInfo.settlementPA1 ? stInfo.settlementPA1 + '-' +
                     stInfo.settlementPA2 + '-' +
                     stInfo.settlementPA3 : ''}}</td>
@@ -131,7 +131,7 @@
                   <td class="tdCoent">{{stInfo.shChannelyear}}</td>
                 </tr>
                 <tr>
-                  <td class="tdTitle">结算比例</td>
+                  <td class="tdTitle">结算比例(%)</td>
                   <td class="tdCoent">{{stInfo.shSettlementA1 ? stInfo.shSettlementA1 + '-' +
                     stInfo.shSettlementA2 + '-' +
                     stInfo.shSettlementA3 : ''}}</td>

@@ -122,7 +122,7 @@
     <!-- 添加或修改项目合同对话框 -->
     <el-dialog v-if="title=='补充项目合同'||title=='补充合同模板'" :title="title" :visible.sync="open" width="500px" append-to-body
       @opened="handleOpen">
-      <el-form ref="form" :model="form" :rules="rules" label-width="100px">
+      <el-form ref="form" :model="form" :rules="rules" label-width="100px" style="font-size: 12px">
         <div v-if="bc == 1 || bc == 3">
           <!-- 项目 -->
           <el-row>
@@ -209,31 +209,31 @@
             </el-row>
             <el-row>
               <el-col :span="12">
-                <el-form-item label="保底服务费期限" prop="mfsp">
+                <el-form-item label="保底服务费期限(天)" prop="mfsp">
                   <el-input v-model="form.mfsp" placeholder="请输入保底服务费期限" />
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="12">
-                <el-form-item label="超时服务费期限" prop="csmfsp">
+                <el-form-item label="超时服务费期限(天)" prop="csmfsp">
                   <el-input v-model="form.csmfsp" placeholder="请输入超时服务费期限" />
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="超时服务费费率" prop="csmfsp">
+                <el-form-item label="超时服务费费率(%)" prop="csmfsp">
                   <el-input v-model="form.csrate" placeholder="请输入超时服务费费率" />
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="12">
-                <el-form-item label="违约服务费期限" prop="vymfsp">
+                <el-form-item label="违约服务费期限(天)" prop="vymfsp">
                   <el-input v-model="form.vymfsp" placeholder="请输入违约服务费期限" />
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="违约服务费费率" prop="vymfsp">
+                <el-form-item label="违约服务费费率(%)" prop="vymfsp">
                   <el-input v-model="form.vyrate" placeholder="请输入违约服务费费率" />
                 </el-form-item>
               </el-col>
@@ -579,31 +579,31 @@
             </el-row>
             <el-row>
               <el-col :span="12">
-                <el-form-item label="保底服务费期限" prop="mfsp">
+                <el-form-item label="保底服务费期限(天)" prop="mfsp">
                   <el-input v-model="form.mfsp" placeholder="请输入保底服务费期限" />
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="12">
-                <el-form-item label="超时服务费期限" prop="csmfsp">
+                <el-form-item label="超时服务费期限(天)" prop="csmfsp">
                   <el-input v-model="form.csmfsp" placeholder="请输入超时服务费期限" />
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="超时服务费费率" prop="csmfsp">
+                <el-form-item label="超时服务费费率(%)" prop="csmfsp">
                   <el-input v-model="form.csrate" placeholder="请输入超时服务费费率" />
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="12">
-                <el-form-item label="违约服务费期限" prop="vymfsp">
+                <el-form-item label="违约服务费期限(天)" prop="vymfsp">
                   <el-input v-model="form.vymfsp" placeholder="请输入违约服务费期限" />
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="违约服务费费率" prop="vymfsp">
+                <el-form-item label="违约服务费费率(%)" prop="vymfsp">
                   <el-input v-model="form.vyrate" placeholder="请输入违约服务费费率" />
                 </el-form-item>
               </el-col>
@@ -1742,3 +1742,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+.el-input--medium{
+  font-size: 12px
+}
+</style>

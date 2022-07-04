@@ -74,11 +74,11 @@
         <el-col class="newTable">
           <table width="90%" cellpadding="0" cellspacing="0">
             <tr>
-              <td class="tdTitle">不含税金额合计</td>
+              <td class="tdTitle">不含税金额合计(元)</td>
               <td class="tdCoent">{{$options.filters.moneyFilter(form.tntPrice)}}</td>
-              <td class="tdTitle">补税金额</td>
+              <td class="tdTitle">补税金额(元)</td>
               <td class="tdCoent">{{$options.filters.moneyFilter(form.bsPrice)}}</td>
-              <td class="tdTitle">价税合计</td>
+              <td class="tdTitle">价税合计(元)</td>
               <td class="tdCoent">{{$options.filters.moneyFilter(form.jstPrice)}}</td>
             </tr>
             <tr>
@@ -123,7 +123,7 @@
             </el-table-column>
             <el-table-column property="wlType" label="费用名称">
             </el-table-column>
-            <el-table-column property="ntPrice" label="不含税金额">
+            <el-table-column property="ntPrice" label="不含税金额(元)">
               <template slot-scope="scope">
                 {{
                   Number(scope.row.ntPrice)
@@ -133,8 +133,8 @@
                 }}
               </template>
             </el-table-column>
-            <el-table-column property="tax" label="税率"> </el-table-column>
-            <el-table-column property="taxPrice" label="税额">
+            <el-table-column property="tax" label="税率(%)"> </el-table-column>
+            <el-table-column property="taxPrice" label="税额(元)">
               <template slot-scope="scope">
                 {{
                   Number(scope.row.ntPrice)

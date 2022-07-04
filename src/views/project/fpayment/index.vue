@@ -342,19 +342,19 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="服务费" prop="servicePrice">
+              <el-form-item label="服务费(元)" prop="servicePrice">
                 <el-input v-model="form.servicePrice" @change="atochange" placeholder="请输入服务费" />
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="承兑贴息" prop="cdtx">
+              <el-form-item label="承兑贴息(元)" prop="cdtx">
                 <el-input v-model="form.cdtx" @change="atochange" placeholder="请输入承兑贴息" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="补税金额" prop="bsPrice">
+              <el-form-item label="补税金额(元)" prop="bsPrice">
                 <el-input v-model="form.bsPrice" @change="atochange" placeholder="请输入补税金额" style="width: 60%" />
                 <el-button style="margin-left:10px" size="small" type="primary" @click="cxjs" v-if="isLook != 3"
                   :disabled="isCxjs != 1">重新计算</el-button>
@@ -364,7 +364,7 @@
 
           <el-row>
             <el-col :span="12">
-              <el-form-item label="其他扣款" prop="otherPrice">
+              <el-form-item label="其他扣款(元)" prop="otherPrice">
                 <el-input v-model="form.otherPrice" @change="atochange" placeholder="请输入其他扣款" />
               </el-form-item>
             </el-col>
@@ -374,43 +374,43 @@
           </el-form-item>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="贴息" prop="tx">
+              <el-form-item label="贴息(元)" prop="tx">
                 <el-input v-model="form.tx" @change="atochange" placeholder="请输入贴息" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="其他费用" prop="qt">
+              <el-form-item label="其他费用(元)" prop="qt">
                 <el-input v-model="form.qt" @change="atochange" placeholder="请输入其他" />
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="增加费用合计" prop="tx">
+              <el-form-item label="增加费用合计(元)" prop="tx">
                 <span v-text="$options.filters.moneyFilter(form.zjt)"></span>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="最终应付款金额" prop="yftotalPrice">
+              <el-form-item label="最终应付款金额(元)" prop="yftotalPrice">
                 <el-input disabled v-model="form.yftotalPrice" placeholder="请输入最终应付款金额" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="最终应付款税额" prop="yftotalPrice">
+              <el-form-item label="最终应付款税额(元)" prop="yftotalPrice">
                 <el-input disabled v-model="form.yftotalPriceatx" placeholder="请输入最终应付款税额" />
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="提单金额" prop="yfPrice">
+              <el-form-item label="提单金额(元)" prop="yfPrice">
                 <el-input disabled v-model="form.yfPrice" placeholder="请输入提单金额" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="调整金额" prop="je">
+              <el-form-item label="调整金额(元)" prop="je">
                 <el-input @change="atochange" v-model="form.je" placeholder="请输入金额" />
               </el-form-item>
             </el-col>
@@ -437,7 +437,7 @@
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="实际支付" prop="sjzf">
+              <el-form-item label="实际支付(元)" prop="sjzf">
                 <span v-text="form.sjzf"></span>
               </el-form-item>
             </el-col>

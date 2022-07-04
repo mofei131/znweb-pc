@@ -207,7 +207,7 @@
                     </el-form-item>
                   </template>
                 </el-table-column>
-                <el-table-column label="不含税金额">
+                <el-table-column label="不含税金额(元)">
                   <template slot-scope="scope">
                     <el-form-item label-width="0" :prop="'wldetailsList.' + scope.$index + '.ntPrice'"
                       :rules="rules.ntPrice">
@@ -215,7 +215,7 @@
                     </el-form-item>
                   </template>
                 </el-table-column>
-                <el-table-column label="税率">
+                <el-table-column label="税率(%)">
                   <template slot-scope="scope">
                     <el-form-item label-width="0" :prop="'wldetailsList.' + scope.$index + '.tax'" :rules="rules.tax">
                       <el-select @change="jsTaxPrice(scope.$index)" v-model="scope.row.tax">
@@ -229,7 +229,7 @@
                     </el-form-item>
                   </template>
                 </el-table-column>
-                <el-table-column label="税额">
+                <el-table-column label="税额(元)">
                   <template slot-scope="scope">
                     <el-form-item label-width="0" :prop="'wldetailsList.' + scope.$index + '.taxPrice'"
                       :rules="rules.taxPrice">
@@ -253,17 +253,17 @@
         </div>
         <el-row>
           <el-col :span="8">
-            <el-form-item label="不含税金额合计" prop="tntPrice" label-width="120px">
+            <el-form-item label="不含税金额合计(元)" prop="tntPrice" label-width="120px">
               <span v-text="$options.filters.moneyFilter(form.tntPrice)"></span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="补税金额" prop="bsPrice" label-width="120px">
+            <el-form-item label="补税金额(元)" prop="bsPrice" label-width="120px">
               <span v-text="$options.filters.moneyFilter(form.bsPrice)"></span>
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="价税合计" prop="bsPrice" label-width="120px">
+            <el-form-item label="价税合计(元)" prop="bsPrice" label-width="120px">
               <span v-text="$options.filters.moneyFilter(form.jstPrice)"></span>
             </el-form-item>
           </el-col>

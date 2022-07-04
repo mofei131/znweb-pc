@@ -77,9 +77,9 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="项目名称" align="center" prop="stName" />
       <el-table-column label="代办人" align="center" prop="userName" />
-      <el-table-column label="收入" align="center" prop="sr" />
-      <el-table-column label="毛利" align="center" prop="ml" />
-      <el-table-column label="毛利率" align="center" prop="mll" />
+      <el-table-column label="收入(元)" align="center" prop="sr" />
+      <el-table-column label="毛利(元)" align="center" prop="ml" />
+      <el-table-column label="毛利率(%)" align="center" prop="mll" />
     </el-table>
 
     <pagination

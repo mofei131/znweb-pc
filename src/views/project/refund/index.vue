@@ -150,7 +150,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="退款金额" prop="moneyAmount">
+            <el-form-item label="退款金额(元)" prop="moneyAmount">
               <el-input v-model="form.moneyAmount" placeholder="请输入退款金额" />
             </el-form-item>
           </el-col>
