@@ -49,7 +49,7 @@
       <!--    合同信息-->
       <el-row class="head-title">
         <el-col :span="19">
-          <el-form-item label="入库信息"></el-form-item>
+          <el-form-item label="随车数质量信息"></el-form-item>
         </el-col>
         <el-col :span="4">
           <span style="color: #FF0000;">{{stateF(form.state)}}</span>
@@ -71,21 +71,13 @@
               <td class="tdCoent">{{form.tpcName}}</td>
               <td class="tdTitle">货品名称</td>
               <td class="tdCoent">{{form.name}}</td>
-              <td class="tdTitle">入库重量(吨)</td>
+              <td class="tdTitle">重量(吨)</td>
               <td class="tdCoent">{{$options.filters.weightFilter(form.grnNumber)}}</td>
             </tr>
             <tr>
               <td class="tdTitle">发货日期</td>
               <td class="tdCoent">{{parseTime(form.deliveryTime, '{y}-{m}-{d}')}}</td>
-              <td class="tdTitle">入库热值</td>
-              <td class="tdCoent">{{form.grnRz}}</td>
-              <td class="tdTitle">运输方式</td>
-              <td class="tdCoent">{{form.transportType}}</td>
-            </tr>
-            <tr>
-              <td class="tdTitle">发货日期</td>
-              <td class="tdCoent">{{parseTime(form.deliveryTime, '{y}-{m}-{d}')}}</td>
-              <td class="tdTitle">入库热值</td>
+              <td class="tdTitle">热值</td>
               <td class="tdCoent">{{form.grnRz}}</td>
               <td class="tdTitle">运输方式</td>
               <td class="tdCoent">{{form.transportType}}</td>
