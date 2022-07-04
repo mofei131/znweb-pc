@@ -165,7 +165,7 @@
                     <el-row>
                         <el-col :span="12">
                             <el-form-item label="合同类型" prop="type">
-                                <el-select v-model="form.type" placeholder="请选择合同类型" style="width: 100%">
+                                <el-select @change="$forceUpdate()" v-model="form.type" placeholder="请选择合同类型" style="width: 100%">
                                     <el-option v-for="dict in typeOptions" :key="dict.dictValue" :label="dict.dictLabel"
                                         :value="dict.dictValue"></el-option>
                                 </el-select>
