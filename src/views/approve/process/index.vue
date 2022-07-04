@@ -185,8 +185,8 @@ export default {
   created() {
     this.getDicts("process_type").then((response) => {
       this.processTypeList = response.data;
+      this.getList();
     });
-    this.getList();
   },
   methods: {
     getList() {
