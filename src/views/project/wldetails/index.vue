@@ -721,6 +721,7 @@ export default {
       this.fileList = [];
       const wldetailsId = row.wldetailsId || this.ids;
       getWldetails(wldetailsId).then((response) => {
+        this.changeProject(response.data.projectId);
         this.form = response.data;
         this.fileList = this.form.fileList;
         this.form.tpcId2 = this.form.tpcId;

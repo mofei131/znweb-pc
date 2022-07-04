@@ -54,10 +54,12 @@
               <td class="tdCoent">{{form.tpcName}}</td>
               <td class="tdTitle">收票日期</td>
               <td class="tdCoent">{{form.sticketTime}}</td>
+              <td class="tdTitle"></td>
+              <td class="tdCoent"></td>
             </tr>
           </table>
         </el-col>
-        </el-row>
+      </el-row>
       <!-- <el-row class="head-text">
         <el-col :span="7" :offset="1">
           <div style="display:flex"><div>项目名称：</div><span v-text="form.stName"></span></div>
@@ -91,7 +93,7 @@
             </tr>
           </table>
         </el-col>
-        </el-row>
+      </el-row>
       <!-- <el-row class="head-text">
         <el-col :span="7" :offset="1">
           <div style="display:flex"><div>不含税金额合计：</div><span
@@ -114,11 +116,7 @@
       </el-row>
       <el-row class="head-text">
         <el-col :offset="1">
-          <el-table
-            ref="wlsingleTable"
-            :data="form.wldetailsList"
-            style="width: 90%; margin-bottom: 30px"
-          >
+          <el-table ref="wlsingleTable" :data="form.wldetailsList" style="width: 90%; margin-bottom: 30px">
             <el-table-column property="number" label="发票号">
             </el-table-column>
             <el-table-column property="wlType" label="费用名称">
@@ -126,10 +124,10 @@
             <el-table-column property="ntPrice" label="不含税金额(元)">
               <template slot-scope="scope">
                 {{
-                  Number(scope.row.ntPrice)
-                    .toFixed(2)
-                    .toString()
-                    .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+                Number(scope.row.ntPrice)
+                .toFixed(2)
+                .toString()
+                .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
                 }}
               </template>
             </el-table-column>
@@ -137,10 +135,10 @@
             <el-table-column property="taxPrice" label="税额(元)">
               <template slot-scope="scope">
                 {{
-                  Number(scope.row.ntPrice)
-                    .toFixed(2)
-                    .toString()
-                    .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+                Number(scope.row.ntPrice)
+                .toFixed(2)
+                .toString()
+                .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
                 }}
               </template>
             </el-table-column>
@@ -156,26 +154,18 @@
       </el-row>
       <el-row class="head-text">
         <el-col :offset="1">
-          <el-table
-            ref="singleTable"
-            :data="contract"
-            style="width: 90%; margin-bottom: 30px"
-          >
+          <el-table ref="singleTable" :data="contract" style="width: 90%; margin-bottom: 30px">
             <el-table-column property="name" label="合同名称">
             </el-table-column>
-            <el-table-column
-              property="type"
-              label="合同类型"
-              :formatter="contractTypeFormat"
-            >
+            <el-table-column property="type" label="合同类型" :formatter="contractTypeFormat">
             </el-table-column>
             <el-table-column property="expectNumber" label="货品重量(吨)">
               <template slot-scope="scope">
                 {{
-                  Number(scope.row.expectNumber)
-                    .toFixed(3)
-                    .toString()
-                    .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+                Number(scope.row.expectNumber)
+                .toFixed(3)
+                .toString()
+                .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
                 }}
               </template>
             </el-table-column>
@@ -186,11 +176,7 @@
             </el-table-column>
             <el-table-column label="操作" width="120">
               <template slot-scope="scope">
-                <el-button
-                  @click.native.prevent="toContract(scope.row.contractId)"
-                  type="text"
-                  size="small"
-                >
+                <el-button @click.native.prevent="toContract(scope.row.contractId)" type="text" size="small">
                   查看
                 </el-button>
               </template>
@@ -218,11 +204,7 @@
     </el-form>
     <el-row>
       <el-col :offset="1" :span="20">
-        <div
-          slot=""
-          class="dialog-footer"
-          style="text-align: right; margin-bottom: 50px; margin-right: 50px"
-        >
+        <div slot="" class="dialog-footer" style="text-align: right; margin-bottom: 50px; margin-right: 50px">
           <el-button size="small" type="info" @click="cancel">关 闭</el-button>
         </div>
       </el-col>
