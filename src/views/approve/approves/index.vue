@@ -27,8 +27,8 @@
       <el-row class="head-title">
         <el-col :span="19">
           <el-form-item label="发起人：">{{
-          queryParams.initiatorUserName
-          }}</el-form-item>
+            queryParams.initiatorUserName
+            }}</el-form-item>
         </el-col>
       </el-row>
     </el-form>
@@ -168,8 +168,8 @@
               <tr>
                 <td class="tdTitle">结算比例</td>
                 <td class="tdCoent">{{ stInfo.settlementPA1 ? stInfo.settlementPA1 + '-' +
-                stInfo.settlementPA2 + '-' +
-                stInfo.settlementPA3 : '' }}</td>
+                  stInfo.settlementPA2 + '-' +
+                  stInfo.settlementPA3 : '' }}</td>
                 <td class="tdTitle">履约保证金</td>
                 <td class="tdCoent">{{ stInfo.marginType == 1 ? '有' : '无' }}</td>
                 <td class="tdTitle">履约保证金金额(万元)</td>
@@ -229,8 +229,8 @@
                 <tr>
                   <td class="tdTitle">结算比例</td>
                   <td class="tdCoent">{{ stInfo.shSettlementA1 ? stInfo.shSettlementA1 + '-' +
-                  stInfo.shSettlementA2 + '-' +
-                  stInfo.shSettlementA3 : '' }}</td>
+                    stInfo.shSettlementA2 + '-' +
+                    stInfo.shSettlementA3 : '' }}</td>
                   <td class="tdTitle">履约保证金</td>
                   <td class="tdCoent">{{ stInfo.shMargintype == 1 ? '有' : '无' }}</td>
                   <td class="tdTitle">保证金金额</td>
@@ -315,8 +315,8 @@
               <tr>
                 <td class="tdTitle">结算比例</td>
                 <td class="tdCoent">{{ stInfo.settlementPA1 ? stInfo.settlementPA1 + '-' +
-                stInfo.settlementPA2 + '-' +
-                stInfo.settlementPA3 : '' }}</td>
+                  stInfo.settlementPA2 + '-' +
+                  stInfo.settlementPA3 : '' }}</td>
                 <td class="tdTitle">履约保证金</td>
                 <td class="tdCoent">{{ stInfo.marginType == 1 ? '有' : '无' }}</td>
                 <td class="tdTitle">履约保证金金额(万元)</td>
@@ -376,8 +376,8 @@
                 <tr>
                   <td class="tdTitle">结算比例</td>
                   <td class="tdCoent">{{ stInfo.shSettlementA1 ? stInfo.shSettlementA1 + '-' +
-                  stInfo.shSettlementA2 + '-' +
-                  stInfo.shSettlementA3 : '' }}</td>
+                    stInfo.shSettlementA2 + '-' +
+                    stInfo.shSettlementA3 : '' }}</td>
                   <td class="tdTitle">履约保证金</td>
                   <td class="tdCoent">{{ stInfo.shMargintype == 1 ? '有' : '无' }}</td>
                   <td class="tdTitle">保证金金额</td>
@@ -480,7 +480,7 @@
               </el-table-column>
               <el-table-column property="transportType" label="运输方式">
               </el-table-column>
-              <el-table-column property="wlCompany" label="物流公司">
+              <el-table-column property="tpcName" label="物流公司">
               </el-table-column>
               <el-table-column property="carNumber" label="车数">
               </el-table-column>
@@ -543,7 +543,7 @@
               </el-table-column>
               <el-table-column property="transportType" label="运输方式">
               </el-table-column>
-              <el-table-column property="wlCompany" label="物流公司">
+              <el-table-column property="tpcName" label="物流公司">
               </el-table-column>
               <el-table-column property="carNumber" label="车数">
               </el-table-column>
@@ -962,8 +962,8 @@
               <el-table-column property="putTime" label="付款日期">
                 <template slot-scope="scope">
                   <span>{{
-                  parseTime(scope.row.putTime, "{y}-{m}-{d}")
-                  }}</span>
+                    parseTime(scope.row.putTime, "{y}-{m}-{d}")
+                    }}</span>
                 </template>
               </el-table-column>
               <el-table-column property="putPrice" label="付款金额(元)">
@@ -979,8 +979,8 @@
               <el-table-column property="outTime" label="回款日期">
                 <template slot-scope="scope">
                   <span>{{
-                  parseTime(scope.row.outTime, "{y}-{m}-{d}")
-                  }}</span>
+                    parseTime(scope.row.outTime, "{y}-{m}-{d}")
+                    }}</span>
                 </template>
               </el-table-column>
               <el-table-column property="spTime" label="资金占用时间(天)">
@@ -1306,7 +1306,7 @@
               </el-table-column>
               <el-table-column property="transportType" label="运输方式" width="90">
               </el-table-column>
-              <el-table-column property="wlCompany" label="物流公司" width="120">
+              <el-table-column property="tpcName" label="物流公司" width="120">
               </el-table-column>
               <el-table-column property="carNumber" label="车数" width="90">
               </el-table-column>
@@ -1343,15 +1343,15 @@
           <el-col :span="4" :offset="1">
             <el-form-item label="合计重量：">
               <span style="color: red; line-height: 57px !important">{{
-              $options.filters.weightFilter(form.totalWeight)
-              }}</span>
+                $options.filters.weightFilter(form.totalWeight)
+                }}</span>
             </el-form-item>
           </el-col>
           <el-col :span="4">
             <el-form-item label="平均热值：">
               <span style="color: red; line-height: 57px !important">{{
-              form.averageRz
-              }}</span>
+                form.averageRz
+                }}</span>
             </el-form-item>
           </el-col>
         </el-row>
@@ -1539,7 +1539,7 @@
               </el-table-column>
               <el-table-column property="transportType" label="运输方式">
               </el-table-column>
-              <el-table-column property="wlCompany" label="物流公司">
+              <el-table-column property="tpcName" label="物流公司">
               </el-table-column>
               <el-table-column property="carNumber" label="车数">
               </el-table-column>
@@ -1574,8 +1574,8 @@
           <el-col :span="4" :offset="1">
             <el-form-item label="合计重量：">
               <span style="color: red">{{
-              $options.filters.weightFilter(form.tweight)
-              }}</span>
+                $options.filters.weightFilter(form.tweight)
+                }}</span>
             </el-form-item>
           </el-col>
           <el-col :span="4">
@@ -1761,7 +1761,7 @@
               </el-table-column>
               <el-table-column property="transportType" label="运输方式">
               </el-table-column>
-              <el-table-column property="wlCompany" label="物流公司">
+              <el-table-column property="tpcName" label="物流公司">
               </el-table-column>
               <el-table-column property="carNumber" label="车数">
               </el-table-column>
@@ -1796,8 +1796,8 @@
           <el-col :span="4" :offset="1">
             <el-form-item label="合计重量：">
               <span style="color: red">{{
-              $options.filters.weightFilter(form.tweight)
-              }}</span>
+                $options.filters.weightFilter(form.tweight)
+                }}</span>
             </el-form-item>
           </el-col>
           <el-col :span="4">
@@ -1841,22 +1841,22 @@
           <el-col :span="4" :offset="1">
             <el-form-item label="总计收款：">
               <span style="color: red">{{
-              $options.filters.moneyFilter(form.yftotalPrice)
-              }}</span>
+                $options.filters.moneyFilter(form.yftotalPrice)
+                }}</span>
             </el-form-item>
           </el-col>
           <el-col :span="4">
             <el-form-item label="已预收金额：">
               <span style="color: red">{{
-              $options.filters.moneyFilter(form.yfPrice)
-              }}</span>
+                $options.filters.moneyFilter(form.yfPrice)
+                }}</span>
             </el-form-item>
           </el-col>
           <el-col :span="4">
             <el-form-item label="实际应收金额：">
               <span style="color: red">{{
-              $options.filters.moneyFilter(form.sjPrice)
-              }}</span>
+                $options.filters.moneyFilter(form.sjPrice)
+                }}</span>
             </el-form-item>
           </el-col>
         </el-row>
@@ -2274,7 +2274,7 @@
               </tr>
               <tr>
                 <td class="tdTitle">物流公司</td>
-                <td class="tdCoent">{{form.wlCompany}}</td>
+                <td class="tdCoent">{{form.tpcName}}</td>
                 <td class="tdTitle">批次</td>
                 <td class="tdCoent">{{form.batch}}</td>
                 <td class="tdTitle">基准单价(元)</td>
@@ -2590,7 +2590,7 @@
               </el-table-column>
               <el-table-column property="transportType" label="运输方式">
               </el-table-column>
-              <el-table-column property="wlCompany" label="物流公司">
+              <el-table-column property="tpcName" label="物流公司">
               </el-table-column>
               <el-table-column property="carNumber" label="车数">
               </el-table-column>

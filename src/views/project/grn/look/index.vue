@@ -68,7 +68,7 @@
             </tr>
             <tr>
               <td class="tdTitle">物流公司</td>
-              <td class="tdCoent">{{form.wlCompany}}</td>
+              <td class="tdCoent">{{form.tpcName}}</td>
               <td class="tdTitle">货品名称</td>
               <td class="tdCoent">{{form.name}}</td>
               <td class="tdTitle">入库重量(吨)</td>

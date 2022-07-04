@@ -316,9 +316,10 @@ export default {
   name: "look",
   data() {
     return {
-      stId: null,
-      stInfo: null,
-      projectInfo: null
+      stId: '',
+      projectId: '',
+      stInfo: {},
+      projectInfo: {}
     }
   },
   components: {

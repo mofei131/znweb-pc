@@ -1491,8 +1491,6 @@ export default {
         this.form = response.data;
         this.fileList = response.data.fileList;
         this.filebcList = response.data.filebcList;
-        this.form.stId2 = response.data.stId;
-        this.form.stId = response.data.stName;
         this.form.terminalId = response.data.terminalId;
         this.form.supplierId = response.data.supplierId;
         this.bc = 4;
@@ -1508,8 +1506,6 @@ export default {
         this.form = response.data;
         this.fileList = response.data.fileList;
         this.filebcList = response.data.filebcList;
-        this.form.stId2 = response.data.stId;
-        this.form.stId = response.data.stName;
         this.form.terminalId = response.data.terminalId;
         this.form.supplierId = response.data.supplierId;
         this.bc = 1;
