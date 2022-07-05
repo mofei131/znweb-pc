@@ -89,13 +89,15 @@ Vue.prototype.msgInfo = function(msg) {
 
 Vue.prototype.stateF = function(id) {
     if (id == "1") {
-        return "待审核";
+        return "待审批";
     } else if (id == "2") {
-        return "审核中";
+        return "审批中";
     } else if (id == "3") {
         return "已通过";
-    } else if (id == "2") {
-        return "已驳打回";
+    } else if (id == "4") {
+        return "已打回";
+    } else if (id == "5") {
+        return "已撤回";
     }
 };
 

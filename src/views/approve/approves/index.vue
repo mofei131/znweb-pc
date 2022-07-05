@@ -1341,14 +1341,14 @@
         </el-row>
         <el-row class="head-text">
           <el-col :span="4" :offset="1">
-            <el-form-item label="合计重量：">
+            <el-form-item label="合计重量(吨)：">
               <span style="color: red; line-height: 57px !important">{{
                 $options.filters.weightFilter(form.totalWeight)
                 }}</span>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="平均热值：">
+            <el-form-item label="平均热值(kcal)：">
               <span style="color: red; line-height: 57px !important">{{
                 form.averageRz
                 }}</span>
@@ -1572,14 +1572,14 @@
         </el-row>
         <el-row class="head-text">
           <el-col :span="4" :offset="1">
-            <el-form-item label="合计重量：">
+            <el-form-item label="合计重量(吨)：">
               <span style="color: red">{{
                 $options.filters.weightFilter(form.tweight)
                 }}</span>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="平均热值：">
+            <el-form-item label="平均热值(kcal)：">
               <span style="color: red">{{ form.prz }}</span>
             </el-form-item>
           </el-col>
@@ -1794,14 +1794,14 @@
         </el-row>
         <el-row class="head-text">
           <el-col :span="4" :offset="1">
-            <el-form-item label="合计重量：">
+            <el-form-item label="合计重量(吨)：">
               <span style="color: red">{{
                 $options.filters.weightFilter(form.tweight)
                 }}</span>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="平均热值：">
+            <el-form-item label="平均热值(kcal)：">
               <span style="color: red">{{ form.prz }}</span>
             </el-form-item>
           </el-col>
@@ -2442,15 +2442,15 @@
               <tr>
                 <td class="tdTitle">到货日期</td>
                 <td class="tdCoent">{{parseTime(form.okTime, "{y}-{m}-{d}")}}</td>
-                <td class="tdTitle">热值</td>
+                <td class="tdTitle">热值(kcal/吨)</td>
                 <td class="tdCoent">{{form.gryRz}}</td>
-                <td class="tdTitle">货值单价</td>
+                <td class="tdTitle">货值单价(元)</td>
                 <td class="tdCoent">{{$options.filters.weightFilter(form.valuePrice)}}</td>
               </tr>
               <tr>
-                <td class="tdTitle">重量</td>
+                <td class="tdTitle">重量(吨)</td>
                 <td class="tdCoent">{{$options.filters.weightFilter(form.grnNumber)}}</td>
-                <td class="tdTitle">货值总额</td>
+                <td class="tdTitle">货值总额(元)</td>
                 <td class="tdCoent">{{$options.filters.moneyFilter(form.valueTprice)}}</td>
                 <td class="tdTitle"></td>
                 <td class="tdCoent"></td>
@@ -3015,17 +3015,17 @@
                 <td class="tdCoent">{{ form.serialNo }}</td>
               </tr>
               <tr>
-                <td class="tdTitle">开票金额</td>
+                <td class="tdTitle">开票金额(元)</td>
                 <td class="tdCoent">{{$options.filters.moneyFilter(form.kpPrice)}}</td>
-                <td class="tdTitle">结算单价</td>
+                <td class="tdTitle">结算单价(元)</td>
                 <td class="tdCoent">{{$options.filters.moneyFilter(form.jsDj)}}</td>
                 <td class="tdTitle">结算煤量</td>
                 <td class="tdCoent">{{$options.filters.moneyFilter(form.jsMl)}}</td>
               </tr>
               <tr>
-                <td class="tdTitle">预估应收</td>
+                <td class="tdTitle">预估应收(元)</td>
                 <td class="tdCoent">{{$options.filters.moneyFilter(form.ygPrice)}}</td>
-                <td class="tdTitle">结算煤款</td>
+                <td class="tdTitle">结算煤款(元)</td>
                 <td class="tdCoent">{{$options.filters.moneyFilter(form.jsMk)}}</td>
                 <td class="tdTitle">结算税款(元)</td>
                 <td class="tdCoent">{{$options.filters.moneyFilter(form.jsTax)}}</td>
