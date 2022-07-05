@@ -212,7 +212,10 @@ export default {
   },
   methods: {
     handleLook(row) {
-      this.$router.push("/st/businessDetailView/" + row.stId);
+      this.$router.push({
+        name: "lookUpdate",
+        query: { stId: row.stId + "", stupdateId: row.stupdateId },
+      });
     },
     /** 查询项目信息列表 */
     getList() {

@@ -96,7 +96,7 @@
           }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="合同模板" width="160" align="center" class-name="small-padding fixed-width">
+      <el-table-column label="合同模板" width="160" align="center" class-name="small-padding fixed-width" v-if="editable">
         <template slot-scope="scope">
           <el-button style="color: red" v-if="scope.row.state === '3'" size="mini" type="text" icon="el-icon-edit"
             @click="handleUpdateFile(scope.row)" v-hasPermi="['project:contract:edit']">重新上传</el-button>
