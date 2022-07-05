@@ -102,7 +102,7 @@
     </el-table>
     <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
       @pagination="getList" />
-    <el-dialog title="添加项目信息" :visible.sync="openAddBox" width="888px">
+    <el-dialog title="添加项目信息" :visible.sync="openAddBox" width="888px" @opened="handleOpen">
       <el-form ref="form1" :model="form1" :rules="rules1" label-width="160px">
         <el-row>
           <el-col :span="12">
@@ -236,11 +236,11 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
+        <el-button type="primary" @click="submitForm" :disabled="isDisabled">确 定</el-button>
         <el-button @click="cancel">取 消</el-button>
       </div>
     </el-dialog>
-    <el-dialog title="添加业务信息" :visible.sync="openAddBusinessBox" width="888px">
+    <el-dialog title="添加业务信息" :visible.sync="openAddBusinessBox" width="888px" @opened="handleOpen">
       <div style="font-weight: 600; margin-bottom: 20px; font-size: 16px">
         项目信息
       </div>
@@ -588,7 +588,7 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm2">确 定</el-button>
+        <el-button type="primary" @click="submitForm2" :disabled="isDisabled">确 定</el-button>
         <el-button @click="cancel2">取 消</el-button>
       </div>
     </el-dialog>
@@ -648,7 +648,7 @@
         </el-descriptions>
       </div>
     </el-dialog>
-    <el-dialog title="操作业务" :visible.sync="operateBusiness" width="600px">
+    <el-dialog title="操作业务" :visible.sync="operateBusiness" width="600px" @opened="handleOpen">
       <el-form ref="form3" :model="form3" :rules="rules3" label-width="100px">
         <el-row>
           <el-col :span="12">
@@ -683,7 +683,7 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm3">确 定</el-button>
+        <el-button type="primary" @click="submitForm3" :disabled="isDisabled">确 定</el-button>
         <el-button @click="cancel3">取 消</el-button>
       </div>
     </el-dialog>
@@ -1170,6 +1170,7 @@ export default {
           { required: true, message: "请选择操作业务", trigger: "blur" },
         ]
       },
+      isDisabled: false,
     };
   },
   watch: {
@@ -1488,6 +1489,7 @@ export default {
       this.openAddBox = true;
     },
     submitForm() {
+      this.isDisabled = true
       this.$refs["form1"].validate((valid) => {
         if (valid) {
           if (this.form1.projectId) {
@@ -1511,10 +1513,13 @@ export default {
               this.getList();
             });
           }
+        }else{
+          this.isDisabled = false
         }
       });
     },
     submitForm2() {
+      this.isDisabled = true
       this.$refs["form2"].validate((valid) => {
         if (valid) {
           if (this.form2.stId) {
@@ -1538,10 +1543,13 @@ export default {
               this.getList();
             });
           }
+        }else{
+          this.isDisabled = false
         }
       });
     },
     submitForm3() {
+      this.isDisabled = true
       this.$refs["form3"].validate((valid) => {
         if (valid) {
           updateBStatus(this.form3).then((res) => {
@@ -1553,6 +1561,8 @@ export default {
             this.form3 = this.form3back;
             this.getList();
           });
+        }else{
+          this.isDisabled = false
         }
       });
     },
@@ -1786,7 +1796,10 @@ export default {
           this.form2.expectProfits = response.data
         });
       }
-    }
+    },
+    handleOpen() {
+      this.isDisabled = false;
+    },
   },
 };
 </script>
