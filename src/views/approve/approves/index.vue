@@ -1076,7 +1076,7 @@
                 <td class="tdCoent">{{form.name}}</td>
                 <td class="tdTitle">合同类型</td>
                 <td class="tdCoent">{{form.type}}</td>
-                <td class="tdTitle">项目立项编号</td>
+                <td class="tdTitle">合同立项编号</td>
                 <td class="tdCoent">{{form.productNo}}</td>
               </tr>
               <template v-if="form.type == '上游合同'">
@@ -1093,19 +1093,19 @@
                   <td class="tdCoent">{{form.goodsName}}</td>
                   <td class="tdTitle">预计吨数</td>
                   <td class="tdCoent">{{ $options.filters.weightFilter(form.expectNumber) }}</td>
-                  <td class="tdTitle">保底服务费期限</td>
+                  <td class="tdTitle">保底服务费期限(天)</td>
                   <td class="tdCoent">{{form.mfsp}}</td>
                 </tr>
                 <tr>
-                  <td class="tdTitle">超时服务费期限</td>
+                  <td class="tdTitle">超时服务费期限(天)</td>
                   <td class="tdCoent">{{form.csmfsp}}</td>
-                  <td class="tdTitle">超时服务费费率</td>
+                  <td class="tdTitle">超时服务费费率(%)</td>
                   <td class="tdCoent">{{form.csrate}}</td>
-                  <td class="tdTitle">违约服务费期限</td>
+                  <td class="tdTitle">违约服务费期限(天)</td>
                   <td class="tdCoent">{{form.vymfsp}}</td>
                 </tr>
                 <tr>
-                  <td class="tdTitle">违约服务费费率</td>
+                  <td class="tdTitle">违约服务费费率(%)</td>
                   <td class="tdCoent">{{form.vyrate}}</td>
                   <td class="tdTitle">备注</td>
                   <td class="tdCoent" colspan="3">{{form.node}}</td>
@@ -1341,14 +1341,14 @@
         </el-row>
         <el-row class="head-text">
           <el-col :span="4" :offset="1">
-            <el-form-item label="合计重量：">
+            <el-form-item label="合计重量(吨)：">
               <span style="color: red; line-height: 57px !important">{{
                 $options.filters.weightFilter(form.totalWeight)
                 }}</span>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="平均热值：">
+            <el-form-item label="平均热值(kcal)：">
               <span style="color: red; line-height: 57px !important">{{
                 form.averageRz
                 }}</span>
@@ -1572,14 +1572,14 @@
         </el-row>
         <el-row class="head-text">
           <el-col :span="4" :offset="1">
-            <el-form-item label="合计重量：">
+            <el-form-item label="合计重量(吨)：">
               <span style="color: red">{{
                 $options.filters.weightFilter(form.tweight)
                 }}</span>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="平均热值：">
+            <el-form-item label="平均热值(kcal)：">
               <span style="color: red">{{ form.prz }}</span>
             </el-form-item>
           </el-col>
@@ -1794,14 +1794,14 @@
         </el-row>
         <el-row class="head-text">
           <el-col :span="4" :offset="1">
-            <el-form-item label="合计重量：">
+            <el-form-item label="合计重量(吨)：">
               <span style="color: red">{{
                 $options.filters.weightFilter(form.tweight)
                 }}</span>
             </el-form-item>
           </el-col>
           <el-col :span="4">
-            <el-form-item label="平均热值：">
+            <el-form-item label="平均热值(kcal)：">
               <span style="color: red">{{ form.prz }}</span>
             </el-form-item>
           </el-col>
@@ -2442,15 +2442,15 @@
               <tr>
                 <td class="tdTitle">到货日期</td>
                 <td class="tdCoent">{{parseTime(form.okTime, "{y}-{m}-{d}")}}</td>
-                <td class="tdTitle">热值</td>
+                <td class="tdTitle">热值(kcal/吨)</td>
                 <td class="tdCoent">{{form.gryRz}}</td>
-                <td class="tdTitle">货值单价</td>
+                <td class="tdTitle">货值单价(元)</td>
                 <td class="tdCoent">{{$options.filters.weightFilter(form.valuePrice)}}</td>
               </tr>
               <tr>
-                <td class="tdTitle">重量</td>
+                <td class="tdTitle">重量(吨)</td>
                 <td class="tdCoent">{{$options.filters.weightFilter(form.grnNumber)}}</td>
-                <td class="tdTitle">货值总额</td>
+                <td class="tdTitle">货值总额(元)</td>
                 <td class="tdCoent">{{$options.filters.moneyFilter(form.valueTprice)}}</td>
                 <td class="tdTitle"></td>
                 <td class="tdCoent"></td>
@@ -3015,17 +3015,17 @@
                 <td class="tdCoent">{{ form.serialNo }}</td>
               </tr>
               <tr>
-                <td class="tdTitle">开票金额</td>
+                <td class="tdTitle">开票金额(元)</td>
                 <td class="tdCoent">{{$options.filters.moneyFilter(form.kpPrice)}}</td>
-                <td class="tdTitle">结算单价</td>
+                <td class="tdTitle">结算单价(元)</td>
                 <td class="tdCoent">{{$options.filters.moneyFilter(form.jsDj)}}</td>
                 <td class="tdTitle">结算煤量</td>
                 <td class="tdCoent">{{$options.filters.moneyFilter(form.jsMl)}}</td>
               </tr>
               <tr>
-                <td class="tdTitle">预估应收</td>
+                <td class="tdTitle">预估应收(元)</td>
                 <td class="tdCoent">{{$options.filters.moneyFilter(form.ygPrice)}}</td>
-                <td class="tdTitle">结算煤款</td>
+                <td class="tdTitle">结算煤款(元)</td>
                 <td class="tdCoent">{{$options.filters.moneyFilter(form.jsMk)}}</td>
                 <td class="tdTitle">结算税款(元)</td>
                 <td class="tdCoent">{{$options.filters.moneyFilter(form.jsTax)}}</td>
@@ -3686,17 +3686,8 @@ export default {
         return "汽运";
       } else if ((e == "hy")) {
         return "火运";
-      } else if ((e == "dcd")) {
+      } else if ((e == "ly")) {
         return "公铁联运";
-      }
-    },
-    changeTransType(e) {
-      if (e == 'qy') {
-        return '汽运'
-      } else if (e == 'hy') {
-        return '火运'
-      } else if (e == 'dcd') {
-        return '公铁联运'
       }
     },
       changeChargemType(e) {

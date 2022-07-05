@@ -106,72 +106,81 @@
               </table>
             </el-col>
           </el-row>
-          <el-row class="head-title">
-            <el-col :span="12">
-              <el-form-item label="自融资金方"></el-form-item>
-            </el-col>
-          </el-row>
           <el-row class="head-text">
-            <el-col class="newTable">
-              <table width="90%" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td class="tdTitle">公司名称</td>
-                  <td class="tdCoent">{{stInfo.shName}}</td>
-                  <td class="tdTitle">性质</td>
-                  <td class="tdCoent">{{stInfo.shXz}}</td>
-                  <td class="tdTitle">合作方式</td>
-                  <td class="tdCoent">{{stInfo.shHztype}}</td>
-                </tr>
-                <tr>
-                  <td class="tdTitle">资金费率(%)</td>
-                  <td class="tdCoent">{{stInfo.shHzrate}}</td>
-                  <td class="tdTitle">下游渠道</td>
-                  <td class="tdCoent">{{stInfo.shChanneltype == 1 ? '有' : '无'}}</td>
-                  <td class="tdTitle">下游渠道年限</td>
-                  <td class="tdCoent">{{stInfo.shChannelyear}}</td>
-                </tr>
-                <tr>
-                  <td class="tdTitle">结算比例(%)</td>
-                  <td class="tdCoent">{{stInfo.shSettlementA1 ? stInfo.shSettlementA1 + '-' +
-                    stInfo.shSettlementA2 + '-' +
-                    stInfo.shSettlementA3 : ''}}</td>
-                  <td class="tdTitle">履约保证金</td>
-                  <td class="tdCoent">{{stInfo.shMargintype == 1 ? '有' : '无'}}</td>
-                  <td class="tdTitle">保证金金额</td>
-                  <td class="tdCoent">{{stInfo.shMargin}}</td>
-                </tr>
-                <tr>
-                  <td class="tdTitle">合同签署</td>
-                  <td class="tdCoent">{{stInfo.shContracttype}}</td>
-                  <td class="tdTitle"></td>
-                  <td class="tdCoent"></td>
-                  <td class="tdTitle"></td>
-                  <td class="tdCoent"></td>
-                </tr>
-              </table>
+            <el-col :span="18" :offset="1">
+              <el-form-item label="附件：" prop="file">
+                <custom-upload :fileList="stInfo.filesList"></custom-upload>
+              </el-form-item>
             </el-col>
           </el-row>
-          <div v-for="(item, index) in stInfo.ztList" :key="index" style="margin-top:20px">
+          <template v-if="stInfo.shType == '1'">
             <el-row class="head-title">
               <el-col :span="12">
-                <el-form-item :label="'站台' + (index + 1)"></el-form-item>
+                <el-form-item label="自融资金方"></el-form-item>
               </el-col>
             </el-row>
             <el-row class="head-text">
               <el-col class="newTable">
-                <table width="80%" cellpadding="0" cellspacing="0">
+                <table width="90%" cellpadding="0" cellspacing="0">
                   <tr>
-                    <td class="tdTitle">站台名称</td>
-                    <td class="tdCoent">{{item.ztName}}</td>
-                    <td class="tdTitle">站台费用</td>
-                    <td class="tdCoent">{{item.ztFee}}</td>
-                    <td class="tdTitle">运费</td>
-                    <td class="tdCoent">{{item.freight}}</td>
+                    <td class="tdTitle">公司名称</td>
+                    <td class="tdCoent">{{ stInfo.shName }}</td>
+                    <td class="tdTitle">性质</td>
+                    <td class="tdCoent">{{ stInfo.shXz }}</td>
+                    <td class="tdTitle">合作方式</td>
+                    <td class="tdCoent">{{ stInfo.shHztype }}</td>
+                  </tr>
+                  <tr>
+                    <td class="tdTitle">资金费率(%)</td>
+                    <td class="tdCoent">{{ stInfo.shHzrate }}</td>
+                    <td class="tdTitle">下游渠道</td>
+                    <td class="tdCoent">{{ stInfo.shChanneltype == 1 ? '有' : '无' }}</td>
+                    <td class="tdTitle">下游渠道年限</td>
+                    <td class="tdCoent">{{ stInfo.shChannelyear }}</td>
+                  </tr>
+                  <tr>
+                    <td class="tdTitle">结算比例</td>
+                    <td class="tdCoent">{{ stInfo.shSettlementA1 ? stInfo.shSettlementA1 + '-' +
+                      stInfo.shSettlementA2 + '-' +
+                      stInfo.shSettlementA3 : '' }}</td>
+                    <td class="tdTitle">履约保证金</td>
+                    <td class="tdCoent">{{ stInfo.shMargintype == 1 ? '有' : '无' }}</td>
+                    <td class="tdTitle">保证金金额</td>
+                    <td class="tdCoent">{{ stInfo.shMargin }}</td>
+                  </tr>
+                  <tr>
+                    <td class="tdTitle">合同签署</td>
+                    <td class="tdCoent">{{ stInfo.shContracttype }}</td>
+                    <td class="tdTitle"></td>
+                    <td class="tdCoent"></td>
+                    <td class="tdTitle"></td>
+                    <td class="tdCoent"></td>
                   </tr>
                 </table>
               </el-col>
             </el-row>
-          </div>
+          </template>
+          <template v-if="stInfo.platformType == '1'">
+            <el-row class="head-title">
+              <el-col :span="12">
+                <el-form-item label="站台情况"></el-form-item>
+              </el-col>
+            </el-row>
+            <el-row class="head-text">
+              <el-col class="newTable">
+                <table width="90%" cellpadding="0" cellspacing="0">
+                  <tr v-for="(item, index) in stInfo.ztList" :key="index">
+                    <td class="tdTitle">站台名称</td>
+                    <td class="tdCoent">{{ item.ztName }}</td>
+                    <td class="tdTitle">站台费用</td>
+                    <td class="tdCoent">{{ item.ztFee }}</td>
+                    <td class="tdTitle">运费</td>
+                    <td class="tdCoent">{{ item.freight }}</td>
+                  </tr>
+                </table>
+              </el-col>
+            </el-row>
+          </template>
         </el-form>
       </div>
       <div v-if="stId && projectId" class="chilSty">
@@ -461,7 +470,7 @@ export default {
         return '汽运'
       } else if (e == 'hy') {
         return '火运'
-      } else if (e == 'dcd') {
+      } else if (e == 'ly') {
         return '公铁联运'
       }
     },

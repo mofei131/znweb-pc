@@ -342,6 +342,10 @@ export default {
     sticket
   },
   mounted() {
+    if(this.$store.state.showLoad == false){
+      this.$store.state.showLoad = true
+      window.location.reload()
+    }
     this.stId = this.$route.fullPath.match(/\d+/)[0]
     getStInfo(this.stId).then(res => {
       this.stInfo = res.data
@@ -469,7 +473,7 @@ export default {
         return '汽运'
       } else if (e == 'hy') {
         return '火运'
-      } else if (e == 'dcd') {
+      } else if (e == 'ly') {
         return '公铁联运'
       }
     },
@@ -487,6 +491,6 @@ export default {
 
       })
     }
-  }
+  },
 }
 </script>
