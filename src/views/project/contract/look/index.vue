@@ -75,7 +75,7 @@
               <td class="tdCoent">{{form.khName}}</td>
             </tr>
             <tr v-if="form.type == '上游合同'">
-              <td class="tdTitle">项目立项编号</td>
+              <td class="tdTitle">合同立项编号</td>
               <td class="tdCoent">{{ form.productNo }}</td>
             </tr>
             <tr>

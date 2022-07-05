@@ -122,7 +122,7 @@
     <!-- 添加或修改项目合同对话框 -->
     <el-dialog v-if="title=='补充项目合同'||title=='补充合同模板'" :title="title" :visible.sync="open" width="500px" append-to-body
       @opened="handleOpen">
-      <el-form ref="form" :model="form" :rules="rules" label-width="100px" style="font-size: 12px">
+      <el-form ref="form" :model="form" :rules="rules" label-width="100px">
         <div v-if="bc == 1 || bc == 3">
           <!-- 项目 -->
           <el-row>
@@ -1741,5 +1741,8 @@ export default {
 <style scoped>
 .el-input--medium{
   font-size: 12px
+}
+.el-form-item__label{
+  font-size: 12px;
 }
 </style>
