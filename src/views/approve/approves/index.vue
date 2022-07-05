@@ -1076,7 +1076,7 @@
                 <td class="tdCoent">{{form.name}}</td>
                 <td class="tdTitle">合同类型</td>
                 <td class="tdCoent">{{form.type}}</td>
-                <td class="tdTitle">项目立项编号</td>
+                <td class="tdTitle">合同立项编号</td>
                 <td class="tdCoent">{{form.productNo}}</td>
               </tr>
               <template v-if="form.type == '上游合同'">
@@ -1093,19 +1093,19 @@
                   <td class="tdCoent">{{form.goodsName}}</td>
                   <td class="tdTitle">预计吨数</td>
                   <td class="tdCoent">{{ $options.filters.weightFilter(form.expectNumber) }}</td>
-                  <td class="tdTitle">保底服务费期限</td>
+                  <td class="tdTitle">保底服务费期限(天)</td>
                   <td class="tdCoent">{{form.mfsp}}</td>
                 </tr>
                 <tr>
-                  <td class="tdTitle">超时服务费期限</td>
+                  <td class="tdTitle">超时服务费期限(天)</td>
                   <td class="tdCoent">{{form.csmfsp}}</td>
-                  <td class="tdTitle">超时服务费费率</td>
+                  <td class="tdTitle">超时服务费费率(%)</td>
                   <td class="tdCoent">{{form.csrate}}</td>
-                  <td class="tdTitle">违约服务费期限</td>
+                  <td class="tdTitle">违约服务费期限(天)</td>
                   <td class="tdCoent">{{form.vymfsp}}</td>
                 </tr>
                 <tr>
-                  <td class="tdTitle">违约服务费费率</td>
+                  <td class="tdTitle">违约服务费费率(%)</td>
                   <td class="tdCoent">{{form.vyrate}}</td>
                   <td class="tdTitle">备注</td>
                   <td class="tdCoent" colspan="3">{{form.node}}</td>
