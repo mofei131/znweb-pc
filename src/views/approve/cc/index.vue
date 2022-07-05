@@ -3,30 +3,18 @@
     <div class="top">
       <el-form :model="fromCc" ref="ruleForm" :inline="true" label-width="80px">
         <el-form-item label="流程名称">
-          <el-input
-            v-model="fromCc.taskName"
-            placeholder="请输入流程名称"
-          ></el-input>
+          <el-input v-model="fromCc.taskName" placeholder="请输入流程名称"></el-input>
         </el-form-item>
         <el-form-item label="流程类型">
           <el-select v-model="fromCc.approvalType" placeholder="请选择分类">
-            <el-option
-              v-for="dict in processTypeList"
-              :key="dict.dictValue"
-              :label="dict.dictLabel"
-              :value="dict.dictValue"
-            ></el-option>
+            <el-option v-for="dict in processTypeList" :key="dict.dictValue" :label="dict.dictLabel"
+              :value="dict.dictValue"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="发起人">
-          <el-input
-            v-model="fromCc.initiatorUserName"
-            placeholder="请输入发起人"
-          ></el-input>
+          <el-input v-model="fromCc.initiatorUserName" placeholder="请输入发起人"></el-input>
         </el-form-item>
-        <el-button type="primary" icon="el-icon-search" @click="getList"
-          >搜索</el-button
-        >
+        <el-button type="primary" icon="el-icon-search" @click="getList">搜索</el-button>
       </el-form>
     </div>
     <div>
@@ -35,47 +23,7 @@
         <el-table-column label="流程类型" align="center" prop="approvalType">
           <template slot-scope="scope">
             {{
-              scope.row.approvalType == "1"
-                ? "新增业务"
-                : scope.row.approvalType == "2"
-                ? "操作业务"
-                : scope.row.approvalType == "3"
-                ? "合同管理"
-                : scope.row.approvalType == "4"
-                ? "预付款管理"
-                : scope.row.approvalType == "5"
-                ? "最终付款管理"
-                : scope.row.approvalType == "6"
-                ? "预估收款"
-                : scope.row.approvalType == "7"
-                ? "保证金管理"
-                : scope.row.approvalType == "8"
-                ? "资金计划"
-                : scope.row.approvalType == "9"
-                ? "物流付款"
-                : scope.row.approvalType == "10"
-                ? "入库"
-                : scope.row.approvalType == "11"
-                ? "出库"
-                : scope.row.approvalType == "12"
-                ? "供应商管理"
-                : scope.row.approvalType == "13"
-                ? "用煤单位"
-                : scope.row.approvalType == "14"
-                ? "收票记录"
-                : scope.row.approvalType == "15"
-                ? "开票申请"
-                : scope.row.approvalType == "16"
-                ? "期间费用"
-                : scope.row.approvalType == "17"
-                ? "实际收款"
-                : scope.row.approvalType == "18"
-                ? "投标申请"
-                : scope.row.approvalType == "19"
-                ? "退款管理"
-                : scope.row.approvalType == "20"
-                ? "项目立项"
-                : ""
+            parseApprovalTypeName(scope.row.approvalType)
             }}
           </template>
         </el-table-column>
@@ -84,20 +32,13 @@
         <el-table-column label="操作" align="center">
           <template slot-scope="scope">
             <!-- <el-tooltip content="查看详情" id="view" placement="bottom"> -->
-            <el-button type="text" @click="handleSelectYiban(scope.row)" circle
-              >查看</el-button
-            >
+            <el-button type="text" @click="handleSelectYiban(scope.row)" circle>查看</el-button>
             <!-- </el-tooltip> -->
           </template>
         </el-table-column>
       </el-table>
-      <pagination
-        v-show="total > 0"
-        :total="total"
-        :page.sync="fromCc.page"
-        :limit.sync="fromCc.limit"
-        @pagination="getList"
-      />
+      <pagination v-show="total > 0" :total="total" :page.sync="fromCc.page" :limit.sync="fromCc.limit"
+        @pagination="getList" />
     </div>
   </div>
 </template>
@@ -180,6 +121,14 @@ export default {
         this.$router.push("/refund/look/" + stId);
       }
     },
+    parseApprovalTypeName(approvalType) {
+      let approvalTypeFind = this.processTypeList.filter(x => x.dictValue == approvalType)
+      if (approvalTypeFind && approvalTypeFind.length > 0) {
+        return approvalTypeFind[0].dictLabel
+      } else {
+        return ''
+      }
+    }
   },
 };
 </script>
