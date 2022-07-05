@@ -3686,17 +3686,8 @@ export default {
         return "汽运";
       } else if ((e == "hy")) {
         return "火运";
-      } else if ((e == "dcd")) {
+      } else if ((e == "ly")) {
         return "公铁联运";
-      }
-    },
-    changeTransType(e) {
-      if (e == 'qy') {
-        return '汽运'
-      } else if (e == 'hy') {
-        return '火运'
-      } else if (e == 'dcd') {
-        return '公铁联运'
       }
     },
       changeChargemType(e) {
