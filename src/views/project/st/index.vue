@@ -1410,7 +1410,8 @@ export default {
       this.$refs.topicTable.toggleRowExpansion(row, false);
     },
     jumpBusiness(row) {
-      this.$router.push("/st/lookAdd/" + row.stId);
+      //this.$router.push("/st/lookAdd/" + row.stId);
+      window.location.href = location.protocol + "//" + location.host + "/st/lookAdd/" + row.stId;
     },
     jumpBusinessAdd(row){
       this.$router.push("/st/lookAddB/" + row.stId);
