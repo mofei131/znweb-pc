@@ -1234,9 +1234,6 @@ export default {
       this.stateOptions = response.data;
     });
     let data = {};
-    getContractListAll(data).then((response) => {
-      this.contractNameOptions = response.rows;
-    });
     getTerminalListAll(data).then((response) => {
       this.terminalNameOptions = response.rows;
     });
