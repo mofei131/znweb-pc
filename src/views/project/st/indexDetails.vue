@@ -2,8 +2,8 @@
   <div class="app-container">
     <el-form :model="queryParams" :inline="true" label-width="68px">
       <el-form-item label="创建时间">
-        <el-date-picker v-model="dataValue" type="daterange" value-format="yyyy-MM-dd" range-separator="至" start-placeholder="开始日期"
-          end-placeholder="结束日期">
+        <el-date-picker v-model="dataValue" type="daterange" value-format="yyyy-MM-dd" range-separator="至"
+          start-placeholder="开始日期" end-placeholder="结束日期">
         </el-date-picker>
       </el-form-item>
       <el-form-item label="项目名称">
@@ -45,7 +45,7 @@
       </el-table-column>
       <el-table-column label="结项时间" align="center" prop="finishTime" width="180">
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.xmTime, '{y}-{m}-{d} {h}:{i}:{s}') }}</span>
+          <span>{{ scope.row.finishTime }}</span>
         </template>
       </el-table-column>
       <el-table-column label="业务状态" align="center">
