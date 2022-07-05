@@ -51,7 +51,7 @@
       <!--    出库信息-->
       <el-row class="head-title">
         <el-col :span="19">
-          <el-form-item label="出库信息"></el-form-item>
+          <el-form-item label="到厂数质量信息"></el-form-item>
         </el-col>
         <el-col :span="4">
           <span style="color: #FF0000;">{{stateF(form.state)}}</span>
@@ -69,11 +69,11 @@
               <td class="tdCoent">{{form.serialNo}}</td>
             </tr>
             <tr>
-              <td class="tdTitle">出库重量(吨)</td>
+              <td class="tdTitle">重量(吨)</td>
               <td class="tdCoent">{{$options.filters.weightFilter(form.grnNumber)}}</td>
               <td class="tdTitle">到货日期</td>
               <td class="tdCoent">{{parseTime(form.okTime, '{y}-{m}-{d}')}}</td>
-              <td class="tdTitle">出库热值（kcal）</td>
+              <td class="tdTitle">热值（kcal）</td>
               <td class="tdCoent">{{form.gryRz}}</td>
             </tr>
             <tr>
@@ -252,7 +252,7 @@
 
       <el-row class="head-title">
         <el-col :span="19">
-          <el-form-item label="入库单信息"></el-form-item>
+          <el-form-item label="随车数质量信息"></el-form-item>
         </el-col>
       </el-row>
       <el-row style="margin-top: 30px;">
@@ -260,7 +260,7 @@
           <el-table ref="singleTable" :data="grnList" fit style="margin-bottom: 30px;">
             <el-table-column property="name" label="已选货品名称">
             </el-table-column>
-            <el-table-column property="grnNumber" label="入库重量（吨）">
+            <el-table-column property="grnNumber" label="重量（吨）">
               <template slot-scope="scope">
                 {{
                 Number(scope.row.grnNumber)

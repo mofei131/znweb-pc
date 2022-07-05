@@ -48,7 +48,7 @@
         </div>
         <div style="background-color:#ffffff;height:288px;margin-top:10px;border-radius:6px">
           <div style="display:flex;justify-content: space-between;padding:10px">
-            <div style="font-weight:600;font-size: 14px;">营业利润(万元)</div>
+            <div style="font-weight:600;font-size: 14px;">营业利润(元)</div>
             <div>
               <el-date-picker v-model="value1show" style="width:100px" type="year" placeholder="选择年" size="mini"
                 @change="changeYear1">
