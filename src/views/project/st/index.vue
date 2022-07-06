@@ -42,15 +42,15 @@
       <el-table-column label="业务经理" align="center" prop="serviceManagerName" />
       <el-table-column label="货运方式" align="center">
         <template slot-scope="scope" v-if="scope.row.hType == '项目'">
-          {{ changeTransType(scope.row.transType) }}
+          {{ changeTransType(scope.row.freightMode) }}
         </template>
       </el-table-column>
       <el-table-column label="代办人" align="center" prop="userName" />
       <el-table-column label="创建时间" align="center" prop="createTime" width="180">
         <template slot-scope="scope">
           <span>{{
-            parseTime(scope.row.createTime, "{y}-{m}-{d} {h}:{i}:{s}")
-            }}</span>
+          parseTime(scope.row.createTime, "{y}-{m}-{d} {h}:{i}:{s}")
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column label="审批状态" align="center">
