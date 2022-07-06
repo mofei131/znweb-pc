@@ -190,12 +190,12 @@
       </el-row>
       <el-row class="head-text1">
         <el-col :span="4" :offset="1">
-          <el-form-item label="合计重量：">
+          <el-form-item label="合计重量（吨）：">
             <span style="color: red">{{ $options.filters.weightFilter(form.totalWeight) }}</span>
           </el-form-item>
         </el-col>
         <el-col :span="4">
-          <el-form-item label="平均热值：">
+          <el-form-item label="平均热值（kcal）：">
             <span style="color: red">{{ form.averageRz }}</span>
           </el-form-item>
         </el-col>
@@ -270,7 +270,7 @@
             <tr>
               <td class="tdTitle">预付总额(元)</td>
               <td class="tdCoent">{{$options.filters.moneyFilter(form.totalPrice)}}</td>
-              <td class="tdTitle">固定差价</td>
+              <td class="tdTitle">固定差价(元)</td>
               <td class="tdCoent">{{$options.filters.moneyFilter(form.dPrice)}}</td>
               <td class="tdTitle">预付至</td>
               <td class="tdCoent">{{form.ato}}</td>
@@ -280,23 +280,23 @@
               <td class="tdCoent">{{$options.filters.moneyFilter(form.tax)}}</td>
               <td class="tdTitle">预付单价(元)</td>
               <td class="tdCoent">{{$options.filters.moneyFilter(form.expectPrice)}}</td>
-              <td class="tdTitle">扣款金额</td>
+              <td class="tdTitle">扣款金额(元)</td>
               <td class="tdCoent">{{$options.filters.moneyFilter(form.kkPrice)}}</td>
             </tr>
             <tr>
               <td class="tdTitle">扣款备注</td>
               <td class="tdCoent">{{form.kkNode}}</td>
-              <td class="tdTitle">运费金额</td>
+              <td class="tdTitle">运费金额(元)</td>
               <td class="tdCoent">{{$options.filters.moneyFilter(form.yfPrice)}}</td>
-              <td class="tdTitle">付款总额</td>
+              <td class="tdTitle">付款总额(元)</td>
               <td class="tdCoent newproColor">{{$options.filters.moneyFilter(form.payTprice)}}</td>
             </tr>
             <tr>
-              <td class="tdTitle">已付金额</td>
+              <td class="tdTitle">已付金额(元)</td>
               <td class="tdCoent newproColor">{{$options.filters.moneyFilter(form.prepaidPrice)}}</td>
-              <td class="tdTitle">垫付保证金</td>
+              <td class="tdTitle">垫付保证金(元)</td>
               <td class="tdCoent newproColor">{{$options.filters.moneyFilter(form.dfPrice)}}</td>
-              <td class="tdTitle">实际付款金额</td>
+              <td class="tdTitle">实际付款金额(元)</td>
               <td class="tdCoent newproColor">{{$options.filters.moneyFilter(form.actualPrice)}}</td>
             </tr>
           </table>

@@ -56,7 +56,7 @@
       @pagination="getList" />
 
     <!-- 添加或修改奖惩对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="773px" append-to-body @opened="handleOpen">
+    <el-dialog :title="title" :visible.sync="open" width="900px" append-to-body @opened="handleOpen">
       <el-form ref="form" :model="form" :rules="rules" label-width="120px">
         <el-row>
           <el-col :span="12">

@@ -124,7 +124,7 @@
         "
       />
       <el-table-column
-        label="付款金额"
+        label="付款金额(元)"
         align="center"
         prop="payPrice"
         v-if="
@@ -162,7 +162,7 @@
         "
       />
       <el-table-column
-        label="年息服务费费率"
+        label="年息服务费费率(%)"
         align="center"
         prop="rate"
         v-if="

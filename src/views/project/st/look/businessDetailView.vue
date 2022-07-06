@@ -96,7 +96,7 @@
                   <td class="tdCoent">{{stInfo.rateYear}}</td>
                 </tr>
                 <tr>
-                  <td class="tdTitle">预计利润</td>
+                  <td class="tdTitle">预计利润(元)</td>
                   <td class="tdCoent">{{stInfo.expectProfits}}</td>
                   <td class="tdTitle"></td>
                   <td class="tdCoent"></td>
@@ -139,13 +139,13 @@
                     <td class="tdCoent">{{ stInfo.shChannelyear }}</td>
                   </tr>
                   <tr>
-                    <td class="tdTitle">结算比例</td>
+                    <td class="tdTitle">结算比例(%)</td>
                     <td class="tdCoent">{{ stInfo.shSettlementA1 ? stInfo.shSettlementA1 + '-' +
                       stInfo.shSettlementA2 + '-' +
                       stInfo.shSettlementA3 : '' }}</td>
                     <td class="tdTitle">履约保证金</td>
                     <td class="tdCoent">{{ stInfo.shMargintype == 1 ? '有' : '无' }}</td>
-                    <td class="tdTitle">保证金金额</td>
+                    <td class="tdTitle">保证金金额(元)</td>
                     <td class="tdCoent">{{ stInfo.shMargin }}</td>
                   </tr>
                   <tr>
@@ -172,9 +172,9 @@
                   <tr v-for="(item, index) in stInfo.ztList" :key="index">
                     <td class="tdTitle">站台名称</td>
                     <td class="tdCoent">{{ item.ztName }}</td>
-                    <td class="tdTitle">站台费用</td>
+                    <td class="tdTitle">站台费用(元)</td>
                     <td class="tdCoent">{{ item.ztFee }}</td>
-                    <td class="tdTitle">运费</td>
+                    <td class="tdTitle">运费(元)</td>
                     <td class="tdCoent">{{ item.freight }}</td>
                   </tr>
                 </table>

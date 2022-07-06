@@ -146,7 +146,7 @@
           }}
         </template>
       </el-table-column>
-      <el-table-column label="收款单价" align="center" prop="skPrice">
+      <el-table-column label="收款单价(元)" align="center" prop="skPrice">
         <template slot-scope="scope">
           {{
             Number(scope.row.skPrice)
@@ -166,7 +166,7 @@
           }}
         </template>
       </el-table-column>
-      <el-table-column label="实际应收金额" align="center" prop="sjPrice">
+      <el-table-column label="实际应收金额(元)" align="center" prop="sjPrice">
         <template slot-scope="scope">
           {{
             Number(scope.row.sjPrice)

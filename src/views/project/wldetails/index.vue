@@ -135,7 +135,7 @@
         prop="serialNo"
         v-if="!isQuote"
       />
-      <el-table-column label="不含税金额合计" align="center" prop="tntPrice">
+      <el-table-column label="不含税金额合计(元)" align="center" prop="tntPrice">
         <template slot-scope="scope">
           {{
             Number(scope.row.tntPrice)
@@ -145,7 +145,7 @@
           }}
         </template>
       </el-table-column>
-      <el-table-column label="补税金额" align="center" prop="bsPrice">
+      <el-table-column label="补税金额(元)" align="center" prop="bsPrice">
         <template slot-scope="scope">
           {{
             Number(scope.row.tntPrice)
@@ -155,7 +155,7 @@
           }}
         </template>
       </el-table-column>
-      <el-table-column label="价税合计" align="center" prop="jstPrice">
+      <el-table-column label="价税合计(元)" align="center" prop="jstPrice">
         <template slot-scope="scope">
           {{
             Number(scope.row.tntPrice)

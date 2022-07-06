@@ -970,14 +970,14 @@
         <div v-if="isLook == '4'">
           <el-row>
             <el-col :span="12">
-              <el-form-item label="应付金额：">
+              <el-form-item label="应付金额(元)：">
                 <span
                   v-text="$options.filters.moneyFilter(form.actualPrice)"
                 ></span>
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="已付金额：">
+              <el-form-item label="已付金额(元)：">
                 <span
                   v-text="$options.filters.moneyFilter(form.ypayPrice)"
                 ></span>
@@ -986,7 +986,7 @@
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="剩余应付：">
+              <el-form-item label="剩余应付(元)：">
                 <span
                   v-text="
                     $options.filters.moneyFilter(

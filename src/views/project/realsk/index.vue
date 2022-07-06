@@ -135,7 +135,7 @@
         prop="serialNo"
         v-if="!isQuote"
       />
-      <el-table-column label="预估应收" align="center" prop="ygPrice">
+      <el-table-column label="预估应收(元)" align="center" prop="ygPrice">
         <template slot-scope="scope">
           {{
             Number(scope.row.ygPrice)
@@ -145,7 +145,7 @@
           }}
         </template>
       </el-table-column>
-      <el-table-column label="开票金额" align="center" prop="kpPrice">
+      <el-table-column label="开票金额(元)" align="center" prop="kpPrice">
         <template slot-scope="scope">
           {{
             Number(scope.row.kpPrice)
@@ -155,7 +155,7 @@
           }}
         </template>
       </el-table-column>
-      <el-table-column label="结算单价" align="center" prop="jsDj">
+      <el-table-column label="结算单价(元)" align="center" prop="jsDj">
         <template slot-scope="scope">
           {{
             Number(scope.row.jsDj)
@@ -165,7 +165,7 @@
           }}
         </template>
       </el-table-column>
-      <el-table-column label="结算煤量" align="center" prop="jsMl">
+      <el-table-column label="结算煤量(吨)" align="center" prop="jsMl">
         <template slot-scope="scope">
           {{
             Number(scope.row.jsMl)
@@ -175,7 +175,7 @@
           }}
         </template>
       </el-table-column>
-      <el-table-column label="结算煤款" align="center" prop="jsMk">
+      <el-table-column label="结算煤款(元)" align="center" prop="jsMk">
         <template slot-scope="scope">
           {{
             Number(scope.row.jsMk)
@@ -185,7 +185,7 @@
           }}
         </template>
       </el-table-column>
-      <el-table-column label="结算税款" align="center" prop="jsTax">
+      <el-table-column label="结算税款(元)" align="center" prop="jsTax">
         <template slot-scope="scope">
           {{
             Number(scope.row.jsTax)

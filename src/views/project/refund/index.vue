@@ -123,7 +123,7 @@
       <el-table-column label="终端客户" align="center" prop="tName" />
       <!-- <el-table-column label="账号" align="center" prop="account" /> -->
       <!-- <el-table-column label="开户行" align="center" prop="bank" /> -->
-      <el-table-column label="退款金额" align="center" prop="moneyAmount">
+      <el-table-column label="退款金额(元)" align="center" prop="moneyAmount">
         <template slot-scope="scope">
           {{
             Number(scope.row.moneyAmount)

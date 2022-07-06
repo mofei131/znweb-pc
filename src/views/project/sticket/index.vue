@@ -64,7 +64,7 @@
       <el-table-column label="项目名称" align="center" prop="projectName" v-if="!isQuote" />
       <el-table-column label="业务名称" align="center" prop="stName" v-if="!isQuote" />
       <el-table-column label="项目编号" align="center" prop="serialNo" v-if="!isQuote" />
-      <el-table-column label="收票比例" align="center" prop="proportion" />
+      <el-table-column label="收票比例(%)" align="center" prop="proportion" />
       <!--      <el-table-column label="应收票金额" align="center" prop="ysPrice" >-->
       <!--        <template slot-scope="scope">-->
       <!--          {{-->
