@@ -217,6 +217,12 @@ export default {
 
 
 <style lang="scss">
+
+
+
+
+
+
 .head-title {
   font-size: 16px;
   font-family: Microsoft YaHei;
@@ -255,10 +261,18 @@ export default {
 
   }
 }
+.newprotitle{
+  border-left: 1px solid #dfe6ec;
+  border-top: 1px solid #dfe6ec;
+}
+.newpro {
+  border-left: 1px solid #dfe6ec;
+}
 .newpro,.newprotitle{
   margin: auto;
   td{
-    border: 1px solid #dfe6ec;
+    border-right: 1px solid #dfe6ec;
+    border-bottom: 1px solid #dfe6ec;
     text-align: center;
     padding: 10px 0;
   }
