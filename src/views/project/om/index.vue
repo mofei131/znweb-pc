@@ -64,7 +64,7 @@
 <!--      <el-table-column type="selection" width="55" align="center" />-->
 <!--      <el-table-column label="回款记录id" align="center" prop="omId" />-->
       <el-table-column label="回款类型" align="center" prop="type" :formatter="typeFormat"/>
-      <el-table-column label="回款金额" align="center" prop="price" >
+      <el-table-column label="回款金额(元)" align="center" prop="price" >
         <template slot-scope="scope">
           {{
             Number(scope.row.price)
@@ -115,7 +115,7 @@
             <el-option label="请选择字典生成" value="" />
           </el-select>
         </el-form-item>
-        <el-form-item label="回款金额" prop="price">
+        <el-form-item label="回款金额(元)" prop="price">
           <el-input v-model="form.price" placeholder="请输入回款金额" />
         </el-form-item>
         <el-form-item label="回款时间" prop="time">
