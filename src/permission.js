@@ -33,15 +33,7 @@ router.beforeEach((to, from, next) => {
                     })
                 })
             } else {
-                console.log(from.path)
-                var reg = new RegExp("^/st/lookAdd/[0-9]*$");
-                if (reg.test(from.path)) {
-                    // 业务明细页面加载有问题，临时通过此方式解决
-                    store.state.showLoad = false
-                    next()
-                } else {
-                    next()
-                }
+                next()
             }
         }
     } else {

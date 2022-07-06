@@ -342,10 +342,6 @@ export default {
     sticket
   },
   mounted() {
-    if(this.$store.state.showLoad == false){
-      this.$store.state.showLoad = true
-      window.location.reload()
-    }
     this.stId = this.$route.fullPath.match(/\d+/)[0]
     getStInfo(this.stId).then(res => {
       this.stInfo = res.data
@@ -491,6 +487,6 @@ export default {
 
       })
     }
-  },
+  }
 }
 </script>
