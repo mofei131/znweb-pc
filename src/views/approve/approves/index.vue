@@ -27,8 +27,8 @@
       <el-row class="head-title">
         <el-col :span="19">
           <el-form-item label="发起人：">{{
-            queryParams.initiatorUserName
-            }}</el-form-item>
+          queryParams.initiatorUserName
+          }}</el-form-item>
         </el-col>
       </el-row>
     </el-form>
@@ -168,8 +168,8 @@
               <tr>
                 <td class="tdTitle">结算比例</td>
                 <td class="tdCoent">{{ stInfo.settlementPA1 ? stInfo.settlementPA1 + '-' +
-                  stInfo.settlementPA2 + '-' +
-                  stInfo.settlementPA3 : '' }}</td>
+                stInfo.settlementPA2 + '-' +
+                stInfo.settlementPA3 : '' }}</td>
                 <td class="tdTitle">履约保证金</td>
                 <td class="tdCoent">{{ stInfo.marginType == 1 ? '有' : '无' }}</td>
                 <td class="tdTitle">履约保证金金额(万元)</td>
@@ -229,8 +229,8 @@
                 <tr>
                   <td class="tdTitle">结算比例</td>
                   <td class="tdCoent">{{ stInfo.shSettlementA1 ? stInfo.shSettlementA1 + '-' +
-                    stInfo.shSettlementA2 + '-' +
-                    stInfo.shSettlementA3 : '' }}</td>
+                  stInfo.shSettlementA2 + '-' +
+                  stInfo.shSettlementA3 : '' }}</td>
                   <td class="tdTitle">履约保证金</td>
                   <td class="tdCoent">{{ stInfo.shMargintype == 1 ? '有' : '无' }}</td>
                   <td class="tdTitle">保证金金额</td>
@@ -296,757 +296,7 @@
         </el-row>
 
         <!--    基础信息-->
-        <el-row class="head-title">
-          <el-col :span="12">
-            <el-form-item label="业务基础信息"></el-form-item>
-          </el-col>
-        </el-row>
-        <el-row class="head-text">
-          <el-col class="newTable">
-            <table width="90%" cellpadding="0" cellspacing="0">
-              <tr>
-                <td class="tdTitle">业务名称</td>
-                <td class="tdCoent">{{ stInfo.stName }}</td>
-                <td class="tdTitle">项目编号</td>
-                <td class="tdCoent">{{ stInfo.serialNo }}</td>
-                <td class="tdTitle">业务金额(万元)</td>
-                <td class="tdCoent">{{ stInfo.stAmount }}</td>
-              </tr>
-              <tr>
-                <td class="tdTitle">结算比例</td>
-                <td class="tdCoent">{{ stInfo.settlementPA1 ? stInfo.settlementPA1 + '-' +
-                  stInfo.settlementPA2 + '-' +
-                  stInfo.settlementPA3 : '' }}</td>
-                <td class="tdTitle">履约保证金</td>
-                <td class="tdCoent">{{ stInfo.marginType == 1 ? '有' : '无' }}</td>
-                <td class="tdTitle">履约保证金金额(万元)</td>
-                <td class="tdCoent">{{ stInfo.margin }}</td>
-              </tr>
-              <tr>
-                <td class="tdTitle">服务周期</td>
-                <td class="tdCoent">{{ stInfo.cycleStart + '-' + stInfo.cycleEnd }}</td>
-                <td class="tdTitle">预计重量(吨)</td>
-                <td class="tdCoent">{{ stInfo.expectWeight }}</td>
-                <td class="tdTitle">预计单价(元)</td>
-                <td class="tdCoent">{{ stInfo.expectPrice }}</td>
-              </tr>
-              <tr>
-                <td class="tdTitle">成本年服务费率(%)</td>
-                <td class="tdCoent">{{ stInfo.rateYear }}</td>
-                <td class="tdTitle">预计利润</td>
-                <td class="tdCoent">{{ stInfo.expectProfits }}</td>
-                <td class="tdTitle"></td>
-                <td class="tdCoent"></td>
-              </tr>
-            </table>
-          </el-col>
-        </el-row>
-        <el-row class="head-text">
-          <el-col :span="18" :offset="1">
-            <el-form-item label="附件：" prop="file">
-              <custom-upload :fileList="stInfo.filesList"></custom-upload>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <template v-if="stInfo.shType == '1'">
-          <el-row class="head-title">
-            <el-col :span="12">
-              <el-form-item label="自融资金方"></el-form-item>
-            </el-col>
-          </el-row>
-          <el-row class="head-text">
-            <el-col class="newTable">
-              <table width="90%" cellpadding="0" cellspacing="0">
-                <tr>
-                  <td class="tdTitle">公司名称</td>
-                  <td class="tdCoent">{{ stInfo.shName }}</td>
-                  <td class="tdTitle">性质</td>
-                  <td class="tdCoent">{{ stInfo.shXz }}</td>
-                  <td class="tdTitle">合作方式</td>
-                  <td class="tdCoent">{{ stInfo.shHztype }}</td>
-                </tr>
-                <tr>
-                  <td class="tdTitle">资金费率(%)</td>
-                  <td class="tdCoent">{{ stInfo.shHzrate }}</td>
-                  <td class="tdTitle">下游渠道</td>
-                  <td class="tdCoent">{{ stInfo.shChanneltype == 1 ? '有' : '无' }}</td>
-                  <td class="tdTitle">下游渠道年限</td>
-                  <td class="tdCoent">{{ stInfo.shChannelyear }}</td>
-                </tr>
-                <tr>
-                  <td class="tdTitle">结算比例</td>
-                  <td class="tdCoent">{{ stInfo.shSettlementA1 ? stInfo.shSettlementA1 + '-' +
-                    stInfo.shSettlementA2 + '-' +
-                    stInfo.shSettlementA3 : '' }}</td>
-                  <td class="tdTitle">履约保证金</td>
-                  <td class="tdCoent">{{ stInfo.shMargintype == 1 ? '有' : '无' }}</td>
-                  <td class="tdTitle">保证金金额</td>
-                  <td class="tdCoent">{{ stInfo.shMargin }}</td>
-                </tr>
-                <tr>
-                  <td class="tdTitle">合同签署</td>
-                  <td class="tdCoent">{{ stInfo.shContracttype }}</td>
-                  <td class="tdTitle"></td>
-                  <td class="tdCoent"></td>
-                  <td class="tdTitle"></td>
-                  <td class="tdCoent"></td>
-                </tr>
-              </table>
-            </el-col>
-          </el-row>
-        </template>
-        <template v-if="stInfo.platformType == '1'">
-          <el-row class="head-title">
-            <el-col :span="12">
-              <el-form-item label="站台情况"></el-form-item>
-            </el-col>
-          </el-row>
-          <el-row class="head-text">
-            <el-col class="newTable">
-              <table width="90%" cellpadding="0" cellspacing="0">
-                <tr v-for="(item, index) in stInfo.ztList" :key="index">
-                  <td class="tdTitle">站台名称</td>
-                  <td class="tdCoent">{{ item.ztName }}</td>
-                  <td class="tdTitle">站台费用</td>
-                  <td class="tdCoent">{{ item.ztFee }}</td>
-                  <td class="tdTitle">运费</td>
-                  <td class="tdCoent">{{ item.freight }}</td>
-                </tr>
-              </table>
-            </el-col>
-          </el-row>
-        </template>
-        <!--      合同信息-->
-        <el-row class="head-title">
-          <el-col :span="12">
-            <el-form-item label="合同信息"></el-form-item>
-          </el-col>
-        </el-row>
-        <el-row class="head-text">
-          <el-col :offset="1">
-            <el-table ref="singleTable" :data="contract" style="width: 90%; margin-bottom: 30px">
-              <el-table-column property="name" label="合同名称">
-              </el-table-column>
-              <el-table-column property="type" label="合同类型" :formatter="contractTypeFormat">
-              </el-table-column>
-              <el-table-column property="expectNumber" label="货品重量(吨)">
-                <template slot-scope="scope">
-                  {{
-                  Number(scope.row.expectNumber)
-                  .toFixed(3)
-                  .toString()
-                  .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
-              </el-table-column>
-              <el-table-column property="" label="合同附件">
-              </el-table-column>
-              <el-table-column property="" label="补充合同附件">
-              </el-table-column>
-              <el-table-column property="" label="双章合同附件">
-              </el-table-column>
-              <el-table-column label="操作" width="120">
-                <template slot-scope="scope">
-                  <el-button @click.native.prevent="toContract(scope.row.contractId)" type="text" size="small">
-                    查看
-                  </el-button>
-                </template>
-              </el-table-column>
-            </el-table>
-          </el-col>
-        </el-row>
-        <!--      入库信息-->
-        <el-row class="head-title">
-          <el-col :span="12">
-            <el-form-item label="随车数质量信息"></el-form-item>
-          </el-col>
-        </el-row>
-        <el-row class="head-text">
-          <el-col :offset="1">
-            <el-table ref="singleTable" :data="grnList" style="width: 90%; margin-bottom: 30px">
-              <el-table-column property="name" label="货品名称">
-              </el-table-column>
-              <el-table-column property="grnNumber" label="重量(吨)">
-                <template slot-scope="scope">
-                  {{
-                  Number(scope.row.grnNumber)
-                  .toFixed(3)
-                  .toString()
-                  .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
-              </el-table-column>
-              <el-table-column property="grnRz" label="热值(Kcal)">
-              </el-table-column>
-              <el-table-column property="transportType" label="运输方式">
-              </el-table-column>
-              <el-table-column property="tpcName" label="物流公司">
-              </el-table-column>
-              <el-table-column property="carNumber" label="车数">
-              </el-table-column>
-              <el-table-column property="batch" label="批次">
-              </el-table-column>
-              <el-table-column property="deliveryTime" label="发货日期">
-              </el-table-column>
-              <el-table-column property="valuePrice" label="货值单价(元)">
-                <template slot-scope="scope">
-                  {{
-                  Number(scope.row.valuePrice)
-                  .toFixed(2)
-                  .toString()
-                  .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
-              </el-table-column>
-              <el-table-column property="valueTprice" label="货值总额(元)">
-                <template slot-scope="scope">
-                  {{
-                  Number(scope.row.valueTprice)
-                  .toFixed(2)
-                  .toString()
-                  .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
-              </el-table-column>
-              <el-table-column label="操作" width="120">
-                <template slot-scope="scope">
-                  <el-button @click.native.prevent="toGrn(scope.row.grnId)" type="text" size="small">
-                    查看
-                  </el-button>
-                </template>
-              </el-table-column>
-            </el-table>
-          </el-col>
-        </el-row>
-        <!--      出库信息-->
-        <el-row class="head-title">
-          <el-col :span="12">
-            <el-form-item label="到厂数质量信息"></el-form-item>
-          </el-col>
-        </el-row>
-        <el-row class="head-text">
-          <el-col :offset="1">
-            <el-table ref="singleTable" :data="gryList" style="width: 90%; margin-bottom: 30px">
-              <el-table-column property="name" label="货品名称">
-              </el-table-column>
-              <el-table-column property="grnNumber" label="重量(吨)">
-                <template slot-scope="scope">
-                  {{
-                  Number(scope.row.grnNumber)
-                  .toFixed(3)
-                  .toString()
-                  .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
-              </el-table-column>
-              <el-table-column property="gryRz" label="热值(Kcal)">
-              </el-table-column>
-              <el-table-column property="transportType" label="运输方式">
-              </el-table-column>
-              <el-table-column property="tpcName" label="物流公司">
-              </el-table-column>
-              <el-table-column property="carNumber" label="车数">
-              </el-table-column>
-              <el-table-column property="batch" label="批次">
-              </el-table-column>
-              <el-table-column property="okTime" label="发货日期">
-              </el-table-column>
-              <el-table-column property="valuePrice" label="货值单价(元)">
-                <template slot-scope="scope">
-                  {{
-                  Number(scope.row.valuePrice)
-                  .toFixed(2)
-                  .toString()
-                  .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
-              </el-table-column>
-              <el-table-column property="valueTprice" label="货值总额(元)">
-                <template slot-scope="scope">
-                  {{
-                  Number(scope.row.valueTprice)
-                  .toFixed(2)
-                  .toString()
-                  .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
-              </el-table-column>
-              <el-table-column label="操作" width="120">
-                <template slot-scope="scope">
-                  <el-button @click.native.prevent="toGry(scope.row.gryId)" type="text" size="small">
-                    查看
-                  </el-button>
-                  <el-button @click.native.prevent="toGryAou(scope.row.gryId)" type="text" size="small">
-                    编辑
-                  </el-button>
-                </template>
-              </el-table-column>
-            </el-table>
-          </el-col>
-        </el-row>
-        <!--      预付款信息-->
-        <el-row class="head-title">
-          <el-col :span="12">
-            <el-form-item label="预付款信息"></el-form-item>
-          </el-col>
-        </el-row>
-        <el-row class="head-text">
-          <el-col :offset="1">
-            <el-table ref="singleTable" :data="apaymentList" style="width: 90%; margin-bottom: 30px">
-              <el-table-column property="name" label="货品名称">
-              </el-table-column>
-              <el-table-column property="grns" label="发货总量(吨)">
-                <template slot-scope="scope">
-                  {{
-                  Number(scope.row.grns)
-                  .toFixed(3)
-                  .toString()
-                  .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
-              </el-table-column>
-              <el-table-column property="grys" label="验收总量(吨)">
-                <template slot-scope="scope">
-                  {{
-                  Number(scope.row.grys)
-                  .toFixed(3)
-                  .toString()
-                  .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
-              </el-table-column>
-              <el-table-column property="totalPrice" label="预付总额(元)">
-                <template slot-scope="scope">
-                  {{
-                  Number(scope.row.totalPrice)
-                  .toFixed(2)
-                  .toString()
-                  .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
-              </el-table-column>
-              <el-table-column property="expectPrice" label="预付单价(元)">
-                <template slot-scope="scope">
-                  {{
-                  Number(scope.row.expectPrice)
-                  .toFixed(2)
-                  .toString()
-                  .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
-              </el-table-column>
-              <el-table-column property="ato" label="预付至">
-              </el-table-column>
-              <el-table-column property="actualPrice" label="实际付款(元)">
-                <template slot-scope="scope">
-                  {{
-                  Number(scope.row.actualPrice)
-                  .toFixed(2)
-                  .toString()
-                  .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
-              </el-table-column>
-              <el-table-column property="state" label="95%收票">
-              </el-table-column>
-              <el-table-column label="操作" width="120">
-                <template slot-scope="scope">
-                  <el-button @click.native.prevent="toApayment(scope.row.apyamentId)" type="text" size="small">
-                    查看
-                  </el-button>
-                </template>
-              </el-table-column>
-            </el-table>
-          </el-col>
-        </el-row>
-        <!--      收款信息-->
-        <el-row class="head-title">
-          <el-col :span="12">
-            <el-form-item label="收款信息"></el-form-item>
-          </el-col>
-        </el-row>
-        <el-row class="head-text">
-          <el-col :offset="1">
-            <el-table ref="singleTable" :data="skList" style="width: 90%; margin-bottom: 30px">
-              <el-table-column property="name" label="货品名称">
-              </el-table-column>
-              <el-table-column property="skType" label="收款类型">
-              </el-table-column>
-              <el-table-column property="tweight" label="验收重量(吨)">
-                <template slot-scope="scope">
-                  {{
-                  Number(scope.row.tweight)
-                  .toFixed(3)
-                  .toString()
-                  .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
-              </el-table-column>
-              <el-table-column property="skPrice" label="单价(元)">
-                <template slot-scope="scope">
-                  {{
-                  Number(scope.row.skPrice)
-                  .toFixed(2)
-                  .toString()
-                  .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
-              </el-table-column>
-              <el-table-column property="skTprice" label="收款金额">
-                <template slot-scope="scope">
-                  {{
-                  Number(scope.row.skTprice)
-                  .toFixed(2)
-                  .toString()
-                  .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
-              </el-table-column>
-              <el-table-column label="操作" width="120">
-                <template slot-scope="scope">
-                  <el-button @click.native.prevent="toSk(scope.row.skId)" type="text" size="small">
-                    查看
-                  </el-button>
-                </template>
-              </el-table-column>
-            </el-table>
-          </el-col>
-        </el-row>
-        <!--      物流付款信息-->
-        <el-row class="head-title">
-          <el-col :span="12">
-            <el-form-item label="物流付款信息"></el-form-item>
-          </el-col>
-        </el-row>
-        <el-row class="head-text">
-          <el-col :offset="1">
-            <el-table ref="singleTable" :data="lpaymentList" style="width: 90%; margin-bottom: 30px">
-              <el-table-column label="物流类型"> 物流付款 </el-table-column>
-              <el-table-column property="tntPrice" label="实付金额">
-                <template slot-scope="scope">
-                  {{
-                  Number(scope.row.tntPrice)
-                  .toFixed(2)
-                  .toString()
-                  .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
-              </el-table-column>
-              <!-- <el-table-column property="serType" label="是否产生服务费">
-                </el-table-column>
-                <el-table-column property="putTime" label="付款时间">
-                  <template slot-scope="scope">
-                    <span>{{
-                      parseTime(scope.row.putTime, "{y}-{m}-{d}")
-                    }}</span>
-                  </template>
-                </el-table-column> -->
-              <el-table-column property="tpcName" label="第三方公司">
-              </el-table-column>
-              <el-table-column property="account" label="公司账户">
-              </el-table-column>
-              <el-table-column property="openbank" label="公司开户行">
-              </el-table-column>
-              <el-table-column label="操作" width="120">
-                <template slot-scope="scope">
-                  <el-button @click.native.prevent="toLpayment(scope.row.lpaymentId)" type="text" size="small">
-                    查看
-                  </el-button>
-                </template>
-              </el-table-column>
-            </el-table>
-          </el-col>
-        </el-row>
-        <!--      最终付款信息-->
-        <el-row class="head-title">
-          <el-col :span="12">
-            <el-form-item label="最终付款信息"></el-form-item>
-          </el-col>
-        </el-row>
-        <el-row class="head-text">
-          <el-col :offset="1">
-            <el-table ref="singleTable" :data="fpaymentList" style="width: 90%; margin-bottom: 30px">
-              <el-table-column property="stName" label="项目名称">
-              </el-table-column>
-              <el-table-column property="tweight" label="验收重量（吨）">
-                <template slot-scope="scope">
-                  {{
-                  Number(scope.row.tweight)
-                  .toFixed(3)
-                  .toString()
-                  .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
-              </el-table-column>
-              <el-table-column property="price" label="终付单价(元)">
-                <template slot-scope="scope">
-                  {{
-                  Number(scope.row.price)
-                  .toFixed(2)
-                  .toString()
-                  .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
-              </el-table-column>
-              <el-table-column property="zzPrice" label="电厂结算金额(元)">
-                <template slot-scope="scope">
-                  {{
-                  Number(scope.row.zzPrice)
-                  .toFixed(2)
-                  .toString()
-                  .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
-              </el-table-column>
-              <el-table-column property="yfPrice" label="已付款总额(元)">
-                <template slot-scope="scope">
-                  {{
-                  Number(scope.row.yfPrice)
-                  .toFixed(2)
-                  .toString()
-                  .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
-              </el-table-column>
-              <el-table-column property="sjPrice" label="最终实际付款(元)">
-                <template slot-scope="scope">
-                  {{
-                  Number(scope.row.sjPrice)
-                  .toFixed(2)
-                  .toString()
-                  .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
-              </el-table-column>
-              <el-table-column property="moType" label="收票状态" :formatter="moFormat">
-              </el-table-column>
-              <el-table-column label="操作" width="120">
-                <template slot-scope="scope">
-                  <el-button @click.native.prevent="toFpayment(scope.row.fpaymentId)" type="text" size="small">
-                    查看
-                  </el-button>
-                </template>
-              </el-table-column>
-            </el-table>
-          </el-col>
-        </el-row>
-        <!--      发票信息-->
-        <el-row class="head-title">
-          <el-col :span="12">
-            <el-form-item label="发票信息"></el-form-item>
-          </el-col>
-        </el-row>
-        <el-row class="head-text">
-          <el-col :offset="1">
-            <el-table ref="singleTable" :data="kpList" style="width: 90%; margin-bottom: 30px">
-              <el-table-column label="开票类型">
-                <span>开票</span>
-              </el-table-column>
-              <el-table-column property="kpPrice" label="开票金额(元)">
-                <template slot-scope="scope">
-                  {{
-                  Number(scope.row.kpPrice)
-                  .toFixed(2)
-                  .toString()
-                  .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
-              </el-table-column>
-              <el-table-column property="zzWeight" label="货品总重(吨)">
-                <template slot-scope="scope">
-                  {{
-                  Number(scope.row.zzWeight)
-                  .toFixed(3)
-                  .toString()
-                  .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
-              </el-table-column>
-              <el-table-column property="kpTax" label="发票税额(元)">
-                <template slot-scope="scope">
-                  {{
-                  Number(scope.row.kpTax)
-                  .toFixed(2)
-                  .toString()
-                  .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
-              </el-table-column>
-              <el-table-column property="kpTotal" label="价税合计(元)">
-                <template slot-scope="scope">
-                  {{
-                  Number(scope.row.kpTotal)
-                  .toFixed(2)
-                  .toString()
-                  .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
-              </el-table-column>
-              <el-table-column label="操作" width="120">
-                <template slot-scope="scope">
-                  <el-button @click.native.prevent="toKp(scope.row.kpId)" type="text" size="small">
-                    查看
-                  </el-button>
-                </template>
-              </el-table-column>
-            </el-table>
-          </el-col>
-        </el-row>
-        <el-row class="head-text">
-          <el-col :offset="1">
-            <el-table ref="singleTable" :data="sticketList" style="width: 90%; margin-bottom: 30px">
-              <el-table-column label="开票类型">
-                <span>收票</span>
-              </el-table-column>
-              <el-table-column property="price" label="开票金额(元)">
-                <template slot-scope="scope">
-                  {{
-                  Number(scope.row.price)
-                  .toFixed(2)
-                  .toString()
-                  .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
-              </el-table-column>
-              <el-table-column property="number" label="货品总重(吨)">
-                <template slot-scope="scope">
-                  {{
-                  Number(scope.row.number)
-                  .toFixed(3)
-                  .toString()
-                  .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
-              </el-table-column>
-              <el-table-column property="tax" label="发票税额(元)">
-                <template slot-scope="scope">
-                  {{
-                  Number(scope.row.tax)
-                  .toFixed(2)
-                  .toString()
-                  .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
-              </el-table-column>
-              <el-table-column property="totalPrice" label="价税合计(元)">
-                <template slot-scope="scope">
-                  {{
-                  Number(scope.row.totalPrice)
-                  .toFixed(2)
-                  .toString()
-                  .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
-              </el-table-column>
-              <el-table-column label="操作" width="120">
-                <template slot-scope="scope">
-                  <el-button @click.native.prevent="toSticket(scope.row.sticketId)" type="text" size="small">
-                    查看
-                  </el-button>
-                </template>
-              </el-table-column>
-            </el-table>
-          </el-col>
-        </el-row>
-        <!--      服务费明细-->
-        <el-row class="head-title">
-          <el-col :span="12">
-            <el-form-item label="服务费明细"></el-form-item>
-          </el-col>
-        </el-row>
-        <el-row class="head-text">
-          <el-col :offset="1">
-            <el-table ref="singleTable" :data="spList" style="width: 90%; margin-bottom: 30px">
-              <el-table-column property="type" label="费用类型">
-              </el-table-column>
-              <el-table-column property="putTime" label="付款日期">
-                <template slot-scope="scope">
-                  <span>{{
-                    parseTime(scope.row.putTime, "{y}-{m}-{d}")
-                    }}</span>
-                </template>
-              </el-table-column>
-              <el-table-column property="putPrice" label="付款金额(元)">
-                <template slot-scope="scope">
-                  {{
-                  Number(scope.row.putPrice)
-                  .toFixed(2)
-                  .toString()
-                  .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
-              </el-table-column>
-              <el-table-column property="outTime" label="回款日期">
-                <template slot-scope="scope">
-                  <span>{{
-                    parseTime(scope.row.outTime, "{y}-{m}-{d}")
-                    }}</span>
-                </template>
-              </el-table-column>
-              <el-table-column property="spTime" label="资金占用时间(天)">
-              </el-table-column>
-              <el-table-column property="spPrice" label="代理费(元)">
-                <template slot-scope="scope">
-                  {{
-                  Number(scope.row.spPrice)
-                  .toFixed(2)
-                  .toString()
-                  .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
-              </el-table-column>
-              <el-table-column property="sjPrice" label="成本费用(元)">
-                <template slot-scope="scope">
-                  {{
-                  Number(scope.row.sjPrice)
-                  .toFixed(2)
-                  .toString()
-                  .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
-              </el-table-column>
-              <el-table-column property="lrPrice" label="资金占用利润(元)">
-                <template slot-scope="scope">
-                  {{
-                  Number(scope.row.lrPrice)
-                  .toFixed(2)
-                  .toString()
-                  .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
-              </el-table-column>
-            </el-table>
-          </el-col>
-        </el-row>
-        <!--      固定差价明细-->
-        <div v-if="form.chargemType == '2' || form.chargemType == '3'">
-          <el-row class="head-title">
-            <el-col :span="12">
-              <el-form-item label="固定差价明细"></el-form-item>
-            </el-col>
-          </el-row>
-          <el-row class="head-text">
-            <el-col :offset="1">
-              <el-table :data="gdList" fit style="width: 90%; margin-bottom: 30px">
-                <el-table-column label="重量">
-                  <template slot-scope="scope">
-                    <span v-text="$options.filters.weightFilter(gryNumber)"></span>
-                  </template>
-                </el-table-column>
-                <el-table-column label="固定差价">
-                  <template slot-scope="scope">
-                    <span v-text="$options.filters.moneyFilter(form.chargemGd)"></span>
-                  </template>
-                </el-table-column>
-                <el-table-column label="差价利润">
-                  <template slot-scope="scope">
-                    <span v-text="$options.filters.moneyFilter(gryLr)"></span>
-                  </template>
-                </el-table-column>
-              </el-table>
-            </el-col>
-          </el-row>
-        </div>
+        <business-detail-view :stIdd="form.stId" v-if="showBusinessDetail"></business-detail-view>
       </el-form>
     </div>
     <div v-if="initData.approvalType == '3'">
@@ -1343,15 +593,15 @@
           <el-col :span="4" :offset="1">
             <el-form-item label="合计重量(吨)：">
               <span style="color: red; line-height: 57px !important">{{
-                $options.filters.weightFilter(form.totalWeight)
-                }}</span>
+              $options.filters.weightFilter(form.totalWeight)
+              }}</span>
             </el-form-item>
           </el-col>
           <el-col :span="4">
             <el-form-item label="平均热值(kcal)：">
               <span style="color: red; line-height: 57px !important">{{
-                form.averageRz
-                }}</span>
+              form.averageRz
+              }}</span>
             </el-form-item>
           </el-col>
         </el-row>
@@ -1574,8 +824,8 @@
           <el-col :span="4" :offset="1">
             <el-form-item label="合计重量(吨)：">
               <span style="color: red">{{
-                $options.filters.weightFilter(form.tweight)
-                }}</span>
+              $options.filters.weightFilter(form.tweight)
+              }}</span>
             </el-form-item>
           </el-col>
           <el-col :span="4">
@@ -1796,8 +1046,8 @@
           <el-col :span="4" :offset="1">
             <el-form-item label="合计重量(吨)：">
               <span style="color: red">{{
-                $options.filters.weightFilter(form.tweight)
-                }}</span>
+              $options.filters.weightFilter(form.tweight)
+              }}</span>
             </el-form-item>
           </el-col>
           <el-col :span="4">
@@ -1841,22 +1091,22 @@
           <el-col :span="4" :offset="1">
             <el-form-item label="总计收款：">
               <span style="color: red">{{
-                $options.filters.moneyFilter(form.yftotalPrice)
-                }}</span>
+              $options.filters.moneyFilter(form.yftotalPrice)
+              }}</span>
             </el-form-item>
           </el-col>
           <el-col :span="4">
             <el-form-item label="已预收金额：">
               <span style="color: red">{{
-                $options.filters.moneyFilter(form.yfPrice)
-                }}</span>
+              $options.filters.moneyFilter(form.yfPrice)
+              }}</span>
             </el-form-item>
           </el-col>
           <el-col :span="4">
             <el-form-item label="实际应收金额：">
               <span style="color: red">{{
-                $options.filters.moneyFilter(form.sjPrice)
-                }}</span>
+              $options.filters.moneyFilter(form.sjPrice)
+              }}</span>
             </el-form-item>
           </el-col>
         </el-row>
@@ -3216,7 +2466,7 @@
           <el-col :offset="1" :span="20">
             <el-form-item prop="remark">
               <el-input type="textarea" autosize placeholder="请输入审批说明" :autosize="{ minRows: 5, maxRows: 8 }"
-                v-model="queryParams.remark" style="width: 750px">
+                v-model="queryParams.remark" style="width: 100%">
               </el-input>
             </el-form-item>
           </el-col>
@@ -3264,8 +2514,12 @@ import {
   getSpList,
   getKpList,
 } from "@/api/project/all";
+import businessDetailView from '@/views/project/st/look/businessDetailView'
 export default {
   props: ["mode", "initData"],
+  components: {
+    businessDetailView
+  },
   data() {
     return {
       queryParams: {},
@@ -3329,7 +2583,8 @@ export default {
       htform: {},
       isDisabled: false,
       projectInfo: {},
-      stInfo: {}
+      stInfo: {},
+      showBusinessDetail: false
     };
   },
   computed: {
@@ -3371,71 +2626,10 @@ export default {
         })
       } else if (typeId == "2") {
         getStupdate(stId).then((response) => {
-          getStInfo(response.data.stId).then(res => {
-            this.stInfo = res.data
-          })
-          this.form.state = response.data.state;
-          this.form.xmState = response.data.xmState
+          this.form = response.data
           this.fileList = response.data.fileList;
           this.xmNode = response.data.xmNode;
-          let data = { stId: response.data.stId };
-          //合同
-          getContractList(data).then((response) => {
-            this.contract = response.rows;
-          });
-          // 入库
-          getGrnList(data).then((response) => {
-            this.grnList = response.rows;
-          });
-          // 出库
-          getGryList(data).then((response) => {
-            this.gryList = response.rows;
-
-            let gryNumber = 0;
-            let gryLr = 0.0;
-            for (let i = 0; i < this.gryList.length; i++) {
-              let obj = this.gryList[i];
-              if (obj.chargemGd != null && obj.chargemGd != "") {
-                gryNumber = gryNumber + obj.grnNumber;
-                gryLr = (
-                  parseFloat(gryLr) +
-                  obj.grnNumber * obj.chargemGd
-                ).toFixed(2);
-              }
-            }
-            this.gryNumber = gryNumber;
-            this.gryLr = gryLr;
-          });
-          // 预付款
-          let apaymentData = { stId: stId, stLook: "1" };
-          getApaymentList(apaymentData).then((response) => {
-            this.apaymentList = response.rows;
-          });
-          // 收款
-          let skData = { stId: stId, stLook: "1" };
-          getSkList(skData).then((response) => {
-            this.skList = response.rows;
-          });
-          // 物流付款
-          getLpaymentList(data).then((response) => {
-            this.lpaymentList = response.rows;
-          });
-          // 最终付款
-          getFpaymentList(data).then((response) => {
-            this.fpaymentList = response.rows;
-          });
-          // 发票
-          getSticketList(data).then((response) => {
-            this.sticketList = response.rows;
-          });
-          // 发票
-          getKpList(data).then((response) => {
-            this.kpList = response.rows;
-          });
-          // 服务费
-          getSpList(data).then((response) => {
-            this.spList = response.rows;
-          });
+          this.showBusinessDetail = true
         });
       } else if (typeId == "3") {
         getContract(stId).then((response) => {
