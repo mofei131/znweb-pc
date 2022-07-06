@@ -214,7 +214,7 @@ export default {
         });
       }
       if (!isOk) {
-        this.$message.error("入库单/出库单不可用，请确认");
+        this.$message.error("数质量信息不可用，请确认");
       } else {
         if (typeId == "4") {
           await reBindSelnyA(stId);
@@ -548,7 +548,7 @@ export default {
           })
           .catch(() => {});
       } else if (typeId == "10") {
-        this.$confirm("是否确认删除入库单?", "警告", {
+        this.$confirm("是否确认删除随车数质量?", "警告", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning",
@@ -564,7 +564,7 @@ export default {
           })
           .catch(() => {});
       } else if (typeId == "11") {
-        this.$confirm("是否确认删除出库单?", "警告", {
+        this.$confirm("是否确认删除到厂数质量?", "警告", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning",

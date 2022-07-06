@@ -138,7 +138,7 @@
       <!--      入库信息-->
       <el-row class="head-title">
         <el-col :span="12">
-          <el-form-item label="入库信息"></el-form-item>
+          <el-form-item label="随车数质量信息"></el-form-item>
         </el-col>
       </el-row>
       <el-row class="head-text">
@@ -150,7 +150,7 @@
           >
             <el-table-column property="name" label="货品名称">
             </el-table-column>
-            <el-table-column property="grnNumber" label="入库重量(吨)">
+            <el-table-column property="grnNumber" label="重量(吨)">
               <template slot-scope="scope">
                 {{
                   Number(scope.row.grnNumber)
@@ -160,7 +160,7 @@
                 }}
               </template>
             </el-table-column>
-            <el-table-column property="grnRz" label="入库热值(Kcal)">
+            <el-table-column property="grnRz" label="热值(Kcal)">
             </el-table-column>
             <el-table-column property="transportType" label="运输方式">
             </el-table-column>
@@ -208,7 +208,7 @@
       <!--      出库信息-->
       <el-row class="head-title">
         <el-col :span="12">
-          <el-form-item label="出库信息"></el-form-item>
+          <el-form-item label="到厂数质量信息"></el-form-item>
         </el-col>
       </el-row>
       <el-row class="head-text">
@@ -220,7 +220,7 @@
           >
             <el-table-column property="name" label="货品名称">
             </el-table-column>
-            <el-table-column property="grnNumber" label="出库重量(吨)">
+            <el-table-column property="grnNumber" label="重量(吨)">
               <template slot-scope="scope">
                 {{
                   Number(scope.row.grnNumber)
@@ -230,7 +230,7 @@
                 }}
               </template>
             </el-table-column>
-            <el-table-column property="gryRz" label="出库热值(Kcal)">
+            <el-table-column property="gryRz" label="热值(Kcal)">
             </el-table-column>
             <el-table-column property="transportType" label="运输方式">
             </el-table-column>
@@ -787,7 +787,7 @@
               fit
               style="width: 80%; margin-bottom: 30px"
             >
-              <el-table-column label="出库重量">
+              <el-table-column label="重量">
                 <template slot-scope="scope">
                   <span
                     v-text="$options.filters.weightFilter(gryNumber)"

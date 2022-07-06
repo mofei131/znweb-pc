@@ -144,8 +144,8 @@
         <el-form-item label="业务名称" prop="stName">
           <el-input v-model="form.stName" placeholder="请输入业务名称" />
         </el-form-item>
-        <el-form-item label="出库重量(吨)" prop="exWarehouseWeight">
-          <el-input v-model="form.exWarehouseWeight" placeholder="请输入出库重量(吨)" />
+        <el-form-item label="重量(吨)" prop="exWarehouseWeight">
+          <el-input v-model="form.exWarehouseWeight" placeholder="请输入重量(吨)" />
         </el-form-item>
         <el-form-item label="固定差价" prop="fixedPriceDiff">
           <el-input v-model="form.fixedPriceDiff" placeholder="请输入固定差价" />

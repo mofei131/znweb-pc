@@ -412,7 +412,7 @@
                 slot="reference"
                 style="margin-bottom: 30px"
                 v-if="isLook != 3"
-                >选择入库单
+                >选择随车数质量
               </el-button>
               <el-table
                 ref="singleTable"
@@ -425,7 +425,7 @@
                 </el-table-column>
                 <el-table-column
                   property="grnNumber"
-                  label="入库重量（吨）"
+                  label="重量（吨）"
                   width="120"
                 >
                   <template slot-scope="scope">
@@ -439,7 +439,7 @@
                 </el-table-column>
                 <el-table-column
                   property="grnRz"
-                  label="入库热值（kcal）"
+                  label="热值（kcal）"
                   width="120"
                 >
                 </el-table-column>
@@ -487,7 +487,7 @@
               </el-table-column>
               <el-table-column
                 property="grnNumber"
-                label="入库重量（吨）"
+                label="重量（吨）"
                 width="120"
               >
                 <template slot-scope="scope">

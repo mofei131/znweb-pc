@@ -8,6 +8,7 @@
   margin-top: 30px;
   margin-left: 20px;
 }
+
 .head-text {
   font-size: 14px;
   font-family: Microsoft YaHei;
@@ -15,6 +16,7 @@
   color: #333333;
   line-height: 30px;
 }
+
 .head-text span {
   display: block;
   width: 220px;
@@ -23,10 +25,13 @@
 }
 
 .upload-hidden .el-upload--picture-card {
-  display: none; /* 上传按钮隐藏 */
+  display: none;
+  /* 上传按钮隐藏 */
 }
+
 .el-textarea.is-disabled .el-textarea__inner {
-  background-color: #fff; /* 设置背景颜色为黑色 */
+  background-color: #fff;
+  /* 设置背景颜色为黑色 */
 }
 </style>
 <template>
@@ -56,25 +61,6 @@
               <td class="tdTitle">合同名称</td>
               <td class="tdCoent">{{ form.name }}</td>
               <td class="tdTitle">合同类型</td>
-              <td class="tdCoent">{{form.type}}</td>
-            </tr>
-            <tr>
-              <!-- <td class="tdTitle" colspan="1">测试</td>
-              <td class="tdCoent" colspan="5">123</td> -->
-              <td class="tdTitle">合同编号</td>
-              <td class="tdCoent">{{form.number}}</td>
-              <td class="tdTitle">签约日期</td>
-              <td class="tdCoent">{{parseTime(form.signingTime, "{y}-{m}-{d}")}}</td>
-            </tr>
-            <tr v-if="form.type == '上游合同'">
-              <td class="tdTitle">供应商</td>
-              <td class="tdCoent">{{form.supplierName}}</td>
-              <td class="tdTitle">终端客户</td>
-              <td class="tdCoent">{{form.terminalName}}</td>
-              <td class="tdTitle">客户名称</td>
-              <td class="tdCoent">{{form.khName}}</td>
-            </tr>
-            <tr v-if="form.type == '上游合同'">
               <td class="tdCoent">{{ form.type }}</td>
               <td class="tdTitle">合同立项编号</td>
               <td class="tdCoent">{{ form.productNo }}</td>
@@ -354,8 +340,7 @@ export default {
     },
     handleExceed(files, fileList) {
       this.$message.warning(
-        `当前限制选择 5 个文件，本次选择了 ${files.length} 个文件，共选择了 ${
-          files.length + fileList.length
+        `当前限制选择 5 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length
         } 个文件`
       );
     },

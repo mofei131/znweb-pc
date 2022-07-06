@@ -65,7 +65,7 @@
             <!-- <el-table-column label="项目名称" align="center" prop="stName" />
             <el-table-column label="项目编号" align="center" prop="stNo" /> -->
             <el-table-column label="货品名称" align="center" prop="name" />
-            <el-table-column label="入库重量(吨)" align="center" prop="grnNumber">
+            <el-table-column label="重量(吨)" align="center" prop="grnNumber">
                 <template slot-scope="scope">
                     {{
                             Number(scope.row.grnNumber)
@@ -75,7 +75,7 @@
                     }}
                 </template>
             </el-table-column>
-            <el-table-column label="入库热值(Kcal)" align="center" prop="grnRz" />
+            <el-table-column label="热值(Kcal)" align="center" prop="grnRz" />
             <el-table-column label="运输方式" align="center" prop="transportType" />
             <el-table-column label="物流公司" align="center" prop="wlCompany" />
             <el-table-column label="车数" align="center" prop="carNumber" />
@@ -165,8 +165,8 @@
                 </el-row>
                 <el-row>
                     <el-col :span="12">
-                        <el-form-item label="入库重量(吨)" prop="grnNumber">
-                            <el-input v-model="form.grnNumber" placeholder="请输入入库重量" @change="calculate" />
+                        <el-form-item label="重量(吨)" prop="grnNumber">
+                            <el-input v-model="form.grnNumber" placeholder="请输入重量" @change="calculate" />
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -180,8 +180,8 @@
                 <el-row>
                     <el-col :span="12">
                         <!-- <el-form-item label="入库热值(Kcal/吨)" prop="grnRz"> -->
-                        <el-form-item label="入库热值(Kcal/吨)">
-                            <el-input v-model="form.grnRz" placeholder="请输入入库热值" />
+                        <el-form-item label="热值(Kcal/吨)">
+                            <el-input v-model="form.grnRz" placeholder="请输入热值" />
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -367,7 +367,7 @@
                     <!--基本信息-->
                     <table border="1" width="100%">
                         <tr>
-                            <td class="title" colspan="6">入库信息</td>
+                            <td class="title" colspan="6">随车数质量信息</td>
                         </tr>
                         <tr>
                             <td class="table-td-title detail">项目名称</td>
@@ -388,7 +388,7 @@
                             <td class="table-td-content">
                                 {{ printData.name }}
                             </td>
-                            <td class="table-td-title detail">入库重量(吨)</td>
+                            <td class="table-td-title detail">重量(吨)</td>
                             <td class="table-td-content">
                                 {{ $options.filters.weightFilter(printData.grnNumber) }}
                             </td>
@@ -398,7 +398,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td class="table-td-title detail">入库热值</td>
+                            <td class="table-td-title detail">热值</td>
                             <td class="table-td-content">
                                 {{ printData.grnRz }}
                             </td>
@@ -931,7 +931,7 @@ export default {
             this.fileList = [];
             this.isLook = 1;
             this.open = true;
-            this.title = "添加入库单";
+            this.title = "添加随车数质量";
         },
         /** 修改按钮操作 */
         handleUpdate(row) {
@@ -945,7 +945,7 @@ export default {
                 this.fileList = this.form.fileList;
                 this.isLook = 1;
                 this.open = true;
-                this.title = "修改入库单";
+                this.title = "修改随车数质量";
             });
         },
         /** 修改按钮操作 */
@@ -982,7 +982,7 @@ export default {
         /** 删除按钮操作 */
         handleDelete(row) {
             const grnIds = row.grnId || this.ids;
-            this.$confirm("是否确认删除入库单?", "警告", {
+            this.$confirm("是否确认删除随车数质量?", "警告", {
                 confirmButtonText: "确定",
                 cancelButtonText: "取消",
                 type: "warning",
@@ -1281,7 +1281,7 @@ export default {
             this.printData = {};
             await getGrn(row.grnId).then((response) => {
                 this.printData = response.data;
-                this.printData.printType = "入库管理";
+                this.printData.printType = "随车数质量";
             });
             await getProcessDataByStId("10", row.grnId).then((res) => {
                 this.printData.approveHisList = res.data;

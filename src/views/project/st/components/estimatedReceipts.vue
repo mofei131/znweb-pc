@@ -216,14 +216,14 @@
                             <el-popover placement="bottom-start" width="100%" @selection-change="grnSelectionChange"
                                 v-model="visible" popper-class="area_popper">
                                 <el-button size="small" type="primary" slot="reference" style="margin-bottom: 30px"
-                                    v-if="isLook != 3">选择出库单</el-button>
+                                    v-if="isLook != 3">选择到厂数质量</el-button>
                                 <el-table ref="singleTable1" :data="tablegryData" @selection-change="grnSelectionChange"
                                     style="width: 100%">
                                     <el-table-column type="selection" width="55">
                                     </el-table-column>
                                     <el-table-column property="name" label="货品名称" width="120">
                                     </el-table-column>
-                                    <el-table-column property="grnNumber" label="出库重量（吨）" width="120">
+                                    <el-table-column property="grnNumber" label="重量（吨）" width="120">
                                         <template slot-scope="scope">
                                             {{
                                                     Number(scope.row.grnNumber)
@@ -233,7 +233,7 @@
                                             }}
                                         </template>
                                     </el-table-column>
-                                    <el-table-column property="gryRz" label="出库热值（kcal）" width="120">
+                                    <el-table-column property="gryRz" label="热值（kcal）" width="120">
                                     </el-table-column>
                                     <el-table-column property="transportType" label="运输方式" width="90">
                                     </el-table-column>
@@ -257,7 +257,7 @@
                             <el-table ref="singleTable" :data="tableselData" style="width: 100%">
                                 <el-table-column property="name" label="货品名称" width="90">
                                 </el-table-column>
-                                <el-table-column property="grnNumber" label="出库重量（吨）" width="120">
+                                <el-table-column property="grnNumber" label="重量（吨）" width="120">
                                     <template slot-scope="scope">
                                         {{
                                                 Number(scope.row.grnNumber)
@@ -267,7 +267,7 @@
                                         }}
                                     </template>
                                 </el-table-column>
-                                <el-table-column property="gryRz" label="出库热值（kcal）" width="120">
+                                <el-table-column property="gryRz" label="热值（kcal）" width="120">
                                 </el-table-column>
                                 <el-table-column property="transportType" label="运输方式" width="90">
                                 </el-table-column>
@@ -525,12 +525,12 @@
                     </table>
                     <table border="1" width="100%">
                         <tr>
-                            <td class="title" colspan="10">出入库信息</td>
+                            <td class="title" colspan="10">数质量信息</td>
                         </tr>
                         <tr>
                             <td class="table-td-title detail">货品名称</td>
-                            <td class="table-td-title detail">出库重量(吨)</td>
-                            <td class="table-td-title detail">出库热值(Kcal)</td>
+                            <td class="table-td-title detail">重量(吨)</td>
+                            <td class="table-td-title detail">热值(Kcal)</td>
                             <td class="table-td-title detail">运输方式</td>
                             <td class="table-td-title detail">物流公司</td>
                             <td class="table-td-title detail">车数</td>
@@ -1105,7 +1105,7 @@ export default {
                         this.form.stId = this.form.stId2;
                         if (this.form.skType == "收款") {
                             if (this.tableselData.length < 1) {
-                                this.msgError("请选择出库单");
+                                this.msgError("请选择到厂数质量");
                                 this.isDisabled = false;
                                 return;
                             }

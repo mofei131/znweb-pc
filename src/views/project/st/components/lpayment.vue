@@ -204,13 +204,13 @@
                         <el-popover placement="bottom-start" width="100%" @selection-change="grnSelectionChange"
                             v-model="visible" popper-class="area_popper">
                             <el-button type="primary" slot="reference" style="margin-bottom: 30px" v-if="isLook != 3">
-                                选择入库单</el-button>
+                                选择随车数质量</el-button>
                             <el-table ref="singleTable" :data="tableData" @selection-change="grnSelectionChange"
                                 style="width: 100%">
                                 <el-table-column type="selection" width="55"> </el-table-column>
                                 <el-table-column property="name" label="货品名称" width="120">
                                 </el-table-column>
-                                <el-table-column property="grnNumber" label="入库重量（吨）" width="120">
+                                <el-table-column property="grnNumber" label="重量（吨）" width="120">
                                     <template slot-scope="scope">
                                         {{
                                                 Number(scope.row.grnNumber)
@@ -220,7 +220,7 @@
                                         }}
                                     </template>
                                 </el-table-column>
-                                <el-table-column property="grnRz" label="入库热值（kcal）" width="120">
+                                <el-table-column property="grnRz" label="热值（kcal）" width="120">
                                 </el-table-column>
                                 <el-table-column property="transportType" label="运输方式" width="90">
                                 </el-table-column>
@@ -244,7 +244,7 @@
                         <el-table ref="singleTable" :data="tableselData" style="width: 100%">
                             <el-table-column property="name" label="货品名称" width="90">
                             </el-table-column>
-                            <el-table-column property="grnNumber" label="入库重量（吨）" width="120">
+                            <el-table-column property="grnNumber" label="重量（吨）" width="120">
                                 <template slot-scope="scope">
                                     {{
                                             Number(scope.row.grnNumber)

@@ -17,8 +17,8 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="出库重量(吨)" prop="grnNumber">
-                <el-input v-model="form.grnNumber" placeholder="请输入出库重量" @change="calculate"/>
+              <el-form-item label="重量(吨)" prop="grnNumber">
+                <el-input v-model="form.grnNumber" placeholder="请输入重量" @change="calculate"/>
               </el-form-item>
             </el-col>
           </el-row>
@@ -34,8 +34,8 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="出库热值(Kcal/吨)" prop="gryRz">
-                <el-input v-model="form.gryRz" placeholder="请输入出库热值" />
+              <el-form-item label="热值(Kcal/吨)" prop="gryRz">
+                <el-input v-model="form.gryRz" placeholder="请输入热值" />
               </el-form-item>
             </el-col>
           </el-row>
@@ -56,7 +56,7 @@
               width="100%"
               v-model="visible"
               popper-class="area_popper">
-              <el-button type="primary" slot="reference" style="margin-bottom: 30px;">选择入库单</el-button>
+              <el-button type="primary" slot="reference" style="margin-bottom: 30px;">选择随车数质量</el-button>
               <el-table
                 ref="singleTable"
                 :data="tableData"
@@ -70,7 +70,7 @@
                 </el-table-column>
                 <el-table-column
                   property="grnNumber"
-                  label="入库重量（吨）"
+                  label="重量（吨）"
                   width="90">
                   <template slot-scope="scope">
                     {{
@@ -155,7 +155,7 @@
                 </el-table-column>
                 <el-table-column
                   property="grnNumber"
-                  label="入库重量（吨）"
+                  label="重量（吨）"
                   width="120">
                   <template slot-scope="scope">
                     {{
@@ -650,7 +650,7 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           if(this.tableselData.length<1) {
-            this.msgError("请选择入库单")
+            this.msgError("请选择随车数质量")
             return
           }
           this.form.stId=this.form.stId2

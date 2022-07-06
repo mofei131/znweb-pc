@@ -278,7 +278,7 @@
                 align-items: center;
               " @click="toGrn">
               <img style="width: 34px; height: 32px" src="../../public/img/ruku.png" alt="" />
-              <div style="margin-top: 15px; font-size: 13px">添加入库</div>
+              <div style="margin-top: 15px; font-size: 13px">添加随车数质量</div>
             </div>
             <div style="
                 width: 50%;
@@ -289,7 +289,7 @@
                 align-items: center;
               " @click="toGry">
               <img style="width: 34px; height: 32px" src="../../public/img/chuku.png" alt="" />
-              <div style="margin-top: 15px; font-size: 13px">添加出库</div>
+              <div style="margin-top: 15px; font-size: 13px">添加到厂数质量</div>
             </div>
             <div style="
                 width: 50%;

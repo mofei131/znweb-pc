@@ -168,11 +168,11 @@
           </el-col>
           <el-col :span="6" >
             <img :src="ruku" @click="toGrn"/><br/>
-            <span style="font-size: 14px;">添加入库</span>
+            <span style="font-size: 14px;">添加随车数质量</span>
           </el-col>
           <el-col :span="6" >
             <img :src="chuku" @click="toGry"/><br/>
-            <span style="font-size: 14px;">添加出库</span>
+            <span style="font-size: 14px;">添加到厂数质量</span>
           </el-col>
           <el-col :span="6" >
             <img :src="qijianfeiyong" @click="toDp"/><br/>

@@ -268,7 +268,7 @@ export const constantRoutes = [{
                     require(["@/views/project/grn/look/index"], resolve),
                 name: "grnLook",
                 meta: {
-                    title: "查看入库",
+                    title: "查看随车数质量",
                     activeMenu: '/gryn/grn'
                 },
             },
@@ -276,13 +276,13 @@ export const constantRoutes = [{
                 path: "index",
                 component: (resolve) => require(["@/views/project/grn/index"], resolve),
                 name: "grnAdd",
-                meta: { title: "添加入库" },
+                meta: { title: "添加随车数质量" },
             },
             {
                 path: "index",
                 component: (resolve) => require(["@/views/project/grn/index"], resolve),
                 name: "grnEdit",
-                meta: { title: "修改入库" },
+                meta: { title: "修改随车数质量" },
             },
         ],
     },
@@ -296,7 +296,7 @@ export const constantRoutes = [{
                     require(["@/views/project/gry/look/index"], resolve),
                 name: "gryLook",
                 meta: {
-                    title: "查看出库",
+                    title: "查看到厂数质量",
                     activeMenu: '/gryn/gry'
                 },
             },
@@ -304,13 +304,13 @@ export const constantRoutes = [{
                 path: "index",
                 component: (resolve) => require(["@/views/project/gry/index"], resolve),
                 name: "gryAdd",
-                meta: { title: "添加出库" },
+                meta: { title: "添加到厂数质量" },
             },
             {
                 path: "index",
                 component: (resolve) => require(["@/views/project/gry/index"], resolve),
                 name: "gryEdit",
-                meta: { title: "修改出库" },
+                meta: { title: "修改到厂数质量" },
             },
         ],
     },
@@ -323,7 +323,7 @@ export const constantRoutes = [{
             component: (resolve) =>
                 require(["@/views/project/gry/aou/index"], resolve),
             name: "gryAou",
-            meta: { title: "修改出库" },
+            meta: { title: "修改到厂数质量" },
         }, ],
     },
     {

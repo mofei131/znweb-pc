@@ -784,12 +784,12 @@
           </table>
           <table border="1" width="100%">
             <tr>
-              <td class="title" colspan="10">出入库信息</td>
+              <td class="title" colspan="10">数质量信息</td>
             </tr>
             <tr>
               <td class="table-td-title detail">货品名称</td>
-              <td class="table-td-title detail">出库重量(吨)</td>
-              <td class="table-td-title detail">出库热值(Kcal)</td>
+              <td class="table-td-title detail">重量(吨)</td>
+              <td class="table-td-title detail">热值(Kcal)</td>
               <td class="table-td-title detail">运输方式</td>
               <td class="table-td-title detail">物流公司</td>
               <td class="table-td-title detail">车数</td>
@@ -1429,7 +1429,7 @@ export default {
         if (valid) {
           if (this.isLook != 4) {
             if (this.tableselData.length < 1) {
-              this.msgError("请选择出库单");
+              this.msgError("请选择到厂数质量");
               return;
             }
             this.form.gryList = this.tableselData;
