@@ -1418,6 +1418,7 @@ import {
   findInit,
   listForBus,
   listForPro,
+  calcPrepaidPrice
 } from "@/api/project/apayment";
 import { getToken } from "@/utils/auth";
 import print from "print-js";
@@ -1566,8 +1567,6 @@ export default {
         { key: "90%", label: "90%" },
       ],
       multipleSelection: [],
-      //提前付款
-      tqpay: 0,
       // 日期范围
       dateRange: [],
       // 查询参数
@@ -2049,7 +2048,6 @@ export default {
         this.form.account = "";
         this.form.openbank = "";
         let dataInit = { stId: obj.stId };
-        debugger;
         findInit(dataInit).then((response) => {
           this.form.yfPrice = response.data.yfPrice;
           this.form.dfPrice = response.data.dfPrice;
@@ -2058,7 +2056,7 @@ export default {
           this.form.account = response.data.account;
           this.form.openbank = response.data.openbank;
         });
-        if (this.form.type == "提前付款") {
+        if (this.form.away == "提前付款") {
           //成本年服务费率
           if (obj.chargemType == "1" || obj.chargemType == "3") {
             this.form.rateYear = obj.chargemNx;
@@ -2077,40 +2075,10 @@ export default {
           });
           this.jspay1();
         } else {
-          //获取提前付款+首付款
-          if (this.form.away == "首次") {
-            let data2 = { stId: obj.stId, away: "二次", state: "3" };
-            getApaymentbydata(data2).then((response) => {
-              if (response.rows.length > 0) {
-                this.form.prepaidPrice = 0.0;
-                this.tqpay = 0;
-              } else {
-                this.form.prepaidPrice = obj.tqpay.toFixed(2);
-                this.tqpay = obj.tqpay;
-              }
-            });
-          } else {
-            let data = { stId: obj.stId, away: "首次", ist: "1", state: "3" };
-            getApaymentbydata(data).then((response) => {
-              console.log(response);
-              let ap = 0;
-              for (let i = 0; i < response.rows.length; i++) {
-                ap += response.rows[i].payTprice;
-              }
-              let data2 = { stId: obj.stId, away: "二次" };
-              getApaymentbydata(data2).then((response) => {
-                if (response.rows.length > 0) {
-                  this.form.prepaidPrice = ap.toFixed(2);
-                  this.tqpay = 0.0;
-                } else {
-                  this.form.prepaidPrice = (
-                    parseFloat(obj.tqpay) + parseFloat(ap)
-                  ).toFixed(2);
-                  this.tqpay = obj.tqpay;
-                }
-              });
-            });
-          }
+          // 计算提单金额
+          calcPrepaidPrice({ stId: obj.stId, away: this.form.away }).then((response) => {
+            this.form.prepaidPrice = response.data
+          });
           this.tableselData = [];
           let data = { stId: obj.stId, yfState: "1" };
           getGrnList(data).then((response) => {
@@ -2148,7 +2116,7 @@ export default {
     },
     //选择批次
     changeAway() {
-      if (this.form.type == "提前付款") {
+      if (this.form.away == "提前付款") {
         if (this.form.stId == null || this.form.stId == "") {
           this.msgError("请选择项目");
           this.form.prepaidPrice = 0.0;
@@ -2176,35 +2144,10 @@ export default {
           this.form.prepaidPrice = 0.0;
           return;
         }
-        //获取提前付款+首付款
-        if (this.form.away == "首次") {
-          let data2 = { stId: this.form.stId, away: "二次" };
-          getApaymentbydata(data2).then((response) => {
-            if (response.rows.length > 0) {
-              this.form.prepaidPrice = 0.0;
-            } else {
-              this.form.prepaidPrice = this.tqpay.toFixed(2);
-            }
-          });
-        } else {
-          let data = { stId: this.form.stId, away: "首次", ist: "1" };
-          getApaymentbydata(data).then((response) => {
-            let ap = 0;
-            for (let i = 0; i < response.rows.length; i++) {
-              ap += response.rows[i].payTprice;
-            }
-            let data2 = { stId: this.form.stId, away: "二次" };
-            getApaymentbydata(data2).then((response) => {
-              if (response.rows.length > 0) {
-                this.form.prepaidPrice = ap.toFixed(2);
-              } else {
-                this.form.prepaidPrice = (
-                  parseFloat(this.tqpay) + parseFloat(ap)
-                ).toFixed(2);
-              }
-            });
-          });
-        }
+        // 计算提单金额
+        calcPrepaidPrice({ stId: this.form.stId, away: this.form.away }).then((response) => {
+          this.form.prepaidPrice = response.data
+        });
         this.toggleSelection();
       }
     },
@@ -2289,6 +2232,7 @@ export default {
       let tgn = 0;
       let tgr = 0;
       if (this.tableybData.length > 0) {
+        console.log('看这里', this.tableybData)
         for (let i = 0; i < this.tableybData.length; i++) {
           tgn += this.tableybData[i].grnNumber;
           if (this.form.away == "首次") {
