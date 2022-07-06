@@ -604,7 +604,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="收款单价" prop="skPrice">
+                <el-form-item label="收款单价(元)" prop="skPrice">
                   <el-input
                     @change="jsdj"
                     v-model="form.skPrice"
@@ -613,7 +613,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="税款" prop="tax">
+                <el-form-item label="税款(元)" prop="tax">
                   <el-input v-model="form.tax" placeholder="请输入税款(元)" />
                 </el-form-item>
               </el-col>
@@ -628,7 +628,7 @@
               <!--            </el-form-item>-->
               <!--          </el-col>-->
               <el-col :span="12">
-                <el-form-item label="承兑" prop="accept">
+                <el-form-item label="承兑(元)" prop="accept">
                   <el-input
                     v-model="form.accept"
                     @change="toggleSelection"
@@ -637,7 +637,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="扣罚" prop="punish">
+                <el-form-item label="扣罚(元)" prop="punish">
                   <el-input
                     v-model="form.punish"
                     @change="toggleSelection"
@@ -646,7 +646,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="其他扣罚" prop="otherP">
+                <el-form-item label="其他扣罚(元)" prop="otherP">
                   <el-input
                     v-model="form.otherP"
                     @change="toggleSelection"
@@ -677,7 +677,7 @@
             </el-row>
             <el-row>
               <el-col :span="12">
-                <el-form-item label="已预收金额" prop="yfPrice">
+                <el-form-item label="已预收金额(元)" prop="yfPrice">
                   <el-input
                     disabled
                     v-model="form.yfPrice"
@@ -686,7 +686,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="实际应收金额" prop="sjPrice">
+                <el-form-item label="实际应收金额(元)" prop="sjPrice">
                   <el-input
                     v-model="form.sjPrice"
                     placeholder="请输入实际应收金额"

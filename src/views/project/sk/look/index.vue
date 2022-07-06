@@ -164,13 +164,13 @@
             <tr>
               <td class="tdTitle">收款日期</td>
               <td class="tdCoent">{{parseTime(form.skTime, '{y}-{m}-{d}')}}</td>
-              <td class="tdTitle">承兑</td>
+              <td class="tdTitle">承兑(元)</td>
               <td class="tdCoent">{{$options.filters.moneyFilter(form.accept)}}</td>
-              <td class="tdTitle">扣罚</td>
+              <td class="tdTitle">扣罚(元)</td>
               <td class="tdCoent">{{$options.filters.moneyFilter(form.punish)}}</td>
             </tr>
             <tr>
-              <td class="tdTitle">其他扣罚</td>
+              <td class="tdTitle">其他扣罚(元)</td>
               <td class="tdCoent">{{$options.filters.moneyFilter(form.otherP)}}</td>
               <td class="tdTitle">其他扣罚说明</td>
               <td class="tdCoent">{{form.otherN}}</td>
@@ -213,17 +213,17 @@
 
       <el-row class="head-text" style="margin-top:30px">
         <el-col :span="4" :offset="1">
-          <el-form-item label="总计收款：">
+          <el-form-item label="总计收款(元)：">
             <span style="color: red">{{$options.filters.moneyFilter(form.yftotalPrice)}}</span>
           </el-form-item>
         </el-col>
         <el-col :span="4">
-          <el-form-item label="已预收金额：">
+          <el-form-item label="已预收金额(元)：">
             <span style="color: red">{{$options.filters.moneyFilter(form.yfPrice)}}</span>
           </el-form-item>
         </el-col>
         <el-col :span="4">
-          <el-form-item label="实际应收金额：">
+          <el-form-item label="实际应收金额(元)：">
             <span style="color: red">{{$options.filters.moneyFilter(form.sjPrice)}}</span>
           </el-form-item>
         </el-col>

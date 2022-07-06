@@ -178,7 +178,7 @@
             <tr>
               <td class="tdTitle">电厂结算金额(元)</td>
               <td class="tdCoent">{{$options.filters.moneyFilter(form.jst)}}</td>
-              <td class="tdTitle">税款</td>
+              <td class="tdTitle">税款(元)</td>
               <td class="tdCoent">{{$options.filters.moneyFilter(form.jstax)}}</td>
               <td class="tdTitle">货品单价(元)</td>
               <td class="tdCoent">{{$options.filters.moneyFilter(form.price)}}</td>
@@ -192,27 +192,27 @@
               <td class="tdCoent">{{$options.filters.moneyFilter(form.gdxPrice)}}</td>
             </tr>
             <tr>
-              <td class="tdTitle">服务费</td>
+              <td class="tdTitle">服务费(元)</td>
               <td class="tdCoent">{{$options.filters.moneyFilter(form.servicePrice)}}</td>
-              <td class="tdTitle">承兑贴息</td>
+              <td class="tdTitle">承兑贴息(元)</td>
               <td class="tdCoent">{{$options.filters.moneyFilter(form.cdtx)}}</td>
-              <td class="tdTitle">补税金额</td>
+              <td class="tdTitle">补税金额(元)</td>
               <td class="tdCoent">{{$options.filters.moneyFilter(form.bsPrice)}}</td>
             </tr>
             <tr>
-              <td class="tdTitle">其他扣款</td>
+              <td class="tdTitle">其他扣款(元)</td>
               <td class="tdCoent">{{$options.filters.moneyFilter(form.otherPrice)}}</td>
-              <td class="tdTitle">贴息</td>
+              <td class="tdTitle">贴息(元)</td>
               <td class="tdCoent">{{$options.filters.moneyFilter(form.tx)}}</td>
-              <td class="tdTitle">其他费用</td>
+              <td class="tdTitle">其他费用(元)</td>
               <td class="tdCoent">{{$options.filters.moneyFilter(form.qt)}}</td>
             </tr>
             <tr>
-              <td class="tdTitle">最终应付款金额</td>
+              <td class="tdTitle">最终应付款金额(元)</td>
               <td class="tdCoent">{{$options.filters.moneyFilter(form.yftotalPrice)}}</td>
-              <td class="tdTitle">已付金额</td>
+              <td class="tdTitle">已付金额(元)</td>
               <td class="tdCoent">{{$options.filters.moneyFilter(form.yfPrice)}}</td>
-              <td class="tdTitle">调整金额</td>
+              <td class="tdTitle">调整金额(元)</td>
               <td class="tdCoent">{{$options.filters.moneyFilter(form.je)}}</td>
             </tr>
             <tr>

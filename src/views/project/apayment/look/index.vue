@@ -121,7 +121,7 @@
 
       <el-row class="head-title">
         <el-col :span="19">
-          <el-form-item label="出入库信息"></el-form-item>
+          <el-form-item label="数质量信息"></el-form-item>
         </el-col>
       </el-row>
       <el-row>
