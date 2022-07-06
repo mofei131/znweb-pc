@@ -343,7 +343,7 @@ export default {
     sticket
   },
   mounted() {
-    this.stId = this.$route.fullPath.match(/\d+/)[0] || this.stIdd
+    this.stId = this.stIdd || this.$route.fullPath.match(/\d+/)[0]
     getStInfo(this.stId).then(res => {
       this.stInfo = res.data
       projectInfo(res.data.projectId).then(res => {
