@@ -184,24 +184,27 @@ aside {
 .multiselect--active {
     z-index: 1000 !important;
 }
+
 //查看详情
-.newTable{
-  table{
-    margin: auto;
-  }
-  td{
-    border: 1px solid #dfe6ec;
-    border-right: 0;
-    height: 60px;
-    min-width: 180px;
-  }
-  .tdTitle{
-    background-color: #f8f8f9;
-    text-align: center;
-    width: 120px;
-    max-width: 120px;
-  }
-  .tdCoent{
-    text-align: center;
-  }
+.newTable {
+    table {
+        margin: auto;
+        border-top: 1px solid #dfe6ec;
+        border-left: 1px solid #dfe6ec;
+    }
+    td {
+        border-right: 1px solid #dfe6ec;
+        border-bottom: 1px solid #dfe6ec;
+        height: 60px;
+        min-width: 180px;
+    }
+    .tdTitle {
+        background-color: #f8f8f9;
+        text-align: center;
+        width: 120px;
+        max-width: 120px;
+    }
+    .tdCoent {
+        text-align: center;
+    }
 }
