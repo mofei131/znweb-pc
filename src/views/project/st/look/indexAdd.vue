@@ -1,3 +1,8 @@
+<style scoped>
+.newTable td{
+  min-width: 170px;
+}
+</style>
 <template>
   <div @scroll="a" style="display:flex;background-color: #F6F7FB;padding:10px;">
     <div style="width:85%;background-color: #ffffff;border-radius: 10px;margin-right:10px">
@@ -13,7 +18,7 @@
           </el-row>
           <el-row class="head-text">
             <el-col class="newTable">
-              <table width="90%" cellpadding="0" cellspacing="0">
+              <table width="80%" cellpadding="0" cellspacing="0">
                 <tr>
                   <td class="tdTitle">立项类型</td>
                   <td class="tdCoent">{{projectInfo.projectType}}</td>

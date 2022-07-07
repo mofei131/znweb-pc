@@ -332,7 +332,7 @@
           <div v-if="form.type == '4'">
             <el-row>
               <el-col :span="12">
-                <el-form-item label="运输单位" prop="transportUnit">
+                <el-form-item label="服务单位" prop="transportUnit">
                   <el-input v-model="form.transportUnit" placeholder="请输入运输单位/服务单位" />
                 </el-form-item>
               </el-col>
@@ -702,7 +702,7 @@
           <div v-if="form.type == '4'">
             <el-row>
               <el-col :span="12">
-                <el-form-item label="运输单位" prop="transportUnit">
+                <el-form-item label="服务单位" prop="transportUnit">
                   <el-input v-model="form.transportUnit" placeholder="请输入运输单位/服务单位" />
                 </el-form-item>
               </el-col>
@@ -998,7 +998,7 @@
                 <td class="table-td-content">
                   {{ printData.goodsName }}
                 </td>
-                <td class="table-td-title detail">运输单位</td>
+                <td class="table-td-title detail">服务单位</td>
                 <td class="table-td-content">
                   {{ printData.transportUnit }}
                 </td>
