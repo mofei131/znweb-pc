@@ -1,24 +1,25 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch && !isQuote" label-width="68px">
-      <el-form-item label="项目名称" prop="projectId">
-                <el-select filterable value-key="projectId" @change="changeProject" v-model="form.projectId"
-                  placeholder="请选择项目" style="width: 100%" :disabled="isQuote">
-                  <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName"
-                    :value="pro.projectId">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-      <el-form-item label="业务经理" prop="projectId">
-                <el-select filterable value-key="projectId" @change="changeProject" v-model="form.projectId"
-                  placeholder="请选择业务经理" style="width: 100%" :disabled="isQuote">
-                  <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.serviceManagerName"
-                    :value="pro.projectId">
-                  </el-option>
-                </el-select>
-              </el-form-item>
+      <el-form-item label="项目名称" prop="projectName">
+        <el-input v-model="queryParams.projectName" placeholder="项目名称" clearable size="small"
+          @keyup.enter.native="handleQuery" />
+      </el-form-item>
+      <el-form-item label="业务名称" prop="stName">
+        <el-input v-model="queryParams.stName" placeholder="业务名称" clearable size="small"
+          @keyup.enter.native="handleQuery" />
+      </el-form-item>
+      <el-form-item label="项目编号" prop="serialNo">
+        <el-input v-model="queryParams.serialNo" placeholder="请输入项目编号" clearable size="small"
+          @keyup.enter.native="handleQuery" />
+      </el-form-item>
       <el-form-item label="代办人" prop="userId">
         <el-select filterable v-model="queryParams.userId" placeholder="请选择代办人" clearable size="small">
+          <el-option v-for="dict in userOptions" :key="dict.userId" :label="dict.nickName" :value="dict.userId" />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="业务经理" prop="serviceManagerId">
+        <el-select filterable v-model="queryParams.serviceManagerId" placeholder="请选择代办人" clearable size="small">
           <el-option v-for="dict in userOptions" :key="dict.userId" :label="dict.nickName" :value="dict.userId" />
         </el-select>
       </el-form-item>
@@ -73,10 +74,10 @@
     </el-row>
 
     <el-table v-loading="loading" :data="profitsList" @selection-change="handleSelectionChange">
-      <el-table-column label="项目编号" align="center" prop="serialNo" v-if="!isQuote"/>
-      <el-table-column label="项目名称" align="center" prop="stName" v-if="!isQuote"/>
-      <el-table-column label="业务名称" align="center" prop="projectName" v-if="!isQuote"/>
-      <el-table-column label="代办人" align="center" prop="userName" v-if="!isQuote"/>
+      <el-table-column label="项目名称" align="center" prop="projectName" v-if="!isQuote" />
+      <el-table-column label="业务名称" align="center" prop="stName" v-if="!isQuote" />
+      <el-table-column label="项目编号" align="center" prop="serialNo" v-if="!isQuote" />
+      <el-table-column label="代办人" align="center" prop="userName" v-if="!isQuote" />
       <el-table-column label="业务经理" align="center" prop="serviceManagerName" />
       <el-table-column label="营业利润(元)" align="center" prop="businessProfits">
         <template slot-scope="scope">
@@ -101,7 +102,7 @@
       <el-table-column label="印花税(元)" align="center" prop="printingTax">
         <template slot-scope="scope">
           {{
-  Number(scope.row.printingTax)
+          Number(scope.row.printingTax)
           .toFixed(2)
           .toString()
           .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
