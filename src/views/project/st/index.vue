@@ -49,8 +49,8 @@
       <el-table-column label="创建时间" align="center" prop="createTime" width="180">
         <template slot-scope="scope">
           <span>{{
-          parseTime(scope.row.createTime, "{y}-{m}-{d} {h}:{i}:{s}")
-          }}</span>
+            parseTime(scope.row.createTime, "{y}-{m}-{d} {h}:{i}:{s}")
+            }}</span>
         </template>
       </el-table-column>
       <el-table-column label="审批状态" align="center">
@@ -654,7 +654,7 @@
           <el-col :span="12">
             <el-form-item label="操作业务" prop="businessState">
               <el-select @change="changeSupplierName" filterable value-key="value" v-model="form3.businessState"
-                placeholder="请选择供应商" style="width: 100%">
+                placeholder="请选择操作" style="width: 100%">
                 <el-option v-if="businessState == 1" label="异常" value="2"></el-option>
                 <el-option v-if="businessState == 2" label="继续" value="1"></el-option>
                 <el-option v-if="businessState == 2" label="结束" value="3"></el-option>
@@ -1411,8 +1411,7 @@ export default {
       this.$refs.topicTable.toggleRowExpansion(row, false);
     },
     jumpBusiness(row) {
-      //this.$router.push("/st/lookAdd/" + row.stId);
-      window.location.href = location.protocol + "//" + location.host + "/st/lookAdd/" + row.stId;
+      this.$router.push("/st/lookAdd/" + row.stId);
     },
     jumpBusinessAdd(row){
       this.$router.push("/st/lookAddB/" + row.stId);

@@ -10,9 +10,6 @@ import getters from './getters'
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
-    state: {
-        showLoad: true
-    },
     modules: {
         app,
         user,
