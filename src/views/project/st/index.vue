@@ -1357,7 +1357,7 @@ export default {
       }
     },
     openOperateBusiness(row) {
-      checkProcessConfig({ approvalType: 20 }).then((res) => {
+      checkProcessConfig({ approvalType: 2 }).then((res) => {
         if (res.code == 200) {
           this.businessState = row.businessState;
           this.form3.stId = row.stId;
@@ -1417,7 +1417,7 @@ export default {
       this.$router.push("/st/lookAddB/" + row.stId);
     },
     openBusinessBox(row) {
-      checkProcessConfig({ approvalType: 20 }).then((res) => {
+      checkProcessConfig({ approvalType: 1 }).then((res) => {
         if (res.code == 200) {
           projectInfo(row.projectId).then((res2) => {
             this.projectInfo = res2.data;
