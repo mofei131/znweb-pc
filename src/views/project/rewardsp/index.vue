@@ -92,8 +92,8 @@
           </el-col>
         </el-row>
 
-        <!--        热值MJ/Kg-->
-        <el-row style="margin-top: 30px;">
+        <!--热值MJ/Kg-->
+        <el-row style="margin-top: 30px">
           <el-col :span="4">
             <span style="font-size: 20px; color: black">热值MJ/Kg</span>
           </el-col>
@@ -105,7 +105,7 @@
         <!--奖惩计划-->
         <div style="margin-bottom: 30px">
           <div v-for="(item,index) in form.tableData1" :key="index">
-            <el-form :model="item" class="demo-form-inline" label-width="100px">
+            <el-form :model="item" class="demo-form-inline" label-width="100px" style="display:flex">
               <el-form-item label="当">
                 <el-select v-model="item.a1" class="lineflex">
                   <el-option label="Qgr,ad" value="Qgr,ad" />
@@ -153,7 +153,7 @@
         <!--奖惩计划-->
         <div style="margin-bottom: 30px">
           <div v-for="(item,index) in form.tableData2" :key="index">
-            <el-form :model="item" class="demo-form-inline" label-width="100px">
+            <el-form :model="item" class="demo-form-inline" label-width="100px" style="display:flex">
               <el-form-item label="当">
                 <el-select v-model="item.a1" class="lineflex">
                   <el-option label="Qgr,ad" value="Qgr,ad" />
@@ -201,7 +201,7 @@
         <!--奖惩计划-->
         <div style="margin-bottom: 30px">
           <div v-for="(item,index) in form.tableData3" :key="index">
-            <el-form :model="item" class="demo-form-inline" label-width="100px">
+            <el-form :model="item" class="demo-form-inline" label-width="100px" style="display:flex">
               <el-form-item label="当">
                 <el-select v-model="item.a1" class="lineflex">
                   <el-option label="Qgr,ad" value="Qgr,ad" />
@@ -249,7 +249,7 @@
         <!--奖惩计划-->
         <div style="margin-bottom: 30px">
           <div v-for="(item,index) in form.tableData4" :key="index">
-            <el-form :model="item" class="demo-form-inline" label-width="100px">
+            <el-form :model="item" class="demo-form-inline" label-width="100px" style="display:flex">
               <el-form-item label="当">
                 <el-select v-model="item.a1" class="lineflex">
                   <el-option label="Qgr,ad" value="Qgr,ad" />
@@ -297,7 +297,7 @@
         <!--奖惩计划-->
         <div style="margin-bottom: 30px">
           <div v-for="(item,index) in form.tableData5" :key="index">
-            <el-form :model="item" class="demo-form-inline" label-width="100px">
+            <el-form :model="item" class="demo-form-inline" label-width="100px" style="display:flex">
               <el-form-item label="当">
                 <el-select v-model="item.a1" class="lineflex">
                   <el-option label="Qgr,ad" value="Qgr,ad" />
@@ -345,7 +345,7 @@
         <!--奖惩计划-->
         <div style="margin-bottom: 30px">
           <div v-for="(item,index) in form.tableData6" :key="index">
-            <el-form :model="item" class="demo-form-inline" label-width="100px">
+            <el-form :model="item" class="demo-form-inline" label-width="100px" style="display:flex">
               <el-form-item label="当">
                 <el-select v-model="item.a1" class="lineflex">
                   <el-option label="Qgr,ad" value="Qgr,ad" />
@@ -393,7 +393,7 @@
         <!--奖惩计划-->
         <div style="margin-bottom: 30px">
           <div v-for="(item,index) in form.tableData7" :key="index">
-            <el-form :model="item" class="demo-form-inline" label-width="100px">
+            <el-form :model="item" class="demo-form-inline" label-width="100px" style="display:flex">
               <el-form-item label="当">
                 <el-select v-model="item.a1" class="lineflex">
                   <el-option label="Qgr,ad" value="Qgr,ad" />
@@ -441,7 +441,7 @@
         <!--奖惩计划-->
         <div style="margin-bottom: 30px">
           <div v-for="(item,index) in form.tableData8" :key="index">
-            <el-form :model="item" class="demo-form-inline" label-width="100px">
+            <el-form :model="item" class="demo-form-inline" label-width="100px" style="display:flex">
               <el-form-item label="当">
                 <el-select v-model="item.a1" class="lineflex">
                   <el-option label="Qgr,ad" value="Qgr,ad" />
@@ -489,7 +489,7 @@
         <!--奖惩计划-->
         <div style="margin-bottom: 30px">
           <div v-for="(item,index) in form.tableData9" :key="index">
-            <el-form :model="item" class="demo-form-inline" label-width="100px">
+            <el-form :model="item" class="demo-form-inline" label-width="100px" style="display:flex">
               <el-form-item label="当">
                 <el-select v-model="item.a1" class="lineflex">
                   <el-option label="Qgr,ad" value="Qgr,ad" />
