@@ -204,7 +204,9 @@
           <el-col :span="12">
             <div v-if="form1.chargemType == '1' || form1.chargemType == '3'">
               <el-form-item label="年息服务费费率(%)" prop="chargemNx">
-                <el-input v-model="form1.chargemNx" placeholder="请输入年息" />
+                <el-input-number v-model="form1.chargemNx" controls-position="right" :precision="2" :step="0.01"
+                  :min="0" :max="100" placeholder="请输入年息" style="width:100%">
+                </el-input-number>
               </el-form-item>
             </div>
           </el-col>
@@ -400,7 +402,9 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="成本年服务费费率(%)" prop="rateYear">
-              <el-input v-model="form2.rateYear" placeholder="请输入成本年服务费费率" />
+              <el-input-number v-model="form2.rateYear" controls-position="right" :precision="2" :step="0.01" :min="0"
+                :max="100" placeholder="请输入成本年服务费费率" style="width:100%">
+              </el-input-number>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -446,7 +450,9 @@
             <el-col :span="12">
               <div v-if="form2.shHztype == '年息收取'">
                 <el-form-item label="资金费率(%)" prop="shHzrate">
-                  <el-input v-model="form2.shHzrate" placeholder="请输入资金费率" />
+                  <el-input-number v-model="form2.shHzrate" controls-position="right" :precision="2" :step="0.01"
+                    :min="0" :max="100" placeholder="请输入资金费率" style="width:100%">
+                  </el-input-number>
                 </el-form-item>
               </div>
             </el-col>
@@ -736,7 +742,7 @@ export default {
         terminalId: "",
         terminalName: "",
         chargemType: "1",
-        chargemNx: "",
+        chargemNx: undefined,
         chargemGd: "",
         node: "",
         filesList: null,
@@ -759,7 +765,7 @@ export default {
         terminalId: "",
         terminalName: "",
         chargemType: "1",
-        chargemNx: "",
+        chargemNx: undefined,
         chargemGd: "",
         node: "",
         filesList: null,
@@ -789,14 +795,14 @@ export default {
         cycleEnd: "",
         expectPrice: "",
         expectWeight: "",
-        rateYear: "",
+        rateYear: undefined,
         expectProfits: "",
         shType: "2",
         shName: "",
         shXz: "",
         shHztype: "",
         shChanneltype: "",
-        shHzrate: "",
+        shHzrate: undefined,
         shChannelyear: "",
         shSettlement: "",
         shSettlementA1: "",
@@ -831,14 +837,14 @@ export default {
         cycleEnd: "",
         expectPrice: "",
         expectWeight: "",
-        rateYear: "",
+        rateYear: undefined,
         expectProfits: "",
         shType: "2",
         shName: "",
         shXz: "",
         shHztype: "",
         shChanneltype: "",
-        shHzrate: "",
+        shHzrate: undefined,
         shChannelyear: "",
         shSettlement: "",
         shSettlementA1: "",
