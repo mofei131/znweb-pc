@@ -56,7 +56,7 @@
       @pagination="getList" />
 
     <!-- 添加或修改奖惩对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="1200px" append-to-body @opened="handleOpen">
+    <el-dialog :title="title" :visible.sync="open" width="1250px" append-to-body @opened="handleOpen">
       <el-form ref="form" :model="form" :rules="rules" label-width="120px">
         <el-row>
           <el-col :span="12">
@@ -122,7 +122,7 @@
                 </span>
               </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="7">
                 <el-form-item label="该值每:">
                 <el-select v-model="item.s2" class="lineflex">
                   <el-option label="上升" value="上升" />
@@ -178,7 +178,7 @@
                 <el-input v-model="item.a2" placeholder="请输入" class="lineflex" />
               </el-form-item>
               </el-col>
-             <el-col :span="6">
+             <el-col :span="7">
                 <el-form-item label="该值每:">
                 <el-select v-model="item.s2" class="lineflex">
                   <el-option label="上升" value="上升" />
@@ -236,7 +236,7 @@
                 </span>
               </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="7">
                 <el-form-item label="该值每" style="padding-left: 15px">
                 <el-select v-model="item.s2" class="lineflex">
                   <el-option label="上升" value="上升" />
@@ -245,7 +245,7 @@
                 <el-input v-model="item.b1" placeholder="请输入" class="lineflex" />
               </el-form-item>
               </el-col>
-              <el-col :span="7">
+              <el-col :span="8">
                 <el-form-item label="价格" style="padding-left: 30px">
                 <el-select v-model="item.s3" class="lineflex">
                   <el-option label="上升" value="上升" />
@@ -294,7 +294,7 @@
                 </span>
               </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="7">
                 <el-form-item label="该值每">
                 <el-select v-model="item.s2" class="lineflex">
                   <el-option label="上升" value="上升" />
@@ -350,7 +350,7 @@
                 <el-input v-model="item.a2" placeholder="请输入" class="lineflex" />
               </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="7">
                 <el-form-item label="该值每">
                 <el-select v-model="item.s2" class="lineflex">
                   <el-option label="上升" value="上升" />
@@ -406,7 +406,7 @@
                 <el-input v-model="item.a2" placeholder="请输入" class="lineflex" />
               </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="7">
                 <el-form-item label="该值每">
                 <el-select v-model="item.s2" class="lineflex">
                   <el-option label="上升" value="上升" />
@@ -462,7 +462,7 @@
                 <el-input v-model="item.a2" placeholder="请输入" class="lineflex" />
               </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="7">
                 <el-form-item label="该值每">
                 <el-select v-model="item.s2" class="lineflex">
                   <el-option label="上升" value="上升" />
@@ -518,7 +518,7 @@
                 <el-input v-model="item.a2" placeholder="请输入" class="lineflex" />
               </el-form-item>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="7">
               <el-form-item label="该值每">
                 <el-select v-model="item.s2" class="lineflex">
                   <el-option label="上升" value="上升" />
@@ -574,7 +574,7 @@
                 <el-input v-model="item.a2" placeholder="请输入" class="lineflex" />
               </el-form-item>
              </el-col>
-             <el-col :span="6">
+             <el-col :span="7">
                 <el-form-item label="该值每">
                 <el-select v-model="item.s2" class="lineflex">
                   <el-option label="上升" value="上升" />
@@ -1090,8 +1090,5 @@ export default {
   .lineflex{
     width: 120px;
     margin-right: 10px;
-  }
-  .el-form-item--medium{
-    width: 450px;
   }
 </style>
