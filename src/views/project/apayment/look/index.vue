@@ -77,7 +77,7 @@
               <td class="tdCoent">{{form.away}}</td>
               <td class="tdTitle">预付方式</td>
               <td class="tdCoent">{{form.type}}</td>
-              <td class="tdTitle">结算方式</td>
+              <td class="tdTitle">业务类型</td>
               <td class="tdCoent">{{businessTypeFormat(form.businessType)}}</td>
 
             </tr>

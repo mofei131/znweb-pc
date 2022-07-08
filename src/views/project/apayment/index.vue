@@ -690,7 +690,7 @@
               <td class="table-td-content">
                 {{ printData.number }}
               </td>
-              <td class="table-td-title detail">结算方式</td>
+              <td class="table-td-title detail">业务类型</td>
               <td class="table-td-content">
                 {{ businessTypeFormat(printData.businessType) }}
               </td>
