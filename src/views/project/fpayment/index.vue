@@ -1429,7 +1429,8 @@ export default {
         if (valid) {
           if (this.isLook != 4) {
             if (this.tableselData.length < 1) {
-              this.msgError("请选择到厂数质量");
+              this.msgError("请先录入到厂数质量");
+              this.isDisabled = false
               return;
             }
             this.form.gryList = this.tableselData;
