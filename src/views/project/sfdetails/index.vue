@@ -1,21 +1,18 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="项目名称" prop="projectId">
-       <el-select filterable value-key="projectId" @change="changeProject" v-model="form.projectId"
-         placeholder="请选择项目" style="width: 100%" :disabled="isQuote">
-         <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName"
-           :value="pro.projectId">
-         </el-option>
-       </el-select>
-     </el-form-item>
-      <el-form-item label="业务名称" prop="stId">
-       <el-select filterable value-key="stId" @change="changeSt" v-model="form.stId" placeholder="请选择"
-         style="width: 100%" :disabled="isQuote">
-         <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj.stId">
-         </el-option>
-       </el-select>
-     </el-form-item>
+      <el-form-item label="项目名称" prop="projectName">
+        <el-input v-model="queryParams.projectName" placeholder="项目名称" clearable size="small"
+          @keyup.enter.native="handleQuery" />
+      </el-form-item>
+      <el-form-item label="业务名称" prop="stName">
+        <el-input v-model="queryParams.stName" placeholder="业务名称" clearable size="small"
+          @keyup.enter.native="handleQuery" />
+      </el-form-item>
+      <el-form-item label="项目编号" prop="serialNo">
+        <el-input v-model="queryParams.serialNo" placeholder="请输入项目编号" clearable size="small"
+          @keyup.enter.native="handleQuery" />
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -26,55 +23,49 @@
       <el-col :span="21" style="margin-left:12px;font-size: 14px;">
         <span>资金占用余额(元)：</span> <span v-text="$options.filters.moneyFilter(zPrice)">0.00</span>
       </el-col>
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="primary"-->
-<!--          plain-->
-<!--          icon="el-icon-plus"-->
-<!--          size="mini"-->
-<!--          @click="handleAdd"-->
-<!--          v-hasPermi="['project:sfdetails:add']"-->
-<!--        >新增</el-button>-->
-<!--      </el-col>-->
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="success"-->
-<!--          plain-->
-<!--          icon="el-icon-edit"-->
-<!--          size="mini"-->
-<!--          :disabled="single"-->
-<!--          @click="handleUpdate"-->
-<!--          v-hasPermi="['project:sfdetails:edit']"-->
-<!--        >修改</el-button>-->
-<!--      </el-col>-->
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="danger"-->
-<!--          plain-->
-<!--          icon="el-icon-delete"-->
-<!--          size="mini"-->
-<!--          :disabled="multiple"-->
-<!--          @click="handleDelete"-->
-<!--          v-hasPermi="['project:sfdetails:remove']"-->
-<!--        >删除</el-button>-->
-<!--      </el-col>-->
+      <!--      <el-col :span="1.5">-->
+      <!--        <el-button-->
+      <!--          type="primary"-->
+      <!--          plain-->
+      <!--          icon="el-icon-plus"-->
+      <!--          size="mini"-->
+      <!--          @click="handleAdd"-->
+      <!--          v-hasPermi="['project:sfdetails:add']"-->
+      <!--        >新增</el-button>-->
+      <!--      </el-col>-->
+      <!--      <el-col :span="1.5">-->
+      <!--        <el-button-->
+      <!--          type="success"-->
+      <!--          plain-->
+      <!--          icon="el-icon-edit"-->
+      <!--          size="mini"-->
+      <!--          :disabled="single"-->
+      <!--          @click="handleUpdate"-->
+      <!--          v-hasPermi="['project:sfdetails:edit']"-->
+      <!--        >修改</el-button>-->
+      <!--      </el-col>-->
+      <!--      <el-col :span="1.5">-->
+      <!--        <el-button-->
+      <!--          type="danger"-->
+      <!--          plain-->
+      <!--          icon="el-icon-delete"-->
+      <!--          size="mini"-->
+      <!--          :disabled="multiple"-->
+      <!--          @click="handleDelete"-->
+      <!--          v-hasPermi="['project:sfdetails:remove']"-->
+      <!--        >删除</el-button>-->
+      <!--      </el-col>-->
       <el-col :span="1.5">
-        <el-button
-          type="warning"
-          plain
-          icon="el-icon-download"
-          size="mini"
-          @click="handleExport"
-        >导出</el-button>
+        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport">导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="sfdetailsList" @selection-change="handleSelectionChange">
-      <el-table-column label="项目名称" align="center" prop="projectName" v-if="!isQuote" />
-      <el-table-column label="业务名称" align="center" prop="stName" v-if="!isQuote" />
-      <el-table-column label="项目编号" align="center" prop="serialNo" v-if="!isQuote" />
-      <el-table-column label="日期" align="center" prop="createTime" >
+      <el-table-column label="项目名称" align="center" prop="projectName" />
+      <el-table-column label="业务名称" align="center" prop="stName" />
+      <el-table-column label="项目编号" align="center" prop="serialNo" />
+      <el-table-column label="日期" align="center" prop="createTime">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
         </template>
@@ -83,24 +74,19 @@
       <el-table-column label="来源" align="center" prop="source" />
       <el-table-column label="产生金额(元)" align="center" prop="fPrice">
         <template slot-scope="scope">
-                  {{
-                    Number(scope.row.fPrice)
-                      .toFixed(2)
-                      .toString()
-                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
+          {{
+          Number(scope.row.fPrice)
+          .toFixed(2)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
+        </template>
       </el-table-column>
 
     </el-table>
 
-    <pagination
-      v-show="total>0"
-      :total="total"
-      :page.sync="queryParams.pageNum"
-      :limit.sync="queryParams.pageSize"
-      @pagination="getList"
-    />
+    <pagination v-show="total>0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
+      @pagination="getList" />
 
     <!-- 添加或修改收付款明细对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
@@ -139,22 +125,9 @@ import {
   findInit
 } from '@/api/project/sfdetails'
 import { getStList } from '@/api/project/cplan'
-import { listProjectForCombobox, listBusinessForCombobox } from "@/api/project/st";
 
 export default {
   name: "Sfdetails",
-  props: {
-     "stIdd": {
-      type: String
-    },
-    "projectIdd": {
-      type: String
-    },
-    "isQuote": {
-      type: Boolean,
-      default: false
-    },
-  },
   data() {
     return {
       // 遮罩层
@@ -180,7 +153,6 @@ export default {
         pageNum: 1,
         pageSize: 10,
         stId: null,
-        stName: null
       },
       // 表单参数
       form: {},
@@ -189,18 +161,11 @@ export default {
       },
       // 项目集合
       stOptions: [],
-      projectOptions: [],
-      listForBusArr: [],
-      listForProArr: [],
       //合计
       zPrice:null,
     };
   },
   created() {
-    if (this.isQuote){
-      this.queryParams.stId = parseInt(this.stIdd)
-      this.queryParams.projectId = parseInt(this.projectIdd)
-    }
     this.getList();
     getStList().then(response => {
       this.stOptions = response.rows;
@@ -221,22 +186,6 @@ export default {
       findInit(this.queryParams).then(response => {
         this.zPrice = parseFloat(response.data.zPrice).toFixed(2);
       });
-      this.loadProjectForCombobox();
-    },
-    loadProjectForCombobox() {
-      this.listForProArr = []
-      listProjectForCombobox().then((response) => {
-        this.listForProArr = response.data
-      })
-    },
-    loadBusinessForCombobox(projectId){
-      this.listForBusArr = []
-      listBusinessForCombobox({ projectId }).then((response) => {
-        this.listForBusArr = response.data
-        if(this.isQuote){
-          this.changeSt(this.queryParams.stId)
-        }
-      })
     },
     // 取消按钮
     cancel() {
@@ -253,10 +202,7 @@ export default {
         hPrice: null,
         zPrice: null,
         createBy: null,
-        createTime: null,
-        projectId: null,
-        projectName: null,
-        serialNo: null
+        createTime: null
       };
       this.resetForm("form");
     },
@@ -331,23 +277,7 @@ export default {
       this.download('project/sfdetails/export', {
         ...this.queryParams
       }, `project_sfdetails.xlsx`)
-    },
-    changeSt(stId) {
-      let businessFind = this.listForBusArr.filter(x => x.stId == stId);
-      if (businessFind && businessFind.length > 0) {
-        this.form.stName = businessFind[0].stName;
-        this.form.serialNo = businessFind[0].serialNo;
-      }
-    },
-    changeProject(projectId) {
-      this.listForBusArr = []
-      this.form.stId = ''
-      this.form.stName = ''
-      this.form.serialNo = ''
-      if (projectId){
-        this.loadBusinessForCombobox(projectId);
-      }
-    },
+    }
   }
 };
 </script>

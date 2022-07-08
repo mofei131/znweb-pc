@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch && !isQuote" label-width="68px">
-       <el-form-item label="项目名称" prop="projectName">
+    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
+      <el-form-item label="项目名称" prop="projectName">
         <el-input v-model="queryParams.projectName" placeholder="项目名称" clearable size="small"
           @keyup.enter.native="handleQuery" />
       </el-form-item>
@@ -13,10 +13,9 @@
         <el-input v-model="queryParams.serialNo" placeholder="请输入项目编号" clearable size="small"
           @keyup.enter.native="handleQuery" />
       </el-form-item>
-      <el-form-item label="业务经理" prop="serviceManagerId">
-        <el-select filterable v-model="queryParams.serviceManagerId" placeholder="请选择业务经理" clearable size="small">
-          <el-option v-for="dict in userOptions" :key="dict.userId" :label="dict.nickName" :value="dict.userId" />
-        </el-select>
+      <el-form-item label="业务经理" prop="userName">
+        <el-input v-model="queryParams.userName" placeholder="请输入业务经理" clearable size="small"
+          @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -25,183 +24,172 @@
     </el-form>
 
     <el-row :gutter="10" class="mb8">
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="primary"-->
-<!--          plain-->
-<!--          icon="el-icon-plus"-->
-<!--          size="mini"-->
-<!--          @click="handleAdd"-->
-<!--          v-hasPermi="['project:rid:add']"-->
-<!--        >新增</el-button>-->
-<!--      </el-col>-->
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="success"-->
-<!--          plain-->
-<!--          icon="el-icon-edit"-->
-<!--          size="mini"-->
-<!--          :disabled="single"-->
-<!--          @click="handleUpdate"-->
-<!--          v-hasPermi="['project:rid:edit']"-->
-<!--        >修改</el-button>-->
-<!--      </el-col>-->
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="danger"-->
-<!--          plain-->
-<!--          icon="el-icon-delete"-->
-<!--          size="mini"-->
-<!--          :disabled="multiple"-->
-<!--          @click="handleDelete"-->
-<!--          v-hasPermi="['project:rid:remove']"-->
-<!--        >删除</el-button>-->
-<!--      </el-col>-->
+      <!--      <el-col :span="1.5">-->
+      <!--        <el-button-->
+      <!--          type="primary"-->
+      <!--          plain-->
+      <!--          icon="el-icon-plus"-->
+      <!--          size="mini"-->
+      <!--          @click="handleAdd"-->
+      <!--          v-hasPermi="['project:rid:add']"-->
+      <!--        >新增</el-button>-->
+      <!--      </el-col>-->
+      <!--      <el-col :span="1.5">-->
+      <!--        <el-button-->
+      <!--          type="success"-->
+      <!--          plain-->
+      <!--          icon="el-icon-edit"-->
+      <!--          size="mini"-->
+      <!--          :disabled="single"-->
+      <!--          @click="handleUpdate"-->
+      <!--          v-hasPermi="['project:rid:edit']"-->
+      <!--        >修改</el-button>-->
+      <!--      </el-col>-->
+      <!--      <el-col :span="1.5">-->
+      <!--        <el-button-->
+      <!--          type="danger"-->
+      <!--          plain-->
+      <!--          icon="el-icon-delete"-->
+      <!--          size="mini"-->
+      <!--          :disabled="multiple"-->
+      <!--          @click="handleDelete"-->
+      <!--          v-hasPermi="['project:rid:remove']"-->
+      <!--        >删除</el-button>-->
+      <!--      </el-col>-->
       <el-col :span="1.5">
-        <el-button
-          type="warning"
-          plain
-          icon="el-icon-download"
-          size="mini"
-          @click="handleExport"
-          v-hasPermi="['project:rid:export']"
-        >导出</el-button>
+        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"
+          v-hasPermi="['project:rid:export']">导出</el-button>
       </el-col>
-      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList" v-show="!isQuote"></right-toolbar>
+      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="ridList" @selection-change="handleSelectionChange">
-      <el-table-column label="项目名称" align="center" prop="projectName" v-if="!isQuote"/>
-      <el-table-column label="业务名称" align="center" prop="stName" v-if="!isQuote"/>
-      <el-table-column label="项目编号" align="center" prop="serialNo" v-if="!isQuote"/>
-      <el-table-column label="业务经理" align="center" prop="serviceManagerName" />
+      <el-table-column label="项目名称" align="center" prop="projectName" />
+      <el-table-column label="业务名称" align="center" prop="stName" />
+      <el-table-column label="项目编号" align="center" prop="serialNo"/>
+      <el-table-column label="业务经理" align="center" prop="userName" />
       <el-table-column label="已开发票吨数(吨)" align="center" prop="kpNumber">
         <template slot-scope="scope">
-                    {{
-                      Number(scope.row.kpNumber)
-                        .toFixed(3)
-                        .toString()
-                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                    }}
-                  </template>
+          {{
+          Number(scope.row.kpNumber)
+          .toFixed(3)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
+        </template>
       </el-table-column>
       <el-table-column label="已开发票金额(元)" align="center" prop="kpPrice">
         <template slot-scope="scope">
-                    {{
-                      Number(scope.row.kpPrice)
-                        .toFixed(2)
-                        .toString()
-                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                    }}
-                  </template>
+          {{
+          Number(scope.row.kpPrice)
+          .toFixed(2)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
+        </template>
       </el-table-column>
-      <el-table-column label="已开发票税额(元)" align="center" prop="kpTax" >
+      <el-table-column label="已开发票税额(元)" align="center" prop="kpTax">
         <template slot-scope="scope">
-                    {{
-                      Number(scope.row.kpTax)
-                        .toFixed(2)
-                        .toString()
-                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                    }}
-                  </template>
+          {{
+          Number(scope.row.kpTax)
+          .toFixed(2)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
+        </template>
       </el-table-column>
-      <el-table-column label="发票吨数差额(元)" align="center" prop="cyNumber" >
+      <el-table-column label="发票吨数差额(元)" align="center" prop="cyNumber">
         <template slot-scope="scope">
-                    {{
-                      Number(scope.row.cyNumber)
-                        .toFixed(2)
-                        .toString()
-                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                    }}
-                  </template>
+          {{
+          Number(scope.row.cyNumber)
+          .toFixed(2)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
+        </template>
       </el-table-column>
       <el-table-column label="已开进项吨数(吨)" align="center" prop="sNumber">
         <template slot-scope="scope">
-                  {{
-                    Number(scope.row.sNumber)
-                      .toFixed(3)
-                      .toString()
-                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
+          {{
+          Number(scope.row.sNumber)
+          .toFixed(3)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
+        </template>
       </el-table-column>
       <el-table-column label="已开进项金额(元)" align="center" prop="sPrice">
         <template slot-scope="scope">
-                  {{
-                    Number(scope.row.sPrice)
-                      .toFixed(2)
-                      .toString()
-                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
+          {{
+          Number(scope.row.sPrice)
+          .toFixed(2)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
+        </template>
       </el-table-column>
-      <el-table-column label="已开进项税额(元)" align="center" prop="sTax" >
+      <el-table-column label="已开进项税额(元)" align="center" prop="sTax">
         <template slot-scope="scope">
-                  {{
-                    Number(scope.row.sTax)
-                      .toFixed(2)
-                      .toString()
-                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
+          {{
+          Number(scope.row.sTax)
+          .toFixed(2)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
+        </template>
       </el-table-column>
-      <el-table-column label="运费金额(元)" align="center" prop="yPrice" >
+      <el-table-column label="运费金额(元)" align="center" prop="yPrice">
         <template slot-scope="scope">
-                  {{
-                    Number(scope.row.yPrice)
-                      .toFixed(2)
-                      .toString()
-                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
+          {{
+          Number(scope.row.yPrice)
+          .toFixed(2)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
+        </template>
       </el-table-column>
-      <el-table-column label="物流税款(元)" align="center" prop="wPrice" >
+      <el-table-column label="物流税款(元)" align="center" prop="wPrice">
         <template slot-scope="scope">
-                  {{
-                    Number(scope.row.wPrice)
-                      .toFixed(2)
-                      .toString()
-                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
+          {{
+          Number(scope.row.wPrice)
+          .toFixed(2)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
+        </template>
       </el-table-column>
       <el-table-column label="运费印花税(元)" align="center" prop="yhPrice">
         <template slot-scope="scope">
-                  {{
-                    Number(scope.row.yhPrice)
-                      .toFixed(2)
-                      .toString()
-                      .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                  }}
-                </template>
+          {{
+          Number(scope.row.yhPrice)
+          .toFixed(2)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
+        </template>
       </el-table-column>
-<!--      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">-->
-<!--        <template slot-scope="scope">-->
-<!--          <el-button-->
-<!--            size="mini"-->
-<!--            type="text"-->
-<!--            icon="el-icon-edit"-->
-<!--            @click="handleUpdate(scope.row)"-->
-<!--            v-hasPermi="['project:rid:edit']"-->
-<!--          >修改</el-button>-->
-<!--          <el-button-->
-<!--            size="mini"-->
-<!--            type="text"-->
-<!--            icon="el-icon-delete"-->
-<!--            @click="handleDelete(scope.row)"-->
-<!--            v-hasPermi="['project:rid:remove']"-->
-<!--          >删除</el-button>-->
-<!--        </template>-->
-<!--      </el-table-column>-->
+      <!--      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">-->
+      <!--        <template slot-scope="scope">-->
+      <!--          <el-button-->
+      <!--            size="mini"-->
+      <!--            type="text"-->
+      <!--            icon="el-icon-edit"-->
+      <!--            @click="handleUpdate(scope.row)"-->
+      <!--            v-hasPermi="['project:rid:edit']"-->
+      <!--          >修改</el-button>-->
+      <!--          <el-button-->
+      <!--            size="mini"-->
+      <!--            type="text"-->
+      <!--            icon="el-icon-delete"-->
+      <!--            @click="handleDelete(scope.row)"-->
+      <!--            v-hasPermi="['project:rid:remove']"-->
+      <!--          >删除</el-button>-->
+      <!--        </template>-->
+      <!--      </el-table-column>-->
     </el-table>
 
-    <pagination
-      v-show="total>0"
-      :total="total"
-      :page.sync="queryParams.pageNum"
-      :limit.sync="queryParams.pageSize"
-      @pagination="getList"
-    />
+    <pagination v-show="total>0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
+      @pagination="getList" />
 
     <!-- 添加或修改收开票明细对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
@@ -259,23 +247,10 @@
 
 <script>
 import { listRid, getRid, delRid, addRid, updateRid } from "@/api/project/rid";
-import { getStList, getUserList} from '@/api/project/cplan'
-import { listProjectForCombobox, listBusinessForCombobox } from "@/api/project/st";
+import { getStList } from '@/api/project/cplan'
 
 export default {
   name: "Rid",
-  props: {
-    "stIdd": {
-      type: String
-    },
-    "projectIdd": {
-      type: String
-    },
-    "isQuote": {
-      type: Boolean,
-      default: false
-    }
-  },
   data() {
     return {
       // 遮罩层
@@ -302,34 +277,20 @@ export default {
         pageSize: 10,
         stId: null,
         userName: null,
-        stNumber: null,
-        stName: null,
-        projectId: null
       },
       // 表单参数
       form: {},
       // 表单校验
-      rules: {},
+      rules: {
+      },
       // 项目集合
       stOptions: [],
-      projectOptions: [],
-      listForBusArr: [],
-      listForProArr: [],
-      // 业务经理集合
-      userOptions: []
     };
   },
   created() {
-    if (this.isQuote){
-      this.queryParams.stId = parseInt(this.stIdd)
-      this.queryParams.projectId = parseInt(this.projectIdd)
-    }
     this.getList();
     getStList().then(response => {
       this.stOptions = response.rows;
-    });
-    getUserList().then(response => {
-      this.userOptions = response.rows;
     });
   },
   methods: {
@@ -344,23 +305,6 @@ export default {
       getStList().then(response => {
         this.stOptions = response.rows;
       });
-      // 项目下拉
-      this.loadProjectForCombobox();
-    },
-    loadProjectForCombobox() {
-      this.listForProArr = []
-      listProjectForCombobox().then((response) => {
-        this.listForProArr = response.data
-      })
-    },
-    loadBusinessForCombobox(projectId){
-      this.listForBusArr = []
-      listBusinessForCombobox({ projectId }).then((response) => {
-        this.listForBusArr = response.data
-        if(this.isQuote){
-          this.changeSt(this.queryParams.stId)
-        }
-      })
     },
     // 取消按钮
     cancel() {
@@ -386,10 +330,7 @@ export default {
         wPrice: null,
         yhPrice: null,
         createBy: null,
-        createTime: null,
-        projectId: null,
-        projectName: null,
-        serialNo: null
+        createTime: null
       };
       this.resetForm("form");
     },
@@ -464,23 +405,7 @@ export default {
       this.download('project/rid/export', {
         ...this.queryParams
       }, `project_rid.xlsx`)
-    },
-     changeSt(stId) {
-      let businessFind = this.listForBusArr.filter(x => x.stId == stId);
-      if (businessFind && businessFind.length > 0) {
-        this.form.stName = businessFind[0].stName;
-        this.form.serialNo = businessFind[0].serialNo;
-      }
-    },
-    changeProject(projectId) {
-      this.listForBusArr = []
-      this.form.stId = ''
-      this.form.stName = ''
-      this.form.serialNo = ''
-      if (projectId){
-        this.loadBusinessForCombobox(projectId);
-      }
-    },
+    }
   }
 };
 </script>

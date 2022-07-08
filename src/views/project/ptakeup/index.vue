@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch && !isQuote" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="项目名称" prop="projectName">
         <el-input v-model="queryParams.projectName" placeholder="项目名称" clearable size="small"
           @keyup.enter.native="handleQuery" />
@@ -15,30 +15,16 @@
       </el-form-item>
       <el-form-item label="代办人" prop="sqId">
         <el-select filterable v-model="queryParams.userId" placeholder="请选择代办人" clearable size="small">
-          <el-option
-            v-for="dict in userOptions"
-            :key="dict.userId"
-            :label="dict.nickName"
-            :value="dict.userId"
-          />
-        </el-select>
-      </el-form-item>
-       <el-form-item label="业务经理" prop="serviceManagerId">
-        <el-select filterable v-model="queryParams.serviceManagerId" placeholder="请选择代办人" clearable size="small">
           <el-option v-for="dict in userOptions" :key="dict.userId" :label="dict.nickName" :value="dict.userId" />
         </el-select>
       </el-form-item>
+      <el-form-item label="业务经理" prop="name">
+        <el-input v-model="queryParams.serviceManagerName" placeholder="请输入业务经理" clearable size="small"
+          @keyup.enter.native="handleQuery" />
+      </el-form-item>
       <el-form-item label="统计时间">
-        <el-date-picker
-          v-model="dateRange"
-          size="small"
-          style="width: 240px"
-          value-format="yyyy-MM-dd"
-          type="daterange"
-          range-separator="-"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-        ></el-date-picker>
+        <el-date-picker v-model="dateRange" size="small" style="width: 240px" value-format="yyyy-MM-dd" type="daterange"
+          range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -50,67 +36,67 @@
       <el-col :span="4" style="margin-left:12px;">
         <span>期初占用(万元)：</span> <span v-text="$options.filters.moneyFilter(tqc)">0.00</span>
       </el-col>
-      <el-col :span="4" >
+      <el-col :span="4">
         <span>期末占用(万元)：</span><span v-text="$options.filters.moneyFilter(tqm)">0.00</span>
       </el-col>
-      <el-col :span="4" >
+      <el-col :span="4">
         <span>平均占用(万元)：</span><span v-text="$options.filters.moneyFilter(tpj)">0.00</span>
       </el-col>
-      <el-col :span="4" >
+      <el-col :span="4">
         <span>收入金额(万元)：</span><span v-text="$options.filters.moneyFilter(tsr)">0.00</span>
       </el-col>
-      <el-col :span="4" >
+      <el-col :span="4">
         <span>资金周转率(%)：</span><span v-text="$options.filters.moneyFilter(tzz)">0.00</span>
       </el-col>
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="primary"-->
-<!--          plain-->
-<!--          icon="el-icon-plus"-->
-<!--          size="mini"-->
-<!--          @click="handleAdd"-->
-<!--          v-hasPermi="['project:ptakeup:add']"-->
-<!--        >新增</el-button>-->
-<!--      </el-col>-->
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="success"-->
-<!--          plain-->
-<!--          icon="el-icon-edit"-->
-<!--          size="mini"-->
-<!--          :disabled="single"-->
-<!--          @click="handleUpdate"-->
-<!--          v-hasPermi="['project:ptakeup:edit']"-->
-<!--        >修改</el-button>-->
-<!--      </el-col>-->
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="danger"-->
-<!--          plain-->
-<!--          icon="el-icon-delete"-->
-<!--          size="mini"-->
-<!--          :disabled="multiple"-->
-<!--          @click="handleDelete"-->
-<!--          v-hasPermi="['project:ptakeup:remove']"-->
-<!--        >删除</el-button>-->
-<!--      </el-col>-->
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="warning"-->
-<!--          plain-->
-<!--          icon="el-icon-download"-->
-<!--          size="mini"-->
-<!--          @click="handleExport"-->
-<!--          v-hasPermi="['project:ptakeup:export']"-->
-<!--        >导出</el-button>-->
-<!--      </el-col>-->
-      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList" v-show="!isQuote"></right-toolbar>
+      <!--      <el-col :span="1.5">-->
+      <!--        <el-button-->
+      <!--          type="primary"-->
+      <!--          plain-->
+      <!--          icon="el-icon-plus"-->
+      <!--          size="mini"-->
+      <!--          @click="handleAdd"-->
+      <!--          v-hasPermi="['project:ptakeup:add']"-->
+      <!--        >新增</el-button>-->
+      <!--      </el-col>-->
+      <!--      <el-col :span="1.5">-->
+      <!--        <el-button-->
+      <!--          type="success"-->
+      <!--          plain-->
+      <!--          icon="el-icon-edit"-->
+      <!--          size="mini"-->
+      <!--          :disabled="single"-->
+      <!--          @click="handleUpdate"-->
+      <!--          v-hasPermi="['project:ptakeup:edit']"-->
+      <!--        >修改</el-button>-->
+      <!--      </el-col>-->
+      <!--      <el-col :span="1.5">-->
+      <!--        <el-button-->
+      <!--          type="danger"-->
+      <!--          plain-->
+      <!--          icon="el-icon-delete"-->
+      <!--          size="mini"-->
+      <!--          :disabled="multiple"-->
+      <!--          @click="handleDelete"-->
+      <!--          v-hasPermi="['project:ptakeup:remove']"-->
+      <!--        >删除</el-button>-->
+      <!--      </el-col>-->
+      <!--      <el-col :span="1.5">-->
+      <!--        <el-button-->
+      <!--          type="warning"-->
+      <!--          plain-->
+      <!--          icon="el-icon-download"-->
+      <!--          size="mini"-->
+      <!--          @click="handleExport"-->
+      <!--          v-hasPermi="['project:ptakeup:export']"-->
+      <!--        >导出</el-button>-->
+      <!--      </el-col>-->
+      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="ptakeupList" @selection-change="handleSelectionChange">
-      <el-table-column label="项目名称" align="center" prop="projectName" v-if="!isQuote" />
-      <el-table-column label="业务名称" align="center" prop="stName" v-if="!isQuote" />
-      <el-table-column label="项目编号" align="center" prop="serialNo" v-if="!isQuote" />
+      <el-table-column label="项目名称" align="center" prop="projectName" />
+      <el-table-column label="业务名称" align="center" prop="stName" />
+      <el-table-column label="项目编号" align="center" prop="serialNo" />
       <el-table-column label="立项时间" align="center" prop="createTime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
@@ -118,85 +104,80 @@
       </el-table-column>
       <el-table-column label="代办人" align="center" prop="userName" />
       <el-table-column label="业务经理" align="center" prop="serviceManagerName" />
-      <el-table-column label="期初占用(万元)" align="center" prop="starPrice" >
+      <el-table-column label="期初占用(万元)" align="center" prop="starPrice">
         <template slot-scope="scope">
           {{
-            Number(scope.row.starPrice)
-              .toFixed(2)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          Number(scope.row.starPrice)
+          .toFixed(2)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
-      <el-table-column label="期末占用(万元)" align="center" prop="endPrice" >
+      <el-table-column label="期末占用(万元)" align="center" prop="endPrice">
         <template slot-scope="scope">
           {{
-            Number(scope.row.endPrice)
-              .toFixed(2)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          Number(scope.row.endPrice)
+          .toFixed(2)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
-      <el-table-column label="平均占用(万元)" align="center" prop="pjPrice" >
+      <el-table-column label="平均占用(万元)" align="center" prop="pjPrice">
         <template slot-scope="scope">
           {{
-            Number(scope.row.pjPrice)
-              .toFixed(2)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          Number(scope.row.pjPrice)
+          .toFixed(2)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
-<!--      <el-table-column label="资金占用情况(万元)" align="center" prop="takeupPrice" >-->
-<!--        <template slot-scope="scope">-->
-<!--          {{-->
-<!--            Number(scope.row.takeupPrice)-->
-<!--              .toFixed(2)-->
-<!--              .toString()-->
-<!--              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")-->
-<!--          }}-->
-<!--        </template>-->
-<!--      </el-table-column>-->
-      <el-table-column label="收入金额(万元)" align="center" prop="profitsPrice" >
+      <!--      <el-table-column label="资金占用情况(万元)" align="center" prop="takeupPrice" >-->
+      <!--        <template slot-scope="scope">-->
+      <!--          {{-->
+      <!--            Number(scope.row.takeupPrice)-->
+      <!--              .toFixed(2)-->
+      <!--              .toString()-->
+      <!--              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")-->
+      <!--          }}-->
+      <!--        </template>-->
+      <!--      </el-table-column>-->
+      <el-table-column label="收入金额(万元)" align="center" prop="profitsPrice">
         <template slot-scope="scope">
           {{
-            Number(scope.row.profitsPrice)
-              .toFixed(2)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+          Number(scope.row.profitsPrice)
+          .toFixed(2)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
       <el-table-column label="资金周转率(%)" align="center" prop="ct" />
-<!--      <el-table-column label="项目审核状态" align="center" prop="stState" :formatter="stateFormat"/>-->
-<!--      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">-->
-<!--        <template slot-scope="scope">-->
-<!--          <el-button-->
-<!--            size="mini"-->
-<!--            type="text"-->
-<!--            icon="el-icon-edit"-->
-<!--            @click="handleUpdate(scope.row)"-->
-<!--            v-hasPermi="['project:ptakeup:edit']"-->
-<!--          >修改</el-button>-->
-<!--          <el-button-->
-<!--            size="mini"-->
-<!--            type="text"-->
-<!--            icon="el-icon-delete"-->
-<!--            @click="handleDelete(scope.row)"-->
-<!--            v-hasPermi="['project:ptakeup:remove']"-->
-<!--          >删除</el-button>-->
-<!--        </template>-->
-<!--      </el-table-column>-->
+      <!--      <el-table-column label="项目审核状态" align="center" prop="stState" :formatter="stateFormat"/>-->
+      <!--      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">-->
+      <!--        <template slot-scope="scope">-->
+      <!--          <el-button-->
+      <!--            size="mini"-->
+      <!--            type="text"-->
+      <!--            icon="el-icon-edit"-->
+      <!--            @click="handleUpdate(scope.row)"-->
+      <!--            v-hasPermi="['project:ptakeup:edit']"-->
+      <!--          >修改</el-button>-->
+      <!--          <el-button-->
+      <!--            size="mini"-->
+      <!--            type="text"-->
+      <!--            icon="el-icon-delete"-->
+      <!--            @click="handleDelete(scope.row)"-->
+      <!--            v-hasPermi="['project:ptakeup:remove']"-->
+      <!--          >删除</el-button>-->
+      <!--        </template>-->
+      <!--      </el-table-column>-->
     </el-table>
 
-    <pagination
-      v-show="total>0"
-      :total="total"
-      :page.sync="queryParams.pageNum"
-      :limit.sync="queryParams.pageSize"
-      @pagination="getList"
-    />
+    <pagination v-show="total>0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
+      @pagination="getList" />
 
     <!-- 添加或修改项目资金占用情况对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
@@ -231,22 +212,9 @@
 <script>
 import { listPtakeup, getPtakeup, delPtakeup, addPtakeup, updatePtakeup, listPtakeupAll } from "@/api/project/ptakeup";
 import {getStList, getUserList} from "@/api/project/cplan";
-import { listProjectForCombobox, listBusinessForCombobox } from "@/api/project/st";
 
 export default {
   name: "Ptakeup",
-  prop: {
-     "stIdd": {
-      type: String
-    },
-    "projectIdd": {
-      type: String
-    },
-    "isQuote": {
-      type: Boolean,
-      default: false
-    }
-  },
   data() {
     return {
       // 遮罩层
@@ -265,7 +233,6 @@ export default {
       ptakeupList: [],
       // 项目集合
       stOptions: [],
-      projectOptions: [],
       //代办人集合
       userOptions:[],
       //审核状态集合
@@ -289,9 +256,6 @@ export default {
         pageNum: 1,
         pageSize: 10,
         stId: null,
-        stNumber: null,
-        stName: null,
-        projectId: null
       },
       // 日期范围
       dateRange: [],
@@ -299,16 +263,10 @@ export default {
       form: {},
       // 表单校验
       rules: {
-      },
-      listForBusArr: [],
-      listForProArr: [],
+      }
     };
   },
   created() {
-    if (this.isQuote){
-      this.queryParams.stId = parseInt(this.stIdd)
-      this.queryParams.projectId = parseInt(this.projectIdd)
-    }
     this.getList();
     getStList().then(response => {
       this.stOptions = response.rows;
@@ -340,22 +298,6 @@ export default {
       getStList().then(response => {
         this.stOptions = response.rows;
       });
-      this.loadProjectForCombobox();
-    },
-    loadProjectForCombobox() {
-      this.listForProArr = []
-      listProjectForCombobox().then((response) => {
-        this.listForProArr = response.data
-      })
-    },
-    loadBusinessForCombobox(projectId){
-      this.listForBusArr = []
-      listBusinessForCombobox({ projectId }).then((response) => {
-        this.listForBusArr = response.data
-        if(this.isQuote){
-          this.changeSt(this.queryParams.stId)
-        }
-      })
     },
     // 审核状态字典翻译
     stateFormat(row, column) {
@@ -377,10 +319,7 @@ export default {
         ct: null,
         state: null,
         createBy: null,
-        createTime: null,
-        projectId: null,
-        projectName: null,
-        serialNo: null
+        createTime: null
       };
       this.resetForm("form");
     },
@@ -455,23 +394,7 @@ export default {
       this.download('project/ptakeup/export', {
         ...this.queryParams
       }, `project_ptakeup.xlsx`)
-    },
-    changeSt(stId) {
-      let businessFind = this.listForBusArr.filter(x => x.stId == stId);
-      if (businessFind && businessFind.length > 0) {
-        this.form.stName = businessFind[0].stName;
-        this.form.serialNo = businessFind[0].serialNo;
-      }
-    },
-    changeProject(projectId) {
-      this.listForBusArr = []
-      this.form.stId = ''
-      this.form.stName = ''
-      this.form.serialNo = ''
-      if (projectId){
-        this.loadBusinessForCombobox(projectId);
-      }
-    },
+    }
   }
 };
 </script>

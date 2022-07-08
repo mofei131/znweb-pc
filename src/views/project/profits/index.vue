@@ -19,7 +19,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="业务经理" prop="serviceManagerId">
-        <el-select filterable v-model="queryParams.serviceManagerId" placeholder="请选择代办人" clearable size="small">
+        <el-select filterable v-model="queryParams.serviceManagerId" placeholder="请选择业务经理" clearable size="small">
           <el-option v-for="dict in userOptions" :key="dict.userId" :label="dict.nickName" :value="dict.userId" />
         </el-select>
       </el-form-item>
@@ -291,6 +291,7 @@ export default {
       form: {},
       // 表单校验
       rules: {},
+      // 打印
       listForBusArr: [],
       listForProArr: [],
     };

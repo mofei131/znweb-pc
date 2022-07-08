@@ -1,41 +1,25 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="项目名称" prop="projectId">
-       <el-select filterable value-key="projectId" @change="changeProject" v-model="form.projectId"
-         placeholder="请选择项目" style="width: 100%" :disabled="isQuote">
-         <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName"
-           :value="pro.projectId">
-         </el-option>
-       </el-select>
-     </el-form-item>
-      <el-form-item label="业务名称" prop="stId">
-       <el-select filterable value-key="stId" @change="changeSt" v-model="form.stId" placeholder="请选择"
-         style="width: 100%" :disabled="isQuote">
-         <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj.stId">
-         </el-option>
-       </el-select>
-     </el-form-item>
+      <el-form-item label="项目名称" prop="projectName">
+        <el-input v-model="queryParams.projectName" placeholder="项目名称" clearable size="small"
+          @keyup.enter.native="handleQuery" />
+      </el-form-item>
+      <el-form-item label="业务名称" prop="stName">
+        <el-input v-model="queryParams.stName" placeholder="业务名称" clearable size="small"
+          @keyup.enter.native="handleQuery" />
+      </el-form-item>
+      <el-form-item label="项目编号" prop="serialNo">
+        <el-input v-model="queryParams.serialNo" placeholder="请输入项目编号" clearable size="small"
+          @keyup.enter.native="handleQuery" />
+      </el-form-item>
       <el-form-item label="公司名称" prop="cname">
-        <el-input
-          v-model="queryParams.cname"
-          placeholder="请输入公司名称"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+        <el-input v-model="queryParams.cname" placeholder="请输入公司名称" clearable size="small"
+          @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item label="统计时间">
-        <el-date-picker
-          v-model="dateRange"
-          size="small"
-          style="width: 240px"
-          value-format="yyyy-MM-dd"
-          type="daterange"
-          range-separator="-"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-        ></el-date-picker>
+        <el-date-picker v-model="dateRange" size="small" style="width: 240px" value-format="yyyy-MM-dd" type="daterange"
+          range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -47,54 +31,48 @@
       <el-col :span="21" style="margin-left:12px;font-size: 14px;">
         <span>应付金额(元)：</span> <span v-text="$options.filters.moneyFilter(yfp)">0.00</span>
       </el-col>
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="primary"-->
-<!--          plain-->
-<!--          icon="el-icon-plus"-->
-<!--          size="mini"-->
-<!--          @click="handleAdd"-->
-<!--          v-hasPermi="['project:pmd:add']"-->
-<!--        >新增</el-button>-->
-<!--      </el-col>-->
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="success"-->
-<!--          plain-->
-<!--          icon="el-icon-edit"-->
-<!--          size="mini"-->
-<!--          :disabled="single"-->
-<!--          @click="handleUpdate"-->
-<!--          v-hasPermi="['project:pmd:edit']"-->
-<!--        >修改</el-button>-->
-<!--      </el-col>-->
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="danger"-->
-<!--          plain-->
-<!--          icon="el-icon-delete"-->
-<!--          size="mini"-->
-<!--          :disabled="multiple"-->
-<!--          @click="handleDelete"-->
-<!--          v-hasPermi="['project:pmd:remove']"-->
-<!--        >删除</el-button>-->
-<!--      </el-col>-->
+      <!--      <el-col :span="1.5">-->
+      <!--        <el-button-->
+      <!--          type="primary"-->
+      <!--          plain-->
+      <!--          icon="el-icon-plus"-->
+      <!--          size="mini"-->
+      <!--          @click="handleAdd"-->
+      <!--          v-hasPermi="['project:pmd:add']"-->
+      <!--        >新增</el-button>-->
+      <!--      </el-col>-->
+      <!--      <el-col :span="1.5">-->
+      <!--        <el-button-->
+      <!--          type="success"-->
+      <!--          plain-->
+      <!--          icon="el-icon-edit"-->
+      <!--          size="mini"-->
+      <!--          :disabled="single"-->
+      <!--          @click="handleUpdate"-->
+      <!--          v-hasPermi="['project:pmd:edit']"-->
+      <!--        >修改</el-button>-->
+      <!--      </el-col>-->
+      <!--      <el-col :span="1.5">-->
+      <!--        <el-button-->
+      <!--          type="danger"-->
+      <!--          plain-->
+      <!--          icon="el-icon-delete"-->
+      <!--          size="mini"-->
+      <!--          :disabled="multiple"-->
+      <!--          @click="handleDelete"-->
+      <!--          v-hasPermi="['project:pmd:remove']"-->
+      <!--        >删除</el-button>-->
+      <!--      </el-col>-->
       <el-col :span="1.5">
-        <el-button
-          type="warning"
-          plain
-          icon="el-icon-download"
-          size="mini"
-          @click="handleExport"
-          v-hasPermi="['project:pmd:export']"
-        >导出</el-button>
+        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"
+          v-hasPermi="['project:pmd:export']">导出</el-button>
       </el-col>
-      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList" v-show="!isQuote"></right-toolbar>
+      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="pmdList" @selection-change="handleSelectionChange">
-      <el-table-column label="项目名称" align="center" prop="projectName" v-if="!isQuote"/>
-       <el-table-column label="业务名称" align="center" prop="stName" v-if="!isQuote" />
+      <el-table-column label="项目名称" align="center" prop="projectName" v-if="!isQuote" />
+      <el-table-column label="业务名称" align="center" prop="stName" v-if="!isQuote" />
       <el-table-column label="项目编号" align="center" prop="serialNo" v-if="!isQuote" />
       <el-table-column label="对象" align="center" prop="obj" />
       <el-table-column label="公司名称" align="center" prop="cname" />
@@ -104,56 +82,51 @@
         </template>
       </el-table-column>
       <el-table-column label="类型" align="center" prop="type" />
-      <el-table-column label="已收票吨数(吨)" align="center" prop="number" >
-        <template slot-scope="scope">
-                    {{
-                      Number(scope.row.number)
-                        .toFixed(3)
-                        .toString()
-                        .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
-                    }}
-                  </template>
-      </el-table-column>
-      <el-table-column label="发生金额(元)" align="center" prop="price" >
+      <el-table-column label="已收票吨数(吨)" align="center" prop="number">
         <template slot-scope="scope">
           {{
-            Number(scope.row.price)
-              .toFixed(3)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          Number(scope.row.number)
+          .toFixed(3)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          }}
+        </template>
+      </el-table-column>
+      <el-table-column label="发生金额(元)" align="center" prop="price">
+        <template slot-scope="scope">
+          {{
+          Number(scope.row.price)
+          .toFixed(3)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
 
     </el-table>
-<!--      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">-->
-<!--        <template slot-scope="scope">-->
-<!--          <el-button-->
-<!--            size="mini"-->
-<!--            type="text"-->
-<!--            icon="el-icon-edit"-->
-<!--            @click="handleUpdate(scope.row)"-->
-<!--            v-hasPermi="['project:pmd:edit']"-->
-<!--          >修改</el-button>-->
-<!--          <el-button-->
-<!--            size="mini"-->
-<!--            type="text"-->
-<!--            icon="el-icon-delete"-->
-<!--            @click="handleDelete(scope.row)"-->
-<!--            v-hasPermi="['project:pmd:remove']"-->
-<!--          >删除</el-button>-->
-<!--        </template>-->
-<!--      </el-table-column>-->
+    <!--      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">-->
+    <!--        <template slot-scope="scope">-->
+    <!--          <el-button-->
+    <!--            size="mini"-->
+    <!--            type="text"-->
+    <!--            icon="el-icon-edit"-->
+    <!--            @click="handleUpdate(scope.row)"-->
+    <!--            v-hasPermi="['project:pmd:edit']"-->
+    <!--          >修改</el-button>-->
+    <!--          <el-button-->
+    <!--            size="mini"-->
+    <!--            type="text"-->
+    <!--            icon="el-icon-delete"-->
+    <!--            @click="handleDelete(scope.row)"-->
+    <!--            v-hasPermi="['project:pmd:remove']"-->
+    <!--          >删除</el-button>-->
+    <!--        </template>-->
+    <!--      </el-table-column>-->
 
 
 
-    <pagination
-      v-show="total>0"
-      :total="total"
-      :page.sync="queryParams.pageNum"
-      :limit.sync="queryParams.pageSize"
-      @pagination="getList"
-    />
+    <pagination v-show="total>0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
+      @pagination="getList" />
 
     <!-- 添加或修改应付管理明细对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
@@ -171,10 +144,7 @@
           <el-input v-model="form.cname" placeholder="请输入公司名称" />
         </el-form-item>
         <el-form-item label="时间" prop="time">
-          <el-date-picker clearable size="small"
-            v-model="form.time"
-            type="date"
-            value-format="yyyy-MM-dd"
+          <el-date-picker clearable size="small" v-model="form.time" type="date" value-format="yyyy-MM-dd"
             placeholder="选择时间">
           </el-date-picker>
         </el-form-item>
@@ -201,22 +171,9 @@
 <script>
 import { listPmd, getPmd, delPmd, addPmd, updatePmd, listPmdAll } from '@/api/project/pmd'
 import { getStList } from '@/api/project/cplan'
-import { listProjectForCombobox, listBusinessForCombobox } from "@/api/project/st";
 
 export default {
   name: "Pmd",
-  props: {
-     "stIdd": {
-      type: String
-    },
-    "projectIdd": {
-      type: String
-    },
-    "isQuote": {
-      type: Boolean,
-      default: false
-    },
-  },
   data() {
     return {
       // 遮罩层
@@ -244,7 +201,6 @@ export default {
         stId: null,
         cname: null,
         type: null,
-        stName: null
       },
       // 表单参数
       form: {},
@@ -253,20 +209,13 @@ export default {
       },
       // 项目集合
       stOptions: [],
-      projectOptions: [],
       // 日期范围
       dateRange: [],
       //应付金额
       yfp:0.00,
-      listForBusArr: [],
-      listForProArr: [],
     };
   },
   created() {
-    if (this.isQuote){
-      this.queryParams.stId = parseInt(this.stIdd)
-      this.queryParams.projectId = parseInt(this.projectIdd)
-    }
     this.getList();
     getStList().then(response => {
       this.stOptions = response.rows;
@@ -287,22 +236,6 @@ export default {
       getStList().then(response => {
         this.stOptions = response.rows;
       });
-      this.loadProjectForCombobox();
-    },
-    loadProjectForCombobox() {
-      this.listForProArr = []
-      listProjectForCombobox().then((response) => {
-        this.listForProArr = response.data
-      })
-    },
-    loadBusinessForCombobox(projectId){
-      this.listForBusArr = []
-      listBusinessForCombobox({ projectId }).then((response) => {
-        this.listForBusArr = response.data
-        if(this.isQuote){
-          this.changeSt(this.queryParams.stId)
-        }
-      })
     },
     // 取消按钮
     cancel() {
@@ -322,10 +255,7 @@ export default {
         number: null,
         price: null,
         createBy: null,
-        createTime: null,
-        projectId: null,
-        projectName: null,
-        serialNo: null
+        createTime: null
       };
       this.resetForm("form");
     },
@@ -400,22 +330,6 @@ export default {
       this.download('project/pmd/export', {
         ...this.queryParams
       }, `project_pmd.xlsx`)
-    },
-    changeSt(stId) {
-      let businessFind = this.listForBusArr.filter(x => x.stId == stId);
-      if (businessFind && businessFind.length > 0) {
-        this.form.stName = businessFind[0].stName;
-        this.form.serialNo = businessFind[0].serialNo;
-      }
-    },
-    changeProject(projectId) {
-      this.listForBusArr = []
-      this.form.stId = ''
-      this.form.stName = ''
-      this.form.serialNo = ''
-      if (projectId){
-        this.loadBusinessForCombobox(projectId);
-      }
     }
   }
 };

@@ -1,22 +1,14 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="业务经理" prop="serviceManagerId">
-        <el-select filterable v-model="queryParams.serviceManagerId" placeholder="请选择代办人" clearable size="small">
+      <el-form-item label="业务经理" prop="sqId">
+        <el-select filterable v-model="queryParams.userId" placeholder="请选择业务经理" clearable size="small">
           <el-option v-for="dict in userOptions" :key="dict.userId" :label="dict.nickName" :value="dict.userId" />
         </el-select>
       </el-form-item>
       <el-form-item label="统计时间">
-        <el-date-picker
-          v-model="dateRange"
-          size="small"
-          style="width: 240px"
-          value-format="yyyy-MM-dd"
-          type="daterange"
-          range-separator="-"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-        ></el-date-picker>
+        <el-date-picker v-model="dateRange" size="small" style="width: 240px" value-format="yyyy-MM-dd" type="daterange"
+          range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -28,134 +20,129 @@
       <el-col :span="4" style="margin-left:12px;">
         <span>期初占用(万元)：</span> <span v-text="$options.filters.moneyFilter(tqc)">0.00</span>
       </el-col>
-      <el-col :span="4" >
+      <el-col :span="4">
         <span>期末占用(万元)：</span><span v-text="$options.filters.moneyFilter(tqm)">0.00</span>
       </el-col>
-      <el-col :span="4" >
+      <el-col :span="4">
         <span>平均占用(万元)：</span><span v-text="$options.filters.moneyFilter(tpj)">0.00</span>
       </el-col>
-      <el-col :span="4" >
+      <el-col :span="4">
         <span>收入金额(万元)：</span><span v-text="$options.filters.moneyFilter(tsr)">0.00</span>
       </el-col>
-      <el-col :span="4" >
+      <el-col :span="4">
         <span>资金周转率(%)：</span><span v-text="tzz">0.00</span>
       </el-col>
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="primary"-->
-<!--          plain-->
-<!--          icon="el-icon-plus"-->
-<!--          size="mini"-->
-<!--          @click="handleAdd"-->
-<!--          v-hasPermi="['project:atakeup:add']"-->
-<!--        >新增</el-button>-->
-<!--      </el-col>-->
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="success"-->
-<!--          plain-->
-<!--          icon="el-icon-edit"-->
-<!--          size="mini"-->
-<!--          :disabled="single"-->
-<!--          @click="handleUpdate"-->
-<!--          v-hasPermi="['project:atakeup:edit']"-->
-<!--        >修改</el-button>-->
-<!--      </el-col>-->
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="danger"-->
-<!--          plain-->
-<!--          icon="el-icon-delete"-->
-<!--          size="mini"-->
-<!--          :disabled="multiple"-->
-<!--          @click="handleDelete"-->
-<!--          v-hasPermi="['project:atakeup:remove']"-->
-<!--        >删除</el-button>-->
-<!--      </el-col>-->
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="warning"-->
-<!--          plain-->
-<!--          icon="el-icon-download"-->
-<!--          size="mini"-->
-<!--          @click="handleExport"-->
-<!--          v-hasPermi="['project:atakeup:export']"-->
-<!--        >导出</el-button>-->
-<!--      </el-col>-->
+      <!--      <el-col :span="1.5">-->
+      <!--        <el-button-->
+      <!--          type="primary"-->
+      <!--          plain-->
+      <!--          icon="el-icon-plus"-->
+      <!--          size="mini"-->
+      <!--          @click="handleAdd"-->
+      <!--          v-hasPermi="['project:atakeup:add']"-->
+      <!--        >新增</el-button>-->
+      <!--      </el-col>-->
+      <!--      <el-col :span="1.5">-->
+      <!--        <el-button-->
+      <!--          type="success"-->
+      <!--          plain-->
+      <!--          icon="el-icon-edit"-->
+      <!--          size="mini"-->
+      <!--          :disabled="single"-->
+      <!--          @click="handleUpdate"-->
+      <!--          v-hasPermi="['project:atakeup:edit']"-->
+      <!--        >修改</el-button>-->
+      <!--      </el-col>-->
+      <!--      <el-col :span="1.5">-->
+      <!--        <el-button-->
+      <!--          type="danger"-->
+      <!--          plain-->
+      <!--          icon="el-icon-delete"-->
+      <!--          size="mini"-->
+      <!--          :disabled="multiple"-->
+      <!--          @click="handleDelete"-->
+      <!--          v-hasPermi="['project:atakeup:remove']"-->
+      <!--        >删除</el-button>-->
+      <!--      </el-col>-->
+      <!--      <el-col :span="1.5">-->
+      <!--        <el-button-->
+      <!--          type="warning"-->
+      <!--          plain-->
+      <!--          icon="el-icon-download"-->
+      <!--          size="mini"-->
+      <!--          @click="handleExport"-->
+      <!--          v-hasPermi="['project:atakeup:export']"-->
+      <!--        >导出</el-button>-->
+      <!--      </el-col>-->
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="atakeupList" @selection-change="handleSelectionChange">
       <el-table-column label="部门名称" align="center" prop="deptName" />
-      <el-table-column label="业务经理" align="center" prop="serviceManagerName" />
-      <el-table-column label="期初占用(万元)" align="center" prop="starPrice" >
+      <el-table-column label="业务经理" align="center" prop="userName" />
+      <el-table-column label="期初占用(万元)" align="center" prop="starPrice">
         <template slot-scope="scope">
           {{
-            Number(scope.row.starPrice)
-              .toFixed(2)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          Number(scope.row.starPrice)
+          .toFixed(2)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
-      <el-table-column label="期末占用(万元)" align="center" prop="endPrice" >
+      <el-table-column label="期末占用(万元)" align="center" prop="endPrice">
         <template slot-scope="scope">
           {{
-            Number(scope.row.endPrice)
-              .toFixed(2)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          Number(scope.row.endPrice)
+          .toFixed(2)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
-      <el-table-column label="平均占用(万元)" align="center" prop="pjPrice" >
+      <el-table-column label="平均占用(万元)" align="center" prop="pjPrice">
         <template slot-scope="scope">
           {{
-            Number(scope.row.pjPrice)
-              .toFixed(2)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          Number(scope.row.pjPrice)
+          .toFixed(2)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
-      <el-table-column label="收入金额(万元)" align="center" prop="profitsPrice" >
+      <el-table-column label="收入金额(万元)" align="center" prop="profitsPrice">
         <template slot-scope="scope">
           {{
-            Number(scope.row.profitsPrice)
-              .toFixed(2)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+          Number(scope.row.profitsPrice)
+          .toFixed(2)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
       <el-table-column label="资金周转率(%)" align="center" prop="ct" />
-<!--      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">-->
-<!--        <template slot-scope="scope">-->
-<!--          <el-button-->
-<!--            size="mini"-->
-<!--            type="text"-->
-<!--            icon="el-icon-edit"-->
-<!--            @click="handleUpdate(scope.row)"-->
-<!--            v-hasPermi="['project:atakeup:edit']"-->
-<!--          >修改</el-button>-->
-<!--          <el-button-->
-<!--            size="mini"-->
-<!--            type="text"-->
-<!--            icon="el-icon-delete"-->
-<!--            @click="handleDelete(scope.row)"-->
-<!--            v-hasPermi="['project:atakeup:remove']"-->
-<!--          >删除</el-button>-->
-<!--        </template>-->
-<!--      </el-table-column>-->
+      <!--      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">-->
+      <!--        <template slot-scope="scope">-->
+      <!--          <el-button-->
+      <!--            size="mini"-->
+      <!--            type="text"-->
+      <!--            icon="el-icon-edit"-->
+      <!--            @click="handleUpdate(scope.row)"-->
+      <!--            v-hasPermi="['project:atakeup:edit']"-->
+      <!--          >修改</el-button>-->
+      <!--          <el-button-->
+      <!--            size="mini"-->
+      <!--            type="text"-->
+      <!--            icon="el-icon-delete"-->
+      <!--            @click="handleDelete(scope.row)"-->
+      <!--            v-hasPermi="['project:atakeup:remove']"-->
+      <!--          >删除</el-button>-->
+      <!--        </template>-->
+      <!--      </el-table-column>-->
     </el-table>
 
-    <pagination
-      v-show="total>0"
-      :total="total"
-      :page.sync="queryParams.pageNum"
-      :limit.sync="queryParams.pageSize"
-      @pagination="getList"
-    />
+    <pagination v-show="total>0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
+      @pagination="getList" />
 
     <!-- 添加或修改资金占用情况对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>

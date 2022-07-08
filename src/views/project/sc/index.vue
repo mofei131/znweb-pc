@@ -1,24 +1,26 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="项目" prop="stId">
-        <el-select filterable v-model="queryParams.stId" placeholder="请选择项目" clearable size="small">
-          <el-option
-            v-for="dict in stOptions"
-            :key="dict.stId"
-            :label="dict.name"
-            :value="dict.stId"
-          />
-        </el-select>
+      <el-form-item label="项目名称" prop="projectName">
+        <el-input v-model="queryParams.projectName" placeholder="项目名称" clearable size="small"
+          @keyup.enter.native="handleQuery" />
+      </el-form-item>
+      <el-form-item label="业务名称" prop="stName">
+        <el-input v-model="queryParams.stName" placeholder="业务名称" clearable size="small"
+          @keyup.enter.native="handleQuery" />
+      </el-form-item>
+      <el-form-item label="项目编号" prop="serialNo">
+        <el-input v-model="queryParams.serialNo" placeholder="请输入项目编号" clearable size="small"
+          @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item label="代办人" prop="sqId">
         <el-select filterable v-model="queryParams.userId" placeholder="请选择代办人" clearable size="small">
-          <el-option
-            v-for="dict in userOptions"
-            :key="dict.userId"
-            :label="dict.nickName"
-            :value="dict.userId"
-          />
+          <el-option v-for="dict in userOptions" :key="dict.userId" :label="dict.nickName" :value="dict.userId" />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="业务经理" prop="serviceManagerId">
+        <el-select filterable v-model="queryParams.serviceManagerId" placeholder="请选择业务经理" clearable size="small">
+          <el-option v-for="dict in userOptions" :key="dict.userId" :label="dict.nickName" :value="dict.userId" />
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -28,151 +30,143 @@
     </el-form>
 
     <el-row :gutter="10" class="mb8">
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="primary"-->
-<!--          plain-->
-<!--          icon="el-icon-plus"-->
-<!--          size="mini"-->
-<!--          @click="handleAdd"-->
-<!--          v-hasPermi="['project:sc:add']"-->
-<!--        >新增</el-button>-->
-<!--      </el-col>-->
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="success"-->
-<!--          plain-->
-<!--          icon="el-icon-edit"-->
-<!--          size="mini"-->
-<!--          :disabled="single"-->
-<!--          @click="handleUpdate"-->
-<!--          v-hasPermi="['project:sc:edit']"-->
-<!--        >修改</el-button>-->
-<!--      </el-col>-->
-<!--      <el-col :span="1.5">-->
-<!--        <el-button-->
-<!--          type="danger"-->
-<!--          plain-->
-<!--          icon="el-icon-delete"-->
-<!--          size="mini"-->
-<!--          :disabled="multiple"-->
-<!--          @click="handleDelete"-->
-<!--          v-hasPermi="['project:sc:remove']"-->
-<!--        >删除</el-button>-->
-<!--      </el-col>-->
+      <!--      <el-col :span="1.5">-->
+      <!--        <el-button-->
+      <!--          type="primary"-->
+      <!--          plain-->
+      <!--          icon="el-icon-plus"-->
+      <!--          size="mini"-->
+      <!--          @click="handleAdd"-->
+      <!--          v-hasPermi="['project:sc:add']"-->
+      <!--        >新增</el-button>-->
+      <!--      </el-col>-->
+      <!--      <el-col :span="1.5">-->
+      <!--        <el-button-->
+      <!--          type="success"-->
+      <!--          plain-->
+      <!--          icon="el-icon-edit"-->
+      <!--          size="mini"-->
+      <!--          :disabled="single"-->
+      <!--          @click="handleUpdate"-->
+      <!--          v-hasPermi="['project:sc:edit']"-->
+      <!--        >修改</el-button>-->
+      <!--      </el-col>-->
+      <!--      <el-col :span="1.5">-->
+      <!--        <el-button-->
+      <!--          type="danger"-->
+      <!--          plain-->
+      <!--          icon="el-icon-delete"-->
+      <!--          size="mini"-->
+      <!--          :disabled="multiple"-->
+      <!--          @click="handleDelete"-->
+      <!--          v-hasPermi="['project:sc:remove']"-->
+      <!--        >删除</el-button>-->
+      <!--      </el-col>-->
       <el-col :span="1.5">
-        <el-button
-          type="warning"
-          plain
-          icon="el-icon-download"
-          size="mini"
-          @click="handleExport"
-          v-hasPermi="['project:sc:export']"
-        >导出</el-button>
+        <el-button type="warning" plain icon="el-icon-download" size="mini" @click="handleExport"
+          v-hasPermi="['project:sc:export']">导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="scList" @selection-change="handleSelectionChange">
-      <el-table-column label="项目名字" align="center" prop="stName" />
-      <el-table-column label="已开票吨数" align="center" prop="number" >
+      <el-table-column label="项目名称" align="center" prop="projectName" v-if="!isQuote" />
+      <el-table-column label="业务名称" align="center" prop="stName" v-if="!isQuote" />
+      <el-table-column label="项目编号" align="center" prop="serialNo" v-if="!isQuote" />
+      <el-table-column label="已开票吨数" align="center" prop="number">
         <template slot-scope="scope">
           {{
-            Number(scope.row.number)
-              .toFixed(2)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+          Number(scope.row.number)
+          .toFixed(2)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
-      <el-table-column label="已开票金额(元)" align="center" prop="kpPrice" >
+      <el-table-column label="已开票金额(元)" align="center" prop="kpPrice">
         <template slot-scope="scope">
           {{
-            Number(scope.row.kpPrice)
-              .toFixed(2)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+          Number(scope.row.kpPrice)
+          .toFixed(2)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
-      <el-table-column label="应收金额(元)" align="center" prop="scPrice" >
+      <el-table-column label="应收金额(元)" align="center" prop="scPrice">
         <template slot-scope="scope">
           {{
-            Number(scope.row.scPrice)
-              .toFixed(2)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+          Number(scope.row.scPrice)
+          .toFixed(2)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
-      <el-table-column label="已收款(元)" align="center" prop="skPrice" >
+      <el-table-column label="已收款(元)" align="center" prop="skPrice">
         <template slot-scope="scope">
           {{
-            Number(scope.row.skPrice)
-              .toFixed(2)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+          Number(scope.row.skPrice)
+          .toFixed(2)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
-      <el-table-column label="已付金额(元)" align="center" prop="payPrice" >
+      <el-table-column label="已付金额(元)" align="center" prop="payPrice">
         <template slot-scope="scope">
           {{
-            Number(scope.row.payPrice)
-              .toFixed(2)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+          Number(scope.row.payPrice)
+          .toFixed(2)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
-      <el-table-column label="结算应收(元)" align="center" prop="jsPrice" >
+      <el-table-column label="结算应收(元)" align="center" prop="jsPrice">
         <template slot-scope="scope">
           {{
-            Number(scope.row.jsPrice)
-              .toFixed(2)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+          Number(scope.row.jsPrice)
+          .toFixed(2)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
-      <el-table-column label="发运吨数" align="center" prop="fynumber" >
+      <el-table-column label="发运吨数" align="center" prop="fynumber">
         <template slot-scope="scope">
           {{
-            Number(scope.row.fynumber)
-              .toFixed(2)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+          Number(scope.row.fynumber)
+          .toFixed(2)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
       <el-table-column label="代办人" align="center" prop="userName" />
-<!--      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">-->
-<!--        <template slot-scope="scope">-->
-<!--          <el-button-->
-<!--            size="mini"-->
-<!--            type="text"-->
-<!--            icon="el-icon-edit"-->
-<!--            @click="handleUpdate(scope.row)"-->
-<!--            v-hasPermi="['project:sc:edit']"-->
-<!--          >修改</el-button>-->
-<!--          <el-button-->
-<!--            size="mini"-->
-<!--            type="text"-->
-<!--            icon="el-icon-delete"-->
-<!--            @click="handleDelete(scope.row)"-->
-<!--            v-hasPermi="['project:sc:remove']"-->
-<!--          >删除</el-button>-->
-<!--        </template>-->
-<!--      </el-table-column>-->
+      <el-table-column label="业务经理" align="center" prop="serviceManagerName" />
+      <!--      <el-table-column label="操作" align="center" class-name="small-padding fixed-width">-->
+      <!--        <template slot-scope="scope">-->
+      <!--          <el-button-->
+      <!--            size="mini"-->
+      <!--            type="text"-->
+      <!--            icon="el-icon-edit"-->
+      <!--            @click="handleUpdate(scope.row)"-->
+      <!--            v-hasPermi="['project:sc:edit']"-->
+      <!--          >修改</el-button>-->
+      <!--          <el-button-->
+      <!--            size="mini"-->
+      <!--            type="text"-->
+      <!--            icon="el-icon-delete"-->
+      <!--            @click="handleDelete(scope.row)"-->
+      <!--            v-hasPermi="['project:sc:remove']"-->
+      <!--          >删除</el-button>-->
+      <!--        </template>-->
+      <!--      </el-table-column>-->
     </el-table>
 
-    <pagination
-      v-show="total>0"
-      :total="total"
-      :page.sync="queryParams.pageNum"
-      :limit.sync="queryParams.pageSize"
-      @pagination="getList"
-    />
+    <pagination v-show="total>0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
+      @pagination="getList" />
 
     <!-- 添加或修改应收管理对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
