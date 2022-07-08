@@ -127,7 +127,7 @@
       <el-row>
         <el-col :span="22" :offset="1">
           <el-table ref="singleTable" :data="dataList" fit style="margin-bottom: 30px;width:90%;">
-            <el-table-column property="name" label="货品名称" width="90">
+            <el-table-column property="name" label="货品名称" width="120">
             </el-table-column>
             <el-table-column v-if="form.away == '首次'" property="grnNumber" label="重量（吨）" width="120">
               <template slot-scope="scope">
@@ -165,7 +165,7 @@
             </el-table-column>
             <el-table-column v-if="form.away == '二次'" property="deliveryTime" label="到货日期" width="120">
             </el-table-column>
-            <el-table-column property="valuePrice" label="货值单价（元）" width="90">
+            <el-table-column property="valuePrice" label="货值单价（元）" width="120">
               <template slot-scope="scope">
                 {{
                 Number(scope.row.valuePrice)
@@ -175,7 +175,7 @@
                 }}
               </template>
             </el-table-column>
-            <el-table-column property="valueTprice" label="货值总额（元）" width="90">
+            <el-table-column property="valueTprice" label="货值总额（元）" width="120">
               <template slot-scope="scope">
                 {{
                 Number(scope.row.valueTprice)
