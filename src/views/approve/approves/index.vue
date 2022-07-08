@@ -2361,8 +2361,7 @@
                 <td class="tdTitle">备注</td>
                 <td class="tdCoent">{{form.remark}}</td>
                 <td class="tdTitle">创建时间</td>
-                <td class="tdCoent">{{form.stName}}</td>
-
+                <td class="tdCoent">{{form.createTime}}</td>
               </tr>
             </table>
           </el-col>
