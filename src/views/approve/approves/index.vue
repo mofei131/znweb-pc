@@ -27,8 +27,8 @@
       <el-row class="head-title">
         <el-col :span="19">
           <el-form-item label="发起人：">{{
-          queryParams.initiatorUserName
-          }}</el-form-item>
+            queryParams.initiatorUserName
+            }}</el-form-item>
         </el-col>
       </el-row>
     </el-form>
@@ -168,8 +168,8 @@
               <tr>
                 <td class="tdTitle">结算比例</td>
                 <td class="tdCoent">{{ stInfo.settlementPA1 ? stInfo.settlementPA1 + '-' +
-                stInfo.settlementPA2 + '-' +
-                stInfo.settlementPA3 : '' }}</td>
+                  stInfo.settlementPA2 + '-' +
+                  stInfo.settlementPA3 : '' }}</td>
                 <td class="tdTitle">履约保证金</td>
                 <td class="tdCoent">{{ stInfo.marginType == 1 ? '有' : '无' }}</td>
                 <td class="tdTitle">履约保证金金额(万元)</td>
@@ -229,8 +229,8 @@
                 <tr>
                   <td class="tdTitle">结算比例</td>
                   <td class="tdCoent">{{ stInfo.shSettlementA1 ? stInfo.shSettlementA1 + '-' +
-                  stInfo.shSettlementA2 + '-' +
-                  stInfo.shSettlementA3 : '' }}</td>
+                    stInfo.shSettlementA2 + '-' +
+                    stInfo.shSettlementA3 : '' }}</td>
                   <td class="tdTitle">履约保证金</td>
                   <td class="tdCoent">{{ stInfo.shMargintype == 1 ? '有' : '无' }}</td>
                   <td class="tdTitle">保证金金额</td>
@@ -593,15 +593,15 @@
           <el-col :span="4" :offset="1">
             <el-form-item label="合计重量(吨)：">
               <span style="color: red; line-height: 57px !important">{{
-              $options.filters.weightFilter(form.totalWeight)
-              }}</span>
+                $options.filters.weightFilter(form.totalWeight)
+                }}</span>
             </el-form-item>
           </el-col>
           <el-col :span="4">
             <el-form-item label="平均热值(kcal)：">
               <span style="color: red; line-height: 57px !important">{{
-              form.averageRz
-              }}</span>
+                form.averageRz
+                }}</span>
             </el-form-item>
           </el-col>
         </el-row>
@@ -641,10 +641,10 @@
               <tr>
                 <td class="tdTitle"> 预付总额(元)</td>
                 <td class="tdCoent">{{$options.filters.moneyFilter(form.totalPrice)}}</td>
-                <td class="tdTitle">固定差价</td>
-                <td class="tdCoent">{{$options.filters.moneyFilter(form.dPrice)}}</td>
                 <td class="tdTitle">预付至</td>
                 <td class="tdCoent">{{form.ato}}</td>
+                <td class="tdTitle">已付金额</td>
+                <td class="tdCoent" style="color: red">{{$options.filters.moneyFilter(form.prepaidPrice)}}</td>
               </tr>
               <tr>
                 <td class="tdTitle">税款(元)</td>
@@ -663,12 +663,12 @@
                 <td class="tdCoent" style="color: red">{{$options.filters.moneyFilter(form.payTprice)}}</td>
               </tr>
               <tr>
-                <td class="tdTitle">已付金额</td>
-                <td class="tdCoent" style="color: red">{{$options.filters.moneyFilter(form.prepaidPrice)}}</td>
                 <td class="tdTitle">垫付保证金</td>
                 <td class="tdCoent" style="color: red">{{$options.filters.moneyFilter(form.dfPrice)}}</td>
                 <td class="tdTitle">实际付款金额</td>
                 <td class="tdCoent" style="color: red">{{$options.filters.moneyFilter(form.actualPrice)}}</td>
+                <td class="tdTitle"></td>
+                <td class="tdCoent"></td>
               </tr>
             </table>
           </el-col>
@@ -985,8 +985,8 @@
           <el-col :span="4" :offset="1">
             <el-form-item label="合计重量(吨)：">
               <span style="color: red">{{
-              $options.filters.weightFilter(form.tweight)
-              }}</span>
+                $options.filters.weightFilter(form.tweight)
+                }}</span>
             </el-form-item>
           </el-col>
           <el-col :span="4">
@@ -1030,22 +1030,22 @@
           <el-col :span="4" :offset="1">
             <el-form-item label="总计收款：">
               <span style="color: red">{{
-              $options.filters.moneyFilter(form.yftotalPrice)
-              }}</span>
+                $options.filters.moneyFilter(form.yftotalPrice)
+                }}</span>
             </el-form-item>
           </el-col>
           <el-col :span="4">
             <el-form-item label="已预收金额：">
               <span style="color: red">{{
-              $options.filters.moneyFilter(form.yfPrice)
-              }}</span>
+                $options.filters.moneyFilter(form.yfPrice)
+                }}</span>
             </el-form-item>
           </el-col>
           <el-col :span="4">
             <el-form-item label="实际应收金额：">
               <span style="color: red">{{
-              $options.filters.moneyFilter(form.sjPrice)
-              }}</span>
+                $options.filters.moneyFilter(form.sjPrice)
+                }}</span>
             </el-form-item>
           </el-col>
         </el-row>

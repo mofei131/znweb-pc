@@ -270,10 +270,10 @@
             <tr>
               <td class="tdTitle">预付总额(元)</td>
               <td class="tdCoent">{{$options.filters.moneyFilter(form.totalPrice)}}</td>
-              <td class="tdTitle">固定差价(元)</td>
-              <td class="tdCoent">{{$options.filters.moneyFilter(form.dPrice)}}</td>
               <td class="tdTitle">预付至</td>
               <td class="tdCoent">{{form.ato}}</td>
+              <td class="tdTitle">已付金额(元)</td>
+              <td class="tdCoent newproColor">{{$options.filters.moneyFilter(form.prepaidPrice)}}</td>
             </tr>
             <tr>
               <td class="tdTitle">税款(元)</td>
@@ -292,12 +292,12 @@
               <td class="tdCoent newproColor">{{$options.filters.moneyFilter(form.payTprice)}}</td>
             </tr>
             <tr>
-              <td class="tdTitle">已付金额(元)</td>
-              <td class="tdCoent newproColor">{{$options.filters.moneyFilter(form.prepaidPrice)}}</td>
               <td class="tdTitle">垫付保证金(元)</td>
               <td class="tdCoent newproColor">{{$options.filters.moneyFilter(form.dfPrice)}}</td>
               <td class="tdTitle">实际付款金额(元)</td>
               <td class="tdCoent newproColor">{{$options.filters.moneyFilter(form.actualPrice)}}</td>
+              <td class="tdTitle"></td>
+              <td class="tdCoent newproColor"></td>
             </tr>
           </table>
         </el-col>
