@@ -1,15 +1,17 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="项目" prop="stId">
-        <el-select filterable v-model="queryParams.stId" placeholder="请选择项目" clearable size="small">
-          <el-option
-            v-for="dict in stOptions"
-            :key="dict.stId"
-            :label="dict.name"
-            :value="dict.stId"
-          />
-        </el-select>
+    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch && !isQuote" label-width="68px">
+      <el-form-item label="项目名称" prop="projectName">
+        <el-input v-model="queryParams.projectName" placeholder="项目名称" clearable size="small"
+          @keyup.enter.native="handleQuery" />
+      </el-form-item>
+      <el-form-item label="业务名称" prop="stName">
+        <el-input v-model="queryParams.stName" placeholder="业务名称" clearable size="small"
+          @keyup.enter.native="handleQuery" />
+      </el-form-item>
+      <el-form-item label="项目编号" prop="serialNo">
+        <el-input v-model="queryParams.serialNo" placeholder="请输入项目编号" clearable size="small"
+          @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item label="代办人" prop="sqId">
         <el-select filterable v-model="queryParams.userId" placeholder="请选择代办人" clearable size="small">
@@ -21,14 +23,10 @@
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="客户经理" prop="name">
-        <el-input
-          v-model="queryParams.managerName"
-          placeholder="请输入客户经理"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+       <el-form-item label="业务经理" prop="serviceManagerId">
+        <el-select filterable v-model="queryParams.serviceManagerId" placeholder="请选择代办人" clearable size="small">
+          <el-option v-for="dict in userOptions" :key="dict.userId" :label="dict.nickName" :value="dict.userId" />
+        </el-select>
       </el-form-item>
       <el-form-item label="统计时间">
         <el-date-picker
@@ -106,18 +104,20 @@
 <!--          v-hasPermi="['project:ptakeup:export']"-->
 <!--        >导出</el-button>-->
 <!--      </el-col>-->
-      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList" v-show="!isQuote"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="ptakeupList" @selection-change="handleSelectionChange">
-      <el-table-column label="项目名称" align="center" prop="stName" />
+      <el-table-column label="项目名称" align="center" prop="projectName" v-if="!isQuote" />
+      <el-table-column label="业务名称" align="center" prop="stName" v-if="!isQuote" />
+      <el-table-column label="项目编号" align="center" prop="serialNo" v-if="!isQuote" />
       <el-table-column label="立项时间" align="center" prop="createTime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
       <el-table-column label="代办人" align="center" prop="userName" />
-      <el-table-column label="客户经理" align="center" prop="managerName" />
+      <el-table-column label="业务经理" align="center" prop="serviceManagerName" />
       <el-table-column label="期初占用(万元)" align="center" prop="starPrice" >
         <template slot-scope="scope">
           {{
@@ -231,9 +231,22 @@
 <script>
 import { listPtakeup, getPtakeup, delPtakeup, addPtakeup, updatePtakeup, listPtakeupAll } from "@/api/project/ptakeup";
 import {getStList, getUserList} from "@/api/project/cplan";
+import { listProjectForCombobox, listBusinessForCombobox } from "@/api/project/st";
 
 export default {
   name: "Ptakeup",
+  prop: {
+     "stIdd": {
+      type: String
+    },
+    "projectIdd": {
+      type: String
+    },
+    "isQuote": {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {
       // 遮罩层
@@ -252,6 +265,7 @@ export default {
       ptakeupList: [],
       // 项目集合
       stOptions: [],
+      projectOptions: [],
       //代办人集合
       userOptions:[],
       //审核状态集合
@@ -275,6 +289,9 @@ export default {
         pageNum: 1,
         pageSize: 10,
         stId: null,
+        stNumber: null,
+        stName: null,
+        projectId: null
       },
       // 日期范围
       dateRange: [],
@@ -282,10 +299,16 @@ export default {
       form: {},
       // 表单校验
       rules: {
-      }
+      },
+      listForBusArr: [],
+      listForProArr: [],
     };
   },
   created() {
+    if (this.isQuote){
+      this.queryParams.stId = parseInt(this.stIdd)
+      this.queryParams.projectId = parseInt(this.projectIdd)
+    }
     this.getList();
     getStList().then(response => {
       this.stOptions = response.rows;
@@ -317,6 +340,22 @@ export default {
       getStList().then(response => {
         this.stOptions = response.rows;
       });
+      this.loadProjectForCombobox();
+    },
+    loadProjectForCombobox() {
+      this.listForProArr = []
+      listProjectForCombobox().then((response) => {
+        this.listForProArr = response.data
+      })
+    },
+    loadBusinessForCombobox(projectId){
+      this.listForBusArr = []
+      listBusinessForCombobox({ projectId }).then((response) => {
+        this.listForBusArr = response.data
+        if(this.isQuote){
+          this.changeSt(this.queryParams.stId)
+        }
+      })
     },
     // 审核状态字典翻译
     stateFormat(row, column) {
@@ -338,7 +377,10 @@ export default {
         ct: null,
         state: null,
         createBy: null,
-        createTime: null
+        createTime: null,
+        projectId: null,
+        projectName: null,
+        serialNo: null
       };
       this.resetForm("form");
     },
@@ -413,7 +455,23 @@ export default {
       this.download('project/ptakeup/export', {
         ...this.queryParams
       }, `project_ptakeup.xlsx`)
-    }
+    },
+    changeSt(stId) {
+      let businessFind = this.listForBusArr.filter(x => x.stId == stId);
+      if (businessFind && businessFind.length > 0) {
+        this.form.stName = businessFind[0].stName;
+        this.form.serialNo = businessFind[0].serialNo;
+      }
+    },
+    changeProject(projectId) {
+      this.listForBusArr = []
+      this.form.stId = ''
+      this.form.stName = ''
+      this.form.serialNo = ''
+      if (projectId){
+        this.loadBusinessForCombobox(projectId);
+      }
+    },
   }
 };
 </script>

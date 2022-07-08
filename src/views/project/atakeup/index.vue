@@ -1,14 +1,9 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="代办人" prop="sqId">
-        <el-select filterable v-model="queryParams.userId" placeholder="请选择代办人" clearable size="small">
-          <el-option
-            v-for="dict in userOptions"
-            :key="dict.userId"
-            :label="dict.nickName"
-            :value="dict.userId"
-          />
+      <el-form-item label="业务经理" prop="serviceManagerId">
+        <el-select filterable v-model="queryParams.serviceManagerId" placeholder="请选择代办人" clearable size="small">
+          <el-option v-for="dict in userOptions" :key="dict.userId" :label="dict.nickName" :value="dict.userId" />
         </el-select>
       </el-form-item>
       <el-form-item label="统计时间">
@@ -92,7 +87,7 @@
 
     <el-table v-loading="loading" :data="atakeupList" @selection-change="handleSelectionChange">
       <el-table-column label="部门名称" align="center" prop="deptName" />
-      <el-table-column label="代办人" align="center" prop="userName" />
+      <el-table-column label="业务经理" align="center" prop="serviceManagerName" />
       <el-table-column label="期初占用(万元)" align="center" prop="starPrice" >
         <template slot-scope="scope">
           {{

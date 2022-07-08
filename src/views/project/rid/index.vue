@@ -1,41 +1,22 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="项目名称" prop="projectId">
-                <el-select filterable value-key="projectId" @change="changeProject" v-model="form.projectId"
-                  placeholder="请选择项目" style="width: 100%" :disabled="isQuote">
-                  <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName"
-                    :value="pro.projectId">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item label="业务名称" prop="stId">
-                <el-select
-                  filterable
-                  value-key="stId"
-                  @change="changeSt"
-                  v-model="form.stId"
-                  placeholder="请选择业务"
-                  style="width: 100%"
-                  :disabled="isQuote"
-                >
-                  <el-option
-                    v-for="obj in listForBusArr"
-                    :key="obj.stId"
-                    :label="obj.stName"
-                    :value="obj.stId"
-                  >
-                  </el-option>
-                </el-select>
-              </el-form-item>
-      <el-form-item label="业务经理" prop="userName">
-        <el-input
-          v-model="queryParams.userName"
-          placeholder="请输入业务经理"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch && !isQuote" label-width="68px">
+       <el-form-item label="项目名称" prop="projectName">
+        <el-input v-model="queryParams.projectName" placeholder="项目名称" clearable size="small"
+          @keyup.enter.native="handleQuery" />
+      </el-form-item>
+      <el-form-item label="业务名称" prop="stName">
+        <el-input v-model="queryParams.stName" placeholder="业务名称" clearable size="small"
+          @keyup.enter.native="handleQuery" />
+      </el-form-item>
+      <el-form-item label="项目编号" prop="serialNo">
+        <el-input v-model="queryParams.serialNo" placeholder="请输入项目编号" clearable size="small"
+          @keyup.enter.native="handleQuery" />
+      </el-form-item>
+      <el-form-item label="业务经理" prop="serviceManagerId">
+        <el-select filterable v-model="queryParams.serviceManagerId" placeholder="请选择业务经理" clearable size="small">
+          <el-option v-for="dict in userOptions" :key="dict.userId" :label="dict.nickName" :value="dict.userId" />
+        </el-select>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -93,7 +74,7 @@
       <el-table-column label="项目名称" align="center" prop="projectName" v-if="!isQuote"/>
       <el-table-column label="业务名称" align="center" prop="stName" v-if="!isQuote"/>
       <el-table-column label="项目编号" align="center" prop="serialNo" v-if="!isQuote"/>
-      <el-table-column label="业务经理" align="center" prop="userName" />
+      <el-table-column label="业务经理" align="center" prop="serviceManagerName" />
       <el-table-column label="已开发票吨数(吨)" align="center" prop="kpNumber">
         <template slot-scope="scope">
                     {{
@@ -278,7 +259,7 @@
 
 <script>
 import { listRid, getRid, delRid, addRid, updateRid } from "@/api/project/rid";
-import { getStList } from '@/api/project/cplan'
+import { getStList, getUserList} from '@/api/project/cplan'
 import { listProjectForCombobox, listBusinessForCombobox } from "@/api/project/st";
 
 export default {
@@ -328,13 +309,14 @@ export default {
       // 表单参数
       form: {},
       // 表单校验
-      rules: {
-      },
+      rules: {},
       // 项目集合
       stOptions: [],
       projectOptions: [],
       listForBusArr: [],
       listForProArr: [],
+      // 业务经理集合
+      userOptions: []
     };
   },
   created() {
@@ -345,6 +327,9 @@ export default {
     this.getList();
     getStList().then(response => {
       this.stOptions = response.rows;
+    });
+    getUserList().then(response => {
+      this.userOptions = response.rows;
     });
   },
   methods: {
