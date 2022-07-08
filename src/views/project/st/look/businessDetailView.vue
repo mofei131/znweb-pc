@@ -75,9 +75,8 @@
                   <td class="tdTitle">业务金额(万元)</td>
                   <td class="tdCoent">{{stInfo.stAmount}}</td>
                   <td class="tdTitle">结算比例(%)</td>
-                  <td class="tdCoent">{{stInfo.settlementPA1 ? stInfo.settlementPA1 + '-' +
-                    stInfo.settlementPA2 + '-' +
-                    stInfo.settlementPA3 : ''}}</td>
+                  <td class="tdCoent">{{ parseSettlement(stInfo.settlementPA1,
+                  stInfo.settlementPA2,stInfo.settlementPA3)}}</td>
                 </tr>
                 <tr>
                   <td class="tdTitle">履约保证金</td>
@@ -140,9 +139,8 @@
                   </tr>
                   <tr>
                     <td class="tdTitle">结算比例(%)</td>
-                    <td class="tdCoent">{{ stInfo.shSettlementA1 ? stInfo.shSettlementA1 + '-' +
-                      stInfo.shSettlementA2 + '-' +
-                      stInfo.shSettlementA3 : '' }}</td>
+                    <td class="tdCoent">{{
+                      parseSettlement(stInfo.shSettlementA1, stInfo.shSettlementA2, stInfo.shSettlementA3)}}</td>
                     <td class="tdTitle">履约保证金</td>
                     <td class="tdCoent">{{ stInfo.shMargintype == 1 ? '有' : '无' }}</td>
                     <td class="tdTitle">保证金金额(元)</td>
@@ -487,6 +485,19 @@ export default {
       exportBusiness({ stId: this.stId }).then(res => {
 
       })
+    },
+    parseSettlement(rate1, rate2, rate3) {
+      let text = ''
+      if (rate1) {
+        text = text + rate1;
+      }
+      if (rate2) {
+        text = text + '-' + rate2;
+      }
+      if (rate3) {
+        text = text + '-' + rate3;
+      }
+      return text;
     }
   }
 }
