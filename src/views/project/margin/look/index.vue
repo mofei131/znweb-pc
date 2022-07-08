@@ -61,15 +61,15 @@
             </tr>
             <tr v-if="form.type == '上游'">
               <td class="tdTitle">合同名称</td>
-              <td class="tdCoent">{{form.stName}}</td>
+              <td class="tdCoent">{{form.contractName}}</td>
               <td class="tdTitle">供应商名称</td>
               <td class="tdCoent">{{form.terminalName}}</td>
               <td class="tdTitle">保证金金额(元)</td>
               <td class="tdCoent">{{$options.filters.moneyFilter(form.putPrice)}}</td>
             </tr>
             <tr v-if="form.type == '下游'">
-              <td class="tdTitle">合同名称</td>
-              <td class="tdCoent">{{form.contractName}}</td>
+              <!-- <td class="tdTitle">合同名称</td>
+              <td class="tdCoent">{{form.contractName}}</td> -->
               <td class="tdTitle">客户名称</td>
               <td class="tdCoent">{{form.terminalName}}</td>
               <td class="tdTitle">保证金金额(元)</td>

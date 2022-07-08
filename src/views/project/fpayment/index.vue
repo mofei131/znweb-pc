@@ -1550,6 +1550,7 @@ export default {
       this.form.stId = "";
       this.form.stName = "";
       this.form.serialNo = "";
+      this.form.supplierName = ""
       if (projectId) {
         this.loadBusinessForCombobox(projectId);
       }

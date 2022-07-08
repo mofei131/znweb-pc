@@ -1,16 +1,22 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="项目" prop="stId">
-        <el-select filterable v-model="queryParams.stId" placeholder="请选择项目" clearable size="small">
-          <el-option
-            v-for="dict in stOptions"
-            :key="dict.stId"
-            :label="dict.name"
-            :value="dict.stId"
-          />
-        </el-select>
-      </el-form-item>
+      <el-form-item label="项目名称" prop="projectId">
+       <el-select filterable value-key="projectId" @change="changeProject" v-model="form.projectId"
+         placeholder="请选择项目" style="width: 100%" :disabled="isQuote">
+         <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName"
+           :value="pro.projectId">
+         </el-option>
+       </el-select>
+     </el-form-item>
+      <el-form-item label="业务名称" prop="stId">
+       <el-select filterable value-key="stId" @change="changeSt" v-model="form.stId" placeholder="请选择"
+         style="width: 100%" :disabled="isQuote">
+         <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj.stId">
+         </el-option>
+       </el-select>
+     </el-form-item>
+
       <el-form-item label="申请人" prop="sqId">
         <el-select filterable v-model="queryParams.sqId" placeholder="请选择申请人" clearable size="small">
           <el-option
@@ -21,6 +27,7 @@
           />
         </el-select>
       </el-form-item>
+      
       <el-form-item label="支出类型" prop="type">
         <el-select v-model="queryParams.type" placeholder="请选择支出类型" clearable size="small">
           <el-option label="差旅费" value="差旅费" />
@@ -92,11 +99,13 @@
 <!--          v-hasPermi="['project:dp:export']"-->
 <!--        >导出</el-button>-->
 <!--      </el-col>-->
-      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
+      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList" v-show="!isQuote"></right-toolbar>
     </el-row>
 
     <el-table v-loading="loading" :data="dpList" @selection-change="handleSelectionChange">
-      <el-table-column label="项目名称" align="center" prop="stName" />
+       <el-table-column label="项目名称" align="center" prop="projectName" v-if="!isQuote" />
+      <el-table-column label="业务名称" align="center" prop="stName" v-if="!isQuote" />
+      <el-table-column label="项目编号" align="center" prop="serialNo" v-if="!isQuote" />
       <el-table-column label="申请人" align="center" prop="sqName" />
       <el-table-column label="客户经理" align="center" prop="managerName" />
       <el-table-column label="支出类型" align="center" prop="type" />
@@ -163,18 +172,32 @@
       <el-form ref="form" :model="form" :rules="rules" label-width="100px">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="项目" prop="stId">
-              <el-select filterable value-key="stId" @change="changeSt" v-model="form.stId" placeholder="请选择项目" style="width: 100%;">
-                <el-option
-                  v-for="obj in stOptions"
-                  :key="obj.stId"
-                  :label="obj.name"
-                  :value="obj"
-                ></el-option>
-              </el-select>
-            </el-form-item>
+            <el-form-item label="项目名称" prop="projectId">
+                <el-select filterable value-key="projectId" @change="changeProject" v-model="form.projectId"
+                  placeholder="请选择项目" style="width: 100%" :disabled="isQuote">
+                  <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName"
+                    :value="pro.projectId">
+                  </el-option>
+                </el-select>
+              </el-form-item>
           </el-col>
         </el-row>
+        <el-row>
+            <el-col :span="12">
+              <el-form-item label="业务名称" prop="stId">
+                <el-select filterable value-key="stId" @change="changeSt" v-model="form.stId" placeholder="请选择"
+                  style="width: 100%" :disabled="isQuote">
+                  <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj.stId">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="项目编号: " prop="serialNo">
+                {{ form.serialNo }}
+              </el-form-item>
+            </el-col>
+          </el-row>
         <div v-if="isLook!=4">
           <el-row>
             <el-col :span="12">
@@ -246,9 +269,22 @@
 <script>
 import { listDp, getDp, delDp, addDp, updateDp } from "@/api/project/dp";
 import {getStList, getUserList} from "@/api/project/cplan";
-
+import { listProjectForCombobox, listBusinessForCombobox } from "@/api/project/st";
+import { getProcessDataByStId, getApprovalProcessList, getApprovalType } from "@/api/approve";
 export default {
   name: "Dp",
+  props: {
+   "stIdd": {
+      type: String
+    },
+    "projectIdd": {
+      type: String
+    },
+    "isQuote": {
+      type: Boolean,
+      default: false
+    },
+  },
   data() {
     // 两位小数点验证
     const validatePrice = (rule,value,callback) =>{
@@ -280,6 +316,7 @@ export default {
       dpList: [],
       // 项目集合
       stOptions: [],
+      projectOptions: [],
       //申请人集合
       userOptions:[],
       //客户经理集合
@@ -300,11 +337,18 @@ export default {
         sqId: null,
         managerId: null,
         type: null,
+        stName: null
       },
+      listForBusArr: [],
+      listForProArr: [],
       // 表单参数
       form: {},
       // 表单校验
       rules: {
+        stId: [{ required: true, message: "请选择业务名称", trigger: "blur" }],
+        projectId: [
+          { required: true, message: "请选择项目名称", trigger: "blur" },
+        ],
         sqId: [
           { required: true, message: "请选择申请人", trigger: "blur" }
         ],
@@ -324,6 +368,10 @@ export default {
     };
   },
   created() {
+    if (this.isQuote){
+      this.queryParams.stId = parseInt(this.stIdd)
+      this.queryParams.projectId = parseInt(this.projectIdd)
+    }
     this.getList();
     this.getDicts("project_approval_state").then(response => {
       this.stateOptions = response.data;
@@ -356,6 +404,22 @@ export default {
       getStList().then(response => {
         this.stOptions = response.rows;
       });
+      this.loadProjectForCombobox();
+    },
+    loadProjectForCombobox() {
+      this.listForProArr = []
+      listProjectForCombobox().then((response) => {
+        this.listForProArr = response.data
+      })
+    },
+    loadBusinessForCombobox(projectId){
+      this.listForBusArr = []
+      listBusinessForCombobox({ projectId }).then((response) => {
+        this.listForBusArr = response.data
+        if(this.isQuote){
+          this.changeSt(this.queryParams.stId)
+        }
+      })
     },
     // 审核状态字典翻译
     stateFormat(row, column) {
@@ -384,7 +448,10 @@ export default {
         payTime: null,
         state: null,
         createBy: null,
-        createTime: null
+        createTime: null,
+        projectId: null,
+        projectName: null,
+        serialNo: null
       };
       this.resetForm("form");
     },
@@ -406,10 +473,17 @@ export default {
     },
     /** 新增按钮操作 */
     handleAdd() {
+       getApprovalType({ approvalType: '18' }).then((response) => {
       this.reset();
+      if (this.isQuote) {
+          this.form.projectId = this.queryParams.projectId
+          this.changeProject(this.queryParams.projectId)
+          this.form.stId = this.queryParams.stId
+      }
       this.isLook = 1;
       this.open = true;
       this.title = "添加期间费用";
+      })
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
@@ -497,9 +571,21 @@ export default {
 
     //业务开始
     //选择项目
-    changeSt(obj){
-      this.form.stId2 = obj.stId
-      this.form.stName = obj.name
+    changeSt(stId) {
+      let businessFind = this.listForBusArr.filter(x => x.stId == stId);
+      if (businessFind && businessFind.length > 0) {
+        this.form.stName = businessFind[0].stName;
+        this.form.serialNo = businessFind[0].serialNo;
+      }
+    },
+    changeProject(projectId) {
+      this.listForBusArr = []
+      this.form.stId = ''
+      this.form.stName = ''
+      this.form.serialNo = ''
+      if (projectId){
+        this.loadBusinessForCombobox(projectId);
+      }
     },
     //选择申请人
     changeSq(obj){

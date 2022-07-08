@@ -1,16 +1,21 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="项目" prop="stId">
-        <el-select filterable v-model="queryParams.stId" placeholder="请选择项目" clearable size="small">
-          <el-option
-            v-for="dict in stOptions"
-            :key="dict.stId"
-            :label="dict.name"
-            :value="dict.stId"
-          />
-        </el-select>
-      </el-form-item>
+      <el-form-item label="项目名称" prop="projectId">
+       <el-select filterable value-key="projectId" @change="changeProject" v-model="form.projectId"
+         placeholder="请选择项目" style="width: 100%" :disabled="isQuote">
+         <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName"
+           :value="pro.projectId">
+         </el-option>
+       </el-select>
+     </el-form-item>
+      <el-form-item label="业务名称" prop="stId">
+       <el-select filterable value-key="stId" @change="changeSt" v-model="form.stId" placeholder="请选择"
+         style="width: 100%" :disabled="isQuote">
+         <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj.stId">
+         </el-option>
+       </el-select>
+     </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -66,7 +71,9 @@
     </el-row>
 
     <el-table v-loading="loading" :data="sfdetailsList" @selection-change="handleSelectionChange">
-      <el-table-column label="项目名称" align="center" prop="stName" />
+      <el-table-column label="项目名称" align="center" prop="projectName" v-if="!isQuote" />
+      <el-table-column label="业务名称" align="center" prop="stName" v-if="!isQuote" />
+      <el-table-column label="项目编号" align="center" prop="serialNo" v-if="!isQuote" />
       <el-table-column label="日期" align="center" prop="createTime" >
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
@@ -132,9 +139,22 @@ import {
   findInit
 } from '@/api/project/sfdetails'
 import { getStList } from '@/api/project/cplan'
+import { listProjectForCombobox, listBusinessForCombobox } from "@/api/project/st";
 
 export default {
   name: "Sfdetails",
+  props: {
+     "stIdd": {
+      type: String
+    },
+    "projectIdd": {
+      type: String
+    },
+    "isQuote": {
+      type: Boolean,
+      default: false
+    },
+  },
   data() {
     return {
       // 遮罩层
@@ -160,6 +180,7 @@ export default {
         pageNum: 1,
         pageSize: 10,
         stId: null,
+        stName: null
       },
       // 表单参数
       form: {},
@@ -168,11 +189,18 @@ export default {
       },
       // 项目集合
       stOptions: [],
+      projectOptions: [],
+      listForBusArr: [],
+      listForProArr: [],
       //合计
       zPrice:null,
     };
   },
   created() {
+    if (this.isQuote){
+      this.queryParams.stId = parseInt(this.stIdd)
+      this.queryParams.projectId = parseInt(this.projectIdd)
+    }
     this.getList();
     getStList().then(response => {
       this.stOptions = response.rows;
@@ -193,6 +221,22 @@ export default {
       findInit(this.queryParams).then(response => {
         this.zPrice = parseFloat(response.data.zPrice).toFixed(2);
       });
+      this.loadProjectForCombobox();
+    },
+    loadProjectForCombobox() {
+      this.listForProArr = []
+      listProjectForCombobox().then((response) => {
+        this.listForProArr = response.data
+      })
+    },
+    loadBusinessForCombobox(projectId){
+      this.listForBusArr = []
+      listBusinessForCombobox({ projectId }).then((response) => {
+        this.listForBusArr = response.data
+        if(this.isQuote){
+          this.changeSt(this.queryParams.stId)
+        }
+      })
     },
     // 取消按钮
     cancel() {
@@ -209,7 +253,10 @@ export default {
         hPrice: null,
         zPrice: null,
         createBy: null,
-        createTime: null
+        createTime: null,
+        projectId: null,
+        projectName: null,
+        serialNo: null
       };
       this.resetForm("form");
     },
@@ -284,7 +331,23 @@ export default {
       this.download('project/sfdetails/export', {
         ...this.queryParams
       }, `project_sfdetails.xlsx`)
-    }
+    },
+    changeSt(stId) {
+      let businessFind = this.listForBusArr.filter(x => x.stId == stId);
+      if (businessFind && businessFind.length > 0) {
+        this.form.stName = businessFind[0].stName;
+        this.form.serialNo = businessFind[0].serialNo;
+      }
+    },
+    changeProject(projectId) {
+      this.listForBusArr = []
+      this.form.stId = ''
+      this.form.stName = ''
+      this.form.serialNo = ''
+      if (projectId){
+        this.loadBusinessForCombobox(projectId);
+      }
+    },
   }
 };
 </script>

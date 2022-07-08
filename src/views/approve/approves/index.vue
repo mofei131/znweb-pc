@@ -502,8 +502,8 @@
                 <td class="tdCoent">{{ form.serialNo }}</td>
               </tr>
               <tr>
-                <td class="tdTitle">结算方式</td>
-                <td class="tdCoent">{{form.settlementWay}}</td>
+                <td class="tdTitle">业务类型</td>
+                <td class="tdCoent">{{changeBusinessType(projectInfo.businessType)}}</td>
                 <td class="tdTitle">付款批次</td>
                 <td class="tdCoent">{{form.away}}</td>
                 <td class="tdTitle">预付方式</td>
@@ -2432,6 +2432,7 @@
                 <td class="tdCoent">{{form.remark}}</td>
                 <td class="tdTitle">创建时间</td>
                 <td class="tdCoent">{{form.stName}}</td>
+                
               </tr>
             </table>
           </el-col>
