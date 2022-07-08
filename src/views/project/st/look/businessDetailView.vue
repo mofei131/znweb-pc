@@ -85,7 +85,7 @@
                   <td class="tdTitle">履约保证金金额(万元)</td>
                   <td class="tdCoent">{{stInfo.margin}}</td>
                   <td class="tdTitle">服务周期</td>
-                  <td class="tdCoent">{{stInfo.cycleStart + '-' + stInfo.cycleEnd}}</td>
+                  <td class="tdCoent">{{(stInfo.cycleStart||'') + '-' + (stInfo.cycleEnd||'')}}</td>
                 </tr>
                 <tr>
                   <td class="tdTitle">预计重量(吨)</td>

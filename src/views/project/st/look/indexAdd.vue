@@ -97,7 +97,7 @@
                 </tr>
                 <tr>
                   <td class="tdTitle">服务周期</td>
-                  <td class="tdCoent">{{ stInfo.cycleStart + '-' + stInfo.cycleEnd }}</td>
+                  <td class="tdCoent">{{ (stInfo.cycleStart||'') + '-' + (stInfo.cycleEnd||'') }}</td>
                   <td class="tdTitle">预计重量(吨)</td>
                   <td class="tdCoent">{{ stInfo.expectWeight }}</td>
                   <td class="tdTitle">预计单价(元)</td>
