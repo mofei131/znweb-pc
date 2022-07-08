@@ -1,5 +1,5 @@
 <template>
-  <div class="indexhome">
+  <div class="indexhome" style="background-color: #F6F7FB;">
     <notice-bar :tongzhi="tongzhi"></notice-bar>
     <div style="display:flex;padding:20px;box-sizing: border-box;">
       <div style="width:40%;">
@@ -55,7 +55,7 @@
               </el-date-picker>
             </div>
           </div>
-          <div id="chartA"></div>
+          <div id="chartA" style="margin-left: 5%;width: 90%;height: 240px;"></div>
         </div>
         <div style="padding:20px;background-color:#ffffff;height:340px;margin-top:10px;border-radius: 6px;">
           <div style="font-size:14px;font-weight:600;margin-bottom:10px">业务明细</div>
@@ -66,16 +66,16 @@
         <div style="display:flex;margin-bottom:10px;">
           <div style="height:320px;background-color:#ffffff;width:50%;border-radius:6px;padding:10px">
             <div style="font-size:14px;font-weight:600;margin-bottom:10px">供应商-年发运量(万吨)</div>
-            <div id="chartB"></div>
+            <div id="chartB" style="width: 100%;height: 288px;"></div>
           </div>
           <div style="height:320px;background-color:#ffffff;width:50%;margin-left:10px;border-radius:6px;padding:10px">
             <div style="font-size:14px;font-weight:600;margin-bottom:10px">终端客户-年需求量(万吨)</div>
-            <div id="chartC"></div>
+            <div id="chartC" style="width: 100%;height: 288px;"></div>
           </div>
         </div>
         <div style="width:100%;height:447px;background-color:#ffffff;border-radius: 6px;padding:10px">
-        <div style="font-size:14px;font-weight:600;margin-bottom:10px">中国13大煤炭产业集群分布</div>
-          <div id="chartD"></div>
+          <div style="font-size:14px;font-weight:600;margin-bottom:10px">中国13大煤炭产业集群分布</div>
+          <div id="chartD" style="width: 100%;height: 446px;"></div>
         </div>
       </div>
     </div>
@@ -794,30 +794,3 @@ export default {
   }
 }
 </script>
-<style>
-html {
-  background-color: #F6F7FB;
-}
-
-#chartA {
-  margin-left: 5%;
-  width: 90%;
-  height: 240px;
-}
-
-#chartB {
-  width: 100%;
-  height: 288px;
-}
-
-#chartC {
-  width: 100%;
-  height: 288px;
-}
-
-#chartD {
-  width: 100%;
-  height: 446px;
-}
-
-</style>
