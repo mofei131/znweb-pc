@@ -107,45 +107,45 @@
           <div v-for="(item,index) in form.tableData1" :key="index">
             <el-row style="width: 1200px">
               <el-form :model="item" class="demo-form-inline" label-width="60px">
-              <el-col :span="9">
-                <el-form-item label="当">
-                <span>
-                  <el-select v-model="item.a1" class="lineflex">
-                  <el-option label="Qgr,ad" value="Qgr,ad" />
-                  <el-option label="Qnt,ar" value="Qnt,ar" />
-                </el-select>
-                <el-select v-model="item.s1" class="lineflex">
-                  <el-option label=">" value=">" />
-                  <el-option label="<" value="<" />
-                </el-select>
-                <el-input v-model="item.a2" placeholder="请输入" class="lineflex" />
-                </span>
-              </el-form-item>
-              </el-col>
-              <el-col :span="7">
-                <el-form-item label="该值每:">
-                <el-select v-model="item.s2" class="lineflex">
-                  <el-option label="上升" value="上升" />
-                  <el-option label="下降" value="下降" />
-                </el-select>
-                <el-input v-model="item.b1" placeholder="请输入" class="lineflex" />
-              </el-form-item>
-              </el-col>
-              <el-col :span="7">
-                <el-form-item label="价格:">
-                <el-select v-model="item.s3" class="lineflex">
-                  <el-option label="上升" value="上升" />
-                  <el-option label="下降" value="下降" />
-                </el-select>
-                <el-input v-model="item.c1" placeholder="价格" class="lineflex" />
-                <el-button @click.native.prevent="
+                <el-col :span="9">
+                  <el-form-item label="当">
+                    <span>
+                      <el-select v-model="item.a1" class="lineflex">
+                        <el-option label="Qgr,ad" value="Qgr,ad" />
+                        <el-option label="Qnt,ar" value="Qnt,ar" />
+                      </el-select>
+                      <el-select v-model="item.s1" class="lineflex">
+                        <el-option label=">" value=">" />
+                        <el-option label="<" value="<" />
+                      </el-select>
+                      <el-input v-model="item.a2" placeholder="请输入" class="lineflex" />
+                    </span>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="7">
+                  <el-form-item label="该值每:">
+                    <el-select v-model="item.s2" class="lineflex">
+                      <el-option label="上升" value="上升" />
+                      <el-option label="下降" value="下降" />
+                    </el-select>
+                    <el-input v-model="item.b1" placeholder="请输入" class="lineflex" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="7">
+                  <el-form-item label="价格:">
+                    <el-select v-model="item.s3" class="lineflex">
+                      <el-option label="上升" value="上升" />
+                      <el-option label="下降" value="下降" />
+                    </el-select>
+                    <el-input v-model="item.c1" placeholder="价格" class="lineflex" />
+                    <el-button @click.native.prevent="
                   deleteRow(index, tableData1, 1)
                 " type="text" size="small">
-                  移除
-                </el-button>
-              </el-form-item>
-              </el-col>
-            </el-form>
+                      移除
+                    </el-button>
+                  </el-form-item>
+                </el-col>
+              </el-form>
             </el-row>
           </div>
         </div>
@@ -165,43 +165,43 @@
           <div v-for="(item,index) in form.tableData2" :key="index">
             <el-row style="width: 1200px">
               <el-form :model="item" class="demo-form-inline" label-width="60px">
-              <el-col :span="9">
-                <el-form-item label="当">
-                  <el-select v-model="item.a1" class="lineflex">
-                  <el-option label="Qgr,ad" value="Qgr,ad" />
-                  <el-option label="Qnt,ar" value="Qnt,ar" />
-                </el-select>
-                <el-select v-model="item.s1" class="lineflex">
-                  <el-option label=">" value=">" />
-                  <el-option label="<" value="<" />
-                </el-select>
-                <el-input v-model="item.a2" placeholder="请输入" class="lineflex" />
-              </el-form-item>
-              </el-col>
-             <el-col :span="7">
-                <el-form-item label="该值每:">
-                <el-select v-model="item.s2" class="lineflex">
-                  <el-option label="上升" value="上升" />
-                  <el-option label="下降" value="下降" />
-                </el-select>
-                <el-input v-model="item.b1" placeholder="请输入" class="lineflex" />
-              </el-form-item>
-             </el-col>
-              <el-col :span="7">
-                <el-form-item label="价格:">
-                <el-select v-model="item.s3" class="lineflex">
-                  <el-option label="上升" value="上升" />
-                  <el-option label="下降" value="下降" />
-                </el-select>
-                <el-input v-model="item.c1" placeholder="价格" class="lineflex" />
-                <el-button @click.native.prevent="
+                <el-col :span="9">
+                  <el-form-item label="当">
+                    <el-select v-model="item.a1" class="lineflex">
+                      <el-option label="Qgr,ad" value="Qgr,ad" />
+                      <el-option label="Qnt,ar" value="Qnt,ar" />
+                    </el-select>
+                    <el-select v-model="item.s1" class="lineflex">
+                      <el-option label=">" value=">" />
+                      <el-option label="<" value="<" />
+                    </el-select>
+                    <el-input v-model="item.a2" placeholder="请输入" class="lineflex" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="7">
+                  <el-form-item label="该值每:">
+                    <el-select v-model="item.s2" class="lineflex">
+                      <el-option label="上升" value="上升" />
+                      <el-option label="下降" value="下降" />
+                    </el-select>
+                    <el-input v-model="item.b1" placeholder="请输入" class="lineflex" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="7">
+                  <el-form-item label="价格:">
+                    <el-select v-model="item.s3" class="lineflex">
+                      <el-option label="上升" value="上升" />
+                      <el-option label="下降" value="下降" />
+                    </el-select>
+                    <el-input v-model="item.c1" placeholder="价格" class="lineflex" />
+                    <el-button @click.native.prevent="
                   deleteRow(index, tableData2, 2)
                 " type="text" size="small">
-                  移除
-                </el-button>
-              </el-form-item>
-              </el-col>
-            </el-form>
+                      移除
+                    </el-button>
+                  </el-form-item>
+                </el-col>
+              </el-form>
             </el-row>
           </div>
         </div>
@@ -219,48 +219,48 @@
         <!--奖惩计划-->
         <div style="margin-bottom: 30px">
           <div v-for="(item,index) in form.tableData3" :key="index">
-           <el-row style="1200px">
+            <el-row style="width:1200px">
               <el-form :model="item" class="demo-form-inline" label-width="60px">
-              <el-col :span="9">
-                <el-form-item label="当">
-                <span>
-                  <el-select v-model="item.a1" class="lineflex">
-                  <el-option label="Qgr,ad" value="Qgr,ad" />
-                  <el-option label="Qnt,ar" value="Qnt,ar" />
-                </el-select>
-                <el-select v-model="item.s1" class="lineflex">
-                  <el-option label=">" value=">" />
-                  <el-option label="<" value="<" />
-                </el-select>
-                <el-input v-model="item.a2" placeholder="请输入" class="lineflex" />
-                </span>
-              </el-form-item>
-              </el-col>
-              <el-col :span="7">
-                <el-form-item label="该值每" style="padding-left: 15px">
-                <el-select v-model="item.s2" class="lineflex">
-                  <el-option label="上升" value="上升" />
-                  <el-option label="下降" value="下降" />
-                </el-select>
-                <el-input v-model="item.b1" placeholder="请输入" class="lineflex" />
-              </el-form-item>
-              </el-col>
-              <el-col :span="8">
-                <el-form-item label="价格" style="padding-left: 30px">
-                <el-select v-model="item.s3" class="lineflex">
-                  <el-option label="上升" value="上升" />
-                  <el-option label="下降" value="下降" />
-                </el-select>
-                <el-input v-model="item.c1" placeholder="价格" class="lineflex" />
-                <el-button @click.native.prevent="
+                <el-col :span="9">
+                  <el-form-item label="当">
+                    <span>
+                      <el-select v-model="item.a1" class="lineflex">
+                        <el-option label="Qgr,ad" value="Qgr,ad" />
+                        <el-option label="Qnt,ar" value="Qnt,ar" />
+                      </el-select>
+                      <el-select v-model="item.s1" class="lineflex">
+                        <el-option label=">" value=">" />
+                        <el-option label="<" value="<" />
+                      </el-select>
+                      <el-input v-model="item.a2" placeholder="请输入" class="lineflex" />
+                    </span>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="7">
+                  <el-form-item label="该值每">
+                    <el-select v-model="item.s2" class="lineflex">
+                      <el-option label="上升" value="上升" />
+                      <el-option label="下降" value="下降" />
+                    </el-select>
+                    <el-input v-model="item.b1" placeholder="请输入" class="lineflex" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="7">
+                  <el-form-item label="价格">
+                    <el-select v-model="item.s3" class="lineflex">
+                      <el-option label="上升" value="上升" />
+                      <el-option label="下降" value="下降" />
+                    </el-select>
+                    <el-input v-model="item.c1" placeholder="价格" class="lineflex" />
+                    <el-button @click.native.prevent="
                   deleteRow(index, tableData3, 3)
                 " type="text" size="small">
-                  移除
-                </el-button>
-              </el-form-item>
-              </el-col>
-            </el-form>
-           </el-row>
+                      移除
+                    </el-button>
+                  </el-form-item>
+                </el-col>
+              </el-form>
+            </el-row>
           </div>
         </div>
 
@@ -279,45 +279,45 @@
           <div v-for="(item,index) in form.tableData4" :key="index">
             <el-row style="width: 1200px">
               <el-form :model="item" class="demo-form-inline" label-width="60px">
-              <el-col :span="9">
-                <el-form-item label="当">
-                <span>
-                  <el-select v-model="item.a1" class="lineflex">
-                  <el-option label="Qgr,ad" value="Qgr,ad" />
-                  <el-option label="Qnt,ar" value="Qnt,ar" />
-                </el-select>
-                <el-select v-model="item.s1" class="lineflex">
-                  <el-option label=">" value=">" />
-                  <el-option label="<" value="<" />
-                </el-select>
-                <el-input v-model="item.a2" placeholder="请输入" class="lineflex" />
-                </span>
-              </el-form-item>
-              </el-col>
-              <el-col :span="7">
-                <el-form-item label="该值每">
-                <el-select v-model="item.s2" class="lineflex">
-                  <el-option label="上升" value="上升" />
-                  <el-option label="下降" value="下降" />
-                </el-select>
-                <el-input v-model="item.b1" placeholder="请输入" class="lineflex" />
-              </el-form-item>
-              </el-col>
-              <el-col :span="7">
-                <el-form-item label="价格">
-                <el-select v-model="item.s3" class="lineflex">
-                  <el-option label="上升" value="上升" />
-                  <el-option label="下降" value="下降" />
-                </el-select>
-                <el-input v-model="item.c1" placeholder="价格" class="lineflex" />
-                <el-button @click.native.prevent="
+                <el-col :span="9">
+                  <el-form-item label="当">
+                    <span>
+                      <el-select v-model="item.a1" class="lineflex">
+                        <el-option label="Qgr,ad" value="Qgr,ad" />
+                        <el-option label="Qnt,ar" value="Qnt,ar" />
+                      </el-select>
+                      <el-select v-model="item.s1" class="lineflex">
+                        <el-option label=">" value=">" />
+                        <el-option label="<" value="<" />
+                      </el-select>
+                      <el-input v-model="item.a2" placeholder="请输入" class="lineflex" />
+                    </span>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="7">
+                  <el-form-item label="该值每">
+                    <el-select v-model="item.s2" class="lineflex">
+                      <el-option label="上升" value="上升" />
+                      <el-option label="下降" value="下降" />
+                    </el-select>
+                    <el-input v-model="item.b1" placeholder="请输入" class="lineflex" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="7">
+                  <el-form-item label="价格">
+                    <el-select v-model="item.s3" class="lineflex">
+                      <el-option label="上升" value="上升" />
+                      <el-option label="下降" value="下降" />
+                    </el-select>
+                    <el-input v-model="item.c1" placeholder="价格" class="lineflex" />
+                    <el-button @click.native.prevent="
                   deleteRow(index, tableData4, 4)
                 " type="text" size="small">
-                  移除
-                </el-button>
-              </el-form-item>
-              </el-col>
-            </el-form>
+                      移除
+                    </el-button>
+                  </el-form-item>
+                </el-col>
+              </el-form>
             </el-row>
           </div>
         </div>
@@ -337,43 +337,43 @@
           <div v-for="(item,index) in form.tableData5" :key="index">
             <el-row style="width: 1200px">
               <el-form :model="item" class="demo-form-inline" label-width="60px">
-              <el-col :span="9">
-                <el-form-item label="当">
-                  <el-select v-model="item.a1" class="lineflex">
-                  <el-option label="Qgr,ad" value="Qgr,ad" />
-                  <el-option label="Qnt,ar" value="Qnt,ar" />
-                </el-select>
-                <el-select v-model="item.s1" class="lineflex">
-                  <el-option label=">" value=">" />
-                  <el-option label="<" value="<" />
-                </el-select>
-                <el-input v-model="item.a2" placeholder="请输入" class="lineflex" />
-              </el-form-item>
-              </el-col>
-              <el-col :span="7">
-                <el-form-item label="该值每">
-                <el-select v-model="item.s2" class="lineflex">
-                  <el-option label="上升" value="上升" />
-                  <el-option label="下降" value="下降" />
-                </el-select>
-                <el-input v-model="item.b1" placeholder="请输入" class="lineflex" />
-              </el-form-item>
-              </el-col>
-              <el-col :span="7">
-                <el-form-item label="价格">
-                <el-select v-model="item.s3" class="lineflex">
-                  <el-option label="上升" value="上升" />
-                  <el-option label="下降" value="下降" />
-                </el-select>
-                <el-input v-model="item.c1" placeholder="价格" class="lineflex" />
-                <el-button @click.native.prevent="
+                <el-col :span="9">
+                  <el-form-item label="当">
+                    <el-select v-model="item.a1" class="lineflex">
+                      <el-option label="Qgr,ad" value="Qgr,ad" />
+                      <el-option label="Qnt,ar" value="Qnt,ar" />
+                    </el-select>
+                    <el-select v-model="item.s1" class="lineflex">
+                      <el-option label=">" value=">" />
+                      <el-option label="<" value="<" />
+                    </el-select>
+                    <el-input v-model="item.a2" placeholder="请输入" class="lineflex" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="7">
+                  <el-form-item label="该值每">
+                    <el-select v-model="item.s2" class="lineflex">
+                      <el-option label="上升" value="上升" />
+                      <el-option label="下降" value="下降" />
+                    </el-select>
+                    <el-input v-model="item.b1" placeholder="请输入" class="lineflex" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="7">
+                  <el-form-item label="价格">
+                    <el-select v-model="item.s3" class="lineflex">
+                      <el-option label="上升" value="上升" />
+                      <el-option label="下降" value="下降" />
+                    </el-select>
+                    <el-input v-model="item.c1" placeholder="价格" class="lineflex" />
+                    <el-button @click.native.prevent="
                   deleteRow(index, tableData5, 5)
                 " type="text" size="small">
-                  移除
-                </el-button>
-              </el-form-item>
-              </el-col>
-            </el-form>
+                      移除
+                    </el-button>
+                  </el-form-item>
+                </el-col>
+              </el-form>
             </el-row>
           </div>
         </div>
@@ -393,43 +393,43 @@
           <div v-for="(item,index) in form.tableData6" :key="index">
             <el-row style="width: 1200px">
               <el-form :model="item" class="demo-form-inline" label-width="60px">
-              <el-col :span="9">
-                <el-form-item label="当">
-                  <el-select v-model="item.a1" class="lineflex">
-                  <el-option label="Qgr,ad" value="Qgr,ad" />
-                  <el-option label="Qnt,ar" value="Qnt,ar" />
-                </el-select>
-                <el-select v-model="item.s1" class="lineflex">
-                  <el-option label=">" value=">" />
-                  <el-option label="<" value="<" />
-                </el-select>
-                <el-input v-model="item.a2" placeholder="请输入" class="lineflex" />
-              </el-form-item>
-              </el-col>
-              <el-col :span="7">
-                <el-form-item label="该值每">
-                <el-select v-model="item.s2" class="lineflex">
-                  <el-option label="上升" value="上升" />
-                  <el-option label="下降" value="下降" />
-                </el-select>
-                <el-input v-model="item.b1" placeholder="请输入" class="lineflex" />
-              </el-form-item>
-              </el-col>
-              <el-col :span="7">
-                <el-form-item label="价格">
-                <el-select v-model="item.s3" class="lineflex">
-                  <el-option label="上升" value="上升" />
-                  <el-option label="下降" value="下降" />
-                </el-select>
-                <el-input v-model="item.c1" placeholder="价格" class="lineflex" />
-                <el-button @click.native.prevent="
+                <el-col :span="9">
+                  <el-form-item label="当">
+                    <el-select v-model="item.a1" class="lineflex">
+                      <el-option label="Qgr,ad" value="Qgr,ad" />
+                      <el-option label="Qnt,ar" value="Qnt,ar" />
+                    </el-select>
+                    <el-select v-model="item.s1" class="lineflex">
+                      <el-option label=">" value=">" />
+                      <el-option label="<" value="<" />
+                    </el-select>
+                    <el-input v-model="item.a2" placeholder="请输入" class="lineflex" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="7">
+                  <el-form-item label="该值每">
+                    <el-select v-model="item.s2" class="lineflex">
+                      <el-option label="上升" value="上升" />
+                      <el-option label="下降" value="下降" />
+                    </el-select>
+                    <el-input v-model="item.b1" placeholder="请输入" class="lineflex" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="7">
+                  <el-form-item label="价格">
+                    <el-select v-model="item.s3" class="lineflex">
+                      <el-option label="上升" value="上升" />
+                      <el-option label="下降" value="下降" />
+                    </el-select>
+                    <el-input v-model="item.c1" placeholder="价格" class="lineflex" />
+                    <el-button @click.native.prevent="
                   deleteRow(index, tableData6, 6)
                 " type="text" size="small">
-                  移除
-                </el-button>
-              </el-form-item>
-              </el-col>
-            </el-form>
+                      移除
+                    </el-button>
+                  </el-form-item>
+                </el-col>
+              </el-form>
             </el-row>
           </div>
         </div>
@@ -449,43 +449,43 @@
           <div v-for="(item,index) in form.tableData7" :key="index">
             <el-row style="width: 1200px">
               <el-form :model="item" class="demo-form-inline" label-width="60px">
-              <el-col :span="9">
-                <el-form-item label="当">
-                  <el-select v-model="item.a1" class="lineflex">
-                  <el-option label="Qgr,ad" value="Qgr,ad" />
-                  <el-option label="Qnt,ar" value="Qnt,ar" />
-                </el-select>
-                <el-select v-model="item.s1" class="lineflex">
-                  <el-option label=">" value=">" />
-                  <el-option label="<" value="<" />
-                </el-select>
-                <el-input v-model="item.a2" placeholder="请输入" class="lineflex" />
-              </el-form-item>
-              </el-col>
-              <el-col :span="7">
-                <el-form-item label="该值每">
-                <el-select v-model="item.s2" class="lineflex">
-                  <el-option label="上升" value="上升" />
-                  <el-option label="下降" value="下降" />
-                </el-select>
-                <el-input v-model="item.b1" placeholder="请输入" class="lineflex" />
-              </el-form-item>
-              </el-col>
-              <el-col :span="7">
-                <el-form-item label="价格">
-                <el-select v-model="item.s3" class="lineflex">
-                  <el-option label="上升" value="上升" />
-                  <el-option label="下降" value="下降" />
-                </el-select>
-                <el-input v-model="item.c1" placeholder="价格" class="lineflex" />
-                <el-button @click.native.prevent="
+                <el-col :span="9">
+                  <el-form-item label="当">
+                    <el-select v-model="item.a1" class="lineflex">
+                      <el-option label="Qgr,ad" value="Qgr,ad" />
+                      <el-option label="Qnt,ar" value="Qnt,ar" />
+                    </el-select>
+                    <el-select v-model="item.s1" class="lineflex">
+                      <el-option label=">" value=">" />
+                      <el-option label="<" value="<" />
+                    </el-select>
+                    <el-input v-model="item.a2" placeholder="请输入" class="lineflex" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="7">
+                  <el-form-item label="该值每">
+                    <el-select v-model="item.s2" class="lineflex">
+                      <el-option label="上升" value="上升" />
+                      <el-option label="下降" value="下降" />
+                    </el-select>
+                    <el-input v-model="item.b1" placeholder="请输入" class="lineflex" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="7">
+                  <el-form-item label="价格">
+                    <el-select v-model="item.s3" class="lineflex">
+                      <el-option label="上升" value="上升" />
+                      <el-option label="下降" value="下降" />
+                    </el-select>
+                    <el-input v-model="item.c1" placeholder="价格" class="lineflex" />
+                    <el-button @click.native.prevent="
                   deleteRow(index, tableData7, 7)
                 " type="text" size="small">
-                  移除
-                </el-button>
-              </el-form-item>
-              </el-col>
-            </el-form>
+                      移除
+                    </el-button>
+                  </el-form-item>
+                </el-col>
+              </el-form>
             </el-row>
           </div>
         </div>
@@ -504,44 +504,44 @@
         <div style="margin-bottom: 30px">
           <div v-for="(item,index) in form.tableData8" :key="index">
             <el-row style="width: 1200px">
-            <el-form :model="item" class="demo-form-inline" label-width="60px" >
-              <el-col :span="9">
-              <el-form-item label="当">
-                  <el-select v-model="item.a1" class="lineflex">
-                  <el-option label="Qgr,ad" value="Qgr,ad" />
-                  <el-option label="Qnt,ar" value="Qnt,ar" />
-                </el-select>
-                <el-select v-model="item.s1" class="lineflex">
-                  <el-option label=">" value=">" />
-                  <el-option label="<" value="<" />
-                </el-select>
-                <el-input v-model="item.a2" placeholder="请输入" class="lineflex" />
-              </el-form-item>
-              </el-col>
-              <el-col :span="7">
-              <el-form-item label="该值每">
-                <el-select v-model="item.s2" class="lineflex">
-                  <el-option label="上升" value="上升" />
-                  <el-option label="下降" value="下降" />
-                </el-select>
-                <el-input v-model="item.b1" placeholder="请输入" class="lineflex" />
-              </el-form-item>
-              </el-col>
-              <el-col :span="7">
-                <el-form-item label="价格">
-                <el-select v-model="item.s3" class="lineflex">
-                  <el-option label="上升" value="上升" />
-                  <el-option label="下降" value="下降" />
-                </el-select>
-                <el-input v-model="item.c1" placeholder="价格" class="lineflex" />
-                <el-button @click.native.prevent="
+              <el-form :model="item" class="demo-form-inline" label-width="60px">
+                <el-col :span="9">
+                  <el-form-item label="当">
+                    <el-select v-model="item.a1" class="lineflex">
+                      <el-option label="Qgr,ad" value="Qgr,ad" />
+                      <el-option label="Qnt,ar" value="Qnt,ar" />
+                    </el-select>
+                    <el-select v-model="item.s1" class="lineflex">
+                      <el-option label=">" value=">" />
+                      <el-option label="<" value="<" />
+                    </el-select>
+                    <el-input v-model="item.a2" placeholder="请输入" class="lineflex" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="7">
+                  <el-form-item label="该值每">
+                    <el-select v-model="item.s2" class="lineflex">
+                      <el-option label="上升" value="上升" />
+                      <el-option label="下降" value="下降" />
+                    </el-select>
+                    <el-input v-model="item.b1" placeholder="请输入" class="lineflex" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="7">
+                  <el-form-item label="价格">
+                    <el-select v-model="item.s3" class="lineflex">
+                      <el-option label="上升" value="上升" />
+                      <el-option label="下降" value="下降" />
+                    </el-select>
+                    <el-input v-model="item.c1" placeholder="价格" class="lineflex" />
+                    <el-button @click.native.prevent="
                   deleteRow(index, tableData8, 8)
                 " type="text" size="small">
-                  移除
-                </el-button>
-              </el-form-item>
-              </el-col>
-            </el-form>
+                      移除
+                    </el-button>
+                  </el-form-item>
+                </el-col>
+              </el-form>
             </el-row>
           </div>
         </div>
@@ -561,43 +561,43 @@
           <div v-for="(item,index) in form.tableData9" :key="index">
             <el-row style="width: 1200px">
               <el-form :model="item" class="demo-form-inline" label-width="60px">
-             <el-col :span="9">
-                <el-form-item label="当">
-                <el-select v-model="item.a1" class="lineflex">
-                  <el-option label="Qgr,ad" value="Qgr,ad" />
-                  <el-option label="Qnt,ar" value="Qnt,ar" />
-                </el-select>
-                <el-select v-model="item.s1" class="lineflex">
-                  <el-option label=">" value=">" />
-                  <el-option label="<" value="<" />
-                </el-select>
-                <el-input v-model="item.a2" placeholder="请输入" class="lineflex" />
-              </el-form-item>
-             </el-col>
-             <el-col :span="7">
-                <el-form-item label="该值每">
-                <el-select v-model="item.s2" class="lineflex">
-                  <el-option label="上升" value="上升" />
-                  <el-option label="下降" value="下降" />
-                </el-select>
-                <el-input v-model="item.b1" placeholder="请输入" class="lineflex" />
-              </el-form-item>
-             </el-col>
-              <el-col :span="7">
-                <el-form-item label="价格">
-                <el-select v-model="item.s3" class="lineflex">
-                  <el-option label="上升" value="上升" />
-                  <el-option label="下降" value="下降" />
-                </el-select>
-                <el-input v-model="item.c1" placeholder="价格" class="lineflex" />
-                <el-button @click.native.prevent="
+                <el-col :span="9">
+                  <el-form-item label="当">
+                    <el-select v-model="item.a1" class="lineflex">
+                      <el-option label="Qgr,ad" value="Qgr,ad" />
+                      <el-option label="Qnt,ar" value="Qnt,ar" />
+                    </el-select>
+                    <el-select v-model="item.s1" class="lineflex">
+                      <el-option label=">" value=">" />
+                      <el-option label="<" value="<" />
+                    </el-select>
+                    <el-input v-model="item.a2" placeholder="请输入" class="lineflex" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="7">
+                  <el-form-item label="该值每">
+                    <el-select v-model="item.s2" class="lineflex">
+                      <el-option label="上升" value="上升" />
+                      <el-option label="下降" value="下降" />
+                    </el-select>
+                    <el-input v-model="item.b1" placeholder="请输入" class="lineflex" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="7">
+                  <el-form-item label="价格">
+                    <el-select v-model="item.s3" class="lineflex">
+                      <el-option label="上升" value="上升" />
+                      <el-option label="下降" value="下降" />
+                    </el-select>
+                    <el-input v-model="item.c1" placeholder="价格" class="lineflex" />
+                    <el-button @click.native.prevent="
                   deleteRow(index, tableData9, 9)
                 " type="text" size="small">
-                  移除
-                </el-button>
-              </el-form-item>
-              </el-col>
-            </el-form>
+                      移除
+                    </el-button>
+                  </el-form-item>
+                </el-col>
+              </el-form>
             </el-row>
           </div>
         </div>
