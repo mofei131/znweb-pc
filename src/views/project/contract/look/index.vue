@@ -131,7 +131,7 @@
                 <td class="tdCoent">
                   {{ parseTime(form.signingTime, "{y}-{m}-{d}") }}
                 </td>
-                <td class="tdTitle">运输单位</td>
+                <td class="tdTitle">{{ form.type == '物流运输合同'?'运输单位':'服务单位'}}</td>
                 <td class="tdCoent">{{ form.transportUnit }}</td>
                 <td class="tdTitle">运输方式</td>
                 <td class="tdCoent">{{ form.transportType }}</td>
