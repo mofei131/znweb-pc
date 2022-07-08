@@ -1128,44 +1128,35 @@
                 <td class="tdTitle">业务名称</td>
                 <td class="tdCoent">{{form.stName}}</td>
                 <td class="tdTitle">项目编号</td>
-                <td class="tdCoent">{{ form.serialNo }}</td>
+                <td class="tdCoent">{{form.serialNo}}</td>
               </tr>
-              <tr>
-                <td class="tdTitle">保证金对象</td>
-                <td class="tdCoent">{{form.type}}</td>
-                <td class="tdTitle">保证金类型</td>
-                <td class="tdCoent">{{form.obj}}</td>
-                <td class="tdTitle">合同名称</td>
-                <td class="tdCoent">{{form.contractName}}</td>
-              </tr>
-              <tr v-if="form.type == '上游'">
-                <td class="tdTitle">供应商名称</td>
-                <td class="tdCoent">{{form.terminalName}}</td>
-                <td class="tdTitle">保证金金额(元)</td>
-                <td class="tdCoent">{{$options.filters.moneyFilter(form.putPrice)}}</td>
-                <td class="tdTitle"></td>
-                <td class="tdCoent"></td>
-              </tr>
-              <tr v-if="form.type == '下游'">
-                <td class="tdTitle">客户名称</td>
-                <td class="tdCoent">{{form.terminalName}}</td>
-                <td class="tdTitle">保证金金额(元)</td>
-                <td class="tdCoent">{{$options.filters.moneyFilter(form.putPrice)}}</td>
-                <td class="tdTitle"></td>
-                <td class="tdCoent"></td>
-              </tr>
-            </table>
-          </el-col>
-        </el-row>
-        <div v-if="form.type == '下游'">
-          <el-row class="head-title">
-            <el-col :span="19">
-              <el-form-item label="服务费"></el-form-item>
-            </el-col>
-          </el-row>
-          <el-row class="head-text">
-            <el-col class="newTable">
-              <table width="90%" cellpadding="0" cellspacing="0">
+              <template v-if="form.type == '上游'">
+                <tr>
+                  <td class="tdTitle">保证金对象</td>
+                  <td class="tdCoent">{{form.type}}</td>
+                  <td class="tdTitle">合同名称</td>
+                  <td class="tdCoent">{{form.contractName}}</td>
+                  <td class="tdTitle">供应商名称</td>
+                  <td class="tdCoent">{{form.terminalName}}</td>
+                </tr>
+                <tr>
+                  <td class="tdTitle">保证金金额(元)</td>
+                  <td class="tdCoent">{{$options.filters.moneyFilter(form.putPrice)}}</td>
+                  <td class="tdTitle"></td>
+                  <td class="tdCoent"></td>
+                  <td class="tdTitle"></td>
+                  <td class="tdCoent"></td>
+                </tr>
+              </template>
+              <template v-if="form.type == '下游'">
+                <tr>
+                  <td class="tdTitle">保证金对象</td>
+                  <td class="tdCoent">{{form.type}}</td>
+                  <td class="tdTitle">客户名称</td>
+                  <td class="tdCoent">{{form.terminalName}}</td>
+                  <td class="tdTitle">保证金金额(元)</td>
+                  <td class="tdCoent">{{$options.filters.moneyFilter(form.putPrice)}}</td>
+                </tr>
                 <tr>
                   <td class="tdTitle">年服务费率%</td>
                   <td class="tdCoent">{{form.stRate}}</td>
@@ -1174,10 +1165,10 @@
                   <td class="tdTitle">支付日期</td>
                   <td class="tdCoent">{{parseTime(form.putTime, "{y}-{m}-{d}")}}</td>
                 </tr>
-              </table>
-            </el-col>
-          </el-row>
-        </div>
+              </template>
+            </table>
+          </el-col>
+        </el-row>
         <!--      合同信息-->
         <el-row class="head-title">
           <el-col :span="12">
