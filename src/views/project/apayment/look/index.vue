@@ -77,7 +77,7 @@
               <td class="tdCoent">{{form.away}}</td>
               <td class="tdTitle">预付方式</td>
               <td class="tdCoent">{{form.type}}</td>
-              <td class="tdTitle">结算方式</td>
+              <td class="tdTitle">业务类型</td>
               <td class="tdCoent">{{businessTypeFormat(form.businessType)}}</td>
 
             </tr>
@@ -127,7 +127,7 @@
       <el-row>
         <el-col :span="22" :offset="1">
           <el-table ref="singleTable" :data="dataList" fit style="margin-bottom: 30px;width:90%;">
-            <el-table-column property="name" label="货品名称" width="90">
+            <el-table-column property="name" label="货品名称" width="120">
             </el-table-column>
             <el-table-column v-if="form.away == '首次'" property="grnNumber" label="重量（吨）" width="120">
               <template slot-scope="scope">
@@ -165,7 +165,7 @@
             </el-table-column>
             <el-table-column v-if="form.away == '二次'" property="deliveryTime" label="到货日期" width="120">
             </el-table-column>
-            <el-table-column property="valuePrice" label="货值单价（元）" width="90">
+            <el-table-column property="valuePrice" label="货值单价（元）" width="120">
               <template slot-scope="scope">
                 {{
                 Number(scope.row.valuePrice)
@@ -175,7 +175,7 @@
                 }}
               </template>
             </el-table-column>
-            <el-table-column property="valueTprice" label="货值总额（元）" width="90">
+            <el-table-column property="valueTprice" label="货值总额（元）" width="120">
               <template slot-scope="scope">
                 {{
                 Number(scope.row.valueTprice)
@@ -270,10 +270,10 @@
             <tr>
               <td class="tdTitle">预付总额(元)</td>
               <td class="tdCoent">{{$options.filters.moneyFilter(form.totalPrice)}}</td>
-              <td class="tdTitle">固定差价(元)</td>
-              <td class="tdCoent">{{$options.filters.moneyFilter(form.dPrice)}}</td>
               <td class="tdTitle">预付至</td>
               <td class="tdCoent">{{form.ato}}</td>
+              <td class="tdTitle">已付金额(元)</td>
+              <td class="tdCoent newproColor">{{$options.filters.moneyFilter(form.prepaidPrice)}}</td>
             </tr>
             <tr>
               <td class="tdTitle">税款(元)</td>
@@ -292,12 +292,12 @@
               <td class="tdCoent newproColor">{{$options.filters.moneyFilter(form.payTprice)}}</td>
             </tr>
             <tr>
-              <td class="tdTitle">已付金额(元)</td>
-              <td class="tdCoent newproColor">{{$options.filters.moneyFilter(form.prepaidPrice)}}</td>
               <td class="tdTitle">垫付保证金(元)</td>
               <td class="tdCoent newproColor">{{$options.filters.moneyFilter(form.dfPrice)}}</td>
               <td class="tdTitle">实际付款金额(元)</td>
               <td class="tdCoent newproColor">{{$options.filters.moneyFilter(form.actualPrice)}}</td>
+              <td class="tdTitle"></td>
+              <td class="tdCoent newproColor"></td>
             </tr>
           </table>
         </el-col>

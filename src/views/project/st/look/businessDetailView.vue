@@ -258,7 +258,7 @@
       </div>
     </div>
     <div class="maodian"
-      style="position: fixed;top:94px;right:0;width:12.8%;height:588px;background-color: #ffffff;border-radius: 10px;text-align: center;line-height:30px;font-size: 13px">
+      style="position: fixed;top:94px;right:16px;width:12.8%;height:588px;background-color: #ffffff;border-radius: 10px;text-align: center;line-height:30px;font-size: 13px">
       <div ref="bid" @click="jump('bid')">投标申请</div>
       <div ref="contract" @click="jump('contract')">合同管理</div>
       <div ref="rewardsp" v-if="projectInfo.businessType != 'cu' && projectInfo.businessType != 'cud'"

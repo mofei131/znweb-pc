@@ -469,11 +469,11 @@
                   <el-input @change="atochange" v-model="form.totalPrice" placeholder="请输入预付总额" />
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
+              <!-- <el-col :span="12">
                 <el-form-item label="固定差价(元)" prop="dPrice">
                   <el-input v-model="form.dPrice" placeholder="请输入固定差价" />
                 </el-form-item>
-              </el-col>
+              </el-col> -->
             </el-row>
             <el-row>
               <el-col :span="12">
@@ -690,7 +690,7 @@
               <td class="table-td-content">
                 {{ printData.number }}
               </td>
-              <td class="table-td-title detail">结算方式</td>
+              <td class="table-td-title detail">业务类型</td>
               <td class="table-td-content">
                 {{ businessTypeFormat(printData.businessType) }}
               </td>
@@ -878,10 +878,10 @@
               <td class="table-td-content">
                 {{ $options.filters.moneyFilter(printData.totalPrice) }}
               </td>
-              <td class="table-td-title detail">固定差价</td>
+              <!-- <td class="table-td-title detail">固定差价</td>
               <td class="table-td-content">
                 {{ $options.filters.moneyFilter(printData.dPrice) }}
-              </td>
+              </td> -->
               <td class="table-td-title detail">预付至</td>
               <td class="table-td-content">
                 {{ printData.ato }}

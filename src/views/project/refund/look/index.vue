@@ -44,28 +44,28 @@
         <el-col class="newTable">
           <table width="90%" cellpadding="0" cellspacing="0">
             <tr>
-              <td class="tdTitle">创建时间</td>
-              <td class="tdCoent">{{form.createTime}}</td>
-              <td class="tdTitle">业务名称</td>
-              <td class="tdCoent">{{form.projectName}}</td>
               <td class="tdTitle">项目名称</td>
+              <td class="tdCoent">{{form.projectName}}</td>
+              <td class="tdTitle">业务名称</td>
               <td class="tdCoent">{{form.stName}}</td>
+              <td class="tdTitle">项目编号</td>
+              <td class="tdCoent">{{ form.serialNo }}</td>
             </tr>
             <tr>
-              <td class="tdTitle">项目编号</td>
-              <td class="tdCoent">{{form.serialNo}}</td>
               <td class="tdTitle">终端用户</td>
               <td class="tdCoent">{{form.tName}}</td>
               <td class="tdTitle">账号</td>
               <td class="tdCoent">{{form.account}}</td>
+              <td class="tdTitle">开户行</td>
+              <td class="tdCoent">{{form.bank}}</td>
             </tr>
             <tr>
               <td class="tdTitle">退款金额(元)</td>
               <td class="tdCoent">{{$options.filters.moneyFilter(form.moneyAmount)}}</td>
               <td class="tdTitle">备注</td>
               <td class="tdCoent">{{form.remark}}</td>
-              <td class="tdTitle"></td>
-              <td class="tdCoent"></td>
+              <td class="tdTitle">创建时间</td>
+              <td class="tdCoent">{{ form.createTime }}</td>
             </tr>
           </table>
         </el-col>
