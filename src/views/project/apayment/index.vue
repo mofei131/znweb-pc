@@ -642,7 +642,9 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="年息服务费率(%)" prop="rateYear">
-                <el-input v-model="form.rateYear" placeholder="请输入年息服务费率" />
+                <el-input-number v-model="form.rateYear" controls-position="right" :precision="2" :step="0.01" :min="0"
+                  :max="100" placeholder="请输入年息服务费率" style="width:100%">
+                </el-input-number>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -1320,7 +1322,7 @@ export default {
         tax: null,
         expectPrice: null,
         payTime: null,
-        rateYear: null,
+        rateYear: undefined,
         mfsp: null,
         prepaidPrice: null,
         actualPrice: null,

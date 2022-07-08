@@ -92,8 +92,8 @@
       <el-table-column label="创建时间" align="center" prop="createTime" width="180">
         <template slot-scope="scope">
           <span>{{
-          parseTime(scope.row.createTime, "{y}-{m}-{d} {h}:{i}:{s}")
-          }}</span>
+            parseTime(scope.row.createTime, "{y}-{m}-{d} {h}:{i}:{s}")
+            }}</span>
         </template>
       </el-table-column>
       <el-table-column label="合同模板" width="160" align="center" class-name="small-padding fixed-width" v-if="editable">
@@ -222,7 +222,9 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item label="超时服务费费率(%)" prop="csmfsp">
-                  <el-input v-model="form.csrate" placeholder="请输入超时服务费费率" />
+                  <el-input-number v-model="form.csrate" controls-position="right" :precision="2" :step="0.01" :min="0"
+                    :max="100" placeholder="请输入超时服务费费率" style="width:100%">
+                  </el-input-number>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -234,7 +236,9 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item label="违约服务费费率(%)" prop="vymfsp">
-                  <el-input v-model="form.vyrate" placeholder="请输入违约服务费费率" />
+                  <el-input-number v-model="form.vyrate" controls-position="right" :precision="2" :step="0.01" :min="0"
+                    :max="100" placeholder="请输入违约服务费费率" style="width:100%">
+                  </el-input-number>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -592,7 +596,9 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item label="超时服务费费率(%)" prop="csmfsp">
-                  <el-input v-model="form.csrate" placeholder="请输入超时服务费费率" />
+                  <el-input-number v-model="form.csrate" controls-position="right" :precision="2" :step="0.01" :min="0"
+                    :max="100" placeholder="请输入超时服务费费率" style="width:100%">
+                  </el-input-number>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -604,7 +610,9 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item label="违约服务费费率(%)" prop="vymfsp">
-                  <el-input v-model="form.vyrate" placeholder="请输入违约服务费费率" />
+                  <el-input-number v-model="form.vyrate" controls-position="right" :precision="2" :step="0.01" :min="0"
+                    :max="100" placeholder="请输入违约服务费费率" style="width:100%">
+                  </el-input-number>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -1405,9 +1413,9 @@ export default {
         expectNumber: null,
         mfsp: null,
         csmfsp: null,
-        csrate: null,
+        csrate: undefined,
         vymfsp: null,
-        vyrate: null,
+        vyrate: undefined,
         price: null,
         transportUnit: null,
         transportType: null,
