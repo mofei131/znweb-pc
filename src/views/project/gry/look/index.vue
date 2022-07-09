@@ -1,5 +1,5 @@
 <style scoped>
-.head-title{
+.head-title {
   font-size: 16px;
   font-family: Microsoft YaHei;
   font-weight: 400;
@@ -8,41 +8,41 @@
   margin-top: 30px;
   margin-left: 20px;
 }
-.head-text{
+.head-text {
   font-size: 14px;
   font-family: Microsoft YaHei;
   font-weight: 400;
   color: #333333;
   line-height: 30px;
 }
-.head-text1{
+.head-text1 {
   font-size: 14px;
   font-family: Microsoft YaHei;
   font-weight: 400;
   color: #333333;
   line-height: 53px;
 }
-.head-text span{
+.head-text span {
   display: block;
-  width:220px;
-  line-height:30px;
-  margin-top:0px
+  width: 220px;
+  line-height: 30px;
+  margin-top: 0px;
 }
 
-.upload-hidden .el-upload--picture-card{
-  display:none;   /* 上传按钮隐藏 */
+.upload-hidden .el-upload--picture-card {
+  display: none; /* 上传按钮隐藏 */
 }
-.newproColor{
+.newproColor {
   color: red;
   width: 80px;
-  min-width: 80px!important;
+  min-width: 80px !important;
 }
-.dtdTitle{
+.dtdTitle {
   width: 80px;
   min-width: 80px;
 }
-.mincha{
-  min-width: 120px!important;
+.mincha {
+  min-width: 120px !important;
 }
 </style>
 <template>
@@ -54,7 +54,7 @@
           <el-form-item label="到厂数质量信息"></el-form-item>
         </el-col>
         <el-col :span="4">
-          <span style="color: #FF0000;">{{stateF(form.state)}}</span>
+          <span style="color: #ff0000">{{ stateF(form.state) }}</span>
         </el-col>
       </el-row>
       <el-row class="head-text">
@@ -62,32 +62,40 @@
           <table width="90%" cellpadding="0" cellspacing="0">
             <tr>
               <td class="tdTitle">项目名称</td>
-              <td class="tdCoent">{{form.projectName}}</td>
+              <td class="tdCoent">{{ form.projectName }}</td>
               <td class="tdTitle">业务名称</td>
-              <td class="tdCoent">{{form.stName}}</td>
+              <td class="tdCoent">{{ form.stName }}</td>
               <td class="tdTitle">项目编号</td>
-              <td class="tdCoent">{{form.serialNo}}</td>
+              <td class="tdCoent">{{ form.serialNo }}</td>
             </tr>
             <tr>
               <td class="tdTitle">重量(吨)</td>
-              <td class="tdCoent">{{$options.filters.weightFilter(form.grnNumber)}}</td>
+              <td class="tdCoent">
+                {{ $options.filters.weightFilter(form.grnNumber) }}
+              </td>
               <td class="tdTitle">到货日期</td>
-              <td class="tdCoent">{{parseTime(form.okTime, '{y}-{m}-{d}')}}</td>
+              <td class="tdCoent">
+                {{ parseTime(form.okTime, "{y}-{m}-{d}") }}
+              </td>
               <td class="tdTitle">热值（kcal）</td>
-              <td class="tdCoent">{{form.gryRz}}</td>
+              <td class="tdCoent">{{ form.gryRz }}</td>
             </tr>
             <tr>
               <td class="tdTitle">货值单价(元)</td>
-              <td class="tdCoent">{{$options.filters.moneyFilter(form.valuePrice)}}</td>
+              <td class="tdCoent">
+                {{ $options.filters.moneyFilter(form.valuePrice) }}
+              </td>
               <td class="tdTitle">货值总额(元)</td>
-              <td class="tdCoent">{{$options.filters.moneyFilter(form.valueTprice)}}</td>
+              <td class="tdCoent">
+                {{ $options.filters.moneyFilter(form.valueTprice) }}
+              </td>
               <td class="tdTitle"></td>
               <td class="tdCoent"></td>
             </tr>
           </table>
         </el-col>
-        </el-row>
-     <!-- <el-row class="head-text">
+      </el-row>
+      <!-- <el-row class="head-text">
         <el-col :span="7" :offset="1">
           <div style="display:flex">
             <div>项目名称：</div><span v-text="form.projectName"></span>
@@ -118,10 +126,9 @@
         </el-col>
       </el-row> -->
 
-
-      <el-row style="margin-top: 30px;">
+      <el-row style="margin-top: 30px">
         <el-col :span="22" :offset="1">
-          <el-table :data="zlList" fit style="margin-bottom: 22px;">
+          <el-table :data="zlList" fit style="margin-bottom: 22px">
             <el-table-column label="水分(%)">
               <template slot-scope="scope">
                 <span v-text="form.coalSf"></span>
@@ -186,7 +193,7 @@
           </el-table>
         </el-col>
       </el-row>
-      <el-row class="head-title" style="margin-left: 0px;">
+      <el-row class="head-title" style="margin-left: 0px">
         <el-col :span="12" :offset="1">
           <el-form-item label="奖惩"></el-form-item>
         </el-col>
@@ -196,31 +203,31 @@
           <table width="90%" cellpadding="0" cellspacing="0">
             <tr>
               <td class="tdTitle dtdTitle">水分</td>
-              <td class="tdCoent newproColor">{{form.jc1}}</td>
+              <td class="tdCoent newproColor">{{ form.jc1 }}</td>
               <td class="tdTitle dtdTitle">内水</td>
-              <td class="tdCoent newproColor">{{form.jc2}}</td>
+              <td class="tdCoent newproColor">{{ form.jc2 }}</td>
               <td class="tdTitle dtdTitle">灰份Aad</td>
-              <td class="tdCoent newproColor">{{form.jc3}}</td>
+              <td class="tdCoent newproColor">{{ form.jc3 }}</td>
               <td class="tdTitle dtdTitle">灰份ad</td>
-              <td class="tdCoent newproColor">{{form.jc10}}</td>
+              <td class="tdCoent newproColor">{{ form.jc10 }}</td>
               <td class="tdTitle dtdTitle">挥发份Vda</td>
-              <td class="tdCoent newproColor">{{form.jc4}}</td>
+              <td class="tdCoent newproColor">{{ form.jc4 }}</td>
               <td class="tdTitle dtdTitle">挥发份Vdaf</td>
-              <td class="tdCoent newproColor">{{form.jc11}}</td>
+              <td class="tdCoent newproColor">{{ form.jc11 }}</td>
             </tr>
             <tr>
               <td class="tdTitle dtdTitle">灰熔点</td>
-              <td class="tdCoent newproColor">{{form.jc5}}</td>
+              <td class="tdCoent newproColor">{{ form.jc5 }}</td>
               <td class="tdTitle dtdTitle">固定碳</td>
-              <td class="tdCoent newproColor">{{form.jc6}}</td>
+              <td class="tdCoent newproColor">{{ form.jc6 }}</td>
               <td class="tdTitle dtdTitle">含硫量</td>
-              <td class="tdCoent newproColor">{{form.jc7}}</td>
+              <td class="tdCoent newproColor">{{ form.jc7 }}</td>
               <td class="tdTitle dtdTitle">热值Qgr,ad</td>
-              <td class="tdCoent newproColor">{{form.jc8}}</td>
+              <td class="tdCoent newproColor">{{ form.jc8 }}</td>
               <td class="tdTitle dtdTitle">热值Qnt,ar</td>
-              <td class="tdCoent newproColor">{{form.jc9}}</td>
+              <td class="tdCoent newproColor">{{ form.jc9 }}</td>
               <td class="tdTitle dtdTitle">热值Kcal</td>
-              <td class="tdCoent newproColor">{{form.jc12}}</td>
+              <td class="tdCoent newproColor">{{ form.jc12 }}</td>
             </tr>
           </table>
         </el-col>
@@ -255,18 +262,23 @@
           <el-form-item label="随车数质量信息"></el-form-item>
         </el-col>
       </el-row>
-      <el-row style="margin-top: 30px;">
+      <el-row style="margin-top: 30px">
         <el-col :span="22" :offset="1">
-          <el-table ref="singleTable" :data="grnList" fit style="margin-bottom: 30px;">
+          <el-table
+            ref="singleTable"
+            :data="grnList"
+            fit
+            style="margin-bottom: 30px"
+          >
             <el-table-column property="name" label="已选货品名称">
             </el-table-column>
             <el-table-column property="grnNumber" label="重量（吨）">
               <template slot-scope="scope">
                 {{
-                Number(scope.row.grnNumber)
-                .toFixed(3)
-                .toString()
-                .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  Number(scope.row.grnNumber)
+                    .toFixed(3)
+                    .toString()
+                    .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                 }}
               </template>
             </el-table-column>
@@ -274,31 +286,30 @@
             </el-table-column>
             <el-table-column property="transportType" label="运输方式">
             </el-table-column>
-            <el-table-column property="wlCompany" label="物流公司">
+            <el-table-column property="tpcName" label="物流公司">
             </el-table-column>
             <el-table-column property="carNumber" label="车数">
             </el-table-column>
-            <el-table-column property="batch" label="批次">
-            </el-table-column>
+            <el-table-column property="batch" label="批次"> </el-table-column>
             <el-table-column property="deliveryTime" label="发货日期">
             </el-table-column>
             <el-table-column property="valuePrice" label="货值单价（元）">
               <template slot-scope="scope">
                 {{
-                Number(scope.row.valuePrice)
-                .toFixed(2)
-                .toString()
-                .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  Number(scope.row.valuePrice)
+                    .toFixed(2)
+                    .toString()
+                    .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                 }}
               </template>
             </el-table-column>
             <el-table-column property="valueTprice" label="货值总额（元）">
               <template slot-scope="scope">
                 {{
-                Number(scope.row.valueTprice)
-                .toFixed(2)
-                .toString()
-                .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
+                  Number(scope.row.valueTprice)
+                    .toFixed(2)
+                    .toString()
+                    .replace(/(\d{1,3})(?=(\d{3})+(?:￥|\.))/g, "$1,")
                 }}
               </template>
             </el-table-column>
@@ -310,18 +321,24 @@
           <table width="90%" cellpadding="0" cellspacing="0">
             <tr>
               <td class="tdTitle mincha">重量差(吨)</td>
-              <td class="tdCoent mincha" style="color: red">{{$options.filters.weightFilter(zlc)}}</td>
+              <td class="tdCoent mincha" style="color: red">
+                {{ $options.filters.weightFilter(zlc) }}
+              </td>
               <td class="tdTitle mincha">热值差（kcal）</td>
-              <td class="tdCoent mincha" style="color: red">{{rzc}}</td>
+              <td class="tdCoent mincha" style="color: red">{{ rzc }}</td>
               <td class="tdTitle mincha">单价差(元)</td>
-              <td class="tdCoent mincha" style="color: red">{{$options.filters.moneyFilter(djc)}}</td>
+              <td class="tdCoent mincha" style="color: red">
+                {{ $options.filters.moneyFilter(djc) }}
+              </td>
               <td class="tdTitle mincha">总额差(元)</td>
-              <td class="tdCoent mincha" style="color: red">{{$options.filters.moneyFilter(zec)}}</td>
+              <td class="tdCoent mincha" style="color: red">
+                {{ $options.filters.moneyFilter(zec) }}
+              </td>
             </tr>
           </table>
         </el-col>
-        </el-row>
-     <!-- <el-row class="head-text1">
+      </el-row>
+      <!-- <el-row class="head-text1">
         <el-col :span="4" :offset="1">
           <el-form-item label="重量差">
             <span style="color: red" v-text="$options.filters.weightFilter(zlc)"></span>
@@ -366,11 +383,14 @@
 
       <!--      审批信息-->
       <approval-record :typeId="11" :stId="gryId"></approval-record>
-
     </el-form>
     <el-row>
       <el-col :offset="1" :span="20">
-        <div slot="" class="dialog-footer" style="text-align: right;margin-bottom: 50px;margin-right: 50px;">
+        <div
+          slot=""
+          class="dialog-footer"
+          style="text-align: right; margin-bottom: 50px; margin-right: 50px"
+        >
           <el-button size="small" type="info" @click="cancel">关 闭</el-button>
         </div>
       </el-col>
@@ -378,48 +398,47 @@
   </div>
 </template>
 <script>
-
-import {getGry} from "@/api/project/gry";
-import {getProcessDataByStId} from "@/api/approve";
+import { getGry } from "@/api/project/gry";
+import { getProcessDataByStId } from "@/api/approve";
 
 export default {
   name: "contractLook",
   data() {
     return {
       //煤炭质量集合
-      zlList:[{show:true}],
+      zlList: [{ show: true }],
       //入库集合
-      grnList:[],
+      grnList: [],
       // 表单参数
       form: {},
       //差值
-      zlc:0,
-      rzc:0,
-      djc:0,
-      zec:0,
-      gryId:'',
+      zlc: 0,
+      rzc: 0,
+      djc: 0,
+      zec: 0,
+      gryId: "",
       //附件集合
       fileList: [],
     };
   },
   created() {
     const gryId = this.$route.params && this.$route.params.gryId;
-    this.gryId = gryId
-    getGry(gryId).then(response => {
-      this.form=response.data
+    this.gryId = gryId;
+    getGry(gryId).then((response) => {
+      this.form = response.data;
       this.fileList = response.data.fileList;
       this.grnList = response.data.grnList;
-      this.zlc=response.data.grnNumber-this.grnList[0].grnNumber;
-      this.rzc=response.data.gryRz-this.grnList[0].grnRz;
-      this.djc=response.data.valuePrice-this.grnList[0].valuePrice;
-      this.zec=response.data.valueTprice-this.grnList[0].valueTprice;
-    })
+      this.zlc = response.data.grnNumber - this.grnList[0].grnNumber;
+      this.rzc = response.data.gryRz - this.grnList[0].grnRz;
+      this.djc = response.data.valuePrice - this.grnList[0].valuePrice;
+      this.zec = response.data.valueTprice - this.grnList[0].valueTprice;
+    });
   },
   methods: {
-    cancel(){
+    cancel() {
       this.$store.dispatch("tagsView/delView", this.$route);
       this.$router.go(-1);
     },
-  }
+  },
 };
 </script>

@@ -537,7 +537,9 @@
 
             <el-row style="margin-bottom: 10px">
               <el-col :span="6">
-                <span style="font-weight:600">合计重量(吨){{"\xa0\xa0"}}</span>
+                <span style="font-weight: 600"
+                  >合计重量(吨){{ "\xa0\xa0" }}</span
+                >
                 <span style="color: red">{{
                   $options.filters.weightFilter(form.tweight)
                 }}</span>
@@ -545,7 +547,9 @@
             </el-row>
             <el-row style="margin-bottom: 10px">
               <el-col :span="6">
-                <span style="font-weight:600">平均热值(kcal){{"\xa0\xa0"}}</span>
+                <span style="font-weight: 600"
+                  >平均热值(kcal){{ "\xa0\xa0" }}</span
+                >
                 <span style="color: red">{{ form.prz }}</span>
               </el-col>
             </el-row>
@@ -731,7 +735,7 @@
                 </el-form-item>
               </el-col>
             </el-row>
-            <el-row>
+            <!-- <el-row>
               <el-col :span="12">
                 <el-form-item label="收款日期" prop="skTime">
                   <el-date-picker
@@ -746,11 +750,11 @@
                   </el-date-picker>
                 </el-form-item>
               </el-col>
-            </el-row>
+            </el-row> -->
           </div>
         </div>
         <div v-if="isLook == 4">
-          <el-row>
+          <!-- <el-row>
             <el-col :span="12">
               <el-form-item label="收款日期" prop="skTime">
                 <el-date-picker
@@ -765,7 +769,7 @@
                 </el-date-picker>
               </el-form-item>
             </el-col>
-          </el-row>
+          </el-row> -->
         </div>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -909,10 +913,10 @@
               </td>
             </tr>
             <tr>
-              <td class="table-td-title detail">收款日期</td>
+              <!-- <td class="table-td-title detail">收款日期</td>
               <td class="table-td-content">
                 {{ parseTime(printData.skTime, "{y}-{m}-{d}") }}
-              </td>
+              </td> -->
               <td class="table-td-title detail">承兑</td>
               <td class="table-td-content">
                 {{ $options.filters.moneyFilter(printData.accept) }}

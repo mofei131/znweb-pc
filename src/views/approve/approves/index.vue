@@ -1005,12 +1005,14 @@
                 <td class="tdCoent">{{$options.filters.moneyFilter(form.skPrice)}}</td>
               </tr>
               <tr>
-                <td class="tdTitle">收款日期</td>
-                <td class="tdCoent">{{parseTime(form.skTime, "{y}-{m}-{d}")}}</td>
+                <!-- <td class="tdTitle">收款日期</td>
+                <td class="tdCoent">{{parseTime(form.skTime, "{y}-{m}-{d}")}}</td> -->
                 <td class="tdTitle">承兑</td>
                 <td class="tdCoent">{{form.accept}}</td>
                 <td class="tdTitle">扣罚</td>
                 <td class="tdCoent">{{form.punish}}</td>
+                <td class="tdTitle"></td>
+                <td class="tdCoent"></td>
               </tr>
               <tr>
                 <td class="tdTitle">其他扣罚</td>
