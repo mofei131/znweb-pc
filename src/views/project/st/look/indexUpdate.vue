@@ -91,7 +91,7 @@ import { getProcessDataByStId } from "@/api/approve";
 import businessDetailView from '@/views/project/st/look/businessDetailView'
 
 export default {
-  name: "look",
+  name: "lookUpdate",
   components: {
     businessDetailView
   },

@@ -316,7 +316,7 @@ import sticket from '@/views/project/sticket'
 import kp from '@/views/project/kp'
 import { exportBusiness, getStInfo, projectInfo } from "@/api/project/st";
 export default {
-  name: "look",
+  name: "lookAdd",
   data() {
     return {
       stId: '',
@@ -353,14 +353,34 @@ export default {
         this.projectInfo = res.data
       })
     })
-    window.addEventListener("scroll", this.handleScroll,true);
+    window.addEventListener("scroll", this.scrollHandle,true);
+  },
+  beforeDestroy() {
+    window.removeEventListener('scroll', this.scrollHandle, true)
+  },
+  destroyed() {
+    sessionStorage.removeItem(this.stId)
+  },
+  activated() {
+    window.addEventListener("scroll", this.scrollHandle, true);
+    let scrollTop = sessionStorage.getItem(this.stId)
+    if (scrollTop) {
+      this.handleScrollView(parseInt(scrollTop))
+    }
+  },
+  deactivated() {
+    window.removeEventListener('scroll', this.scrollHandle,true)
   },
   methods: {
     a(e){
       console.log(e)
     },
-    handleScroll(){
-      let top=document.documentElement.scrollTop-83
+    scrollHandle(e){
+      this.handleScroll(e.target.scrollTop)
+    },
+    handleScroll(scrollTop){
+      sessionStorage.setItem(this.stId, scrollTop)
+      let top = scrollTop - 83
       if(top>document.querySelector("#bid").offsetTop&&top<document.querySelector("#contract").offsetTop){
         this.changeColor('bid')
       }else if(top>document.querySelector("#contract").offsetTop&&top<document.querySelector("#rewardsp").offsetTop){
@@ -409,6 +429,58 @@ export default {
       }
       else if(top>document.querySelector("#service").offsetTop){
         this.changeColor('service')
+      }
+    },
+    handleScrollView(scrollTop) {
+      let top = scrollTop - 83
+      if (top > document.querySelector("#bid").offsetTop && top < document.querySelector("#contract").offsetTop) {
+        this.jump('bid')
+      } else if (top > document.querySelector("#contract").offsetTop && top < document.querySelector("#rewardsp").offsetTop) {
+        this.jump('contract')
+      } else if (top > document.querySelector("#rewardsp").offsetTop && top < document.querySelector("#grn").offsetTop) {
+        this.jump('rewardsp')
+      }
+      else if (top > document.querySelector("#grn").offsetTop && top < document.querySelector("#gry").offsetTop) {
+        this.jump('grn')
+      }
+      else if (top > document.querySelector("#gry").offsetTop && top < document.querySelector("#margin").offsetTop) {
+        this.jump('gry')
+      }
+      else if (top > document.querySelector("#margin").offsetTop && top < document.querySelector("#lpayment").offsetTop) {
+        this.jump('margin')
+      }
+      else if (top > document.querySelector("#lpayment").offsetTop && top < document.querySelector("#wldetails").offsetTop) {
+        this.jump('lpayment')
+      }
+      else if (top > document.querySelector("#wldetails").offsetTop && top < document.querySelector("#apayment").offsetTop) {
+        this.jump('wldetails')
+      }
+      else if (top > document.querySelector("#apayment").offsetTop && top < document.querySelector("#fpayment").offsetTop) {
+        this.jump('apayment')
+      }
+      else if (top > document.querySelector("#fpayment").offsetTop && top < document.querySelector("#estimated").offsetTop) {
+        this.jump('fpayment')
+      }
+      else if (top > document.querySelector("#estimated").offsetTop && top < document.querySelector("#realsk").offsetTop) {
+        this.jump('estimated')
+      }
+      else if (top > document.querySelector("#realsk").offsetTop && top < document.querySelector("#refund").offsetTop) {
+        this.jump('realsk')
+      }
+      else if (top > document.querySelector("#refund").offsetTop && top < document.querySelector("#sp").offsetTop) {
+        this.jump('refund')
+      }
+      else if (top > document.querySelector("#sp").offsetTop && top < document.querySelector("#kp").offsetTop) {
+        this.jump('sp')
+      }
+      else if (top > document.querySelector("#kp").offsetTop && top < document.querySelector("#sfdetails").offsetTop) {
+        this.jump('kp')
+      }
+      else if (top > document.querySelector("#sfdetails").offsetTop && top > document.querySelector("#service").offsetTop) {
+        this.jump('sfdetails')
+      }
+      else if (top > document.querySelector("#service").offsetTop) {
+        this.jump('service')
       }
     },
     jump(e) {
