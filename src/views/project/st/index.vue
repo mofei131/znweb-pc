@@ -49,8 +49,8 @@
       <el-table-column label="创建时间" align="center" prop="createTime" width="180">
         <template slot-scope="scope">
           <span>{{
-            parseTime(scope.row.createTime, "{y}-{m}-{d} {h}:{i}:{s}")
-            }}</span>
+          parseTime(scope.row.createTime, "{y}-{m}-{d} {h}:{i}:{s}")
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column label="审批状态" align="center">
@@ -279,7 +279,7 @@
             <template slot="label">业务实控人</template>{{ projectInfo.actualControlName }}
           </el-descriptions-item>
           <el-descriptions-item>
-            <template slot="label">收费模式</template>{{ projectInfo.chargemType }}
+            <template slot="label">收费模式</template>{{ changeChargemType(projectInfo.chargemType) }}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">货运方式</template>{{ changeTransType(projectInfo.freightMode) }}
@@ -1805,6 +1805,15 @@ export default {
     handleOpen() {
       this.isDisabled = false;
     },
+    changeChargemType(e) {
+      if (e == '1') {
+        return '年息'
+      } else if (e == '2') {
+        return '固定差价'
+      } else if (e == '3') {
+        return '年息+固定差价'
+      }
+    }
   },
 };
 </script>
