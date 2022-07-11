@@ -60,6 +60,14 @@
             <tr>
               <td class="tdTitle">供应商开户行</td>
               <td class="tdCoent">{{form.openbank}}</td>
+              <td class="tdTitle">电厂结算金额(元)</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.jst)}}</td>
+              <td class="tdTitle">税款(元)</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.jstax)}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">货品单价(元)</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.price)}}</td>
               <td class="tdTitle"></td>
               <td class="tdCoent"></td>
               <td class="tdTitle"></td>
@@ -169,20 +177,12 @@
 
       <el-row class="head-title">
         <el-col :span="19">
-          <el-form-item label="基础信息"></el-form-item>
+          <el-form-item label="扣除费用明细"></el-form-item>
         </el-col>
       </el-row>
       <el-row class="head-text">
         <el-col class="newTable">
           <table width="90%" cellpadding="0" cellspacing="0">
-            <tr>
-              <td class="tdTitle">电厂结算金额(元)</td>
-              <td class="tdCoent">{{$options.filters.moneyFilter(form.jst)}}</td>
-              <td class="tdTitle">税款(元)</td>
-              <td class="tdCoent">{{$options.filters.moneyFilter(form.jstax)}}</td>
-              <td class="tdTitle">货品单价(元)</td>
-              <td class="tdCoent">{{$options.filters.moneyFilter(form.price)}}</td>
-            </tr>
             <tr>
               <td class="tdTitle">运费(元)</td>
               <td class="tdCoent">{{$options.filters.moneyFilter(form.ttPrice)}}</td>
@@ -200,13 +200,43 @@
               <td class="tdCoent">{{$options.filters.moneyFilter(form.bsPrice)}}</td>
             </tr>
             <tr>
-              <td class="tdTitle">其他扣款(元)</td>
-              <td class="tdCoent">{{$options.filters.moneyFilter(form.otherPrice)}}</td>
+              <td class="tdTitle">其他费用(元)</td>
+              <td class="tdCoent">{{$options.filters.moneyFilter(form.qt)}}</td>
+              <td class="tdTitle"></td>
+              <td class="tdCoent"></td>
+              <td class="tdTitle"></td>
+              <td class="tdCoent"></td>
+            </tr>
+          </table>
+        </el-col>
+      </el-row>
+      <el-row class="head-title">
+        <el-col :span="19">
+          <el-form-item label="增加费用明细"></el-form-item>
+        </el-col>
+      </el-row>
+      <el-row class="head-text">
+        <el-col class="newTable">
+          <table width="90%" cellpadding="0" cellspacing="0">
+            <tr>
               <td class="tdTitle">贴息(元)</td>
               <td class="tdCoent">{{$options.filters.moneyFilter(form.tx)}}</td>
               <td class="tdTitle">其他费用(元)</td>
               <td class="tdCoent">{{$options.filters.moneyFilter(form.qt)}}</td>
+              <td class="tdTitle"></td>
+              <td class="tdCoent"></td>
             </tr>
+          </table>
+        </el-col>
+      </el-row>
+      <el-row class="head-title">
+        <el-col :span="19">
+          <el-form-item label="应付款明细"></el-form-item>
+        </el-col>
+      </el-row>
+      <el-row class="head-text">
+        <el-col class="newTable">
+          <table width="90%" cellpadding="0" cellspacing="0">
             <tr>
               <td class="tdTitle">最终应付款金额(元)</td>
               <td class="tdCoent">{{$options.filters.moneyFilter(form.yftotalPrice)}}</td>
