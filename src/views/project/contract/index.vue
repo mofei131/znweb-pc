@@ -323,7 +323,7 @@
             <el-row>
               <el-col :span="12">
                 <el-form-item label="运费单价(元/吨)" prop="transportPrice">
-                  <el-input v-model="form.transportPrice" placeholder="请输入运费单价(吨/元)" />
+                  <el-input v-model="form.transportPrice" placeholder="请输入运费单价(元/吨)" />
                 </el-form-item>
               </el-col>
               <el-col :span="12">
@@ -372,8 +372,8 @@
             </el-row>
             <el-row>
               <el-col :span="12">
-                <el-form-item label="运费单价(吨/元)" prop="transportPrice">
-                  <el-input v-model="form.transportPrice" placeholder="请输入运费单价(吨/元)" />
+                <el-form-item label="运费单价(元/吨)" prop="transportPrice">
+                  <el-input v-model="form.transportPrice" placeholder="请输入运费单价(元/吨)" />
                 </el-form-item>
               </el-col>
               <el-col :span="12">
@@ -697,7 +697,7 @@
             <el-row>
               <el-col :span="12">
                 <el-form-item label="运费单价(元/吨)" prop="transportPrice">
-                  <el-input v-model="form.transportPrice" placeholder="请输入运费单价(吨/元)" />
+                  <el-input v-model="form.transportPrice" placeholder="请输入运费单价(元/吨)" />
                 </el-form-item>
               </el-col>
               <el-col :span="12">
@@ -746,8 +746,8 @@
             </el-row>
             <el-row>
               <el-col :span="12">
-                <el-form-item label="运费单价(吨/元)" prop="transportPrice">
-                  <el-input v-model="form.transportPrice" placeholder="请输入运费单价(吨/元)" />
+                <el-form-item label="运费单价(元/吨)" prop="transportPrice">
+                  <el-input v-model="form.transportPrice" placeholder="请输入运费单价(元/吨)" />
                 </el-form-item>
               </el-col>
               <el-col :span="12">
@@ -1026,7 +1026,7 @@
                 </td>
               </tr>
               <tr>
-                <td class="table-td-title detail">运输单价(吨/元)</td>
+                <td class="table-td-title detail">运输单价(元/吨)</td>
                 <td class="table-td-content">
                   {{ $options.filters.moneyFilter(printData.transportPrice) }}
                 </td>
@@ -1066,7 +1066,7 @@
                 </td>
               </tr>
               <tr>
-                <td class="table-td-title detail">运输单价(吨/元)</td>
+                <td class="table-td-title detail">运输单价(元/吨)</td>
                 <td class="table-td-content">
                   {{ $options.filters.moneyFilter(printData.transportPrice) }}
                 </td>
@@ -1120,8 +1120,6 @@ import {
   getStList,
   getSupplierList,
   getTerminalList,
-  listForBus,
-  listForPro,
 } from "@/api/project/contract";
 import { getToken } from "@/utils/auth";
 import print from "print-js";
