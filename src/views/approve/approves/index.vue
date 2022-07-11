@@ -27,8 +27,8 @@
       <el-row class="head-title">
         <el-col :span="19">
           <el-form-item label="发起人：">{{
-          queryParams.initiatorUserName
-          }}</el-form-item>
+            queryParams.initiatorUserName
+            }}</el-form-item>
         </el-col>
       </el-row>
     </el-form>
@@ -69,14 +69,36 @@
                 <td class="tdTitle">货运方式</td>
                 <td class="tdCoent">{{changeTransType(projectInfo.freightMode)}}</td>
               </tr>
-              <tr>
-                <td class="tdTitle">年服务费率(%)</td>
-                <td class="tdCoent">{{projectInfo.chargemNx}}</td>
-                <td class="tdTitle">固定差价(元)</td>
-                <td class="tdCoent">{{projectInfo.chargemGd}}</td>
-                <td class="tdTitle">备注说明</td>
-                <td class="tdCoent">{{projectInfo.node}}</td>
-              </tr>
+              <template v-if="projectInfo.chargemType == '1'">
+                <tr>
+                  <td class="tdTitle">年服务费率(%)</td>
+                  <td class="tdCoent">{{projectInfo.chargemNx}}</td>
+                  <td class="tdTitle">备注说明</td>
+                  <td class="tdCoent">{{projectInfo.node}}</td>
+                  <td class="tdTitle"></td>
+                  <td class="tdCoent"></td>
+                </tr>
+              </template>
+              <template v-if="projectInfo.chargemType == '2'">
+                <tr>
+                  <td class="tdTitle">固定差价(元)</td>
+                  <td class="tdCoent">{{projectInfo.chargemGd}}</td>
+                  <td class="tdTitle">备注说明</td>
+                  <td class="tdCoent">{{projectInfo.node}}</td>
+                  <td class="tdTitle"></td>
+                  <td class="tdCoent"></td>
+                </tr>
+              </template>
+              <template v-if="projectInfo.chargemType == '3'">
+                <tr>
+                  <td class="tdTitle">年服务费率(%)</td>
+                  <td class="tdCoent">{{projectInfo.chargemNx}}</td>
+                  <td class="tdTitle">固定差价(元)</td>
+                  <td class="tdCoent">{{projectInfo.chargemGd}}</td>
+                  <td class="tdTitle">备注说明</td>
+                  <td class="tdCoent">{{projectInfo.node}}</td>
+                </tr>
+              </template>
             </table>
           </el-col>
         </el-row>
@@ -131,14 +153,36 @@
                 <td class="tdTitle">货运方式</td>
                 <td class="tdCoent">{{changeTransType(projectInfo.freightMode)}}</td>
               </tr>
-              <tr>
-                <td class="tdTitle">年服务费率(%)</td>
-                <td class="tdCoent">{{projectInfo.chargemNx}}</td>
-                <td class="tdTitle">固定差价(元)</td>
-                <td class="tdCoent">{{projectInfo.chargemGd}}</td>
-                <td class="tdTitle">备注说明</td>
-                <td class="tdCoent">{{ stInfo.node}}</td>
-              </tr>
+              <template v-if="projectInfo.chargemType == '1'">
+                <tr>
+                  <td class="tdTitle">年服务费率(%)</td>
+                  <td class="tdCoent">{{projectInfo.chargemNx}}</td>
+                  <td class="tdTitle">备注说明</td>
+                  <td class="tdCoent">{{projectInfo.node}}</td>
+                  <td class="tdTitle"></td>
+                  <td class="tdCoent"></td>
+                </tr>
+              </template>
+              <template v-if="projectInfo.chargemType == '2'">
+                <tr>
+                  <td class="tdTitle">固定差价(元)</td>
+                  <td class="tdCoent">{{projectInfo.chargemGd}}</td>
+                  <td class="tdTitle">备注说明</td>
+                  <td class="tdCoent">{{projectInfo.node}}</td>
+                  <td class="tdTitle"></td>
+                  <td class="tdCoent"></td>
+                </tr>
+              </template>
+              <template v-if="projectInfo.chargemType == '3'">
+                <tr>
+                  <td class="tdTitle">年服务费率(%)</td>
+                  <td class="tdCoent">{{projectInfo.chargemNx}}</td>
+                  <td class="tdTitle">固定差价(元)</td>
+                  <td class="tdCoent">{{projectInfo.chargemGd}}</td>
+                  <td class="tdTitle">备注说明</td>
+                  <td class="tdCoent">{{projectInfo.node}}</td>
+                </tr>
+              </template>
             </table>
           </el-col>
         </el-row>
@@ -168,7 +212,7 @@
               <tr>
                 <td class="tdTitle">结算比例</td>
                 <td class="tdCoent">{{
-                parseSettlement(stInfo.settlementPA1,stInfo.settlementPA2,stInfo.settlementPA3)}}</td>
+                  parseSettlement(stInfo.settlementPA1,stInfo.settlementPA2,stInfo.settlementPA3)}}</td>
                 <td class="tdTitle">履约保证金</td>
                 <td class="tdCoent">{{ stInfo.marginType == 1 ? '有' : '无' }}</td>
                 <td class="tdTitle">履约保证金金额(万元)</td>
@@ -188,7 +232,7 @@
                 <td class="tdTitle">预计利润</td>
                 <td class="tdCoent">{{ stInfo.expectProfits }}</td>
                 <td class="tdTitle">备注说明</td>
-                <td class="tdCoent">{{projectInfo.node}}</td>
+                <td class="tdCoent">{{ stInfo.node}}</td>
               </tr>
             </table>
           </el-col>
@@ -228,7 +272,7 @@
                 <tr>
                   <td class="tdTitle">结算比例</td>
                   <td class="tdCoent">{{
-                  parseSettlement(stInfo.shSettlementA1,stInfo.shSettlementA2,stInfo.shSettlementA3)}}</td>
+                    parseSettlement(stInfo.shSettlementA1,stInfo.shSettlementA2,stInfo.shSettlementA3)}}</td>
                   <td class="tdTitle">履约保证金</td>
                   <td class="tdCoent">{{ stInfo.shMargintype == 1 ? '有' : '无' }}</td>
                   <td class="tdTitle">保证金金额</td>
@@ -591,15 +635,15 @@
           <el-col :span="4" :offset="1">
             <el-form-item label="合计重量(吨)：">
               <span style="color: red; line-height: 57px !important">{{
-              $options.filters.weightFilter(form.totalWeight)
-              }}</span>
+                $options.filters.weightFilter(form.totalWeight)
+                }}</span>
             </el-form-item>
           </el-col>
           <el-col :span="4">
             <el-form-item label="平均热值(kcal)：">
               <span style="color: red; line-height: 57px !important">{{
-              form.averageRz
-              }}</span>
+                form.averageRz
+                }}</span>
             </el-form-item>
           </el-col>
         </el-row>
@@ -774,20 +818,12 @@
 
         <el-row class="head-title">
           <el-col :span="19">
-            <el-form-item label="基础信息"></el-form-item>
+            <el-form-item label="扣除费用明细"></el-form-item>
           </el-col>
         </el-row>
         <el-row class="head-text">
           <el-col class="newTable">
             <table width="90%" cellpadding="0" cellspacing="0">
-              <tr>
-                <td class="tdTitle">电厂结算金额(元)</td>
-                <td class="tdCoent">{{$options.filters.moneyFilter(form.jst)}}</td>
-                <td class="tdTitle">税款(元)</td>
-                <td class="tdCoent">{{$options.filters.moneyFilter(form.jstax)}}</td>
-                <td class="tdTitle">货品单价(元)</td>
-                <td class="tdCoent">{{$options.filters.moneyFilter(form.price)}}</td>
-              </tr>
               <tr>
                 <td class="tdTitle">运费(元)</td>
                 <td class="tdCoent">{{$options.filters.moneyFilter(form.ttPrice)}}</td>
@@ -805,17 +841,36 @@
                 <td class="tdCoent">{{$options.filters.moneyFilter(form.bsPrice)}}</td>
               </tr>
               <tr>
-                <td class="tdTitle">其他扣款(元)</td>
-                <td class="tdCoent">{{$options.filters.moneyFilter(form.otherPrice)}}</td>
+                <td class="tdTitle">其他扣费(元)</td>
+                <td class="tdCoent">{{ $options.filters.moneyFilter(form.otherPrice)}}</td>
+                <td class="tdTitle"></td>
+                <td class="tdCoent"></td>
+                <td class="tdTitle"></td>
+                <td class="tdCoent"></td>
+              </tr>
+            </table>
+          </el-col>
+        </el-row>
+        <el-row class="head-title">
+          <el-col :span="19">
+            <el-form-item label="增加费用明细"></el-form-item>
+          </el-col>
+        </el-row>
+        <el-row class="head-text">
+          <el-col class="newTable">
+            <table width="90%" cellpadding="0" cellspacing="0">
+              <tr>
                 <td class="tdTitle">贴息(元)</td>
                 <td class="tdCoent">{{$options.filters.moneyFilter(form.tx)}}</td>
                 <td class="tdTitle">其他费用(元)</td>
                 <td class="tdCoent">{{$options.filters.moneyFilter(form.qt)}}</td>
-              </tr>
-              <tr>
                 <td class="tdTitle">最终应付款金额(元)</td>
                 <td class="tdCoent">{{$options.filters.moneyFilter(form.yftotalPrice)}}</td>
-                <td class="tdTitle">已付金额(元)</td>
+              </tr>
+              <tr>
+                <td class="tdTitle">最终应付款税额(元)</td>
+                <td class="tdCoent">{{ $options.filters.moneyFilter(form.yftotalPriceatx)}}</td>
+                <td class="tdTitle">提单金额(元)</td>
                 <td class="tdCoent">{{$options.filters.moneyFilter(form.yfPrice)}}</td>
                 <td class="tdTitle">调整金额(元)</td>
                 <td class="tdCoent">{{$options.filters.moneyFilter(form.je)}}</td>
@@ -983,8 +1038,8 @@
           <el-col :span="4" :offset="1">
             <el-form-item label="合计重量(吨)：">
               <span style="color: red">{{
-              $options.filters.weightFilter(form.tweight)
-              }}</span>
+                $options.filters.weightFilter(form.tweight)
+                }}</span>
             </el-form-item>
           </el-col>
           <el-col :span="4">
@@ -1030,22 +1085,22 @@
           <el-col :span="4" :offset="1">
             <el-form-item label="总计收款：">
               <span style="color: red">{{
-              $options.filters.moneyFilter(form.yftotalPrice)
-              }}</span>
+                $options.filters.moneyFilter(form.yftotalPrice)
+                }}</span>
             </el-form-item>
           </el-col>
           <el-col :span="4">
             <el-form-item label="已预收金额：">
               <span style="color: red">{{
-              $options.filters.moneyFilter(form.yfPrice)
-              }}</span>
+                $options.filters.moneyFilter(form.yfPrice)
+                }}</span>
             </el-form-item>
           </el-col>
           <el-col :span="4">
             <el-form-item label="实际应收金额：">
               <span style="color: red">{{
-              $options.filters.moneyFilter(form.sjPrice)
-              }}</span>
+                $options.filters.moneyFilter(form.sjPrice)
+                }}</span>
             </el-form-item>
           </el-col>
         </el-row>

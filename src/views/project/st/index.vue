@@ -284,16 +284,15 @@
           <el-descriptions-item>
             <template slot="label">货运方式</template>{{ changeTransType(projectInfo.freightMode) }}
           </el-descriptions-item>
-          <el-descriptions-item>
+          <el-descriptions-item v-if="projectInfo.chargemType == '1' || projectInfo.chargemType == '3'">
             <template slot="label">年服务费率(%)</template>{{ projectInfo.chargemNx }}
           </el-descriptions-item>
-          <el-descriptions-item>
+          <el-descriptions-item v-if="projectInfo.chargemType == '2' || projectInfo.chargemType == '3'">
             <template slot="label">固定差价(元)</template>{{ projectInfo.chargemGd }}
           </el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">备注说明</template>{{ projectInfo.node }}
           </el-descriptions-item>
-          <el-descriptions-item></el-descriptions-item>
           <el-descriptions-item>
             <template slot="label">附件</template>
             <custom-upload :fileList="projectInfo.filesList"></custom-upload>

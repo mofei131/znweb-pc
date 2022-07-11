@@ -1,7 +1,7 @@
 <template>
   <div style="padding: 20px">
     <el-form label-width="20px;" label-position="left">
-    <!-- <el-descriptions title="项目信息" :column="2" border>
+      <!-- <el-descriptions title="项目信息" :column="2" border>
       <el-descriptions-item>
         <template slot="label">立项类型</template>{{ projectInfo.projectType }}
       </el-descriptions-item>
@@ -53,68 +53,90 @@
         <custom-upload :fileList="projectInfo.filesList"></custom-upload>
       </el-descriptions-item>
     </el-descriptions> -->
-    <el-row class="head-title">
-      <el-col :span="12">
-        <el-form-item label="项目信息"></el-form-item>
-      </el-col>
-    </el-row>
-    <el-row class="head-text">
-      <el-col class="newTable">
-        <table width="90%" cellpadding="0" cellspacing="0">
-          <tr>
-            <td class="tdTitle">立项类型</td>
-            <td class="tdCoent">{{projectInfo.projectType}}</td>
-            <td class="tdTitle">立项编号</td>
-            <td class="tdCoent">{{projectInfo.projectNo}}</td>
-            <td class="tdTitle">项目名称</td>
-            <td class="tdCoent">{{projectInfo.projectName}}</td>
-          </tr>
-          <tr>
-            <td class="tdTitle">项目编号</td>
-            <td class="tdCoent">{{projectInfo.serialNo}}</td>
-            <td class="tdTitle">供应商</td>
-            <td class="tdCoent">{{projectInfo.supplierName}}</td>
-            <td class="tdTitle">代办人</td>
-            <td class="tdCoent">{{projectInfo.userName}}</td>
-          </tr>
-          <tr>
-            <td class="tdTitle">终端客户</td>
-            <td class="tdCoent">{{projectInfo.terminalName}}</td>
-            <td class="tdTitle">业务经理</td>
-            <td class="tdCoent">{{projectInfo.serviceManagerName}}</td>
-            <td class="tdTitle">业务类型</td>
-            <td class="tdCoent">{{changeBusinessType(projectInfo.businessType)}}</td>
-          </tr>
-          <tr>
-            <td class="tdTitle">业务实控人</td>
-            <td class="tdCoent">{{projectInfo.actualControlName}}</td>
-            <td class="tdTitle">收费模式</td>
-            <td class="tdCoent">{{changeChargemType(projectInfo.chargemType)}}</td>
-            <td class="tdTitle">货运方式</td>
-            <td class="tdCoent">{{changeTransType(projectInfo.freightMode)}}</td>
-          </tr>
-          <tr>
-            <td class="tdTitle">年服务费率(%)</td>
-            <td class="tdCoent">{{projectInfo.chargemNx}}</td>
-            <td class="tdTitle">固定差价(元)</td>
-            <td class="tdCoent">{{projectInfo.chargemGd}}</td>
-            <td class="tdTitle">备注说明</td>
-            <td class="tdCoent">{{projectInfo.node}}</td>
-          </tr>
-        </table>
-      </el-col>
-    </el-row>
-    <el-row class="head-text">
-      <el-col :span="18" :offset="1">
-        <el-form-item label="附件：" prop="file">
-          <custom-upload :fileList="projectInfo.filesList"></custom-upload>
-        </el-form-item>
-      </el-col>
-    </el-row>
-    <!--      审批流程·-->
-    <approval-process v-if="stId" :typeId="20" :stId="stId"></approval-process>
-    <!--      审批信息-->
-    <approval-record v-if="stId" :typeId="20" :stId="stId"></approval-record>
+      <el-row class="head-title">
+        <el-col :span="12">
+          <el-form-item label="项目信息"></el-form-item>
+        </el-col>
+      </el-row>
+      <el-row class="head-text">
+        <el-col class="newTable">
+          <table width="90%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td class="tdTitle">立项类型</td>
+              <td class="tdCoent">{{projectInfo.projectType}}</td>
+              <td class="tdTitle">立项编号</td>
+              <td class="tdCoent">{{projectInfo.projectNo}}</td>
+              <td class="tdTitle">项目名称</td>
+              <td class="tdCoent">{{projectInfo.projectName}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">项目编号</td>
+              <td class="tdCoent">{{projectInfo.serialNo}}</td>
+              <td class="tdTitle">供应商</td>
+              <td class="tdCoent">{{projectInfo.supplierName}}</td>
+              <td class="tdTitle">代办人</td>
+              <td class="tdCoent">{{projectInfo.userName}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">终端客户</td>
+              <td class="tdCoent">{{projectInfo.terminalName}}</td>
+              <td class="tdTitle">业务经理</td>
+              <td class="tdCoent">{{projectInfo.serviceManagerName}}</td>
+              <td class="tdTitle">业务类型</td>
+              <td class="tdCoent">{{changeBusinessType(projectInfo.businessType)}}</td>
+            </tr>
+            <tr>
+              <td class="tdTitle">业务实控人</td>
+              <td class="tdCoent">{{projectInfo.actualControlName}}</td>
+              <td class="tdTitle">收费模式</td>
+              <td class="tdCoent">{{changeChargemType(projectInfo.chargemType)}}</td>
+              <td class="tdTitle">货运方式</td>
+              <td class="tdCoent">{{changeTransType(projectInfo.freightMode)}}</td>
+            </tr>
+            <template v-if="projectInfo.chargemType == '1'">
+              <tr>
+                <td class="tdTitle">年服务费率(%)</td>
+                <td class="tdCoent">{{projectInfo.chargemNx}}</td>
+                <td class="tdTitle">备注说明</td>
+                <td class="tdCoent">{{projectInfo.node}}</td>
+                <td class="tdTitle"></td>
+                <td class="tdCoent"></td>
+              </tr>
+            </template>
+            <template v-if="projectInfo.chargemType == '2'">
+              <tr>
+                <td class="tdTitle">固定差价(元)</td>
+                <td class="tdCoent">{{projectInfo.chargemGd}}</td>
+                <td class="tdTitle">备注说明</td>
+                <td class="tdCoent">{{projectInfo.node}}</td>
+                <td class="tdTitle"></td>
+                <td class="tdCoent"></td>
+              </tr>
+            </template>
+            <template v-if="projectInfo.chargemType == '3'">
+              <tr>
+                <td class="tdTitle">年服务费率(%)</td>
+                <td class="tdCoent">{{projectInfo.chargemNx}}</td>
+                <td class="tdTitle">固定差价(元)</td>
+                <td class="tdCoent">{{projectInfo.chargemGd}}</td>
+                <td class="tdTitle">备注说明</td>
+                <td class="tdCoent">{{projectInfo.node}}</td>
+              </tr>
+            </template>
+          </table>
+        </el-col>
+      </el-row>
+      <el-row class="head-text">
+        <el-col :span="18" :offset="1">
+          <el-form-item label="附件：" prop="file">
+            <custom-upload :fileList="projectInfo.filesList"></custom-upload>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <!--      审批流程·-->
+      <approval-process v-if="stId" :typeId="20" :stId="stId"></approval-process>
+      <!--      审批信息-->
+      <approval-record v-if="stId" :typeId="20" :stId="stId"></approval-record>
     </el-form>
   </div>
 </template>

@@ -51,14 +51,36 @@
                   <td class="tdTitle">货运方式</td>
                   <td class="tdCoent">{{changeTransType(projectInfo.freightMode)}}</td>
                 </tr>
-                <tr>
-                  <td class="tdTitle">年服务费率(%)</td>
-                  <td class="tdCoent">{{projectInfo.chargemNx}}</td>
-                  <td class="tdTitle">固定差价(元)</td>
-                  <td class="tdCoent">{{projectInfo.chargemGd}}</td>
-                  <td class="tdTitle">备注说明</td>
-                  <td class="tdCoent">{{projectInfo.node}}</td>
-                </tr>
+                <template v-if="projectInfo.chargemType == '1'">
+                  <tr>
+                    <td class="tdTitle">年服务费率(%)</td>
+                    <td class="tdCoent">{{projectInfo.chargemNx}}</td>
+                    <td class="tdTitle">备注说明</td>
+                    <td class="tdCoent">{{projectInfo.node}}</td>
+                    <td class="tdTitle"></td>
+                    <td class="tdCoent"></td>
+                  </tr>
+                </template>
+                <template v-if="projectInfo.chargemType == '2'">
+                  <tr>
+                    <td class="tdTitle">固定差价(元)</td>
+                    <td class="tdCoent">{{projectInfo.chargemGd}}</td>
+                    <td class="tdTitle">备注说明</td>
+                    <td class="tdCoent">{{projectInfo.node}}</td>
+                    <td class="tdTitle"></td>
+                    <td class="tdCoent"></td>
+                  </tr>
+                </template>
+                <template v-if="projectInfo.chargemType == '3'">
+                  <tr>
+                    <td class="tdTitle">年服务费率(%)</td>
+                    <td class="tdCoent">{{projectInfo.chargemNx}}</td>
+                    <td class="tdTitle">固定差价(元)</td>
+                    <td class="tdCoent">{{projectInfo.chargemGd}}</td>
+                    <td class="tdTitle">备注说明</td>
+                    <td class="tdCoent">{{projectInfo.node}}</td>
+                  </tr>
+                </template>
               </table>
             </el-col>
           </el-row>
@@ -88,7 +110,7 @@
                 <tr>
                   <td class="tdTitle">结算比例</td>
                   <td class="tdCoent">{{ parseSettlement(stInfo.settlementPA1,
-                  stInfo.settlementPA2,stInfo.settlementPA3)}}</td>
+                    stInfo.settlementPA2,stInfo.settlementPA3)}}</td>
                   <td class="tdTitle">履约保证金</td>
                   <td class="tdCoent">{{ stInfo.marginType == 1 ? '有' : '无' }}</td>
                   <td class="tdTitle">履约保证金金额(万元)</td>
