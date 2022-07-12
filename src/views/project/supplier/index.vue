@@ -1,29 +1,12 @@
 <template>
   <div class="app-container">
-    <el-form
-      :model="queryParams"
-      ref="queryForm"
-      :inline="true"
-      v-show="showSearch"
-      label-width="100px"
-    >
+    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="100px">
       <el-form-item label="供应商名称" prop="name">
-        <el-input
-          v-model="queryParams.name"
-          placeholder="请输入供应商名称"
-          clearable
-          size="small"
-          @keyup.enter.native="handleQuery"
-        />
+        <el-input v-model="queryParams.name" placeholder="请输入供应商名称" clearable size="small"
+          @keyup.enter.native="handleQuery" />
       </el-form-item>
       <el-form-item label="评级" prop="rating">
-        <el-select
-          filterable
-          v-model="queryParams.rating"
-          placeholder="请选择评级"
-          clearable
-          size="small"
-        >
+        <el-select filterable v-model="queryParams.rating" placeholder="请选择评级" clearable size="small">
           <el-option label="A" value="A" />
           <el-option label="B" value="B" />
           <el-option label="C" value="C" />
@@ -32,30 +15,15 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button
-          type="primary"
-          icon="el-icon-search"
-          size="mini"
-          @click="handleQuery"
-          >搜索</el-button
-        >
-        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery"
-          >重置</el-button
-        >
+        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
 
     <el-row :gutter="10" class="mb8">
       <el-col :span="1.5">
-        <el-button
-          type="primary"
-          plain
-          icon="el-icon-plus"
-          size="mini"
-          @click="handleAdd"
-          v-hasPermi="['project:supplier:add']"
-          >新增</el-button
-        >
+        <el-button type="primary" plain icon="el-icon-plus" size="mini" @click="handleAdd"
+          v-hasPermi="['project:supplier:add']">新增</el-button>
       </el-col>
       <!--      <el-col :span="1.5">-->
       <!--        <el-button-->
@@ -89,75 +57,42 @@
       <!--          v-hasPermi="['project:supplier:export']"-->
       <!--        >导出</el-button>-->
       <!--      </el-col>-->
-      <right-toolbar
-        :showSearch.sync="showSearch"
-        @queryTable="getList"
-      ></right-toolbar>
+      <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table
-      v-loading="loading"
-      :data="supplierList"
-      @selection-change="handleSelectionChange"
-    >
+    <el-table v-loading="loading" :data="supplierList" @selection-change="handleSelectionChange">
       <!--      <el-table-column type="selection" width="55" align="center" />-->
       <el-table-column label="供应商名称" align="center" prop="name" />
-      <el-table-column
-        label="成立日期"
-        align="center"
-        prop="clTime"
-        width="180"
-      >
+      <el-table-column label="成立日期" align="center" prop="clTime" width="180">
         <template slot-scope="scope">
           <span>{{
             parseTime(scope.row.clTime, "{y}-{m}-{d} {h}:{i}:{s}")
-          }}</span>
+            }}</span>
         </template>
       </el-table-column>
       <el-table-column label="年发运量(万吨)" align="center" prop="traffic">
         <template slot-scope="scope">
           {{
-            Number(scope.row.traffic)
-              .toFixed(3)
-              .toString()
-              .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+          Number(scope.row.traffic)
+          .toFixed(3)
+          .toString()
+          .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
           }}
         </template>
       </el-table-column>
       <el-table-column label="发票面额" align="center" prop="invoiceType" />
-      <el-table-column
-        label="创建时间"
-        align="center"
-        prop="createTime"
-        width="180"
-      >
+      <el-table-column label="创建时间" align="center" prop="createTime" width="180">
         <template slot-scope="scope">
           <span>{{
             parseTime(scope.row.createTime, "{y}-{m}-{d} {h}:{i}:{s}")
-          }}</span>
+            }}</span>
         </template>
       </el-table-column>
-      <el-table-column
-        label="审批状态"
-        align="center"
-        prop="state"
-        :formatter="stateFormat"
-      />
+      <el-table-column label="审批状态" align="center" prop="state" :formatter="stateFormat" />
       <el-table-column label="评级" align="center" prop="rating" />
-      <el-table-column
-        label="操作"
-        width="160"
-        align="center"
-        class-name="small-padding fixed-width"
-      >
+      <el-table-column label="操作" width="160" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button
-            size="mini"
-            type="text"
-            icon="el-icon-edit"
-            @click="handleLook(scope.row)"
-            >查看</el-button
-          >
+          <el-button size="mini" type="text" icon="el-icon-edit" @click="handleLook(scope.row)">查看</el-button>
           <!--          <el-button-->
           <!--            size="mini"-->
           <!--            type="text"-->
@@ -165,23 +100,10 @@
           <!--            @click="handleUpdate(scope.row)"-->
           <!--            v-hasPermi="['project:supplier:edit']"-->
           <!--          >修改</el-button>-->
-          <el-button
-            v-if="scope.row.state == '3'"
-            size="mini"
-            type="text"
-            icon="el-icon-edit"
-            @click="handleUpdateRating(scope.row)"
-            v-hasPermi="['project:supplier:edit']"
-            >评级</el-button
-          >
-          <el-button
-            v-if="scope.row.state === '3'"
-            size="mini"
-            type="text"
-            icon="el-icon-printer"
-            @click="handlePrint(scope.row)"
-            >打印</el-button
-          >
+          <el-button v-if="scope.row.state == '3'" size="mini" type="text" icon="el-icon-edit"
+            @click="handleUpdateRating(scope.row)" v-hasPermi="['project:supplier:edit']">评级</el-button>
+          <el-button v-if="scope.row.state === '3'" size="mini" type="text" icon="el-icon-printer"
+            @click="handlePrint(scope.row)">打印</el-button>
           <!--          <el-button-->
           <!--            v-if="scope.row.state=='1' || scope.row.state=='4'"-->
           <!--            size="mini"-->
@@ -194,22 +116,11 @@
       </el-table-column>
     </el-table>
 
-    <pagination
-      v-show="total > 0"
-      :total="total"
-      :page.sync="queryParams.pageNum"
-      :limit.sync="queryParams.pageSize"
-      @pagination="getList"
-    />
+    <pagination v-show="total > 0" :total="total" :page.sync="queryParams.pageNum" :limit.sync="queryParams.pageSize"
+      @pagination="getList" />
 
     <!-- 添加或修改供应商对话框 -->
-    <el-dialog
-      :title="title"
-      :visible.sync="open"
-      width="80%"
-      append-to-body
-      @opened="handleOpen"
-    >
+    <el-dialog :title="title" :visible.sync="open" width="80%" append-to-body @opened="handleOpen">
       <el-form ref="form" :model="form" :rules="rules" label-width="180px">
         <div v-if="isLook != 4">
           <el-row>
@@ -220,15 +131,8 @@
             </el-col>
             <el-col :span="12">
               <el-form-item label="成立日期" prop="clTime">
-                <el-date-picker
-                  clearable
-                  size="small"
-                  style="width: 100%"
-                  v-model="form.clTime"
-                  type="date"
-                  value-format="yyyy-MM-dd"
-                  placeholder="选择成立日期"
-                >
+                <el-date-picker clearable size="small" style="width: 100%" v-model="form.clTime" type="date"
+                  value-format="yyyy-MM-dd" placeholder="选择成立日期">
                 </el-date-picker>
               </el-form-item>
             </el-col>
@@ -248,10 +152,7 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="供应商账号" prop="account">
-                <el-input
-                  v-model="form.account"
-                  placeholder="请输入供应商账号"
-                />
+                <el-input v-model="form.account" placeholder="请输入供应商账号" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -263,11 +164,7 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="发票面额" prop="invoiceType">
-                <el-select
-                  v-model="form.invoiceType"
-                  placeholder="请选择发票面额"
-                  style="width: 100%"
-                >
+                <el-select v-model="form.invoiceType" placeholder="请选择发票面额" style="width: 100%">
                   <el-option label="十万元版" value="十万元版" />
                   <el-option label="百万元版" value="百万元版" />
                   <el-option label="千万元版" value="千万元版" />
@@ -276,11 +173,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item label="评级" prop="rating">
-                <el-select
-                  v-model="form.rating"
-                  placeholder="请选择评级"
-                  style="width: 100%"
-                >
+                <el-select v-model="form.rating" placeholder="请选择评级" style="width: 100%">
                   <el-option label="A" value="A" />
                   <el-option label="B" value="B" />
                   <el-option label="C" value="C" />
@@ -291,11 +184,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item label="企业性质" prop="nature">
-                <el-select
-                  v-model="form.nature"
-                  placeholder="请选择企业性质"
-                  style="width: 100%"
-                >
+                <el-select v-model="form.nature" placeholder="请选择企业性质" style="width: 100%">
                   <el-option label="国有企业" value="国有企业" />
                   <el-option label="上市企业" value="上市企业" />
                   <el-option label="私营企业" value="私营企业" />
@@ -324,69 +213,41 @@
           <div v-if="form.sourcemType == '1'">
             <el-row>
               <el-col :span="12">
-                <el-form-item
-                  label="原资方名称"
-                  prop="sourcemName"
-                  :rules="
+                <el-form-item label="原资方名称" prop="sourcemName" :rules="
                     form.sourcemType == '1'
                       ? rules.sourcemName
                       : [{ required: false }]
-                  "
-                >
-                  <el-input
-                    v-model="form.sourcemName"
-                    placeholder="请输入原资方名称"
-                  />
+                  ">
+                  <el-input v-model="form.sourcemName" placeholder="请输入原资方名称" />
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item
-                  label="原资方放款节点"
-                  prop="sourcemLn"
-                  :rules="
+                <el-form-item label="原资方放款节点" prop="sourcemLn" :rules="
                     form.sourcemType == '1'
                       ? rules.sourcemLn
                       : [{ required: false }]
-                  "
-                >
-                  <el-input
-                    v-model="form.sourcemLn"
-                    placeholder="请输入原资方放款节点"
-                  />
+                  ">
+                  <el-input v-model="form.sourcemLn" placeholder="请输入原资方放款节点" />
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="12">
-                <el-form-item
-                  label="原资方费率"
-                  prop="sourcemRate"
-                  :rules="
+                <el-form-item label="原资方费率" prop="sourcemRate" :rules="
                     form.sourcemType == '1'
                       ? rules.sourcemRate
                       : [{ required: false }]
-                  "
-                >
-                  <el-input
-                    v-model="form.sourcemRate"
-                    placeholder="请输入原资方费率"
-                  />
+                  ">
+                  <el-input v-model="form.sourcemRate" placeholder="请输入原资方费率" />
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item
-                  label="原资方放款比例"
-                  prop="sourcemLr"
-                  :rules="
+                <el-form-item label="原资方放款比例" prop="sourcemLr" :rules="
                     form.sourcemType == '1'
                       ? rules.sourcemLr
                       : [{ required: false }]
-                  "
-                >
-                  <el-input
-                    v-model="form.sourcemLr"
-                    placeholder="请输入原资方放款比例"
-                  />
+                  ">
+                  <el-input v-model="form.sourcemLr" placeholder="请输入原资方放款比例" />
                 </el-form-item>
               </el-col>
             </el-row>
@@ -396,11 +257,7 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="评级" prop="rating">
-                <el-select
-                  v-model="form.rating"
-                  placeholder="请选择评级"
-                  style="width: 100%"
-                >
+                <el-select v-model="form.rating" placeholder="请选择评级" style="width: 100%">
                   <el-option label="A" value="A" />
                   <el-option label="B" value="B" />
                   <el-option label="C" value="C" />
@@ -413,12 +270,7 @@
           <el-row>
             <el-col :span="24">
               <el-form-item label="评级说明：" prop="node">
-                <el-input
-                  type="textarea"
-                  :rows="5"
-                  v-model="form.ratingDe"
-                  placeholder="请输入评级说明"
-                />
+                <el-input type="textarea" :rows="5" v-model="form.ratingDe" placeholder="请输入评级说明" />
               </el-form-item>
             </el-col>
           </el-row>
@@ -426,23 +278,10 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="附件" prop="file">
-              <el-upload
-                class="upload-demo"
-                :action="url"
-                :headers="headers"
-                :on-preview="handlePreview"
-                :on-remove="handleRemove"
-                :on-success="uploadSuccess"
-                :on-error="uploadError"
-                :before-remove="beforeRemove"
-                multiple
-                :limit="5"
-                :on-exceed="handleExceed"
-                :file-list="fileList"
-              >
-                <el-button size="small" type="primary" v-if="isLook != 3"
-                  >点击上传</el-button
-                >
+              <el-upload class="upload-demo" :action="url" :headers="headers" :on-preview="handlePreview"
+                :on-remove="handleRemove" :on-success="uploadSuccess" :on-error="uploadError"
+                :before-remove="beforeRemove" multiple :limit="5" :on-exceed="handleExceed" :file-list="fileList">
+                <el-button size="small" type="primary" v-if="isLook != 3">点击上传</el-button>
                 <!--                <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
               </el-upload>
             </el-form-item>
@@ -450,47 +289,27 @@
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button
-          type="primary"
-          @click="submitForm"
-          :disabled="isDisabled"
-          v-if="isLook != 3"
-          >确 定</el-button
-        >
+        <el-button type="primary" @click="submitForm" :disabled="isDisabled" v-if="isLook != 3">确 定</el-button>
         <el-button @click="cancel" v-if="isLook != 3">取 消</el-button>
         <!--        <el-button @click="cancel" v-if="isLook==3">关 闭</el-button>-->
       </div>
     </el-dialog>
     <!--打印页-->
-    <el-dialog
-      title="打印预览"
-      :visible.sync="printReviewVisible"
-      @close="onPrintReviewClose"
-      width="80%"
-    >
+    <el-dialog title="打印预览" :visible.sync="printReviewVisible" @close="onPrintReviewClose" width="80%">
       <div class="print-div" id="print_area">
         <div class="search-title-content">
           <div style="padding: 0 0 15px">
             <el-row type="flex" justify="space-between">
-              <el-col :span="4"
-                ><span
-                  style="font-weight: bold; font-size: 16px"
-                  v-text="printData.printType"
-                ></span
-              ></el-col>
-              <el-col :span="4"
-                ><span
-                  style="
+              <el-col :span="4"><span style="font-weight: bold; font-size: 16px" v-text="printData.printType"></span>
+              </el-col>
+              <el-col :span="4"><span style="
                     color: red;
                     width: 100%;
                     display: inline-block;
                     text-align: end;
                     font-weight: bold;
                     font-size: 16px;
-                  "
-                  v-text="selectDictLabel(stateOptions, printData.state)"
-                ></span
-              ></el-col>
+                  " v-text="selectDictLabel(stateOptions, printData.state)"></span></el-col>
             </el-row>
           </div>
           <!--基本信息-->
@@ -579,7 +398,8 @@
             </tr>
           </table>
           <!--审批流程-->
-          <approval-print :typeId="12" :stId="apyamentId" ></approval-print>
+          <approval-print :typeId="12" :stId="apyamentId" :approveHisListd="approveHisList"
+            :nodeStateListd="nodeStateList"></approval-print>
         </div>
       </div>
     </el-dialog>
@@ -598,7 +418,7 @@ import { getToken } from "@/utils/auth";
 import { getStList } from "@/api/project/gry";
 import print from "print-js";
 import { getProcessDataByStId, getApprovalProcessList, getApprovalType } from "@/api/approve";
-
+import { approveNode, approveHistory } from "@/api/project/st.js";
 export default {
   name: "Supplier",
   data() {
@@ -702,6 +522,8 @@ export default {
       printData: {},
       isDisabled: false,
       apyamentId:'',//子组件id
+      approveHisList: [],
+      nodeStateList: []
     };
   },
   created() {
@@ -981,6 +803,18 @@ export default {
         this.printData.fileList = response.data.fileList || [];
         this.printData.gryList = response.data.selnyList || [];
         this.printData.printType = "供应商管理";
+      });
+      await approveNode({
+        businessKey: this.apyamentId,
+        approvalType: 12
+      }).then((res) => {
+        JSON.stringify(res.data) == "{}" ? this.nodeStateList = null : this.nodeStateList = res.data;
+      });
+      await approveHistory({
+        businessKey: this.apyamentId,
+        approvalType: 12
+      }).then((res) => {
+        this.approveHisList = res.data;
       });
       this.printReviewVisible = true;
       this.$nextTick(() => {

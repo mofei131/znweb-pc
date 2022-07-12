@@ -525,18 +525,22 @@
             <tr>
               <td class="table-td-title detail">项目名称</td>
               <td class="table-td-content">
+                {{ printData.projectName }}
+              </td>
+              <td class="table-td-title detail">业务名称</td>
+              <td class="table-td-content">
                 {{ printData.stName }}
               </td>
               <td class="table-td-title detail">项目编号</td>
               <td class="table-td-content">
-                {{ printData.number }}
+                {{ printData.serialNo }}
               </td>
+            </tr>
+            <tr>
               <td class="table-td-title detail">业务类型</td>
               <td class="table-td-content">
                 {{ businessTypeFormat(printData.businessType) }}
               </td>
-            </tr>
-            <tr>
               <td class="table-td-title detail">供应商</td>
               <td class="table-td-content">
                 {{ printData.supplierName }}
@@ -545,80 +549,12 @@
               <td class="table-td-content">
                 {{ printData.account }}
               </td>
+            </tr>
+            <tr>
               <td class="table-td-title detail">供应商开户行</td>
               <td class="table-td-content">
                 {{ printData.openbank }}
               </td>
-            </tr>
-          </table>
-          <table border="1" width="100%">
-            <tr>
-              <td class="title" colspan="10">数质量信息</td>
-            </tr>
-            <tr>
-              <td class="table-td-title detail">货品名称</td>
-              <td class="table-td-title detail">重量(吨)</td>
-              <td class="table-td-title detail">热值(Kcal)</td>
-              <td class="table-td-title detail">运输方式</td>
-              <td class="table-td-title detail">物流公司</td>
-              <td class="table-td-title detail">车数</td>
-              <td class="table-td-title detail">批次</td>
-              <td class="table-td-title detail">到货日期</td>
-              <td class="table-td-title detail">货值单价(元)</td>
-              <td class="table-td-title detail">货值总额(元)</td>
-            </tr>
-            <tr v-for="(item, idx) in printData.gryList" :key="idx">
-              <td class="table-td-content" style="text-align: center">
-                {{ item.name }}
-              </td>
-              <td class="table-td-content" style="text-align: center">
-                {{ $options.filters.weightFilter(item.grnNumber) }}
-              </td>
-              <td class="table-td-content" style="text-align: center">
-                {{ item.grnRz }}
-              </td>
-              <td class="table-td-content" style="text-align: center">
-                {{ item.transportType }}
-              </td>
-              <td class="table-td-content" style="text-align: center">
-                {{ item.wlCompany }}
-              </td>
-              <td class="table-td-content" style="text-align: center">
-                {{ item.carNumber }}
-              </td>
-              <td class="table-td-content" style="text-align: center">
-                {{ item.batch }}
-              </td>
-              <td class="table-td-content" style="text-align: center">
-                {{ item.deliveryTime }}
-              </td>
-              <td class="table-td-content" style="text-align: center">
-                {{ $options.filters.moneyFilter(item.valuePrice) }}
-              </td>
-              <td class="table-td-content" style="text-align: center">
-                {{ $options.filters.moneyFilter(item.valueTprice) }}
-              </td>
-            </tr>
-          </table>
-          <table border="1" width="100%">
-            <tr>
-              <td class="table-td-title detail">合计重量</td>
-              <td class="table-td-title detail">平均热值</td>
-            </tr>
-            <tr>
-              <td class="table-td-content" style="text-align: center">
-                {{ $options.filters.weightFilter(printData.tweight) }}
-              </td>
-              <td class="table-td-content" style="text-align: center">
-                {{ printData.prz }}
-              </td>
-            </tr>
-          </table>
-          <table border="1" width="100%">
-            <tr>
-              <td class="title" colspan="6">基础信息</td>
-            </tr>
-            <tr>
               <td class="table-td-title detail">电厂结算金额(元)</td>
               <td class="table-td-content">
                 {{ $options.filters.moneyFilter(printData.jst) }}
@@ -627,10 +563,21 @@
               <td class="table-td-content">
                 {{ printData.jstax }}
               </td>
+            </tr>
+            <tr>
               <td class="table-td-title detail">货品单价(元)</td>
               <td class="table-td-content">
                 {{ $options.filters.moneyFilter(printData.price) }}
               </td>
+              <td class="table-td-title detail"></td>
+              <td class="table-td-content"></td>
+              <td class="table-td-title detail"></td>
+              <td class="table-td-content"></td>
+            </tr>
+          </table>
+          <table border="1" width="100%">
+            <tr>
+              <td class="title" colspan="6">扣除费用明细</td>
             </tr>
             <tr>
               <td class="table-td-title detail">运费(元)</td>
@@ -647,56 +594,62 @@
               </td>
             </tr>
             <tr>
-              <td class="table-td-title detail">服务费</td>
+              <td class="table-td-title detail">服务费(元)</td>
               <td class="table-td-content">
                 {{ $options.filters.moneyFilter(printData.servicePrice) }}
               </td>
-              <td class="table-td-title detail">承兑贴息</td>
+              <td class="table-td-title detail">承兑贴息(元)</td>
               <td class="table-td-content">
                 {{ $options.filters.moneyFilter(printData.cdtx) }}
               </td>
-              <td class="table-td-title detail">补税金额</td>
+              <td class="table-td-title detail">补税金额(元)</td>
               <td class="table-td-content">
                 {{ $options.filters.moneyFilter(printData.bsPrice) }}
               </td>
             </tr>
             <tr>
-              <td class="table-td-title detail">其他扣款</td>
+              <td class="table-td-title detail">其他扣费</td>
               <td class="table-td-content">
                 {{ $options.filters.moneyFilter(printData.otherPrice) }}
               </td>
-              <td class="table-td-title detail">贴息</td>
-              <td class="table-td-content">
-                {{ $options.filters.moneyFilter(printData.tx) }}
-              </td>
-              <td class="table-td-title detail">其他费用</td>
-              <td class="table-td-content">
-                {{ $options.filters.moneyFilter(printData.qt) }}
-              </td>
+              <td class="table-td-title detail"></td>
+              <td class="table-td-content"></td>
+              <td class="table-td-title detail"></td>
+              <td class="table-td-content"></td>
+            </tr>
+          </table>
+          <table border="1" width="100%">
+            <tr>
+              <td class="title" colspan="6">增加费用明细</td>
             </tr>
             <tr>
-              <td class="table-td-title detail">最终应付款金额</td>
-              <td class="table-td-content">
-                {{ $options.filters.moneyFilter(printData.yftotalPrice) }}
-              </td>
-              <td class="table-td-title detail">最终应付款税额</td>
-              <td class="table-td-content">
-                {{ $options.filters.moneyFilter(printData.yftotalPriceatx) }}
-              </td>
-              <td class="table-td-title detail">已付金额</td>
-              <td class="table-td-content">
-                {{ $options.filters.moneyFilter(printData.yfPrice) }}
-              </td>
+              <td class="table-td-title detail">贴息(元)</td>
+              <td class="table-td-content">{{ $options.filters.moneyFilter(printData.tx)}}</td>
+              <td class="table-td-title detail">其他费用(元)</td>
+              <td class="table-td-content">{{ $options.filters.moneyFilter(printData.qt)}}</td>
+              <td class="tdTitle"></td>
+              <td class="table-td-content"></td>
+            </tr>
+          </table>
+          <table border="1" width="100%">
+            <tr>
+              <td class="title" colspan="6">应付款明细</td>
             </tr>
             <tr>
-              <td class="table-td-title detail">调整金额</td>
-              <td class="table-td-content">
-                {{ $options.filters.moneyFilter(printData.je) }}
-              </td>
+              <td class="table-td-title detail">最终应付款金额(元)</td>
+              <td class="table-td-content">{{ $options.filters.moneyFilter(printData.yftotalPrice)}}</td>
+              <td class="table-td-title detail">最终应付款税额(元)</td>
+              <td class="table-td-content">{{ $options.filters.moneyFilter(printData.yftotalPriceatx)}}</td>
+              <td class="table-td-title detail">提单金额(元)</td>
+              <td class="table-td-content">{{ $options.filters.moneyFilter(printData.yfPrice)}}</td>
+            </tr>
+            <tr>
               <td class="table-td-title detail">最终实际付款(元)</td>
-              <td class="table-td-content" colspan="3">
-                {{ $options.filters.moneyFilter(printData.sjPrice) }}
-              </td>
+              <td class="table-td-content">{{ $options.filters.moneyFilter(printData.sjPrice)}}</td>
+              <td class="table-td-title detail">调整金额(元)</td>
+              <td class="table-td-content">{{ $options.filters.moneyFilter(printData.je)}}</td>
+              <td class="table-td-title detail"></td>
+              <td class="table-td-content"></td>
             </tr>
           </table>
           <table border="1" width="100%">
@@ -733,7 +686,8 @@
               </td>
             </tr>
           </table>
-          <approval-print :typeId="5" :stId="apyamentId"></approval-print>
+          <approval-print :typeId="5" :stId="apyamentId" :approveHisListd="approveHisList"
+            :nodeStateListd="nodeStateList"></approval-print>
         </div>
       </div>
     </el-dialog>
@@ -766,6 +720,7 @@ import {
   listProjectForCombobox,
   listBusinessForCombobox,
 } from "@/api/project/st";
+import { approveNode, approveHistory } from "@/api/project/st.js";
 export default {
   name: "Fpayment",
   props: {
@@ -974,6 +929,8 @@ export default {
       listForBusArr: [],
       listForProArr: [],
       apyamentId: "", //子组件id
+      approveHisList: [],
+      nodeStateList: []
     };
   },
   created() {
@@ -1661,6 +1618,18 @@ export default {
         getContractList(data).then((response) => {
           this.printData.contract = response.rows;
         });
+      });
+      await approveNode({
+        businessKey: this.apyamentId,
+        approvalType: 5
+      }).then((res) => {
+        JSON.stringify(res.data) == "{}" ? this.nodeStateList = null : this.nodeStateList = res.data;
+      });
+      await approveHistory({
+        businessKey: this.apyamentId,
+        approvalType: 5
+      }).then((res) => {
+        this.approveHisList = res.data;
       });
       this.printReviewVisible = true;
       this.$nextTick(() => {

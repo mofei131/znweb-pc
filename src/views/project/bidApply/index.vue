@@ -295,8 +295,8 @@
             </tr>
           </table>
           <!--审批流程-->
-          <approval-print :typeId="18" :stId="apyamentId" :approveHisList="approveHisList"
-            :nodeStateList="nodeStateList">
+          <approval-print :typeId="18" :stId="apyamentId" :approveHisListd="approveHisList"
+            :nodeStateListd="nodeStateList">
           </approval-print>
         </div>
       </div>

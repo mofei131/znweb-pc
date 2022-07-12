@@ -559,55 +559,53 @@
               <td class="title" colspan="6">保证金信息</td>
             </tr>
             <tr>
-              <td class="table-td-title detail">保证金对象</td>
+              <td class="table-td-title detail">项目名称</td>
               <td class="table-td-content">
-                {{ printData.type }}
+                {{ printData.projectName }}
+              </td>
+              <td class="table-td-title detail">业务名称</td>
+              <td class="table-td-content">
+                {{ printData.stName }}
               </td>
               <td class="table-td-title detail">项目编号</td>
               <td class="table-td-content">
-                {{ printData.number }}
-              </td>
-              <td class="table-td-title detail">保证金类型</td>
-              <td class="table-td-content">
-                {{ printData.obj }}
+                {{ printData.serialNo }}
               </td>
             </tr>
             <template v-if="printData.type == '上游'">
               <tr>
+                <td class="table-td-title detail">保证金对象</td>
+                <td class="table-td-content">{{ printData.type}}</td>
                 <td class="table-td-title detail">合同名称</td>
-                <td class="table-td-content">
-                  {{ printData.contractName }}
-                </td>
+                <td class="table-td-content">{{ printData.contractName}}</td>
                 <td class="table-td-title detail">供应商名称</td>
-                <td class="table-td-content">
-                  {{ printData.terminalName }}
-                </td>
+                <td class="table-td-content">{{ printData.terminalName}}</td>
+              </tr>
+              <tr>
                 <td class="table-td-title detail">保证金金额(元)</td>
-                <td class="table-td-content">
-                  {{ $options.filters.moneyFilter(printData.putPrice) }}
-                </td>
+                <td class="table-td-content">{{ $options.filters.moneyFilter(printData.putPrice)}}</td>
+                <td class="table-td-title detail"></td>
+                <td class="table-td-content"></td>
+                <td class="table-td-title detail"></td>
+                <td class="table-td-content"></td>
               </tr>
             </template>
             <template v-if="printData.type == '下游'">
               <tr>
-                <td class="table-td-title detail">项目名称</td>
-                <td class="table-td-content">
-                  {{ printData.stName }}
-                </td>
-                <td class="table-td-title detail">合同名称</td>
-                <td class="table-td-content">
-                  {{ printData.contractName }}
-                </td>
+                <td class="table-td-title detail">保证金对象</td>
+                <td class="table-td-content">{{ printData.type}}</td>
                 <td class="table-td-title detail">客户名称</td>
-                <td class="table-td-content">
-                  {{ printData.terminalName }}
-                </td>
+                <td class="table-td-content">{{ printData.terminalName}}</td>
+                <td class="table-td-title detail">保证金金额(元)</td>
+                <td class="table-td-content">{{ $options.filters.moneyFilter(printData.putPrice)}}</td>
               </tr>
               <tr>
-                <td class="table-td-title detail">保证金金额(元)</td>
-                <td class="table-td-content" colspan="5">
-                  {{ $options.filters.moneyFilter(printData.putPrice) }}
-                </td>
+                <td class="table-td-title detail">年服务费率%</td>
+                <td class="table-td-content">{{ printData.stRate}}</td>
+                <td class="table-td-title detail">保底服务费期限(天)</td>
+                <td class="table-td-content">{{ printData.mfsp}}</td>
+                <td class="table-td-title detail">支付日期</td>
+                <td class="table-td-content">{{ parseTime(printData.putTime, "{y}-{m}-{d}")}}</td>
               </tr>
             </template>
           </table>
@@ -646,7 +644,8 @@
             </tr>
           </table>
           <!--审批流程-->
-          <approval-print :typeId="7" :stId="apyamentId"></approval-print>
+          <approval-print :typeId="7" :stId="apyamentId" :approveHisListd="approveHisList"
+            :nodeStateListd="nodeStateList"></approval-print>
         </div>
       </div>
     </el-dialog>
@@ -680,6 +679,7 @@ import {
   listProjectForCombobox,
   listBusinessForCombobox,
 } from "@/api/project/st";
+import { approveNode, approveHistory } from "@/api/project/st.js";
 export default {
   name: "Margin",
   props: {
@@ -822,6 +822,8 @@ export default {
       listForBusArr: [],
       listForProArr: [],
       apyamentId: "", //子组件id
+      approveHisList: [],
+      nodeStateList: []
     };
   },
   created() {
@@ -1207,6 +1209,18 @@ export default {
         getContractList(data).then((response) => {
           this.printData.contract = response.rows;
         });
+      });
+      await approveNode({
+        businessKey: this.apyamentId,
+        approvalType: 7
+      }).then((res) => {
+        JSON.stringify(res.data) == "{}" ? this.nodeStateList = null : this.nodeStateList = res.data;
+      });
+      await approveHistory({
+        businessKey: this.apyamentId,
+        approvalType: 7
+      }).then((res) => {
+        this.approveHisList = res.data;
       });
       this.printReviewVisible = true;
       this.$nextTick(() => {

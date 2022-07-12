@@ -393,18 +393,22 @@
             <tr>
               <td class="table-td-title detail">项目名称</td>
               <td class="table-td-content">
+                {{ printData.projectName }}
+              </td>
+              <td class="table-td-title detail">业务名称</td>
+              <td class="table-td-content">
                 {{ printData.stName }}
               </td>
               <td class="table-td-title detail">项目编号</td>
               <td class="table-td-content">
-                {{ printData.number }}
+                {{ printData.serialNo }}
               </td>
+            </tr>
+            <tr>
               <td class="table-td-title detail">物流公司</td>
               <td class="table-td-content">
                 {{ printData.tpcName }}
               </td>
-            </tr>
-            <tr>
               <td class="table-td-title detail">货品名称</td>
               <td class="table-td-content">
                 {{ printData.name }}
@@ -413,12 +417,12 @@
               <td class="table-td-content">
                 {{ $options.filters.weightFilter(printData.grnNumber) }}
               </td>
+            </tr>
+            <tr>
               <td class="table-td-title detail">发货日期</td>
               <td class="table-td-content">
                 {{ parseTime(printData.deliveryTime, "{y}-{m}-{d}") }}
               </td>
-            </tr>
-            <tr>
               <td class="table-td-title detail">热值</td>
               <td class="table-td-content">
                 {{ printData.grnRz }}
@@ -427,12 +431,12 @@
               <td class="table-td-content">
                 {{ printData.transportType }}
               </td>
-              <td class="table-td-title detail">年数</td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">车数</td>
               <td class="table-td-content">
                 {{ printData.carNumber }}
               </td>
-            </tr>
-            <tr>
               <td class="table-td-title detail">批次</td>
               <td class="table-td-content">
                 {{ printData.batch }}
@@ -578,7 +582,8 @@
             </tr>
           </table>
           <!--审批流程-->
-          <approval-print :typeId="10" :stId="apyamentId"></approval-print>
+          <approval-print :typeId="10" :stId="apyamentId" :approveHisListd="approveHisList"
+            :nodeStateListd="nodeStateList"></approval-print>
         </div>
       </div>
     </el-dialog>
@@ -610,7 +615,7 @@ import {
   listProjectForCombobox,
   listBusinessForCombobox,
 } from "@/api/project/st";
-
+import { approveNode, approveHistory } from "@/api/project/st.js";
 export default {
   name: "Grn",
   props: {
@@ -776,6 +781,8 @@ export default {
       listForBusArr: [],
       listForProArr: [],
       apyamentId: "", //子组件id
+      approveHisList: [],
+      nodeStateList: []
     };
   },
   created() {
@@ -1303,7 +1310,18 @@ export default {
         this.printData = response.data;
         this.printData.printType = "随车数质量";
       });
-
+      await approveNode({
+        businessKey: this.apyamentId,
+        approvalType: 10
+      }).then((res) => {
+        JSON.stringify(res.data) == "{}" ? this.nodeStateList = null : this.nodeStateList = res.data;
+      });
+      await approveHistory({
+        businessKey: this.apyamentId,
+        approvalType: 10
+      }).then((res) => {
+        this.approveHisList = res.data;
+      });
       this.printReviewVisible = true;
       this.$nextTick(() => {
         this.printReviewVisible = false;

@@ -516,26 +516,40 @@
             <tr>
               <td class="table-td-title detail">项目名称</td>
               <td class="table-td-content">
+                {{ printData.projectName }}
+              </td>
+              <td class="table-td-title detail">业务名称</td>
+              <td class="table-td-content">
                 {{ printData.stName }}
               </td>
               <td class="table-td-title detail">项目编号</td>
               <td class="table-td-content">
-                {{ printData.number }}
+                {{ printData.serialNo }}
               </td>
+            </tr>
+            <tr>
               <td class="table-td-title detail">第三方公司</td>
               <td class="table-td-content">
                 {{ printData.tpcName }}
               </td>
-            </tr>
-            <tr>
               <td class="table-td-title detail">公司账号</td>
               <td class="table-td-content">
                 {{ printData.account }}
               </td>
               <td class="table-td-title detail">公司开户行</td>
-              <td class="table-td-content" colspan="3">
+              <td class="table-td-content">
                 {{ printData.openbank }}
               </td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">运输类型</td>
+              <td class="table-td-content">
+                {{ printData.type }}
+              </td>
+              <td class="table-td-title detail"></td>
+              <td class="table-td-content"></td>
+              <td class="table-td-title detail"></td>
+              <td class="table-td-content"></td>
             </tr>
           </table>
           <table border="1" width="100%">
@@ -615,7 +629,8 @@
             </tr>
           </table>
           <!--审批流程-->
-          <approval-print :typeId="9" :stId="apyamentId"></approval-print>
+          <approval-print :typeId="9" :stId="apyamentId" :approveHisListd="approveHisList"
+            :nodeStateListd="nodeStateList"></approval-print>
         </div>
       </div>
     </el-dialog>
@@ -647,7 +662,7 @@ import {
   listProjectForCombobox,
   listBusinessForCombobox,
 } from "@/api/project/st";
-
+import { approveNode, approveHistory } from "@/api/project/st.js";
 export default {
   name: "Lpayment",
   props: {
@@ -812,6 +827,8 @@ export default {
       listForBusArr: [],
       listForProArr: [],
       apyamentId: "", //子组件id
+      approveHisList: [],
+      nodeStateList: []
     };
   },
   created() {
@@ -1415,6 +1432,18 @@ export default {
         getContractList(data).then((response) => {
           this.printData.contract = response.rows;
         });
+      });
+      await approveNode({
+        businessKey: this.apyamentId,
+        approvalType: 9
+      }).then((res) => {
+        JSON.stringify(res.data) == "{}" ? this.nodeStateList = null : this.nodeStateList = res.data;
+      });
+      await approveHistory({
+        businessKey: this.apyamentId,
+        approvalType: 9
+      }).then((res) => {
+        this.approveHisList = res.data;
       });
       this.printReviewVisible = true;
       this.$nextTick(() => {
