@@ -1157,34 +1157,52 @@ export default {
         away: [{ required: true, message: "请选择预付批次", trigger: "blur" }],
         rzPrice: [
           { required: true, validator: validatePrice, trigger: "blur" },
+          { max: 16, message: '不能超过16位', trigger:'blur'}
         ],
         totalPrice: [
           { required: true, validator: validatePrice, trigger: "blur" },
+          { max: 16, message: '不能超过16位', trigger:'blur'}
         ],
         dPrice: [{ required: true, validator: validatePrice, trigger: "blur" }],
-        tax: [{ required: true, validator: validatePrice, trigger: "blur" }],
+        tax: [
+          { required: true, validator: validatePrice, trigger: "blur" },
+          { max: 16, message: '不能超过16位', trigger:'blur'}
+        ],
         ato: [{ required: true, message: "请选择预付至", trigger: "blur" }],
         payTime: [
           { required: true, message: "请选择付款时间", trigger: "blur" },
         ],
         expectPrice: [
           { required: true, validator: validatePrice, trigger: "blur" },
+          { max: 16, message: '不能超过16位', trigger:'blur'}
         ],
         mfsp: [{ validator: validatePrice4, trigger: "blur" }],
         rateYear: [{ validator: validatePrice3, trigger: "blur" }],
         prepaidPrice: [
           { required: true, validator: validatePrice, trigger: "blur" },
+          { max: 16, message: '不能超过16位', trigger:'blur'}
         ],
         actualPrice: [
           { required: true, validator: validatePrice, trigger: "blur" },
+          { max: 16, message: '不能超过16位', trigger:'blur'}
         ],
         yfPrice: [
           { required: true, validator: validatePrice, trigger: "blur" },
+          { max: 16, message: '不能超过16位', trigger:'blur'}
         ],
-        kkPrice: [{ validator: validatePrice3, trigger: "blur" }],
+        kkPrice: [
+          { validator: validatePrice3, trigger: "blur" },
+          { max: 16, message: '不能超过16位', trigger:'blur'}
+        ],
         payPrice: [
           { required: true, validator: validatePrice, trigger: "blur" },
         ],
+        payTprice: [
+          { max: 16, message: '不能超过16位', trigger:'blur'}
+        ],
+        dfPrice: [
+          { max: 16, message: '不能超过16位', trigger:'blur'}
+        ]
       },
       // 打印
       printReviewVisible: false,

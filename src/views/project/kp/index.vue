@@ -453,11 +453,31 @@ export default {
         projectId: [{ required: true, message: "请选择项目名称", trigger: "blur" }],
         uName: [{ required: true, message: "请输入代办人", trigger: "blur" }],
         sName: [{ required: true, message: "请输入供应商", trigger: "blur" }],
-        kpPrice: [{ required: true, message: "请输入开票金额", trigger: "blur" },{ validator: validatePrice3, trigger: "blur" }],
-        kpTax: [{ required: true, message: "请输入开票税额", trigger: "blur" },{ validator: validatePrice3, trigger: "blur" }],
-        kpTotal: [{ required: true, message: "请输入价税合计", trigger: "blur" },{ validator: validatePrice3, trigger: "blur" }],
-        zzTprice: [{ required: true, message: "请输入电厂结算金额", trigger: "blur" },{ validator: validatePrice3, trigger: "blur" }],
-        zzPrice: [{ required: true, message: "请输入货品单价", trigger: "blur" },{ validator: validatePrice3, trigger: "blur" }],
+        kpPrice: [
+          { required: true, message: "请输入开票金额", trigger: "blur" },
+          { validator: validatePrice3, trigger: "blur" },
+          { max: 16, message: '不能超过16位', trigger: 'blur'}
+        ],
+        kpTax: [
+          { required: true, message: "请输入开票税额", trigger: "blur" },
+          { validator: validatePrice3, trigger: "blur" },
+          { max: 16, message: '不能超过16位', trigger: 'blur'}
+        ],
+        kpTotal: [
+          { required: true, message: "请输入价税合计", trigger: "blur" },
+        { validator: validatePrice3, trigger: "blur" },
+          { max: 16, message: '不能超过16位', trigger: 'blur'}
+        ],
+        zzTprice: [
+          { required: true, message: "请输入电厂结算金额", trigger: "blur" },
+        { validator: validatePrice3, trigger: "blur" },
+          { max: 16, message: '不能超过16位', trigger: 'blur'}
+        ],
+        zzPrice: [
+          { required: true, message: "请输入货品单价", trigger: "blur" },
+        { validator: validatePrice3, trigger: "blur" },
+          { max: 16, message: '不能超过16位', trigger: 'blur'}
+        ],
         zzWeight: [{ required: true, message: "请输入合计重量", trigger: "blur" }],
         mc: [{ required: true, message: "请输入货品名称", trigger: "blur" }],
       },

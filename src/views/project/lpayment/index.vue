@@ -800,6 +800,10 @@ export default {
         ],
         tax: [{ required: true, message: "请选择税率", trigger: "blur" }],
         taxPrice: [{ required: true, message: "请输入税额", trigger: "blur" }],
+        tntPrice: [
+          { required: true, message: "请输入实付金额", trigger: "blur" },
+          { max: 16, message: '不能超过16位', trigger: 'blur'}
+        ]
       },
       // 打印
       printReviewVisible: false,

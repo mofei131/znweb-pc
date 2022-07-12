@@ -380,15 +380,20 @@ export default {
         unitPriceMode: [
           { required: true, message: "请选单价模式", trigger: "blur" },
         ],
-        bidPrice: [{ required: true, message: "请输入单价", trigger: "blur" }],
+        bidPrice: [
+          { required: true, message: "请输入单价", trigger: "blur" },
+          { max: 16, message: '不能超过16位', trigger:'blur'}
+        ],
         bidPlatform: [
           { required: true, message: "请输入投标平台", trigger: "blur" },
         ],
         bidBond: [
           { required: true, message: "请输入投标保证金", trigger: "blur" },
+          { max: 16, message: '不能超过16位', trigger:'blur'}
         ],
         performanceBond: [
           { required: true, message: "请输入履约保证金", trigger: "blur" },
+          { max: 16, message: '不能超过16位', trigger:'blur'}
         ],
         bidNumber: [
           { required: true, message: "请输入投标数量", trigger: "blur" },

@@ -309,7 +309,8 @@ export default {
           { required: true, message: "请选择支出类型", trigger: "blur" }
         ],
         price: [
-          { required: true, validator:validatePrice, trigger: "blur" }
+          { required: true, validator:validatePrice, trigger: "blur" },
+          { max: 16, message: '不能超过16位', trigger: 'blur'}
         ],
         payTime: [
           { required: true, message: "请选择支付时间", trigger: "blur" }

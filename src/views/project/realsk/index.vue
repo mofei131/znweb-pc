@@ -820,12 +820,24 @@ export default {
         coalGdt: [],
         coalQgrad: [],
         coalQntar: [],
-        jstPrice: [{ validator: validatePrice3, trigger: "blur" }],
+        jstPrice: [
+          { validator: validatePrice3, trigger: "blur" },
+          { max: 16, message: '不能超过16位', trigger: 'blur'}
+        ],
         rz: [{ validator: validatePrice3, trigger: "blur" }],
-        jsDj: [{ validator: validatePrice3, trigger: "blur" }],
+        jsDj: [
+          { validator: validatePrice3, trigger: "blur" },
+          { max: 16, message: '不能超过16位', trigger: 'blur'}
+        ],
         jsMl: [{ validator: validatePrice3, trigger: "blur" }],
-        jsMk: [{ validator: validatePrice3, trigger: "blur" }],
-        jsTax: [{ validator: validatePrice3, trigger: "blur" }],
+        jsMk: [
+          { validator: validatePrice3, trigger: "blur" },
+          { max: 16, message: '不能超过16位', trigger: 'blur'}
+        ],
+        jsTax: [
+          { validator: validatePrice3, trigger: "blur" },
+          { max: 16, message: '不能超过16位', trigger: 'blur'}
+        ],
       },
       // 项目集合
       dateRange: [],

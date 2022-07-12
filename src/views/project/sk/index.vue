@@ -1138,26 +1138,43 @@ export default {
         ],
         skTprice: [
           { required: true, validator: validatePrice, trigger: "blur" },
+          { max: 16, message: '不能超过16位', trigger: 'blur'}
         ],
         skPrice: [
           { required: true, validator: validatePrice, trigger: "blur" },
+          { max: 16, message: '不能超过16位', trigger: 'blur'}
         ],
-        tax: [{ required: true, validator: validatePrice, trigger: "blur" }],
+        tax: [
+          { required: true, validator: validatePrice, trigger: "blur" },
+          { max: 16, message: '不能超过16位', trigger: 'blur'}
+        ],
         skTime: [
           { required: true, message: "请选择收款日期", trigger: "blur" },
         ],
-        accept: [{ validator: validatePrice3, trigger: "blur" }],
-        punish: [{ validator: validatePrice3, trigger: "blur" }],
-        otherP: [{ validator: validatePrice3, trigger: "blur" }],
+        accept: [
+          { validator: validatePrice3, trigger: "blur" },
+          { max: 16, message: '不能超过16位', trigger: 'blur'}
+        ],
+        punish: [
+          { validator: validatePrice3, trigger: "blur" },
+          { max: 16, message: '不能超过16位', trigger: 'blur'}
+        ],
+        otherP: [
+          { validator: validatePrice3, trigger: "blur" },
+          { max: 16, message: '不能超过16位', trigger: 'blur'}
+        ],
         otherN: [{ message: "其他扣罚说明", trigger: "blur" }],
         yftotalPrice: [
           { required: true, validator: validatePrice, trigger: "blur" },
+          { max: 16, message: '不能超过16位', trigger: 'blur'}
         ],
         yfPrice: [
           { required: true, validator: validatePrice, trigger: "blur" },
+          { max: 16, message: '不能超过16位', trigger: 'blur'}
         ],
         sjPrice: [
           { required: true, validator: validatePrice, trigger: "blur" },
+          { max: 16, message: '不能超过16位', trigger: 'blur'}
         ],
       },
       // 打印
