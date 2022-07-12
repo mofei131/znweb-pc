@@ -503,36 +503,42 @@
             <tr>
               <td class="table-td-title detail">项目名称</td>
               <td class="table-td-content">
+                {{ printData.projectName }}
+              </td>
+              <td class="table-td-title detail">业务名称</td>
+              <td class="table-td-content">
                 {{ printData.stName }}
               </td>
               <td class="table-td-title detail">项目编号</td>
               <td class="table-td-content">
-                {{ printData.number }}
-              </td>
-              <td class="table-td-title detail">重量</td>
-              <td class="table-td-content">
-                {{ $options.filters.weightFilter(printData.grnNumber) }}
+                {{ printData.serialNo }}
               </td>
             </tr>
             <tr>
+              <td class="table-td-title detail">重量(吨)</td>
+              <td class="table-td-content">
+                {{ $options.filters.weightFilter(printData.grnNumber) }}
+              </td>
               <td class="table-td-title detail">到货日期</td>
               <td class="table-td-content">
                 {{ parseTime(printData.okTime, "{y}-{m}-{d}") }}
               </td>
-              <td class="table-td-title detail">热值</td>
+              <td class="table-td-title detail">热值(kcal)</td>
               <td class="table-td-content">
                 {{ printData.gryRz }}
               </td>
-              <td class="table-td-title detail">货值单价</td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">货值单价(元)</td>
               <td class="table-td-content">
                 {{ $options.filters.moneyFilter(printData.valuePrice) }}
               </td>
-            </tr>
-            <tr>
-              <td class="table-td-title detail">货值总额</td>
-              <td class="table-td-content" colspan="5">
+              <td class="table-td-title detail">货值总额(元)</td>
+              <td class="table-td-content">
                 {{ $options.filters.moneyFilter(printData.valueTprice) }}
               </td>
+              <td class="table-td-title detail"></td>
+              <td class="table-td-content"></td>
             </tr>
             <tr>
               <td class="table-td-title detail">附件</td>
@@ -729,7 +735,8 @@
             </tr>
           </table>
           <!--审批流程-->
-          <approval-print :typeId="11" :stId="apyamentId"></approval-print>
+          <approval-print :typeId="11" :stId="apyamentId" :approveHisListd="approveHisList"
+            :nodeStateListd="nodeStateList"></approval-print>
         </div>
       </div>
     </el-dialog>
@@ -761,7 +768,7 @@ import {
   listProjectForCombobox,
   listBusinessForCombobox,
 } from "@/api/project/st";
-
+import { approveNode, approveHistory } from "@/api/project/st.js";
 export default {
   name: "Gry",
   props: {
@@ -925,6 +932,8 @@ export default {
       listForProArr: [],
       apyamentId: "", //子组件id
       approvalType: {},
+      approveHisList: [],
+      nodeStateList: []
     };
   },
   created() {
@@ -1576,6 +1585,18 @@ export default {
         this.printData.zec =
           response.data.valueTprice - response.data.grnList[0].valueTprice;
         this.printData.printType = "到厂数质量";
+      });
+      await approveNode({
+        businessKey: this.apyamentId,
+        approvalType: 11
+      }).then((res) => {
+        JSON.stringify(res.data) == "{}" ? this.nodeStateList = null : this.nodeStateList = res.data;
+      });
+      await approveHistory({
+        businessKey: this.apyamentId,
+        approvalType: 11
+      }).then((res) => {
+        this.approveHisList = res.data;
       });
       this.printReviewVisible = true;
       this.$nextTick(() => {
