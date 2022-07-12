@@ -864,22 +864,32 @@
                 <td class="tdCoent">{{$options.filters.moneyFilter(form.tx)}}</td>
                 <td class="tdTitle">其他费用(元)</td>
                 <td class="tdCoent">{{$options.filters.moneyFilter(form.qt)}}</td>
+              </tr>
+            </table>
+          </el-col>
+        </el-row>
+        <el-row class="head-title">
+          <el-col :span="19">
+            <el-form-item label="应付款明细"></el-form-item>
+          </el-col>
+        </el-row>
+        <el-row class="head-text">
+          <el-col class="newTable">
+            <table width="90%" cellpadding="0" cellspacing="0">
+              <tr>
                 <td class="tdTitle">最终应付款金额(元)</td>
                 <td class="tdCoent">{{$options.filters.moneyFilter(form.yftotalPrice)}}</td>
-              </tr>
-              <tr>
                 <td class="tdTitle">最终应付款税额(元)</td>
                 <td class="tdCoent">{{ $options.filters.moneyFilter(form.yftotalPriceatx)}}</td>
                 <td class="tdTitle">提单金额(元)</td>
                 <td class="tdCoent">{{$options.filters.moneyFilter(form.yfPrice)}}</td>
-                <td class="tdTitle">调整金额(元)</td>
-                <td class="tdCoent">{{$options.filters.moneyFilter(form.je)}}</td>
               </tr>
               <tr>
+                
+                <td class="tdTitle">调整金额(元)</td>
+                <td class="tdCoent">{{$options.filters.moneyFilter(form.je)}}</td>
                 <td class="tdTitle">最终实际付款(元)</td>
                 <td class="tdCoent">{{$options.filters.moneyFilter(form.sjPrice)}}</td>
-                <td class="tdTitle"></td>
-                <td class="tdCoent"></td>
                 <td class="tdTitle"></td>
                 <td class="tdCoent"></td>
               </tr>
