@@ -135,7 +135,7 @@
             <el-table-column property="taxPrice" label="税额(元)">
               <template slot-scope="scope">
                 {{
-                Number(scope.row.ntPrice)
+  Number(scope.row.taxPrice)
                 .toFixed(2)
                 .toString()
                 .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
