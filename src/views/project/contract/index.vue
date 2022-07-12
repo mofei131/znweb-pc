@@ -869,7 +869,7 @@
     </el-dialog>
     <!--打印页-->
     <el-dialog title="打印预览" :visible.sync="printReviewVisible" @close="onPrintReviewClose" width="60%">
-      <div class="print-div" id="print_area">
+      <div class="print-div" id="print_area_3">
         <div class="search-title-content">
           <div style="padding: 0 0 15px">
             <el-row type="flex" justify="space-between">
@@ -1646,7 +1646,7 @@ export default {
     },
     // 打印
     async resolveImg() {
-      let imgBase64 = await this.getImage("print_area");
+      let imgBase64 = await this.getImage("print_area_3");
       printJS({
         printable: imgBase64,
         type: "image",
