@@ -369,12 +369,12 @@
           <el-row>
             <el-col :span="12">
               <el-form-item label="收款金额(元)" prop="payPrice">
-                <el-input v-model="form.skPrice" placeholder="请输入付款金额" />
+                <el-input v-model="form.payPrice" placeholder="请输入付款金额" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="收款日期" prop="payTime">
-                <el-date-picker clearable size="small" style="width: 100%" v-model="form.skTime" type="date"
+                <el-date-picker clearable size="small" style="width: 100%" v-model="form.payTime" type="date"
                   value-format="yyyy-MM-dd" placeholder="选择付款日期">
                 </el-date-picker>
               </el-form-item>
