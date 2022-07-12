@@ -305,15 +305,15 @@
                 {{ printData.name }}
               </td>
               <td class="table-td-title detail">成立日期</td>
-              <td class="table-td-content" colspan="3">
+              <td class="table-td-content">
                 {{ printData.setupTime }}
               </td>
-            </tr>
-            <tr>
               <td class="table-td-title detail">企业性质</td>
               <td class="table-td-content">
                 {{ printData.nature }}
               </td>
+            </tr>
+            <tr>
               <td class="table-td-title detail">年需求量(万吨)</td>
               <td class="table-td-content">
                 {{ $options.filters.weightFilter(printData.demand) }}
@@ -322,12 +322,12 @@
               <td class="table-td-content">
                 {{ $options.filters.moneyFilter(printData.capital) }}
               </td>
-            </tr>
-            <tr>
               <td class="table-td-title detail">开票结算方式</td>
               <td class="table-td-content">
                 {{ printData.settlementType }}
               </td>
+            </tr>
+            <tr>
               <td class="table-td-title detail">结算规则</td>
               <td class="table-td-content">
                 {{ printData.settlementGz }}
@@ -336,12 +336,12 @@
               <td class="table-td-content">
                 {{ printData.paymentdays }}
               </td>
-            </tr>
-            <tr>
               <td class="table-td-title detail">付款方式</td>
               <td class="table-td-content">
                 {{ printData.paymentType }}
               </td>
+            </tr>
+            <tr>
               <td class="table-td-title detail">评级</td>
               <td class="table-td-content">
                 {{ printData.rating }}
@@ -349,6 +349,10 @@
               <td class="table-td-title detail">评级说明</td>
               <td class="table-td-content">
                 {{ printData.ratingDe }}
+              </td>
+              <td class="table-td-title detail">客户代码</td>
+              <td class="table-td-content">
+                {{ printData.customerCode }}
               </td>
             </tr>
             <tr>
@@ -361,7 +365,8 @@
             </tr>
           </table>
           <!--审批流程-->
-          <approval-print :typeId="13" :stId="apyamentId"></approval-print>
+          <approval-print :typeId="13" :stId="apyamentId" :approveHisListd="approveHisList"
+            :nodeStateListd="nodeStateList"></approval-print>
         </div>
       </div>
     </el-dialog>
@@ -380,7 +385,7 @@ import { getToken } from "@/utils/auth";
 import { getStList } from "@/api/project/gry";
 import print from "print-js";
 import { getProcessDataByStId, getApprovalProcessList, getApprovalType } from "@/api/approve";
-
+import { approveNode, approveHistory } from "@/api/project/st.js";
 export default {
   name: "Terminal",
   data() {
@@ -472,6 +477,8 @@ export default {
       printData: {},
       isDisabled: false,
       apyamentId:'',//子组件id
+      approveHisList: [],
+      nodeStateList: []
     };
   },
   created() {
@@ -749,6 +756,18 @@ export default {
         this.printData = response.data;
         this.printData.fileList = response.data.fileList;
         this.printData.printType = "终端用户管理";
+      });
+      await approveNode({
+        businessKey: this.apyamentId,
+        approvalType: 13
+      }).then((res) => {
+        JSON.stringify(res.data) == "{}" ? this.nodeStateList = null : this.nodeStateList = res.data;
+      });
+      await approveHistory({
+        businessKey: this.apyamentId,
+        approvalType: 13
+      }).then((res) => {
+        this.approveHisList = res.data;
       });
       this.printReviewVisible = true;
       this.$nextTick(() => {
