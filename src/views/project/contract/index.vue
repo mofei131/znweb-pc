@@ -92,8 +92,8 @@
       <el-table-column label="创建时间" align="center" prop="createTime" width="180">
         <template slot-scope="scope">
           <span>{{
-            parseTime(scope.row.createTime, "{y}-{m}-{d} {h}:{i}:{s}")
-            }}</span>
+          parseTime(scope.row.createTime, "{y}-{m}-{d} {h}:{i}:{s}")
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column label="合同模板" width="160" align="center" class-name="small-padding fixed-width" v-if="editable">
@@ -893,11 +893,11 @@
             <tr>
               <td class="table-td-title detail">项目名称</td>
               <td class="table-td-content">
-                {{ printData.stName }}
+                {{ printData.projectName }}
               </td>
-              <td class="table-td-title detail">立项编号</td>
+              <td class="table-td-title detail">业务名称</td>
               <td class="table-td-content">
-                {{ printData.productNo }}
+                {{ printData.stName }}
               </td>
               <td class="table-td-title detail">项目编号</td>
               <td class="table-td-content">
@@ -913,167 +913,117 @@
               <td class="table-td-content">
                 {{ printData.type }}
               </td>
-              <td class="table-td-title detail">合同编号</td>
+              <td class="table-td-title detail">合同立项编号</td>
               <td class="table-td-content">
-                {{ printData.number }}
+                {{ printData.productNo }}
               </td>
             </tr>
             <template v-if="printData.type == '上游合同'">
               <tr>
-                <td class="table-td-title detail">签约日期</td>
-                <td class="table-td-content">
-                  {{ parseTime(printData.signingTime, "{y}-{m}-{d}") }}
-                </td>
+                <td class="table-td-title detail">合同编号</td>
+                <td class="table-td-content">{{ printData.number }}</td>
                 <td class="table-td-title detail">供应商</td>
-                <td class="table-td-content">
-                  {{ printData.supplierName }}
-                </td>
-                <td class="table-td-title detail">货品名称</td>
-                <td class="table-td-content">
-                  {{ printData.goodsName }}
-                </td>
-              </tr>
-              <tr>
-                <td class="table-td-title detail">保底服务费期限</td>
-                <td class="table-td-content">
-                  {{ printData.mfsp }}
-                </td>
-                <td class="table-td-title detail">超时服务费期限</td>
-                <td class="table-td-content">
-                  {{ printData.csmfsp }}
-                </td>
-                <td class="table-td-title detail">违约服务费期限</td>
-                <td class="table-td-content">
-                  {{ printData.vymfsp }}
-                </td>
-              </tr>
-            </template>
-            <template v-else-if="printData.type == '下游合同'">
-              <tr>
+                <td class="table-td-content">{{ printData.supplierName }}</td>
                 <td class="table-td-title detail">签约日期</td>
                 <td class="table-td-content">
                   {{ parseTime(printData.signingTime, "{y}-{m}-{d}") }}
                 </td>
-                <td class="table-td-title detail">终端客户</td>
-                <td class="table-td-content">
-                  {{ printData.terminalName }}
-                </td>
-                <td class="table-td-title detail">货品名称</td>
-                <td class="table-td-content">
-                  {{ printData.goodsName }}
-                </td>
               </tr>
               <tr>
+                <td class="table-td-title detail">货品名称</td>
+                <td class="table-td-content">{{ printData.goodsName }}</td>
                 <td class="table-td-title detail">预计吨数</td>
                 <td class="table-td-content">
                   {{ $options.filters.weightFilter(printData.expectNumber) }}
                 </td>
-                <td class="table-td-title detail">基准单价</td>
-                <td class="table-td-content" colspan="3">
-                  {{ $options.filters.moneyFilter(printData.price) }}
-                </td>
+                <td class="table-td-title detail">保底服务费期限(天)</td>
+                <td class="table-td-content">{{ printData.mfsp }}</td>
+              </tr>
+              <tr>
+                <td class="table-td-title detail">超时服务费期限(天)</td>
+                <td class="table-td-content">{{ printData.csmfsp }}</td>
+                <td class="table-td-title detail">超时服务费费率(%)</td>
+                <td class="table-td-content">{{ printData.csrate }}</td>
+                <td class="table-td-title detail">违约服务费期限(天)</td>
+                <td class="table-td-content">{{ printData.vymfsp }}</td>
+              </tr>
+              <tr>
+                <td class="table-td-title detail">违约服务费费率(%)</td>
+                <td class="table-td-content">{{ printData.vyrate }}</td>
+                <td class="table-td-title detail">备注</td>
+                <td class="table-td-content" colspan="3">{{ printData.node }}</td>
               </tr>
             </template>
-            <template v-else-if="printData.type == '其他合同'">
+            <template v-if="printData.type == '下游合同'">
               <tr>
+                <td class="table-td-title detail">合同编号</td>
+                <td class="table-td-content">{{ printData.number }}</td>
+                <td class="table-td-title detail">终端客户</td>
+                <td class="table-td-content">{{ printData.terminalName }}</td>
                 <td class="table-td-title detail">签约日期</td>
                 <td class="table-td-content">
                   {{ parseTime(printData.signingTime, "{y}-{m}-{d}") }}
                 </td>
-                <td class="table-td-title detail">客户名称</td>
-                <td class="table-td-content">
-                  {{ printData.khName }}
-                </td>
+              </tr>
+              <tr>
                 <td class="table-td-title detail">货品名称</td>
+                <td class="table-td-content">{{ printData.goodsName }}</td>
+                <td class="table-td-title detail">基准单价(元)</td>
                 <td class="table-td-content">
-                  {{ printData.goodsName }}
+                  {{ $options.filters.moneyFilter(printData.price) }}
+                </td>
+                <td class="table-td-title detail">预计吨数</td>
+                <td class="table-td-content">
+                  {{ $options.filters.weightFilter(printData.expectNumber) }}
                 </td>
               </tr>
               <tr>
                 <td class="table-td-title detail">备注</td>
-                <td class="table-td-content" colspan="5">
-                  {{ printData.node }}
-                </td>
+                <td class="table-td-content" colspan="5">{{ printData.node }}</td>
               </tr>
             </template>
-            <template v-else-if="printData.type == '物流服务合同'">
+            <template v-if="printData.type == '物流运输合同' || printData.type == '物流服务合同'">
               <tr>
+                <td class="table-td-title detail">合同编号</td>
+                <td class="table-td-content">{{ printData.number }}</td>
                 <td class="table-td-title detail">签约日期</td>
                 <td class="table-td-content">
                   {{ parseTime(printData.signingTime, "{y}-{m}-{d}") }}
                 </td>
-                <td class="table-td-title detail">货品名称</td>
-                <td class="table-td-content">
-                  {{ printData.goodsName }}
-                </td>
-                <td class="table-td-title detail">服务单位</td>
-                <td class="table-td-content">
-                  {{ printData.transportUnit }}
-                </td>
+                <td class="table-td-title detail">{{ printData.type == '物流运输合同'?'运输单位':'服务单位'}}</td>
+                <td class="table-td-content">{{ printData.transportUnit }}</td>
               </tr>
               <tr>
                 <td class="table-td-title detail">运输方式</td>
-                <td class="table-td-content">
-                  {{ printData.transportType }}
-                </td>
+                <td class="table-td-content">{{ printData.transportType }}</td>
                 <td class="table-td-title detail">起运地</td>
-                <td class="table-td-content">
-                  {{ printData.transportStart }}
-                </td>
+                <td class="table-td-content">{{ printData.transportStart }}</td>
                 <td class="table-td-title detail">目的地</td>
-                <td class="table-td-content">
-                  {{ printData.transportEnd }}
-                </td>
+                <td class="table-td-content">{{ printData.transportEnd }}</td>
               </tr>
               <tr>
-                <td class="table-td-title detail">运输单价(元/吨)</td>
-                <td class="table-td-content">
-                  {{ $options.filters.moneyFilter(printData.transportPrice) }}
-                </td>
+                <td class="table-td-title detail">运费单价(吨/元)</td>
+                <td class="table-td-content">{{ printData.transportPrice }}</td>
                 <td class="table-td-title detail">损耗率</td>
-                <td class="table-td-content" colspan="3">
-                  {{ printData.transportLoss }}
-                </td>
+                <td class="table-td-content">{{ printData.transportLoss }}</td>
+                <td class="table-td-title detail">备注</td>
+                <td class="table-td-content">{{ printData.node }}</td>
               </tr>
             </template>
-            <template v-else-if="printData.type == '物流运输合同'">
+            <template v-if="printData.type == '其他合同'">
               <tr>
+                <td class="table-td-title detail">合同编号</td>
+                <td class="table-td-content">{{ printData.number }}</td>
+                <td class="table-td-title detail">客户名称</td>
+                <td class="table-td-content">{{ printData.khName }}</td>
                 <td class="table-td-title detail">签约日期</td>
                 <td class="table-td-content">
                   {{ parseTime(printData.signingTime, "{y}-{m}-{d}") }}
                 </td>
-                <td class="table-td-title detail">货品名称</td>
-                <td class="table-td-content">
-                  {{ printData.goodsName }}
-                </td>
-                <td class="table-td-title detail">运输单位</td>
-                <td class="table-td-content">
-                  {{ printData.transportUnit }}
-                </td>
               </tr>
               <tr>
-                <td class="table-td-title detail">运输方式</td>
-                <td class="table-td-content">
-                  {{ printData.transportType }}
-                </td>
-                <td class="table-td-title detail">起运地</td>
-                <td class="table-td-content">
-                  {{ printData.transportStart }}
-                </td>
-                <td class="table-td-title detail">目的地</td>
-                <td class="table-td-content">
-                  {{ printData.transportEnd }}
-                </td>
-              </tr>
-              <tr>
-                <td class="table-td-title detail">运输单价(元/吨)</td>
-                <td class="table-td-content">
-                  {{ $options.filters.moneyFilter(printData.transportPrice) }}
-                </td>
-                <td class="table-td-title detail">损耗率</td>
-                <td class="table-td-content" colspan="3">
-                  {{ printData.transportLoss }}
-                </td>
+                <td class="table-td-title detail">备注</td>
+                <td class="table-td-content" colspan="5">{{ printData.node }}</td>
               </tr>
             </template>
             <tr>
@@ -1103,7 +1053,8 @@
             </tr>
           </table>
           <!--审批流程-->
-          <approval-print :typeId="3" :stId="apyamentId"></approval-print>
+          <approval-print :typeId="3" :stId="apyamentId" :approveHisListd="approveHisList"
+            :nodeStateListd="nodeStateList"></approval-print>
         </div>
       </div>
     </el-dialog>
@@ -1125,7 +1076,7 @@ import { getToken } from "@/utils/auth";
 import print from "print-js";
 import { getProcessDataByStId, getApprovalProcessList, getApprovalType } from "@/api/approve";
 import { listProjectForCombobox, listBusinessForCombobox } from "@/api/project/st";
-
+import { approveNode, approveHistory } from "@/api/project/st.js";
 export default {
   name: "Contract",
   props: {
@@ -1303,6 +1254,8 @@ export default {
       listForBusArr: [],
       listForProArr: [],
       apyamentId:'',//子组件id
+      approveHisList: [],
+      nodeStateList: []
     };
   },
   created() {
@@ -1732,6 +1685,18 @@ export default {
         } else if (this.printData.type == "5") {
           this.printData.type = "其他合同";
         }
+      });
+      await approveNode({
+        businessKey: this.apyamentId,
+        approvalType: 3
+      }).then((res) => {
+        JSON.stringify(res.data) == "{}" ? this.nodeStateList = null : this.nodeStateList = res.data;
+      });
+      await approveHistory({
+        businessKey: this.apyamentId,
+        approvalType: 3
+      }).then((res) => {
+        this.approveHisList = res.data;
       });
       this.printReviewVisible = true;
       this.$nextTick(() => {

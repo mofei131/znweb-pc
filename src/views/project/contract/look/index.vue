@@ -103,16 +103,18 @@
             </template>
             <template v-if="form.type == '下游合同'">
               <tr>
+                <td class="tdTitle">合同编号</td>
+                <td class="tdCoent">{{ form.number }}</td>
                 <td class="tdTitle">终端客户</td>
                 <td class="tdCoent">{{ form.terminalName }}</td>
                 <td class="tdTitle">签约日期</td>
                 <td class="tdCoent">
                   {{ parseTime(form.signingTime, "{y}-{m}-{d}") }}
                 </td>
-                <td class="tdTitle">货品名称</td>
-                <td class="tdCoent">{{ form.goodsName }}</td>
               </tr>
               <tr>
+                <td class="tdTitle">货品名称</td>
+                <td class="tdCoent">{{ form.goodsName }}</td>
                 <td class="tdTitle">基准单价(元)</td>
                 <td class="tdCoent">
                   {{ $options.filters.moneyFilter(form.price) }}
@@ -121,46 +123,54 @@
                 <td class="tdCoent">
                   {{ $options.filters.weightFilter(form.expectNumber) }}
                 </td>
+              </tr>
+              <tr>
                 <td class="tdTitle">备注</td>
-                <td class="tdCoent">{{ form.node }}</td>
+                <td class="tdCoent" colspan="5">{{ form.node }}</td>
               </tr>
             </template>
             <template v-if="form.type == '物流运输合同' || form.type == '物流服务合同'">
               <tr>
+                <td class="tdTitle">合同编号</td>
+                <td class="tdCoent">{{ form.number }}</td>
                 <td class="tdTitle">签约日期</td>
                 <td class="tdCoent">
                   {{ parseTime(form.signingTime, "{y}-{m}-{d}") }}
                 </td>
                 <td class="tdTitle">{{ form.type == '物流运输合同'?'运输单位':'服务单位'}}</td>
                 <td class="tdCoent">{{ form.transportUnit }}</td>
-                <td class="tdTitle">运输方式</td>
-                <td class="tdCoent">{{ form.transportType }}</td>
               </tr>
               <tr>
-                <td class="tdTitle">运费单价(吨/元)</td>
-                <td class="tdCoent">{{ form.transportPrice }}</td>
+                <td class="tdTitle">运输方式</td>
+                <td class="tdCoent">{{ form.transportType }}</td>
                 <td class="tdTitle">起运地</td>
                 <td class="tdCoent">{{ form.transportStart }}</td>
                 <td class="tdTitle">目的地</td>
                 <td class="tdCoent">{{ form.transportEnd }}</td>
               </tr>
               <tr>
+                <td class="tdTitle">运费单价(吨/元)</td>
+                <td class="tdCoent">{{ form.transportPrice }}</td>
                 <td class="tdTitle">损耗率</td>
                 <td class="tdCoent">{{ form.transportLoss }}</td>
                 <td class="tdTitle">备注</td>
-                <td class="tdCoent" colspan="3">{{ form.node }}</td>
+                <td class="tdCoent">{{ form.node }}</td>
               </tr>
             </template>
             <template v-if="form.type == '其他合同'">
               <tr>
+                <td class="tdTitle">合同编号</td>
+                <td class="tdCoent">{{ form.number }}</td>
                 <td class="tdTitle">客户名称</td>
                 <td class="tdCoent">{{ form.khName }}</td>
                 <td class="tdTitle">签约日期</td>
                 <td class="tdCoent">
                   {{ parseTime(form.signingTime, "{y}-{m}-{d}") }}
                 </td>
+              </tr>
+              <tr>
                 <td class="tdTitle">备注</td>
-                <td class="tdCoent">{{ form.node }}</td>
+                <td class="tdCoent" colspan="5">{{ form.node }}</td>
               </tr>
             </template>
           </table>

@@ -99,20 +99,25 @@
       stId: {
         type: [String, Number]
       },
-      approveHisList: {
+      approveHisListd: {
         type: Array,
-        default: []
+        default: null
       },
-      nodeStateList: {
-        type: Array,
-        default: []
+      nodeStateListd: {
+        type: Object,
+        default: null
       }
   },
     data(){
-      return{}
+      return{
+        approveHisList:[],
+        nodeStateList:{}
+      }
     },
     mounted(){
-      if (this.nodeStateList.length == 0) {
+      if (this.nodeStateListd) {
+        this.nodeStateList = this.nodeStateListd;
+      }else{
         approveNode({
           businessKey: this.stId,
           approvalType: this.typeId
@@ -120,7 +125,9 @@
           JSON.stringify(res.data) == "{}" ? this.nodeStateList = null : this.nodeStateList = res.data;
         });
       }
-      if (this.approveHisList.length == 0) {
+      if (this.approveHisListd) {
+        this.approveHisList = this.approveHisListd
+      }else{
         approveHistory({
           businessKey: this.stId,
           approvalType: this.typeId
