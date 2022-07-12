@@ -81,11 +81,15 @@
             <tr>
               <td class="tdTitle">预估应收(元)</td>
               <td class="tdCoent">{{$options.filters.moneyFilter(form.ygPrice)}}</td>
+              <td class="tdTitle"></td>
+              <td class="tdCoent"></td>
+              <td class="tdTitle"></td>
+              <td class="tdCoent"></td>
             </tr>
           </table>
         </el-col>
       </el-row>
-  <!--    <el-row class="head-text">
+      <!--    <el-row class="head-text">
         <el-col :span="7" :offset="1">
           <div style="display:flex">
             <div>项目名称：</div><span v-text="form.projectName"></span>
