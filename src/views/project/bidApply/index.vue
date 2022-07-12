@@ -136,7 +136,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item :label="`单价(元/${priceLabel})`" prop="bidPrice">
+            <el-form-item :label="`单价(元/${priceLabel(form.unitPriceMode)})`" prop="bidPrice">
               <el-input v-model="form.bidPrice" placeholder="请输入单价" />
             </el-form-item>
           </el-col>
@@ -230,38 +230,52 @@
             <tr>
               <td class="table-td-title detail">项目名称</td>
               <td class="table-td-content">
+                {{ printData.projectName }}
+              </td>
+              <td class="table-td-title detail">业务名称</td>
+              <td class="table-td-content">
                 {{ printData.stName }}
               </td>
               <td class="table-td-title detail">项目编号</td>
               <td class="table-td-content">
-                {{ printData.stNumber }}
+                {{ printData.serialNo }}
               </td>
+            </tr>
+            <tr>
               <td class="table-td-title detail">投标平台</td>
               <td class="table-td-content">
                 {{ printData.bidPlatform }}
               </td>
-            </tr>
-            <tr>
-              <td class="table-td-title detail">投标保证金(元)</td>
+              <td class="table-td-title detail">单价模式</td>
               <td class="table-td-content">
-                {{ $options.filters.moneyFilter(printData.bidBond) }}
+                {{ printData.unitPriceMode }}
               </td>
-              <td class="table-td-title detail">投标数量(吨)</td>
-              <td class="table-td-content">
-                {{ $options.filters.weightFilter(printData.bidNumber) }}
-              </td>
-              <td class="table-td-title detail">单价(元/吨)</td>
+              <td class="table-td-title detail">单价(元/{{priceLabel(printData.unitPriceMode)}})</td>
               <td class="table-td-content">
                 {{ $options.filters.moneyFilter(printData.bidPrice) }}
               </td>
             </tr>
             <tr>
-              <td class="table-td-title detail">发站</td>
+              <td class="table-td-title detail">投标数量(吨)</td>
               <td class="table-td-content">
+                {{ $options.filters.weightFilter(printData.bidNumber) }}
+              </td>
+              <td class="table-td-title detail">投标保证金(元)</td>
+              <td class="table-td-content">
+                {{ $options.filters.moneyFilter(printData.bidBond) }}
+              </td>
+              <td class="table-td-title detail">履约保证金(元)</td>
+              <td class="table-td-content">
+                {{ $options.filters.moneyFilter(printData.performanceBond) }}
+              </td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">发站</td>
+              <td class="table-td-content" colspan="2">
                 {{ printData.sendStation }}
               </td>
               <td class="table-td-title detail">到站</td>
-              <td class="table-td-content" colspan="3">
+              <td class="table-td-content" colspan="2">
                 {{ printData.arriveStation }}
               </td>
             </tr>
@@ -281,7 +295,9 @@
             </tr>
           </table>
           <!--审批流程-->
-          <approval-print :typeId="18" :stId="apyamentId"></approval-print>
+          <approval-print :typeId="18" :stId="apyamentId" :approveHisList="approveHisList"
+            :nodeStateList="nodeStateList">
+          </approval-print>
         </div>
       </div>
     </el-dialog>
@@ -303,6 +319,7 @@ import { getToken } from "@/utils/auth";
 import print from "print-js";
 import { getProcessDataByStId, getApprovalProcessList, getApprovalType } from "@/api/approve";
 import { listProjectForCombobox, listBusinessForCombobox } from "@/api/project/st";
+import { approveNode, approveHistory } from "@/api/project/st.js";
 export default {
   name: "BidApply",
   props: {
@@ -398,16 +415,9 @@ export default {
       listForBusArr: [],
       listForProArr: [],
       apyamentId:'',//子组件id
+      approveHisList:[],
+      nodeStateList:[]
     };
-  },
-  computed: {
-    priceLabel() {
-      if (this.form.unitPriceMode === "吨") {
-        return "吨";
-      } else if (this.form.unitPriceMode === "热值") {
-        return "kcal";
-      }
-    },
   },
   created() {
     if (this.isQuote){
@@ -678,6 +688,13 @@ export default {
     handleOpen() {
       this.isDisabled = false;
     },
+    priceLabel(unitPriceMode) {
+      if (unitPriceMode === "吨") {
+        return "吨";
+      } else if (unitPriceMode === "热值") {
+        return "kcal";
+      }
+    },
     // 打印
     async resolveImg() {
       let imgBase64 = await this.getImage("print_area");
@@ -697,6 +714,18 @@ export default {
         this.printData = response.data;
         this.printData.fileList = this.form.fileList || [];
         this.printData.printType = "投标申请";
+      });
+      await approveNode({
+        businessKey: this.apyamentId,
+        approvalType: 18
+      }).then((res) => {
+        JSON.stringify(res.data) == "{}" ? this.nodeStateList = null : this.nodeStateList = res.data;
+      });
+      await approveHistory({
+        businessKey: this.apyamentId,
+        approvalType: 18
+      }).then((res) => {
+        this.approveHisList = res.data;
       });
       this.printReviewVisible = true;
       this.$nextTick(() => {
