@@ -1,13 +1,19 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="项目名称" prop="projectName">
-        <el-input v-model="queryParams.projectName" placeholder="项目名称" clearable size="small"
-          @keyup.enter.native="handleQuery" />
+      <el-form-item label="项目名称" prop="projectId">
+        <el-select filterable value-key="projectId" @change="changeProjectQuery" v-model="queryParams.projectId"
+          placeholder="请选择项目" style="width: 100%" clearable>
+          <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName" :value="pro.projectId">
+          </el-option>
+        </el-select>
       </el-form-item>
-      <el-form-item label="业务名称" prop="stName">
-        <el-input v-model="queryParams.stName" placeholder="业务名称" clearable size="small"
-          @keyup.enter.native="handleQuery" />
+      <el-form-item label="业务名称" prop="stId">
+        <el-select filterable value-key="stId" @change="changeStQuery" v-model="queryParams.stId" placeholder="请选择业务"
+          style="width: 100%" clearable>
+          <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj.stId">
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="项目编号" prop="serialNo">
         <el-input v-model="queryParams.serialNo" placeholder="请输入项目编号" clearable size="small"
@@ -197,7 +203,7 @@
 <script>
 import { listSf, getSf, delSf, addSf, updateSf } from "@/api/project/sf";
 import {getStList, getUserList} from "@/api/project/cplan";
-
+import { listProjectForCombobox, listBusinessForCombobox } from "@/api/project/st";
 export default {
   name: "Sf",
   data() {
@@ -234,7 +240,9 @@ export default {
       form: {},
       // 表单校验
       rules: {
-      }
+      },
+      listForBusArr: [],
+      listForProArr: [],
     };
   },
   created() {
@@ -260,6 +268,20 @@ export default {
       getStList().then(response => {
         this.stOptions = response.rows;
       });
+      // 项目下拉
+      this.loadProjectForCombobox();
+    },
+    loadProjectForCombobox() {
+      this.listForProArr = []
+      listProjectForCombobox().then((response) => {
+        this.listForProArr = response.data
+      })
+    },
+    loadBusinessForCombobox(projectId) {
+      this.listForBusArr = []
+      listBusinessForCombobox({ projectId }).then((response) => {
+        this.listForBusArr = response.data
+      })
     },
     // 取消按钮
     cancel() {
@@ -354,7 +376,16 @@ export default {
       this.download('project/sf/export', {
         ...this.queryParams
       }, `project_sf.xlsx`)
-    }
+    },
+    changeStQuery(stId) {
+    },
+    changeProjectQuery(projectId) {
+      this.listForBusArr = []
+      this.queryParams.stId = ''
+      if (projectId) {
+        this.loadBusinessForCombobox(projectId);
+      }
+    },
   }
 };
 </script>
