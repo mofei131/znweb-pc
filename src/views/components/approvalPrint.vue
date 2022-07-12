@@ -92,163 +92,42 @@
 <script>
   import {approveNode,approveHistory} from "@/api/project/st.js";
   export default{
-    props:{
-        typeId:{
-          type:[String,Number]
-        },
-        stId:{
-          type:[String,Number]
-        }
-    },
-    data(){
-      return{
-        approveHisList:[
-        // {
-        //     "userId": 13,
-        //     "userName": null,
-        //     "nickName": "张三",
-        //     "postId": null,
-        //     "postName": "财务",
-        //     "approvalTime": "2022-06-22 15:37:49",
-        //     "extra": {
-        //         "opt": "pass",
-        //         "opinion": "没问题",
-        //         "post": "财务",
-        //         "nickName": "张三"
-        //     }
-        // },
-        // {
-        //     "userId": 13,
-        //     "userName": null,
-        //     "nickName": "张三",
-        //     "postId": null,
-        //     "postName": "财务",
-        //     "approvalTime": "2022-06-22 15:37:49",
-        //     "extra": {
-        //         "opt": "pass",
-        //         "opinion": "没问题",
-        //         "post": "财务",
-        //         "nickName": "张三"
-        //     }
-        // },
-        // {
-        //     "userId": 13,
-        //     "userName": null,
-        //     "nickName": "张三",
-        //     "postId": null,
-        //     "postName": "财务",
-        //     "approvalTime": "2022-06-22 15:37:49",
-        //     "extra": {
-        //         "opt": "pass",
-        //         "opinion": "没问题",
-        //         "post": "财务",
-        //         "nickName": "张三"
-        //     }
-        // }
-    ],
-        nodeStateList:{
-          // initiatorUserId: "4",
-          //         initiatorUserName: "张三",
-          //         initiatorTime: "2022-06-22 15:37:39",
-          //         rows: [
-          //             {
-          //                 approvalNodes: [
-          //                     {
-          //                         userId: 13,
-          //                         userName: "13964649592",
-          //                         nickName: "袁义宇",
-          //                         postId: 17,
-          //                         postName: "运营专员",
-          //                         approvalTime: "2022-06-22 15:37:49",
-          //                         extra: {
-          //                             opt: "pass",
-          //                             opinion: "没问题没问题没问题没问题没问题没问题没问题没问题没问题没问题没问题没问题没问题没问题没问题没问题没问题没问题没问题没问题没问题没问题没问题没问题"
-          //                         }
-          //                     },
-          //                     {
-          //                         userId: 13,
-          //                         userName: "13964649592",
-          //                         nickName: "袁义宇",
-          //                         postId: 17,
-          //                         postName: "运营专员",
-          //                         approvalTime: "2022-06-22 15:37:49",
-          //                         extra: {
-          //                             opt: "pass",
-          //                             opinion: "没问题"
-          //                         }
-          //                     },
-          //                     {
-          //                         userId: 13,
-          //                         userName: "13964649592",
-          //                         nickName: "袁义宇",
-          //                         postId: 17,
-          //                         postName: "运营专员",
-          //                         approvalTime: "2022-06-22 15:37:49",
-          //                         extra: {
-          //                             opt: "pass",
-          //                             opinion: "没问题"
-          //                         }
-          //                     }
-          //                 ],
-          //                 approvalSeq: 1,
-          //                 approvalState: "pass",
-          //                 approvalMethod: "and"
-          //             },
-          //             {
-          //                 approvalNodes: [
-          //                     {
-          //                         userId: 13,
-          //                         userName: "13964649592",
-          //                         nickName: "袁义宇",
-          //                         postId: 17,
-          //                         postName: "运营专员",
-          //                         approvalTime: "2022-06-22 15:37:49",
-          //                         extra: {
-          //                             opt: "pass",
-          //                             opinion: "没问题"
-          //                         }
-          //                     }
-          //                 ],
-          //                 approvalSeq: 2,
-          //                 approvalState: "pass",
-          //                 approvalMethod: "and"
-          //             },
-          //             {
-          //                 approvalNodes: [
-          //                     {
-          //                         userId: 13,
-          //                         userName: "13964649592",
-          //                         nickName: "袁义宇",
-          //                         postId: 17,
-          //                         postName: "运营专员",
-          //                         approvalTime: "2022-06-22 15:37:49",
-          //                         extra: {
-          //                             opt: "pass",
-          //                             opinion: "没问题"
-          //                         }
-          //                     }
-          //                 ],
-          //                 approvalSeq: 3,
-          //                 approvalState: "pass",
-          //                 approvalMethod: "and"
-          //             }
-          //         ]
-        }
+  props: {
+      typeId: {
+        type: [String, Number]
+      },
+      stId: {
+        type: [String, Number]
+      },
+      approveHisList: {
+        type: Array,
+        default: []
+      },
+      nodeStateList: {
+        type: Array,
+        default: []
       }
+  },
+    data(){
+      return{}
     },
     mounted(){
-      approveNode({
-        businessKey:this.stId,
-        approvalType:this.typeId
-      }).then((res) => {
-        JSON.stringify(res.data) == "{}"?this.nodeStateList = null:this.nodeStateList = res.data;
-      });
-      approveHistory({
-        businessKey:this.stId,
-        approvalType:this.typeId
-      }).then((res) => {
-        this.approveHisList = res.data;
-      });
+      if (this.nodeStateList.length == 0) {
+        approveNode({
+          businessKey: this.stId,
+          approvalType: this.typeId
+        }).then((res) => {
+          JSON.stringify(res.data) == "{}" ? this.nodeStateList = null : this.nodeStateList = res.data;
+        });
+      }
+      if (this.approveHisList.length == 0) {
+        approveHistory({
+          businessKey: this.stId,
+          approvalType: this.typeId
+        }).then((res) => {
+          this.approveHisList = res.data;
+        });
+      }
     }
   }
 </script>
