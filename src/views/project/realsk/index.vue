@@ -642,6 +642,13 @@ export default {
         projectId: [
           { required: true, message: "请选择项目名称", trigger: "blur" },
         ],
+        payPrice: [
+          { required: true, message: '请输入收款金额', trigger: 'blur'},
+          { max: '16', message: '不能超过16个字符', trigger: 'blur'}
+        ],
+        payTime: [
+          { required: true, message: '请选择收款日期', trigger: 'blur'},
+        ],
         coalSf: [],
         coalNs: [],
         coalAad: [],
