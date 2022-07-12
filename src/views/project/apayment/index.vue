@@ -686,15 +686,15 @@
             <tr>
               <td class="table-td-title detail">项目名称</td>
               <td class="table-td-content">
+                {{ printData.projectName }}
+              </td>
+              <td class="table-td-title detail">业务名称</td>
+              <td class="table-td-content">
                 {{ printData.stName }}
               </td>
               <td class="table-td-title detail">项目编号</td>
               <td class="table-td-content">
-                {{ printData.number }}
-              </td>
-              <td class="table-td-title detail">业务类型</td>
-              <td class="table-td-content">
-                {{ businessTypeFormat(printData.businessType) }}
+                {{ printData.serialNo }}
               </td>
             </tr>
             <tr>
@@ -706,12 +706,16 @@
               <td class="table-td-content">
                 {{ printData.type }}
               </td>
+              <td class="table-td-title detail">业务类型</td>
+              <td class="table-td-content">
+                {{ businessTypeFormat(printData.businessType) }}
+              </td>
+            </tr>
+            <tr>
               <td class="table-td-title detail">供应商</td>
               <td class="table-td-content">
                 {{ printData.supplierName }}
               </td>
-            </tr>
-            <tr>
               <td class="table-td-title detail">供应商账号</td>
               <td class="table-td-content">
                 {{ printData.account }}
@@ -721,10 +725,13 @@
                 {{ printData.openbank }}
               </td>
             </tr>
+            <tr>
+
+            </tr>
           </table>
           <table border="1" width="100%" v-if="printData.away != '提前付款'">
             <tr>
-              <td class="title" colspan="10">随车数/到厂数质量信息</td>
+              <td class="title" colspan="10">数质量信息</td>
             </tr>
             <tr>
               <td class="table-td-title detail">货品名称</td>
@@ -880,13 +887,13 @@
               <td class="table-td-content">
                 {{ $options.filters.moneyFilter(printData.totalPrice) }}
               </td>
-              <!-- <td class="table-td-title detail">固定差价</td>
-              <td class="table-td-content">
-                {{ $options.filters.moneyFilter(printData.dPrice) }}
-              </td> -->
               <td class="table-td-title detail">预付至</td>
               <td class="table-td-content">
                 {{ printData.ato }}
+              </td>
+              <td class="table-td-title detail">已付金额</td>
+              <td class="table-td-content">
+                {{ $options.filters.moneyFilter(printData.prepaidPrice) }}
               </td>
             </tr>
             <tr>
@@ -918,10 +925,7 @@
               </td>
             </tr>
             <tr>
-              <td class="table-td-title detail">已付金额</td>
-              <td class="table-td-content">
-                {{ $options.filters.moneyFilter(printData.prepaidPrice) }}
-              </td>
+
               <td class="table-td-title detail">垫付保证金</td>
               <td class="table-td-content">
                 {{ $options.filters.moneyFilter(printData.dfPrice) }}
@@ -930,6 +934,8 @@
               <td class="table-td-content">
                 {{ $options.filters.moneyFilter(printData.actualPrice) }}
               </td>
+              <td class="table-td-title detail"></td>
+              <td class="table-td-content"></td>
             </tr>
           </table>
           <table border="1" width="100%">
@@ -966,7 +972,8 @@
               </td>
             </tr>
           </table>
-          <approval-print :typeId="4" :stId="apyamentId"></approval-print>
+          <approval-print :typeId="4" :stId="apyamentId" :approveHisListd="approveHisList"
+            :nodeStateListd="nodeStateList"></approval-print>
         </div>
       </div>
     </el-dialog>
@@ -1002,6 +1009,7 @@ import {
   listProjectForCombobox,
   listBusinessForCombobox,
 } from "@/api/project/st";
+import { approveNode, approveHistory } from "@/api/project/st.js";
 export default {
   name: "Apayment",
   props: {
@@ -1193,6 +1201,8 @@ export default {
       listForBusArr: [],
       listForProArr: [],
       apyamentId: '',//子组件id
+      approveHisList: [],
+      nodeStateList: []
     };
   },
   created() {
@@ -2038,6 +2048,18 @@ export default {
         getContractList(data).then((response) => {
           this.printData.contract = response.rows;
         });
+      });
+      await approveNode({
+        businessKey: this.apyamentId,
+        approvalType: 4
+      }).then((res) => {
+        JSON.stringify(res.data) == "{}" ? this.nodeStateList = null : this.nodeStateList = res.data;
+      });
+      await approveHistory({
+        businessKey: this.apyamentId,
+        approvalType: 4
+      }).then((res) => {
+        this.approveHisList = res.data;
       });
       this.printReviewVisible = true;
       this.$nextTick(() => {
