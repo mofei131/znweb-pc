@@ -370,15 +370,15 @@
             <tr>
               <td class="table-td-title detail">项目名称</td>
               <td class="table-td-content">
+                {{ printData.projectName }}
+              </td>
+              <td class="table-td-title detail">业务名称</td>
+              <td class="table-td-content">
                 {{ printData.stName }}
               </td>
               <td class="table-td-title detail">项目编号</td>
               <td class="table-td-content">
-                {{ printData.projectNumber }}
-              </td>
-              <td class="table-td-title detail">收票类型</td>
-              <td class="table-td-content">
-                {{ printData.proportion }}
+                {{ printData.serialNo }}
               </td>
             </tr>
             <tr>
@@ -408,6 +408,16 @@
               <td class="table-td-content">
                 {{ $options.filters.moneyFilter(printData.totalPrice) }}
               </td>
+            </tr>
+            <tr>
+              <td class="table-td-title detail">收票类型</td>
+              <td class="table-td-content">
+                {{ printData.proportion }}
+              </td>
+              <td class="table-td-title detail"></td>
+              <td class="table-td-content"></td>
+              <td class="table-td-title detail"></td>
+              <td class="table-td-content"></td>
             </tr>
             <tr>
               <td class="table-td-title detail">附件</td>
@@ -451,7 +461,8 @@
             </tr>
           </table>
           <!--审批流程-->
-          <approval-print :typeId="14" :stId="apyamentId"></approval-print>
+          <approval-print :typeId="14" :stId="apyamentId" :approveHisListd="approveHisList"
+            :nodeStateListd="nodeStateList"></approval-print>
         </div>
       </div>
     </el-dialog>
@@ -472,6 +483,7 @@ import aou from "@/views/project/sticket/aou/index";
 import print from "print-js";
 import { getProcessDataByStId, getApprovalProcessList, getApprovalType } from "@/api/approve";
 import { getContractList } from "@/api/project/all";
+import { approveNode, approveHistory } from "@/api/project/st.js";
 export default {
   name: "Sticket",
   props: {
@@ -544,6 +556,8 @@ export default {
       printReviewVisible: false,
       printData: {},
       apyamentId:'',//子组件id
+      approveHisList: [],
+      nodeStateList: []
     };
   },
   created() {
@@ -723,6 +737,18 @@ export default {
         getContractList(data).then((response) => {
           this.printData.contract = response.rows;
         });
+      });
+      await approveNode({
+        businessKey: this.apyamentId,
+        approvalType: 14
+      }).then((res) => {
+        JSON.stringify(res.data) == "{}" ? this.nodeStateList = null : this.nodeStateList = res.data;
+      });
+      await approveHistory({
+        businessKey: this.apyamentId,
+        approvalType: 14
+      }).then((res) => {
+        this.approveHisList = res.data;
       });
       this.printReviewVisible = true;
       this.$nextTick(() => {

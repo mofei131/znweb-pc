@@ -286,15 +286,15 @@
             <tr>
               <td class="table-td-title detail">项目名称</td>
               <td class="table-td-content">
+                {{ printData.projectName }}
+              </td>
+              <td class="table-td-title detail">业务名称</td>
+              <td class="table-td-content">
                 {{ printData.stName }}
               </td>
               <td class="table-td-title detail">项目编号</td>
               <td class="table-td-content">
-                {{ printData.number }}
-              </td>
-              <td class="table-td-title detail">代办人</td>
-              <td class="table-td-content">
-                {{ printData.uName }}
+                {{ printData.serialNo }}
               </td>
             </tr>
             <tr>
@@ -340,6 +340,16 @@
               </td>
             </tr>
             <tr>
+              <td class="table-td-title detail">代办人</td>
+              <td class="table-td-content">
+                {{ printData.uName }}
+              </td>
+              <td class="table-td-title detail"></td>
+              <td class="table-td-content"></td>
+              <td class="table-td-title detail"></td>
+              <td class="table-td-content"></td>
+            </tr>
+            <tr>
               <td class="table-td-title detail">附件</td>
               <td class="table-td-content" colspan="5">
                 <div v-for="(item, idx) in printData.fileList" :key="idx">
@@ -349,7 +359,8 @@
             </tr>
           </table>
           <!--审批流程-->
-          <approval-print :typeId="15" :stId="apyamentId"></approval-print>
+          <approval-print :typeId="15" :stId="apyamentId" :approveHisListd="approveHisList"
+            :nodeStateListd="nodeStateList"></approval-print>
         </div>
       </div>
     </el-dialog>
@@ -372,7 +383,7 @@ import { findInit } from "@/api/project/realsk";
 import print from "print-js";
 import { getProcessDataByStId, getApprovalProcessList, getApprovalType } from "@/api/approve";
 import { listProjectForCombobox, listBusinessForCombobox } from "@/api/project/st";
-
+import { approveNode, approveHistory } from "@/api/project/st.js";
 export default {
   name: "Kp",
   props: {
@@ -468,6 +479,8 @@ export default {
       listForBusArr: [],
       listForProArr: [],
       apyamentId:'',//子组件id
+      approveHisList: [],
+      nodeStateList: []
     };
   },
   created() {
@@ -798,6 +811,18 @@ export default {
         this.printData = response.data;
         this.printData.fileList = response.data.fileList || [];
         this.printData.printType = "开票管理";
+      });
+      await approveNode({
+        businessKey: this.apyamentId,
+        approvalType: 15
+      }).then((res) => {
+        JSON.stringify(res.data) == "{}" ? this.nodeStateList = null : this.nodeStateList = res.data;
+      });
+      await approveHistory({
+        businessKey: this.apyamentId,
+        approvalType: 15
+      }).then((res) => {
+        this.approveHisList = res.data;
       });
       this.printReviewVisible = true;
       this.$nextTick(() => {
