@@ -739,15 +739,12 @@ export default {
         batch: [{ required: true, message: "请输入批次", trigger: "blur" }],
         basePrice: [
           { required: true, validator: validatePrice, trigger: "blur" },
-          { max: 16, message: '不能超过16位', trigger:'blur'}
         ],
         valuePrice: [
-          { max: 16, message: '不能超过16位', trigger:'blur'}
           // { required: true, validator: validatePrice, trigger: "blur" }
         ],
         valueTprice: [
           { required: true, message: "请输入货值总额", trigger: "blur" },
-          { max: 16, message: '不能超过16位', trigger:'blur'}
         ],
         coalSf: [{ required: true, validator: validatePrice, trigger: "blur" }],
         coalNs: [{ required: true, validator: validatePrice, trigger: "blur" }],

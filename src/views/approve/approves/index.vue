@@ -908,7 +908,6 @@
                 <td class="tdCoent">{{$options.filters.moneyFilter(form.yfPrice)}}</td>
               </tr>
               <tr>
-                
                 <td class="tdTitle">调整金额(元)</td>
                 <td class="tdCoent">{{$options.filters.moneyFilter(form.je)}}</td>
                 <td class="tdTitle">最终实际付款(元)</td>

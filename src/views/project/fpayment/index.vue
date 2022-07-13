@@ -843,62 +843,29 @@ export default {
         ],
         zzPrice: [
           { required: true, validator: validatePrice, trigger: "blur" },
-          { max: 16, message: '不能超过16位', trigger: 'blur'}
         ],
-        tax: [{ required: true, validator: validatePrice, trigger: "blur" },
-          { max: 16, message: '不能超过16位', trigger: 'blur'}
-        ],
-        price: [
-          { required: true, validator: validatePrice, trigger: "blur" },
-          { max: 16, message: '不能超过16位', trigger: 'blur'}
-        ],
+        tax: [{ required: true, validator: validatePrice, trigger: "blur" }],
+        price: [{ required: true, validator: validatePrice, trigger: "blur" }],
         payTime: [
           { required: true, message: "请选择付款日期", trigger: "blur" },
         ],
         ttPrice: [
           { required: true, validator: validatePrice, trigger: "blur" },
-          { max: 16, message: '不能超过16位', trigger: 'blur'}
         ],
-        bzPrice: [
-          { validator: validatePrice3, trigger: "blur" },
-          { max: 16, message: '不能超过16位', trigger: 'blur'}
-        ],
+        bzPrice: [{ validator: validatePrice3, trigger: "blur" }],
         gdxPrice: [
           { required: true, validator: validatePrice, trigger: "blur" },
-          { max: 16, message: '不能超过16位', trigger: 'blur'}
         ],
         servicePrice: [
           { required: true, validator: validatePrice, trigger: "blur" },
-          { max: 16, message: '不能超过16位', trigger: 'blur'}
         ],
-        cdtx: [
-          { validator: validatePrice3, trigger: "blur" },
-          { max: 16, message: '不能超过16位', trigger: 'blur'}
-        ],
-        bsPrice: [
-          { validator: validatePrice3, trigger: "blur" },
-          { max: 16, message: '不能超过16位', trigger: 'blur'}
-          ],
-        otherPrice: [
-          { validator: validatePrice3, trigger: "blur" },
-          { max: 16, message: '不能超过16位', trigger: 'blur'}
-        ],
-        yftotalPrice: [
-          { validator: validatePrice, trigger: "blur" },
-          { max: 16, message: '不能超过16位', trigger: 'blur'}
-        ],
-        yftotalPriceatx: [
-          { validator: validatePrice, trigger: "blur" },
-          { max: 16, message: '不能超过16位', trigger: 'blur'}
-        ],
-        yfPrice: [
-          { validator: validatePrice, trigger: "blur" },
-          { max: 16, message: '不能超过16位', trigger: 'blur'}
-        ],
-        sjPrice: [
-          { validator: validatePrice, trigger: "blur" },
-          { max: 16, message: '不能超过16位', trigger: 'blur'}
-        ],
+        cdtx: [{ validator: validatePrice3, trigger: "blur" }],
+        bsPrice: [{ validator: validatePrice3, trigger: "blur" }],
+        otherPrice: [{ validator: validatePrice3, trigger: "blur" }],
+        yftotalPrice: [{ validator: validatePrice, trigger: "blur" }],
+        yftotalPriceatx: [{ validator: validatePrice, trigger: "blur" }],
+        yfPrice: [{ validator: validatePrice, trigger: "blur" }],
+        sjPrice: [{ validator: validatePrice, trigger: "blur" }],
         kpPrice: [
           { required: true, validator: validatePrice, trigger: "blur" },
         ],
@@ -908,19 +875,9 @@ export default {
         ],
         kpName: [{ required: true, message: "请输入", trigger: "blur" }],
         kpNumber: [{ required: true, message: "请输入", trigger: "blur" }],
-        tx: [
-          { validator: validatePrice3, trigger: "blur" },
-          { max: 16, message: '不能超过16位', trigger: 'blur'}
-        ],
-        qt: [
-          { validator: validatePrice3, trigger: "blur" },
-          { max: 16, message: '不能超过16位', trigger: 'blur'}
-        ],
-        je: [
-          { validator: validatePrice3, trigger: "blur" },
-          { max: 16, message: '不能超过16位', trigger: 'blur'}
-        ],
-        
+        tx: [{ validator: validatePrice3, trigger: "blur" }],
+        qt: [{ validator: validatePrice3, trigger: "blur" }],
+        je: [{ validator: validatePrice3, trigger: "blur" }],
       },
       // 打印
       printReviewVisible: false,

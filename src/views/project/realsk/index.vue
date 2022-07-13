@@ -643,11 +643,10 @@ export default {
           { required: true, message: "请选择项目名称", trigger: "blur" },
         ],
         skPrice: [
-          { required: true, message: '请输入收款金额', trigger: 'blur'},
-          { max: '16', message: '不能超过16个字符', trigger: 'blur'}
+          { required: true, message: '请输入收款金额', trigger: 'blur' }
         ],
         skTime: [
-          { required: true, message: '请选择收款日期', trigger: 'blur'},
+          { required: true, message: '请选择收款日期', trigger: 'blur' },
         ],
         coalSf: [],
         coalNs: [],
@@ -660,24 +659,12 @@ export default {
         coalGdt: [],
         coalQgrad: [],
         coalQntar: [],
-        jstPrice: [
-          { validator: validatePrice3, trigger: "blur" },
-          { max: 16, message: '不能超过16位', trigger: 'blur'}
-        ],
+        jstPrice: [{ validator: validatePrice3, trigger: "blur" }],
         rz: [{ validator: validatePrice3, trigger: "blur" }],
-        jsDj: [
-          { validator: validatePrice3, trigger: "blur" },
-          { max: 16, message: '不能超过16位', trigger: 'blur'}
-        ],
+        jsDj: [{ validator: validatePrice3, trigger: "blur" }],
         jsMl: [{ validator: validatePrice3, trigger: "blur" }],
-        jsMk: [
-          { validator: validatePrice3, trigger: "blur" },
-          { max: 16, message: '不能超过16位', trigger: 'blur'}
-        ],
-        jsTax: [
-          { validator: validatePrice3, trigger: "blur" },
-          { max: 16, message: '不能超过16位', trigger: 'blur'}
-        ],
+        jsMk: [{ validator: validatePrice3, trigger: "blur" }],
+        jsTax: [{ validator: validatePrice3, trigger: "blur" }],
       },
       // 项目集合
       dateRange: [],

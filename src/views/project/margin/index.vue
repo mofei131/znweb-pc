@@ -798,7 +798,6 @@ export default {
         ],
         putPrice: [
           { required: true, validator: validatePrice, trigger: "blur" },
-          { max: 16, message: '不能超过16位', trigger: 'blur'}
         ],
         serPrice: [
           { required: true, validator: validatePrice, trigger: "blur" },

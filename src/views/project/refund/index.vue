@@ -492,7 +492,6 @@ export default {
         ],
         moneyAmount: [
           { required: true, message: "请输入退款金额", trigger: "blur" },
-          { max: 16, message: '不能超过16位', trigger: 'blur'}
         ],
         tkPrice: [
           { required: true, message: "请输入退款金额", trigger: "blur" },
