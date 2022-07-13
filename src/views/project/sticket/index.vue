@@ -85,7 +85,7 @@
           }}
         </template>
       </el-table-column>
-      <el-table-column label="开票金额(元)" align="center" prop="price">
+      <el-table-column label="收票金额(元)" align="center" prop="price">
         <template slot-scope="scope">
           {{
           Number(scope.row.price)
@@ -95,7 +95,7 @@
           }}
         </template>
       </el-table-column>
-      <el-table-column label="开票税额(元)" align="center" prop="tax">
+      <el-table-column label="收票税额(元)" align="center" prop="tax">
         <template slot-scope="scope">
           {{
           Number(scope.row.tax)
@@ -396,11 +396,11 @@
               </td>
             </tr>
             <tr>
-              <td class="table-td-title detail">开票金额(元)</td>
+              <td class="table-td-title detail">收票金额(元)</td>
               <td class="table-td-content">
                 {{ $options.filters.moneyFilter(printData.price) }}
               </td>
-              <td class="table-td-title detail">开票税额(元)</td>
+              <td class="table-td-title detail">收票税额(元)</td>
               <td class="table-td-content">
                 {{ $options.filters.moneyFilter(printData.tax) }}
               </td>

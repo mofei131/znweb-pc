@@ -60,9 +60,9 @@
               <td class="tdCoent">{{form.tName}}</td>
             </tr>
             <tr>
-              <td class="tdTitle">开票金额(元)</td>
+              <td class="tdTitle">收票金额(元)</td>
               <td class="tdCoent">{{$options.filters.weightFilter(form.tax)}}</td>
-              <td class="tdTitle">开票税额(元)</td>
+              <td class="tdTitle">收票税额(元)</td>
               <td class="tdCoent">{{$options.filters.moneyFilter(form.tax)}}</td>
               <td class="tdTitle">价税合计(元)</td>
               <td class="tdCoent">{{$options.filters.moneyFilter(form.totalPrice)}}</td>

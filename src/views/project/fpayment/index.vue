@@ -140,7 +140,7 @@
           }}
         </template>
       </el-table-column>
-      <el-table-column label="开票状态" align="center" prop="moType" :formatter="moFormat" />
+      <!-- <el-table-column label="开票状态" align="center" prop="moType" :formatter="moFormat" /> -->
       <el-table-column label="创建日期" align="center" prop="createTime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.createTime, "{y}-{m}-{d}") }}</span>
