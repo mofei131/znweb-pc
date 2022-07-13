@@ -58,13 +58,13 @@
       </el-row>
       <el-row>
         <el-col :span="12">
-          <el-form-item label="开票金额(元)" prop="price">
-            <el-input v-model="form.price" placeholder="请输入开票金额" />
+          <el-form-item label="收票金额(元)" prop="price">
+            <el-input v-model="form.price" placeholder="请输入收票金额" />
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item style="margin-left:20px" label="开票税额(元)" prop="tax">
-            <el-input v-model="form.tax" placeholder="请输入开票税额" />
+          <el-form-item style="margin-left:20px" label="收票税额(元)" prop="tax">
+            <el-input v-model="form.tax" placeholder="请输入收票税额" />
           </el-form-item>
         </el-col>
       </el-row>
