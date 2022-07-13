@@ -368,13 +368,13 @@
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="收款金额(元)" prop="payPrice">
-                <el-input v-model="form.payPrice" placeholder="请输入付款金额" />
+              <el-form-item label="收款金额(元)" prop="skPrice">
+                <el-input v-model="form.skPrice" placeholder="请输入付款金额" />
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="收款日期" prop="payTime">
-                <el-date-picker clearable size="small" style="width: 100%" v-model="form.payTime" type="date"
+              <el-form-item label="收款日期" prop="skTime">
+                <el-date-picker clearable size="small" style="width: 100%" v-model="form.skTime" type="date"
                   value-format="yyyy-MM-dd" placeholder="选择付款日期">
                 </el-date-picker>
               </el-form-item>
@@ -642,11 +642,11 @@ export default {
         projectId: [
           { required: true, message: "请选择项目名称", trigger: "blur" },
         ],
-        payPrice: [
+        skPrice: [
           { required: true, message: '请输入收款金额', trigger: 'blur'},
           { max: '16', message: '不能超过16个字符', trigger: 'blur'}
         ],
-        payTime: [
+        skTime: [
           { required: true, message: '请选择收款日期', trigger: 'blur'},
         ],
         coalSf: [],
