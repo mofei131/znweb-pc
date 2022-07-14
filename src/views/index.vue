@@ -9,27 +9,27 @@
             <div style="display:flex;justify-content: space-between;">
               <div style="font-weight:600;font-size: 14px;">业务情况</div>
               <div>
-                <el-date-picker v-model="value1show" style="width:100px" type="year" placeholder="选择年" size="mini"
-                  @change="changeYear1">
+                <el-date-picker v-model="businessSummary.year" style="width:100px" type="year" value-format="yyyy"
+                  placeholder="选择年" size="mini" @change="statisticBusiness">
                 </el-date-picker>
               </div>
             </div>
             <div style="display:flex;height:80px">
               <div style="width:25%;display:flex;flex-direction: column;justify-content: end;align-items: center;">
                 <div style="color: #666666;font-size: 8px;margin-bottom:10px">进行中</div>
-                <div style="font-weight:600;font-size: 20px;">244</div>
+                <div style="font-weight:600;font-size: 20px;">{{ businessSummary.progress }}</div>
               </div>
               <div style="width:25%;display:flex;flex-direction: column;justify-content: end;align-items: center;">
                 <div style="color: #666666;font-size: 8px;margin-bottom:10px">异常</div>
-                <div style="font-weight:600;font-size: 20px;">100</div>
+                <div style="font-weight:600;font-size: 20px;">{{ businessSummary.abnormal }}</div>
               </div>
               <div style="width:25%;display:flex;flex-direction: column;justify-content: end;align-items: center;">
                 <div style="color: #666666;font-size: 8px;margin-bottom:10px">已完成</div>
-                <div style="font-weight:600;font-size: 20px;">289</div>
+                <div style="font-weight:600;font-size: 20px;">{{ businessSummary.finish }}</div>
               </div>
               <div style="width:25%;display:flex;flex-direction: column;justify-content: end;align-items: center;">
                 <div style="color: #666666;font-size: 8px;margin-bottom:10px">已结束</div>
-                <div style="font-weight:600;font-size: 20px;">888</div>
+                <div style="font-weight:600;font-size: 20px;">{{ businessSummary.end }}</div>
               </div>
             </div>
           </div>
@@ -38,7 +38,7 @@
             <div style="display:flex;margin-top:44px;margin-left:20px">
               <div>
                 <div style="color: #666666;font-size: 8px;margin-bottom:10px">我的待办</div>
-                <div style="font-weight:600;font-size: 20px;">10</div>
+                <div style="font-weight:600;font-size: 20px;">{{ businessSummary.todoTaskCount }}</div>
               </div>
               <div style="width:55%;display:flex;justify-content: center;align-items: center;">
                 <img style="width:30px" src="../../public/img/dai.png" alt="">
@@ -50,8 +50,8 @@
           <div style="display:flex;justify-content: space-between;padding:10px">
             <div style="font-weight:600;font-size: 14px;">营业利润(元)</div>
             <div>
-              <el-date-picker v-model="value1show" style="width:100px" type="year" placeholder="选择年" size="mini"
-                @change="changeYear1">
+              <el-date-picker v-model="profitSummary.year" style="width:100px" type="year" value-format="yyyy"
+                placeholder="选择年" size="mini" @change="changeYear2">
               </el-date-picker>
             </div>
           </div>
@@ -84,24 +84,14 @@
 <script>
 import * as echarts from "echarts";
 import { taskTodo, listByMonth } from "@/api/approve";
+import { statisticBusiness, statisticProfit, businessList, statisticCustomer } from "@/api/project/st";
 import noticeBar from "@/components/NoticeBar/index";
 export default {
   data() {
     return {
       config:{
         header: ['业务名称', '业务经理', '创建日期','业务金额（万元）'],
-        data: [
-          ['山东测试测试1', '石成包', '2022-04-12 12:09:34','345,646.79(万元)'],
-          ['山东测试测试2', '张璐', '2022-04-12 12:09:34','345,646.79(万元)'],
-          ['山东测试测试3', '石成包', '2022-04-12 12:09:34','345,646.79(万元)'],
-          ['山东测试测试4', '张璐', '2022-04-12 12:09:34','345,646.79(万元)'],
-          ['山东测试测试5', '张璐', '2022-04-12 12:09:34','345,646.79(万元)'],
-          ['山东测试测试6', '张璐', '2022-04-12 12:09:34','345,646.79(万元)'],
-          ['山东测试测试7', '石成包', '2022-04-12 12:09:34','345,646.79(万元)'],
-          ['山东测试测试8', '石成包', '2022-04-12 12:09:34','345,646.79(万元)'],
-          ['山东测试测试9', '石成包', '2022-04-12 12:09:34','345,646.79(万元)'],
-          ['山东测试测试10', '石成包', '2022-04-12 12:09:34','345,646.79(万元)'],
-        ]
+        data: []
       },
       total: 0,
       tongzhi: null,
@@ -120,6 +110,18 @@ export default {
       value1: ["2022-01-01"],
       value2: ["2022-01-01"],
       mouthData: '',
+      businessSummary:{
+        year: '',
+        total: 0,
+        progress: 0,
+        abnormal: 0,
+        end: 0,
+        finish: 0,
+      },
+      profitSummary:{
+        year: '',
+        data:[]
+      }
     }
   },
   components: {
@@ -132,31 +134,52 @@ export default {
       } else {
         this.tongzhi = "暂无通知"
       }
+      this.businessSummary.todoTaskCount = res.total
     });
-    this.getlistByYear2()
-    this.myEchartsB()
-    this.myEchartsC()
+    this.profitSummary.year = new Date().getFullYear() + ''
+    this.statisticProfit()
+    this.statisticCustomer()
     this.myEchartsD()
-
+    this.businessSummary.year = new Date().getFullYear()+''
+    this.statisticBusiness()
+    this.loadBusinessList()
   },
   methods: {
+    statisticBusiness(){
+      statisticBusiness({ year: this.businessSummary.year}).then((res) => {
+        this.businessSummary.total = res.data.total
+        this.businessSummary.progress = res.data.progress
+        this.businessSummary.abnormal = res.data.abnormal
+        this.businessSummary.end = res.data.end
+        this.businessSummary.finish = res.data.finish
+      });
+    },
     changeYear1(date) {
       console.log(date)
     },
     changeYear2(date) {
-      var y = date.getFullYear();
-      var m = date.getMonth() + 1;
-      m = m < 10 ? ('0' + m) : m;
-      var d = date.getDate();
-      d = d < 10 ? ('0' + d) : d;
-      this.value2 = []
-      this.value2.push(y + '-' + m + '-' + d)
-      this.getlistByYear2();
+      this.statisticProfit();
     },
-    getlistByYear2() {
-      listByMonth(this.addDateRange(this.queryParams, this.value2)).then((res) => {
-        this.mouthData = res.data;
+    statisticProfit() {
+      statisticProfit({ year: this.profitSummary.year}).then((res) => {
+        this.profitSummary.data = res.data;
         this.myEchartsA();
+      });
+    },
+    loadBusinessList(){
+      businessList({pageNum:1,pageSize:10}).then((res) => {
+        this.config = {
+          header: ['业务名称', '业务经理', '创建日期', '业务金额（万元）'],
+          data: res.rows.map(x => [x.stName, x.serviceManagerName, x.createTime, x.stAmount])
+        }
+      });
+    },
+    statisticCustomer(){
+      statisticCustomer().then((res) => {
+        let supplierData = res.data.supplier
+        let terminalData = res.data.terminal
+        this.myEchartsB(supplierData)
+        this.myEchartsC(terminalData)
       });
     },
     myEchartsA() {
@@ -206,7 +229,7 @@ export default {
         series: {
           type: "bar", //bar是柱形图，line是折线图
           barWidth: "20",
-          data: ['12212','232817','166172','216277','172626','128187','126652','181877','176266','177662','16661','17771'].map(item => {
+          data: this.profitSummary.data.map(item => {
             return {
               value: item,
               itemStyle: {
@@ -227,26 +250,26 @@ export default {
         },
       });
     },
-    myEchartsB() {
+    myEchartsB(supplierData) {
       var pieData = [
         {
-          name: '500(万吨)以上\n25个供应商',
-          value: 25,
+          name: `500(万吨)以上\n${supplierData['500+']}个供应商`,
+          value: supplierData['500+'],
           label: {color: '#15EFE6'}
         },
         {
-          name: '100-500(万吨)\n15个供应商',
-          value: 15,
+          name: `100-500(万吨)\n${supplierData['100-500']}个供应商`,
+          value: supplierData['100-500'],
           label: {color: '#4E93F9'}
         },
         {
-          name: '50-100(万吨)\n10个供应商',
-          value: 10,
+          name: `50-100(万吨)\n${supplierData['50-100']}个供应商`,
+          value: supplierData['50-100'],
           label: {color: '#D23C92'}
         },
         {
-          name: '0-50(万吨)\n12个供应商',
-          value: 12,
+          name: `0-50(万吨)\n${supplierData['0-50']}个供应商`,
+          value: supplierData['0-50'],
           label: {color: '#FFD04E'}
         }
       ]
@@ -311,26 +334,26 @@ export default {
         ]
       })
     },
-    myEchartsC() {
+    myEchartsC(terminalData) {
       var pieData = [
         {
-          name: '500(万吨)以上\n25个终端客户',
-          value: 25,
+          name: `500(万吨)以上\n${terminalData['500+']}个终端客户`,
+          value: terminalData['500+'],
           label: {color: '#15EFE6'}
         },
         {
-          name: '100-500(万吨)\n15个终端客户',
-          value: 15,
+          name: `100-500(万吨)\n${terminalData['100-500']}个终端客户`,
+          value: terminalData['100-500'],
           label: {color: '#4E93F9'}
         },
         {
-          name: '50-100(万吨)\n10个终端客户',
-          value: 10,
+          name: `50-100(万吨)\n${terminalData['50-100']}个终端客户`,
+          value: terminalData['50-100'],
           label: {color: '#D23C92'}
         },
         {
-          name: '0-50(万吨)\n12个终端客户',
-          value: 12,
+          name: `0-50(万吨)\n${terminalData['0-50']}个终端客户`,
+          value: terminalData['0-50'],
           label: {color: '#FFD04E'}
         }
       ]
@@ -638,9 +661,11 @@ export default {
               for (var i = 0; i < toolTipData.length; i++) {
                 if (params.name == toolTipData[i].name) {
                   toolTiphtml += toolTipData[i].name + ':<br>';
-                  for (var j = 0; j < toolTipData[i].value.length; j++) {
-                    // toolTiphtml += toolTipData[i].value[j].name + ':' + toolTipData[i].value[j].value + '<br>';
-                    toolTiphtml += toolTipData[i].value[j].name + '<br>';
+                  if (toolTipData[i].value){
+                    for (var j = 0; j < toolTipData[i].value.length; j++) {
+                      // toolTiphtml += toolTipData[i].value[j].name + ':' + toolTipData[i].value[j].value + '<br>';
+                      toolTiphtml += toolTipData[i].value[j].name + '<br>';
+                    }
                   }
                 }
               }
@@ -650,9 +675,11 @@ export default {
               for (var i = 0; i < toolTipData.length; i++) {
                 if (params.name == toolTipData[i].name) {
                   toolTiphtml += toolTipData[i].name + ':<br>';
-                  for (var j = 0; j < toolTipData[i].value.length; j++) {
-                    // toolTiphtml += toolTipData[i].value[j].name + ':' + toolTipData[i].value[j].value + '<br>';
-                    toolTiphtml += toolTipData[i].value[j].name + '<br>';
+                  if (toolTipData[i].value){
+                    for (var j = 0; j < toolTipData[i].value.length; j++) {
+                      // toolTiphtml += toolTipData[i].value[j].name + ':' + toolTipData[i].value[j].value + '<br>';
+                      toolTiphtml += toolTipData[i].value[j].name + '<br>';
+                    }
                   }
                 }
               }

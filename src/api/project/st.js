@@ -268,3 +268,25 @@ export function delProject(projectId) {
         method: "delete",
     });
 }
+// 首页统计查询
+export function statisticBusiness(query) {
+    return request({
+        url: "/project/stat/statisticBusiness",
+        method: "get",
+        params: query,
+    });
+}
+export function statisticProfit(query) {
+    return request({
+        url: "/project/stat/statisticProfit",
+        method: "get",
+        params: query,
+    });
+}
+export function statisticCustomer(query) {
+    return request({
+        url: "/project/stat/statisticCustomer",
+        method: "get",
+        params: query,
+    });
+}
