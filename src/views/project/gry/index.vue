@@ -454,7 +454,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="货值单价(元)" prop="valuePrice">
-              <el-input type="number" v-model="form.valuePrice" placeholder="请输入货值单价" />
+              <el-input type="number" v-model="form.valuePrice" placeholder="请输入货值单价" @change="calculate" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -1319,8 +1319,8 @@ export default {
               vp = this.form.valuePrice;
             }
             let gn = 0;
-            if (this.form.totalWeight != null && this.form.totalWeight != "") {
-              gn = this.form.totalWeight;
+            if (this.form.grnNumber != null && this.form.grnNumber != "") {
+              gn = this.form.grnNumber;
             }
             this.form.valueTprice = (gn * vp).toFixed(2);
           } else {
@@ -1554,8 +1554,8 @@ export default {
         vp = this.form.valuePrice;
       }
       let gn = 0;
-      if (this.form.totalWeight != null && this.form.totalWeight != "") {
-        gn = this.form.totalWeight;
+      if (this.form.grnNumber != null && this.form.grnNumber != "") {
+        gn = this.form.grnNumber;
       }
       this.form.valueTprice = (gn * vp).toFixed(2);
     },
