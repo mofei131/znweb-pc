@@ -1,34 +1,33 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch && !isQuote" label-width="100px">
-      <!-- <el-form-item label="保证金对象" prop="type">
-        <el-select
-          v-model="queryParams.type"
-          placeholder="请选择保证金对象"
-          clearable
-          size="small"
-        >
-          <el-option label="上游" value="上游" />
-          <el-option label="下游" value="下游" />
+      <el-form-item label="项目名称" prop="projectId">
+        <el-select filterable value-key="projectId" @change="changeProjectQuery" v-model="queryParams.projectId"
+          placeholder="请选择项目" style="width: 100%" clearable>
+          <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName" :value="pro.projectId">
+          </el-option>
         </el-select>
-      </el-form-item> -->
+      </el-form-item>
+      <el-form-item label="业务名称" prop="stId">
+        <el-select filterable value-key="stId" @change="changeStQuery" v-model="queryParams.stId" placeholder="请选择业务"
+          style="width: 100%" clearable>
+          <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj.stId">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="项目编号" prop="serialNo">
+        <el-input v-model="queryParams.serialNo" placeholder="请输入项目编号" clearable size="small"
+          @keyup.enter.native="handleQuery" />
+      </el-form-item>
       <el-form-item label="保证金类型" prop="type">
         <el-select v-model="queryParams.obj" placeholder="请选择保证金类型" clearable size="small">
           <el-option label="履约保证金" value="履约保证金" />
           <el-option label="投标保证金" value="投标保证金" />
         </el-select>
       </el-form-item>
-      <el-form-item label="项目名称" prop="projectName">
-        <el-input v-model="queryParams.projectName" placeholder="请输入项目名称" clearable size="small"
-          @keyup.enter.native="handleQuery" />
-      </el-form-item>
-      <el-form-item label="业务名称" prop="stName">
-        <el-input v-model="queryParams.stName" placeholder="请输入业务名称" clearable size="small"
-          @keyup.enter.native="handleQuery" />
-      </el-form-item>
-      <el-form-item label="项目编号" prop="serialNo">
-        <el-input v-model="queryParams.serialNo" placeholder="请输入项目编号" clearable size="small"
-          @keyup.enter.native="handleQuery" />
+      <el-form-item>
+        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+        <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
 
@@ -1183,6 +1182,15 @@ export default {
     },
     handleOpen() {
       this.isDisabled = false;
+    },
+    changeStQuery(stId) {
+    },
+    changeProjectQuery(projectId) {
+      this.listForBusArr = []
+      this.queryParams.stId = ''
+      if (projectId) {
+        this.loadBusinessForCombobox(projectId);
+      }
     },
     // 打印
     async resolveImg() {

@@ -1,19 +1,27 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" :inline="true" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm" :inline="true" label-width="68px">
+      <el-form-item label="项目名称" prop="projectId">
+        <el-select filterable value-key="projectId" @change="changeProjectQuery" v-model="queryParams.projectId"
+          placeholder="请选择项目" style="width: 100%" clearable>
+          <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName" :value="pro.projectId">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="业务名称" prop="stId">
+        <el-select filterable value-key="stId" @change="changeStQuery" v-model="queryParams.stId" placeholder="请选择业务"
+          style="width: 100%" clearable>
+          <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj.stId">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="项目编号">
+        <el-input v-model="queryParams.serialNo" placeholder="请输入项目编号" clearable size="small" />
+      </el-form-item>
       <el-form-item label="创建时间">
         <el-date-picker v-model="dataValue" type="daterange" value-format="yyyy-MM-dd" range-separator="至"
           start-placeholder="开始日期" end-placeholder="结束日期">
         </el-date-picker>
-      </el-form-item>
-      <el-form-item label="项目名称">
-        <el-input v-model="queryParams.projectName" placeholder="请输入项目名称" clearable size="small" />
-      </el-form-item>
-      <el-form-item label="业务名称">
-        <el-input v-model="queryParams.stName" placeholder="请输入业务名称" clearable size="small" />
-      </el-form-item>
-      <el-form-item label="项目编号">
-        <el-input v-model="queryParams.serialNo" placeholder="请输入项目编号" clearable size="small" />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -68,7 +76,7 @@
 
 <script>
 import { businessList, countTotal } from "@/api/project/st";
-
+import { listProjectForCombobox, listBusinessForCombobox } from "@/api/project/st";
 export default {
   name: "StDetails",
   data() {
@@ -80,12 +88,18 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
+        projectId: null,
+        stId: null
       },
       queryParamsback: {
         pageNum: 1,
         pageSize: 10,
+        projectId: null,
+        stId: null
       },
       countTotalInfo: {},
+      listForBusArr: [],
+      listForProArr: [],
     };
   },
   created() {
@@ -103,6 +117,28 @@ export default {
         this.total = response.total;
         this.loading = false;
       });
+      this.loadProjectForCombobox();
+    },
+    loadProjectForCombobox() {
+      this.listForProArr = []
+      listProjectForCombobox().then((response) => {
+        this.listForProArr = response.data
+      })
+    },
+    loadBusinessForCombobox(projectId) {
+      this.listForBusArr = []
+      listBusinessForCombobox({ projectId }).then((response) => {
+        this.listForBusArr = response.data
+      })
+    },
+    changeStQuery(stId) {
+    },
+    changeProjectQuery(projectId) {
+      this.listForBusArr = []
+      this.queryParams.stId = ''
+      if (projectId) {
+        this.loadBusinessForCombobox(projectId);
+      }
     },
     loadStatistic(){
       countTotal(this.queryParams).then(res => {
@@ -119,6 +155,7 @@ export default {
     },
     /** 重置按钮操作 */
     resetQuery() {
+      this.resetForm("queryForm");
       this.queryParams = this.queryParamsback;
       this.dataValue = []
       this.handleQuery();

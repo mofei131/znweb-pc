@@ -1,8 +1,19 @@
 <template>
   <div class="app-container projectlist">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="项目名称">
-        <el-input v-model="queryParams.projectName" placeholder="请输入项目名称" clearable />
+      <el-form-item label="项目名称" prop="projectId">
+        <el-select filterable value-key="projectId" @change="changeProjectQuery" v-model="queryParams.projectId"
+          placeholder="请选择项目" style="width: 100%" clearable>
+          <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName" :value="pro.projectId">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="业务名称" prop="stId">
+        <el-select filterable value-key="stId" @change="changeStQuery" v-model="queryParams.stId" placeholder="请选择业务"
+          style="width: 100%" clearable>
+          <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj.stId">
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="立项编号">
         <el-input v-model="queryParams.projectNo" placeholder="请输入立项编号" clearable />
@@ -14,9 +25,6 @@
         <el-select filterable v-model="queryParams.userId" placeholder="请选择代办人" clearable>
           <el-option v-for="dict in userOptions" :key="dict.userId" :label="dict.nickName" :value="dict.userId" />
         </el-select>
-      </el-form-item>
-      <el-form-item label="业务名称" prop="stName">
-        <el-input v-model="queryParams.stName" placeholder="业务名称" clearable />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -49,8 +57,8 @@
       <el-table-column label="创建时间" align="center" prop="createTime" width="180">
         <template slot-scope="scope">
           <span>{{
-          parseTime(scope.row.createTime, "{y}-{m}-{d} {h}:{i}:{s}")
-          }}</span>
+            parseTime(scope.row.createTime, "{y}-{m}-{d} {h}:{i}:{s}")
+            }}</span>
         </template>
       </el-table-column>
       <el-table-column label="审批状态" align="center">
@@ -714,6 +722,7 @@ import {
   calcEstimatedProfit
 } from "@/api/project/st";
 import { getToken } from "@/utils/auth";
+import { listProjectForCombobox, listBusinessForCombobox } from "@/api/project/st";
 export default {
   name: "St",
   data() {
@@ -978,6 +987,8 @@ export default {
         number: "",
         productNo: "",
         userId: "",
+        projectId: null,
+        stId: null
       },
       // 表单校验
       rules1: {
@@ -1176,6 +1187,8 @@ export default {
         ]
       },
       isDisabled: false,
+      listForBusArr: [],
+      listForProArr: [],
     };
   },
   watch: {
@@ -1599,6 +1612,29 @@ export default {
         this.total = response.total;
         this.loading = false;
       });
+      // 项目下拉
+      this.loadProjectForCombobox();
+    },
+    loadProjectForCombobox() {
+      this.listForProArr = []
+      listProjectForCombobox().then((response) => {
+        this.listForProArr = response.data
+      })
+    },
+    loadBusinessForCombobox(projectId) {
+      this.listForBusArr = []
+      listBusinessForCombobox({ projectId }).then((response) => {
+        this.listForBusArr = response.data
+      })
+    },
+    changeStQuery(stId) {
+    },
+    changeProjectQuery(projectId) {
+      this.listForBusArr = []
+      this.queryParams.stId = ''
+      if (projectId) {
+        this.loadBusinessForCombobox(projectId);
+      }
     },
     handleQuery() {
       this.queryParams.pageNum = 1;

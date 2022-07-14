@@ -1,21 +1,27 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch && !isQuote" label-width="68px">
-      <el-form-item label="创建时间">
-        <el-date-picker v-model="dateRange" size="small" style="width: 240px" value-format="yyyy-MM-dd" type="daterange"
-          range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
+      <el-form-item label="项目名称" prop="projectId">
+        <el-select filterable value-key="projectId" @change="changeProjectQuery" v-model="queryParams.projectId"
+          placeholder="请选择项目" style="width: 100%" clearable>
+          <el-option v-for="pro in listForProArr" :key="pro.projectId" :label="pro.projectName" :value="pro.projectId">
+          </el-option>
+        </el-select>
       </el-form-item>
-      <el-form-item label="项目名称" prop="projectName">
-        <el-input v-model="queryParams.projectName" placeholder="请输入项目名称" clearable size="small"
-          @keyup.enter.native="handleQuery" />
-      </el-form-item>
-      <el-form-item label="业务名称" prop="stName">
-        <el-input v-model="queryParams.stName" placeholder="请输入业务名称" clearable size="small"
-          @keyup.enter.native="handleQuery" />
+      <el-form-item label="业务名称" prop="stId">
+        <el-select filterable value-key="stId" @change="changeStQuery" v-model="queryParams.stId" placeholder="请选择业务"
+          style="width: 100%" clearable>
+          <el-option v-for="obj in listForBusArr" :key="obj.stId" :label="obj.stName" :value="obj.stId">
+          </el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="项目编号" prop="serialNo">
         <el-input v-model="queryParams.serialNo" placeholder="请输入项目编号" clearable size="small"
           @keyup.enter.native="handleQuery" />
+      </el-form-item>
+      <el-form-item label="创建时间">
+        <el-date-picker v-model="dateRange" size="small" style="width: 240px" value-format="yyyy-MM-dd" type="daterange"
+          range-separator="-" start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -1523,6 +1529,15 @@ export default {
     },
     handleOpen() {
       this.isDisabled = false;
+    },
+    changeStQuery(stId) {
+    },
+    changeProjectQuery(projectId) {
+      this.listForBusArr = []
+      this.queryParams.stId = ''
+      if (projectId) {
+        this.loadBusinessForCombobox(projectId);
+      }
     },
     // 打印
     async resolveImg() {
