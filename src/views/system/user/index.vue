@@ -307,9 +307,9 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="用户代码" prop="userCode">
+            <el-form-item label="用户代码" prop="remark">
               <!-- :disabled="this.title == '修改用户'" -->
-              <el-input v-model="form.remark" oninput="value=value.replace(/[^0-9a-zA-Z]/g, '')"  placeholder="请输入用户代码" ></el-input>
+              <el-input v-model="form.remark"  placeholder="请输入用户代码" ></el-input>
             </el-form-item>
           </el-col>
 <!--          <el-col :span="24">-->
@@ -447,6 +447,9 @@ export default {
       rules: {
         userName: [
           { required: true, message: "用户名称不能为空", trigger: "blur" }
+        ],
+        remark:[
+          { required: true, message: "用户代码不能为空", trigger: "blur" }
         ],
         nickName: [
           { required: true, message: "用户昵称不能为空", trigger: "blur" }
